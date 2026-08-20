@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uppgift – Så fungerar webben</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-1-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Uppgift</strong> · Lärarlett projekt</span>
+  <a href="guide-github.html">Guide: GitHub</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>På sidan</p>
+    <ol>
+      <li><a href="#uppdraget">Uppdraget</a></li>
+      <li><a href="#kom-igang">Kom igång</a></li>
+      <li><a href="#ska">Ska-krav (E)</a></li>
+      <li><a href="#bor">Bör-krav (C)</a></li>
+      <li><a href="#utmaningar">Utmaningar (A)</a></li>
+      <li><a href="#tekniska">Tekniska krav</a></li>
+      <li><a href="#matris">Bedömningsmatris</a></li>
+      <li><a href="#misstag">Vanliga misstag</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling · område 1</p>
+    <h1>Så fungerar webben</h1>
+    <p class="inledning">Lärarlett projekt. Deadline onsdag 2 september kl 23:59.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-09-02">
+        <span class="nar">2 sept</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Committa och synka. Kontrollera på github.com.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="uppdraget">Uppdraget</h2>
+    <p>Du ska bygga en webbsida som förklarar vad som händer från att någon skriver en adress
+      och trycker enter tills sidan syns på skärmen. Sidan ska rikta sig till någon som inte
+      kan något om webben – en klasskamrat från ett annat program, en förälder, ett syskon.</p>
+    <p>Vi bygger den tillsammans i klassrummet, steg för steg. Du kodar med på passet, läraren
+      visar på projektor. HTML-grunderna lär du dig på köpet – de gås igenom ordentligt först i
+      nästa område.</p>
+    <p>Sidan publiceras med GitHub Pages och länken delas i klassen.</p>
+
+    <h2 id="kom-igang">Kom igång</h2>
+    <ol>
+      <li><b>Acceptera uppgiften</b> i GitHub Classroom och öppna ditt codespace.</li>
+      <li><b>Skriv de fem stegen</b> som fem rubriker i <code>index.html</code>, innan du
+        skriver någon text. Strukturen först, innehållet sen.</li>
+      <li><b>Committa och synka direkt</b> när du har rubrikerna. Kontrollera att de syns på
+        github.com. Gör det nu, så vet du att flödet fungerar innan du har något att förlora.</li>
+    </ol>
+
+    <div class="notis">
+      <span class="rubrik">De fem stegen</span>
+      <p>adress → DNS → förfrågan → svar → sidan visas</p>
+    </div>
+
+    <p>Kryssen nedan sparas i din webbläsare. De är till för dig, inte för läraren.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Sidan förklarar de fem stegen:
+          <b>adress → DNS → förfrågan → svar → sidan visas</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Ett komplett HTML-dokument med
+          <code>&lt;!doctype html&gt;</code>, <code>&lt;html lang="sv"&gt;</code>,
+          <code>&lt;head&gt;</code> och <code>&lt;body&gt;</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span><code>&lt;meta charset="utf-8"&gt;</code>
+          finns, och å ä ö visas rätt</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>En <code>&lt;title&gt;</code> som
+          beskriver sidan</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Minst <b>en rubrik per steg</b> och
+          brödtext som förklarar steget</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Minst <b>en bild</b> med
+          <code>alt</code>-text som beskriver bilden</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Minst <b>en länk</b> till en
+          källa</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Sidan är publicerad via GitHub Pages
+          och länken fungerar</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Sidan använder <b>semantiska
+          element</b>: <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>,
+          <code>&lt;footer&gt;</code></span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Stegen är en <b>ordnad lista</b>
+          eller egna avsnitt med tydlig ordning</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>En <b>ordlista</b> över de tio
+          begreppen från ordlistan, med egna formuleringar</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Enkel CSS som gör sidan läsbar:
+          läsbar radlängd, avstånd mellan avsnitten</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Förklaringen håller för frågan
+          <i>"varför då?"</i> – inte bara vad som händer, utan varför</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaningar">Utmaningar <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>En <b>egen illustration</b> av
+          flödet, gjord i Illustrator eller Figma och exporterad som SVG</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Sidan förklarar vad som händer när
+          något <b>går fel</b> – 404 och vad den betyder</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Du förklarar skillnaden mellan
+          <b>internet och webben</b> så att den blir begriplig</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>Du testar sidan på någon som inte
+          läser kursen och skriver ner <b>en sak de inte förstod</b></span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="tekniska">Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Vad som gäller</th></tr></thead>
+        <tbody>
+          <tr><td>Startsida</td><td><code>index.html</code> i repots rot</td></tr>
+          <tr><td>Filnamn</td><td>Gemener, bindestreck i stället för mellanslag, inga å ä ö</td></tr>
+          <tr><td>Bilder</td><td>I mappen <code>bilder/</code>, relativa sökvägar</td></tr>
+          <tr><td>Indentering</td><td>2 mellanslag</td></tr>
+          <tr><td>Publicering</td><td>GitHub Pages från <code>main</code></td></tr>
+          <tr><td>Inlämning</td><td>Committa <b>och synka</b>. Det som inte syns på github.com
+            är inte inlämnat</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="matris">Bedömningsmatris</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Kunskaper om webbens funktion</b></td>
+            <td>De fem stegen finns med och är i rätt ordning</td>
+            <td>Stegen förklaras med egna ord och hänger ihop</td>
+            <td>Du förklarar också varför det är byggt så, och vad som händer när det inte fungerar</td>
+          </tr>
+          <tr>
+            <td><b>Webblösning anpassad till syfte och användare</b></td>
+            <td>Sidan går att läsa och navigera</td>
+            <td>Innehållet är anpassat till någon som inte kan ämnet</td>
+            <td>Förklaringen är prövad på en riktig läsare och justerad efter det</td>
+          </tr>
+          <tr>
+            <td><b>Tillgänglighet</b></td>
+            <td>Bilder har alt-text, sidan har <code>lang</code> och <code>charset</code></td>
+            <td>Rubriknivåerna är i ordning och alt-texterna är beskrivande</td>
+            <td>Sidan fungerar med enbart tangentbord och alt-texterna bär informationen själva</td>
+          </tr>
+          <tr>
+            <td><b>Genomförande</b></td>
+            <td>Sidan är publicerad i tid</td>
+            <td>Arbetet är gjort löpande, med flera commits</td>
+            <td>Commit-historiken visar ett arbete som byggts stegvis, inte kvällen före</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="misstag">Vanliga misstag</h2>
+    <div class="notis varna">
+      <p>Man committar men synkar aldrig. Arbetet finns bara i codespacet och syns inte för
+        läraren.</p>
+    </div>
+    <div class="notis varna">
+      <p>Bilden ligger i fel mapp eller har stor bokstav i filnamnet. Lokalt fungerar det, på
+        GitHub Pages blir det 404. Kontrollera alltid den publicerade sidan, inte bara
+        förhandsvisningen.</p>
+    </div>
+    <div class="notis varna">
+      <p>Sidan förklarar vad orden betyder men inte vad som händer. Det är flödet som är
+        uppgiften.</p>
+    </div>
+    <div class="notis varna">
+      <p>Allt görs sista kvällen. Uppgiften bygger på fyra pass i klassrummet – hänger du inte
+        med där blir det mycket svårare hemma.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a> ·
+        <a href="guide-github.html">Guide: GitHub och Codespaces</a> ·
+        <a href="guide-webbhistoria.html">Guide: Så växte webben fram</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

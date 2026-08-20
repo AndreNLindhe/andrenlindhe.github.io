@@ -1,0 +1,12 @@
+# Paketet är text och ska förbli text. Arbetsfiler och binärer hör inte hemma här –
+# de blir stora, går inte att jämföra mellan versioner och hör till Photoshop, inte webben.
+*.psd
+*.ai
+*.zip
+*.mp4
+*.mov
+
+# Skräp från operativsystemet
+Thumbs.db
+desktop.ini
+.DS_Store

@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide – Kom igång med GitHub och Codespaces</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-1-guide-github">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Guide</strong> · GitHub och Codespaces</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll i guiden">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#orden">1. Orden du behöver</a></li>
+      <li><a href="#acceptera">2. Acceptera en uppgift</a></li>
+      <li><a href="#codespace">3. Öppna ditt Codespace</a></li>
+      <li><a href="#spara">4. Commit och sync</a></li>
+      <li><a href="#pages">5. Publicera med GitHub Pages</a></li>
+      <li><a href="#flera-pass">6. Arbeta över flera pass</a></li>
+      <li><a href="#langre">7. Ta det längre</a></li>
+      <li><a href="#felsokning">8. Felsökning</a></li>
+      <li><a href="#snabbreferens">9. Snabbreferens</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Guide · Webbutveckling område 1</p>
+    <h1>Kom igång med GitHub och Codespaces</h1>
+    <p class="inledning">Din uppslagsbok för allt som har med inlämningar att göra. Slå upp här
+      när något krånglar i stället för att gissa. Guiden fungerar utan att du varit på
+      lektionen.</p>
+
+    <div class="notis">
+      <span class="rubrik">Vad du kan efter guiden</span>
+      <ul style="margin:0">
+        <li>Acceptera en uppgift i GitHub Classroom och hitta ditt eget repo</li>
+        <li>Öppna, stänga och återuppta ett Codespace utan att tappa arbete</li>
+        <li>Spara ditt arbete så att läraren faktiskt ser det</li>
+        <li>Publicera din sajt på en riktig adress</li>
+        <li>Läsa av vad som gick fel när något inte syns</li>
+      </ul>
+    </div>
+
+    <h2 id="orden">1. Orden du behöver</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ord</th><th>Vad det betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Repo</b> (repository)</td><td>En mapp som kommer ihåg allt du gjort med den. Ditt projekt</td></tr>
+          <tr><td><b>Commit</b></td><td>En sparpunkt. Du beskriver vad du ändrat och varför</td></tr>
+          <tr><td><b>Sync</b> (push)</td><td>Skickar dina sparpunkter till github.com så att de syns för andra</td></tr>
+          <tr><td><b>Codespace</b></td><td>En färdig utvecklingsmiljö som körs i webbläsaren</td></tr>
+          <tr><td><b>GitHub Pages</b></td><td>Gratis publicering av ditt repo som en riktig webbplats</td></tr>
+          <tr><td><b>main</b></td><td>Namnet på huvudgrenen i ditt repo. Det är den som publiceras</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="notis viktig">
+      <p>Det viktigaste att förstå direkt: <b>commit och sync är två olika saker.</b> Du kan
+        committa hur mycket du vill utan att någon annan ser det. Först när du synkar hamnar
+        arbetet på github.com.</p>
+    </div>
+
+    <h2 id="acceptera">2. Acceptera en uppgift</h2>
+    <p>Varje uppgift börjar med en länk från läraren.</p>
+    <ol>
+      <li>Klicka på länken.</li>
+      <li>Logga in på GitHub. <b>Använd samma konto varje gång.</b></li>
+      <li>Välj ditt namn i listan första gången du accepterar en uppgift i kursen.</li>
+      <li>Klicka <kbd>Accept this assignment</kbd>.</li>
+      <li>Vänta några sekunder och ladda om sidan. Du får en länk till ditt eget repo.</li>
+    </ol>
+    <p>Repot heter något i stil med
+      <code>omrade-1-sa-fungerar-webben-dittanvandarnamn</code>. Det är ditt, ingen annan elev
+      ser det. Läraren ser det.</p>
+    <p><b>Har du inget GitHub-konto?</b> Skapa ett på github.com innan du klickar på länken.
+      Välj ett användarnamn du kan tänka dig att visa upp – det syns i adressen till allt du
+      publicerar.</p>
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Gå till github.com och leta upp ditt repo under <b>Your repositories</b>. Ligger det
+        inte där har du accepterat med fel konto. Säg till läraren, det går att rätta.</p>
+    </div>
+
+    <h2 id="codespace">3. Öppna ditt Codespace</h2>
+    <p>Ett Codespace är en dator i molnet med allt förinstallerat. Du behöver inte installera
+      något själv.</p>
+    <ol>
+      <li>Gå till ditt repo på github.com.</li>
+      <li>Klicka på den gröna knappen <kbd>Code</kbd>.</li>
+      <li>Välj fliken <kbd>Codespaces</kbd>.</li>
+      <li>Klicka <kbd>Create codespace on main</kbd>.</li>
+    </ol>
+    <p>Första gången tar det en till två minuter. <b>Klicka inte igen</b> om det känns
+      långsamt – då startar du ett andra codespace och blandar ihop var filerna ligger.</p>
+    <p>När det öppnats ser du en filutforskare till vänster, en redigerare i mitten och en
+      terminal längst ner. Det är samma program som Visual Studio Code, fast i webbläsaren.</p>
+
+    <h3>Förhandsvisa din sida</h3>
+    <p>Öppna <code>index.html</code>, högerklicka i filen och välj
+      <kbd>Open with Live Preview</kbd>, eller använd tillägget som redan finns installerat.
+      Sidan visas bredvid koden och uppdateras när du sparar.</p>
+    <div class="notis varna">
+      <p><b>Förhandsvisningen är inte samma sak som den publicerade sidan.</b> Sökvägar kan
+        fungera i förhandsvisningen men gå sönder på GitHub Pages. Kontrollera alltid den
+        publicerade sidan innan du är klar.</p>
+    </div>
+
+    <h2 id="spara">4. Spara arbete: commit och sync</h2>
+    <p>Det här är det enda i guiden du måste kunna utantill.</p>
+    <ol>
+      <li>Klicka på <b>källkontroll</b> i vänstermarginalen – ikonen med tre punkter och
+        streck. Siffran visar hur många filer du ändrat.</li>
+      <li>Skriv ett meddelande i rutan högst upp. Beskriv vad du gjort, inte att du gjort
+        något: <code>Lade till avsnittet om DNS</code>, inte <code>ändringar</code>.</li>
+      <li>Klicka <kbd>Commit</kbd>.</li>
+      <li>Klicka <kbd>Sync Changes</kbd> (kan heta <kbd>Push</kbd>).</li>
+    </ol>
+    <p>Ladda sedan om ditt repo på github.com. Ser du din ändring där är den inlämnad.</p>
+    <blockquote><b>Det som inte syns på github.com är inte inlämnat.</b> Läraren tittar på
+      github.com, inte i ditt codespace.</blockquote>
+
+    <h3>Hur ofta ska du committa?</h3>
+    <p>Varje gång du blir klar med något som fungerar. En bra tumregel är tre till fem commits
+      per lektion. Många små commits är bättre än en stor, av två skäl: du kan gå tillbaka
+      till en punkt där det fungerade, och din commit-historik visar att du arbetat löpande –
+      det ingår i bedömningen av slutprojektet.</p>
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Ändra en rad i <code>README.md</code>, committa med ett beskrivande meddelande,
+        synka, och kontrollera att texten syns på github.com. Gör det nu, medan du inte har
+        något att förlora.</p>
+    </div>
+
+    <h2 id="pages">5. Publicera med GitHub Pages</h2>
+    <ol>
+      <li>Gå till ditt repo på github.com.</li>
+      <li>Klicka <kbd>Settings</kbd> överst.</li>
+      <li>Välj <kbd>Pages</kbd> i vänstermenyn.</li>
+      <li>Under <b>Source</b>, välj <kbd>Deploy from a branch</kbd>.</li>
+      <li>Välj grenen <kbd>main</kbd> och mappen <kbd>/ (root)</kbd>. Klicka <kbd>Save</kbd>.</li>
+      <li>Vänta en till två minuter. Ladda om sidan – adressen visas överst.</li>
+    </ol>
+    <p>Adressen ser ut så här:</p>
+    <pre><code>https://dittanvandarnamn.github.io/repots-namn/</code></pre>
+    <p>Publiceringen sker om automatiskt varje gång du synkar. Det tar upp till en minut, så en
+      ändring syns inte direkt.</p>
+
+    <h3>Krav för att det ska fungera</h3>
+    <ul>
+      <li>Startsidan måste heta <code>index.html</code> och ligga i repots rot.</li>
+      <li>Sökvägar måste vara <b>relativa</b>: <code>bilder/logga.png</code>, inte
+        <code>/bilder/logga.png</code> och inte <code>C:\Users\...</code>.</li>
+      <li>Filnamn måste stämma <b>exakt</b>, inklusive stora och små bokstäver.</li>
+    </ul>
+    <p>Den sista punkten är den vanligaste orsaken till att en bild försvinner vid publicering.
+      Din egen dator bryr sig inte om skillnaden mellan <code>Logga.png</code> och
+      <code>logga.png</code>. Servern gör det.</p>
+
+    <h2 id="flera-pass">6. Arbeta över flera pass</h2>
+    <p>Ett codespace stängs ner automatiskt efter en halvtimmes inaktivitet. <b>Ditt arbete är
+      kvar</b> – men bara det du committat är säkert.</p>
+    <p>Så här återupptar du:</p>
+    <ol>
+      <li>Gå till ditt repo.</li>
+      <li><kbd>Code</kbd> → <kbd>Codespaces</kbd>.</li>
+      <li>Klicka på det codespace som redan finns i listan. Skapa inte ett nytt.</li>
+    </ol>
+    <div class="notis viktig">
+      <span class="rubrik">Rutin som sparar dig mycket besvär</span>
+      <p><b>Först på passet:</b> öppna befintligt codespace, kontrollera att du är i rätt repo.<br>
+        <b>Sista fem minuterna:</b> committa och synka. Alltid, även om du inte är klar.</p>
+    </div>
+    <p>Codespaces har en månatlig gratiskvot. Stäng ner ditt codespace när du är klar för
+      dagen: <kbd>Code</kbd> → <kbd>Codespaces</kbd> → de tre punkterna →
+      <kbd>Stop codespace</kbd>. Då förbrukar det ingenting.</p>
+
+    <h2 id="langre">7. Ta det längre</h2>
+    <p>Det här behöver du inte, men det gör arbetet smidigare.</p>
+    <p><b>Läs din historik.</b> På github.com, klicka på <b>commits</b> ovanför fillistan. Du
+      ser varje sparpunkt, vem som gjorde den och exakt vilka rader som ändrades. Klicka på en
+      commit för att se skillnaden rad för rad.</p>
+    <p><b>Ångra till en tidigare version.</b> Har du förstört en fil kan du hämta tillbaka den
+      gamla: öppna filen på github.com, klicka <b>History</b>, välj en tidigare version och
+      kopiera innehållet.</p>
+    <p><b>Arbeta i terminalen.</b> Allt i källkontrollpanelen går att göra med kommandon:</p>
+    <pre><code>git status                     # vad har ändrats?
+git add .                      # ta med alla ändringar
+git commit -m "Lade till DNS-avsnittet"
+git push                       # skicka till github.com</code></pre>
+    <p>Du behöver inte kunna det här i kursen, men i slutprojektet går det fortare.</p>
+    <p><b>En <code>.gitignore</code></b> talar om vilka filer som inte ska följa med.
+      Skräpfiler som <code>.DS_Store</code> och <code>Thumbs.db</code> hör inte hemma i ett
+      repo.</p>
+
+    <h2 id="felsokning">8. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: 404, bild, syns inte" autocomplete="off">
+      <p class="traffar" id="traffar-fel">9 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Läraren ser inte mitt arbete</td><td>Du har committat men inte synkat</td><td>Klicka <kbd>Sync Changes</kbd>. Kontrollera på github.com</td></tr>
+          <tr><td>Mitt repo finns inte i listan</td><td>Du accepterade med ett annat konto</td><td>Logga in med rätt konto, eller säg till läraren</td></tr>
+          <tr><td>Codespacet startar inte</td><td>Kvoten är slut, eller så hänger det</td><td>Stäng ner det gamla, starta nytt. Håller det i sig: säg till</td></tr>
+          <tr><td>Mina filer är borta</td><td>Du öppnade ett nytt codespace i stället för det gamla</td><td>Öppna det befintliga från <kbd>Code</kbd> → <kbd>Codespaces</kbd></td></tr>
+          <tr><td>Bilden syns lokalt men inte publicerat</td><td>Fel skiftläge i filnamnet eller absolut sökväg</td><td>Ändra till exakt samma namn, gemener, relativ sökväg</td></tr>
+          <tr><td>Sidan visar 404 efter publicering</td><td>Startsidan heter inte <code>index.html</code>, eller ligger i en undermapp</td><td>Byt namn eller flytta filen till repots rot</td></tr>
+          <tr><td>Ändringen syns inte på den publicerade sidan</td><td>Publiceringen tar upp till en minut, eller så cachar webbläsaren</td><td>Vänta, ladda sedan om med <kbd>Ctrl+F5</kbd></td></tr>
+          <tr><td>Sidan är helt tom</td><td>Du tittar på repot, inte på Pages-adressen</td><td>Använd adressen från <kbd>Settings</kbd> → <kbd>Pages</kbd></td></tr>
+          <tr><td>"Your changes would be overwritten"</td><td>Du har ändrat samma fil på två ställen</td><td>Fråga läraren. Committa inte över det</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="snabbreferens">9. Snabbreferens</h2>
+
+    <h3>Vägen från idé till publicerad sida</h3>
+    <pre><code>acceptera uppgift  →  öppna codespace  →  skriv kod
+                                              ↓
+   publicerad sida  ←  GitHub Pages  ←  commit + sync</code></pre>
+
+    <h3>Knappar och var de finns</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad du vill göra</th><th>Var</th></tr></thead>
+        <tbody>
+          <tr><td>Skapa codespace</td><td>Repo → <kbd>Code</kbd> → Codespaces → Create</td></tr>
+          <tr><td>Öppna befintligt codespace</td><td>Repo → <kbd>Code</kbd> → Codespaces → klicka i listan</td></tr>
+          <tr><td>Committa</td><td>Codespace → källkontroll i vänstermarginalen</td></tr>
+          <tr><td>Synka</td><td>Samma panel → <kbd>Sync Changes</kbd></td></tr>
+          <tr><td>Slå på publicering</td><td>Repo → <kbd>Settings</kbd> → <kbd>Pages</kbd></td></tr>
+          <tr><td>Se din historik</td><td>Repo → <b>commits</b> ovanför fillistan</td></tr>
+          <tr><td>Stänga codespace</td><td>Repo → <kbd>Code</kbd> → Codespaces → ⋯ → Stop</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Kommandon i terminalen</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kommando</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>git status</code></td><td>Visar vad som ändrats</td></tr>
+          <tr><td><code>git add .</code></td><td>Tar med alla ändringar</td></tr>
+          <tr><td><code>git commit -m "text"</code></td><td>Skapar en sparpunkt</td></tr>
+          <tr><td><code>git push</code></td><td>Skickar till github.com</td></tr>
+          <tr><td><code>git log --oneline</code></td><td>Visar historiken kortfattat</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Kursens filkonventioner</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Regel</th><th>Exempel</th></tr></thead>
+        <tbody>
+          <tr><td>Startsidan heter <code>index.html</code></td><td><code>index.html</code></td></tr>
+          <tr><td>Gemener i filnamn</td><td><code>om-oss.html</code>, inte <code>Om-Oss.html</code></td></tr>
+          <tr><td>Bindestreck i stället för mellanslag</td><td><code>min-sida.html</code>, inte <code>min sida.html</code></td></tr>
+          <tr><td>Inga å, ä, ö i filnamn</td><td><code>bageri.html</code>, inte <code>bageri-å.html</code></td></tr>
+          <tr><td>Bilder i egen mapp</td><td><code>bilder/logga.png</code></td></tr>
+          <tr><td>Relativa sökvägar</td><td><code>bilder/logga.png</code>, inte <code>/bilder/logga.png</code></td></tr>
+          <tr><td>Indentering</td><td>2 mellanslag</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a> ·
+        <a href="uppgift.html">Uppgiften</a> ·
+        <a href="guide-webbhistoria.html">Guide: Så växte webben fram</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide – Så växte webben fram</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-1-guide-historia">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Guide</strong> · Så växte webben fram</span>
+  <a href="#ordlistan">Ordlistan</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll i guiden">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#internet-webben">1. Internet och webben</a></li>
+      <li><a href="#tidslinjen">2. Tidslinjen</a></li>
+      <li><a href="#klient-server">3. Klient och server</a></li>
+      <li><a href="#url">4. URL:ens delar</a></li>
+      <li><a href="#dns">5. DNS</a></li>
+      <li><a href="#http">6. HTTP</a></li>
+      <li><a href="#enter">7. När du trycker enter</a></li>
+      <li><a href="#tre-sprak">8. Webbens tre språk</a></li>
+      <li><a href="#standarder">9. Standarder</a></li>
+      <li><a href="#samhalle">10. Samhällspåverkan</a></li>
+      <li><a href="#langre">11. Ta det längre</a></li>
+      <li><a href="#felsokning">12. Felsökning</a></li>
+      <li><a href="#ordlistan">13. Ordlistan</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Guide · Webbutveckling område 1</p>
+    <h1>Så växte webben fram</h1>
+    <p class="inledning">Guiden till område 1. Här står allt som prov 1 kan fråga om när det
+      gäller webbens historia, funktion och terminologi. Den fungerar utan att du varit på
+      lektionen.</p>
+
+    <div class="notis">
+      <span class="rubrik">Vad du kan efter guiden</span>
+      <ul style="margin:0">
+        <li>Förklara skillnaden mellan internet och webben</li>
+        <li>Beskriva vad en klient och en server gör, och vem som frågar först</li>
+        <li>Peka ut delarna i en URL och säga vad var och en gör</li>
+        <li>Beskriva de fem stegen från enter till färdig sida</li>
+        <li>Tolka de vanligaste HTTP-statuskoderna</li>
+        <li>Använda ordlistans begrepp korrekt</li>
+      </ul>
+    </div>
+
+    <h2 id="internet-webben">1. Internet och webben är inte samma sak</h2>
+    <p><b>Internet</b> är infrastrukturen: kablar, fiber, radiolänkar och datorer som är
+      sammankopplade och har kommit överens om hur de ska prata med varandra. Internet fanns i
+      tjugo år innan webben.</p>
+    <p><b>Webben</b> är en av tjänsterna som går ovanpå internet. E-post är en annan.
+      Nätverksspel är en tredje. När ett spel säger "no internet connection" är det inte
+      webben som saknas.</p>
+    <p>Det är därför du kan ha internet men inte komma åt en webbplats: ledningarna fungerar,
+      men servern svarar inte.</p>
+
+    <h2 id="tidslinjen">2. Tidslinjen</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>År</th><th>Vad hände</th><th>Varför det spelar roll</th></tr></thead>
+        <tbody>
+          <tr><td>1969</td><td>ARPANET kopplar ihop fyra amerikanska universitetsdatorer</td><td>Nätet konstruerades för att fungera även när delar slutar svara. Därför finns ingen mittpunkt som kan stängas av</td></tr>
+          <tr><td>1983</td><td>TCP/IP blir gemensam standard</td><td>Alla nät kunde nu prata med varandra. Det är födelsen av internet som <i>ett</i> nät</td></tr>
+          <tr><td>1989</td><td>Tim Berners-Lee föreslår webben på forskningscentret CERN</td><td>Idén: dokument som länkar till varandra, oavsett vilken dator de ligger på</td></tr>
+          <tr><td>1991</td><td>Den första webbsidan blir publik</td><td>Ren text med länkar. Den fungerar fortfarande i dagens webbläsare</td></tr>
+          <tr><td>1993</td><td>Webbläsaren Mosaic visar bilder inuti texten</td><td>Webben blir något för alla, inte bara forskare</td></tr>
+          <tr><td>1995–2000</td><td>Webbläsarkriget mellan Netscape och Internet Explorer</td><td>Tillverkarna hittade på egna lösningar. Sajter fungerade i en webbläsare men inte i en annan</td></tr>
+          <tr><td>1998</td><td>W3C driver igenom gemensamma standarder</td><td>Grunden till att kod som följer standard fungerar överallt</td></tr>
+          <tr><td>2007</td><td>Telefonen får en fullvärdig webbläsare</td><td>Sedan dess är mobilen normalfallet, inte undantaget</td></tr>
+          <tr><td>2014</td><td>HTML5 blir färdig standard</td><td>De element vi använder i kursen: <code>header</code>, <code>nav</code>, <code>main</code>, <code>article</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Två slutsatser att bära med sig:</p>
+    <div class="notis viktig">
+      <p><b>Webben har ingen ägare.</b> Ingen kan stänga av den, och ingen får ensam bestämma
+        hur den ska fungera. Det är ovanligt. Nästan alla appar du använder ägs av ett företag
+        som kan ändra reglerna imorgon.</p>
+    </div>
+    <div class="notis viktig">
+      <p><b>Webbläsarkriget är anledningen till att vi validerar kod.</b> När varje tillverkare
+        gjorde som den ville slutade sajter fungera för halva publiken. Standarderna är
+        lösningen, och validering är hur du kontrollerar att du följer dem.</p>
+    </div>
+
+    <h2 id="klient-server">3. Klient och server</h2>
+    <pre><code>  KLIENT                                      SERVER
+  din webbläsare  ─────  förfrågan  ─────▶   dator som väntar
+                  ◀─────   svar    ──────    på förfrågningar</code></pre>
+    <ul>
+      <li><b>Klienten frågar alltid först.</b> Servern hör aldrig av sig självmant till din
+        webbläsare.</li>
+      <li><b>Servern är bara en dator som står påslagen.</b> Den väntar på förfrågningar och
+        svarar. Det finns inget magiskt med den.</li>
+      <li><b>En förfrågan per fil.</b> Först hämtas HTML-dokumentet. Sedan läser webbläsaren
+        det och upptäcker att den behöver en stilmall, fyra bilder och ett skript – och frågar
+        efter dem, en i taget.</li>
+    </ul>
+    <p>Den sista punkten förklarar mycket. En sida med trettio bilder betyder trettio
+      förfrågningar utöver dokumentet. Varje förfrågan tar tid, även när filen är liten. Det
+      är därför tunga sajter känns långsamma på dålig uppkoppling.</p>
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Öppna DevTools med <kbd>F12</kbd>, välj fliken <b>Nätverk</b>, och ladda om en sida du
+        använder ofta. Räkna raderna. Det är antalet förfrågningar. Jämför med en enkel sida –
+        skillnaden brukar vara tiofaldig.</p>
+    </div>
+
+    <h2 id="url">4. Adressen: URL:ens delar</h2>
+    <p>URL står för Uniform Resource Locator: en unik adress till en resurs.</p>
+    <pre><code>https://www.exempel.se/kurser/webb/index.html
+└─┬──┘   └─────┬─────┘└──────┬───────┘└──┬───┘
+protokoll   domännamn      sökväg     filnamn</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>https://</code></td><td><b>Protokollet.</b> Hur klient och server ska prata. S:et betyder att trafiken är krypterad</td></tr>
+          <tr><td><code>www.exempel.se</code></td><td><b>Domännamnet.</b> Vilken server. Läses bakifrån: <code>.se</code> är toppdomänen</td></tr>
+          <tr><td><code>/kurser/webb/</code></td><td><b>Sökvägen.</b> Var i servern filen ligger</td></tr>
+          <tr><td><code>index.html</code></td><td><b>Filnamnet.</b> Utelämnas det letar servern efter <code>index.html</code> av sig själv</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Sista raden är hela anledningen till att startsidan ska heta <code>index.html</code>. Det
+      är inte en regel din lärare hittat på – det är vad servern letar efter när ingen fil är
+      angiven.</p>
+    <p>En URL kan också ha fler delar:</p>
+    <pre><code>https://www.exempel.se/sok?q=webb&amp;sida=2#resultat
+                          └────┬───────┘└───┬───┘
+                          frågesträng    ankare</code></pre>
+    <ul>
+      <li><b>Frågesträngen</b> efter <code>?</code> skickar värden till servern. Du möter den i
+        formulär.</li>
+      <li><b>Ankaret</b> efter <code>#</code> hoppar till ett ställe på sidan. Det skickas
+        aldrig till servern.</li>
+    </ul>
+
+    <h2 id="dns">5. DNS – från namn till nummer</h2>
+    <p>Servrar har nummer, inte namn. Numret kallas IP-adress.</p>
+    <pre><code>www.exempel.se   ──DNS──▶   93.184.216.34</code></pre>
+    <p>DNS, Domain Name System, är internets telefonkatalog. Innan din webbläsare kan fråga
+      servern måste den ta reda på vilket nummer domännamnet motsvarar. Den frågan går till en
+      DNS-server, och det är den första av flera datorer som blandas in innan sidan visas.</p>
+    <p>Svaret sparas en stund i din dator, så nästa gång du besöker samma sajt hoppas steget
+      över.</p>
+    <p><b>Varför namn alls?</b> För att människor inte kommer ihåg siffror. Och för att servern
+      kan bytas ut utan att adressen ändras – man pekar bara om namnet till ett nytt nummer.</p>
+
+    <h2 id="http">6. HTTP: förfrågan och svar</h2>
+    <p>HTTP är språket klienten och servern talar. En förfrågan säger i princip <i>"ge mig den
+      här filen"</i>, och svaret innehåller filen plus information om hur det gick.</p>
+
+    <h3>Metoder</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Metod</th><th>Betyder</th><th>När du möter den</th></tr></thead>
+        <tbody>
+          <tr><td><code>GET</code></td><td>Ge mig den här resursen</td><td>Varje gång du besöker en sida</td></tr>
+          <tr><td><code>POST</code></td><td>Här kommer data, ta emot den</td><td>När du skickar ett formulär</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Statuskoder</h3>
+    <p>Servern svarar alltid med en kod som säger hur det gick.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kod</th><th>Grupp</th><th>Betyder</th><th>Vanligast när</th></tr></thead>
+        <tbody>
+          <tr><td><b>200</b></td><td>Lyckat</td><td>OK, här är filen</td><td>Nästan alltid</td></tr>
+          <tr><td><b>301</b></td><td>Omdirigering</td><td>Har flyttat permanent</td><td>Sajten bytt adress</td></tr>
+          <tr><td><b>302</b></td><td>Omdirigering</td><td>Har flyttat tillfälligt</td><td>Inloggning, kampanjsidor</td></tr>
+          <tr><td><b>304</b></td><td>Omdirigering</td><td>Oförändrad, använd din sparade kopia</td><td>Du laddar om en sida du sett nyss</td></tr>
+          <tr><td><b>403</b></td><td>Klientfel</td><td>Du får inte se det här</td><td>Fel rättigheter på servern</td></tr>
+          <tr><td><b>404</b></td><td>Klientfel</td><td>Finns inte</td><td><b>Felstavad sökväg till en bild eller sida</b></td></tr>
+          <tr><td><b>500</b></td><td>Serverfel</td><td>Servern kraschade</td><td>Fel i serverns egen kod. Inte ditt fel</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Koderna grupperas efter första siffran: 2 betyder lyckat, 3 omdirigering, 4 klientens
+      fel, 5 serverns fel.</p>
+    <div class="notis varna">
+      <p><b>404 kommer du att träffa på.</b> I nio fall av tio beror det på ett felstavat
+        filnamn, fel stor eller liten bokstav, eller en sökväg som börjar med snedstreck när den
+        inte borde.</p>
+    </div>
+
+    <h3>HTTPS</h3>
+    <p>S:et står för secure. Trafiken krypteras, så att någon som lyssnar på nätverket bara ser
+      brus. Det skyddar två saker: att ingen kan läsa vad du skickar, och att ingen kan ändra i
+      sidan på vägen.</p>
+    <p>Alla sajter ska använda HTTPS idag, inte bara de som hanterar lösenord. GitHub Pages ger
+      dig det automatiskt.</p>
+
+    <h2 id="enter">7. Vad som händer när du trycker enter</h2>
+    <p>De fem stegen. De är innehållet i ditt första projekt, så kunna dem.</p>
+    <ol>
+      <li><b>Adressen tolkas.</b> Webbläsaren delar upp URL:en i protokoll, domännamn och
+        sökväg.</li>
+      <li><b>DNS slår upp namnet.</b> Domännamnet översätts till en IP-adress.</li>
+      <li><b>Förfrågan skickas.</b> Webbläsaren kopplar upp sig mot servern och ber om filen.</li>
+      <li><b>Servern svarar.</b> Statuskod plus innehållet, oftast ett HTML-dokument.</li>
+      <li><b>Webbläsaren bygger sidan.</b> HTML läses uppifrån och ner. Varje bild, stilmall och
+        skript som nämns leder till en ny förfrågan. När allt kommit tillbaka ritas sidan upp.</li>
+    </ol>
+    <p>Hela kedjan tar normalt mindre än en sekund, och inblandade datorer är minst tre: din, en
+      DNS-server och webbservern.</p>
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Öppna DevTools → Nätverk, ladda om en sida och besvara:</p>
+      <ol style="margin:0">
+        <li>Hur många förfrågningar gjordes?</li>
+        <li>Hur stor var sidan totalt i kilobyte?</li>
+        <li>Vilken enskild fil var störst, och vilken typ var det?</li>
+        <li>Fick någon förfrågan en annan status än 200? Vilken?</li>
+      </ol>
+    </div>
+
+    <h2 id="tre-sprak">8. Webbens tre språk</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Språk</th><th>Ansvarar för</th><th>Analogi</th></tr></thead>
+        <tbody>
+          <tr><td><b>HTML</b></td><td>Innehållet och strukturen</td><td>Stommen i huset</td></tr>
+          <tr><td><b>CSS</b></td><td>Utseendet</td><td>Färg, tapeter, möblering</td></tr>
+          <tr><td><b>JavaScript</b></td><td>Beteendet</td><td>Dörrar som öppnas när man går emot dem</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>De ska hållas isär. En sida ska fungera med bara HTML, se bra ut när CSS läggs till, och
+      bli smidigare när JavaScript kommer på plats. Det är därför du bygger ostilad HTML i
+      område 2 innan du får röra CSS i område 3.</p>
+
+    <h2 id="standarder">9. Standarder och varför de finns</h2>
+    <p>En <b>standard</b> är en överenskommelse om hur något ska fungera. W3C och WHATWG skriver
+      webbens standarder, och webbläsartillverkarna följer dem.</p>
+    <p>Vinsten: kod som följer standarden fungerar i alla webbläsare, på alla operativsystem, på
+      alla enheter. Det kallas <b>interoperabilitet</b> och är ett av kursens centrala
+      begrepp.</p>
+    <p><b>Validering</b> är att låta ett program kontrollera att din kod följer standarden. Du
+      kommer att göra det i varje uppgift från och med område 2. Det tar trettio sekunder och
+      hittar fel som annars visar sig först hos någon annan.</p>
+
+    <h3>Användaragenter</h3>
+    <p>En <b>användaragent</b> är vad som helst som hämtar din sida. Inte bara webbläsare:</p>
+    <ul>
+      <li>Webbläsare på dator, telefon och surfplatta</li>
+      <li>Skärmläsare som läser upp sidan för någon som inte ser</li>
+      <li>Sökmotorernas robotar</li>
+      <li>Program som hämtar sidan för att sammanfatta den</li>
+    </ul>
+    <p><b>Alla besökare är inte människor med ögon.</b> Det är därför strukturen i HTML spelar
+      roll, och varför en bild utan <code>alt</code> är osynlig för en del av din publik.</p>
+
+    <h2 id="samhalle">10. Webbens samhällspåverkan</h2>
+    <p>Webben ändrade fyra saker i grunden. Du behöver kunna resonera om dem, inte rabbla dem.</p>
+    <p><b>Tillgång.</b> Saker som krävde en resa eller ett telefonsamtal görs på trettio
+      sekunder. Samtidigt försvann alternativen: när blanketten och kassan togs bort blev det
+      digitala vägen inte <i>en</i> väg utan <i>enda</i> vägen.</p>
+    <p><b>Makt.</b> Webben har ingen ägare, men de flesta går genom ett fåtal företags tjänster
+      varje dag. När ett av dem ändrar sina regler ändras villkoren för miljoner människor utan
+      att någon röstat om det.</p>
+    <p><b>Digitalt utanförskap.</b> En del av befolkningen klarar inte av att göra ärendet på
+      nätet. Det handlar sällan om ålder i sig, utan om syn, motorik, språk, uppkoppling,
+      ekonomi eller att gränssnittet helt enkelt är illa gjort. <b>Det sista bestämmer du
+      över.</b></p>
+    <p><b>Att lita på det man ser.</b> Vem som helst kan publicera vad som helst. Källkritik
+      gick från att vara en färdighet för journalister till att vara vardagsarbete för alla.</p>
+    <blockquote>Allt du bygger i den här kursen kommer någon annan att använda. En del av dem
+      ser dåligt, har långsam uppkoppling eller är stressade. Du bestämmer om det går för
+      dem.</blockquote>
+
+    <h2 id="langre">11. Ta det längre</h2>
+    <p><b>Titta på en riktig HTTP-förfrågan.</b> I DevTools → Nätverk, klicka på en rad och välj
+      fliken <b>Headers</b>. Du ser vad din webbläsare skickade och vad servern svarade, rad för
+      rad.</p>
+    <p><b>Sidan från 1991 finns kvar.</b> Sök upp den första webbsidan på CERN:s webbplats.
+      Notera att den fungerar i din webbläsare trettiofem år senare. Bakåtkompatibilitet är en
+      av webbens grundprinciper: gammal kod slutar inte fungera.</p>
+    <p><b>Ta reda på var en server står.</b> Kommandot <code>ping exempel.se</code> i terminalen
+      visar IP-adressen och hur lång tid svaret tog. Ju längre bort servern står, desto längre
+      tid.</p>
+    <p><b>Cachning.</b> Webbläsaren sparar filer den redan hämtat. Därför går andra besöket
+      fortare, och därför ser du ibland en gammal version av din egen sida. <kbd>Ctrl+F5</kbd>
+      tvingar fram en riktig omladdning.</p>
+
+    <h2 id="felsokning">12. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: 404, cache, långsam" autocomplete="off">
+      <p class="traffar" id="traffar-fel">7 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Nätverksfliken är tom</td><td>Du öppnade DevTools efter att sidan laddats</td><td>Ladda om med DevTools öppet</td></tr>
+          <tr><td>Andra laddningen ser mycket lättare ut</td><td>Filerna hämtas ur cachen</td><td>Ladda om med <kbd>Ctrl+F5</kbd></td></tr>
+          <tr><td>Bilden ger 404</td><td>Fel sökväg eller fel skiftläge i filnamnet</td><td>Jämför filnamnet tecken för tecken</td></tr>
+          <tr><td>Sidan laddar men ser konstig ut</td><td>Stilmallen fick 404</td><td>Kolla <code>link</code>-elementets <code>href</code> i nätverksfliken</td></tr>
+          <tr><td>Sidan är långsam</td><td>Många eller stora förfrågningar</td><td>Kolla antal rader och kolumnen Storlek</td></tr>
+          <tr><td>Adressen fungerar inte alls</td><td>Fel i domännamnet, eller servern nere</td><td>Testa en annan sajt. Fungerar den är det inte din uppkoppling</td></tr>
+          <tr><td>Webbläsaren varnar för osäker anslutning</td><td>Sajten kör HTTP utan S</td><td>Skicka aldrig lösenord eller personuppgifter dit</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlistan">13. Ordlistan</h2>
+    <p>Alla ord här kan komma på prov 1.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="sok">
+      <label for="sok-ord">Sök i ordlistan</label>
+      <input type="search" id="sok-ord" data-sok="tabell-ordlista" data-traffar="traffar-ord"
+             placeholder="till exempel: DNS, cache, klient" autocomplete="off">
+      <p class="traffar" id="traffar-ord">24 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Internet</b></td><td>Infrastrukturen: de sammankopplade näten</td></tr>
+          <tr><td><b>Webben</b></td><td>En tjänst ovanpå internet: länkade dokument</td></tr>
+          <tr><td><b>Klient</b></td><td>Programmet som frågar. Din webbläsare</td></tr>
+          <tr><td><b>Server</b></td><td>Datorn som svarar på förfrågningar</td></tr>
+          <tr><td><b>Webbläsare</b></td><td>Program som hämtar, tolkar och visar webbsidor</td></tr>
+          <tr><td><b>Användaragent</b></td><td>Samlingsnamn för allt som hämtar en sida: webbläsare, skärmläsare, sökrobot</td></tr>
+          <tr><td><b>HTTP</b></td><td>Protokollet klient och server talar</td></tr>
+          <tr><td><b>HTTPS</b></td><td>Samma sak, krypterat</td></tr>
+          <tr><td><b>Protokoll</b></td><td>Överenskommelse om hur två parter ska prata</td></tr>
+          <tr><td><b>URL</b></td><td>Adressen till en resurs</td></tr>
+          <tr><td><b>Domännamn</b></td><td>Den läsbara delen av adressen, till exempel exempel.se</td></tr>
+          <tr><td><b>Toppdomän</b></td><td>Sista delen: .se, .com, .org</td></tr>
+          <tr><td><b>Sökväg</b></td><td>Var i servern filen ligger</td></tr>
+          <tr><td><b>IP-adress</b></td><td>Serverns nummer</td></tr>
+          <tr><td><b>DNS</b></td><td>Systemet som översätter domännamn till IP-adress</td></tr>
+          <tr><td><b>Statuskod</b></td><td>Serverns svar på hur det gick: 200, 404, 500</td></tr>
+          <tr><td><b>HTML</b></td><td>Innehållet och strukturen</td></tr>
+          <tr><td><b>CSS</b></td><td>Utseendet</td></tr>
+          <tr><td><b>JavaScript</b></td><td>Beteendet</td></tr>
+          <tr><td><b>Standard</b></td><td>Överenskommelse om hur webbtekniken ska fungera</td></tr>
+          <tr><td><b>Validering</b></td><td>Kontroll av att koden följer standarden</td></tr>
+          <tr><td><b>Interoperabilitet</b></td><td>Att det fungerar oavsett webbläsare, system och enhet</td></tr>
+          <tr><td><b>Cache</b></td><td>Sparad kopia som gör nästa besök snabbare</td></tr>
+          <tr><td><b>Publicering</b></td><td>Att lägga upp sajten så att den är åtkomlig för andra</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Statuskoderna i korthet</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kod</th><th>Minnesregel</th></tr></thead>
+        <tbody>
+          <tr><td>2xx</td><td>Det gick bra</td></tr>
+          <tr><td>3xx</td><td>Gå någon annanstans</td></tr>
+          <tr><td>4xx</td><td>Du frågade fel</td></tr>
+          <tr><td>5xx</td><td>Servern gjorde fel</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a> ·
+        <a href="uppgift.html">Uppgiften</a> ·
+        <a href="guide-github.html">Guide: GitHub och Codespaces</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

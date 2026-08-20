@@ -1,0 +1,2 @@
+# Radslut normaliseras till LF i repot, oavsett vilket operativsystem filen skrevs på.
+* text=auto eol=lf

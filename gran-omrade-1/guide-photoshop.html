@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Photoshop för webb – Gränssnittsdesign område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="gran-1-guide-photoshop">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Guide</strong> · Photoshop för webb</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#pixel">1. Pixel och upplösning</a></li>
+      <li><a href="#arbetsytan">2. Arbetsytan</a></li>
+      <li><a href="#lager">3. Lager</a></li>
+      <li><a href="#icke-forstorande">4. Icke-förstörande arbete</a></li>
+      <li><a href="#hsl">5. Färglära: HSL</a></li>
+      <li><a href="#nivaer">6. Justeringslager och Nivåer</a></li>
+      <li><a href="#beskarning">7. Beskärning</a></li>
+      <li><a href="#format">8. Bildformaten</a></li>
+      <li><a href="#export">9. Export för webb</a></li>
+      <li><a href="#rattigheter">10. Bildrättigheter</a></li>
+      <li><a href="#langre">11. Ta det längre</a></li>
+      <li><a href="#felsokning">12. Felsökning</a></li>
+      <li><a href="#snabbreferens">13. Snabbreferens</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Gränssnittsdesign · område 1</p>
+    <h1>Guide – Photoshop för webb</h1>
+    <p class="inledning">Här står allt du behöver för uppgift 1, och guiden fungerar utan att du
+      varit på lektionen. Slå upp i den när du fastnar i stället för att leta på nätet; mycket
+      av det du hittar där handlar om tryck, inte om webb.</p>
+
+    <h2 id="efterat">Vad du kan efter guiden</h2>
+    <ul>
+      <li>Avgöra hur stor en bild ska vara för att fungera på webben</li>
+      <li>Arbeta med lager så att allt du gör går att ångra i morgon</li>
+      <li>Beskriva en färg med tre siffror i stället för en känsla</li>
+      <li>Rätta ljus, kontrast och färgstick med justeringslager</li>
+      <li>Välja rätt bildformat och motivera valet</li>
+      <li>Redovisa varifrån dina bilder kommer och vad licensen tillåter</li>
+    </ul>
+
+    <h2 id="pixel">1. Pixel, upplösning och den enda regel du behöver</h2>
+
+    <p>En digital bild är ett rutnät av pixlar. Inget annat.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Begrepp</th><th>Vad det är</th><th>Spelar roll för webb?</th></tr></thead>
+        <tbody>
+          <tr><td><b>Pixeldimension</b></td><td>Hur många pixlar bilden består av, t.ex. 2400 × 1600</td><td><b>Ja. Det är det enda som räknas</b></td></tr>
+          <tr><td><b>Upplösning (ppi)</b></td><td>Hur tätt pixlarna packas vid tryck</td><td>Nej</td></tr>
+          <tr><td><b>Dokumentstorlek i cm</b></td><td>Hur stor bilden blir på papper</td><td>Nej</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Att 72 ppi skulle vara <i>webbupplösning</i> är en myt från nittiotalet. Skärmen bryr sig
+      inte. Ändrar du bara ppi-siffran, utan att röra pixeldimensionen, händer ingenting alls
+      med hur bilden ser ut på en webbsida.</p>
+
+    <blockquote>En bild ska vara ungefär dubbelt så bred i pixlar som den yta den ska visas i,
+      aldrig mycket mer.</blockquote>
+
+    <p>Ska bilden visas i en spalt som är 600 px bred, exportera den i 1200 px. Dubbleringen
+      finns där för skärmar med hög pixeltäthet — på dem ser en bild i exakt rätt storlek suddig
+      ut.</p>
+
+    <p>Och åt andra hållet: <b>pixlar som inte finns går inte att skapa.</b> Förstorar du en bild
+      på 400 × 300 till 1600 px gissar programmet fram de nya pixlarna, och resultatet blir
+      mjukt och grynigt. Leta upp en större originalbild i stället.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Öppna en bild från din telefon. Läs av pixeldimensionen under <b>Bild → Bildstorlek</b>.
+        Den är förmodligen över 3000 px bred — fem gånger mer än någon spalt på din sajt kommer
+        att vara.</p>
+    </div>
+
+    <h2 id="arbetsytan">2. Arbetsytan</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Var</th><th>Vad du gör där</th></tr></thead>
+        <tbody>
+          <tr><td>Verktygsfältet</td><td>Vänsterkanten</td><td>Väljer verktyg</td></tr>
+          <tr><td>Alternativfältet</td><td>Överst</td><td>Ställer in det valda verktyget</td></tr>
+          <tr><td>Lagerpanelen</td><td>Höger</td><td><b>Programmets viktigaste panel</b></td></tr>
+          <tr><td>Historikpanelen</td><td>Höger</td><td>Går bakåt i vad du gjort</td></tr>
+          <tr><td>Dokumentfönstret</td><td>Mitten</td><td>Bilden</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Har paneler försvunnit: <b>Fönster → Arbetsyta → Återställ Essentials</b>. Det är det
+      första du ska prova när något ser konstigt ut.</p>
+
+    <p>Ångra: <kbd>Ctrl</kbd>+<kbd>Z</kbd> en gång,
+      <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Z</kbd> upprepade gånger bakåt.</p>
+
+    <h2 id="lager">3. Lager</h2>
+
+    <p>Ett lager är ett genomskinligt ark ovanpå bilden. Det som ligger överst syns.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Lagertyp</th><th>Vad det gör</th></tr></thead>
+        <tbody>
+          <tr><td><b>Bildlager</b></td><td>Själva bilden. Bakgrundslagret är låst tills du klickar på hänglåset</td></tr>
+          <tr><td><b>Justeringslager</b></td><td>Ändrar utseendet på allt under sig, utan att röra pixlarna</td></tr>
+          <tr><td><b>Textlager</b></td><td>Text som går att redigera hur länge som helst</td></tr>
+          <tr><td><b>Grupp</b></td><td>En mapp som håller ihop flera lager</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Praktiska vanor:</p>
+    <ul>
+      <li><b>Döp lagren.</b> Dubbelklicka på namnet. <code>bakgrund-himmel</code> säger något,
+        <code>Lager 12 kopia</code> gör det inte.</li>
+      <li><b>Ögat till vänster</b> slår av och på synligheten. Använd det för att jämföra före
+        och efter.</li>
+      <li><b>Ordningen spelar roll.</b> Ett justeringslager påverkar bara det som ligger under
+        det.</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Öppna en bild, lägg till ett tomt lager, måla en färgklick på det. Dra sedan lagret
+        under bildlagret. Klicken försvinner — för att bilden ligger över den.</p>
+    </div>
+
+    <h2 id="icke-forstorande">4. Icke-förstörande arbete</h2>
+
+    <p>Det här är kursens viktigaste arbetsvana, och ett krav i uppgift 1.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Förstörande</th><th>Icke-förstörande</th></tr></thead>
+        <tbody>
+          <tr><td><b>Bild → Justeringar → Nivåer</b></td><td><b>Nytt justeringslager → Nivåer</b></td></tr>
+          <tr><td>Ändrar pixlarna direkt</td><td>Lägger en instruktion ovanpå</td></tr>
+          <tr><td>Går att ångra tills du stänger filen</td><td>Går att ändra om ett halvår</td></tr>
+          <tr><td>Suddgummi på bildlagret</td><td>Lagermask som döljer i stället för att radera</td></tr>
+          <tr><td>Beskär och kasta bort</td><td>Beskär med <i>Radera beskurna pixlar</i> urbockat</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Menyn <b>Bild → Justeringar</b> finns kvar i Photoshop, men den ska du inte använda i den
+      här kursen. Allt som går att göra där går att göra som justeringslager i stället.</p>
+
+    <blockquote>Arbetsfilen sparas som <code>.psd</code> med alla lager kvar. Exporten är en
+      kopia, aldrig originalet.</blockquote>
+
+    <p>Du lämnar in båda: arbetsfilerna i <code>bildpaket/arbetsfiler/</code> och exporten i
+      <code>bildpaket/export/</code>.</p>
+
+    <h2 id="hsl">5. Färglära: HSL</h2>
+
+    <p>En färg går att beskriva med tre siffror.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Reglage</th><th>Styr</th><th>Intervall</th></tr></thead>
+        <tbody>
+          <tr><td><b>H</b> — hue, nyans</td><td>Vilken färg det är</td><td>0–360° runt färgcirkeln</td></tr>
+          <tr><td><b>S</b> — saturation, mättnad</td><td>Hur färgstark den är</td><td>0 % grå → 100 % ren</td></tr>
+          <tr><td><b>L</b> — lightness, ljushet</td><td>Hur ljus den är</td><td>0 % svart → 100 % vit</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Varför HSL och inte RGB?</b> För att HSL går att resonera om. Vill du ha samma färg
+      fast mörkare sänker du L. I RGB måste du gissa på tre tal samtidigt och hoppas att nyansen
+      inte glider.</p>
+
+<pre><code>hsl(210, 80%, 25%)   mörk blå
+hsl(210, 80%, 45%)   mellanblå     ← samma nyans, samma mättnad
+hsl(210, 80%, 65%)   ljus blå
+hsl(210, 80%, 92%)   nästan vit blå</code></pre>
+
+    <p>Det är en färgskala. Nyansen och mättnaden står stilla, bara ljusheten ändras. Precis så
+      bygger du färgskalan i uppgift 3, och samma skrivsätt fungerar rakt av i CSS när du kommer
+      dit i Webbutveckling i november.</p>
+
+    <h3>RGB och varför skärmen blandar ljus</h3>
+
+    <p>Skärmen har tre lampor per pixel: röd, grön, blå. Alla tre på fullt ger vitt, alla av ger
+      svart. Det är tvärtom mot färg på papper, där mer färg ger mörkare.</p>
+
+    <p>Det du behöver ta med dig: <b>det som ser rätt ut på din skärm ser inte likadant ut på
+      någon annans.</b> Därför mäter vi kontrast med siffror senare i kursen i stället för att
+      tycka till.</p>
+
+    <p><b>Färgläget ska vara RGB.</b> Kontrollera under <b>Bild → Läge</b>. Ligger filen i CMYK
+      ser färgerna matta ut och exporten blir fel.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Öppna färgväljaren, ta en färg du gillar och skriv ner dess HSL-värden. Gör sedan fyra
+        versioner där du bara ändrar L: 25, 45, 65 och 92 procent. Du har just byggt din första
+        färgskala.</p>
+    </div>
+
+    <h2 id="nivaer">6. Justeringslager och Nivåer</h2>
+
+    <p>De flesta bilder blir bättre av en enda justering: <b>Nivåer</b>.</p>
+
+    <h3>Histogrammet</h3>
+    <p>Nivåer visar ett histogram — en kurva över hur många pixlar som finns vid varje ljushet.
+      Vänsterkanten är svart, högerkanten är vit.</p>
+    <ul>
+      <li>Kurvan slutar långt från kanterna → bilden är platt och grådaskig</li>
+      <li>Kurvan är hoptryckt mot vänster → bilden är mörk</li>
+      <li>Kurvan är hoptryckt mot höger → bilden är ljus</li>
+    </ul>
+
+    <h3>De tre reglagen</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Reglage</th><th>Läge</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><b>Svartpunkt</b></td><td>Vänster</td><td>Dra in till där kurvan börjar. Bilden får riktigt svart</td></tr>
+          <tr><td><b>Mittpunkt</b></td><td>Mitten</td><td>Flytta vänster för ljusare, höger för mörkare halvtoner</td></tr>
+          <tr><td><b>Vitpunkt</b></td><td>Höger</td><td>Dra in till där kurvan slutar. Bilden får riktigt vitt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Så här gör du:</p>
+    <ol>
+      <li>Lagerpanelen → <b>Nytt justeringslager</b> → <b>Nivåer</b>.</li>
+      <li>Dra in svart- och vitpunkten till kurvans ändar.</li>
+      <li>Justera mittpunkten tills ljusheten känns rätt.</li>
+      <li>Klicka ögat av och på för att jämföra.</li>
+    </ol>
+    <p>Tio sekunder, och det räcker för de flesta bilder.</p>
+
+    <h3>Vitbalans</h3>
+    <p>I Nivåer finns tre pipetter. Mittenpipetten sätter gråpunkten: klicka på något i bilden
+      som <i>ska</i> vara neutralgrått — en betongvägg, en asfaltsyta, en vit vägg i skugga — så
+      försvinner färgsticket. Hittar du inget grått, lägg ett justeringslager <b>Färgbalans</b>
+      och dra försiktigt.</p>
+
+    <h3>Kurvor</h3>
+    <p>Kurvor är samma sak som Nivåer fast med fler handtag: du kan flytta mörka och ljusa
+      partier oberoende av varandra. Behöver du det märker du det. Innan dess räcker Nivåer.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Vanligt fel: för mycket mättnad</span>
+      <p>Frestelsen att dra upp mättnaden är stor. Lägg ett justeringslager
+        <b>Nyans/Mättnad</b>, dra mättnaden till +40 och titta på hudtoner eller himmel. Det ser
+        ut som en skärm i en elektronikaffär, inte som ett foto. Håll dig under +15 om du
+        överhuvudtaget rör reglaget.</p>
+    </div>
+
+    <h2 id="beskarning">7. Beskärning och uppräting</h2>
+
+    <p>Beskärning är inte att ta bort det som är i vägen. Det är att bestämma vad bilden handlar
+      om.</p>
+
+    <ol>
+      <li>Välj beskärningsverktyget, <kbd>C</kbd>.</li>
+      <li><b>Bocka ur <i>Radera beskurna pixlar</i></b> i alternativfältet. Då går beskärningen
+        att ändra senare.</li>
+      <li>Välj bildförhållande medvetet i alternativfältet: 16:9, 4:3, 1:1. Frihandsbeskär inte
+        allt — ett gemensamt förhållande får bilderna att se ut att höra ihop.</li>
+      <li>För att räta upp: klicka <b>Räta upp</b> och dra en linje längs något som ska vara
+        vågrätt.</li>
+    </ol>
+
+    <p><b>Tredjedelsregeln</b> i korthet: tänk dig rutnätet 3 × 3 över bilden och lägg det
+      viktiga längs linjerna eller i korsningarna, inte mitt i. Det är en tumregel, inte en lag.
+      Layout och komposition går vi igenom ordentligt i Figma-blocket i oktober.</p>
+
+    <div class="notis">
+      <span class="rubrik">Ett tips som gör hela paketet bättre</span>
+      <p>Beskär minst en bild i <b>två utsnitt</b> — ett brett för toppen av en sida och ett
+        kvadratiskt för ett kort. Det är ett bör-krav i uppgiften och du kommer att behöva båda
+        i Webbutveckling.</p>
+    </div>
+
+    <h2 id="format">8. Bildformaten</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Format</th><th>Passar till</th><th>Passar inte till</th><th>Genomskinlighet</th></tr></thead>
+        <tbody>
+          <tr><td><b>JPG</b></td><td>Foton</td><td>Text, skarpa kanter, logotyper</td><td>Nej</td></tr>
+          <tr><td><b>PNG</b></td><td>Skärmbilder, grafik med skarpa kanter</td><td>Foton — filen blir onödigt stor</td><td>Ja</td></tr>
+          <tr><td><b>WebP</b></td><td>Nästan allt. Mindre fil än JPG vid samma kvalitet</td><td>Inget i praktiken i dag</td><td>Ja</td></tr>
+          <tr><td><b>SVG</b></td><td>Ikoner, logotyper, enkla illustrationer</td><td>Foton — går inte alls</td><td>Ja</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Så väljer du:</p>
+    <ul>
+      <li><b>Är det ett foto?</b> WebP i första hand, JPG som reserv.</li>
+      <li><b>Är det ritat, med skarpa kanter och få färger?</b> SVG om du har vektorfilen, annars
+        PNG.</li>
+      <li><b>Behöver bakgrunden vara genomskinlig?</b> WebP, PNG eller SVG. Aldrig JPG.</li>
+    </ul>
+
+    <p><b>Om komprimering.</b> JPG och WebP kastar bort information för att göra filen mindre.
+      Det kallas destruktiv komprimering. Kvalitet 100 är slöseri — skillnaden mot 80 syns
+      nästan aldrig, medan filen ofta blir dubbelt så stor. Prova 80, titta noga på detaljer och
+      mjuka övergångar som himmel, och gå ner till 70 om det håller.</p>
+
+    <p><b>Spara aldrig om en JPG flera gånger.</b> Varje omsparning kastar bort mer. Arbeta i
+      <code>.psd</code> och exportera på nytt när du behöver ändra.</p>
+
+    <h2 id="export">9. Export för webb</h2>
+
+    <p>Använd <b>Arkiv → Exportera → Exportera som</b>. Där ser du filstorleken innan du
+      sparar.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="exportkoll">Checklista före varje export</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="exp-1"><span>Färgläge RGB</span></label></li>
+        <li><label><input type="checkbox" id="exp-2"><span>Pixelbredd satt medvetet, aldrig över 1600 px i den här uppgiften</span></label></li>
+        <li><label><input type="checkbox" id="exp-3"><span>Format valt enligt tabellen ovan</span></label></li>
+        <li><label><input type="checkbox" id="exp-4"><span>Kvalitet runt 80 för JPG och WebP</span></label></li>
+        <li><label><input type="checkbox" id="exp-5"><span>Filnamn i gemener, bindestreck i stället för mellanslag, inga å ä ö</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h3>Filnamn</h3>
+    <p>Kursens standard är <code>tema-motiv-bredd.format</code>:</p>
+<pre><code>hamn-kran-1200.webp
+hamn-kran-600.webp
+hamn-bat-morgon-1200.jpg</code></pre>
+    <p>Namnet ska gå att förstå om ett halvår, och det ska sortera sig självt i en lista.</p>
+
+    <h3>Exportloggen</h3>
+    <p>I uppgiften ska du redovisa dina val. En tabell i <code>bildpaket/exportlogg.md</code>:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fil</th><th>Format</th><th>Bredd</th><th>Storlek</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td><code>hamn-kran-1200.webp</code></td><td>WebP</td><td>1200 px</td><td>84 kB</td><td>Foto, mjuka övergångar, WebP minst</td></tr>
+          <tr><td><code>hamn-logga.png</code></td><td>PNG</td><td>400 px</td><td>12 kB</td><td>Skarpa kanter och genomskinlig bakgrund</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kolumnen längst till höger är den som skiljer C från E. Det räcker inte att välja rätt —
+      du ska kunna säga varför.</p>
+
+    <h2 id="rattigheter">10. Bildrättigheter</h2>
+
+    <div class="notis viktig">
+      <span class="rubrik">Utgångspunkten är att du inte får använda en bild</span>
+      <p>Upphovsrätten uppstår automatiskt när bilden skapas, den behöver inte registreras och
+        den gäller i sjuttio år efter fotografens död. Att en bild ligger fritt på nätet betyder
+        ingenting.</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Väg</th><th>Vad som gäller</th></tr></thead>
+        <tbody>
+          <tr><td><b>Du har tagit bilden själv</b></td><td>Fritt fram. Men fråga personer som syns tydligt</td></tr>
+          <tr><td><b>Creative Commons</b></td><td>Fritt att använda på de villkor licensen anger</td></tr>
+          <tr><td><b>Bildbank med tydlig licens</b></td><td>Läs villkoren. De skiljer sig åt mellan sajter</td></tr>
+          <tr><td><b>Du har frågat och fått ja</b></td><td>Spara svaret</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Creative Commons</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Märkning</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>BY</b></td><td>Du måste ange upphovspersonen</td></tr>
+          <tr><td><b>SA</b></td><td>Din version måste ha samma licens</td></tr>
+          <tr><td><b>NC</b></td><td>Icke-kommersiellt bruk. Skolarbete räknas normalt hit</td></tr>
+          <tr><td><b>ND</b></td><td>Du får inte ändra bilden — alltså inte beskära eller färgjustera den</td></tr>
+          <tr><td><b>CC0</b></td><td>Helt fri, ingen attribution krävs. Ange källan ändå</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">ND är en fälla i den här uppgiften</span>
+      <p>Hela poängen är att du ska bearbeta bilderna, och då går ND-licensierat material bort.</p>
+    </div>
+
+    <h3>Attribution</h3>
+    <p>Så här ser en korrekt källhänvisning ut:</p>
+<pre><code>Titel – av Fotografens Namn, CC BY-SA 4.0, hämtad från exempel.se/bild/123, 2026-08-25</code></pre>
+    <p>Fyra delar: vad, vem, vilken licens, var och när.</p>
+
+    <h3>AI-genererade bilder</h3>
+    <p>Rättsläget är oklart och skiljer sig mellan länder. I den här kursen gäller: <b>du får
+      använda AI-genererat material, men det ska anges i källförteckningen</b> med vilket verktyg
+      och vilken prompt. Behandla det som vilken annan källa som helst.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Ta tre bilder du redan använt någon gång och försök spåra upphovsperson och licens. Det
+        är svårare än du tror — och det är därför du ska anteckna medan du hämtar, inte efteråt.</p>
+    </div>
+
+    <h2 id="langre">11. Ta det längre</h2>
+
+    <ul>
+      <li><b>Lagermasker.</b> I stället för att sudda bort något målar du på en mask: svart
+        döljer, vitt visar. Ångra genom att måla vitt igen. Klicka på maskikonen längst ner i
+        lagerpanelen.</li>
+      <li><b>Smarta objekt.</b> Högerklicka på ett lager → <b>Konvertera till smart objekt</b>.
+        Nu kan du skala ner och upp igen utan kvalitetsförlust, och filter går att ändra i
+        efterhand.</li>
+      <li><b>Justeringslager på bara ett lager.</b> Håll <kbd>Alt</kbd> och klicka mellan
+        justeringslagret och lagret under. Justeringen urklippas och påverkar bara det lagret.</li>
+      <li><b>Testa tre kvalitetsnivåer.</b> Exportera samma bild i kvalitet 60, 75 och 90. Titta
+        på dem i 100 % och jämför filstorlekarna. Välj den lägsta som fortfarande håller. Det är
+        ett A-krav i uppgiften.</li>
+      <li><b>Skriv alt-texten redan nu.</b> En mening som beskriver vad bilden visar, för någon
+        som inte ser den. <i>Två fiskebåtar vid kaj i morgondimma</i>, inte <i>bild</i> och inte
+        <i>foto av båtar</i>. Du behöver den i Webbutveckling om tre veckor.</li>
+    </ul>
+
+    <h2 id="felsokning">12. Felsökning</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: grynig, cmyk, genomskinlig, ångra" autocomplete="off">
+      <p class="traffar" id="traffar-fel">11 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Bilden blir grynig när jag förstorar</td><td>Originalet är för litet</td><td>Hitta en större bild. Uppförstoring går inte att rädda</td></tr>
+          <tr><td>Färgerna ser matta och konstiga ut</td><td>Filen ligger i CMYK</td><td><b>Bild → Läge → RGB-färg</b></td></tr>
+          <tr><td>Filen blev flera megabyte</td><td>För stor pixelbredd, eller kvalitet 100</td><td>Skala ner, exportera i kvalitet 80</td></tr>
+          <tr><td>Genomskinligheten blev vit</td><td>Du exporterade som JPG</td><td>Använd WebP eller PNG</td></tr>
+          <tr><td>Jag kan inte måla på bakgrundslagret</td><td>Bakgrundslagret är låst</td><td>Klicka på hänglåset i lagerpanelen</td></tr>
+          <tr><td>Justeringen påverkar fel lager</td><td>Justeringslagret ligger på fel plats</td><td>Dra det ovanför det lager det ska påverka</td></tr>
+          <tr><td>Jag kan inte ångra en justering från i går</td><td>Du använde <b>Bild → Justeringar</b></td><td>Gör om med justeringslager. Därför finns kravet</td></tr>
+          <tr><td>Verktyget gör ingenting</td><td>Du står på fel lager, eller har ett aktivt urval</td><td>Kontrollera lagerpanelen. <kbd>Ctrl</kbd>+<kbd>D</kbd> tar bort urvalet</td></tr>
+          <tr><td>Panelerna har försvunnit</td><td>Arbetsytan är omflyttad</td><td><b>Fönster → Arbetsyta → Återställ Essentials</b></td></tr>
+          <tr><td>Beskärningen går inte att ändra</td><td><i>Radera beskurna pixlar</i> var ibockat</td><td>Gör om från originalfilen. Bocka ur rutan denna gång</td></tr>
+          <tr><td>Bilden ser skarp ut i Photoshop men suddig på webben</td><td>Exporterad i exakt visningsstorlek</td><td>Exportera i dubbla bredden</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="snabbreferens">13. Snabbreferens</h2>
+
+    <h3>Kortkommandon</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kommando</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd></td><td>Ångra</td></tr>
+          <tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Z</kbd></td><td>Ångra flera steg bakåt</td></tr>
+          <tr><td><kbd>Ctrl</kbd>+<kbd>0</kbd></td><td>Anpassa till fönstret</td></tr>
+          <tr><td><kbd>Ctrl</kbd>+<kbd>1</kbd></td><td>Visa i 100 %</td></tr>
+          <tr><td><kbd>Ctrl</kbd>+<kbd>D</kbd></td><td>Ta bort urval</td></tr>
+          <tr><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td>Spara <code>.psd</code></td></tr>
+          <tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>W</kbd></td><td>Exportera som</td></tr>
+          <tr><td><kbd>C</kbd></td><td>Beskärningsverktyget</td></tr>
+          <tr><td><kbd>V</kbd></td><td>Flyttverktyget</td></tr>
+          <tr><td><kbd>Alt</kbd>+klick på ögat</td><td>Visa bara det lagret</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Arbetsordning för en bild</h3>
+<pre><code>1. Öppna originalet
+2. Beskär och räta upp          (Radera beskurna pixlar urbockat)
+3. Lägg justeringslager         Nivåer: svart, vit, mitt
+4. Vitbalansera vid behov       gråpipetten
+5. Spara som .psd               bildpaket/arbetsfiler/
+6. Exportera                    bildpaket/export/, rätt format och bredd
+7. Anteckna i exportloggen      format, bredd, storlek, varför
+8. Anteckna i källförteckningen källa och licens</code></pre>
+
+    <h3>Kraven i uppgift 1, i korthet</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Värde</th></tr></thead>
+        <tbody>
+          <tr><td>Antal bilder</td><td>Minst 6, gemensamt tema</td></tr>
+          <tr><td>Format per bild</td><td>Minst 2</td></tr>
+          <tr><td>Maxbredd vid export</td><td>1600 px</td></tr>
+          <tr><td>Färgläge</td><td>RGB</td></tr>
+          <tr><td>Arbetsfiler</td><td><code>.psd</code> med lager kvar</td></tr>
+          <tr><td>Justeringar</td><td>Endast justeringslager</td></tr>
+          <tr><td>Filnamn</td><td>Gemener, bindestreck, inga å ä ö</td></tr>
+          <tr><td>Ska redovisas</td><td>Exportlogg och källförteckning</td></tr>
+          <tr><td>Deadline</td><td>Torsdag 3 september kl 23:59</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a> · <a href="uppgift.html">Uppgift 1 –
+        Bildpaket</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
