@@ -36,6 +36,11 @@ KONTROLL = pathlib.Path.home() / ".claude" / "skills" / "nasta-lektion" / "skrip
 HOPPA_OVER = {".git", ".gitignore", ".gitattributes", "__pycache__", "Thumbs.db", ".DS_Store"}
 HOPPA_SUFFIX = {".psd", ".ai", ".zip", ".mp4", ".mov", ".pyc"}
 
+# Spår av lärarmaterial. Pekas kalla på fel mapp – material/, dist/ eller en
+# presentation – ska publiceringen stanna, inte upptäckas av en elev.
+LARARMAPPAR = {"genomgangar", "presentation", "presentationer", "material", "dist", "src", "prov"}
+LARARMARKORER = ('data-avsnitt', 'id="stod-', "Talarstöd", "talarstöd")
+
 
 class Fel(Exception):
     """Något som gör att publiceringen inte får fortsätta."""
@@ -73,6 +78,34 @@ def dev_commit(kalla):
         return commit, bool(status)
     except (subprocess.CalledProcessError, FileNotFoundError):
         return None, None
+
+
+def vagra_lararmaterial(kalla):
+    """Ett elevpaket innehåller bara elevernas sidor.
+
+    Dev-noderna innehåller också lärarversionen av planeringen och presentationernas
+    talarstöd. Det är hela skälet till att uppdelningen finns, så det kontrolleras
+    mekaniskt i stället för att lita på att den som publicerar minns det."""
+    fynd = []
+
+    for katalog in kalla.rglob("*"):
+        if katalog.is_dir() and katalog.name.lower() in LARARMAPPAR:
+            fynd.append(f"mappen {katalog.relative_to(kalla).as_posix()}/")
+
+    for fil in kalla.rglob("*.html"):
+        try:
+            text = fil.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        for markor in LARARMARKORER:
+            if markor in text:
+                fynd.append(f"{fil.relative_to(kalla).as_posix()} innehåller {markor}")
+                break
+
+    if fynd:
+        rader = "\n  ".join(sorted(set(fynd)))
+        raise Fel("källan ser ut att innehålla lärarmaterial. Publicera bara från en "
+                  f"elevpaket-mapp:\n  {rader}")
 
 
 def kopiera_ner_skalet(kalla, torrkor):
@@ -176,6 +209,8 @@ def main():
         if smutsig and not args.tvinga:
             raise Fel(f"dev-noden för {mapp} har ocommittade ändringar. Committa dem först, "
                       f"annars går det inte att säga vad som ligger live. (--tvinga går förbi.)")
+
+        vagra_lararmaterial(kalla)
 
         print(f"\n{mapp}  ←  {kalla}")
         print(f"  dev-commit {commit}{' (ocommittat, tvingat)' if smutsig else ''}")
