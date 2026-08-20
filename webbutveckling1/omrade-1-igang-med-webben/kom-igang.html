@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kom igång – Webbutveckling 1 område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-1-kom-igang">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Guide</strong> · Kom igång</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#avsnitt-1">1. Tre verktyg, tre jobb</a></li>
+      <li><a href="#avsnitt-2">2. Konto och eget repo</a></li>
+      <li><a href="#avsnitt-3">3. Öppna ditt Codespace</a></li>
+      <li><a href="#avsnitt-4">4. Ändra och spara</a></li>
+      <li><a href="#avsnitt-5">5. Lämna in</a></li>
+      <li><a href="#kraven">6. Checklista</a></li>
+      <li><a href="#felsokning">7. Felsökning</a></li>
+      <li><a href="#orden">8. Ord du ska kunna</a></li>
+      <li><a href="#langre">9. Ta det längre</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 1</p>
+    <h1>Kom igång</h1>
+    <p class="inledning">Den här guiden tar dig från ingenting till en inlämnad
+      uppgift. Du behöver inte ha varit på lektionen för att följa den. Fastnar du
+      finns felsökningen i avsnitt 7 – den täcker det som brukar gå fel.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-09-04">
+        <span class="nar">4 sept</span>
+        <span class="vad">Områdets inlämning kl 23:59
+          <small>Kom igång-uppgiften lämnas in redan efter lektion 3.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="avsnitt-1">1. Tre verktyg, tre jobb</h2>
+    <p>Kursen använder tre verktyg. De gör olika saker, och blandar du ihop dem är det
+      lätt att tro att du lämnat in när du inte har det.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Verktyg</th><th>Vad ligger där</th></tr></thead>
+        <tbody>
+          <tr><td><b>itslearning</b></td><td>Uppgifterna, guiderna, planeringen, deadlines och din återkoppling. Här lämnar du in.</td></tr>
+          <tr><td><b>GitHub</b></td><td>Din kod. Ditt repo, dina commits och senare din publicerade sajt.</td></tr>
+          <tr><td><b>Codespaces</b></td><td>Där du skriver koden. VS Code som körs i webbläsaren.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Meningen att komma ihåg</span>
+      <p>Koden till GitHub, länken till itslearning.</p>
+    </div>
+
+    <p>Inlämningen är alltså inte en fil. Den är en adress. Det betyder att adressen
+      måste fungera för <b>någon annan än dig</b> – annars finns det ingenting att
+      sätta betyg på.</p>
+
+    <h2 id="avsnitt-2">2. Konto och eget repo</h2>
+
+    <h3>Kontot</h3>
+    <ol>
+      <li>Gå till <code>github.com</code> och välj <b>Sign up</b>. Har du redan ett
+        konto: <b>Sign in</b>.</li>
+      <li>Välj ett användarnamn du kan säga högt. Det kommer synas i adressen till din
+        sajt under hela kursen.</li>
+      <li>Verifiera mejladressen. GitHub skickar ett mejl – klicka på länken i det.</li>
+    </ol>
+    <p>Utan verifierad mejladress går Codespaces inte att starta. Hittar du inte
+      mejlet, titta i skräpposten.</p>
+
+    <h3>Repot</h3>
+    <p>Ett <b>repo</b> (kortform för <i>repository</i>) är mappen med ditt projekt, som
+      GitHub håller reda på åt dig. Du gör din egen kopia av kursens startmapp:</p>
+    <ol>
+      <li>Öppna <code>github.com/AndreNLindhe/webbutveckling1-start</code>.</li>
+      <li>Klicka på knappen <b>Use this template</b> och välj
+        <b>Create a new repository</b>.</li>
+      <li>Skriv <code>webbutveckling1</code> som namn.</li>
+      <li>Under <b>Choose visibility</b>: kontrollera att det står <b>Public</b>. Det är
+        förvalt – rör det bara om det står något annat.</li>
+      <li>Klicka <b>Create repository</b>.</li>
+    </ol>
+    <p>Låt reglaget <b>Include all branches</b> stå kvar på <i>Off</i>. Du behöver bara
+      huvudgrenen.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Varför publikt?</span>
+      <p>Ett privat repo syns bara för dig. Länken du lämnar in ger 404 för alla andra.
+        Det ser rätt ut från din sida, eftersom du är inloggad – och därför är det så
+        lätt att missa.</p>
+      <p>Valde du Private av misstag: <b>Settings</b> → <b>General</b> → skrolla längst
+        ned till <b>Danger Zone</b> → <b>Change repository visibility</b> →
+        <b>Make public</b>. GitHub ber dig skriva repots namn för att bekräfta.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Öppna din repo-länk i ett privat fönster, där du inte är inloggad. Syns sidan
+        är repot publikt. Får du 404 är det fortfarande privat.</p>
+    </div>
+
+    <h2 id="avsnitt-3">3. Öppna ditt Codespace</h2>
+    <p>Ett <b>Codespace</b> är en färdig utvecklingsmiljö som körs på GitHubs datorer.
+      Du får VS Code i webbläsaren, kopplat till ditt repo. Ingenting behöver
+      installeras.</p>
+    <ol>
+      <li>Gå till ditt repo på <code>github.com</code>.</li>
+      <li>Klicka på knappen <b>Code</b>.</li>
+      <li>Välj fliken <b>Codespaces</b>.</li>
+      <li>Klicka <b>Create codespace on main</b>.</li>
+    </ol>
+    <p>Första gången tar det en till två minuter. Det ser ut som att ingenting händer.
+      Klicka inte igen – då startar du två Codespaces och kan hamna i fel miljö nästa
+      gång.</p>
+    <p>När det öppnat ser du filerna i listan till vänster. Klicka på
+      <code>index.html</code> för att öppna den.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Nästa gång du ska arbeta</span>
+      <p>Samma väg: <b>Code</b> → <b>Codespaces</b> → klicka på det Codespace som redan
+        finns i listan. Skapa inte ett nytt varje gång, då ligger dina ändringar kvar i
+        det gamla.</p>
+    </div>
+
+    <h2 id="avsnitt-4">4. Ändra och spara</h2>
+    <p>Öppna <code>index.html</code> och leta upp rubriken:</p>
+<pre><code>&lt;h1&gt;Din rubrik här&lt;/h1&gt;</code></pre>
+    <p>Byt ut texten mellan taggarna mot ditt eget namn:</p>
+<pre><code>&lt;h1&gt;Ada Lovelace&lt;/h1&gt;</code></pre>
+    <p>Du behöver inte förstå HTML än – det kommer i område 2. Just nu ska ändringen
+      bara bevisa att hela kedjan fungerar, från din webbläsare till GitHub. Spara med
+      <kbd>Ctrl</kbd> + <kbd>S</kbd>.</p>
+
+    <h3>Commit och push</h3>
+    <p>En <b>commit</b> är en sparad punkt i historiken, med ett meddelande om vad du
+      gjorde. En <b>push</b> skickar dina commits upp till GitHub.</p>
+    <ol>
+      <li>Klicka på ikonen med tre grenar i vänsterkanten – <b>Source Control</b>.</li>
+      <li><code>index.html</code> står under <b>Changes</b>. Håll muspekaren över filen
+        och klicka <b>+</b>.</li>
+      <li>Skriv ett meddelande i rutan högst upp, till exempel
+        <code>Bytte rubrik till mitt namn</code>.</li>
+      <li>Klicka <b>Commit</b>.</li>
+      <li>Klicka <b>Sync Changes</b>.</li>
+    </ol>
+    <p>Utan meddelande vägrar VS Code att committa. Det är med flit. Meddelandet ska
+      säga vad du gjorde – <code>update</code> säger ingenting, och begripliga
+      commit-meddelanden är ett krav i alla inlämningar i kursen.</p>
+    <p>Steg 5 är det som faktiskt skickar upp ändringen. Hoppar du över det ser allt
+      klart ut i VS Code medan GitHub fortfarande är tomt.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Gå tillbaka till ditt repo på <code>github.com</code> och ladda om sidan. Står
+        ditt namn där? Då har hela kedjan fungerat.</p>
+    </div>
+
+    <h2 id="avsnitt-5">5. Lämna in</h2>
+    <ol>
+      <li>Stå på ditt repos sida på <code>github.com</code> och ladda om, så du ser att
+        ändringen finns.</li>
+      <li>Kopiera adressen ur adressfältet. Den ska se ut så här:</li>
+    </ol>
+<pre><code>https://github.com/dittanvandarnamn/webbutveckling1</code></pre>
+    <ol start="3">
+      <li>Gå till itslearning → kursen Webbutveckling 1 → uppgiften <b>Kom igång</b>.</li>
+      <li>Klistra in länken och lämna in.</li>
+    </ol>
+
+    <div class="notis varna">
+      <span class="rubrik">Kolla adressen</span>
+      <p>Den ska börja med <code>github.com/</code>. Innehåller den
+        <code>github.dev</code>, <code>codespaces</code> eller ett slumpmässigt namn med
+        bindestreck har du kopierat länken till ditt Codespace – och den fungerar bara
+        för dig.</p>
+    </div>
+
+    <p>Så här går <b>varje</b> inlämning till resten av kursen. Samma två steg, varje
+      gång: din kod ligger uppdaterad och pushad på GitHub, och länken till ditt
+      publika repo lämnas i itslearning-uppgiften senast fredag 23:59.</p>
+
+    <h2 id="kraven">6. Checklista</h2>
+    <p>Kryssen sparas i din webbläsare, så du kan stänga sidan och komma tillbaka.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Jag har ett GitHub-konto med verifierad mejladress.</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Jag har skapat ett eget repo från kursens template-repo.</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Det står <b>Public</b> under repots namn.</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Jag har öppnat mitt Codespace och ändrat rubriken i <code>index.html</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Jag har gjort en commit med ett meddelande som säger vad jag ändrade.</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Ändringen syns på <code>github.com</code> när jag laddar om sidan.</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Jag har lämnat repo-länken i itslearning-uppgiften.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— mot nivå C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Jag har testat min länk i ett privat fönster och sett att den fungerar utan inloggning.</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Mitt commit-meddelande beskriver ändringen – det står inte <code>update</code>.</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Jag har bara ett Codespace i listan, inte flera.</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Jag kan förklara skillnaden mellan commit och push för en klasskamrat.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— mot nivå A</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Jag har gjort minst tre commits och läst historiken under <b>Commits</b>.</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Jag har skrivit en <code>README.md</code> som beskriver projektet.</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Jag har klonat repot till min egen dator med <code>git clone</code>.</span></label></li>
+      </ul>
+    </section>
+
+    <p><button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="felsokning">7. Felsökning</h2>
+    <p>Sök på symptomet du ser, inte på vad du tror att felet är.</p>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: 404, codespace, syns inte" autocomplete="off">
+      <p class="traffar" id="traffar-fel">10 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Länken ger 404 för andra</td><td>Repot är privat</td><td>Settings → General → Change repository visibility → Make public</td></tr>
+          <tr><td>Codespaces-knappen gör ingenting</td><td>Mejladressen är inte verifierad</td><td>Kolla inkorgen och skräpposten, klicka på länken i mejlet från GitHub</td></tr>
+          <tr><td>Inget händer när Codespacet startar</td><td>Första starten tar en till två minuter</td><td>Vänta. Klicka inte igen</td></tr>
+          <tr><td>Ändringen syns inte på github.com</td><td>Du committade men glömde Sync Changes</td><td>Source Control → Sync Changes, ladda sedan om GitHub-sidan</td></tr>
+          <tr><td>Commit-knappen gör ingenting</td><td>Meddelanderutan är tom</td><td>Skriv vad du ändrade och klicka Commit igen</td></tr>
+          <tr><td>Filen står inte under Changes</td><td>Du har inte sparat filen</td><td>Ctrl + S, kolla Source Control igen</td></tr>
+          <tr><td>Repot heter samma sak som kursens</td><td>Du klickade Fork i stället för Use this template</td><td>Radera repot och gör om från avsnitt 2</td></tr>
+          <tr><td>Läraren ser en tom sida på min länk</td><td>Du lämnade Codespace-adressen</td><td>Länken ska börja github.com/dittnamn/</td></tr>
+          <tr><td>Två Codespaces i listan</td><td>Du klickade Create två gånger</td><td>Öppna det du arbetat i. Radera det andra under github.com/codespaces</td></tr>
+          <tr><td>Ändringen försvann</td><td>Du arbetade i fel Codespace</td><td>Öppna det andra i listan, ändringen ligger kvar där</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="orden">8. Ord du ska kunna</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>repo</b></td><td>Repository. Mappen med ditt projekt, som GitHub håller reda på</td></tr>
+          <tr><td><b>template-repo</b></td><td>En färdig startmapp du gör din egen kopia av</td></tr>
+          <tr><td><b>publikt</b></td><td>Synligt för alla som har adressen. Motsatsen är privat</td></tr>
+          <tr><td><b>commit</b></td><td>En sparad punkt i historiken, med ett meddelande om vad du gjorde</td></tr>
+          <tr><td><b>push</b></td><td>Att skicka dina commits upp till GitHub</td></tr>
+          <tr><td><b>Sync Changes</b></td><td>VS Codes knapp för att hämta och skicka ändringar mot GitHub</td></tr>
+          <tr><td><b>Codespace</b></td><td>En färdig utvecklingsmiljö som körs i webbläsaren</td></tr>
+          <tr><td><b>VS Code</b></td><td>Programmet du skriver kod i. Här kör det i webbläsaren</td></tr>
+          <tr><td><b>main</b></td><td>Huvudgrenen i ditt repo. Den du arbetar i den här kursen</td></tr>
+          <tr><td><b>404</b></td><td>Webbserverns svar när adressen inte leder till något som går att visa</td></tr>
+          <tr><td><b>GitHub Pages</b></td><td>GitHubs tjänst som gör ditt repo till en publik webbplats. Vi använder den i lektion 9</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="langre">9. Ta det längre</h2>
+    <p>För dig som är klar och vill fortsätta. Ingenting av det här krävs för
+      uppgiften.</p>
+    <ul>
+      <li><b>Läs historiken.</b> På ditt repo, klicka på <b>Commits</b>. Varje commit
+        går att öppna och visar exakt vilka rader som ändrades, i grönt och rött. Gör
+        ytterligare två ändringar och titta på hur historiken byggs upp.</li>
+      <li><b>Skriv en <code>README.md</code>.</b> Filen med det namnet visas
+        automatiskt på repots framsida. Skriv vad projektet är. Den är din sajts
+        anslagstavla resten av kursen.</li>
+      <li><b>Arbeta lokalt.</b> Codespaces är inte enda vägen. Installera VS Code och
+        Git på din egen dator och klona repot med <code>git clone</code>. Samma repo,
+        samma commits, men utan att vara beroende av nätet.</li>
+    </ul>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

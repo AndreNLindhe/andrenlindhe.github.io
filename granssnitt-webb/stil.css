@@ -286,7 +286,11 @@ a.kort:hover, a.kort:focus-visible {
 .innehall a.har { color: var(--webb); font-weight: 640; }
 
 @media (max-width: 60rem) {
-  .medlayout { grid-template-columns: 1fr; gap: 1.5rem; }
+  /* minmax(0,1fr), inte 1fr: ett grid-item har min-width auto, så ett brett
+     barn (tabell, pre, flerspaltig innehållslista) annars drar spåret bredare
+     än skärmen och hela sidan börjar svepa i sidled. Samma skäl som i
+     desktopregeln ovan. */
+  .medlayout { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
   .innehall { position: static; border-left: none; border-bottom: 1px solid var(--linje); padding: 0 0 1rem; }
   .innehall ol { columns: 2; column-gap: 1.5rem; }
 }
