@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inlämning 1: Hur webbservern arbetar</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o1-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Inlämning 1</strong> · Hur webbservern arbetar</span>
+  <a href="#misstag">Vanliga misstag</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#ska">2. Ska-krav – E</a></li>
+      <li><a href="#bor">3. Bör-krav – C</a></li>
+      <li><a href="#utmaning">4. Utmaning – A</a></li>
+      <li><a href="#bedomning">5. Så bedöms den</a></li>
+      <li><a href="#inlamning">6. Inlämning</a></li>
+      <li><a href="#misstag">7. Vanliga misstag</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 1</p>
+    <h1>Inlämning 1 – Hur webbservern arbetar</h1>
+    <p class="inledning">Bygg en webbplats som förklarar vad som händer mellan att du
+      skriver en adress och trycker enter, och att sidan syns på skärmen. Sajten ska
+      själv vara ett exempel på det den förklarar: minst en sida ska skapas på
+      servern i samma stund som någon ber om den.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-09-02">
+        <span class="nar">2 sept</span>
+        <span class="vad">Deadline kl 23:59
+          <small>Repots adress lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+    <p>En av sidorna beskriver ditt eget projekt – vilka filer som finns och vad de
+      gör. Den sidan, och beviset för att innehållet skapas på servern, är
+      tyngdpunkten i bedömningen.</p>
+
+    <p>Du får med dig tre saker:</p>
+    <ul>
+      <li><b>Guiden</b>, som bygger samma sajt med annat innehåll. Följ den steg för steg.</li>
+      <li><b>Referensprojektet Webbresan</b>, färdigt att köra.</li>
+      <li><b>Lektionerna 1–4</b>, som går igenom allt du behöver.</li>
+    </ul>
+
+    <div class="notis varna">
+      <span class="rubrik">Egen domän, inte guidens</span>
+      <p>Din sajt ska ha samma funktionalitet som guidens, men eget innehåll.
+        Kopierar du guidens text och exempeladress blir uppgiften underkänd.
+        Översättningstabellen i guiden visar vad som måste bytas ut.</p>
+    </div>
+
+    <p>Kryssen nedan sparas i din webbläsare, så du kan bocka av allteftersom.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">2. Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Projektet är ett Blazor Web App skapat med <code>-int None</code> och startar utan fel</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Minst fyra sidor som går att nå från menyn</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Sidorna förklarar tillsammans: adressens delar, DNS, förfrågan, svar och statuskoder</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>En egen exempeladress används genomgående, med både frågesträng och fragment, och varje del förklaras</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Minst fyra statuskoder förklaras, varav minst två som inte finns i guiden</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>En arkitektursida som listar projektets filer och vad var och en gör</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Minst en sida innehåller innehåll som skapas på servern vid varje förfrågan och som ändras när sidan laddas om</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Å Ä Ö visas rätt på alla sidor</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>Minst fem commits med begripliga meddelanden</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">3. Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C, utöver E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Beviset för serverrendering är förklarat, inte bara visat: sidan säger vad som skulle ha varit annorlunda om innehållet legat i en statisk fil</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Arkitektursidan beskriver filerna i den ordning de körs vid en förfrågan, och förklarar varför ordningen ser ut så</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Innehållet i minst en tabell renderas ur en samling med <code>@foreach</code> i stället för att skrivas rad för rad</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Egen CSS som gör sidorna läsbara – rubriknivåer, tabeller med ramar, läsbar radlängd</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Menyn markerar rätt sida, även startsidan</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">4. Utmaning <span style="color:var(--dov);font-weight:400">— nivå A, utöver C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utmaning-1"><span>En femte sida om något du undersökt själv och som inte gåtts igenom på lektion: portar, HTTPS och certifikat, cachning, omdirigeringar eller liknande</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-2"><span>Sajten visar något du undersökt i webbläsarens nätverksflik – till exempel hur många anrop din egen sida gör, eller vilken statuskod <code>app.css</code> får – och förklarar vad du såg</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-3"><span>Arkitektursidan förklarar även vad som skulle behöva ändras för att lägga till en ny sida, och varför just de filerna</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-4"><span>Källhänvisningar till det du läst utöver kursmaterialet</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bedomning">5. Så bedöms den</h2>
+    <p>Uppgiften prövar det centrala innehållet <i>webbserverns och dynamiska
+      webbplatsers funktionalitet</i>, <i>teknisk orientering om webbens protokoll,
+      adresser, säkerhet samt samspelet mellan klient och server</i> och
+      <i>applikationsarkitektur</i>.</p>
+    <p>Tyngdpunkten ligger på <b>arkitektursidan och beviset för serverrendering</b>.
+      Det är där det syns om du förstått skillnaden mellan en fil som skickas och en
+      sida som byggs.</p>
+    <p>Inget prov på det här området. Bedömningen görs på den inlämnade sajten och på
+      deltagandet under de fyra lektionerna.</p>
+
+    <h2 id="inlamning">6. Inlämning</h2>
+    <p>Lämna <b>repots adress</b> i inlämningsrutan i itslearning, till exempel
+      <code>https://github.com/dittnamn/webbresan</code>. Repot ska vara publikt,
+      annars går det inte att rätta. Själva koden ligger på GitHub – itslearning tar
+      bara emot länken.</p>
+    <p>I repot ska finnas:</p>
+    <ul>
+      <li>Hela projektmappen, utan <code>bin/</code> och <code>obj/</code></li>
+      <li>En <code>README.md</code> med projektets namn, en mening om vad sajten gör,
+        och hur man startar den</li>
+    </ul>
+    <p>Committa löpande under arbetets gång, inte allt sista kvällen. Antalet commits
+      är ett krav just därför.</p>
+
+    <h2 id="misstag">7. Vanliga misstag</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Misstaget</th><th>Vad du gör i stället</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Guidens text kvar</b> – den vanligaste orsaken till underkänt</td>
+            <td>Byt exempeladress, statuskoder, sidnamn och rubriker. Gå igenom
+              översättningstabellen innan du lämnar in.</td>
+          </tr>
+          <tr>
+            <td><b>Arkitektursidan skriven utan att filerna öppnats</b></td>
+            <td>Det syns. "Den här filen sköter routingen" räcker inte om du inte kan
+              säga vad som står i filen. Öppna varje fil du beskriver.</td>
+          </tr>
+          <tr>
+            <td><b>Beviset ändras inte</b></td>
+            <td>Ett klockslag du skrivit in för hand är inte ett bevis. Ladda om fem
+              gånger och kontrollera att värdet faktiskt ändras.</td>
+          </tr>
+          <tr>
+            <td><b><code>bin/</code> och <code>obj/</code> incheckade</b></td>
+            <td>Kontrollera att <code>.gitignore</code> finns innan din första commit.</td>
+          </tr>
+          <tr>
+            <td><b>Adress utan frågesträng eller fragment</b></td>
+            <td>Leta tills du hittar en riktig adress som har båda. Sök på något på en
+              sajt du använder, så får du en frågesträng.</td>
+          </tr>
+          <tr>
+            <td><b>Privat repo i itslearning</b></td>
+            <td>Kan inte rättas. Settings → Change repository visibility → Public.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a> · <a href="../index.html">Kursstart</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

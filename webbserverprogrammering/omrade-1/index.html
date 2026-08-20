@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 1: Webbservern, Blazor och projektets arkitektur</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o1-start">
+
+<header class="topp">
+  <a href="../index.html">← Webbserverprogrammering 1</a>
+  <span class="harifran"><strong>Område 1</strong> · Webbservern, Blazor och arkitektur</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#lektioner">1. Fem lektioner</a></li>
+      <li><a href="#kunna">2. Det här ska sitta</a></li>
+      <li><a href="#igang">3. Kom igång</a></li>
+      <li><a href="#lamna-in">4. Så lämnar du in</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+      <li><a href="#orden">6. Orden</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 1 · v.34–36</p>
+    <h1>Webbservern, Blazor och projektets arkitektur</h1>
+    <p class="inledning">Innan du skriver en enda rad applikationskod på egen hand
+      ska du ha två saker: en fungerande bild av vad en webbserver gör, och en karta
+      över ditt eget projekt. Området har ingen tenta – det som bedöms är sajten du
+      lämnar in och hur du arbetar under lektionerna.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-09-02">
+        <span class="nar">2 sept</span>
+        <span class="vad">Inlämning 1 – Hur webbservern arbetar, kl 23:59
+          <small>Repots adress lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="rutnat">
+      <a class="kort webb" href="uppgift.html">
+        <span class="sort">Inlämning 1</span>
+        <span class="rubrik">Hur webbservern arbetar</span>
+        <p>Krav för E, C och A, med kryssrutor som sparas i din webbläsare.</p>
+      </a>
+    </div>
+
+    <h2 id="lektioner">1. Fem lektioner</h2>
+    <p>Området är komprimerat till fem lektioner eftersom skolstarten tog tisdagen
+      den 18 augusti.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>#</th><th>Datum</th><th>Längd</th><th>Vad vi gör</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>ons 19 aug</td><td>45 min</td>
+            <td>Kursintro och verktygskedjan. Du skapar ditt repo, ditt projekt och kör det.</td></tr>
+          <tr><td>2</td><td>tis 25 aug</td><td>85 min</td>
+            <td>Klient och server: vad som faktiskt händer vid en förfrågan. GET, POST, statuskoder, DNS.</td></tr>
+          <tr><td>3</td><td>ons 26 aug</td><td>45 min</td>
+            <td>Blazor Web App och renderingslägen. Varför kursen håller sig på serversidan.</td></tr>
+          <tr><td>4</td><td>tis 1 sept</td><td>85 min</td>
+            <td>Projektets arkitektur: vilken fil gör vad, och i vilken ordning körs de.</td></tr>
+          <tr><td>5</td><td>ons 2 sept</td><td>45 min</td>
+            <td>Färdigställ och lämna in. Deadline samma kväll kl 23:59.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kunna">2. Det här ska sitta</h2>
+    <ul>
+      <li>Du kan följa en förfrågan hela vägen: adressfältet, DNS, request, svar, statuskod.</li>
+      <li>Du kan säga vad som är statiskt innehåll och vad som skapas på servern vid varje förfrågan.</li>
+      <li>Du kan peka ut filerna i ditt Blazor-projekt och säga vad var och en gör.</li>
+      <li>Du kan starta projektet, ändra i det och pusha ändringen till GitHub.</li>
+      <li>Du vet varför Å, Ä och Ö ibland blir frågetecken, och hur du undviker det.</li>
+    </ul>
+
+    <h2 id="igang">3. Kom igång</h2>
+    <p>Det här gjorde vi på lektion 1. Har du missat passet, eller bytt dator, gör du
+      samma sak igen.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Skapa repot tomt</span>
+      <p>När du skapar repot på github.com: bocka <b>inte</b> i "Add a README file",
+        ingen <code>.gitignore</code> och ingen licens. Ett repo som redan har en fil
+        vägrar ta emot din första push, och felmeddelandet berättar inte varför.</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Det du gör</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Logga in på github.com och skapa ett tomt, publikt repo som heter <code>webbresan</code>.</td></tr>
+          <tr><td>2</td><td>Kör en gång per dator: <code>git config --global user.name "Ditt Namn"</code> och <code>git config --global user.email "din.skolmejl@exempel.se"</code></td></tr>
+          <tr><td>3</td><td>Skapa projektet: <code>dotnet new blazor -o Webbresan -int None</code></td></tr>
+          <tr><td>4</td><td>Gå in i mappen och kör det: <code>cd Webbresan</code> och <code>dotnet run</code></td></tr>
+          <tr><td>5</td><td>Öppna adressen terminalen skriver ut. "Hello, world!" ska synas.</td></tr>
+          <tr><td>6</td><td>Stoppa servern med Ctrl+C och koppla på GitHub: <code>git init</code>, <code>git add .</code>, <code>git commit -m "Första körningen"</code>, <code>git branch -M main</code>, <code>git remote add origin …</code>, <code>git push -u origin main</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Be en klasskamrat om adressen till deras körande projekt och försök öppna
+        den. Det går inte. Det är innebörden av <code>localhost</code>: den här
+        datorn, ingen annan.</p>
+    </div>
+
+    <h2 id="lamna-in">4. Så lämnar du in</h2>
+    <p>Koden ligger på GitHub. itslearning tar emot länken till den.</p>
+    <ol>
+      <li>Kontrollera att projektet startar med <code>dotnet run</code> utan fel.</li>
+      <li>Gå igenom kravlistan i <a href="uppgift.html">uppgiften</a> och kryssa av.</li>
+      <li><code>git add .</code>, <code>git commit -m "…"</code>, <code>git push</code></li>
+      <li>Ladda om ditt repo på github.com och se att ändringarna finns där.</li>
+      <li>Klistra in repots adress i inlämningsrutan i itslearning, till exempel
+        <code>https://github.com/dittnamn/webbresan</code></li>
+    </ol>
+
+    <div class="notis varna">
+      <span class="rubrik">Repot måste vara publikt</span>
+      <p>Ett privat repo går inte att rätta. Ligger ditt repo privat: gå till
+        <b>Settings</b> → längst ned → <b>Change repository visibility</b>.</p>
+    </div>
+
+    <p>Committa löpande under arbetets gång, inte allt sista kvällen. Antalet commits
+      är ett krav i uppgiften just därför – historiken visar när du arbetade, inte
+      bara att du gjorde det.</p>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <p>Sök på felmeddelandet du fick, eller på ett ord ur det.</p>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: push, dotnet, rejected" autocomplete="off">
+      <p class="traffar" id="traffar-fel">11 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td><code>dotnet: command not found</code></td><td>.NET SDK saknas, eller PATH är fel</td><td>Installera .NET 10 SDK. Starta om terminalen efteråt.</td></tr>
+          <tr><td><code>The template "blazor" could not be found</code></td><td>För gammal SDK</td><td><code>dotnet --version</code> ska svara 10.x. Uppdatera annars.</td></tr>
+          <tr><td>Terminalen hänger utan prompt</td><td>Servern kör – det är meningen</td><td>Ctrl+C stoppar den. Öppna en andra terminal om du vill köra git samtidigt.</td></tr>
+          <tr><td><code>Address already in use</code></td><td>En gammal <code>dotnet run</code> kör kvar</td><td>Stäng den terminalen, eller starta om datorn.</td></tr>
+          <tr><td>Ändringen syns inte i webbläsaren</td><td>Servern startades inte om</td><td>Ctrl+C och <code>dotnet run</code> igen.</td></tr>
+          <tr><td><code>Please tell me who you are</code></td><td><code>git config</code> är inte körd</td><td>Kör de två raderna med user.name och user.email.</td></tr>
+          <tr><td><code>Updates were rejected</code> / <code>non-fast-forward</code></td><td>Din push avvisas eftersom repot skapades med README</td><td>Enklast: ta bort repot på GitHub och skapa ett nytt, utan bockar.</td></tr>
+          <tr><td><code>Repository not found</code></td><td>Din push går till fel adress – användarnamnet stämmer inte</td><td><code>git remote -v</code> visar vad som är inställt. Rätta med <code>git remote set-url origin …</code></td></tr>
+          <tr><td><code>src refspec main does not match any</code></td><td>Du försöker pusha utan att ha gjort en commit</td><td><code>git add .</code> och <code>git commit -m "…"</code> först.</td></tr>
+          <tr><td><code>Support for password authentication was removed</code></td><td>Du skrev ditt lösenord när du pushade</td><td>Logga in via Visual Studio Code, eller skapa en personal access token på GitHub.</td></tr>
+          <tr><td><code>remote origin already exists</code></td><td><code>remote add</code> körd två gånger</td><td><code>git remote set-url origin …</code> i stället.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="orden">6. Orden</h2>
+    <p>Orden nedan används från och med nu utan förklaring. Träna tills du kan dem.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>webbserver</b></td><td>Program som tar emot förfrågningar över nätet och skickar tillbaka svar.</td></tr>
+          <tr><td><b>localhost</b></td><td>Adressen till din egen dator. Ingen annan når den.</td></tr>
+          <tr><td><b>port</b></td><td>Numret efter kolon i adressen. Talar om vilket program på datorn som ska svara.</td></tr>
+          <tr><td><b>request</b></td><td>Förfrågan från webbläsaren till servern.</td></tr>
+          <tr><td><b>response</b></td><td>Serverns svar, med statuskod, headers och innehåll.</td></tr>
+          <tr><td><b>statuskod</b></td><td>Tresiffrigt tal i svaret som säger hur det gick. 200 lyckades, 404 fanns inte.</td></tr>
+          <tr><td><b>statisk serverrendering</b></td><td>Servern bygger färdig HTML och skickar den. Ingen kod körs sedan i webbläsaren.</td></tr>
+          <tr><td><b>SDK</b></td><td>Verktygen du behöver för att bygga och köra .NET-program. <code>dotnet</code> är kommandot.</td></tr>
+          <tr><td><b>repo</b></td><td>Mappen med ditt projekt plus hela dess historik. Ligger både lokalt och på GitHub.</td></tr>
+          <tr><td><b>commit</b></td><td>En sparad punkt i historiken, med ett meddelande om vad du ändrade.</td></tr>
+          <tr><td><b>push</b></td><td>Att skicka upp dina commits till GitHub.</td></tr>
+          <tr><td><b>clone</b></td><td>Att hämta ned ett helt repo till en dator.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Vidare till uppgiften</a> · <a href="../index.html">Tillbaka till kursstarten</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
