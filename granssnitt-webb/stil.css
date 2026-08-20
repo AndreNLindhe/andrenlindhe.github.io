@@ -134,6 +134,10 @@ code {
   color: inherit;
   padding: 0.1em 0.35em;
   border-radius: 4px;
+  /* En lång adress eller sökväg i löpande text kan inte brytas av sig själv och
+     drar då hela sidan bredare än skärmen på mobil. Gäller inte pre-block: där
+     hindrar white-space: pre brytning, och pre har sin egen sidledsscroll. */
+  overflow-wrap: anywhere;
 }
 
 kbd {
