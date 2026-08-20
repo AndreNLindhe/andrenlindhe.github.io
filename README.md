@@ -1,21 +1,18 @@
-# Elevpaket – Gränssnittsdesign och Webbutveckling 2026/27
+# Elevpaket
 
-Kursmaterialet till de två kurserna i klickbar form: uppgifter med kravlistor du kan bocka
-av, guider att slå upp i, och alla datum med nedräkning.
+Kursmaterialet i klickbar form: uppgifter med kravlistor du kan bocka av, guider att slå
+upp i, och alla datum med nedräkning.
 
-**Öppna paketet:** https://andrenlindhe.github.io/elevpaket/
+**Öppna paketet:** https://andrenlindhe.github.io/
 
 Du behöver inte ladda ner något. Sidan uppdateras när materialet uppdateras, så det finns
 ingen risk att du sitter med en gammal version.
 
-## Vad som finns här
+## Kurser
 
-| Sida | Vad du hittar |
+| Mapp | Kurs |
 |---|---|
-| `index.html` | Startsidan. Länkar vidare till varje område |
-| `datum.html` | Alla inlämningar och prov under läsåret, med nedräkning |
-| `gran-omrade-1/` | Gränssnittsdesign: gränssnitt, färg och bild |
-| `webb-omrade-1/` | Webbutveckling: webben som plattform |
+| `granssnitt-webb/` | Gränssnittsdesign och Webbutveckling, läsåret 2026/27 |
 
 Kryssrutorna sparas i din egen webbläsare. De skickas ingenstans, och de syns bara för dig
 — det är en anteckningshjälp, inte en inlämning.
@@ -27,6 +24,5 @@ Ladda ner mappen som zip via knappen **Code → Download ZIP**, packa upp och du
 
 ## För dig som undervisar
 
-Innehållet kommer från `.md`-filerna i kursrepot. Ändras en genomgång eller en uppgift
-ändras den där först, och HTML:en här uppdateras för hand efteråt. Kontrollera paketet med
-`kontrollera_paket.py` innan du pushar — noll fel är kravet.
+Det här är prod-repot. Kursmapparna är genererade kopior av dev-nodernas elevpaket och
+redigeras aldrig här — se [CLAUDE.md](CLAUDE.md) för hur publiceringen går till.
