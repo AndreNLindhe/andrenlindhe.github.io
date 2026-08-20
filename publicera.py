@@ -65,7 +65,10 @@ def dev_commit(kalla):
     Smutsig gäller bara källmappen, inte hela repot. En halvskriven genomgång i
     material/ ska inte hindra dig från att publicera en rättad uppgiftssida."""
     try:
-        commit = git(kalla, "rev-parse", "--short", "HEAD")
+        # Den senaste committen som rörde själva källmappen, inte dev-nodens HEAD.
+        # Då säger manifestet något om innehållet som ligger live, inte om när
+        # någon råkade skriva om en genomgång i en annan mapp.
+        commit = git(kalla, "log", "-1", "--format=%h", "--", str(kalla))
         status = git(kalla, "status", "--porcelain", "--", str(kalla))
         return commit, bool(status)
     except (subprocess.CalledProcessError, FileNotFoundError):
