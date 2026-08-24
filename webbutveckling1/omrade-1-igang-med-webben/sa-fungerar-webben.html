@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Så fungerar webben – Webbutveckling 1 område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-1-sa-fungerar-webben">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Uppgift</strong> · Så fungerar webben</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#avsnitt-1">1. Uppdraget</a></li>
+      <li><a href="#kraven">2. Kraven</a></li>
+      <li><a href="#avsnitt-3">3. Tekniska krav</a></li>
+      <li><a href="#avsnitt-4">4. Så bygger vi den</a></li>
+      <li><a href="#avsnitt-5">5. Tisdagens steg</a></li>
+      <li><a href="#avsnitt-6">6. Fredagens steg</a></li>
+      <li><a href="#avsnitt-7">7. Så lämnar du in</a></li>
+      <li><a href="#felsokning">8. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 1 · projekt</p>
+    <h1>Så fungerar webben</h1>
+    <p class="inledning">Din första webbplats. En sida som förklarar vad som händer när
+      någon skriver en adress och trycker enter – i fyra steg, med dina egna ord. Vi
+      bygger den tillsammans på fyra lektioner och publicerar den på den femte.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-09-04">
+        <span class="nar">4 sept</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Länken till ditt publika repo lämnas i itslearning-uppgiften.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="avsnitt-1">1. Uppdraget</h2>
+    <p>Du ska bygga en sida som förklarar kedjan från adress till färdig sida. Sidan går
+      igenom fyra steg, ett i taget: du skriver adressen, datorn slår upp namnet,
+      webbläsaren frågar servern, och servern svarar. Allt du behöver veta gick vi
+      igenom på måndagen, och det står i faktabladet
+      <a href="fran-adress-till-sida.html">Från adress till sida</a>.</p>
+    <p>Du sitter inte och tittar på när jag kodar. Du skriver samma sak som jag,
+      samtidigt, i ditt eget repo. Sista lektionen publiceras sidan med GitHub Pages och
+      blir din första publika webbplats.</p>
+    <p>Skriv så att någon som går i nian förstår. Den personen har aldrig hört ordet
+      DNS.</p>
+
+    <div class="notis">
+      <span class="rubrik">Så bedöms den</span>
+      <p>Det här projektet bedöms som deltagande och färdigställande – det sätter inget
+        betyg i egen rätt. Kraven är ändå indelade i tre nivåer, så att du vet vad
+        skillnaden mellan E, C och A innebär innan det räknas. Projekt 1 startar den
+        7 september, och då gör det det.</p>
+    </div>
+
+    <h2 id="kraven">2. Kraven</h2>
+    <p>Kryssa av allt eftersom. Kryssen sparas i din webbläsare.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Sidan ligger i <code>index.html</code> i mitt eget publika repo.</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Dokumentet har <code>&lt;!doctype html&gt;</code>, <code>&lt;html lang="sv"&gt;</code>, <code>&lt;head&gt;</code> och <code>&lt;body&gt;</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Sidan har en <code>header</code> med en <code>h1</code>, en <code>main</code> och en <code>footer</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Fyra <code>section</code> inuti <code>main</code>, en per steg, var och en med en <code>h2</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Minst ett stycke text under varje rubrik.</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Minst en bild med en <code>alt</code>-text som beskriver vad bilden visar.</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Minst en lista och minst en länk till en sida utanför min egen.</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Sidan är publicerad med GitHub Pages och adressen fungerar.</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>Repo-länken är inlämnad i itslearning senast fredag 4 september 23:59.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— mot nivå C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Texten är skriven med mina egna ord, inte avskriven från faktabladet.</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Varje steg har ett konkret exempel – en riktig adress, ett riktigt felmeddelande.</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Bilderna är mina egna, eller fritt använda med källan angiven i sidfoten.</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Sidan har en enkel form: läsbar text, luft mellan blocken, medvetna färger.</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Inget commit-meddelande lyder <code>update</code>. De säger vad jag gjorde.</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Jag har fyra commits eller fler, spridda över lektionerna.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— mot nivå A</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Sidan förklarar också vad som händer när något går fel: 404, 500 eller ingen uppkoppling alls.</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Jag har en egen figur som visar kedjan, inte bara text.</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Innehållsförteckning högst upp med ankarlänkar till de fyra stegen.</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>Sidan går att läsa på mobil utan att jag behöver zooma.</span></label></li>
+        <li><label><input type="checkbox" id="utm-5"><span>Jag kan förklara varje rad jag skrivit.</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="avsnitt-3">3. Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Så ska det vara</th></tr></thead>
+        <tbody>
+          <tr><td>Filnamn</td><td><code>index.html</code>, gemener, inga mellanslag</td></tr>
+          <tr><td>Plats</td><td>Repots rot. Byt inte namn på filen</td></tr>
+          <tr><td>Bilder</td><td>I mappen <code>bilder/</code>, gemener och bindestreck i filnamnen</td></tr>
+          <tr><td>Sökvägar</td><td>Relativa: <code>bilder/dns.png</code></td></tr>
+          <tr><td>Indrag</td><td>2 mellanslag</td></tr>
+          <tr><td>Språk</td><td>Svenska. <code>lang="sv"</code> ska stå kvar</td></tr>
+          <tr><td>Alt-text</td><td>Alla bilder har <code>alt</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="avsnitt-4">4. Så bygger vi den</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Datum</th><th>Vad vi gör</th></tr></thead>
+        <tbody>
+          <tr><td>tis 25/8</td><td><b>Struktur.</b> Dokumentets grund, fyra block, rubriker och din egen text</td></tr>
+          <tr><td>fre 28/8</td><td><b>Innehåll.</b> Bilder, listor och länkar</td></tr>
+          <tr><td>mån 31/8</td><td><b>Form.</b> Färg, typsnitt och avstånd</td></tr>
+          <tr><td>tis 1/9</td><td><b>Färdigställ.</b> Sista delarna, eget arbete med handledning</td></tr>
+          <tr><td>fre 4/9</td><td><b>Publicering.</b> GitHub Pages. Inlämning 23:59</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Hinner du inte klart på en lektion är det ingen katastrof. Nästa pass börjar med
+      tid för att komma ikapp, och du kan alltid jobba vidare hemma – ditt Codespace
+      finns kvar.</p>
+
+    <h2 id="avsnitt-5">5. Tisdagens steg</h2>
+    <p>Det här skriver vi tillsammans på tisdagen. Har du varit borta, eller vill du läsa
+      igen efteråt, står allt här.</p>
+
+    <p><b>Först:</b> öppna ditt Codespace från listan under <b>Code</b> →
+      <b>Codespaces</b>. Skapa inget nytt – klicka på det som redan finns. Öppna
+      <code>index.html</code> och ta bort rubriken du skrev i fredags.</p>
+
+    <p><b>Sedan skelettet.</b> Tre block som beskriver vad delarna är: toppen, det
+      viktiga innehållet, och foten.</p>
+
+<pre><code>&lt;body&gt;
+
+  &lt;header&gt;
+    &lt;h1&gt;Så fungerar webben&lt;/h1&gt;
+  &lt;/header&gt;
+
+  &lt;main&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;
+  &lt;/footer&gt;
+
+&lt;/body&gt;</code></pre>
+
+    <p><b>Sedan fyra avsnitt inuti <code>main</code></b>, ett per steg i kedjan. Så här
+      ser det första ut:</p>
+
+<pre><code>    &lt;section&gt;
+      &lt;h2&gt;1. Du skriver adressen&lt;/h2&gt;
+    &lt;/section&gt;</code></pre>
+
+    <p>De tre andra rubrikerna är <code>2. Datorn slår upp namnet</code>,
+      <code>3. Webbläsaren frågar servern</code> och <code>4. Servern svarar</code>.
+      Numren och ordningen ska vara kvar – formuleringen får du äga.</p>
+
+    <p><b>Sist texten.</b> Under varje <code>h2</code> lägger du ett stycke med
+      <code>p</code>:</p>
+
+<pre><code>    &lt;section&gt;
+      &lt;h2&gt;1. Du skriver adressen&lt;/h2&gt;
+      &lt;p&gt;Adressen består av flera delar. Protokollet säger vilka regler
+        som gäller, domännamnet är namnet någon har registrerat, och
+        sökvägen pekar ut var dokumentet ligger på servern.&lt;/p&gt;
+    &lt;/section&gt;</code></pre>
+
+    <div class="notis viktig">
+      <span class="rubrik">Två till fyra meningar per steg – dina egna ord</span>
+      <p>Det här är det enda i uppgiften som skiljer ett E från ett C. Den som skriver av
+        faktabladet ordagrant får ett E. Den som förklarar med egna ord och lägger till
+        ett exempel närmar sig C. Att slå upp är inte fusk. Att kopiera är det.</p>
+    </div>
+
+    <p><b>Innan du går:</b> spara med <kbd>Ctrl</kbd> + <kbd>S</kbd>, gå till
+      <b>Source Control</b>, klicka <kbd>+</kbd> på filen, skriv
+      <code>La till struktur och rubriker</code>, klicka <b>Commit</b> och sedan
+      <b>Sync Changes</b>. Ladda om repot på github.com och se att ändringen syns.</p>
+
+    <h2 id="avsnitt-6">6. Fredagens steg</h2>
+    <p>Det här skriver vi tillsammans på fredagen. Passet börjar med en kvart där du
+      skriver klart texten från tisdagen – hann du inte alla fyra styckena är det nu du
+      gör det.</p>
+
+    <p><b>Först en mapp för bilderna.</b> I filträdet till vänster, klicka
+      <b>New Folder</b> och döp mappen till <code>bilder</code>. Gemener, ingen versal,
+      inga mellanslag.</p>
+
+    <p><b>Sedan bilden.</b> Dra in bildfilen från skrivbordet till mappen
+      <code>bilder</code>. Fungerar inte drag-and-drop: högerklicka på mappen och välj
+      <b>Upload</b>. Filnamnet ska vara gemener med bindestreck i stället för mellanslag,
+      till exempel <code>dns.png</code> eller <code>fran-adress-till-sida.png</code>.</p>
+
+    <p><b>Nu bilden i koden</b>, inuti det <code>section</code> där den hör hemma:</p>
+
+<pre><code>    &lt;section&gt;
+      &lt;h2&gt;2. Datorn slår upp namnet&lt;/h2&gt;
+      &lt;p&gt;...&lt;/p&gt;
+      &lt;img src="bilder/dns.png" alt="Datorn frågar en DNS-server efter
+        numret till adressen och får tillbaka en IP-adress."&gt;
+    &lt;/section&gt;</code></pre>
+
+    <p><code>img</code> stängs inte – det finns inget <code>&lt;/img&gt;</code>. Allt
+      elementet behöver står i attributen. <code>src</code> är sökvägen:
+      <code>bilder/dns.png</code> betyder <i>mappen bilder, som ligger bredvid den här
+      filen, och filen dns.png i den</i>. <code>alt</code> beskriver vad bilden visar,
+      för den som inte kan se den.</p>
+
+    <div class="notis">
+      <span class="rubrik">Bilden blir enorm – det är rätt</span>
+      <p>Utan CSS visas bilden i sin egen storlek, och det kan vara halva skärmen. Leta
+        inte efter något att skriva för att krympa den. Storleken fixar vi på måndagen.</p>
+    </div>
+
+    <p><b>Sedan en lista.</b> Adressens delar är tre stycken, och tre saker i rad är en
+      lista snarare än en mening. Den hör hemma i steg 1:</p>
+
+<pre><code>      &lt;ul&gt;
+        &lt;li&gt;Protokollet – https, reglerna för hur frågan ställs&lt;/li&gt;
+        &lt;li&gt;Domännamnet – namnet någon har registrerat&lt;/li&gt;
+        &lt;li&gt;Sökvägen – var på servern dokumentet ligger&lt;/li&gt;
+      &lt;/ul&gt;</code></pre>
+
+    <p><code>ul</code> är listan, <code>li</code> är en rad i den, och raderna ligger
+      inuti listan. <code>ul</code> ger punkter, <code>ol</code> ger nummer – ordningen
+      är det enda som skiljer dem. En lista räcker. Blir alla fyra stegen punktlistor
+      finns det ingen text kvar att läsa.</p>
+
+    <p><b>Sist en länk ut från sidan.</b> Steg 4 handlar om statuskoder, så länken hör
+      hemma där:</p>
+
+<pre><code>      &lt;p&gt;Vill du se alla statuskoder finns de listade hos
+        &lt;a href="https://developer.mozilla.org/sv/docs/Web/HTTP/Status"&gt;MDN&lt;/a&gt;.&lt;/p&gt;</code></pre>
+
+    <p><code>href</code> är dit länken går, texten mellan taggarna är det du klickar på.
+      <b><code>https://</code> måste stå med</b> när länken går ut från din egen sida –
+      skriver du bara <code>developer.mozilla.org</code> letar webbläsaren efter en mapp
+      med det namnet i ditt eget repo, och du får 404. Skriv en länktext som säger vart
+      länken går. <code>MDN</code> fungerar, <code>klicka här</code> gör det inte: den
+      som får sidan uppläst hör bara <i>klicka här</i> och vet inte vad som väntar.</p>
+
+    <p>Är bilden någon annans, skriv var du hittade den i sidfoten:</p>
+
+<pre><code>    &lt;footer&gt;
+      &lt;p&gt;Av Ditt Namn, Webbutveckling 1, 2026&lt;/p&gt;
+      &lt;p&gt;Bild: &lt;a href="https://commons.wikimedia.org/"&gt;Wikimedia Commons&lt;/a&gt;&lt;/p&gt;
+    &lt;/footer&gt;</code></pre>
+
+    <div class="notis varna">
+      <span class="rubrik">Bildfilen måste committas den också</span>
+      <p>Bilden är en ny fil, inte en ändring i <code>index.html</code>. Lägger du bara
+        till <code>index.html</code> i <b>Source Control</b> fungerar sidan i ditt
+        Codespace men bilden blir trasig på GitHub – och det upptäcker du först på
+        inlämningsdagen. Klicka <kbd>+</kbd> på <b>båda</b> raderna, eller på rubriken
+        <b>Changes</b> som tar allt.</p>
+    </div>
+
+    <p><b>Innan du går:</b> spara, gå till <b>Source Control</b>, lägg till både
+      <code>index.html</code> och bildfilen, skriv
+      <code>La till bild, lista och länk</code>, klicka <b>Commit</b> och
+      <b>Sync Changes</b>. Ladda sedan om ditt repo på github.com och leta efter mappen
+      <code>bilder</code>. Syns den inte är bilden inte uppe.</p>
+
+    <h2 id="avsnitt-7">7. Så lämnar du in</h2>
+    <ol>
+      <li>Din kod är sparad, committad och synkad till GitHub.</li>
+      <li>Din sida är publicerad via GitHub Pages och du har provat adressen.</li>
+      <li>Länken till ditt publika repo är inlämnad i itslearning-uppgiften.</li>
+    </ol>
+
+    <div class="notis varna">
+      <span class="rubrik">Repot måste vara publikt</span>
+      <p>Ett privat repo ger 404 för alla utom dig, och då går det inte att rätta.
+        Kontrollera att det står <b>Public</b> under repots namn. Testa din länk i ett
+        privat fönster där du inte är inloggad – syns sidan är allt som det ska.</p>
+    </div>
+
+    <h2 id="felsokning">8. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: bild, syns inte, commit" autocomplete="off">
+      <p class="traffar" id="traffar-fel">13 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Rubriken syns inte på sidan</td><td>Den hamnade i <code>&lt;head&gt;</code> i stället för <code>&lt;header&gt;</code></td><td><code>head</code> är information om sidan, <code>header</code> är sidans topp. Flytta rubriken</td></tr>
+          <tr><td>Resten av sidan hamnar inuti ett block</td><td>En tagg är inte stängd</td><td>Leta efter snedstrecket. Varje öppnad tagg har en <code>&lt;/tagg&gt;</code></td></tr>
+          <tr><td>Åäö blev frågetecken</td><td>Raderna i <code>&lt;head&gt;</code> är borttagna</td><td>Ångra med <kbd>Ctrl</kbd> + <kbd>Z</kbd>. De raderna ska stå kvar</td></tr>
+          <tr><td>Inget händer när jag laddar om</td><td>Filen är inte sparad</td><td><kbd>Ctrl</kbd> + <kbd>S</kbd>. En prick i flikens namn betyder osparat</td></tr>
+          <tr><td>Mitt arbete från förra lektionen är borta</td><td>Du skapade ett nytt Codespace</td><td>Öppna det som redan finns i listan under <b>Code</b> → <b>Codespaces</b></td></tr>
+          <tr><td>Ändringen syns inte på github.com</td><td>Du committade men synkade inte</td><td>Klicka <b>Sync Changes</b> i Source Control</td></tr>
+          <tr><td>VS Code vägrar committa</td><td>Commit-meddelandet är tomt</td><td>Skriv vad du ändrade i rutan ovanför knappen</td></tr>
+          <tr><td>Min länk ger 404 för läraren</td><td>Repot är privat</td><td><b>Settings</b> → <b>General</b> → längst ned → <b>Change repository visibility</b> → <b>Make public</b></td></tr>
+          <tr><td>Bilden visas som en trasig ikon</td><td><code>src</code> pekar inte på något som finns</td><td>Jämför sökvägen i koden med filträdet, tecken för tecken. Ligger filen verkligen i <code>bilder/</code>?</td></tr>
+          <tr><td>Bilden syns i Codespace men är trasig på GitHub</td><td>Bildfilen är inte committad</td><td>Bildfilen är en egen fil. Lägg till den i <b>Source Control</b> också, committa och synka</td></tr>
+          <tr><td>Bilden funkar för mig men inte för andra</td><td>Versal eller mellanslag i filnamnet</td><td>Döp om filen till gemener med bindestreck, och ändra <code>src</code> så att det stämmer</td></tr>
+          <tr><td>Bilden täcker halva skärmen</td><td>Ingenting – sidan har ingen CSS än</td><td>Låt den vara. Storleken sätts på måndagens lektion</td></tr>
+          <tr><td>Min externa länk ger 404 i mitt eget repo</td><td><code>https://</code> saknas i <code>href</code></td><td>Ut från sidan kräver hela adressen: <code>https://example.se</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

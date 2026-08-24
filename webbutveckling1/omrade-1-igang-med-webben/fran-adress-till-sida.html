@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Från adress till sida – Webbutveckling 1 område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-1-adress-till-sida">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Faktablad</strong> · Från adress till sida</span>
+  <a href="#orden">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#avsnitt-1">1. Internet är inte webben</a></li>
+      <li><a href="#avsnitt-2">2. Klienten frågar, servern svarar</a></li>
+      <li><a href="#avsnitt-3">3. DNS – från namn till nummer</a></li>
+      <li><a href="#avsnitt-4">4. Adressens delar</a></li>
+      <li><a href="#kraven">5. Titta själv i DevTools</a></li>
+      <li><a href="#avsnitt-6">6. Vem stängs ute?</a></li>
+      <li><a href="#missforstand">7. Vanliga missförstånd</a></li>
+      <li><a href="#orden">8. Ord du ska kunna</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 1</p>
+    <h1>Från adress till sida</h1>
+    <p class="inledning">Vad som faktiskt händer mellan att du trycker enter och att
+      sidan syns. Det här är underlaget till projektet vi bygger tillsammans – sidan du
+      lämnar in ska förklara precis den här kedjan.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-09-04">
+        <span class="nar">4 sept</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Så fungerar webben. Länken till ditt publika repo lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="avsnitt-1">1. Internet är inte webben</h2>
+    <p>Det här är den skillnad som oftast blir fel, så ta den först. <b>Internet</b> är
+      näten och kablarna – vägarna. <b>Webben</b> är en av tjänsterna som åker på dem –
+      trafiken. E-post, spel och strömmad video använder samma vägar utan att vara
+      webben.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>År</th><th>Vad som hände</th></tr></thead>
+        <tbody>
+          <tr><td><b>1969</b></td><td>ARPANET kopplar ihop fyra amerikanska universitet.</td></tr>
+          <tr><td><b>1983</b></td><td>TCP/IP blir gemensamt språk för näten. Det är här internet börjar.</td></tr>
+          <tr><td><b>1989</b></td><td>Tim Berners-Lee skriver förslaget till webben på CERN.</td></tr>
+          <tr><td><b>1991</b></td><td>Första webbplatsen går live. Bara text och länkar – ingen CSS, ingen JavaScript.</td></tr>
+          <tr><td><b>1993</b></td><td>Webben släpps fri utan avgifter. Ingen äger den.</td></tr>
+          <tr><td><b>2007</b></td><td>Telefonen blir webbläsare. Mobilen går så småningom om datorn.</td></tr>
+          <tr><td><b>I dag</b></td><td>En webbplats är oftare en app än ett dokument.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Att det bara fanns HTML 1991 är värt att lägga märke till: kursen följer samma
+      ordning. Område 2 är struktur, område 3 är form, område 6 är beteende.</p>
+
+    <h2 id="avsnitt-2">2. Klienten frågar, servern svarar</h2>
+    <p><b>Klienten</b> är din webbläsare. Den frågar. <b>Servern</b> är en dator som står
+      påslagen dygnet runt. Den svarar. <b>HTTP</b> är reglerna för hur frågan och svaret
+      får se ut.</p>
+    <p>Ett anrop har alltid två delar: en förfrågan och ett svar. Servern gör ingenting
+      av sig själv – ingen sida kommer utan att någon har bett om den. Det som ser ut som
+      <i>en</i> sida är i själva verket ett dokument som i sin tur ber om bilder,
+      stilmallar och skript, var och en med sitt eget anrop.</p>
+
+    <p>Varje svar börjar med en <b>statuskod</b>. Fyra du kommer att möta:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kod</th><th>Betyder</th><th>Vems fel</th></tr></thead>
+        <tbody>
+          <tr><td><b>200</b></td><td>Här är den. Allt fungerade.</td><td>–</td></tr>
+          <tr><td><b>301</b></td><td>Sidan har flyttat, gå hit i stället.</td><td>–</td></tr>
+          <tr><td><b>404</b></td><td>Servern har ingen sådan sida.</td><td>Ditt. Felstavad sökväg eller raderad fil</td></tr>
+          <tr><td><b>500</b></td><td>Servern kraschade.</td><td>Serverns. Du kan inte göra något åt det</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">HTTPS är inte samma sak som "säker sajt"</span>
+      <p>HTTPS är samma HTTP, krypterat på vägen. Hänglåset betyder att ingen kan
+        tjuvlyssna eller ändra i det som skickas. Det betyder inte att den som äger
+        sajten är ärlig – bedragare har också hänglås.</p>
+    </div>
+
+    <h2 id="avsnitt-3">3. DNS – från namn till nummer</h2>
+    <p>Servrar har nummer, inte namn. <code>142.250.74.110</code> är en adress.
+      <code>google.com</code> är ett namn som någon måste slå upp åt dig. Den
+      uppslagningen heter <b>DNS</b>.</p>
+    <ol>
+      <li>Webbläsaren tittar i sitt eget minne. Har jag frågat nyligen?</li>
+      <li>Operativsystemet tittar i sitt.</li>
+      <li>Frågan går vidare till en namnserver, oftast internetleverantörens.</li>
+      <li>Den frågar uppåt tills någon svarar med rätt nummer.</li>
+      <li>Svaret sparas en stund. Nästa gång går det på millisekunder.</li>
+    </ol>
+    <p>Poängen är sista steget: uppslagningen görs nästan aldrig, för svaret ligger
+      sparat i flera lager. Det är också därför en ändrad DNS-post kan ta timmar att slå
+      igenom – gamla svar ligger kvar tills de går ut.</p>
+
+    <div class="notis">
+      <span class="rubrik">Vad DNS inte gör</span>
+      <p>DNS hämtar ingen sida. Den svarar på en enda fråga – vilket nummer har det här
+        namnet – och sedan är den klar. Först därefter går själva anropet iväg.</p>
+    </div>
+
+    <h2 id="avsnitt-4">4. Adressens delar</h2>
+    <p>Allt i adressfältet betyder något. Delarna kommer tillbaka i område 2, när du
+      börjar länka mellan dina egna sidor.</p>
+
+    <pre><code>https://www.example.se/kurser/webb/index.html?niva=1#krav</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Heter</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>https</code></td><td>Protokoll</td><td>Vilka regler som gäller, och om trafiken är krypterad</td></tr>
+          <tr><td><code>www</code></td><td>Subdomän</td><td>En del av namnet. Frivillig – inte magisk</td></tr>
+          <tr><td><code>example</code></td><td>Domännamn</td><td>Det någon har registrerat och betalar för</td></tr>
+          <tr><td><code>.se</code></td><td>Toppdomän</td><td>Vem som administrerar namnet</td></tr>
+          <tr><td><code>/kurser/webb/</code></td><td>Sökväg</td><td>Var på servern dokumentet ligger. Ofta en riktig mappstruktur</td></tr>
+          <tr><td><code>index.html</code></td><td>Filnamn</td><td>Utelämnar du det svarar servern med <code>index.html</code> ändå</td></tr>
+          <tr><td><code>?niva=1</code></td><td>Frågesträng</td><td>Extra information till servern</td></tr>
+          <tr><td><code>#krav</code></td><td>Fragment</td><td>En plats <i>på</i> sidan. Skickas aldrig till servern</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Två som är värda att minnas. <code>index.html</code> är förvalet – därför heter
+      startsidan så i den här kursen, och därför fungerar <code>example.se/kurser/</code>
+      utan filnamn. Och fragmentet lämnar aldrig din dator: servern får aldrig veta
+      vilken rubrik du hoppade till, det är webbläsaren som scrollar.</p>
+
+    <h2 id="kraven">5. Titta själv i DevTools</h2>
+    <p>Öppna en sajt som laddar mycket – en nyhetssajt fungerar bra – och gör det här
+      medan du har sidan uppe. Kryssen sparas i din webbläsare.</p>
+
+    <div class="notis">
+      <span class="rubrik">Så öppnar du</span>
+      <p>Tryck <kbd>F12</kbd>, eller högerklicka på sidan och välj <b>Inspektera</b>. Gå
+        till fliken <b>Network</b> (Nätverk) och ladda om med <kbd>F5</kbd>. Är listan
+        tom laddade du om innan verktyget var öppet – ladda om en gång till.</p>
+    </div>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Jag har öppnat DevTools och hittat fliken <b>Network</b>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Jag har laddat om sidan och sett listan fyllas med filer.</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Jag kan säga hur många filer sidan hämtade.</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Jag har klickat på den översta raden och hittat <b>Status Code</b>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Jag har framkallat en 404 genom att ändra i adressen med flit.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— mot nivå C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Jag kan peka ut vilken rad som är HTML-dokumentet, och förklara varför den ligger först.</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Jag har tittat på hur lång tid hela laddningen tog.</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Jag kan förklara skillnaden mellan 404 och 500 för en klasskamrat.</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Jag har jämfört två olika sajter och sett hur mycket antalet filer skiljer sig.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— mot nivå A</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Jag har hittat den största filen på sidan och vet vilken typ den är.</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Jag har läst <b>Request URL</b> och kan peka ut protokoll, domän och sökväg i den.</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Jag har hittat ett anrop som gick till en annan domän än sidans egen, och funderat på varför.</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="avsnitt-6">6. Vem stängs ute?</h2>
+    <p>Webben är inte bara teknik. Bank, vård, myndigheter och skola ligger där nu, och
+      det som är svårt att använda blir därmed svårt att leva med. <b>Digitalt
+      utanförskap</b> är inte bara att sakna internet – det är lika ofta att den som
+      byggde inte tänkte på dig.</p>
+    <ul>
+      <li>Den som ser dåligt, förstorar texten eller lyssnar på sidan i stället för att läsa.</li>
+      <li>Den som har en långsam eller dyr uppkoppling. En sida på 12 MB kostar pengar.</li>
+      <li>Den som har en gammal telefon och ingen möjlighet att byta.</li>
+      <li>Den som inte har någon dator alls och sköter allt i mobilen.</li>
+    </ul>
+    <p>Det här är skälet till att bilder ska ha <code>alt</code> och formulärfält ska ha
+      <code>label</code> i allt du lämnar in, från och med nästa vecka. Område 4 handlar
+      om ingenting annat.</p>
+
+    <h2 id="missforstand">7. Vanliga missförstånd</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland missförstånden</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missforstand" data-traffar="traffar-fel"
+             placeholder="till exempel: 404, DNS, www" autocomplete="off">
+      <p class="traffar" id="traffar-fel">8 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-missforstand">
+        <thead><tr><th>Det många tror</th><th>Så är det i stället</th></tr></thead>
+        <tbody>
+          <tr><td>Internet och webben är samma sak</td><td>Webben är en tjänst på internet, bland flera. Vägarna och trafiken</td></tr>
+          <tr><td>DNS hämtar sidan</td><td>DNS översätter bara namn till nummer. Sedan är den klar</td></tr>
+          <tr><td>Man måste ha <code>www</code></td><td><code>www</code> är en frivillig subdomän. Många sajter fungerar utan</td></tr>
+          <tr><td>404 betyder att internet är nere</td><td>Servern svarade – den hittade bara inte sidan. Kontakten fungerade</td></tr>
+          <tr><td>500 betyder att jag gjort fel</td><td>500 är serverns fel. Vid 404 kan du göra något, vid 500 inte</td></tr>
+          <tr><td>Hänglåset betyder att sajten går att lita på</td><td>HTTPS krypterar transporten. Sajten kan ändå ljuga</td></tr>
+          <tr><td>En sida är en fil</td><td>En sida är ett dokument plus allt det i sin tur begär</td></tr>
+          <tr><td>Adressfältet och sökrutan är samma sak</td><td>I adressfältet går du direkt. I sökrutan söker du</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="orden">8. Ord du ska kunna</h2>
+    <p>Orden nedan används resten av kursen utan att förklaras om. Träna på dem här –
+      knappen tar ett slumpat ord i taget.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>internet</b></td><td>Näten och kablarna som datorer pratar över. Vägarna</td></tr>
+          <tr><td><b>webben</b></td><td>Sidorna och länkarna som åker på internet. En tjänst bland flera</td></tr>
+          <tr><td><b>klient</b></td><td>Programmet som frågar. Din webbläsare</td></tr>
+          <tr><td><b>server</b></td><td>Datorn som svarar. Står påslagen dygnet runt</td></tr>
+          <tr><td><b>HTTP</b></td><td>Reglerna för hur en förfrågan och ett svar får se ut</td></tr>
+          <tr><td><b>HTTPS</b></td><td>Samma HTTP, krypterat på vägen</td></tr>
+          <tr><td><b>statuskod</b></td><td>Numret svaret börjar med. 200, 301, 404, 500</td></tr>
+          <tr><td><b>DNS</b></td><td>Uppslagningen som översätter ett namn till ett nummer</td></tr>
+          <tr><td><b>IP-adress</b></td><td>Numret en dator faktiskt nås på</td></tr>
+          <tr><td><b>domän</b></td><td>Det registrerade namnet, till exempel <code>example.se</code></td></tr>
+          <tr><td><b>toppdomän</b></td><td>Sista delen av namnet, till exempel <code>.se</code></td></tr>
+          <tr><td><b>sökväg</b></td><td>Delen efter domänen som pekar ut var dokumentet ligger</td></tr>
+          <tr><td><b>fragment</b></td><td>Delen efter <code>#</code>. En plats på sidan, skickas aldrig till servern</td></tr>
+          <tr><td><b>cache</b></td><td>Sparat svar som återanvänds i stället för att frågas om på nytt</td></tr>
+          <tr><td><b>DevTools</b></td><td>Webbläsarens inbyggda verktyg. Öppnas med <kbd>F12</kbd></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
