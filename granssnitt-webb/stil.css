@@ -167,6 +167,19 @@ pre {
   user-select: none;
   cursor: default;
 }
+
+/* Undantaget. Ett block märkt class="fri" går att markera och kopiera som vanligt.
+   Det är till för kod eleven inte ska träna på att skriva: en färdig mall hen fått,
+   en lång konfigurationsrad, något som ska klistras in någon annanstans.
+
+   Sätts medvetet, block för block. Exempelkod som eleven ska lära sig genom att
+   skriva av får aldrig ha den. */
+pre.fri {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  user-select: text;
+  cursor: auto;
+}
 pre code { background: none; padding: 0; }
 
 /* Självrättande tabell: svarskolumnen är suddad tills raden klickas. Texten finns

@@ -286,10 +286,13 @@
      följt av Ctrl+C), och drag av innehållet till ett annat fönster.
 
      Det här är en spärr, inte ett lås. Sidkällan finns kvar för den som letar.
-     Poängen är att göra genvägen medveten i stället för reflexmässig. */
+     Poängen är att göra genvägen medveten i stället för reflexmässig.
+
+     Ett block märkt class="fri" hoppas över helt: varken spärr eller märkning.
+     Används för kod eleven inte ska träna på att skriva. */
 
   kor(function () {
-    var block = Array.prototype.slice.call(document.querySelectorAll("pre"));
+    var block = Array.prototype.slice.call(document.querySelectorAll("pre:not(.fri)"));
     if (!block.length) { return; }
 
     block.forEach(function (pre) {
