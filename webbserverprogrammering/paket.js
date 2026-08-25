@@ -217,4 +217,104 @@
       }
     });
   });
+
+  /* ---------------- Självrättande tabell ----------------
+
+     En tabell märkt class="facit" döljer alla kolumner utom den första tills du
+     klickar på raden. Poängen är att den som läser hemma ska kunna svara först
+     och kontrollera sedan – samma ordning som klassen hade på lektionen.
+
+     data-dolj anger från vilken kolumn döljandet börjar. Utan attributet är det
+     kolumn 1, alltså allt utom den första. */
+
+  kor(function () {
+    var tabeller = Array.prototype.slice.call(document.querySelectorAll("table.facit"));
+    if (!tabeller.length) { return; }
+
+    tabeller.forEach(function (tabell) {
+      var fran = parseInt(tabell.dataset.dolj, 10);
+      if (isNaN(fran)) { fran = 1; }
+
+      var rader = Array.prototype.slice.call(tabell.querySelectorAll("tbody tr"));
+
+      function satt(rad, dolt) {
+        Array.prototype.forEach.call(rad.cells, function (cell, n) {
+          if (n >= fran) { cell.classList.toggle("dolt", dolt); }
+        });
+        rad.classList.toggle("visad", !dolt);
+      }
+
+      rader.forEach(function (rad) {
+        satt(rad, true);
+        /* satt() tar "ska vara dolt". Är raden redan visad ska klicket dölja den
+           igen, alltså skickas true – och tvärtom. */
+        rad.addEventListener("click", function () {
+          satt(rad, rad.classList.contains("visad"));
+        });
+      });
+
+      /* En knapp för den som hellre läser rakt av, till exempel vid repetition. */
+      var knapp = document.createElement("button");
+      knapp.type = "button";
+      knapp.className = "knapp tom";
+      knapp.textContent = "Visa alla svar";
+
+      var hallare = document.createElement("p");
+      hallare.className = "facitknapp";
+      hallare.appendChild(knapp);
+
+      var svep = tabell.closest(".tabellsvep") || tabell;
+      svep.parentNode.insertBefore(hallare, svep);
+
+      knapp.addEventListener("click", function () {
+        var allaVisade = rader.every(function (r) { return r.classList.contains("visad"); });
+        rader.forEach(function (r) { satt(r, allaVisade); });
+        knapp.textContent = allaVisade ? "Visa alla svar" : "Dölj svaren igen";
+      });
+    });
+  });
+
+  /* ---------------- Kod skrivs av för hand ----------------
+
+     Koden i elevpaketet ska skrivas av, inte kopieras. Avskrivningen är där en
+     stor del av inlärningen sker: du läser raden, håller den i huvudet, skriver
+     den och upptäcker vad du inte förstod. Klistrar du in den hoppar du över
+     precis det steget.
+
+     stil.css gör blocken omarkerbara. Här stängs de vägar som går runt en
+     markering: copy och cut när markeringen ändå råkat omfatta blocket (Ctrl+A
+     följt av Ctrl+C), och drag av innehållet till ett annat fönster.
+
+     Det här är en spärr, inte ett lås. Sidkällan finns kvar för den som letar.
+     Poängen är att göra genvägen medveten i stället för reflexmässig. */
+
+  kor(function () {
+    var block = Array.prototype.slice.call(document.querySelectorAll("pre"));
+    if (!block.length) { return; }
+
+    block.forEach(function (pre) {
+      /* Märkningen "skriv av" sätts bara på riktig kod, alltså block där språket
+         är angivet. Ett fenced block utan språk är en figur – en mappstruktur
+         eller ett schema – och där vore uppmaningen fel. Spärren nedan gäller
+         ändå båda. */
+      if (pre.querySelector("code[class*='sprak-']")) { pre.classList.add("kodruta"); }
+      pre.setAttribute("draggable", "false");
+
+      ["copy", "cut", "dragstart"].forEach(function (handelse) {
+        pre.addEventListener(handelse, function (e) { e.preventDefault(); });
+      });
+    });
+
+    /* En markering som börjar utanför blocket kan svepa in över det. Sveper den
+       förbi ett kodblock tas kodens text ändå inte med, eftersom user-select
+       utesluter den – men på webbläsare utan stöd för det fångas kopian här. */
+    document.addEventListener("copy", function (e) {
+      var val = window.getSelection();
+      if (!val || val.isCollapsed) { return; }
+      var traff = block.some(function (pre) {
+        return val.containsNode ? val.containsNode(pre, true) : false;
+      });
+      if (traff) { e.preventDefault(); }
+    });
+  });
 })();

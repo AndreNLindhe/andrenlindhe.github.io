@@ -157,47 +157,55 @@ pre {
   padding: 1rem 1.2rem;
   overflow-x: auto;
   line-height: 1.5;
-
-  /* Kod ska skrivas av, inte kopieras. Den som klistrar in lär sig ingenting,
-     och det syns direkt i nästa uppgift. Markering är därför avstängd.
-
-     Det här är en tröskel, inte ett lås: koden ligger kvar i sidans källa och
-     går att komma åt den vägen. Poängen är att kopiering ska vara ett medvetet
-     val i stället för det snabbaste. Skärmläsare påverkas inte – texten finns
-     kvar i dokumentet och läses upp som vanligt.
-
-     Undantag: sätt klassen .fri på ett pre-block som eleven faktiskt ska kunna
-     kopiera. Just nu finns inget sådant block. */
+  /* Kod i elevpaketet går inte att markera, och därmed inte att kopiera. Den ska
+     skrivas av för hand – avskrivningen är en del av inlärningen, inte ett hinder
+     på vägen till den. Gäller kodblock, inte <code> i löpande text: ett filnamn
+     eller ett kommando i en mening är inte det som ska tränas.
+     paket.js stoppar dessutom copy, cut och drag inuti blocket. */
   -webkit-user-select: none;
+  -moz-user-select: none;
   user-select: none;
-  position: relative;
+  cursor: default;
 }
 pre code { background: none; padding: 0; }
 
-/* Märkning så att den avstängda markeringen läses som avsiktlig och inte som
-   en trasig sida. aria-hidden i praktiken: ::before hamnar inte i tillgäng-
-   lighetsträdet, så skärmläsaren slipper etiketten. */
-pre:not(.fri)::before {
+/* Självrättande tabell: svarskolumnen är suddad tills raden klickas. Texten finns
+   kvar i DOM:en – det här är en övning, inte ett prov, och en skärmläsare ska
+   kunna nå svaret. Suddningen görs med genomskinlig text och en skugga, så att
+   raden behåller sin höjd och tabellen inte hoppar när svaret visas. */
+table.facit tbody tr { cursor: pointer; }
+table.facit td.dolt,
+table.facit td.dolt code {
+  color: transparent;
+  text-shadow: 0 0 0.55rem var(--dov);
+  user-select: none;
+}
+table.facit td.dolt code { background: none; }
+table.facit tbody tr:hover td.dolt { text-shadow: 0 0 0.35rem var(--dov); }
+table.facit tbody tr.visad { background: var(--webb-svag); }
+
+.facitknapp { margin: 0 0 1rem; }
+
+/* Sätts av paket.js på varje pre, så att eleven vet att det är avsiktligt och
+   inte en trasig sida. Ligger i blockets överkant, till höger. */
+.kodruta {
+  position: relative;
+}
+.kodruta::after {
   content: "skriv av";
   position: absolute;
   top: 0;
   right: 0;
-  padding: 0.15em 0.6em;
-  border-left: 1px solid var(--linje);
-  border-bottom: 1px solid var(--linje);
-  border-radius: 0 var(--rundning) 0 var(--rundning);
-  background: var(--papper);
-  color: var(--dov);
-  font-family: inherit;
-  font-size: 0.72rem;
+  padding: 0.15rem 0.6rem;
+  font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 0.7rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
-pre:not(.fri) { padding-top: 1.9rem; }
-
-pre.fri {
-  -webkit-user-select: text;
-  user-select: text;
+  color: var(--dov);
+  background: var(--linje);
+  border-bottom-left-radius: var(--rundning);
+  border-top-right-radius: var(--rundning);
+  pointer-events: none;
 }
 
 blockquote {
