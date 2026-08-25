@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projektets arkitektur: vilken fil gör vad</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o1-arkitekturen">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Referens</strong> · Projektets arkitektur</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#kedjan">1. Renderingskedjan</a></li>
+      <li><a href="#filerna">2. De sex filerna</a></li>
+      <li><a href="#egen-sida">3. Lägga till en egen sida</a></li>
+      <li><a href="#menyn">4. Menyn</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+      <li><a href="#orden">6. Orden</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 1 · lektion 4</p>
+    <h1>Projektets arkitektur: vilken fil gör vad</h1>
+    <p class="inledning">Sex filer gör om en förfrågan till en sida. Det här är den enda
+      gång under kursen som hela kedjan gås igenom samlat — allt senare bygger på att
+      den här bilden sitter.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du lektionen?</span>
+      <p>Du kan ta igen passet på egen hand. Gör i den här ordningen, och räkna med
+        ungefär två timmar:</p>
+      <ol>
+        <li>Läs <a href="#kedjan">kedjan</a> och <a href="#filerna">de sex filerna</a>
+          här. Ha ditt eget projekt öppet bredvid och leta upp varje fil medan du
+          läser. Att bara läsa texten räcker inte — hela poängen är att du öppnar
+          filerna.</li>
+        <li>Gör <a href="#egen-sida">avsnitt 3</a> och <a href="#menyn">4</a>: lägg
+          till en sida och en menypost. Prova att ta bort <code>@page</code> och se
+          404:an. Klassen gjorde exakt det tillsammans.</li>
+        <li>Gör <a href="guide.html#steg-3">guiden steg 3 till 8</a>. Det är samma
+          arbete som klassen hade 30 minuter på sig att påbörja.</li>
+        <li>Stäm av mot <a href="uppgift.html">uppgiftens krav</a>.</li>
+      </ol>
+      <p>Fastnar du på vägen: skriv i itslearning samma dag i stället för att vänta
+        till nästa pass. Inlämningen ligger onsdag 2 september.</p>
+    </div>
+
+    <h2 id="kedjan">1. Renderingskedjan</h2>
+    <p>En förfrågan kommer in. Servern går genom filerna i den här ordningen och
+      skickar tillbaka färdig HTML.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ordning</th><th>Fil</th><th>Ansvar</th><th>När den körs</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><code>Program.cs</code></td>
+            <td>Startar webbservern och bestämmer vad den kan svara på</td>
+            <td>En gång, vid uppstart</td></tr>
+          <tr><td>2</td><td><code>Components/App.razor</code></td>
+            <td>Själva HTML-dokumentet: <code>html</code>, <code>head</code> och <code>body</code></td>
+            <td>Vid varje förfrågan</td></tr>
+          <tr><td>3</td><td><code>Components/Routes.razor</code></td>
+            <td>Matchar adressen mot rätt sida. Ingen träff ger NotFound</td>
+            <td>Vid varje förfrågan</td></tr>
+          <tr><td>4</td><td><code>Components/Layout/MainLayout.razor</code></td>
+            <td>Ramen alla sidor delar: meny och innehållsyta</td>
+            <td>Vid varje förfrågan</td></tr>
+          <tr><td>5</td><td><code>Components/Pages/…</code></td>
+            <td>Sidan själv. Fyller <code>@Body</code> i layouten</td>
+            <td>Vid varje förfrågan</td></tr>
+          <tr><td>6</td><td><code>wwwroot/app.css</code></td>
+            <td>Utseendet</td>
+            <td>Eget anrop, efter att HTML:en kommit fram</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Den sista raden är den som förvånar</span>
+      <p>Stilmallen skickas <b>inte</b> som en del av HTML-sidan. Webbläsaren läser
+        <code>&lt;link&gt;</code> i <code>&lt;head&gt;</code> och gör ett helt eget anrop
+        efteråt. Öppna nätverksfliken (F12) och ladda om: två rader, en för sidan och en
+        för <code>app.css</code>, med varsin statuskod. Samma resa som du lärde dig på
+        lektion 2 — en gång per fil.</p>
+    </div>
+
+    <h2 id="filerna">2. De sex filerna</h2>
+    <p>Här är filerna ur referensprojektet, som de faktiskt ser ut. Leta upp
+      motsvarigheten i ditt eget projekt medan du läser.</p>
+
+    <h3>1. <code>Program.cs</code> — startar servern</h3>
+    <!-- kod: Program.cs -->
+    <pre><code class="sprak-csharp">using Webbresan.Components;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddRazorComponents();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
+app.UseHttpsRedirection();
+
+app.UseAntiforgery();
+
+app.MapStaticAssets();
+app.MapRazorComponents&lt;App&gt;();
+
+app.Run();</code></pre>
+    <p>Körs <b>en gång</b>, när servern startar. Inte per förfrågan. Tre rader att
+      känna igen:</p>
+    <ul>
+      <li><code>AddRazorComponents()</code> — anmäler att projektet har Razor-komponenter.</li>
+      <li><code>MapRazorComponents&lt;App&gt;()</code> — <i>vid varje förfrågan, börja i
+        <code>App</code></i>. Det är raden som kopplar ihop webbservern med din kod.</li>
+      <li><code>app.Run()</code> — nu lyssnar servern. Terminalen står kvar och väntar.</li>
+    </ul>
+    <p>Raderna däremellan är <b>pipelinen</b>: varje förfrågan passerar dem i tur och
+      ordning. <code>UseHttpsRedirection</code> skickar http till https,
+      <code>MapStaticAssets</code> levererar filer ur <code>wwwroot</code>.
+      <code>UseAntiforgery</code> och <code>UseStatusCodePagesWithReExecute</code>
+      kommer i område 5 och 7 — känn bara igen namnen nu.</p>
+
+    <div class="notis">
+      <span class="rubrik">Ordningen är beteendet</span>
+      <p>Ordningen i den här filen är ordningen sakerna sker i. Flyttar du en rad ändras
+        vad som händer. Det är inte en lista med inställningar, det är ett schema.</p>
+    </div>
+
+    <h3>2. <code>Components/App.razor</code> — HTML-dokumentet</h3>
+    <!-- kod: Components/App.razor -->
+    <pre><code class="sprak-razor">&lt;!DOCTYPE html&gt;
+&lt;html lang="sv"&gt;
+
+&lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+    &lt;base href="/" /&gt;
+    &lt;ResourcePreloader /&gt;
+    &lt;link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" /&gt;
+    &lt;link rel="stylesheet" href="@Assets["app.css"]" /&gt;
+    &lt;link rel="stylesheet" href="@Assets["Webbresan.styles.css"]" /&gt;
+    &lt;ImportMap /&gt;
+    &lt;link rel="icon" type="image/png" href="favicon.png" /&gt;
+    &lt;HeadOutlet /&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;Routes /&gt;
+    &lt;script src="@Assets["_framework/blazor.web.js"]"&gt;&lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+    <p>Här finns <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code> och
+      <code>&lt;body&gt;</code> — <b>en enda gång i hela projektet</b>. Enskilda sidor
+      innehåller aldrig <code>&lt;html&gt;</code>.</p>
+    <ul>
+      <li><code>lang="sv"</code> — vilket språk texten är skriven på. En skärmläsare
+        väljer uttal med det.</li>
+      <li><code>&lt;meta charset="utf-8" /&gt;</code> — raden som gör att åäö fungerar.</li>
+      <li><code>&lt;base href="/" /&gt;</code> — därför skrivs menylänkar utan inledande
+        snedstreck.</li>
+      <li><code>&lt;Routes /&gt;</code> — här stoppas den valda sidan in.</li>
+      <li><code>@Assets[…]</code> — ger filen ett versionsnummer så att webbläsaren inte
+        visar en gammal cachad stilmall.</li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">charset och lang är inte samma sak</span>
+      <p><code>charset</code> handlar om <b>tecken</b>: hur bytes tolkas, och det är den
+        raden som gör att <code>ö</code> inte blir <code>Ã¶</code>. <code>lang</code>
+        handlar om <b>språk</b>. En sida kan visa Å Ä Ö helt rätt och ändå läsas upp på
+        engelska. Mallen skriver <code>lang="en"</code> — kontrollera din egen fil.</p>
+    </div>
+
+    <h3>3. <code>Components/Routes.razor</code> — väljer sida</h3>
+    <!-- kod: Components/Routes.razor -->
+    <pre><code class="sprak-razor">&lt;Router AppAssembly="typeof(Program).Assembly" NotFoundPage="typeof(Pages.NotFound)"&gt;
+    &lt;Found Context="routeData"&gt;
+        &lt;RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" /&gt;
+        &lt;FocusOnNavigate RouteData="routeData" Selector="h1" /&gt;
+    &lt;/Found&gt;
+&lt;/Router&gt;</code></pre>
+    <p>Routern letar igenom projektet efter komponenter med <code>@page</code> och
+      matchar adressen mot dem.</p>
+    <ul>
+      <li><code>DefaultLayout</code> — vilken ram sidorna får om de inte säger annat.</li>
+      <li><code>NotFoundPage</code> — vad som visas när ingenting matchar. Det är den som
+        gav 404 på <code>/finns-inte</code>.</li>
+      <li><code>FocusOnNavigate</code> — flyttar tangentbordsfokus till
+        <code>&lt;h1&gt;</code> vid sidbyte, så att den som navigerar utan mus hamnar
+        rätt.</li>
+    </ul>
+
+    <h3>4. <code>Components/Layout/MainLayout.razor</code> — ramen</h3>
+    <!-- kod: Components/Layout/MainLayout.razor -->
+    <pre><code class="sprak-razor">@inherits LayoutComponentBase
+
+&lt;div class="page"&gt;
+    &lt;div class="sidebar"&gt;
+        &lt;NavMenu /&gt;
+    &lt;/div&gt;
+
+    &lt;main&gt;
+        &lt;div class="top-row px-4"&gt;
+            &lt;a href="https://learn.microsoft.com/aspnet/core/" target="_blank"&gt;About&lt;/a&gt;
+        &lt;/div&gt;
+
+        &lt;article class="content px-4"&gt;
+            @Body
+        &lt;/article&gt;
+    &lt;/main&gt;
+&lt;/div&gt;</code></pre>
+    <p><code>@Body</code> är hålet där sidan hamnar. Allt annat är samma på alla sidor —
+      det är därför menyn bara skrivs en gång.</p>
+
+    <h3>5. <code>Components/Pages/Home.razor</code> — sidan</h3>
+    <p>Sidan bidrar bara med sitt eget innehåll. Den innehåller <b>inte</b>
+      <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code> eller menyn — de kommer från
+      App.razor och MainLayout. Komponentens tre delar står på
+      <a href="renderingslagen.html#komponenten">referenssidan för lektion 3</a>, och hela
+      startsidans kod finns i <a href="guide.html#steg-3">guiden steg 3</a>.</p>
+
+    <h3>6. <code>wwwroot/app.css</code> — utseendet</h3>
+    <p>Skickas som en egen fil, efter HTML:en, på webbläsarens eget initiativ. Se
+      notisen om nätverksfliken ovan. Koden du lägger till här finns i
+      <a href="guide.html#steg-8">guiden steg 8</a>.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Kan du säga kedjan utan att titta? Program.cs → App.razor → Routes.razor →
+        MainLayout.razor → sidan, och app.css vid sidan om. Går det utan hjälp har du
+        passets viktigaste mål i hamn.</p>
+    </div>
+
+    <h2 id="egen-sida">3. Lägga till en egen sida</h2>
+    <p>Skapa en fil i <code>Components/Pages/</code>. Namnet på filen spelar ingen roll
+      för adressen — det är <code>@page</code> som bestämmer den.</p>
+    <pre><code class="sprak-razor">@page "/adressen"
+
+&lt;PageTitle&gt;Adressen – Webbresan&lt;/PageTitle&gt;
+
+&lt;h1&gt;Steg 1 och 2: adressen och DNS&lt;/h1&gt;
+
+&lt;p&gt;Här kommer förklaringen.&lt;/p&gt;</code></pre>
+    <p>Spara, starta om servern och gå till <code>/adressen</code>.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Gör det här en gång, med flit</span>
+      <p>Ta bort <code>@page</code>-raden och ladda om. Sidan ger 404. Utan
+        <code>@page</code> är filen en byggsten, inte en sida — routern hittar den inte.
+        Lägg tillbaka raden. Det här är den vanligaste felkällan i uppgiften, och den
+        sitter bättre om du framkallat den själv en gång.</p>
+    </div>
+
+    <h2 id="menyn">4. Menyn</h2>
+    <p>Öppna <code>Components/Layout/NavMenu.razor</code> och lägg till posten:</p>
+    <pre><code class="sprak-razor">&lt;div class="nav-item px-3"&gt;
+    &lt;NavLink class="nav-link" href="adressen"&gt;Adressen&lt;/NavLink&gt;
+&lt;/div&gt;</code></pre>
+    <ul>
+      <li><code>NavLink</code> är en komponent, inte <code>&lt;a&gt;</code>. Den märker
+        själv när den pekar på sidan du står på och markerar sig.</li>
+      <li><code>href="adressen"</code> utan snedstreck först — på grund av
+        <code>&lt;base href="/" /&gt;</code> i App.razor.</li>
+    </ul>
+    <p>Startsidans länk behöver ett tillägg till:</p>
+    <pre><code class="sprak-razor">&lt;div class="nav-item px-3"&gt;
+    &lt;NavLink class="nav-link" href="" Match="NavLinkMatch.All"&gt;Start&lt;/NavLink&gt;
+&lt;/div&gt;</code></pre>
+    <p><code>Match="NavLinkMatch.All"</code> behövs bara där. Utan den skulle länken till
+      <code>""</code> räknas som aktiv på <b>alla</b> sidor, eftersom varje adress börjar
+      med <code>/</code>. Ta bort den och ladda om, så ser du det.</p>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <p>Felen från det här momentet. Slå upp symptomet innan du fastnar.</p>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: 404, meny, RZ1006" autocomplete="off">
+      <p class="traffar" id="traffar-fel">7 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Ny sida ger 404</td><td><code>@page</code> saknas eller är felstavad</td>
+            <td>Första raden ska vara <code>@page "/adressen"</code></td></tr>
+          <tr><td>Sidan finns men saknar meny</td><td>Filen ligger utanför <code>Components/Pages/</code></td>
+            <td>Flytta filen dit</td></tr>
+          <tr><td>Menylänken går till fel adress</td><td>Snedstreck först i <code>href</code></td>
+            <td>Skriv <code>href="adressen"</code>, inte <code>href="/adressen"</code></td></tr>
+          <tr><td>Start markerad på alla sidor</td><td><code>Match="NavLinkMatch.All"</code> saknas</td>
+            <td>Lägg tillbaka den på startsidans NavLink</td></tr>
+          <tr><td><code>RZ1006</code> eller oväntat Razor-fel</td><td>Ett <code>@</code> i vanlig text, till exempel i en mejladress</td>
+            <td>Skriv <code>@@</code> för ett bokstavligt snabel-a</td></tr>
+          <tr><td>CSS-ändringen syns inte</td><td>Webbläsaren cachar stilmallen</td>
+            <td>Ctrl+F5</td></tr>
+          <tr><td>Sidan är tom men inget fel visas</td><td><code>@code</code>-blocket kraschade tyst</td>
+            <td>Titta i terminalen där <code>dotnet run</code> körs, inte i webbläsaren</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="orden">6. Orden</h2>
+    <p>Orden från det här passet. De används i uppgiften utan förklaring.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>renderingskedjan</b></td><td>Ordningen filerna körs i när en förfrågan blir en sida.</td></tr>
+          <tr><td><b>pipeline</b></td><td>Raderna i Program.cs som varje förfrågan passerar, i tur och ordning.</td></tr>
+          <tr><td><b>routing</b></td><td>Att matcha en adress mot rätt sida.</td></tr>
+          <tr><td><b>router</b></td><td>Komponenten i Routes.razor som gör matchningen.</td></tr>
+          <tr><td><b>layout</b></td><td>Ramen som alla sidor delar. Sidan stoppas in i <code>@Body</code>.</td></tr>
+          <tr><td><b>@Body</b></td><td>Platsen i layouten där den valda sidan hamnar.</td></tr>
+          <tr><td><b>NavLink</b></td><td>Länkkomponent som själv markerar sig när den pekar på sidan du står på.</td></tr>
+          <tr><td><b>NavLinkMatch.All</b></td><td>Kräver att hela adressen stämmer, inte bara början. Behövs på startsidans länk.</td></tr>
+          <tr><td><b>base href</b></td><td>Raden i App.razor som gör att länkar kan skrivas utan inledande snedstreck.</td></tr>
+          <tr><td><b>wwwroot</b></td><td>Mappen med filer som skickas ut som de är: CSS, bilder, ikoner.</td></tr>
+          <tr><td><b>statisk fil</b></td><td>En fil som levereras oförändrad, utan att kod kört.</td></tr>
+          <tr><td><b>NotFound</b></td><td>Sidan som visas när ingen route matchar. Ger statuskod 404.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="guide.html#steg-3">Vidare till guiden steg 3</a> ·
+        <a href="uppgift.html">Uppgiften</a> ·
+        <a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

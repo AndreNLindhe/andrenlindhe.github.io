@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Guide – Kom igång med GitHub och Codespaces</title>
+  <title>Guide – Kom igång med GitHub och VS Code</title>
   <link rel="stylesheet" href="../stil.css">
 </head>
 <body data-nyckel="webb-1-guide-github">
 
 <header class="topp">
   <a href="index.html">← Område 1</a>
-  <span class="harifran"><strong>Guide</strong> · GitHub och Codespaces</span>
+  <span class="harifran"><strong>Guide</strong> · GitHub och VS Code</span>
   <a href="#felsokning">Felsökning</a>
 </header>
 
@@ -20,21 +20,22 @@
     <p>Innehåll</p>
     <ol>
       <li><a href="#orden">1. Orden du behöver</a></li>
-      <li><a href="#acceptera">2. Acceptera en uppgift</a></li>
-      <li><a href="#codespace">3. Öppna ditt Codespace</a></li>
+      <li><a href="#repo">2. Skapa ditt repo från mallen</a></li>
+      <li><a href="#vscode">3. Öppna repot i VS Code</a></li>
       <li><a href="#spara">4. Commit och sync</a></li>
-      <li><a href="#pages">5. Publicera med GitHub Pages</a></li>
-      <li><a href="#flera-pass">6. Arbeta över flera pass</a></li>
-      <li><a href="#langre">7. Ta det längre</a></li>
-      <li><a href="#felsokning">8. Felsökning</a></li>
-      <li><a href="#snabbreferens">9. Snabbreferens</a></li>
+      <li><a href="#lamna-in">5. Lämna in: länken i itslearning</a></li>
+      <li><a href="#pages">6. Publicera med GitHub Pages</a></li>
+      <li><a href="#flera-pass">7. Arbeta över flera pass</a></li>
+      <li><a href="#langre">8. Ta det längre</a></li>
+      <li><a href="#felsokning">9. Felsökning</a></li>
+      <li><a href="#snabbreferens">10. Snabbreferens</a></li>
     </ol>
   </nav>
 
   <main>
 
     <p class="ledtext">Guide · Webbutveckling område 1</p>
-    <h1>Kom igång med GitHub och Codespaces</h1>
+    <h1>Kom igång med GitHub och VS Code</h1>
     <p class="inledning">Din uppslagsbok för allt som har med inlämningar att göra. Slå upp här
       när något krånglar i stället för att gissa. Guiden fungerar utan att du varit på
       lektionen.</p>
@@ -42,9 +43,10 @@
     <div class="notis">
       <span class="rubrik">Vad du kan efter guiden</span>
       <ul style="margin:0">
-        <li>Acceptera en uppgift i GitHub Classroom och hitta ditt eget repo</li>
-        <li>Öppna, stänga och återuppta ett Codespace utan att tappa arbete</li>
+        <li>Skapa ditt eget repo från kursens mall och hitta tillbaka till det</li>
+        <li>Klona repot till din dator och öppna det i VS Code</li>
         <li>Spara ditt arbete så att läraren faktiskt ser det</li>
+        <li>Lämna in på rätt sätt: länken i itslearning</li>
         <li>Publicera din sajt på en riktig adress</li>
         <li>Läsa av vad som gick fel när något inte syns</li>
       </ul>
@@ -56,68 +58,112 @@
         <thead><tr><th>Ord</th><th>Vad det betyder</th></tr></thead>
         <tbody>
           <tr><td><b>Repo</b> (repository)</td><td>En mapp som kommer ihåg allt du gjort med den. Ditt projekt</td></tr>
+          <tr><td><b>Mallrepo</b></td><td>Kursens färdiga startpunkt. Du kopierar den till ett eget repo</td></tr>
+          <tr><td><b>Klona</b></td><td>Hämta ner ditt repo från github.com till en mapp på din dator</td></tr>
           <tr><td><b>Commit</b></td><td>En sparpunkt. Du beskriver vad du ändrat och varför</td></tr>
           <tr><td><b>Sync</b> (push)</td><td>Skickar dina sparpunkter till github.com så att de syns för andra</td></tr>
-          <tr><td><b>Codespace</b></td><td>En färdig utvecklingsmiljö som körs i webbläsaren</td></tr>
+          <tr><td><b>VS Code</b></td><td>Programmet du skriver kod i. Ligger installerat på skoldatorn</td></tr>
           <tr><td><b>GitHub Pages</b></td><td>Gratis publicering av ditt repo som en riktig webbplats</td></tr>
           <tr><td><b>main</b></td><td>Namnet på huvudgrenen i ditt repo. Det är den som publiceras</td></tr>
         </tbody>
       </table>
     </div>
     <div class="notis viktig">
-      <p>Det viktigaste att förstå direkt: <b>commit och sync är två olika saker.</b> Du kan
-        committa hur mycket du vill utan att någon annan ser det. Först när du synkar hamnar
-        arbetet på github.com.</p>
+      <p>Det viktigaste att förstå direkt: <b>spara, committa och synka är tre olika saker.</b>
+        <kbd>Ctrl+S</kbd> sparar filen på din dator. En commit är en sparpunkt i historiken.
+        Först när du synkar hamnar arbetet på github.com.</p>
     </div>
 
-    <h2 id="acceptera">2. Acceptera en uppgift</h2>
-    <p>Varje uppgift börjar med en länk från läraren.</p>
+    <h2 id="repo">2. Skapa ditt repo från mallen</h2>
+    <p>Varje uppgift börjar med en länk till ett <b>mallrepo</b> i itslearning.</p>
     <ol>
-      <li>Klicka på länken.</li>
       <li>Logga in på GitHub. <b>Använd samma konto varje gång.</b></li>
-      <li>Välj ditt namn i listan första gången du accepterar en uppgift i kursen.</li>
-      <li>Klicka <kbd>Accept this assignment</kbd>.</li>
-      <li>Vänta några sekunder och ladda om sidan. Du får en länk till ditt eget repo.</li>
+      <li>Öppna mallrepot från länken i itslearning.</li>
+      <li>Klicka <kbd>Use this template</kbd> → <kbd>Create a new repository</kbd>.</li>
+      <li>Namnge repot. Använd uppgiftens namn, gemener och bindestreck:
+        <code>sa-fungerar-webben</code>.</li>
+      <li>Välj <kbd>Public</kbd>.</li>
+      <li>Klicka <kbd>Create repository</kbd>.</li>
     </ol>
-    <p>Repot heter något i stil med
-      <code>omrade-1-sa-fungerar-webben-dittanvandarnamn</code>. Det är ditt, ingen annan elev
-      ser det. Läraren ser det.</p>
-    <p><b>Har du inget GitHub-konto?</b> Skapa ett på github.com innan du klickar på länken.
-      Välj ett användarnamn du kan tänka dig att visa upp – det syns i adressen till allt du
-      publicerar.</p>
+    <p>Nu har du en egen kopia av mallen under ditt eget användarnamn. Adressen ser ut så här:</p>
+    <pre><code>https://github.com/dittanvandarnamn/sa-fungerar-webben</code></pre>
+    <div class="notis varna">
+      <p><b>Välj Public, inte Private.</b> GitHub Pages fungerar inte på privata repon med ett
+        gratiskonto, och det märks först när du ska publicera. Har du redan valt Private går
+        det att ändra i <kbd>Settings</kbd> längst ner under <b>Danger Zone</b>.</p>
+    </div>
+    <p><b>Har du inget GitHub-konto?</b> Skapa ett på github.com först. Välj ett användarnamn
+      du kan tänka dig att visa upp – det syns i adressen till allt du publicerar.</p>
     <div class="notis">
       <span class="rubrik">Prova själv</span>
       <p>Gå till github.com och leta upp ditt repo under <b>Your repositories</b>. Ligger det
-        inte där har du accepterat med fel konto. Säg till läraren, det går att rätta.</p>
+        inte där har du skapat det med ett annat konto. Logga in med rätt konto och gör om
+        steg 2–6.</p>
     </div>
 
-    <h2 id="codespace">3. Öppna ditt Codespace</h2>
-    <p>Ett Codespace är en dator i molnet med allt förinstallerat. Du behöver inte installera
-      något själv.</p>
+    <h2 id="vscode">3. Öppna repot i VS Code</h2>
+    <p>Du arbetar i VS Code på din egen dator, inte i webbläsaren. Filerna ligger i en mapp du
+      själv väljer, och du behöver hitta tillbaka till den varje pass.</p>
     <ol>
       <li>Gå till ditt repo på github.com.</li>
-      <li>Klicka på den gröna knappen <kbd>Code</kbd>.</li>
-      <li>Välj fliken <kbd>Codespaces</kbd>.</li>
-      <li>Klicka <kbd>Create codespace on main</kbd>.</li>
+      <li>Klicka på den gröna knappen <kbd>Code</kbd> och kopiera <b>HTTPS</b>-adressen.</li>
+      <li>Öppna VS Code.</li>
+      <li>Tryck <kbd>Ctrl+Shift+P</kbd> och skriv <code>Clone</code>. Välj
+        <kbd>Git: Clone</kbd>.</li>
+      <li>Klistra in adressen och tryck enter.</li>
+      <li>Välj en mapp du hittar tillbaka till. Lägg den inte i Hämtade filer.</li>
+      <li>Logga in på GitHub när VS Code frågar. Det gör du en gång.</li>
+      <li>Klicka <kbd>Open</kbd> när VS Code frågar om du vill öppna det klonade repot.</li>
     </ol>
-    <p>Första gången tar det en till två minuter. <b>Klicka inte igen</b> om det känns
-      långsamt – då startar du ett andra codespace och blandar ihop var filerna ligger.</p>
-    <p>När det öppnats ser du en filutforskare till vänster, en redigerare i mitten och en
-      terminal längst ner. Det är samma program som Visual Studio Code, fast i webbläsaren.</p>
+    <div class="notis viktig">
+      <p><b>Skriv upp sökvägen till mappen.</b> Nästa pass ska du öppna den, inte klona igen.</p>
+    </div>
 
     <h3>Förhandsvisa din sida</h3>
-    <p>Öppna <code>index.html</code>, högerklicka i filen och välj
-      <kbd>Open with Live Preview</kbd>, eller använd tillägget som redan finns installerat.
-      Sidan visas bredvid koden och uppdateras när du sparar.</p>
+    <p>Du behöver se sidan i en webbläsare medan du arbetar. Vi använder <b>Live Server</b>.</p>
+    <ol>
+      <li>Klicka på tilläggsikonen i VS Codes vänstermarginal.</li>
+      <li>Sök på <code>Live Server</code>, välj tillägget av Ritwick Dey och klicka
+        <kbd>Install</kbd>.</li>
+      <li>Högerklicka i <code>index.html</code> och välj <kbd>Open with Live Server</kbd>. Du
+        kan också klicka <kbd>Go Live</kbd> längst ner till höger i VS Code.</li>
+    </ol>
+    <p>Sidan öppnas i din vanliga webbläsare och laddas om av sig själv varje gång du sparar.
+      Adressen ser ut så här:</p>
+    <pre><code>http://127.0.0.1:5500/index.html</code></pre>
+    <div class="notis viktig">
+      <p>Att adressen börjar med <code>http://</code> och inte <code>file:///</code> är hela
+        poängen. Live Server är en riktig server som körs på din egen dator, så sökvägar och
+        filnamn beter sig som de gör på GitHub Pages. Öppnar du filen genom att dubbelklicka
+        på den i mappen får du <code>file:///</code>, och då kan saker fungera som sedan går
+        sönder vid publicering.</p>
+    </div>
+    <p><b>Stänga av:</b> klicka <kbd>Port: 5500</kbd> längst ner i VS Code.</p>
+
+    <h3>Webbläsarens egna verktyg</h3>
+    <p>Utöver Live Server behöver du inga fler tillägg. Resten sitter redan i webbläsaren:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Hur</th></tr></thead>
+        <tbody>
+          <tr><td>Öppna utvecklarverktygen</td><td><kbd>F12</kbd></td></tr>
+          <tr><td>Ladda om utan att använda sparad kopia</td><td><kbd>Ctrl+F5</kbd></td></tr>
+          <tr><td>Se sidans kod som webbläsaren tolkat den</td><td>DevTools, fliken <b>Elements</b></td></tr>
+          <tr><td>Se vad som hämtades och vad som misslyckades</td><td>DevTools, fliken <b>Nätverk</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Nätverksfliken går vi igenom på lektionen om protokoll och adresser. Den beskrivs också
+      i guiden <a href="guide-webbhistoria.html#enter">Så växte webben fram</a>.</p>
     <div class="notis varna">
-      <p><b>Förhandsvisningen är inte samma sak som den publicerade sidan.</b> Sökvägar kan
-        fungera i förhandsvisningen men gå sönder på GitHub Pages. Kontrollera alltid den
-        publicerade sidan innan du är klar.</p>
+      <p><b>Förhandsvisningen är ändå inte samma sak som den publicerade sidan.</b>
+        Kontrollera alltid den publicerade sidan innan du är klar.</p>
     </div>
 
     <h2 id="spara">4. Spara arbete: commit och sync</h2>
     <p>Det här är det enda i guiden du måste kunna utantill.</p>
     <ol>
+      <li>Spara filen med <kbd>Ctrl+S</kbd>. Det räcker inte, men utan det syns ingenting.</li>
       <li>Klicka på <b>källkontroll</b> i vänstermarginalen – ikonen med tre punkter och
         streck. Siffran visar hur många filer du ändrat.</li>
       <li>Skriv ett meddelande i rutan högst upp. Beskriv vad du gjort, inte att du gjort
@@ -125,9 +171,9 @@
       <li>Klicka <kbd>Commit</kbd>.</li>
       <li>Klicka <kbd>Sync Changes</kbd> (kan heta <kbd>Push</kbd>).</li>
     </ol>
-    <p>Ladda sedan om ditt repo på github.com. Ser du din ändring där är den inlämnad.</p>
-    <blockquote><b>Det som inte syns på github.com är inte inlämnat.</b> Läraren tittar på
-      github.com, inte i ditt codespace.</blockquote>
+    <p>Ladda sedan om ditt repo på github.com. Ser du din ändring där är den sparad på riktigt.</p>
+    <blockquote><b>Det som inte syns på github.com finns bara på din dator.</b> Läraren tittar
+      på github.com, inte i mappen hos dig.</blockquote>
 
     <h3>Hur ofta ska du committa?</h3>
     <p>Varje gång du blir klar med något som fungerar. En bra tumregel är tre till fem commits
@@ -141,7 +187,22 @@
         något att förlora.</p>
     </div>
 
-    <h2 id="pages">5. Publicera med GitHub Pages</h2>
+    <h2 id="lamna-in">5. Lämna in: länken i itslearning</h2>
+    <p>Att synka räcker inte för att uppgiften ska vara inlämnad. Läraren har ingen lista över
+      era repon – ni skapar dem själva under era egna konton.</p>
+    <div class="notis viktig">
+      <span class="rubrik">Det viktigaste</span>
+      <p><b>Klistra in länken till ditt repo i uppgiften i itslearning.</b> Adressen är den du
+        ser i adressfältet när du står på ditt repo.</p>
+    </div>
+    <pre><code>https://github.com/dittanvandarnamn/sa-fungerar-webben</code></pre>
+    <p>Det gör du <b>en gång per uppgift</b>, så snart repot finns. Sedan fortsätter du arbeta
+      och synka som vanligt – läraren följer samma länk och ser dina senaste ändringar. Du
+      behöver inte lämna in igen varje gång du ändrat något.</p>
+    <p>Har du också publicerat med GitHub Pages: lämna <b>båda</b> adresserna, repot och den
+      publicerade sidan.</p>
+
+    <h2 id="pages">6. Publicera med GitHub Pages</h2>
     <ol>
       <li>Gå till ditt repo på github.com.</li>
       <li>Klicka <kbd>Settings</kbd> överst.</li>
@@ -157,6 +218,7 @@
 
     <h3>Krav för att det ska fungera</h3>
     <ul>
+      <li>Repot måste vara <b>Public</b>.</li>
       <li>Startsidan måste heta <code>index.html</code> och ligga i repots rot.</li>
       <li>Sökvägar måste vara <b>relativa</b>: <code>bilder/logga.png</code>, inte
         <code>/bilder/logga.png</code> och inte <code>C:\Users\...</code>.</li>
@@ -166,25 +228,26 @@
       Din egen dator bryr sig inte om skillnaden mellan <code>Logga.png</code> och
       <code>logga.png</code>. Servern gör det.</p>
 
-    <h2 id="flera-pass">6. Arbeta över flera pass</h2>
-    <p>Ett codespace stängs ner automatiskt efter en halvtimmes inaktivitet. <b>Ditt arbete är
-      kvar</b> – men bara det du committat är säkert.</p>
+    <h2 id="flera-pass">7. Arbeta över flera pass</h2>
+    <p>Ditt arbete ligger i en mapp på din dator. <b>Bara det du synkat finns på github.com.</b></p>
     <p>Så här återupptar du:</p>
     <ol>
-      <li>Gå till ditt repo.</li>
-      <li><kbd>Code</kbd> → <kbd>Codespaces</kbd>.</li>
-      <li>Klicka på det codespace som redan finns i listan. Skapa inte ett nytt.</li>
+      <li>Öppna VS Code.</li>
+      <li><kbd>File</kbd> → <kbd>Open Recent</kbd> och välj mappen. Eller <kbd>File</kbd> →
+        <kbd>Open Folder</kbd> och leta upp den.</li>
+      <li>Klona inte igen. Klonar du en gång till får du två mappar och tappar bort vilken som
+        är den riktiga.</li>
     </ol>
     <div class="notis viktig">
       <span class="rubrik">Rutin som sparar dig mycket besvär</span>
-      <p><b>Först på passet:</b> öppna befintligt codespace, kontrollera att du är i rätt repo.<br>
+      <p><b>Först på passet:</b> öppna mappen, kontrollera att du är i rätt repo.<br>
         <b>Sista fem minuterna:</b> committa och synka. Alltid, även om du inte är klar.</p>
     </div>
-    <p>Codespaces har en månatlig gratiskvot. Stäng ner ditt codespace när du är klar för
-      dagen: <kbd>Code</kbd> → <kbd>Codespaces</kbd> → de tre punkterna →
-      <kbd>Stop codespace</kbd>. Då förbrukar det ingenting.</p>
+    <p><b>Byter du dator</b> – lånedator, hemmadator, ny skoldator – klonar du repot på nytt
+      där enligt avsnitt 3. Allt du synkat följer med. Det du inte synkat gör det inte. Det är
+      därför sista-fem-minuterna-regeln finns.</p>
 
-    <h2 id="langre">7. Ta det längre</h2>
+    <h2 id="langre">8. Ta det längre</h2>
     <p>Det här behöver du inte, men det gör arbetet smidigare.</p>
     <p><b>Läs din historik.</b> På github.com, klicka på <b>commits</b> ovanför fillistan. Du
       ser varje sparpunkt, vem som gjorde den och exakt vilka rader som ändrades. Klicka på en
@@ -192,7 +255,8 @@
     <p><b>Ångra till en tidigare version.</b> Har du förstört en fil kan du hämta tillbaka den
       gamla: öppna filen på github.com, klicka <b>History</b>, välj en tidigare version och
       kopiera innehållet.</p>
-    <p><b>Arbeta i terminalen.</b> Allt i källkontrollpanelen går att göra med kommandon:</p>
+    <p><b>Arbeta i terminalen.</b> Allt i källkontrollpanelen går att göra med kommandon. Öppna
+      terminalen i VS Code med <kbd>Ctrl+ö</kbd>:</p>
     <pre><code>git status                     # vad har ändrats?
 git add .                      # ta med alla ändringar
 git commit -m "Lade till DNS-avsnittet"
@@ -202,23 +266,29 @@ git push                       # skicka till github.com</code></pre>
       Skräpfiler som <code>.DS_Store</code> och <code>Thumbs.db</code> hör inte hemma i ett
       repo.</p>
 
-    <h2 id="felsokning">8. Felsökning</h2>
+    <h2 id="felsokning">9. Felsökning</h2>
     <div class="sok">
       <label for="sok-fel">Sök bland felen</label>
       <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
              placeholder="till exempel: 404, bild, syns inte" autocomplete="off">
-      <p class="traffar" id="traffar-fel">9 rader</p>
+      <p class="traffar" id="traffar-fel">15 rader</p>
     </div>
     <div class="tabellsvep">
       <table id="tabell-felsokning">
         <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
         <tbody>
           <tr><td>Läraren ser inte mitt arbete</td><td>Du har committat men inte synkat</td><td>Klicka <kbd>Sync Changes</kbd>. Kontrollera på github.com</td></tr>
-          <tr><td>Mitt repo finns inte i listan</td><td>Du accepterade med ett annat konto</td><td>Logga in med rätt konto, eller säg till läraren</td></tr>
-          <tr><td>Codespacet startar inte</td><td>Kvoten är slut, eller så hänger det</td><td>Stäng ner det gamla, starta nytt. Håller det i sig: säg till</td></tr>
-          <tr><td>Mina filer är borta</td><td>Du öppnade ett nytt codespace i stället för det gamla</td><td>Öppna det befintliga från <kbd>Code</kbd> → <kbd>Codespaces</kbd></td></tr>
+          <tr><td>Läraren hittar inte mitt repo alls</td><td>Du har inte lämnat länken i itslearning</td><td>Klistra in repots adress i uppgiften. Se avsnitt 5</td></tr>
+          <tr><td>Det finns ingen källkontrollpanel</td><td>Git är inte installerat på datorn</td><td>Säg till läraren. Utan Git går det inte att committa</td></tr>
+          <tr><td>Go Live syns inte längst ner i VS Code</td><td>Live Server är inte installerat</td><td>Installera tillägget. Se avsnitt 3</td></tr>
+          <tr><td>Sidan uppdateras inte när jag sparar</td><td>Du tittar på <code>file:///</code> i stället för Live Servers adress</td><td>Stäng fliken, högerklicka i <code>index.html</code>, <kbd>Open with Live Server</kbd></td></tr>
+          <tr><td>VS Code frågar efter inloggning om och om igen</td><td>Du loggade in med fel GitHub-konto</td><td><kbd>Ctrl+Shift+P</kbd> → <kbd>Sign Out</kbd>, logga in med rätt konto</td></tr>
+          <tr><td>Mitt repo finns inte under Your repositories</td><td>Du skapade det med ett annat konto</td><td>Logga in med rätt konto, eller gör om steg 2–6 i avsnitt 2</td></tr>
+          <tr><td>Mina filer är borta</td><td>Du öppnade fel mapp, eller klonade en andra gång</td><td><kbd>File</kbd> → <kbd>Open Recent</kbd> och leta rätt på mappen du arbetat i</td></tr>
+          <tr><td>Jag sitter vid en annan dator</td><td>Repot är klonat på den förra</td><td>Klona på nytt enligt avsnitt 3. Allt du synkat finns kvar</td></tr>
           <tr><td>Bilden syns lokalt men inte publicerat</td><td>Fel skiftläge i filnamnet eller absolut sökväg</td><td>Ändra till exakt samma namn, gemener, relativ sökväg</td></tr>
           <tr><td>Sidan visar 404 efter publicering</td><td>Startsidan heter inte <code>index.html</code>, eller ligger i en undermapp</td><td>Byt namn eller flytta filen till repots rot</td></tr>
+          <tr><td>Pages-fliken saknas i Settings</td><td>Repot är Private</td><td>Ändra till Public i <kbd>Settings</kbd> → <b>Danger Zone</b></td></tr>
           <tr><td>Ändringen syns inte på den publicerade sidan</td><td>Publiceringen tar upp till en minut, eller så cachar webbläsaren</td><td>Vänta, ladda sedan om med <kbd>Ctrl+F5</kbd></td></tr>
           <tr><td>Sidan är helt tom</td><td>Du tittar på repot, inte på Pages-adressen</td><td>Använd adressen från <kbd>Settings</kbd> → <kbd>Pages</kbd></td></tr>
           <tr><td>"Your changes would be overwritten"</td><td>Du har ändrat samma fil på två ställen</td><td>Fråga läraren. Committa inte över det</td></tr>
@@ -226,25 +296,31 @@ git push                       # skicka till github.com</code></pre>
       </table>
     </div>
 
-    <h2 id="snabbreferens">9. Snabbreferens</h2>
+    <h2 id="snabbreferens">10. Snabbreferens</h2>
 
     <h3>Vägen från idé till publicerad sida</h3>
-    <pre><code>acceptera uppgift  →  öppna codespace  →  skriv kod
-                                              ↓
-   publicerad sida  ←  GitHub Pages  ←  commit + sync</code></pre>
+    <pre><code>mallen  →  ditt repo  →  klona till VS Code  →  skriv kod
+                                                   ↓
+       publicerad sida  ←  GitHub Pages  ←  commit + sync
+                                                   ↓
+                                      länken i itslearning</code></pre>
 
     <h3>Knappar och var de finns</h3>
     <div class="tabellsvep">
       <table>
         <thead><tr><th>Vad du vill göra</th><th>Var</th></tr></thead>
         <tbody>
-          <tr><td>Skapa codespace</td><td>Repo → <kbd>Code</kbd> → Codespaces → Create</td></tr>
-          <tr><td>Öppna befintligt codespace</td><td>Repo → <kbd>Code</kbd> → Codespaces → klicka i listan</td></tr>
-          <tr><td>Committa</td><td>Codespace → källkontroll i vänstermarginalen</td></tr>
+          <tr><td>Skapa ditt repo</td><td>Mallrepot → <kbd>Use this template</kbd> → Create a new repository</td></tr>
+          <tr><td>Kopiera repots adress</td><td>Repo → <kbd>Code</kbd> → HTTPS</td></tr>
+          <tr><td>Klona till din dator</td><td>VS Code → <kbd>Ctrl+Shift+P</kbd> → <kbd>Git: Clone</kbd></td></tr>
+          <tr><td>Förhandsvisa sidan</td><td>Högerklicka i <code>index.html</code> → <kbd>Open with Live Server</kbd></td></tr>
+          <tr><td>Öppna utvecklarverktygen</td><td><kbd>F12</kbd> i webbläsaren</td></tr>
+          <tr><td>Öppna repot nästa pass</td><td>VS Code → <kbd>File</kbd> → <kbd>Open Recent</kbd></td></tr>
+          <tr><td>Committa</td><td>Källkontroll i vänstermarginalen</td></tr>
           <tr><td>Synka</td><td>Samma panel → <kbd>Sync Changes</kbd></td></tr>
+          <tr><td>Lämna in</td><td>itslearning → uppgiften → klistra in repots adress</td></tr>
           <tr><td>Slå på publicering</td><td>Repo → <kbd>Settings</kbd> → <kbd>Pages</kbd></td></tr>
           <tr><td>Se din historik</td><td>Repo → <b>commits</b> ovanför fillistan</td></tr>
-          <tr><td>Stänga codespace</td><td>Repo → <kbd>Code</kbd> → Codespaces → ⋯ → Stop</td></tr>
         </tbody>
       </table>
     </div>

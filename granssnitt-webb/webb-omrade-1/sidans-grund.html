@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sidans grund – Webbutveckling område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-1-sidans-grund">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Kodgenomgång</strong> · Sidans grund</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#dokumentet">1. Dokumentets grund</a></li>
+      <li><a href="#block">2. Semantiska block</a></li>
+      <li><a href="#rubriker">3. Rubriker och text</a></li>
+      <li><a href="#bilder">4. Bilder och länkar</a></li>
+      <li><a href="#hela">5. Hela sidan</a></li>
+      <li><a href="#checklista">6. Checklista mot kraven</a></li>
+      <li><a href="#felsokning">7. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling · område 1</p>
+    <h1>Sidans grund</h1>
+    <p class="inledning">Koden vi skriver på passet 1 september, rad för rad och med
+      förklaringar. Var du borta den dagen är det här du läser i kapp.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-09-02">
+        <span class="nar">2 sept</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Sidan ska vara publicerad och länken ligga i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Koden går inte att kopiera</span>
+      <p>Det är med flit. Du lär dig inte HTML av att klistra in den – du lär dig av att
+        skriva den, göra fel och se vad som händer. Exemplen här handlar dessutom om te,
+        inte om webben, så de går ändå inte att lämna in.</p>
+    </div>
+
+    <h2 id="dokumentet">1. Dokumentets grund</h2>
+    <p>Varje HTML-fil börjar likadant. De här sju raderna är skelettet – innan de finns
+      har du ingen sida.</p>
+    <pre><code>&lt;!doctype html&gt;
+&lt;html lang="sv"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Så kokar du te&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;!doctype html&gt;</code></td><td>Säger till webbläsaren att det här är modern HTML. Alltid först i filen</td></tr>
+          <tr><td><code>&lt;html lang="sv"&gt;</code></td><td>Sidan är på svenska. En skärmläsare behöver det för att uttala orden rätt</td></tr>
+          <tr><td><code>&lt;head&gt;</code></td><td>Sådant <b>om</b> sidan. Ingenting härifrån syns i fönstret</td></tr>
+          <tr><td><code>&lt;meta charset="utf-8"&gt;</code></td><td>Utan den blir å, ä och ö till frågetecken</td></tr>
+          <tr><td><code>&lt;title&gt;</code></td><td>Namnet i webbläsarfliken, och det sökmotorn visar som rubrik</td></tr>
+          <tr><td><code>&lt;body&gt;</code></td><td>Själva sidan. Allt som syns ligger här</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Skriv av de sju raderna och öppna sidan med Live Server. <b>Den är tom och vit.</b>
+        Det är rätt – allt du skrivit ligger i <code>&lt;head&gt;</code>, och
+        <code>&lt;body&gt;</code> är fortfarande tom. Titta på fliken högst upp i
+        webbläsaren: där står din <code>&lt;title&gt;</code>.</p>
+    </div>
+
+    <h2 id="block">2. Semantiska block</h2>
+    <p>Nu fylls <code>&lt;body&gt;</code>. Tre block räcker för hela uppgiften.</p>
+    <pre><code>  &lt;body&gt;
+    &lt;header&gt;
+      &lt;h1&gt;Så kokar du te&lt;/h1&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+      &lt;p&gt;Av Ditt Namn, Webbutveckling 1&lt;/p&gt;
+    &lt;/footer&gt;
+  &lt;/body&gt;</code></pre>
+
+    <p>Frågan du kommer att ställa är varför man inte bara använder
+      <code>&lt;div&gt;</code> till allt. Svaret hänger ihop med <i>användaragent</i> från
+      lektionen om webben som plattform:</p>
+    <blockquote>Alla besökare är inte människor med ögon. En skärmläsare som möter
+      <code>&lt;main&gt;</code> kan hoppa direkt till innehållet och slippa toppen. Möter
+      den bara <code>&lt;div&gt;</code> vet den ingenting.</blockquote>
+
+    <h2 id="rubriker">3. Rubriker och text</h2>
+    <p>Skriv alla rubrikerna först, innan du skriver en enda mening brödtext. Då står
+      strukturen även om du inte hinner klart.</p>
+    <pre><code>    &lt;main&gt;
+      &lt;p&gt;Det tar fem minuter och kräver inga specialverktyg.&lt;/p&gt;
+
+      &lt;h2&gt;1. Koka vattnet&lt;/h2&gt;
+      &lt;p&gt;Fyll kokaren med färskt vatten.&lt;/p&gt;
+
+      &lt;h2&gt;2. Välj te&lt;/h2&gt;
+      &lt;p&gt;Svart te vill ha kokande vatten.&lt;/p&gt;
+    &lt;/main&gt;</code></pre>
+
+    <p>Två regler om rubriker, och de gäller i hela kursen:</p>
+    <ul>
+      <li><b>En <code>&lt;h1&gt;</code> per sida.</b> Det är sidans namn.</li>
+      <li><b>Hoppa inte över nivåer.</b> Efter <code>&lt;h1&gt;</code> kommer
+        <code>&lt;h2&gt;</code>, inte <code>&lt;h3&gt;</code>.</li>
+    </ul>
+    <div class="notis varna">
+      <p><b>Använd inte rubriker för att få stor text.</b> Rubrikerna är sidans
+        innehållsförteckning, inte textstorlekar. En skärmläsare kan lista alla rubriker
+        och hoppa mellan dem – gör du dem i fel ordning blir listan obrukbar.</p>
+    </div>
+
+    <h2 id="bilder">4. Bilder och länkar</h2>
+    <p>Bilden ligger i mappen <code>bilder/</code> och länkas relativt:</p>
+    <pre><code>      &lt;img src="bilder/stegen.svg"
+           alt="Fem steg i följd: koka vatten, välj te, mät upp, låt dra, ta upp teet"&gt;</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad du behöver veta</th></tr></thead>
+        <tbody>
+          <tr><td><code>src</code></td><td>Relativ sökväg: <i>mappen bilder, härifrån räknat</i>. Skriv aldrig <code>C:\Users\…</code> – den sökvägen finns bara på din dator</td></tr>
+          <tr><td><code>alt</code></td><td>Vad någon som inte ser bilden får i stället. Beskriv vad bilden <b>visar</b>, inte att det är en bild</td></tr>
+          <tr><td>Filnamnet</td><td>Måste stämma exakt. <code>Stegen.svg</code> och <code>stegen.svg</code> är samma fil hos dig och två olika på servern</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Länken skrivs så här:</p>
+    <pre><code>      &lt;p&gt;Läs mer hos
+        &lt;a href="https://www.livsmedelsverket.se/"&gt;Livsmedelsverket&lt;/a&gt;.&lt;/p&gt;</code></pre>
+    <p>Texten mellan taggarna är det som syns och det en skärmläsare läser upp. Skriv vart
+      länken går – aldrig <i>klicka här</i>.</p>
+
+    <h2 id="hela">5. Hela sidan</h2>
+    <p>Allt ovan sammansatt. Det är den här filen som ligger i områdets
+      <code>referensprojekt/</code>, och det är så din egen sida ska se ut – fast om de fem
+      stegen från adress till färdig sida, inte om te.</p>
+    <pre><code>&lt;!doctype html&gt;
+&lt;html lang="sv"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Så kokar du te&lt;/title&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;header&gt;
+      &lt;h1&gt;Så kokar du te&lt;/h1&gt;
+      &lt;p&gt;En sida för dig som aldrig gjort det förut.&lt;/p&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+      &lt;p&gt;Det tar fem minuter och kräver inga specialverktyg.&lt;/p&gt;
+
+      &lt;h2&gt;1. Koka vattnet&lt;/h2&gt;
+      &lt;p&gt;Fyll kokaren med färskt vatten.&lt;/p&gt;
+
+      &lt;h2&gt;2. Välj te&lt;/h2&gt;
+      &lt;p&gt;Svart te vill ha kokande vatten.&lt;/p&gt;
+
+      &lt;h2&gt;Stegen i en bild&lt;/h2&gt;
+      &lt;img src="bilder/stegen.svg" alt="Fem steg i följd"&gt;
+
+      &lt;h2&gt;Läs mer&lt;/h2&gt;
+      &lt;p&gt;&lt;a href="https://www.livsmedelsverket.se/"&gt;Livsmedelsverket&lt;/a&gt;&lt;/p&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+      &lt;p&gt;Av Ditt Namn · Webbutveckling 1&lt;/p&gt;
+    &lt;/footer&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <h2 id="checklista">6. Checklista mot kraven</h2>
+    <p>Samma ska-krav som i uppgiften, fast sorterade efter var i koden de sitter. Bocka av
+      medan du bygger.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="grund-krav">Finns i din <code>index.html</code>?</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="grund-1"><span><code>&lt;!doctype html&gt;</code> på första raden</span></label></li>
+        <li><label><input type="checkbox" id="grund-2"><span><code>lang="sv"</code> på <code>&lt;html&gt;</code></span></label></li>
+        <li><label><input type="checkbox" id="grund-3"><span><code>&lt;meta charset="utf-8"&gt;</code> och å ä ö visas rätt</span></label></li>
+        <li><label><input type="checkbox" id="grund-4"><span>En <code>&lt;title&gt;</code> som beskriver sidan</span></label></li>
+        <li><label><input type="checkbox" id="grund-5"><span><code>&lt;header&gt;</code>, <code>&lt;main&gt;</code> och <code>&lt;footer&gt;</code></span></label></li>
+        <li><label><input type="checkbox" id="grund-6"><span>En <code>&lt;h1&gt;</code> och en <code>&lt;h2&gt;</code> per steg</span></label></li>
+        <li><label><input type="checkbox" id="grund-7"><span>Brödtext under varje rubrik</span></label></li>
+        <li><label><input type="checkbox" id="grund-8"><span>En bild med <code>alt</code>, i mappen <code>bilder/</code></span></label></li>
+        <li><label><input type="checkbox" id="grund-9"><span>En länk till en källa, med text som säger vart den går</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="felsokning">7. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: bild, tom, å ä ö" autocomplete="off">
+      <p class="traffar" id="traffar-fel">8 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Sidan är helt tom och vit</td><td>Allt ligger i <code>&lt;head&gt;</code>, eller <code>&lt;body&gt;</code> är tom</td><td>Innehållet ska ligga mellan <code>&lt;body&gt;</code> och <code>&lt;/body&gt;</code></td></tr>
+          <tr><td>å, ä och ö blir frågetecken</td><td><code>&lt;meta charset="utf-8"&gt;</code> saknas</td><td>Lägg den först i <code>&lt;head&gt;</code></td></tr>
+          <tr><td>Halva sidan har fel utseende</td><td>En tagg är inte stängd</td><td>Leta efter den tagg VS Code färgar rött. Kontrollera indenteringen</td></tr>
+          <tr><td>Bilden visas som en trasig ikon</td><td>Fel sökväg eller fel skiftläge i filnamnet</td><td>Filen ska ligga i <code>bilder/</code> och heta exakt som i <code>src</code></td></tr>
+          <tr><td>Bilden syns hos mig men inte publicerat</td><td>Absolut sökväg, eller stor bokstav i filnamnet</td><td>Ta bort inledande <code>/</code>. Använd gemener</td></tr>
+          <tr><td>Rubrikerna ser inte ut som rubriker</td><td>Du skrev <code>&lt;h2&gt;</code> men glömde stänga med <code>&lt;/h2&gt;</code></td><td>Varje rubrik behöver både öppnande och stängande tagg</td></tr>
+          <tr><td>Live Server visar en gammal version</td><td>Filen är inte sparad</td><td><kbd>Ctrl+S</kbd>, sidan laddas om av sig själv</td></tr>
+          <tr><td>Läraren ser inte mitt arbete</td><td>Du har committat men inte synkat</td><td><kbd>Sync Changes</kbd>, kontrollera sedan på github.com</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a> ·
+        <a href="uppgift.html">Uppgiften</a> ·
+        <a href="guide-github.html">Guide: GitHub och VS Code</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

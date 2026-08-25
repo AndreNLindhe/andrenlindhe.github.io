@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designportföljen i Figma – Gränssnittsdesign område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="gran-1-designportfolj">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Gränssnittsdesign · område 1</strong> · Designportföljen i Figma</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#skapa">1. Skapa filen</a></li>
+      <li><a href="#sidorna">2. De tre sidorna</a></li>
+      <li><a href="#filnamn">3. Filnamn som håller</a></li>
+      <li><a href="#klart">4. Klart när</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Gränssnittsdesign · område 1</p>
+    <h1>Designportföljen i Figma</h1>
+    <p class="inledning">En enda Figma-fil följer med dig hela läsåret. Allt du lämnar in
+      i kursen kommer att ligga i den. Du sätter upp den en gång, på lektionen 24 augusti,
+      och sedan lägger du bara till sidor.</p>
+
+    <h2 id="skapa">1. Skapa filen</h2>
+    <p>Logga in på Figma med <b>skolkontot</b>, inte med ett privat konto. Privata konton
+      tappar du åtkomsten till när kursen är slut, och då är hela läsårets arbete borta.</p>
+    <p>Skapa en ny designfil och döp den till <b>Designportfölj – förnamn efternamn</b>,
+      med ditt eget namn. Namnet är hur jag hittar din fil bland trettio andra, så det
+      spelar roll att det ser likadant ut hos alla.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Öppna filen i en ny flik och lägg till den bland dina bokmärken direkt. Du kommer
+        att öppna den varje vecka fram till jul.</p>
+    </div>
+
+    <h2 id="sidorna">2. De tre sidorna</h2>
+    <p>En Figma-fil kan innehålla flera sidor, ungefär som flikar i ett kalkylark. Panelen
+      med sidorna ligger uppe till vänster. Skapa de här tre nu, med siffrorna först så att
+      de hamnar i rätt ordning:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sida</th><th>Vad som ska ligga där</th><th>När</th></tr></thead>
+        <tbody>
+          <tr><td><b>01 Bildpaket</b></td><td>Bilderna från område 1, med exportlogg och
+            källförteckning</td><td>augusti–september</td></tr>
+          <tr><td><b>02 Ikoner</b></td><td>Ikonsetet och ordmärket från område 2</td>
+            <td>september</td></tr>
+          <tr><td><b>03 Stilguide</b></td><td>Färger, typografi och komponenter från
+            område 3</td><td>oktober–november</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Fler sidor kommer efter hand. Döp dem på samma sätt: tvåsiffrigt nummer, mellanslag,
+      namn.</p>
+
+    <h2 id="filnamn">3. Filnamn som håller</h2>
+    <p>Från och med nu gäller samma namnstandard på allt du sparar i kursen, både Figma-sidor
+      och filer på datorn:</p>
+    <ul>
+      <li>Bara gemener: <code>torg-kvall-01.psd</code>, inte <code>Torg Kväll 01.psd</code>.</li>
+      <li>Bindestreck i stället för mellanslag.</li>
+      <li>Inga å, ä eller ö, och inga andra specialtecken.</li>
+      <li>Ingen versionering i namnet av typen <code>slutgiltig-ny-2</code>. Spara över.</li>
+    </ul>
+    <p>Skälet är inte ordning för ordningens skull. När filerna senare ska ligga på en
+      webbserver är det de här tecknen som annars går sönder i adressen – det arbetar ni
+      med i Webbutveckling.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="klart">4. Klart när <span style="color:var(--dov);font-weight:400">— gör
+          det här innan du går från lektionen</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Du är inloggad i Figma med
+          skolkontot.</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Filen heter <b>Designportfölj –
+          förnamn efternamn</b> med ditt namn.</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>De tre sidorna finns:
+          <b>01 Bildpaket</b>, <b>02 Ikoner</b>, <b>03 Stilguide</b>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Du hittar tillbaka till filen
+          utan att leta.</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Du ser inte panelen med sidor</td><td>Lagerpanelen är hopfälld</td>
+            <td>Klicka på pilen bredvid filnamnet uppe till vänster</td></tr>
+          <tr><td>Du hamnade i en fil som heter <i>Untitled</i></td>
+            <td>Filen skapades men döptes aldrig</td>
+            <td>Dubbelklicka på namnet högst upp och skriv rätt namn</td></tr>
+          <tr><td>Filen ligger under fel konto</td><td>Du var inloggad privat</td>
+            <td>Logga ut, logga in med skolkontot och skapa filen på nytt. Har du hunnit
+              arbeta i den: säg till, så flyttar vi innehållet</td></tr>
+          <tr><td>Sidorna hamnar i fel ordning</td><td>Numret saknas eller är ensiffrigt</td>
+            <td>Döp om till <code>01</code>, <code>02</code>, <code>03</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

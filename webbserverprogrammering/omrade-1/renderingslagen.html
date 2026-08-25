@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blazor Web App och renderingslägen</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o1-renderingslagen">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Referens</strong> · Renderingslägen</span>
+  <a href="#var-kors">Var körs raden?</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#komponenten">1. Komponenten</a></li>
+      <li><a href="#sidkallan">2. Vad webbläsaren får</a></li>
+      <li><a href="#lagen">3. De två renderingslägena</a></li>
+      <li><a href="#var-kors">4. Var körs raden?</a></li>
+      <li><a href="#orden">5. Orden</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 1 · lektion 3</p>
+    <h1>Blazor Web App och renderingslägen</h1>
+    <p class="inledning">Sidan som svarar på vad <code>-int None</code> gjorde med ditt projekt.
+      Här står vad en Razor-komponent består av, varför ingen C# hamnar i webbläsaren, och hur
+      du avgör var en enskild rad körs.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du lektionen?</span>
+      <p>Passet var en genomgång utan eget kodande, så du kan ta igen det här på sidan.
+        Räkna med 45 minuter:</p>
+      <ol>
+        <li>Läs avsnitt 1 till 3. Ha ditt eget projekt öppet och leta upp
+          <code>Components/Pages/Home.razor</code> medan du läser avsnitt 1.</li>
+        <li>Gör de två <b>Prova själv</b>-rutorna på riktigt. Sidkällan i avsnitt 2 är
+          passets kärna — den ska du ha sett med egna ögon, inte bara läst om.</li>
+        <li>Gör övningen i <a href="#var-kors">avsnitt 4</a> innan du tittar på svaren.
+          Det var den klassen gjorde i par.</li>
+      </ol>
+      <p>Sedan är du ikapp. Nästa pass bygger vidare härifrån utan att repetera det.</p>
+    </div>
+
+    <h2 id="komponenten">1. Komponenten</h2>
+    <p>En <b>Razor-komponent</b> är en fil med ändelsen <code>.razor</code>. Den innehåller HTML
+      och C# i samma fil, och tecknet <code>@</code> är växeln mellan dem. Så här ser början av
+      <code>Components/Pages/Home.razor</code> ut:</p>
+
+<pre><code class="sprak-razor">@page "/"
+
+&lt;h1&gt;Vad händer när du trycker enter?&lt;/h1&gt;
+
+&lt;p class="bevis"&gt;
+    Sidan skapades &lt;strong&gt;@byggdes.ToString("HH:mm:ss")&lt;/strong&gt;
+&lt;/p&gt;
+
+@code {
+    private DateTime byggdes = DateTime.Now;
+}</code></pre>
+
+    <p>Filen har tre delar, och de återkommer i varje komponent du skriver:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>@page "/"</code></td>
+            <td>Gör filen till en sida och bestämmer på vilken adress den nås. Utan den raden är
+              filen en byggsten som andra sidor kan använda, men den går inte att nå direkt.
+              Sådana byggstenar gör vi i område 3.</td></tr>
+          <tr><td>Markupen</td>
+            <td>Vanlig HTML. Ett <code>@</code> mitt i byter över till C#, och det som C#-koden
+              räknar ut hamnar på den platsen i sidan.</td></tr>
+          <tr><td><code>@code { }</code></td>
+            <td>C#-koden som hör till just den här sidan. Fält, variabler och metoder.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Öppna <code>Components/Pages/Home.razor</code> i ditt eget projekt och leta upp de tre
+        delarna. Har din fil ingen <code>@code</code>-del än? Då finns det heller ingenting på
+        sidan som ändras när du laddar om.</p>
+    </div>
+
+    <h2 id="sidkallan">2. Vad webbläsaren får</h2>
+    <p>Det här är passets viktigaste punkt: <b>ingen av raderna du skriver i C# kommer fram till
+      webbläsaren.</b> Servern kör koden först och skickar bara resultatet.</p>
+
+    <p>Högerklicka på sidan och välj <b>Visa sidkälla</b>. Där finns inget <code>@page</code>,
+      inget <code>@code</code> och ingen <code>DateTime</code> — bara ett klockslag:</p>
+
+<pre><code class="sprak-html">&lt;h1&gt;Vad händer när du trycker enter?&lt;/h1&gt;
+
+&lt;p class="bevis"&gt;
+    Sidan skapades &lt;strong&gt;15:52:49&lt;/strong&gt;
+&lt;/p&gt;</code></pre>
+
+    <p>Sidkällan är inte samma sak som det du ser i utvecklarverktygens Elements-flik. Elements
+      visar sidan som webbläsaren har den nu; sidkällan visar exakt vad som kom över nätverket.
+      Det är sidkällan du ska titta i när du vill veta vad servern faktiskt skickade.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Till inlämningen</span>
+      <p>Ska-krav 7 kräver att minst en sida skapar innehåll på servern vid varje förfrågan.
+        Sidkällan är ditt bevis: ladda om, visa sidkällan igen och kontrollera att värdet
+        ändrats. För bör-krav 1 räcker det inte att visa beviset — du ska också skriva vad som
+        hade varit annorlunda om texten legat i en statisk fil.</p>
+    </div>
+
+    <h2 id="lagen">3. De två renderingslägena</h2>
+    <p>Ett <b>renderingsläge</b> avgör var och när HTML byggs, och om servern håller kontakten
+      efteråt. Blazor har flera lägen. Kursen använder ett av dem.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Statisk serverrendering</th><th>Interaktiv server</th></tr></thead>
+        <tbody>
+          <tr><td><b>Använder vi?</b></td><td>Ja, hela kursen</td><td>Nej</td></tr>
+          <tr><td><b>Vem bygger HTML?</b></td><td>Servern</td><td>Servern</td></tr>
+          <tr><td><b>Efter svaret</b></td><td>Servern är klar och glömmer dig</td>
+            <td>En förbindelse hålls öppen</td></tr>
+          <tr><td><b>Vid ett knapptryck</b></td><td>Webbläsaren måste fråga igen — sidan laddas om</td>
+            <td>Händelsen skickas dit, bara det som ändrades kommer tillbaka</td></tr>
+          <tr><td><b>Var körs din kod?</b></td><td>På servern, alltid</td>
+            <td>Beror på läget — det går inte att svara utan att kolla</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Du valde läget redan på lektion 1, i kommandot som skapade projektet:</p>
+
+<pre><code class="sprak-bash">dotnet new blazor -o MittProjekt -int None</code></pre>
+
+    <p>Växeln <code>-int None</code> betyder <i>ingen interaktivitet</i>. Den stängde av det
+      högra alternativet i tabellen. Skälet är inte att det ena är bättre än det andra, utan att
+      du med statisk rendering alltid kan svara på frågan <b>var körs den här raden?</b> — och
+      det är den frågan hela kursen står på.</p>
+
+    <div class="notis">
+      <span class="rubrik">Ordet du kommer att googla</span>
+      <p>Direktivet som väljer renderingsläge heter <code>@rendermode</code>. Söker du på Blazor
+        på egen hand kommer du att se det, ofta som <code>@rendermode InteractiveServer</code>.
+        I den här kursen skriver vi det aldrig — vi låter det vara, vilket ger statisk
+        serverrendering. Läs gärna på; bygg med statisk rendering.</p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Till inlämningen</span>
+      <p>Ska-krav 1 säger att projektet ska vara skapat med <code>-int None</code>. Har du
+        redan skapat det utan växeln är det enklaste att skapa projektet på nytt och flytta
+        över dina sidor.</p>
+    </div>
+
+    <h2 id="var-kors">4. Var körs raden?</h2>
+    <p>Övningen klassen gjorde två och två. Svarskolumnerna är dolda — läs raden, svara
+      <b>server</b>, <b>webbläsare</b> eller <b>båda</b> för dig själv, och klicka sedan på
+      raden för att se om du hade rätt.</p>
+    <p>Alla svar följer samma regel: allt som är C# eller Razor körs på servern, och
+      webbläsaren får resultatet. HTML och CSS är det enda webbläsaren själv arbetar med.
+      Rad fyra är den som brukar dela klassen.</p>
+
+    <div class="sok">
+      <label for="sok-rader">Sök bland raderna</label>
+      <input type="search" id="sok-rader" data-sok="tabell-var-kors" data-traffar="traffar-rader"
+             placeholder="till exempel: foreach, css, Program.cs" autocomplete="off">
+      <p class="traffar" id="traffar-rader">10 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-var-kors" class="facit" data-dolj="1">
+        <thead><tr><th>Rad</th><th>Var den körs</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;h1&gt;Rubrik&lt;/h1&gt;</code> i en <code>.razor</code>-fil</td>
+            <td>Servern bygger, webbläsaren visar</td>
+            <td>HTML:en sätts ihop på servern och skickas färdig.</td></tr>
+          <tr><td><code>private DateTime nu = DateTime.Now;</code></td>
+            <td>Servern</td>
+            <td>Ett fält i <code>@code</code>. Får sitt värde medan sidan byggs.</td></tr>
+          <tr><td><code>@byggdes.ToString("HH:mm:ss")</code></td>
+            <td>Servern</td>
+            <td>C# körs innan svaret skickas. Bara klockslaget följer med.</td></tr>
+          <tr><td><code>@foreach (var d in delar)</code></td>
+            <td>Servern</td>
+            <td>Loopen körs på servern. Webbläsaren ser bara de färdiga raderna, inte loopen.</td></tr>
+          <tr><td><code>@page "/adressen"</code></td>
+            <td>Servern</td>
+            <td>Direktivet blir en post i routingtabellen som servern slår i när en förfrågan
+              kommer.</td></tr>
+          <tr><td><code>border: 1px solid black;</code> i <code>app.css</code></td>
+            <td>Webbläsaren</td>
+            <td>CSS skickas som en egen fil och tolkas av webbläsaren.</td></tr>
+          <tr><td><code>app.MapRazorComponents&lt;App&gt;();</code> i <code>Program.cs</code></td>
+            <td>Servern, en gång vid start</td>
+            <td><code>Program.cs</code> körs när applikationen startar, inte vid varje
+              förfrågan.</td></tr>
+          <tr><td><code>builder.Services.AddRazorComponents();</code> i <code>Program.cs</code></td>
+            <td>Servern, en gång vid start</td>
+            <td>Samma sak: uppstart. Vad raden gör reder vi ut i område 4.</td></tr>
+          <tr><td><code>&lt;a href="/svaret"&gt;Svaret&lt;/a&gt;</code></td>
+            <td>Båda</td>
+            <td>Länken byggs på servern. Klicket sker i webbläsaren och blir en ny förfrågan.</td></tr>
+          <tr><td><code>&lt;script src="..."&gt;</code> i <code>App.razor</code></td>
+            <td>Båda</td>
+            <td>Taggen byggs på servern, skriptet körs i webbläsaren.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Bygg en sida som skriver ut fem rader ur en lista med <code>@foreach</code>. Titta sedan
+        i sidkällan: loopen syns inte, bara de fem raderna. Det är samtidigt bör-krav 3 i
+        uppgiften.</p>
+    </div>
+
+    <h2 id="orden">5. Orden</h2>
+    <p>Orden från det här passet. De används i uppgiften utan förklaring.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Razor-komponent</b></td><td>En fil med ändelsen <code>.razor</code> som innehåller HTML och C#.</td></tr>
+          <tr><td><b>direktiv</b></td><td>En rad som börjar med <code>@</code> och styr hur komponenten byggs.</td></tr>
+          <tr><td><b>@page</b></td><td>Direktivet som ger komponenten en adress och gör den till en sida.</td></tr>
+          <tr><td><b>@code</b></td><td>Blocket där komponentens egen C#-kod ligger.</td></tr>
+          <tr><td><b>markup</b></td><td>HTML-delen av en komponent.</td></tr>
+          <tr><td><b>rendering</b></td><td>Att bygga färdig HTML av en komponent.</td></tr>
+          <tr><td><b>renderingsläge</b></td><td>Inställningen som avgör var HTML byggs och om servern håller kontakten efteråt.</td></tr>
+          <tr><td><b>statisk serverrendering</b></td><td>Servern bygger HTML, skickar och är klar. Kursens läge.</td></tr>
+          <tr><td><b>interaktiv server</b></td><td>Servern håller en förbindelse öppen och uppdaterar delar av sidan. Används inte i kursen.</td></tr>
+          <tr><td><b>@rendermode</b></td><td>Direktivet som väljer renderingsläge. Vi skriver det aldrig.</td></tr>
+          <tr><td><b>-int None</b></td><td>Växeln i <code>dotnet new blazor</code> som stängde av de interaktiva lägena.</td></tr>
+          <tr><td><b>WebSocket</b></td><td>En förbindelse som står öppen mellan webbläsare och server i stället för att stängas efter svaret.</td></tr>
+          <tr><td><b>sidkälla</b></td><td>Den HTML webbläsaren faktiskt tog emot. Högerklick, Visa sidkälla.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Till uppgiften</a> ·
+        <a href="klient-och-server.html">Föregående referenssida</a> ·
+        <a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

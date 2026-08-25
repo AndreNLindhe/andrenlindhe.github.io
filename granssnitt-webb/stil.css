@@ -157,8 +157,48 @@ pre {
   padding: 1rem 1.2rem;
   overflow-x: auto;
   line-height: 1.5;
+
+  /* Kod ska skrivas av, inte kopieras. Den som klistrar in lär sig ingenting,
+     och det syns direkt i nästa uppgift. Markering är därför avstängd.
+
+     Det här är en tröskel, inte ett lås: koden ligger kvar i sidans källa och
+     går att komma åt den vägen. Poängen är att kopiering ska vara ett medvetet
+     val i stället för det snabbaste. Skärmläsare påverkas inte – texten finns
+     kvar i dokumentet och läses upp som vanligt.
+
+     Undantag: sätt klassen .fri på ett pre-block som eleven faktiskt ska kunna
+     kopiera. Just nu finns inget sådant block. */
+  -webkit-user-select: none;
+  user-select: none;
+  position: relative;
 }
 pre code { background: none; padding: 0; }
+
+/* Märkning så att den avstängda markeringen läses som avsiktlig och inte som
+   en trasig sida. aria-hidden i praktiken: ::before hamnar inte i tillgäng-
+   lighetsträdet, så skärmläsaren slipper etiketten. */
+pre:not(.fri)::before {
+  content: "skriv av";
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.15em 0.6em;
+  border-left: 1px solid var(--linje);
+  border-bottom: 1px solid var(--linje);
+  border-radius: 0 var(--rundning) 0 var(--rundning);
+  background: var(--papper);
+  color: var(--dov);
+  font-family: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+pre:not(.fri) { padding-top: 1.9rem; }
+
+pre.fri {
+  -webkit-user-select: text;
+  user-select: text;
+}
 
 blockquote {
   margin: 1.6rem 0;

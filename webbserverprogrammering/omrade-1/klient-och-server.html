@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Klient och server: vad händer vid en förfrågan</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o1-klient-server">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Referens</strong> · Klient och server</span>
+  <a href="#statuskoder">Statuskoder</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#adressen">1. Adressens fem delar</a></li>
+      <li><a href="#dns">2. DNS</a></li>
+      <li><a href="#forfragan">3. Förfrågan och svar</a></li>
+      <li><a href="#statuskoder">4. Statuskoder</a></li>
+      <li><a href="#dynamiskt">5. Statiskt och dynamiskt</a></li>
+      <li><a href="#sprak">6. Andra språk gör samma jobb</a></li>
+      <li><a href="#orden">7. Orden</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 1 · lektion 2</p>
+    <h1>Klient och server: vad händer vid en förfrågan</h1>
+    <p class="inledning">Sidan du behöver när du skriver inlämningen. Här står det som
+      gicks igenom på lektionen, i den form du kan slå upp: adressens delar,
+      statuskoderna och skillnaden mellan en fil som skickas och en sida som byggs.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du lektionen?</span>
+      <p>Passet var en genomgång utan eget kodande. Allt som sades finns här. Räkna med
+        en och en halv timme:</p>
+      <ol>
+        <li>Läs avsnitt 1 till 5 i ordning. De bygger på varandra.</li>
+        <li>Öppna nätverksfliken med F12 på en riktig sajt och läs en förfrågan och dess
+          svar rad för rad, som avsnitt 3 visar. Det gjorde klassen tillsammans i tjugo
+          minuter, och det går inte att ersätta med att läsa om det.</li>
+        <li>Framkalla en 404 själv: lägg till skräp sist i en adress och ladda om. Raden
+          i nätverksfliken blir röd.</li>
+        <li>Läs igenom <a href="uppgift.html">uppgiften</a>. Den delades ut på det här
+          passet.</li>
+      </ol>
+      <p>Uppgiften kräver en <b>egen</b> exempeladress med både frågesträng och fragment.
+        Börja leta redan nu — det tar längre tid än man tror.</p>
+    </div>
+
+    <h2 id="adressen">1. Adressens fem delar</h2>
+    <p>En webbadress är inte en sträng utan fem delar, och varje del har ett jobb.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>I exemplet</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><b>Protokoll</b></td><td><code>https://</code></td>
+            <td>Hur samtalet ska föras. <code>s</code> betyder krypterat — utan det kan vem som helst på nätverket läsa allt som skickas.</td></tr>
+          <tr><td><b>Domännamn</b></td><td><code>www.scb.se</code></td>
+            <td>Vilken server som ska svara.</td></tr>
+          <tr><td><b>Sökväg</b></td><td><code>/hitta-statistik/</code></td>
+            <td>Vad på den servern du frågar efter.</td></tr>
+          <tr><td><b>Frågesträng</b></td><td><code>?fraga=befolkning</code></td>
+            <td>Extra värden till servern. Börjar med <code>?</code> och flera delas med <code>&amp;</code>.</td></tr>
+          <tr><td><b>Fragment</b></td><td><code>#resultat</code></td>
+            <td>Var på sidan webbläsaren ska hoppa.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Fragmentet skickas aldrig till servern</span>
+      <p>Allt efter <code>#</code> stannar i webbläsaren. Servern får bara sökvägen och
+        frågesträngen. Du kan se det själv: öppna nätverksfliken, ladda om en sida med
+        fragment i adressen och titta på vad förfrågan faktiskt innehåller.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Till inlämningen</span>
+      <p>Du ska använda en <b>egen</b> exempeladress som har både frågesträng och
+        fragment, och förklara varje del. Hittar du ingen: sök på något på en sajt du
+        använder, så får du en frågesträng.</p>
+    </div>
+
+    <h2 id="dns">2. DNS</h2>
+    <p>Datorn kan inte skicka något till ett namn — den behöver en IP-adress. DNS är
+      översättningen från det ena till det andra. Prova själv i terminalen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>System</th><th>Kommando</th></tr></thead>
+        <tbody>
+          <tr><td>De flesta</td><td><code>nslookup www.scb.se</code></td></tr>
+          <tr><td>PowerShell, om nslookup saknas</td><td><code>Resolve-DnsName www.scb.se</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Svaret sparas en stund på din dator. Därför är första besöket på en ny domän
+      långsammare än nästa.</p>
+
+    <h2 id="forfragan">3. Förfrågan och svar</h2>
+    <p>HTTP är text. Det är hela hemligheten — du skulle kunna skriva det för hand.</p>
+
+    <p>Så här ser en förfrågan ut:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Vad den betyder</th></tr></thead>
+        <tbody>
+          <tr><td><code>GET /hitta-statistik/ HTTP/1.1</code></td>
+            <td>Metoden först. <code>GET</code> betyder ge mig, <code>POST</code> betyder här kommer data.</td></tr>
+          <tr><td><code>Host: www.scb.se</code></td>
+            <td>Vilken sajt som avses. Många sajter kan ligga på samma IP-adress.</td></tr>
+          <tr><td><code>Accept: text/html</code></td>
+            <td>Vad webbläsaren helst vill ha tillbaka.</td></tr>
+          <tr><td><code>User-Agent: Mozilla/5.0</code></td>
+            <td>Vilken webbläsare som frågar.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Och så här ser svaret ut:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Vad den betyder</th></tr></thead>
+        <tbody>
+          <tr><td><code>HTTP/1.1 200 OK</code></td>
+            <td>Statuskoden. Hur det gick.</td></tr>
+          <tr><td><code>Content-Type: text/html; charset=utf-8</code></td>
+            <td>Vad innehållet är, och vilken teckenkodning det använder.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Öppna DevTools med F12, gå till fliken <b>Network</b> och ladda om sidan. Klicka
+        på det första anropet. Räkna sedan raderna i listan — en sida är sällan ett
+        anrop. Det är ett för HTML:en, och sedan ett till för varje bild, stilmall och
+        skript.</p>
+    </div>
+
+    <h2 id="statuskoder">4. Statuskoder</h2>
+    <p>Tre siffror i svaret som säger hur det gick. Första siffran avgör sorten. Sök i
+      tabellen, eller läs den rakt igenom.</p>
+
+    <div class="sok">
+      <label for="sok-koder">Sök bland statuskoderna</label>
+      <input type="search" id="sok-koder" data-sok="tabell-statuskoder" data-traffar="traffar-koder"
+             placeholder="till exempel: 404, omdirigering, serverfel" autocomplete="off">
+      <p class="traffar" id="traffar-koder">12 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-statuskoder">
+        <thead><tr><th>Kod</th><th>Namn</th><th>Vad den betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>2xx</b></td><td>Lyckades</td><td>Servern gjorde det du bad om.</td></tr>
+          <tr><td>200</td><td>OK</td><td>Här är det du bad om. Den vanligaste koden på webben.</td></tr>
+          <tr><td>201</td><td>Created</td><td>Något nytt skapades, till exempel efter en POST. Kommer i område 6.</td></tr>
+          <tr><td><b>3xx</b></td><td>Omdirigering</td><td>Det du sökte finns någon annanstans.</td></tr>
+          <tr><td>301</td><td>Moved Permanently</td><td>Har flyttat för gott. Webbläsaren kommer ihåg det.</td></tr>
+          <tr><td>302</td><td>Found</td><td>Ligger tillfälligt någon annanstans. Fråga här igen nästa gång.</td></tr>
+          <tr><td><b>4xx</b></td><td>Fel av den som frågar</td><td>Förfrågan var något fel på.</td></tr>
+          <tr><td>400</td><td>Bad Request</td><td>Servern förstod inte förfrågan.</td></tr>
+          <tr><td>403</td><td>Forbidden</td><td>Du får inte se det här, även om det finns.</td></tr>
+          <tr><td>404</td><td>Not Found</td><td>Ingenting hittades på den sökvägen.</td></tr>
+          <tr><td><b>5xx</b></td><td>Serverfel</td><td>Servern misslyckades. Som utvecklare är det ditt fel.</td></tr>
+          <tr><td>500</td><td>Internal Server Error</td><td>Serverfel: koden kraschade under körningen.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Lägg till skräp sist i adressen till en sajt och ladda om med nätverksfliken
+        öppen. Raden blir röd och statuskoden står i listan.</p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Till inlämningen</span>
+      <p>Du ska förklara minst fyra statuskoder, varav minst två som <b>inte</b> finns i
+        guiden. Tabellen ovan räcker för att välja — men skriv förklaringen med egna ord
+        och ta med vad koden betyder för besökaren.</p>
+    </div>
+
+    <h2 id="dynamiskt">5. Statiskt och dynamiskt</h2>
+    <p>Skillnaden hela kursen står på.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Statiskt</th><th>Dynamiskt</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vad du frågar efter</b></td><td><code>om-oss.html</code></td><td><code>/mina-sidor</code></td></tr>
+          <tr><td><b>Vad servern gör</b></td><td>Läser filen från disk och skickar den</td><td>Kör kod, hämtar data, bygger HTML och skickar</td></tr>
+          <tr><td><b>Finns sidan innan?</b></td><td>Ja, som en fil</td><td>Nej. Den uppstod i samma stund</td></tr>
+          <tr><td><b>Ser alla samma sak?</b></td><td>Ja, samma fil varje gång</td><td>Nej, innehållet kan skilja per besökare och tillfälle</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Webbläsaren märker ingen skillnad. Den får HTML i båda fallen — jobbet gjordes på
+      servern, och det syns inte i sidkällan att något räknades ut.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Till inlämningen</span>
+      <p>Minst en av dina sidor ska skapa sitt innehåll på servern vid varje förfrågan, så
+        att det ändras när du laddar om. Ett klockslag du skrivit in för hand är inte ett
+        bevis — ladda om fem gånger och kontrollera att värdet faktiskt ändras.</p>
+    </div>
+
+    <h2 id="sprak">6. Andra språk gör samma jobb</h2>
+    <p>C# är inte det enda sättet. Poängen är inte att välja rätt, utan att veta att
+      valet finns — och att det du lär dig går att flytta med sig.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Språk</th><th>Var det används</th><th>Karaktär</th></tr></thead>
+        <tbody>
+          <tr><td><b>PHP</b></td><td>WordPress och en stor del av webben</td><td>Låg tröskel, väldigt spritt</td></tr>
+          <tr><td><b>Node.js</b></td><td>Startups, API:er</td><td>Samma språk som i webbläsaren</td></tr>
+          <tr><td><b>Python</b></td><td>Django, Flask, mycket data och AI</td><td>Läsbar syntax</td></tr>
+          <tr><td><b>Java</b></td><td>Bank och stora system</td><td>Stort och stabilt</td></tr>
+          <tr><td><b>C# / .NET</b></td><td>Offentlig sektor, industri, spel</td><td>Kompilerat, typat, stort ramverk</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kursen använder C# och Blazor för att kompilatorn hittar felen innan koden körs,
+      verktygen är bra, och samma språk bär hela vägen från sida till databas.</p>
+
+    <h2 id="orden">7. Orden</h2>
+    <p>Orden från det här passet. De används i uppgiften utan förklaring.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>klient</b></td><td>Den som frågar. Oftast webbläsaren.</td></tr>
+          <tr><td><b>server</b></td><td>Den som svarar. Programmet som lyssnar och skickar tillbaka en sida.</td></tr>
+          <tr><td><b>HTTP</b></td><td>Reglerna för hur frågan och svaret ska se ut. Ren text.</td></tr>
+          <tr><td><b>HTTPS</b></td><td>Samma sak, men krypterat så att ingen på vägen kan läsa med.</td></tr>
+          <tr><td><b>request</b></td><td>Förfrågan från klienten till servern.</td></tr>
+          <tr><td><b>response</b></td><td>Serverns svar: statuskod, headers och innehåll.</td></tr>
+          <tr><td><b>header</b></td><td>Rad med extra information i en förfrågan eller ett svar.</td></tr>
+          <tr><td><b>GET</b></td><td>Metoden som betyder ge mig det här.</td></tr>
+          <tr><td><b>POST</b></td><td>Metoden som betyder här kommer data att ta emot.</td></tr>
+          <tr><td><b>statuskod</b></td><td>Tresiffrigt tal i svaret som säger hur det gick.</td></tr>
+          <tr><td><b>DNS</b></td><td>Översättningen från domännamn till IP-adress.</td></tr>
+          <tr><td><b>IP-adress</b></td><td>Numret som pekar ut en dator på nätet.</td></tr>
+          <tr><td><b>frågesträng</b></td><td>Delen av adressen efter <code>?</code>. Extra värden till servern.</td></tr>
+          <tr><td><b>fragment</b></td><td>Delen efter <code>#</code>. Stannar i webbläsaren, skickas aldrig.</td></tr>
+          <tr><td><b>teckenkodning</b></td><td>Hur bokstäver blir till bytes. <code>utf-8</code> är den som klarar åäö.</td></tr>
+          <tr><td><b>statisk sida</b></td><td>En färdig fil som skickas som den är.</td></tr>
+          <tr><td><b>dynamisk sida</b></td><td>En sida som byggs av kod i samma stund som någon frågar.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Till uppgiften</a> · <a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

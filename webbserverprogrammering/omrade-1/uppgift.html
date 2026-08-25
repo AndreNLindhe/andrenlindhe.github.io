@@ -84,6 +84,7 @@
         <li><label><input type="checkbox" id="ska-6"><span>En arkitektursida som listar projektets filer och vad var och en gör</span></label></li>
         <li><label><input type="checkbox" id="ska-7"><span>Minst en sida innehåller innehåll som skapas på servern vid varje förfrågan och som ändras när sidan laddas om</span></label></li>
         <li><label><input type="checkbox" id="ska-8"><span>Å Ä Ö visas rätt på alla sidor</span></label></li>
+        <li><label><input type="checkbox" id="ska-8b"><span>Sidorna deklarerar sitt språk: sidkällan visar <code>&lt;html lang="sv"&gt;</code></span></label></li>
         <li><label><input type="checkbox" id="ska-9"><span>Minst fem commits med begripliga meddelanden</span></label></li>
       </ul>
     </section>
@@ -166,6 +167,13 @@
           <tr>
             <td><b><code>bin/</code> och <code>obj/</code> incheckade</b></td>
             <td>Kontrollera att <code>.gitignore</code> finns innan din första commit.</td>
+          </tr>
+          <tr>
+            <td><b><code>lang="en"</code> kvar från mallen</b></td>
+            <td>Mallen skriver <code>en</code>. Din sajt är på svenska – ändra till
+              <code>sv</code> i <code>Components/App.razor</code>. Det är inte samma sak som
+              <code>charset</code>: teckenkodningen kan vara rätt medan sidan ändå läses upp
+              på engelska.</td>
           </tr>
           <tr>
             <td><b>Adress utan frågesträng eller fragment</b></td>
