@@ -25,8 +25,9 @@
       <li><a href="#avsnitt-4">4. Så bygger vi den</a></li>
       <li><a href="#avsnitt-5">5. Tisdagens steg</a></li>
       <li><a href="#avsnitt-6">6. Fredagens steg</a></li>
-      <li><a href="#avsnitt-7">7. Så lämnar du in</a></li>
-      <li><a href="#felsokning">8. Felsökning</a></li>
+      <li><a href="#avsnitt-7">7. Måndagens steg</a></li>
+      <li><a href="#avsnitt-8">8. Så lämnar du in</a></li>
+      <li><a href="#felsokning">9. Felsökning</a></li>
     </ol>
   </nav>
 
@@ -84,6 +85,7 @@
         <li><label><input type="checkbox" id="ska-5"><span>Minst ett stycke text under varje rubrik.</span></label></li>
         <li><label><input type="checkbox" id="ska-6"><span>Minst en bild med en <code>alt</code>-text som beskriver vad bilden visar.</span></label></li>
         <li><label><input type="checkbox" id="ska-7"><span>Minst en lista och minst en länk till en sida utanför min egen.</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>Sidan har en egen stilmall <code>stil.css</code>, inkopplad med <code>&lt;link&gt;</code> i <code>head</code>, och formen syns när sidan laddas.</span></label></li>
         <li><label><input type="checkbox" id="ska-8"><span>Sidan är publicerad med GitHub Pages och adressen fungerar.</span></label></li>
         <li><label><input type="checkbox" id="ska-9"><span>Repo-länken är inlämnad i itslearning senast fredag 4 september 23:59.</span></label></li>
       </ul>
@@ -99,7 +101,7 @@
         <li><label><input type="checkbox" id="bor-1"><span>Texten är skriven med mina egna ord, inte avskriven från faktabladet.</span></label></li>
         <li><label><input type="checkbox" id="bor-2"><span>Varje steg har ett konkret exempel – en riktig adress, ett riktigt felmeddelande.</span></label></li>
         <li><label><input type="checkbox" id="bor-3"><span>Bilderna är mina egna, eller fritt använda med källan angiven i sidfoten.</span></label></li>
-        <li><label><input type="checkbox" id="bor-4"><span>Sidan har en enkel form: läsbar text, luft mellan blocken, medvetna färger.</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Formen är genomtänkt och inte bara påslagen: läsbar radlängd, luft mellan blocken, och färger jag kan motivera.</span></label></li>
         <li><label><input type="checkbox" id="bor-5"><span>Inget commit-meddelande lyder <code>update</code>. De säger vad jag gjorde.</span></label></li>
         <li><label><input type="checkbox" id="bor-6"><span>Jag har fyra commits eller fler, spridda över lektionerna.</span></label></li>
       </ul>
@@ -131,7 +133,8 @@
           <tr><td>Filnamn</td><td><code>index.html</code>, gemener, inga mellanslag</td></tr>
           <tr><td>Plats</td><td>Repots rot. Byt inte namn på filen</td></tr>
           <tr><td>Bilder</td><td>I mappen <code>bilder/</code>, gemener och bindestreck i filnamnen</td></tr>
-          <tr><td>Sökvägar</td><td>Relativa: <code>bilder/dns.png</code></td></tr>
+          <tr><td>Stilmall</td><td><code>stil.css</code> i repots rot, bredvid <code>index.html</code></td></tr>
+          <tr><td>Sökvägar</td><td>Relativa: <code>bilder/dns.png</code>, <code>stil.css</code></td></tr>
           <tr><td>Indrag</td><td>2 mellanslag</td></tr>
           <tr><td>Språk</td><td>Svenska. <code>lang="sv"</code> ska stå kvar</td></tr>
           <tr><td>Alt-text</td><td>Alla bilder har <code>alt</code></td></tr>
@@ -298,7 +301,109 @@
       <b>Sync Changes</b>. Ladda sedan om ditt repo på github.com och leta efter mappen
       <code>bilder</code>. Syns den inte är bilden inte uppe.</p>
 
-    <h2 id="avsnitt-7">7. Så lämnar du in</h2>
+    <h2 id="avsnitt-7">7. Måndagens steg</h2>
+    <p>Det här skriver vi tillsammans på måndagen. Innehållet är klart – nu får sidan
+      form. Inte för att bli snygg, utan för att gå att läsa.</p>
+
+    <p><b>Formen bor i en egen fil.</b> <code>index.html</code> säger vad sidan
+      innehåller, <code>stil.css</code> säger hur det ska se ut. De hålls isär, och det
+      gör de genom hela kursen.</p>
+
+    <p><b>Först filen.</b> I filträdet, <b>New File</b>, namnet <code>stil.css</code>.
+      Den ska ligga bredvid <code>index.html</code>, inte i <code>bilder</code>.</p>
+
+    <p><b>Sedan kopplingen</b>, i <code>head</code>:</p>
+
+<pre><code>    &lt;link rel="stylesheet" href="stil.css"&gt;</code></pre>
+
+    <p><code>href</code> är en sökväg, precis som <code>src</code> var för bilden.
+      <code>stil.css</code> betyder <i>filen som heter så, bredvid den här</i>.
+      <code>link</code> stängs inte, lika lite som <code>img</code>. Och den ligger i
+      <code>head</code>, inte i <code>body</code>.</p>
+
+    <p><b>Sedan en regel som bevisar att det sitter ihop.</b> Skriv den i
+      <code>stil.css</code>:</p>
+
+<pre><code>body {
+  background: #ffe08a;
+}</code></pre>
+
+    <p>Spara. Blir sidan gul sitter kopplingen, och resten är innehållet i filen. Blir
+      den inte gul är det ett av tre fel: filen heter något annat,
+      <code>link</code>-raden ligger i <code>body</code>, eller sökvägen är felstavad.
+      Leta i den ordningen.</p>
+
+    <div class="notis">
+      <span class="rubrik">Orden du behöver</span>
+      <p>I regeln ovan är <code>body</code> <b>selektorn</b> – vad regeln gäller.
+        <code>background</code> är <b>egenskapen</b>. <code>#ffe08a</code> är
+        <b>värdet</b>. Kolon mellan egenskap och värde, semikolon efter, klamrar runt.</p>
+    </div>
+
+    <p><b>Sedan färg och typsnitt.</b> Byt ut den gula bakgrunden och bygg ut regeln:</p>
+
+<pre><code>body {
+  font-family: system-ui, sans-serif;
+  color: #1c1c1c;
+  background: #fdfdfb;
+}</code></pre>
+
+    <p><code>font-family</code> har flera värden med komma emellan – webbläsaren tar det
+      första som finns på datorn. <code>color</code> är textens färg,
+      <code>background</code> är bakgrunden. Färger skrivs som <code>#</code> och sex
+      tecken, eller med engelska namn som <code>black</code>. Inte
+      <code>svart</code>.</p>
+
+    <p>Rubrikerna får en egen regel, och färgen väljer du själv:</p>
+
+<pre><code>h1, h2 {
+  color: #14506b;
+  line-height: 1.2;
+}</code></pre>
+
+    <p>Kommatecknet i selektorn betyder <i>och</i>. Regeln gäller båda.</p>
+
+    <p><b>Sedan luft och läsbredd</b>, det som faktiskt gör sidan läsbar. Raderna läggs
+      till i den <code>body</code>-regel du redan har – inte i en ny:</p>
+
+<pre><code>  max-width: 40rem;
+  margin: 0 auto;
+  padding: 1rem;
+  line-height: 1.6;</code></pre>
+
+    <p><code>max-width</code> sätter en gräns för hur bred texten får bli. Utan den blir
+      raderna så långa att ögat tappar bort vilken rad det var på. <code>margin: 0
+      auto</code> centrerar innehållet. <code>line-height</code> är avståndet mellan
+      raderna. <code>padding</code> är luft på insidan, så att texten inte klistrar sig
+      mot kanten på mobil.</p>
+
+    <p>Och avstånd mellan stegen, så att man ser var ett slutar:</p>
+
+<pre><code>section {
+  margin-bottom: 2.5rem;
+}</code></pre>
+
+    <p><b>Sist får bilden en storlek.</b> Den har legat i sin egen storlek sedan fredag:</p>
+
+<pre><code>img {
+  max-width: 100%;
+}</code></pre>
+
+    <p>100 % av utrymmet den har att breda ut sig på. Är bilden mindre än så lämnas den
+      i fred – <code>max-width</code> sätter ett tak, inte en storlek.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">stil.css måste committas den också</span>
+      <p>Samma fälla som med bildfilen. <code>stil.css</code> är en ny fil, inte en
+        ändring i <code>index.html</code>. Klicka <kbd>+</kbd> på rubriken
+        <b>Changes</b>, som tar allt. Ladda sedan om ditt repo på github.com och se att
+        <code>stil.css</code> ligger i listan.</p>
+    </div>
+
+    <p><b>Innan du går:</b> spara, lägg till båda filerna i <b>Source Control</b>, skriv
+      <code>La till stilmall</code>, klicka <b>Commit</b> och <b>Sync Changes</b>.</p>
+
+    <h2 id="avsnitt-8">8. Så lämnar du in</h2>
     <ol>
       <li>Din kod är sparad, committad och synkad till GitHub.</li>
       <li>Din sida är publicerad via GitHub Pages och du har provat adressen.</li>
@@ -312,12 +417,12 @@
         privat fönster där du inte är inloggad – syns sidan är allt som det ska.</p>
     </div>
 
-    <h2 id="felsokning">8. Felsökning</h2>
+    <h2 id="felsokning">9. Felsökning</h2>
     <div class="sok">
       <label for="sok-fel">Sök bland felen</label>
       <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
              placeholder="till exempel: bild, syns inte, commit" autocomplete="off">
-      <p class="traffar" id="traffar-fel">13 rader</p>
+      <p class="traffar" id="traffar-fel">18 rader</p>
     </div>
     <div class="tabellsvep">
       <table id="tabell-felsokning">
@@ -336,6 +441,11 @@
           <tr><td>Bilden funkar för mig men inte för andra</td><td>Versal eller mellanslag i filnamnet</td><td>Döp om filen till gemener med bindestreck, och ändra <code>src</code> så att det stämmer</td></tr>
           <tr><td>Bilden täcker halva skärmen</td><td>Ingenting – sidan har ingen CSS än</td><td>Låt den vara. Storleken sätts på måndagens lektion</td></tr>
           <tr><td>Min externa länk ger 404 i mitt eget repo</td><td><code>https://</code> saknas i <code>href</code></td><td>Ut från sidan kräver hela adressen: <code>https://example.se</code></td></tr>
+          <tr><td>Stilmallen gör ingenting alls</td><td><code>link</code>-raden ligger i <code>body</code>, eller sökvägen är fel</td><td>Raden hör hemma i <code>head</code>. Kontrollera att filnamnet stämmer tecken för tecken</td></tr>
+          <tr><td>En regel fungerar, nästa gör det inte</td><td>Semikolon saknas efter värdet innan</td><td>Semikolon efter varje värde. Felet syns på nästa rad, inte på den trasiga</td></tr>
+          <tr><td>Allt efter en viss regel slutar gälla</td><td>En klammer är inte stängd</td><td>Räkna klamrarna. Varje <code>{</code> har en <code>}</code></td></tr>
+          <tr><td>Sidan är stilad hos mig men ostilad på GitHub</td><td><code>stil.css</code> är inte committad</td><td>Ny fil. Lägg till den i <b>Source Control</b>, committa och synka</td></tr>
+          <tr><td>Min CSS syns som text på sidan</td><td>Den är skriven i <code>index.html</code> i stället för i <code>stil.css</code></td><td>Klipp ut den och lägg den i <code>stil.css</code>. HTML säger vad, CSS säger hur</td></tr>
         </tbody>
       </table>
     </div>
