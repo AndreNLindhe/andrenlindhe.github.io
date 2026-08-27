@@ -26,8 +26,9 @@
       <li><a href="#avsnitt-5">5. Tisdagens steg</a></li>
       <li><a href="#avsnitt-6">6. Fredagens steg</a></li>
       <li><a href="#avsnitt-7">7. Måndagens steg</a></li>
-      <li><a href="#avsnitt-8">8. Så lämnar du in</a></li>
-      <li><a href="#felsokning">9. Felsökning</a></li>
+      <li><a href="#avsnitt-8">8. Innan du lämnar in</a></li>
+      <li><a href="#avsnitt-9">9. Så lämnar du in</a></li>
+      <li><a href="#felsokning">10. Felsökning</a></li>
     </ol>
   </nav>
 
@@ -403,7 +404,52 @@
     <p><b>Innan du går:</b> spara, lägg till båda filerna i <b>Source Control</b>, skriv
       <code>La till stilmall</code>, klicka <b>Commit</b> och <b>Sync Changes</b>.</p>
 
-    <h2 id="avsnitt-8">8. Så lämnar du in</h2>
+    <h2 id="avsnitt-8">8. Innan du lämnar in</h2>
+    <p>Tisdag 1 september är sista passet innan publiceringen, och det är eget arbete med
+      handledning. Ingen ny kod gås igenom – du bygger klart, och jag går runt.</p>
+
+    <p><b>Börja med att skriva ner vad du saknar.</b> På ett papper, inte i huvudet. Gå
+      igenom listan nedan och skriv upp det som inte är gjort. Den som skriver ner tre
+      saker gör tre saker.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Texten går före allt annat</span>
+      <p>Saknar du text under en rubrik är det den du fixar först. En trasig bild eller
+        en stilmall som inte sitter går att laga på fredagen – tomrum under en rubrik gör
+        det inte, för fredagen går åt till att publicera.</p>
+    </div>
+
+    <p>Ordningen att ta det i, om du saknar flera saker:</p>
+
+    <ol>
+      <li>Egen text under alla fyra rubrikerna, två till fyra meningar per steg.</li>
+      <li>Stilmallen: heter filen <code>stil.css</code>, ligger
+        <code>link</code>-raden i <code>head</code>, stämmer sökvägen?</li>
+      <li>Bilden: rätt sökväg, gemener i filnamnet, en <code>alt</code> som beskriver
+        vad den visar.</li>
+      <li>Listan och länken ut från sidan.</li>
+      <li>Allt committat och synkat.</li>
+    </ol>
+
+    <p><b>Sist: kontrollera i ditt repo på github.com.</b> Tre saker ska synas i
+      filträdet:</p>
+
+<pre><code>bilder/
+index.html
+stil.css</code></pre>
+
+    <p>Fattas något är det inte committat. Då finns det inte på webben heller, hur bra
+      det än ser ut i ditt Codespace – och på fredag publicerar vi det som ligger på
+      GitHub, inte det som ligger hos dig.</p>
+
+    <div class="notis">
+      <span class="rubrik">Bygg klart, bygg inte om</span>
+      <p>Tycker du att sidan är ful är det inte ett skäl att börja om. Formen bedöms mot
+        kraven i listan ovan, inte mot smak, och det finns inte tid för en ny sida före
+        fredag. Är du klar med ska-kraven – ta bör-kraven i stället.</p>
+    </div>
+
+    <h2 id="avsnitt-9">9. Så lämnar du in</h2>
     <ol>
       <li>Din kod är sparad, committad och synkad till GitHub.</li>
       <li>Din sida är publicerad via GitHub Pages och du har provat adressen.</li>
@@ -417,7 +463,7 @@
         privat fönster där du inte är inloggad – syns sidan är allt som det ska.</p>
     </div>
 
-    <h2 id="felsokning">9. Felsökning</h2>
+    <h2 id="felsokning">10. Felsökning</h2>
     <div class="sok">
       <label for="sok-fel">Sök bland felen</label>
       <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
