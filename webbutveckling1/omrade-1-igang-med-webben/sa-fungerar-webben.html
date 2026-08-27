@@ -450,17 +450,90 @@ stil.css</code></pre>
     </div>
 
     <h2 id="avsnitt-9">9. Så lämnar du in</h2>
+    <p>Det här gör vi tillsammans på fredagen 4 september. <b>Deadline är samma kväll
+      23:59</b>, så hinner du inte klart på lektionen gör du klart hemma – men den som
+      går från lektionen med en fungerande adress slipper göra det.</p>
+
+    <p><b>Först: allt måste ligga på GitHub.</b> Pages publicerar det som finns i repot,
+      ingenting annat. Öppna ditt repo på github.com och kontrollera att
+      <code>index.html</code>, <code>stil.css</code> och mappen <code>bilder</code> syns
+      i listan.</p>
+
+    <p><b>Sedan slår du på GitHub Pages.</b> På ditt repo, inte på ditt konto:</p>
+
     <ol>
-      <li>Din kod är sparad, committad och synkad till GitHub.</li>
-      <li>Din sida är publicerad via GitHub Pages och du har provat adressen.</li>
-      <li>Länken till ditt publika repo är inlämnad i itslearning-uppgiften.</li>
+      <li><b>Settings</b> uppe till höger.</li>
+      <li><b>Pages</b> i vänsterspalten.</li>
+      <li>Under <b>Source</b>: <code>Deploy from a branch</code>.</li>
+      <li>Under <b>Branch</b>: <code>main</code>, och mappen står kvar på
+        <code>/ (root)</code>.</li>
+      <li><b>Save</b>.</li>
+    </ol>
+
+    <p>Nu bygger GitHub din sida, och det tar ungefär en minut. Ladda om
+      <b>Settings → Pages</b> tills adressen står överst. Den ser ut så här:</p>
+
+<pre><code>https://ANVÄNDARNAMN.github.io/REPONAMN/</code></pre>
+
+    <div class="notis">
+      <span class="rubrik">Får du 404 direkt – vänta en minut</span>
+      <p>Den första 404:an betyder nästan alltid att bygget inte hunnit klart. Vänta,
+        ladda om, och först därefter börja felsöka.</p>
+    </div>
+
+    <p><b>Öppna din adress och kontrollera tre saker</b>, i den här ordningen:</p>
+
+    <ol>
+      <li>Kommer sidan upp?</li>
+      <li>Syns bilden?</li>
+      <li>Ser sidan stilad ut – färg, typsnitt och luft?</li>
     </ol>
 
     <div class="notis varna">
+      <span class="rubrik">Sökvägar som fungerar hos dig men inte på webben</span>
+      <p>Det här är det vanligaste felet vid publicering, och det syns inte förrän sidan
+        är live. GitHubs server skiljer på stora och små bokstäver – din egen dator gör
+        oftast inte det.</p>
+    </div>
+
+<pre><code>&lt;img src="Bilder/DNS.png" alt="…"&gt;   ← 404 på webben
+&lt;img src="bilder/dns.png" alt="…"&gt;   ← fungerar överallt</code></pre>
+
+    <p>Det andra vanliga felet är ett <b>snedstreck först</b> i sökvägen:</p>
+
+<pre><code>&lt;link rel="stylesheet" href="/stil.css"&gt;   ← fel
+&lt;link rel="stylesheet" href="stil.css"&gt;    ← rätt</code></pre>
+
+    <p>Ett inledande snedstreck betyder <i>börja om från serverns rot</i>. Din sida
+      ligger under <code>användarnamn.github.io/reponamn/</code>, så snedstrecket hoppar
+      över reponamnet och letar på fel ställe.</p>
+
+    <p>Varje rättning tar samma väg: <b>ändra i Codespace, committa, synka, vänta en
+      minut, ladda om.</b></p>
+
+    <div class="notis varna">
       <span class="rubrik">Repot måste vara publikt</span>
-      <p>Ett privat repo ger 404 för alla utom dig, och då går det inte att rätta.
-        Kontrollera att det står <b>Public</b> under repots namn. Testa din länk i ett
-        privat fönster där du inte är inloggad – syns sidan är allt som det ska.</p>
+      <p>Är repot privat publicerar Pages ingenting alls – då finns sidan inte, hur rätt
+        koden än är. Kontrollera att det står <b>Public</b> under repots namn. Gör det
+        inte det: <b>Settings</b> → <b>General</b> → längst ned → <b>Change repository
+        visibility</b> → <b>Make public</b>.</p>
+      <p>Testa sedan din adress i ett privat fönster, där du inte är inloggad. Syns
+        sidan där syns den för alla.</p>
+    </div>
+
+    <p><b>Sist lämnar du in länken i itslearning.</b> Det är <b>repots</b> adress som
+      ska in, inte sajtens:</p>
+
+<pre><code>https://github.com/ANVÄNDARNAMN/REPONAMN</code></pre>
+
+    <p>Rättningen tittar på koden, inte bara på hur sidan ser ut – och sajten når man
+      själv därifrån.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Publicerad är inte inlämnad</span>
+      <p>En sida som ligger uppe men aldrig lämnades in räknas inte. Klicka
+        <b>Lämna in</b> i itslearning-uppgiften innan du går, även om du tänker fixa
+        något mer på kvällen.</p>
     </div>
 
     <h2 id="felsokning">10. Felsökning</h2>
@@ -468,7 +541,7 @@ stil.css</code></pre>
       <label for="sok-fel">Sök bland felen</label>
       <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
              placeholder="till exempel: bild, syns inte, commit" autocomplete="off">
-      <p class="traffar" id="traffar-fel">18 rader</p>
+      <p class="traffar" id="traffar-fel">24 rader</p>
     </div>
     <div class="tabellsvep">
       <table id="tabell-felsokning">
@@ -492,6 +565,12 @@ stil.css</code></pre>
           <tr><td>Allt efter en viss regel slutar gälla</td><td>En klammer är inte stängd</td><td>Räkna klamrarna. Varje <code>{</code> har en <code>}</code></td></tr>
           <tr><td>Sidan är stilad hos mig men ostilad på GitHub</td><td><code>stil.css</code> är inte committad</td><td>Ny fil. Lägg till den i <b>Source Control</b>, committa och synka</td></tr>
           <tr><td>Min CSS syns som text på sidan</td><td>Den är skriven i <code>index.html</code> i stället för i <code>stil.css</code></td><td>Klipp ut den och lägg den i <code>stil.css</code>. HTML säger vad, CSS säger hur</td></tr>
+          <tr><td>404 direkt efter att jag slog på Pages</td><td>Bygget är inte klart</td><td>Vänta en minut och ladda om. Först därefter felsöker du</td></tr>
+          <tr><td>Bilden syns hos mig men inte på den publika adressen</td><td>Versal i mapp- eller filnamnet</td><td>Servern skiljer på stort och smått. Döp om till gemener och ändra <code>src</code></td></tr>
+          <tr><td>Bild och stilmall försvinner samtidigt live</td><td>Snedstreck först i sökvägen</td><td>Ta bort det inledande <code>/</code>. Sökvägen utgår från filen, inte från servern</td></tr>
+          <tr><td>Jag hittar inte Pages i Settings</td><td>Du står på fel repo, eller på organisationens inställningar</td><td>Gå in på ditt eget repo först, och välj <b>Settings</b> där</td></tr>
+          <tr><td>Min ändring syns inte på den publika sidan</td><td>Inte synkad, eller webbläsaren visar en sparad version</td><td><b>Sync Changes</b>, vänta en minut, ladda om med <kbd>Ctrl</kbd> + <kbd>F5</kbd></td></tr>
+          <tr><td>Läraren säger att inlämningen är tom</td><td>Sidan är publicerad men uppgiften aldrig inlämnad</td><td>Klicka <b>Lämna in</b> i itslearning. Publicerad är inte inlämnad</td></tr>
         </tbody>
       </table>
     </div>
