@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spänning, ström och resistans – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o1-ellara">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Spänning, ström och resistans</strong> · område 1</span>
+  <a href="index.html">Område 1</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#begrepp">Begreppsträning</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 1 · lektion 2</p>
+    <h1>Spänning, ström och resistans</h1>
+    <p class="inledning">Tre storheter, tre enheter och en formel som binder ihop
+      dem. Resten av kursen vilar på det här passet – varje felsökning du gör
+      framöver börjar med att du mäter en av de tre.</p>
+
+    <h2 id="mal">Mål</h2>
+    <p>När du är klar kan du:</p>
+    <ul>
+      <li>säga vad spänning, ström och resistans är, med rätt enhet och rätt
+        beteckning,</li>
+      <li>använda Ohms lag åt alla tre håll: räkna ut U, I eller R när du känner
+        de två andra,</li>
+      <li>mäta spänning parallellt över en komponent och ström i serie genom
+        den, och förklara varför det måste vara så,</li>
+      <li>förklara varför en amperemätning över ett batteri är en kortslutning.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Vad som faktiskt rör sig</h3>
+    <p>Det som rör sig i en ledare är laddning, i praktiken elektroner. Tre
+      storheter beskriver rörelsen från var sitt håll.</p>
+    <p><strong>Spänning (U, volt, V)</strong> är energi per laddning: hur mycket
+      energi varje enhet laddning får med sig mellan två punkter. 1 V betyder
+      1 joule per coulomb. Spänningen är alltid en skillnad mellan två punkter,
+      aldrig ett värde i en enda punkt. Säger någon att "det är 5 V på pinnen" menas
+      underförstått 5 V <em>i förhållande till jord</em>. Utan den andra punkten
+      betyder talet ingenting.</p>
+    <p><strong>Ström (I, ampere, A)</strong> är hur mycket laddning som passerar
+      en punkt per sekund. 1 A betyder att 1 coulomb passerar varje sekund.
+      Strömmen är densamma överallt i en obruten slinga – det finns ingenstans
+      för laddningen att ta vägen på halva sträckan.</p>
+    <p><strong>Resistans (R, ohm, Ω)</strong> är hur mycket ett material
+      motsätter sig strömmen. 1 Ω betyder att det krävs 1 V för att driva 1 A
+      igenom.</p>
+    <p class="notis"><span class="rubrik">Bilden som brukar hjälpa</span>
+      Tänk vatten i ett rör. Spänningen är tryckskillnaden mellan rörets båda
+      ändar, strömmen är hur många liter som passerar per sekund, och resistansen
+      är hur trångt röret är. Bilden håller för det mesta i den här kursen. Den
+      går sönder först när vi kommer till kondensatorer och induktans, och då
+      säger jag till.</p>
+
+    <h3>Ohms lag</h3>
+    <p>De tre storheterna hänger ihop i en enda formel:</p>
+    <p><code>U = R · I</code></p>
+    <p>Skriven om åt de två andra hållen:</p>
+    <p><code>I = U / R</code></p>
+    <p><code>R = U / I</code></p>
+    <p><strong>Räknat exempel 1.</strong> Ett motstånd på 220 Ω ligger över 5,0 V.
+      Hur stor blir strömmen?</p>
+    <p><code>I = U / R = 5,0 V / 220 Ω = 0,0227 A = 22,7 mA</code></p>
+    <p>Kontrollera baklänges: 220 · 0,0227 = 4,99 V, alltså de 5 V vi utgick
+      från. Att räkna tillbaka tar fem sekunder och fångar de flesta slarvfel.</p>
+    <p><strong>Räknat exempel 2.</strong> Du mäter 9,0 V över en okänd komponent
+      och 12 mA genom den. Vad har den för resistans?</p>
+    <p><code>R = U / I = 9,0 V / 0,012 A = 750 Ω</code></p>
+    <p>Lägg märke till att 12 mA skrevs om till 0,012 A innan divisionen. Hade du
+      dividerat med 12 hade svaret blivit 0,75 Ω – tusen gånger fel, och det
+      syns inte i uträkningen utan bara på att svaret är orimligt.</p>
+    <p><strong>Räknat exempel 3.</strong> Genom ett motstånd på 330 Ω går 15 mA.
+      Hur stor är spänningen över det?</p>
+    <p><code>U = R · I = 330 Ω · 0,015 A = 4,95 V</code></p>
+
+    <h3>Seriekoppling: strömmen delas inte, spänningen gör det</h3>
+    <p>Sitter två komponenter efter varandra i samma slinga går samma ström genom
+      båda, och spänningen från källan delar upp sig mellan dem. Summan av
+      delspänningarna är alltid lika med källans spänning.</p>
+    <p><strong>Räknat exempel.</strong> Två motstånd på 220 Ω vardera i serie
+      över 5,0 V. Resistanserna adderas:</p>
+    <p><code>R = 220 Ω + 220 Ω = 440 Ω</code></p>
+    <p><code>I = 5,0 V / 440 Ω = 0,0114 A = 11,4 mA</code></p>
+    <p>Spänningen över vart och ett blir</p>
+    <p><code>U = 220 · 0,0114 = 2,5 V</code></p>
+    <p>och 2,5 + 2,5 = 5,0 V, som väntat. Det är den här regeln som gör att en
+      lysdiod med förresistor går att räkna på: matar du 5,0 V och lysdioden tar
+      2,0 V, återstår 3,0 V över motståndet. Den uträkningen kommer tillbaka i
+      nästa guide.</p>
+
+    <h3>Att mäta: U parallellt, I i serie</h3>
+    <p>Multimetern mäter de två storheterna på helt olika sätt, och skillnaden är
+      inte en detalj utan hela poängen.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 8 460 200" role="img" aria-labelledby="svg-matning-titel"
+           style="width:100%;height:auto">
+        <title id="svg-matning-titel">Krets med batteri, motstånd och lysdiod.
+          Amperemetern sitter inkopplad mitt i ledningen, i serie med kretsen.
+          Voltmetern sitter kopplad med en sladd på var sida om motståndet,
+          parallellt med det.</title>
+
+        <g stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <!-- Vänster gren, batteriet -->
+          <line x1="50" y1="60" x2="50" y2="112"/>
+          <line x1="50" y1="132" x2="50" y2="200"/>
+          <line x1="34" y1="112" x2="66" y2="112" stroke-width="2.6"/>
+          <line x1="42" y1="132" x2="58" y2="132" stroke-width="2.6"/>
+
+          <!-- Övre ledning med amperemetern inkopplad mitt i -->
+          <line x1="50" y1="60" x2="92" y2="60"/>
+          <line x1="128" y1="60" x2="180" y2="60"/>
+          <line x1="250" y1="60" x2="400" y2="60"/>
+
+          <!-- Motståndet -->
+          <rect x="180" y="48" width="70" height="24" rx="2"/>
+
+          <!-- Höger gren med lysdioden -->
+          <line x1="400" y1="60" x2="400" y2="108"/>
+          <polygon points="382,108 418,108 400,140"/>
+          <line x1="382" y1="140" x2="418" y2="140" stroke-width="2.6"/>
+          <line x1="400" y1="140" x2="400" y2="200"/>
+          <line x1="424" y1="112" x2="442" y2="94"/>
+          <path d="M 436 94 L 442 94 L 442 100"/>
+          <line x1="428" y1="124" x2="446" y2="106"/>
+          <path d="M 440 106 L 446 106 L 446 112"/>
+
+          <!-- Nedre ledning -->
+          <line x1="50" y1="200" x2="400" y2="200"/>
+
+          <!-- Voltmeterns två sladdar, en på var sida om motståndet -->
+          <line x1="180" y1="60" x2="180" y2="140"/>
+          <line x1="180" y1="140" x2="197" y2="140"/>
+          <line x1="250" y1="60" x2="250" y2="140"/>
+          <line x1="250" y1="140" x2="233" y2="140"/>
+        </g>
+
+        <!-- Mätarnas hus. Fylld yta så att ledningen inte lyser igenom. -->
+        <circle cx="110" cy="60" r="18" fill="var(--kort)" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="215" cy="140" r="18" fill="var(--kort)" stroke="currentColor" stroke-width="1.6"/>
+
+        <!-- Knutpunkter där voltmetern greppar -->
+        <circle cx="180" cy="60" r="3.4" fill="currentColor"/>
+        <circle cx="250" cy="60" r="3.4" fill="currentColor"/>
+
+        <g fill="currentColor" text-anchor="middle">
+          <text x="110" y="67" font-size="19" font-weight="700">A</text>
+          <text x="215" y="147" font-size="19" font-weight="700">V</text>
+          <text x="110" y="26" font-size="17">amperemeter</text>
+          <text x="215" y="184" font-size="17">voltmeter</text>
+          <text x="215" y="38" font-size="17">R = 220 Ω</text>
+        </g>
+        <g fill="currentColor" font-size="17">
+          <text x="30" y="128" text-anchor="end">5 V</text>
+          <text x="74" y="106">+</text>
+          <text x="74" y="144">−</text>
+          <text x="374" y="128" text-anchor="end">lysdiod</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>Amperemetern sitter mitt i ledningen.</strong> Kretsen är
+        bruten och mätaren inkopplad i gluggen, så att all ström måste gå genom
+        den. Det är vad <em>i serie</em> betyder.</li>
+      <li><strong>Voltmetern sitter med en sladd på var sida om motståndet.</strong>
+        Kretsen är orörd; mätaren hänger bredvid och jämför de två punkterna.
+        Det är vad <em>parallellt</em> betyder.</li>
+    </ul>
+
+    <p><strong>Spänning mäts parallellt.</strong> Du lägger de två mätspetsarna
+      på var sin sida om komponenten, utan att röra kopplingen i övrigt. Mätaren
+      jämför de två punkterna. En voltmeter har mycket hög inre resistans,
+      typiskt 10 MΩ, just för att den ska störa kretsen så lite som möjligt.</p>
+    <p><strong>Räknat exempel.</strong> Vad gör voltmetern med kretsen när den
+      läggs över motståndet på 220 Ω? De två sitter nu parallellt:</p>
+    <p><code>R = (220 · 10 000 000) / (220 + 10 000 000) ≈ 219,995 Ω</code></p>
+    <p>Resistansen ändras alltså med ungefär fem tusendels ohm. Det syns inte på
+      displayen och spelar ingen roll. Det är därför du kan mäta spänning i en
+      koppling som är igång.</p>
+    <p><strong>Ström mäts i serie.</strong> Strömmen går <em>genom</em> saker, och
+      för att mäta den måste den gå genom mätaren. Det betyder att du måste
+      <strong>bryta kretsen</strong> och koppla in mätaren i gluggen. Det finns
+      ingen genväg. En amperemeter har mycket låg inre resistans – från en
+      bråkdels ohm på det stora strömområdet till några tiotal ohm på det
+      minsta – eftersom den ska störa strömmen så lite som möjligt.</p>
+    <p><strong>Räknat exempel.</strong> Mätarens shunt är 1 Ω och den kopplas in
+      i serie med de 220 Ω vi räknat på:</p>
+    <p><code>I = 5,0 / (220 + 1) = 5,0 / 221 = 0,02262 A = 22,6 mA</code></p>
+    <p>Utan mätaren var strömmen 22,7 mA. Mätningen sänker den med knappt en
+      halv procent. Det är priset för att veta, och det är billigt.</p>
+
+    <p class="notis varna"><span class="rubrik">Den dyra förväxlingen</span>
+      Samma låga inre resistans som gör amperemetern ofarlig i serie gör den
+      livsfarlig för kretsen om den läggs parallellt. Sätter du mätaren i
+      strömläge direkt över batteriets poler blir det som att lägga en tjock
+      kopparsladd där: <strong>I = 5,0 V / 1 Ω = 5 A</strong> – begränsat av vad
+      källan orkar, eftersom det är källans egen inre resistans som sätter taket
+      för kortslutningsströmmen. Det är en kortslutning. Mätarens säkring går,
+      batteriet blir varmt, och med en
+      kraftigare strömkälla slutar det värre än så. Se avsnittet
+      <a href="#fel">Vanliga fel</a>.</p>
+
+    <p><strong>Resistans mäts på en strömlös komponent.</strong> Ω-läget skickar
+      ut en känd liten ström och mäter spänningen som uppstår. Det förutsätter
+      att ingen annan spänning finns i kretsen, och att det inte finns någon
+      annan väg strömmen kan ta. Bryt strömmen, och lyft helst ut komponenten
+      innan du mäter.</p>
+
+    <h3>Prefixen</h3>
+    <p>Nästan alla fel i uträkningarna på den här kursen är prefixfel, inte
+      formelfel. Lär dig de fyra.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead>
+          <tr><th>Prefix</th><th>Betyder</th><th>Exempel</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>mikro (µ)</td><td>en miljondel, 0,000001</td><td>100 µF = 0,0001 F</td></tr>
+          <tr><td>milli (m)</td><td>en tusendel, 0,001</td><td>20 mA = 0,020 A</td></tr>
+          <tr><td>kilo (k)</td><td>tusen, 1 000</td><td>4,7 kΩ = 4 700 Ω</td></tr>
+          <tr><td>mega (M)</td><td>en miljon, 1 000 000</td><td>1 MΩ = 1 000 000 Ω</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Regeln som räddar dig: <strong>räkna alltid om till grundenheten innan du
+      sätter in i formeln.</strong> Volt, ampere och ohm. Sätt tillbaka prefixet
+      först när du skriver ner svaret.</p>
+
+    <h2 id="begrepp">Begreppsträning</h2>
+    <p>Ett av betygskriterierna handlar om att du kan beskriva systemens
+      uppbyggnad och funktion <em>med hjälp av matematiska och fysikaliska
+      begrepp</em>. Det betyder i praktiken att orden nedan ska sitta så att du
+      använder dem utan att tveka. Klicka fram ett begrepp i taget och svara
+      innan du tittar.</p>
+
+    <div class="traning" id="traning" data-kalla="begreppstabell">
+      <p class="ordet"></p>
+      <p class="svaret" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp" id="visa-svar">Visa svar</button>
+        <button type="button" class="knapp tom" id="nasta-ord">Nästa</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <p>Hela tabellen, för dig som hellre läser rakt av:</p>
+    <div class="tabellsvep">
+      <table id="begreppstabell">
+        <thead>
+          <tr><th>Storhet</th><th>Enhet och beteckning</th><th>Vad det är</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Spänning</td>
+            <td>volt (V), betecknas U</td>
+            <td>Energi per laddning, 1 V är 1 joule per coulomb. Alltid
+              skillnaden mellan två punkter, aldrig ett värde i en enda.</td>
+          </tr>
+          <tr>
+            <td>Potential</td>
+            <td>volt (V), betecknas V</td>
+            <td>Nivån i en enda punkt, räknad från en vald nollpunkt. Spänning är
+              skillnaden mellan två potentialer.</td>
+          </tr>
+          <tr>
+            <td>Ström</td>
+            <td>ampere (A), betecknas I</td>
+            <td>Hur mycket laddning som passerar en punkt per sekund. 1 A är
+              1 coulomb per sekund.</td>
+          </tr>
+          <tr>
+            <td>Resistans</td>
+            <td>ohm (Ω), betecknas R</td>
+            <td>Hur mycket ett material motsätter sig strömmen. 1 Ω innebär att
+              det krävs 1 V för att driva 1 A igenom.</td>
+          </tr>
+          <tr>
+            <td>Effekt</td>
+            <td>watt (W), betecknas P</td>
+            <td>Hur snabbt energi omvandlas. P = U · I. 1 W är 1 joule per
+              sekund.</td>
+          </tr>
+          <tr>
+            <td>Laddning</td>
+            <td>coulomb (C), betecknas Q</td>
+            <td>Grundstorheten bakom strömmen. 1 C är den laddning som passerar
+              när 1 A flyter under 1 sekund.</td>
+          </tr>
+          <tr>
+            <td>Energi</td>
+            <td>joule (J), betecknas E</td>
+            <td>Effekt gånger tid. 1 J är 1 W under 1 sekund.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+    <p><strong>I industrin:</strong> i ett styrskåp mäts spänning som första steg
+      i varje felsökning, innan någon skruvar loss något. En givare som ska
+      lämna 4–20 mA kontrolleras genom att strömmen mäts i serie i slingan, och
+      slingan är byggd med testuttag just för att den ska kunna brytas utan att
+      ledningen klipps. Att 4 mA betyder "noll" och inte 0 mA är ett medvetet
+      val: en avbruten ledning ger 0 mA, och det går därför att skilja från en
+      givare som verkligen mäter noll. Systemet är konstruerat så att felet ska
+      gå att mäta sig fram till.</p>
+    <p><strong>I vardagen:</strong> en telefonladdare är märkt "5 V, 2 A". Det är
+      inte ett löfte om att den alltid skickar 2 A, utan ett tak. Spänningen
+      håller laddaren, strömmen bestämmer telefonen genom sin resistans just då –
+      precis som i Ohms lag. Ett nästan fulladdat batteri drar lite ström trots
+      att laddaren kan lämna mycket, och det är därför sista tio procenten tar
+      längst tid.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <p>Minsta möjliga steg: en enda krets, tre mätningar.</p>
+    <ol>
+      <li>Bygg en slinga på kopplingsdäcket: batteri eller 5 V, ett motstånd på
+        220 Ω, tillbaka till minus. Ingen lysdiod behövs ännu.</li>
+      <li><strong>Mät spänningen över motståndet.</strong> Multimetern på
+        likspänning, en spets på var sida om motståndet. Skriv upp värdet.</li>
+      <li><strong>Räkna ut vad strömmen borde bli</strong> med Ohms lag, innan du
+        mäter den. Skriv upp gissningen.</li>
+      <li><strong>Mät strömmen.</strong> Bryt kretsen på ett ställe genom att
+        dra ut ena änden av en kopplingstråd, och koppla in mätaren i gluggen –
+        röd sladd i mA-ingången, mätaren på likström. Jämför med din gissning.</li>
+      <li>Flytta tillbaka den röda sladden till VΩmA innan du gör något annat.</li>
+    </ol>
+    <p>Stämmer det uppmätta med det beräknade inom några procent har du gjort
+      rätt. Skiljer det mycket mer är det nästan alltid ett prefixfel eller ett
+      motstånd med ett annat värde än du trodde.</p>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Hur stor ström går genom ett motstånd på 1 kΩ som ligger över
+        5,0 V?</summary>
+      <p>1 kΩ är 1 000 Ω. I = U / R = 5,0 / 1 000 = 0,005 A = 5 mA.</p>
+    </details>
+
+    <details>
+      <summary>Du matar en krets med 5,0 V och mäter 2,1 V över lysdioden. Hur
+        mycket ligger över motståndet?</summary>
+      <p>5,0 − 2,1 = 2,9 V. Delspänningarna i en serieslinga summerar alltid till
+        källans spänning, så det som inte ligger över lysdioden ligger över
+        motståndet.</p>
+    </details>
+
+    <details>
+      <summary>Varför måste kretsen brytas för att mäta ström, när spänning går
+        att mäta utan att röra någonting?</summary>
+      <p>Ström är laddning som passerar <em>genom</em> något. Ska mätaren räkna
+        den måste strömmen gå genom mätaren, och då måste mätaren ligga i vägen –
+        i serie. Spänning är däremot en skillnad mellan två punkter, och den kan
+        avläsas utifrån genom att lägga en spets på varje punkt.</p>
+    </details>
+
+    <details>
+      <summary>Du mäter 3,3 V över ett motstånd och 15 mA genom kretsen. Vilket
+        motstånd är det?</summary>
+      <p>R = U / I = 3,3 / 0,015 = 220 Ω. Kontroll baklänges: 220 · 0,015 =
+        3,3 V.</p>
+    </details>
+
+    <details>
+      <summary>Voltmetern har 10 MΩ inre resistans. Hur mycket påverkar den en
+        krets med ett motstånd på 220 Ω?</summary>
+      <p>De två sitter parallellt under mätningen:
+        (220 · 10 000 000) / (220 + 10 000 000) ≈ 219,995 Ω. Skillnaden är
+        ungefär fem tusendels ohm, alltså långt under vad du kan avläsa. Därför
+        stör en spänningsmätning i praktiken inte kretsen.</p>
+    </details>
+
+    <details>
+      <summary>Vad händer om du ställer mätaren på ström och lägger spetsarna
+        direkt på ett batteris två poler?</summary>
+      <p>Du kortsluter batteriet genom mätaren. Amperemetern har med flit nästan
+        ingen resistans – kanske 1 Ω – så strömmen blir I = 5,0 / 1 = 5 A i stället
+        för de milliampere kretsen skulle dragit. I bästa fall går mätarens
+        säkring. I sämre fall blir batteriet mycket varmt.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Amperemetern läggs parallellt.</strong> Det enskilt vanligaste
+        och dyraste felet i hela kursen. Du har mätt spänning i tio minuter,
+        vrider vredet till A och lägger spetsarna på samma två punkter som
+        förut. Men strömläget har nästan ingen inre resistans, så du har just
+        lagt en kopparsladd över kretsen. Säkringen i mätaren går, eller
+        komponenten som skulle skyddas brinner upp. Regeln utan undantag:
+        <strong>strömmätning kräver att du bryter kretsen först.</strong> Måste
+        du flytta en sladd på däcket för att mäta, är du på rätt väg. Behöver du
+        inte flytta något, är du på fel.</li>
+      <li><strong>Röda sladden kvar i A-ingången.</strong> Samma haveri, en
+        omväg. Du mätte ström, vred sedan tillbaka till volt, men glömde att
+        flytta sladden. A-ingången är kortsluten invändigt oavsett vad vredet
+        står på. Flytta sladden direkt efter varje strömmätning.</li>
+      <li><strong>Milliampere räknas som ampere.</strong> 20 mA är 0,020 A. Sätter
+        du in 20 i formeln blir svaret tusen gånger fel. Det syns aldrig i
+        uträkningen – bara på att resultatet är orimligt. Ett motstånd på
+        0,15 Ω finns inte i din låda, och det är ledtråden.</li>
+      <li><strong>Mäter spänning "i en punkt".</strong> Du sätter röd spets på
+        pinnen och låter den svarta hänga i luften, och displayen visar något
+        som hoppar omkring. Spänning är en skillnad mellan två punkter. Den
+        svarta spetsen måste sitta någonstans, nästan alltid på kretsens
+        nollpunkt.</li>
+      <li><strong>Mäter resistans med kretsen inkopplad.</strong> Mätaren ser
+        inte bara komponenten utan alla parallella vägar runt den, och visar
+        därför ett för lågt värde. Är det dessutom spänning kvar i kretsen blir
+        värdet rent nonsens. Bryt strömmen och lyft ut komponenten.</li>
+      <li><strong>Litar på färgkoden till sista siffran.</strong> Den fjärde
+        ringen är toleransen. Guld betyder 5 %, och ett motstånd märkt 220 Ω får
+        då lagligt ligga var som helst mellan 209 och 231 Ω. Mäter du 226 Ω är
+        motståndet inte fel – det är inom sin tolerans, och det är din
+        förväntan som ska justeras.</li>
+      <li><strong>Blandar ihop U och V.</strong> U är storheten spänning, V är
+        enheten volt. Det skrivs "U = 5 V", aldrig "V = 5 U". Samma sak med I
+        och A. Det låter petigt tills du läser ett datablad, där skillnaden är
+        det som gör tabellen begriplig. V gör dubbel tjänst: det är enheten
+        volt, och det är också beteckningen för potential i en enskild punkt
+        (se <a href="#begrepp">Begreppsträning</a>) – sammanhanget skiljer dem
+        åt, eftersom enheten alltid står efter ett tal.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Nästa guide, <a href="guide-effekt-och-komponentval.html">effekt och
+      komponentval</a>, tar de tre storheterna en bit till: vad som händer med
+      energin, varför motståndet blir varmt, och hur du väljer förresistorn till
+      en lysdiod. Delspänningsräkningen från avsnittet om seriekoppling är det
+      du kommer att använda där.</p>
+    <p>Fortfarande ingen kod.
+      <a href="../sprakreferens.html">Språkreferensen</a> öppnar i område 2.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 1</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

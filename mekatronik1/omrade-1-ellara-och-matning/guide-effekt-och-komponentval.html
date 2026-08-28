@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Effekt och komponentval – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o1-effekt">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Effekt och komponentval</strong> · område 1</span>
+  <a href="index.html">Område 1</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 1 · lektion 3</p>
+    <h1>Effekt och komponentval</h1>
+    <p class="inledning">Här slutar ellära vara teori. Efter det här passet kan
+      du välja en komponent och säga varför det blev just den – och det är
+      skillnaden mellan ett bygge som fungerar och ett bygge som råkar
+      fungera.</p>
+
+    <h2 id="mal">Mål</h2>
+    <p>När du är klar kan du räkna ut hur stor förresistor en lysdiod behöver,
+      motivera valet, och avgöra om motståndet klarar effekten.</p>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Effekt är hur snabbt energi omvandlas</h3>
+    <p>Effekt mäts i watt. <strong>P = U · I</strong>. En watt är en joule per
+      sekund. I ett motstånd omvandlas all effekt till värme – det är hela
+      motståndets uppgift, och det är därför ett motstånd som arbetar hårt går
+      att känna med fingret.</p>
+    <p>Med Ohms lag insatt får formeln två användbara omskrivningar:</p>
+    <p><code>P = U · I</code></p>
+    <p><code>P = I² · R</code></p>
+    <p><code>P = U² / R</code></p>
+    <p>Alla tre ger samma svar. Vilken du väljer beror bara på vilka två storheter
+      du råkar känna till.</p>
+
+    <h3>Räknat exempel: förresistorn till en röd lysdiod</h3>
+    <p>En röd lysdiod har framspänningen 2,0 V och ska drivas med 20 mA från
+      5 V. En lysdiod är inte ett motstånd – den håller ungefär sin framspänning
+      och låter strömmen skena om ingenting begränsar den. Därför sitter alltid
+      ett motstånd i serie.</p>
+    <p>Över motståndet ligger det som blir över när lysdioden tagit sitt:</p>
+    <p><code>U = 5,0 V − 2,0 V = 3,0 V</code></p>
+    <p><code>R = U / I = 3,0 V / 0,020 A = 150 Ω</code></p>
+    <p>Effekten i motståndet blir</p>
+    <p><code>P = U · I = 3,0 · 0,020 = 0,06 W</code></p>
+    <p>Samma sak med de andra två formlerna, som kontroll:</p>
+    <p><code>P = I² · R = 0,020² · 150 = 0,0004 · 150 = 0,06 W</code></p>
+    <p><code>P = U² / R = 3,0² / 150 = 9 / 150 = 0,06 W</code></p>
+    <p>Ett vanligt 1/4 W-motstånd tål 0,25 W, alltså drygt fyra gånger mer. Det
+      duger med marginal.</p>
+    <p><strong>Var tar resten av effekten vägen?</strong> Lysdioden tar</p>
+    <p><code>P = 2,0 · 0,020 = 0,04 W</code></p>
+    <p>och ur källan kommer</p>
+    <p><code>P = 5,0 · 0,020 = 0,10 W</code></p>
+    <p>0,06 + 0,04 = 0,10. Ingenting försvinner. Men lägg märke till fördelningen:
+      60 procent av effekten går till värme i motståndet och bara 40 procent når
+      ens fram till lysdioden – och av de 40 procenten blir bara en del ljus,
+      resten värme även där. Så ser det ut när en 2-voltskomponent drivs från
+      5 V, och det är priset för att slippa en egen spänningskälla.</p>
+
+    <h3>E12-serien: värdena som faktiskt finns</h3>
+    <p>Motstånd tillverkas inte i alla värden utan i standardserier. E12 har tolv
+      värden per tiopotens:</p>
+    <div class="tabellsvep">
+      <p><code>10 · 12 · 15 · 18 · 22 · 27 · 33 · 39 · 47 · 56 · 68 · 82</code></p>
+    </div>
+    <p>Varje värde gäller gånger tio, hundra, tusen och så vidare: 15 ger 15 Ω,
+      150 Ω, 1,5 kΩ, 15 kΩ. Vårt uträknade 150 Ω finns alltså i serien. Men ett
+      startkit innehåller sällan hela serien, och saknar du 150 Ω är de närmaste
+      grannarna 120 Ω och 180 Ω.</p>
+    <p>Vad blir skillnaden? Räkna:</p>
+    <p><code>180 Ω:  I = 3,0 / 180 = 0,0167 A = 17 mA</code></p>
+    <p><code>120 Ω:  I = 3,0 / 120 = 0,025 A = 25 mA</code></p>
+    <p>Med 180 Ω sjunker strömmen till 17 mA och lysdioden lyser obetydligt
+      svagare – ögat märker knappt skillnaden, eftersom ljusstyrkan uppfattas
+      logaritmiskt. Med 120 Ω stiger den till 25 mA, vilket är över de 20 mA som
+      många lysdioder är specificerade för.
+      <strong>Välj uppåt när du är osäker.</strong> Ett värde för högt ger en
+      något svagare lampa. Ett värde för lågt förkortar komponentens liv, ofta
+      utan att det syns förrän långt senare.</p>
+
+    <h3>När 1/4 W inte räcker</h3>
+    <p>Marginalen ovan var bekväm. Den är det inte alltid.</p>
+    <p><strong>Räknat exempel.</strong> Ett motstånd på 100 Ω läggs direkt över
+      12 V, till exempel för att någon glömt att lysdioden skulle sitta i serie:</p>
+    <p><code>I = 12 / 100 = 0,12 A = 120 mA</code></p>
+    <p><code>P = U² / R = 12² / 100 = 144 / 100 = 1,44 W</code></p>
+    <p>1,44 / 0,25 ≈ 5,8. Motståndet får nästan sex gånger sin märkeffekt. Det
+      blir brännhett på några sekunder, missfärgas och går sönder – och luktar
+      innan det gör det.</p>
+    <p><strong>Ett mellanläge.</strong> Ett motstånd på 470 Ω över 9 V:</p>
+    <p><code>P = U² / R = 9² / 470 = 81 / 470 = 0,17 W</code></p>
+    <p>Det ligger under 0,25 W och håller. Men 0,17 W är nästan 70 procent av
+      märkeffekten, och motståndet blir för varmt att hålla i länge. En bra
+      tumregel: håll dig under halva märkeffekten. Ett motstånd som ligger nära
+      sin gräns fungerar, men det åldras snabbare och det värmer allt som ligger
+      bredvid.</p>
+
+    <h3>Lysdioder är inte utbytbara</h3>
+    <p>Framspänningen beror på vilket material dioden är gjord av, alltså i
+      praktiken på färgen. Byter du färg måste du räkna om.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead>
+          <tr><th>Färg</th><th>Framspänning, typiskt</th><th>Kvar till motståndet vid 5 V</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Röd</td><td>1,8–2,1 V</td><td>omkring 3,0 V</td></tr>
+          <tr><td>Gul, orange</td><td>2,0–2,2 V</td><td>omkring 2,9 V</td></tr>
+          <tr><td>Grön, äldre typ</td><td>2,0–2,2 V</td><td>omkring 2,9 V</td></tr>
+          <tr><td>Blå, vit, klargrön</td><td>3,0–3,4 V</td><td>omkring 1,8 V</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Notera sista raden. En blå lysdiod lämnar bara omkring 1,8 V till
+      motståndet i stället för 3,0 V, och behöver därför ett betydligt mindre
+      motstånd för samma ström. Räknat vid 20 mA:</p>
+    <p><code>U = 5,0 − 3,2 = 1,8 V</code></p>
+    <p><code>R = 1,8 / 0,020 = 90 Ω  →  välj 100 Ω i E12</code></p>
+    <p>Sätter du kvar det gamla 150 Ω-motståndet blir strömmen
+      1,8 / 150 = 0,012 A = 12 mA, och lampan lyser svagare än väntat. Det är
+      inte ett fel i kopplingen – det är fysik, och den syns bara om du räknar.</p>
+    <p class="notis"><span class="rubrik">Värdena är typiska, inte exakta</span>
+      Tabellen ovan är ungefärlig. Det verkliga värdet står i lysdiodens
+      datablad, och två lysdioder ur samma påse kan skilja sig en tiondels volt.
+      Det är därför du <em>mäter efter</em> i bygge 0 i stället för att lita på
+      uträkningen ensam. Att beräkna och mäta är två olika saker, och kursen
+      kräver båda.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+    <p><strong>I industrin:</strong> statuslamporna på en manöverpanel
+      dimensioneras precis så här, men med större marginal, eftersom de lyser
+      dygnet runt i åratal. En konstruktör som väljer ett motstånd nära dess
+      effektgräns bygger in ett fel som visar sig efter garantitiden. Samma
+      resonemang styr när ett skåp behöver fläkt: summan av alla små
+      värmeeffekter är det som avgör, inte en enskild komponent.</p>
+    <p><strong>I vardagen:</strong> laddaren till telefonen blir varm av exakt
+      samma skäl. Den effekt som inte går vidare till batteriet blir värme i
+      laddaren. En laddare som är märkt 5 V och 2 A lämnar 10 W, och är den
+      90 procent effektiv blir ungefär 1 W värme – lagom för att den ska kännas
+      ljummen. Blir den brännhet är verkningsgraden sämre än så.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <p>Räkna ut förresistorn för en grön lysdiod med framspänningen 2,2 V vid
+      15 mA från 5 V. Skriv ner de tre stegen: spänningen över motståndet,
+      resistansen, och effekten i motståndet. Välj sedan ett värde ur E12 och
+      motivera i en mening varför du valde det du valde.</p>
+    <p>Bygg kopplingen på däcket och mät sedan spänningen över motståndet. Stämmer
+      det med det du räknade?</p>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Varför sitter motståndet i serie och inte parallellt?</summary>
+      <p>I serie går samma ström genom både motståndet och lysdioden, och
+        motståndet kan därmed begränsa den. Parallellt skulle lysdioden få hela
+        spänningen och strömmen skulle bara begränsas av lysdioden själv – som
+        knappt begränsar alls.</p>
+    </details>
+
+    <details>
+      <summary>Du mäter 3,1 V över ett 180 Ω-motstånd. Hur stor är strömmen?</summary>
+      <p>I = U / R = 3,1 / 180 = 0,0172 A, alltså 17 mA.</p>
+    </details>
+
+    <details>
+      <summary>Spelar det någon roll om motståndet sitter före eller efter
+        lysdioden i slingan?</summary>
+      <p>Nej, inte elektriskt. I en serieslinga går samma ström genom allt,
+        oavsett ordning, och motståndet begränsar den lika bra på båda sidor.
+        Det spelar däremot roll för hur lätt schemat är att läsa, och det är
+        vanligast att rita motståndet först.</p>
+    </details>
+
+    <details>
+      <summary>En blå lysdiod med framspänningen 3,2 V ska drivas med 20 mA från
+        5 V. Vilket motstånd, och vilken effekt får det?</summary>
+      <p>Över motståndet ligger 5,0 − 3,2 = 1,8 V. R = 1,8 / 0,020 = 90 Ω, och
+        närmaste E12-värde uppåt är 100 Ω. Effekten blir P = U² / R =
+        1,8² / 100 = 3,24 / 100 = 0,032 W, alltså långt under ett 1/4 W-motstånds
+        0,25 W. Med 100 Ω blir strömmen 1,8 / 100 = 0,018 A = 18 mA.</p>
+    </details>
+
+    <details>
+      <summary>Ett motstånd på 220 Ω ligger över 5 V. Klarar ett 1/4 W-motstånd
+        det?</summary>
+      <p>P = U² / R = 5² / 220 = 25 / 220 = 0,114 W. Det är under 0,25 W, alltså
+        ja – men det är nästan halva märkeffekten, och motståndet kommer att
+        kännas varmt. Fungerar, men utan mycket marginal.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Motståndet glöms bort och lysdioden lyser ändå.</strong> Den
+        lyser tills den slocknar för gott. Utan begränsning bestäms strömmen bara
+        av lysdiodens eget lilla motstånd, och den blir för hög. Att den lyste i
+        tio sekunder betyder inte att kopplingen var rätt.</li>
+      <li><strong>Räknar med 5 V över motståndet.</strong> Lysdiodens
+        framspänning ska dras bort först. Annars blir motståndet för stort och
+        lysdioden svag: 5,0 / 0,020 ger 250 Ω i stället för 150 Ω, och strömmen
+        landar på 3,0 / 250 = 12 mA.</li>
+      <li><strong>Blandar ihop mA och A.</strong> 20 mA är 0,020 A. Räknar du med
+        20 får du ett motstånd på 0,15 Ω. Det värdet finns inte i din låda, och
+        det är ledtråden om att något gått fel.</li>
+      <li><strong>Byter lysdiodens färg utan att räkna om.</strong> Motståndet
+        som var rätt för röd är för stort för blå. Lampan lyser svagt, du tror
+        att den är trasig, och byter komponent i stället för att räkna.</li>
+      <li><strong>Väljer närmaste E12-värde nedåt.</strong> Det ger högre ström
+        än beräknat. Blir det 25 mA där 20 mA var taket syns ingenting genast,
+        men komponenten åldras snabbare. Vid osäkerhet: uppåt.</li>
+      <li><strong>Tittar bara på resistansen, inte på effekten.</strong> Ett
+        motstånd har två märkdata, och den ena står inte på kroppen. Rätt värde
+        i fel storlek blir varmt, missfärgas och driver iväg i resistans innan
+        det går sönder helt.</li>
+      <li><strong>Lysdioden vänd åt fel håll.</strong> Den lyser inte alls, och
+        det ser precis ut som en trasig komponent eller ett brutet motstånd.
+        Långa benet är plus, och den plattade kanten på kapseln är minus. Vänd
+        den innan du börjar mäta.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Ingen kod ännu. Nästa guide är
+      <a href="guide-kopplingsschema.html">kopplingsschema</a>, där samma krets
+      ritas med symboler i stället för ord, och därefter bygger du
+      <a href="bygge-0-lysdioden.html">bygge 0</a>. Uträkningen ovan är den du
+      ska redovisa där.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 1</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

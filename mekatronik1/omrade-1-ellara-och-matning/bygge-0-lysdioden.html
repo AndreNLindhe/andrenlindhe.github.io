@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bygge 0 – lysdioden – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o1-bygge0">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Bygge 0 – lysdioden</strong> · område 1</span>
+  <a href="index.html">Område 1</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Område 1 · lektion 5 · 17 sep</p>
+    <h1>Bygge 0 – lysdioden</h1>
+    <p class="inledning">En lysdiod som lyser för att du räknat ut varför.
+      Området avslutas med det minsta bygge som ändå kräver alla fyra guiderna:
+      räkna, rita, bygg, mät.</p>
+
+    <p class="notis viktig"><span class="rubrik">Det här är inte ett bedömt system</span>
+      <strong>Bygge 0 är en förövning.</strong> Betygskriterierna definierar ett
+      mekatroniskt system som något som sammanför <em>mekanisk struktur,
+      elektroteknik och styrteknik</em>. Den här kretsen har varken en rörlig del
+      eller en styrenhet – bara elektrotekniken. Den kan därför inte bedömas som
+      ett mekatroniskt system, och den ingår inte i de fem system du bygger
+      under året. Ditt betyg vilar inte på den här sidan.
+      Vad den däremot gör är att lära dig arbetsgången du kommer att använda i
+      alla fem: beräkna först, bygg sedan, mät efteråt, och förklara skillnaden.
+      Det första bedömda bygget är bygge 1 i område 2.</p>
+
+    <h2 id="uppgiften">Uppgiften</h2>
+    <p>Få en röd lysdiod att lysa från 5 V, med en förresistor du räknat ut
+      själv. Mät sedan spänningen över motståndet och jämför med det du räknade.
+      Skillnaden mellan de två talen är det du ska förklara – inte gömma undan.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 18 460 192" role="img" aria-labelledby="svg-bygge0-titel"
+           style="width:100%;height:auto">
+        <title id="svg-bygge0-titel">Kopplingsschema för bygge 0. Från
+          spänningskällans pluspol går ledningen genom motståndet, ner genom
+          lysdioden och tillbaka till minuspolen. En voltmeter är kopplad med en
+          sladd på var sida om motståndet, alltså parallellt med det.</title>
+
+        <g stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <line x1="50" y1="60" x2="50" y2="112"/>
+          <line x1="34" y1="112" x2="66" y2="112" stroke-width="2.6"/>
+          <line x1="42" y1="132" x2="58" y2="132" stroke-width="2.6"/>
+          <line x1="50" y1="132" x2="50" y2="200"/>
+
+          <line x1="50" y1="60" x2="180" y2="60"/>
+          <rect x="180" y="48" width="70" height="24" rx="2"/>
+          <line x1="250" y1="60" x2="400" y2="60"/>
+
+          <line x1="400" y1="60" x2="400" y2="108"/>
+          <polygon points="382,108 418,108 400,140"/>
+          <line x1="382" y1="140" x2="418" y2="140" stroke-width="2.6"/>
+          <line x1="400" y1="140" x2="400" y2="200"/>
+          <line x1="424" y1="112" x2="442" y2="94"/>
+          <path d="M 436 94 L 442 94 L 442 100"/>
+          <line x1="428" y1="124" x2="446" y2="106"/>
+          <path d="M 440 106 L 446 106 L 446 112"/>
+
+          <line x1="50" y1="200" x2="400" y2="200"/>
+
+          <line x1="180" y1="60" x2="180" y2="140"/>
+          <line x1="180" y1="140" x2="197" y2="140"/>
+          <line x1="250" y1="60" x2="250" y2="140"/>
+          <line x1="250" y1="140" x2="233" y2="140"/>
+        </g>
+
+        <circle cx="215" cy="140" r="18" fill="var(--kort)" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="180" cy="60" r="3.4" fill="currentColor"/>
+        <circle cx="250" cy="60" r="3.4" fill="currentColor"/>
+
+        <g fill="currentColor">
+          <text x="215" y="147" font-size="19" font-weight="700" text-anchor="middle">V</text>
+          <text x="215" y="38" font-size="17" text-anchor="middle">R1</text>
+          <text x="215" y="184" font-size="17" text-anchor="middle">voltmeter</text>
+          <text x="30" y="128" font-size="17" text-anchor="end">5 V</text>
+          <text x="74" y="106" font-size="17">+</text>
+          <text x="74" y="144" font-size="17">−</text>
+          <text x="374" y="128" font-size="17" text-anchor="end">D1</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>R1</strong> är förresistorn, och dess värde är det du ska räkna
+        ut. Det är hela uppgiften.</li>
+      <li><strong>D1</strong> är den röda lysdioden. Triangeln pekar mot strecket,
+        alltså mot minus – på komponenten är det korta benet och den plattade
+        kanten.</li>
+      <li><strong>Voltmetern</strong> sitter med en sladd på var sida om
+        motståndet, alltså parallellt med det, och kretsen är igång under
+        mätningen.</li>
+    </ul>
+
+    <h2 id="innan">Innan passet</h2>
+    <p>Fyll i <a href="../samradsunderlag.html">samrådsunderlaget</a> innan du ber
+      om handledning. De tre frågorna tar två minuter och gör passet kortare för
+      dig. Läs också
+      <a href="guide-effekt-och-komponentval.html">effekt och komponentval</a>
+      igen om uträkningen känns osäker – det är den guiden bygget vilar på.</p>
+
+    <h2 id="steg">Arbetsgång</h2>
+    <ol>
+      <li><strong>Räkna.</strong> Läs av lysdiodens framspänning i databladet
+        eller använd 2,0 V för röd. Dra bort den från matningsspänningen, dela
+        med den ström du vill ha (20 mA är ett bra riktvärde), och välj närmaste
+        E12-värde uppåt. Skriv ner varje mellansteg.</li>
+      <li><strong>Kontrollera effekten.</strong> P = U · I i motståndet. Är den
+        under halva märkeffekten på ditt motstånd, alltså under 0,125 W för ett
+        vanligt 1/4 W-motstånd, är du på den säkra sidan.</li>
+      <li><strong>Rita schemat</strong> innan du bygger. Beteckningar och värden
+        utsatta. Det tar en minut och gör felsökningen efteråt möjlig.</li>
+      <li><strong>Bygg.</strong> Spänningen bortkopplad medan du kopplar.
+        Lysdiodens långa ben mot plus, den plattade kanten mot minus. Kontrollera
+        att motståndets båda ben sitter i olika femhålsgrupper.</li>
+      <li><strong>Mät matningen.</strong> Innan du dömer något annat: hur mycket
+        får kretsen faktiskt? Sällan exakt 5,00 V.</li>
+      <li><strong>Mät över motståndet.</strong> Voltmetern parallellt, en spets
+        på var sida, som i schemat ovan. Röd spets på den sida som ligger
+        närmast plus.</li>
+      <li><strong>Mät över lysdioden</strong> också. Nu vet du hur mycket den
+        faktiskt tar, i stället för vad tabellen påstod.</li>
+      <li><strong>Jämför och förklara.</strong> Ställ upp beräknat och uppmätt
+        bredvid varandra och skriv ner varför de skiljer sig.</li>
+    </ol>
+
+    <h2 id="jamforelsen">Jämförelsen – och varför talen aldrig blir lika</h2>
+    <p>Här är hur en färdig jämförelse kan se ut. Siffrorna nedan är ett exempel,
+      inte facit – dina egna mätvärden blir andra.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead>
+          <tr><th>Storhet</th><th>Beräknat</th><th>Uppmätt</th><th>Skillnad</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Matningsspänning</td><td>5,00 V</td><td>4,92 V</td><td>−0,08 V</td></tr>
+          <tr><td>Lysdiodens framspänning</td><td>2,00 V</td><td>1,94 V</td><td>−0,06 V</td></tr>
+          <tr><td>Spänning över motståndet</td><td>3,00 V</td><td>2,98 V</td><td>−0,02 V, alltså 0,7 %</td></tr>
+          <tr><td>Motståndets resistans</td><td>150 Ω märkt</td><td>148 Ω</td><td>inom 5 % tolerans</td></tr>
+          <tr><td>Ström genom kretsen</td><td>20,0 mA</td><td>20,1 mA</td><td>+0,1 mA</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Strömmen i sista raden är inte mätt utan uträknad ur de uppmätta värdena,
+      vilket är fullt tillåtet så länge du säger att du gjort så:</p>
+    <p><code>I = U / R = 2,98 V / 148 Ω = 0,0201 A = 20,1 mA</code></p>
+    <p>Fyra saker förklarar nästan alltid skillnaden, och det är de här du ska
+      skriva om:</p>
+    <ul>
+      <li><strong>Motståndets tolerans.</strong> En guldring betyder 5 %. Ett
+        motstånd märkt 150 Ω får ligga var som helst mellan 142,5 och 157,5 Ω och
+        ändå vara felfritt.</li>
+      <li><strong>Lysdiodens verkliga framspänning.</strong> Tabellvärdet 2,0 V
+        är ett typvärde. Två lysdioder ur samma påse kan skilja en tiondels volt,
+        och framspänningen ändras dessutom något med strömmen och med
+        temperaturen.</li>
+      <li><strong>Matningen är inte exakt.</strong> USB ligger ofta någonstans
+        mellan 4,8 och 5,1 V, och sjunker under belastning. Ett nytt 9 V-batteri
+        ger snarare 9,5 V än 9,0.</li>
+      <li><strong>Mätaren själv.</strong> En enkel multimeter anger ofta
+        noggrannheten som ±(0,5 % av avläsningen + 2 siffror). På 2,98 V betyder
+        det ungefär ±0,03 V. Ditt mätvärde är inte en sanning utan ett intervall.</li>
+    </ul>
+    <p class="notis"><span class="rubrik">Hur stor skillnad är för stor</span>
+      Under ungefär 5 % är skillnaden normal spridning och behöver bara
+      förklaras. Över ungefär 20 % är det något som faktiskt är fel: ett
+      motstånd med annat värde än du trodde, ett prefixfel i uträkningen, en
+      matning som sjunkit, eller en lysdiod av annan färg än du utgick från.
+      Leta där innan du skyller på toleranser.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="krav">Kraven</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <p>Kryssen sparas i din egen webbläsare. De är en checklista för dig, inte
+        en inlämning.</p>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bygge0-berakning"><span><strong>Beräknad
+          förresistor, med uträkningen redovisad.</strong> Inte bara svaret. Alla
+          tre stegen ska synas: spänningen över motståndet, resistansen, och
+          effekten. Skriv också vilket E12-värde du valde och varför du valde
+          uppåt eller nedåt.</span></label></li>
+        <li><label><input type="checkbox" id="bygge0-bygget"><span><strong>Byggd
+          koppling.</strong> Kretsen finns på kopplingsdäcket och lysdioden
+          lyser. Ett schema ritat med beteckningar och värden hör till – det är
+          det som gör bygget läsbart för någon annan än
+          dig.</span></label></li>
+        <li><label><input type="checkbox" id="bygge0-matning"><span><strong>Uppmätt
+          spänning över motståndet.</strong> Voltmetern parallellt över
+          motståndet, med kretsen igång. Värdet noterat med enhet.</span></label></li>
+        <li><label><input type="checkbox" id="bygge0-jamforelse"><span><strong>Jämförelse
+          mellan beräknat och uppmätt.</strong> De två talen bredvid varandra,
+          och skillnaden uträknad – både i volt och i procent.</span></label></li>
+        <li><label><input type="checkbox" id="bygge0-forklaring"><span><strong>Förklaring
+          av skillnaden.</strong> Varför blev de inte lika? Minst en av
+          orsakerna ovan, kopplad till just dina siffror. "Det blev lite fel"
+          räcker inte; "motståndet mätte 148 Ω i stället för 150 Ω, vilket ensamt
+          förklarar en dryg procent" gör det.</span></label></li>
+      </ul>
+      <p><button type="button" class="knapp tom" id="nollstall">Nollställ kryssen</button></p>
+    </section>
+
+    <h2 id="dokumentation">Dokumentationen</h2>
+    <p>Bygge 0 bedöms inte, men skriv ändå ner det du gjort. Använd
+      <a href="../dokumentationsmall.html">dokumentationsmallen</a> och gör de
+      fyra E-punkterna. De tar tjugo minuter nu, och de gör att du redan kan
+      formen när bygge 1 kommer – då räknas den.</p>
+    <p>Två av C-punkterna passar ovanligt bra på just det här bygget:
+      <strong>motiverade komponentval</strong> är hela uträkningen du gjort, och
+      <strong>mätvärden med enhet</strong> är tabellen ovan. Ta med dem, så ser
+      du vad nivån innebär innan den börjar gälla.</p>
+
+    <h2 id="fastnar">Om det inte fungerar</h2>
+    <ul>
+      <li><strong>Lysdioden lyser inte alls.</strong> Vänd den. Långa benet mot
+        plus. Mät sedan matningen – finns det spänning på däcket över huvud
+        taget? Är strömskenan bruten på mitten?</li>
+      <li><strong>Lysdioden lyser mycket svagt.</strong> Kontrollera
+        motståndsvärdet med mätaren. Ett 1,5 kΩ har samma färger som 150 Ω så när
+        som på multiplikatorringen, och tio gånger för stort motstånd ger tio
+        gånger för lite ström.</li>
+      <li><strong>Ingen ström alls trots att allt ser rätt ut.</strong> Sitter
+        två ben på var sin sida om mittspåret? Se
+        <a href="guide-sakerhet-och-esd.html#fel">kopplingsdäckets fällor</a>.</li>
+      <li><strong>Lysdioden blinkade till och slocknade.</strong> Motståndet satt
+        troligen överbryggat, alltså med båda benen i samma femhålsgrupp, eller
+        glömdes bort. Lysdioden är förbrukad. Ta en ny, och rätta kopplingen
+        först.</li>
+      <li><strong>Mätvärdet hoppar.</strong> Glapp. Tryck ner trådarna ordentligt
+        och byt hål – ett urslitet hål håller inte en tunn kopplingstråd.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Med bygge 0 avslutat är område 1 klart. Du kan räkna, rita, bygga och
+      mäta. Nästa område tar fram Unon, och då blir samma arbetsgång rikare med
+      ett steg till: koden.</p>
+    <p>Tillbaka till <a href="index.html">område 1</a> eller till
+      <a href="../index.html">kursens material</a>.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 1</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

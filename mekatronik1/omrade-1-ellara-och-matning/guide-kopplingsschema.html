@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kopplingsschema – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o1-schema">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Kopplingsschema</strong> · område 1</span>
+  <a href="index.html">Område 1</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 1 · lektion 4</p>
+    <h1>Kopplingsschema</h1>
+    <p class="inledning">Ett schema är inte en bild av kopplingen. Det är en
+      karta över vad som hänger ihop med vad, medvetet befriad från allt annat.
+      Att läsa det är en av kursens fem förmågor, och den bedöms.</p>
+
+    <h2 id="mal">Mål</h2>
+    <p>När du är klar kan du:</p>
+    <ul>
+      <li>känna igen symbolerna för spänningskälla, motstånd, lysdiod,
+        strömbrytare, jord och knutpunkt,</li>
+      <li>läsa ett enkelt schema och räkna ut strömmen i det utan att bygga
+        något,</li>
+      <li>bygga en koppling efter ett schema, utan en bild att härma,</li>
+      <li>rita av en befintlig koppling som schema, med komponentbeteckningar
+        och värden,</li>
+      <li>säga vad schemat medvetet inte visar, och varför det är en styrka.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Symbolerna</h3>
+    <p>Sex symboler räcker för allt du bygger i det här området. De följer den
+      europeiska standarden, som är den du möter i svenska ritningar.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 330 205" role="img" aria-labelledby="svg-symboler-titel"
+           style="width:100%;height:auto;max-width:24rem">
+        <title id="svg-symboler-titel">Sex kretssymboler i två rader om tre.
+          Övre raden: spänningskälla ritad som ett långt och ett kort streck,
+          motstånd som en avlång rektangel, lysdiod som en triangel mot ett
+          streck med två pilar ut. Undre raden: strömbrytare som ett uppfällt
+          streck mellan två punkter, jord som tre allt kortare vågräta streck,
+          och knutpunkt som en fylld prick där två ledningar korsas.</title>
+
+        <g stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round">
+
+          <!-- Övre raden -->
+          <g transform="translate(5,14)">
+            <line x1="5" y1="30" x2="42" y2="30"/>
+            <line x1="42" y1="10" x2="42" y2="50" stroke-width="2.6"/>
+            <line x1="52" y1="18" x2="52" y2="42" stroke-width="2.6"/>
+            <line x1="52" y1="30" x2="95" y2="30"/>
+            <text x="30" y="15" font-size="13" fill="currentColor" stroke="none">+</text>
+            <text x="58" y="15" font-size="13" fill="currentColor" stroke="none">−</text>
+          </g>
+
+          <g transform="translate(110,14)">
+            <line x1="5" y1="30" x2="28" y2="30"/>
+            <rect x="28" y="19" width="44" height="22" rx="2"/>
+            <line x1="72" y1="30" x2="95" y2="30"/>
+          </g>
+
+          <g transform="translate(215,14)">
+            <line x1="5" y1="30" x2="32" y2="30"/>
+            <polygon points="32,18 32,42 58,30"/>
+            <line x1="58" y1="18" x2="58" y2="42" stroke-width="2.6"/>
+            <line x1="58" y1="30" x2="95" y2="30"/>
+            <line x1="46" y1="14" x2="56" y2="4"/>
+            <path d="M 51 4 L 56 4 L 56 9"/>
+            <line x1="52" y1="18" x2="62" y2="8"/>
+            <path d="M 57 8 L 62 8 L 62 13"/>
+          </g>
+
+          <!-- Undre raden -->
+          <g transform="translate(5,114)">
+            <line x1="5" y1="30" x2="30" y2="30"/>
+            <circle cx="32" cy="30" r="2.6" fill="currentColor"/>
+            <line x1="34" y1="29" x2="62" y2="14"/>
+            <circle cx="68" cy="30" r="2.6" fill="currentColor"/>
+            <line x1="70" y1="30" x2="95" y2="30"/>
+          </g>
+
+          <g transform="translate(110,114)">
+            <line x1="50" y1="8" x2="50" y2="30"/>
+            <line x1="32" y1="30" x2="68" y2="30" stroke-width="2.2"/>
+            <line x1="39" y1="37" x2="61" y2="37" stroke-width="2.2"/>
+            <line x1="46" y1="44" x2="54" y2="44" stroke-width="2.2"/>
+          </g>
+
+          <g transform="translate(215,114)">
+            <line x1="5" y1="30" x2="95" y2="30"/>
+            <line x1="50" y1="8" x2="50" y2="52"/>
+            <circle cx="50" cy="30" r="4" fill="currentColor" stroke="none"/>
+          </g>
+        </g>
+
+        <g fill="currentColor" text-anchor="middle" font-size="13">
+          <text x="55" y="92">Spänningskälla</text>
+          <text x="160" y="92">Motstånd</text>
+          <text x="265" y="92">Lysdiod</text>
+          <text x="55" y="192">Strömbrytare</text>
+          <text x="160" y="192">Jord</text>
+          <text x="265" y="192">Knutpunkt</text>
+        </g>
+      </svg>
+    </figure>
+
+    <p>Symbolerna i tur och ordning, med den beteckning komponenten får i
+      schemat:</p>
+    <ul>
+      <li><strong>Spänningskälla</strong> – ett långt och ett kort streck. Det
+        långa strecket är plus. Här 5 V eller ett batteri.</li>
+      <li><strong>Motstånd</strong> – betecknas <strong>R</strong> och mäts i
+        ohm. Första motståndet i ett schema heter R1, nästa R2.</li>
+      <li><strong>Lysdiod</strong> – betecknas <strong>D</strong>, som i diod,
+        och har riktning.</li>
+      <li><strong>Strömbrytare</strong> – betecknas <strong>S</strong> och ritas
+        alltid i sitt viloläge. I figuren är den ritad öppen, alltså bruten.</li>
+      <li><strong>Jord</strong> – kretsens nollpunkt, 0 V. Den punkt alla andra
+        spänningar räknas ifrån. Har ingen beteckning, eftersom det bara finns
+        en av den.</li>
+      <li><strong>Knutpunkt</strong> – här möts trådarna och hänger ihop.</li>
+    </ul>
+
+    <p>Två av dem behöver en kommentar direkt.</p>
+    <p><strong>Lysdioden har riktning.</strong> Triangeln pekar åt det håll
+      strömmen får gå, och strecket den pekar mot är minussidan, katoden. På den
+      verkliga komponenten är katoden det korta benet och den plattade kanten på
+      kapseln. Vänd fel lyser den inte alls.</p>
+    <p><strong>Knutpunkten avgör allt.</strong> Två ledningar som korsas på
+      papperet hänger <em>inte</em> ihop om det inte sitter en fylld prick i
+      korsningen. Utan prick springer den ena bara förbi den andra. Det här är
+      den enda symbolen som betyder något genom sin frånvaro, och det är därför
+      den missas.</p>
+
+    <h3>Läsriktning</h3>
+    <p>Scheman ritas efter en konvention som gör dem läsbara utan förklaring:</p>
+    <ul>
+      <li>Den högsta spänningen ligger <strong>överst</strong>, jord ligger
+        <strong>nederst</strong>. Blicken följer strömmen nedåt.</li>
+      <li>Signalen går från <strong>vänster till höger</strong>: insignal till
+        vänster, styrning i mitten, utsignal till höger. Det blir tydligare i
+        område 2, när en styrenhet kommer emellan.</li>
+      <li>Varje komponent har en <strong>beteckning</strong> – R1, D1, S1 – och
+        ett <strong>värde</strong>. Beteckningen gör att den går att prata om,
+        värdet gör att den går att köpa.</li>
+      <li>Alla jordsymboler i ett schema är <strong>samma punkt</strong>, även
+        om de ritas var för sig och aldrig förbinds med en linje. Det är en
+        förkortning som håller ritningen ren, och den kostar ett vanligt fel –
+        se längst ner på sidan.</li>
+    </ul>
+
+    <h3>Ett schema läst</h3>
+    <p>Här är kretsen från förra guiden, ritad som schema. Läs den innan du läser
+      texten under.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 10 450 240" role="img" aria-labelledby="svg-schema-titel"
+           style="width:100%;height:auto">
+        <title id="svg-schema-titel">Kopplingsschema. Från batteriets pluspol går
+          ledningen till en öppen strömbrytare S1, vidare genom motståndet R1 på
+          150 ohm, ner genom den röda lysdioden D1, och tillbaka längs
+          nedersta ledningen till batteriets minuspol. Nedersta ledningen är
+          märkt som kretsens jord, 0 volt.</title>
+
+        <g stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <!-- Spänningskällan -->
+          <line x1="60" y1="50" x2="60" y2="104"/>
+          <line x1="44" y1="104" x2="76" y2="104" stroke-width="2.6"/>
+          <line x1="52" y1="122" x2="68" y2="122" stroke-width="2.6"/>
+          <line x1="60" y1="122" x2="60" y2="215"/>
+
+          <!-- Övre ledning med strömbrytaren -->
+          <line x1="60" y1="50" x2="103" y2="50"/>
+          <line x1="107" y1="49" x2="140" y2="33"/>
+          <line x1="148" y1="50" x2="190" y2="50"/>
+
+          <!-- Motståndet -->
+          <rect x="190" y="38" width="70" height="24" rx="2"/>
+          <line x1="260" y1="50" x2="395" y2="50"/>
+
+          <!-- Lysdioden -->
+          <line x1="395" y1="50" x2="395" y2="100"/>
+          <polygon points="377,100 413,100 395,132"/>
+          <line x1="377" y1="132" x2="413" y2="132" stroke-width="2.6"/>
+          <line x1="395" y1="132" x2="395" y2="215"/>
+          <line x1="419" y1="104" x2="437" y2="86"/>
+          <path d="M 431 86 L 437 86 L 437 92"/>
+          <line x1="423" y1="116" x2="441" y2="98"/>
+          <path d="M 435 98 L 441 98 L 441 104"/>
+
+          <!-- Nedre ledning och jord -->
+          <line x1="60" y1="215" x2="395" y2="215"/>
+          <line x1="228" y1="215" x2="228" y2="229"/>
+          <line x1="210" y1="229" x2="246" y2="229" stroke-width="2.2"/>
+          <line x1="216" y1="236" x2="240" y2="236" stroke-width="2.2"/>
+          <line x1="222" y1="243" x2="234" y2="243" stroke-width="2.2"/>
+        </g>
+
+        <circle cx="105" cy="50" r="3" fill="currentColor"/>
+        <circle cx="146" cy="50" r="3" fill="currentColor"/>
+        <circle cx="228" cy="215" r="3.4" fill="currentColor"/>
+
+        <g fill="currentColor" font-size="17">
+          <text x="34" y="118" text-anchor="end">5 V</text>
+          <text x="84" y="100">+</text>
+          <text x="84" y="132">−</text>
+          <text x="125" y="76" text-anchor="middle">S1</text>
+          <text x="225" y="30" text-anchor="middle">R1 · 150 Ω</text>
+          <text x="369" y="110" text-anchor="end">D1</text>
+          <text x="369" y="132" text-anchor="end">röd, 2,0 V</text>
+          <text x="256" y="238">0 V</text>
+        </g>
+      </svg>
+    </figure>
+
+    <p><strong>Räknat exempel.</strong> Schemat räcker för att räkna ut strömmen
+      utan att bygga något. Lysdioden tar 2,0 V, källan ger 5,0 V, alltså ligger
+      resten över R1:</p>
+    <p><code>U = 5,0 V − 2,0 V = 3,0 V</code></p>
+    <p><code>I = U / R = 3,0 V / 150 Ω = 0,020 A = 20 mA</code></p>
+    <p>Det är hela poängen med ett schema. Du kan säga vad kretsen kommer att
+      göra innan en enda komponent tagits fram, och du kan därför upptäcka ett
+      fel medan det bara kostar ett suddgummi.</p>
+
+    <p><strong>Räknat exempel 2: två lysdioder i serie.</strong> Rita om schemat
+      med ytterligare en röd lysdiod i samma slinga. De tar 2,0 V var:</p>
+    <p><code>U över lysdioderna = 2,0 + 2,0 = 4,0 V</code></p>
+    <p><code>U över motståndet = 5,0 − 4,0 = 1,0 V</code></p>
+    <p><code>R = 1,0 / 0,020 = 50 Ω  →  närmaste E12 uppåt är 56 Ω</code></p>
+    <p>Med 56 Ω blir strömmen 1,0 / 56 = 0,0179 A, alltså 18 mA. Kretsen
+      fungerar, men marginalen är tunn: sjunker matningen till 4,7 V ligger bara
+      0,7 V över motståndet, och strömmen faller till 0,7 / 56 = 0,0125 A =
+      12,5 mA. Två lysdioder i serie från 5 V är alltså känsligt för hur bra
+      matningen är. Tre går inte alls, eftersom 3 · 2,0 = 6,0 V är mer än
+      källan har. Det ser du direkt i schemat, och aldrig genom att prova.</p>
+
+    <h3>Vad schemat inte visar</h3>
+    <p>Ett schema utelämnar avsiktligt nästan allt fysiskt:</p>
+    <ul>
+      <li><strong>Var komponenterna sitter.</strong> Två komponenter som ritas
+        bredvid varandra kan sitta i var sin ände av bygget.</li>
+      <li><strong>Hur långa ledningarna är</strong>, eller vilken väg de tar.
+        En linje i schemat kan vara en millimeter kopparfolie eller tre meter
+        kabel.</li>
+      <li><strong>Kopplingsdäckets rader.</strong> Schemat säger att två punkter
+        hänger ihop, inte i vilket hål du ska sätta tråden.</li>
+      <li><strong>Komponenternas storlek och utseende</strong>, och hur de fästs
+        mekaniskt.</li>
+    </ul>
+    <p>Det låter som brister. Det är motsatsen. Just för att schemat inte visar
+      det fysiska går samma schema att bygga på ett kopplingsdäck, på ett
+      kretskort eller i en skåpsvägg, och det förblir läsbart. Behöver du
+      dessutom visa det fysiska ritar du en <em>kopplingsbild</em> vid sidan av –
+      två ritningar med olika uppgifter, aldrig en som försöker vara båda.</p>
+
+    <h3>Rita av en koppling</h3>
+    <p>Att gå åt andra hållet, från bygge till schema, är svårare och nyttigare.
+      Arbetsgången:</p>
+    <ol>
+      <li>Hitta de två punkterna som är plus och minus. Rita dem först, plus
+        överst.</li>
+      <li>Följ en ledare i taget från plus. Rita komponenten du kommer till,
+        ge den en beteckning, och läs av värdet.</li>
+      <li>Fortsätt tills du är tillbaka vid minus. Då har du en sluten slinga.</li>
+      <li>Finns fler slingor – en gren som delar sig – rita in en knutpunkt där
+        de möts och följ den nya slingan på samma sätt.</li>
+      <li>Kontrollera till sist att varje komponent i bygget också finns på
+        papperet. Det är den kontrollen som fångar den tråd du glömde.</li>
+    </ol>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+    <p><strong>I industrin:</strong> ett styrskåp levereras med en pärm scheman,
+      och den pärmen är värd mer än skåpet. Symbolerna följer standard, varje
+      komponent har en beteckning som också är intryckt på plasten inne i skåpet
+      – K1 är samma kontaktor på ritningen som i verkligheten – och varje ledare
+      är märkt med samma nummer i båda ändar. En elektriker som aldrig sett
+      maskinen kan därför felsöka den, och en elektriker i ett annat land kan
+      läsa ritningen utan att kunna språket. Det är standardiseringen som gör
+      det, inte ritarens skicklighet.</p>
+    <p><strong>I vardagen:</strong> kopplingsanvisningen som följer med en
+      taklampa är ett schema. Tre streck märkta L, N och PE, och en bild av
+      kopplingsplinten. Den visar inte var i taket lampan ska sitta, hur lång
+      sladden är eller vilken färg kupan har – och just därför fungerar samma
+      lilla papper till alla lampor i sortimentet. Samma sak med schemat på
+      insidan av proppskåpets lucka: det säger vilken säkring som hör till vilket
+      rum, ingenting om husets planlösning.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <p>Två övningar, en åt varje håll.</p>
+    <p><strong>Åt schemahållet.</strong> Bygg kretsen från förra guiden på
+      däcket – 5 V, ett motstånd, en lysdiod – och rita sedan av den som schema
+      på papper. Sätt ut R1 och D1, skriv motståndets värde, och rita
+      jordsymbolen på den ledning som går tillbaka till minus.</p>
+    <p><strong>Åt byggehållet.</strong> Täck över kopplingen med en bok. Bygg om
+      den från ditt eget schema, utan att titta på originalet. Fungerar den, är
+      schemat läsbart. Fungerar den inte, saknas något på papperet – och det är
+      den upptäckten som är övningen.</p>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Två ledningar korsar varandra i ett schema, utan prick i
+        korsningen. Hänger de ihop?</summary>
+      <p>Nej. Utan en fylld knutpunkt springer den ena bara förbi den andra.
+        Pricken är det enda som betyder förbindelse. Vissa ritare undviker
+        problemet genom att aldrig låta ledningar korsas, andra genom att rita
+        en liten båge över korsningen, men pricken gäller alltid.</p>
+    </details>
+
+    <details>
+      <summary>Ett schema visar 5,0 V, R1 = 220 Ω och en röd lysdiod med
+        framspänningen 2,0 V. Hur stor blir strömmen?</summary>
+      <p>Över motståndet ligger 5,0 − 2,0 = 3,0 V. I = 3,0 / 220 = 0,0136 A,
+        alltså cirka 14 mA. Lysdioden lyser något svagare än vid 20 mA, men fullt
+        synligt.</p>
+    </details>
+
+    <details>
+      <summary>Varför räknas alla jordsymboler i ett schema som samma punkt?</summary>
+      <p>För att slippa dra en linje kors och tvärs över hela ritningen till
+        varje komponent som ska till nollpunkten. Symbolen är en förkortning:
+        "här går det till 0 V". Det gör schemat läsbart, men det gör också att
+        förbindelsen är lätt att glömma när du bygger, eftersom den aldrig ritats
+        ut som en tråd.</p>
+    </details>
+
+    <details>
+      <summary>Du ska driva två röda lysdioder i serie från 5 V vid 20 mA.
+        Vilket motstånd?</summary>
+      <p>Lysdioderna tar 2,0 + 2,0 = 4,0 V tillsammans, så över motståndet ligger
+        5,0 − 4,0 = 1,0 V. R = 1,0 / 0,020 = 50 Ω, och närmaste E12-värde uppåt
+        är 56 Ω. Med 56 Ω blir strömmen 1,0 / 56 = 0,0179 A = 18 mA.</p>
+    </details>
+
+    <details>
+      <summary>Nämn tre saker ett kopplingsschema inte berättar.</summary>
+      <p>Var komponenterna sitter fysiskt, hur långa ledningarna är, vilka hål
+        på kopplingsdäcket du ska använda, komponenternas storlek, och hur de
+        fästs. Allt det tillhör en kopplingsbild eller en mekanisk ritning, inte
+        schemat.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Den gemensamma nollan glöms bort.</strong> Det här är felet
+        som kostar flest kvällar i hela kursen, och det börjar just i schemat.
+        Två jordsymboler på papperet ser ut som två skilda saker, men de är en
+        och samma punkt. När du sedan bygger med två strömkällor – ett batteri
+        till ena halvan, USB till andra – drar du plus till båda och glömmer
+        tråden mellan deras minuspoler. Utan den finns ingen gemensam nollpunkt,
+        och då finns ingen definierad spänning att jämföra med. Signalerna blir
+        obegripliga, kretsen fungerar ryckigt eller inte alls, och ingenting ser
+        trasigt ut. Regeln: <strong>allt som ska prata med varandra måste dela
+        nolla.</strong> Kontrollera det först, alltid.</li>
+      <li><strong>Korsande ledningar läses som ihopkopplade.</strong> Du ser två
+        linjer mötas, tolkar det som en förbindelse och kopplar en tråd som inte
+        ska finnas. Titta efter pricken innan du drar tråden.</li>
+      <li><strong>Lysdioden byggs åt fel håll.</strong> På schemat pekar
+        triangeln mot strecket. På komponenten är strecksidan det korta benet
+        och den plattade kanten. Vänd fel händer ingenting alls, och det ser ut
+        precis som ett brott i kretsen.</li>
+      <li><strong>Värdena skrivs inte ut.</strong> Ett schema med R1 men utan
+        150 Ω går inte att bygga efter, och det duger inte i dokumentationen.
+        Beteckning och värde hör ihop.</li>
+      <li><strong>Kopplingsdäcket ritas i stället för schemat.</strong> Du ritar
+        hålen och de färgade trådarna som de faktiskt ligger. Det är en
+        kopplingsbild, inte ett schema, och den är svår att läsa för alla utom
+        dig själv. Rita gärna båda, men rita dem som två olika ritningar.</li>
+      <li><strong>Schemat är rätt men bygget kortsluts på däcket.</strong>
+        Schemat säger att motståndets båda ben ska sitta på var sin punkt. Sätts
+        de i samma femhålsgrupp är motståndet överbryggat, och kretsen beter sig
+        som om det inte fanns. Se
+        <a href="guide-sakerhet-och-esd.html#fel">kopplingsdäckets fällor</a>.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Nu har du allt du behöver.
+      <a href="bygge-0-lysdioden.html">Bygge 0 – lysdioden</a> sätter ihop de
+      fyra guiderna: du räknar med Ohms lag och effektformeln, ritar schemat,
+      bygger efter det, och mäter efter för att se om verkligheten höll med.</p>
+    <p>Efter bygge 0 börjar område 2, och då kommer koden. Då blir
+      <a href="../sprakreferens.html">språkreferensen</a> användbar.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 1</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

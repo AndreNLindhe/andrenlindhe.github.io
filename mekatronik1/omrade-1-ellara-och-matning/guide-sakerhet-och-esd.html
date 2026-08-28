@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Säkerhet och ESD – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o1-sakerhet">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Säkerhet och ESD</strong> · område 1</span>
+  <a href="index.html">Område 1</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 1 · lektion 1</p>
+    <h1>Säkerhet och ESD</h1>
+    <p class="inledning">Kursens första pass handlar om det som ska sitta innan
+      du kopplar in något: vad som är farligt, vad som inte är det, och varför
+      den skada du inte känner är den som kostar mest tid.</p>
+
+    <h2 id="mal">Mål</h2>
+    <p>När du är klar kan du:</p>
+    <ul>
+      <li>förklara varför kitets spänningar är ofarliga för dig och ändå kan
+        förstöra både komponenter och batterier,</li>
+      <li>hantera komponenter så att statisk elektricitet inte skadar dem, och
+        förklara varför du sällan märker när den gör det,</li>
+      <li>koppla in multimetern rätt och veta vilka två inställningar som
+        förstör den,</li>
+      <li>läsa av vilka hål på ett kopplingsdäck som sitter ihop invändigt.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Vad som faktiskt är farligt</h3>
+    <p>Kitet drivs av 5 V från USB eller 9 V från ett batteri. Det som avgör om
+      elektricitet skadar en människa är inte spänningen i sig utan strömmen som
+      går genom kroppen, och den strömmen bestäms av kroppens motstånd.</p>
+    <p><strong>Räknat exempel.</strong> Torr hud mellan två fingertoppar ger ett
+      motstånd på ungefär 100 kΩ, alltså 100 000 Ω. Med 5 V över blir strömmen:</p>
+    <p><code>I = U / R = 5 V / 100 000 Ω = 0,00005 A = 0,05 mA</code></p>
+    <p>Känseltröskeln, alltså den svagaste ström en människa märker, ligger
+      kring 0,5–1 mA. Strömmen ovan är minst tio gånger under den. Du kommer
+      inte att känna någonting, och det är därför du får hålla i kopplingen med
+      bara händer.</p>
+    <p><strong>Jämför med väggen.</strong> Vid 230 V och blöta händer med stor
+      kontaktyta kan kroppens motstånd sjunka mot 1 000 Ω:</p>
+    <p><code>I = 230 V / 1 000 Ω = 0,23 A = 230 mA</code></p>
+    <p>Jordfelsbrytaren i proppskåpet löser ut vid 30 mA, och den gränsen är satt
+      just för att hjärtat kan påverkas ungefär där. 230 mA är nästan åtta
+      gånger över den gränsen.
+      Skillnaden mellan de två uträkningarna är inte en gradskillnad utan en
+      artskillnad – och den är hela skälet till att kursen håller sig under
+      24 V.</p>
+    <p><strong>Faran i den här kursen är alltså inte du, utan kortslutningen.</strong>
+      Ett 9 V-batteri har en inre resistans på storleksordningen ett par ohm.
+      Lägger du en sladd rakt över polerna blir strömmen:</p>
+    <p><code>I = 9 V / 2 Ω = 4,5 A</code></p>
+    <p>Hela den effekten utvecklas inuti batteriet, eftersom sladden nästan inte
+      har något motstånd att tala om:</p>
+    <p><code>P = I² · R = 4,5² · 2 = 20,25 · 2 ≈ 40 W</code></p>
+    <p>Fyrtio watt i ett föremål stort som en tumme. Det märks som värme inom
+      några sekunder, och ett litiumbatteri av samma storlek kan gå betydligt
+      längre än så. Därför: koppla bort spänningen innan du ändrar i kretsen,
+      och låt aldrig ett batteri ligga löst tillsammans med metallföremål.</p>
+
+    <h3>ESD – skadan du inte ser</h3>
+    <p>ESD står för elektrostatisk urladdning. Du laddas upp av att gå över en
+      matta, resa dig ur en stol eller dra av dig en fleecetröja. Laddningen
+      sitter kvar tills den hittar en väg ut, och den vägen kan vara ditt finger
+      mot ett komponentben.</p>
+    <p>Siffrorna som gör det här obehagligt:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead>
+          <tr><th>Vad som händer</th><th>Ungefärlig spänning</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Du känner urladdningen som en stöt</td><td>3 000 V</td></tr>
+          <tr><td>Du hör den som ett knäpp</td><td>5 000 V</td></tr>
+          <tr><td>Du ser gnistan</td><td>10 000 V</td></tr>
+          <tr><td>Många halvledare tar skada redan vid</td><td>under 500 V, en del under 250 V</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Räkna på förhållandet.</strong> Den svagaste urladdning du kan
+      känna är omkring 3 000 V. En komponent som är känslig vid 250 V tål alltså:</p>
+    <p><code>3 000 V / 250 V = 12 gånger mindre än vad du kan känna</code></p>
+    <p>Det betyder att den urladdning som förstör komponenten passerar utan att
+      du märker någonting alls. Du får ingen återkoppling. Ingen gnista, inget
+      ljud, ingen känsla.</p>
+    <p class="notis varna"><span class="rubrik">Det viktigaste i hela guiden</span>
+      <strong>ESD-skador är oftast latenta.</strong> Komponenten går inte sönder
+      på en gång. Den fungerar när du testar den, den fungerar när du visar upp
+      bygget, och sedan slutar den fungera tre veckor senare, eller när det blir
+      varmt, eller mitt under en redovisning. Att en komponent fungerade när du
+      testade den bevisar därför ingenting om huruvida du skadade den.
+      Det är precis därför försiktighetsåtgärderna känns meningslösa: du får
+      aldrig se konsekvensen av att strunta i dem, bara av att ha struntat i dem
+      för länge sedan.</p>
+    <p>Vad du gör i praktiken, i fallande ordning efter hur mycket det hjälper:</p>
+    <ul>
+      <li>Ta i något jordat innan du plockar med komponenter – ett element, ett
+        kranrör, datorns metallchassi. Laddningen går ut genom handflatan i
+        stället för genom ett komponentben.</li>
+      <li>Håll kretsar i kanten, inte i benen. Benen går rakt in i kislet.</li>
+      <li>Låt komponenter ligga kvar i den svarta ledande påsen eller i det
+        svarta skummet tills de ska användas. Skummet är svart för att det leder
+        – det kortsluter benen mot varandra så att ingen spänningsskillnad kan
+        byggas upp.</li>
+      <li>Undvik fleece och ylle vid arbetsbordet, och undvik att dra
+        komponenter över en plastyta.</li>
+    </ul>
+
+    <h3>Verktygen</h3>
+    <p>Multimetern är det verktyg du kommer att använda mest, och det enda du
+      kan förstöra på en sekund. Den har minst tre ingångar:</p>
+    <ul>
+      <li><strong>COM</strong> – den svarta mätsladden sitter alltid här.</li>
+      <li><strong>VΩmA</strong> – den röda mätsladden sitter här för spänning,
+        resistans och små strömmar.</li>
+      <li><strong>10 A</strong> (eller <strong>A</strong>) – en egen ingång för
+        stora strömmar. Invändigt är den nästan en kortslutning: ett motstånd på
+        en bråkdels ohm och en säkring.</li>
+    </ul>
+    <p>Vredet ställs på likspänning för allt i den här kursen. Symbolen för
+      likspänning är <strong>en rak linje över en streckad</strong>. Det är
+      <em>ett</em> tecken, inte två att välja mellan – den heldragna och den
+      streckade linjen hör ihop och betyder tillsammans "lik":</p>
+
+    <figure style="margin:1.2rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 250 62" role="img" aria-labelledby="svg-dcv-titel"
+           style="width:100%;height:auto;max-width:15rem">
+        <title id="svg-dcv-titel">Till vänster symbolen för likspänning: en
+          heldragen linje med en streckad linje under. Till höger symbolen för
+          växelspänning: en vågig linje.</title>
+        <g stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round">
+          <line x1="20" y1="22" x2="80" y2="22"/>
+          <line x1="20" y1="34" x2="80" y2="34" stroke-dasharray="9 9"/>
+          <path d="M 160 30 q 10 -12 20 0 q 10 12 20 0"/>
+        </g>
+        <g fill="currentColor" font-size="13" text-anchor="middle">
+          <text x="50" y="54">likspänning</text>
+          <text x="180" y="54">växelspänning</text>
+        </g>
+      </svg>
+    </figure>
+
+    <p>Vissa mätare ritar symbolen bredvid ett <strong>V</strong>, alltså
+      <strong>V⎓</strong>, och vissa skriver i stället ut bokstäverna
+      <strong>DCV</strong>. Båda betyder samma sak. Växelspänning har i stället
+      en vågig linje, <strong>V∼</strong> eller <strong>ACV</strong>, och används
+      inte i den här kursen. Ser du bara vågen står vredet fel.</p>
+
+    <p class="notis varna"><span class="rubrik">Mätsladdarna går aldrig in i ett vägguttag</span>
+      <strong>Du sätter aldrig mätsladdarna i ett vägguttag eller i någon annan
+      230 V-krets, i något läge på vredet, vid någon tidpunkt i den här
+      kursen.</strong> Det gäller också V∼-läget, som är gjort just för
+      växelspänning: rätt läge räddar dig inte om något annat är fel. Står vredet
+      kvar på Ω eller A, eller sitter den röda sladden kvar i A-ingången, lägger
+      du en nästan ren kortslutning över uttaget. Bakom uttaget finns en säkring
+      på 10 A och ett nät som orkar leverera långt mer än så under de
+      millisekunder det tar innan säkringen hinner lösa ut. Det blir en ljusbåge
+      som förångar mätsladdens spets och kastar ut het metall ur uttaget, mot den
+      som håller i sladden. Räkneexemplet högre upp i guiden visar den andra
+      halvan: 230 V över blöta händer ger en ström många gånger över den gräns
+      där hjärtat påverkas. Vill du mäta på nätspänning frågar du först, och
+      svaret är nej.</p>
+    <p><strong>Räknat exempel på fel område.</strong> En mätare med manuella
+      områden står på 200 mV och du mäter över ett 9 V-batteri. 9 V är 9 000 mV,
+      alltså:</p>
+    <p><code>9 000 mV / 200 mV = 45 gånger över området</code></p>
+    <p>Displayen svarar med <code>1</code> längst till vänster och tomt i övrigt,
+      eller <code>OL</code> för <em>over limit</em>. Det är inte ett fel på
+      mätaren, det är mätaren som säger att du valt fel område. Skruva upp ett
+      steg i taget tills en siffra dyker upp.</p>
+    <p>Utöver mätaren behöver du en avbitartång för att korta komponentben, en
+      avisoleringstång för kopplingstråd, och en pincett.</p>
+    <p class="notis varna"><span class="rubrik">Skyddsglasögon när du klipper</span>
+      <strong>Ta på skyddsglasögon innan du klipper en komponenttråd, varje
+      gång.</strong> Den avklippta biten är styv, vass och ofta en centimeter
+      lång, och den lämnar tången med fart. Avklippta trådändar är den klassiska
+      ögonskadan i en elektronikverkstad, och en ögonskada går inte att bygga
+      om. Håll dessutom fast den lösa änden med fingrarna eller en pincett medan
+      du klipper, och klipp nedåt mot bordet i stället för utåt mot rummet.
+      Greppet minskar hur ofta biten flyger; glasögonen är det som gör det
+      betydelselöst när den ändå gör det.</p>
+
+    <h3>Kopplingsdäcket inuti</h3>
+    <p>Ett kopplingsdäck ser ut som ett rutnät av likadana hål. Det är det inte.
+      Under plasten sitter metallklämmor som binder ihop hålen i grupper, och
+      hela poängen med däcket är att veta vilka grupper som finns.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="44 4 282 340" role="img" aria-labelledby="svg-dack-titel"
+           style="width:100%;height:auto;max-width:22rem">
+        <title id="svg-dack-titel">Kopplingsdäck sett uppifrån. Strömskenorna
+          går i sidled längs över- och underkanten, märkta plus och minus.
+          Mellan dem sitter hålen i kolumner om fem, märkta a till e i övre
+          halvan och f till j i den undre. Ett bredare mittspår löper mellan
+          halvorna. En av kolumnerna är mörkare markerad som exempel.</title>
+
+        <!-- Däckets ytterkant -->
+        <rect x="56" y="14" width="258" height="320" rx="8"
+              fill="none" stroke="currentColor" stroke-width="1" opacity="0.35"/>
+
+        <!-- Mittspåret -->
+        <rect x="56" y="162" width="258" height="28"
+              fill="currentColor" opacity="0.07"/>
+
+        <!-- Strömskenor: hela raden hänger ihop i sidled -->
+        <line x1="74" y1="30" x2="296" y2="30" stroke="var(--webb)" stroke-width="7" stroke-linecap="round" opacity="0.22"/>
+        <line x1="74" y1="48" x2="296" y2="48" stroke="var(--webb)" stroke-width="7" stroke-linecap="round" opacity="0.22"/>
+        <line x1="74" y1="300" x2="296" y2="300" stroke="var(--webb)" stroke-width="7" stroke-linecap="round" opacity="0.22"/>
+        <line x1="74" y1="318" x2="296" y2="318" stroke="var(--webb)" stroke-width="7" stroke-linecap="round" opacity="0.22"/>
+
+        <!-- Kolumnerna: fem hål i taget hänger ihop, aldrig över mittspåret.
+             Den tredje kolumnen är starkare markerad som exempel. -->
+        <rect x="71" y="72" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+        <rect x="71" y="190" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+        <rect x="101" y="72" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+        <rect x="101" y="190" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+        <rect x="131" y="72" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.5"/>
+        <rect x="131" y="190" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+        <rect x="161" y="72" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+        <rect x="161" y="190" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+        <rect x="191" y="72" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+        <rect x="191" y="190" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+        <rect x="221" y="72" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+        <rect x="221" y="190" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+        <rect x="251" y="72" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+        <rect x="251" y="190" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+        <rect x="281" y="72" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+        <rect x="281" y="190" width="18" height="88" rx="9" fill="var(--webb)" opacity="0.16"/>
+
+        <!-- Hålen -->
+        <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55"><circle cx="80" cy="30" r="3"/><circle cx="110" cy="30" r="3"/><circle cx="140" cy="30" r="3"/><circle cx="170" cy="30" r="3"/><circle cx="200" cy="30" r="3"/><circle cx="230" cy="30" r="3"/><circle cx="260" cy="30" r="3"/><circle cx="290" cy="30" r="3"/></g>
+        <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55"><circle cx="80" cy="48" r="3"/><circle cx="110" cy="48" r="3"/><circle cx="140" cy="48" r="3"/><circle cx="170" cy="48" r="3"/><circle cx="200" cy="48" r="3"/><circle cx="230" cy="48" r="3"/><circle cx="260" cy="48" r="3"/><circle cx="290" cy="48" r="3"/></g>
+        <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55"><circle cx="80" cy="80" r="3"/><circle cx="110" cy="80" r="3"/><circle cx="140" cy="80" r="3"/><circle cx="170" cy="80" r="3"/><circle cx="200" cy="80" r="3"/><circle cx="230" cy="80" r="3"/><circle cx="260" cy="80" r="3"/><circle cx="290" cy="80" r="3"/></g>
+        <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55"><circle cx="80" cy="98" r="3"/><circle cx="110" cy="98" r="3"/><circle cx="140" cy="98" r="3"/><circle cx="170" cy="98" r="3"/><circle cx="200" cy="98" r="3"/><circle cx="230" cy="98" r="3"/><circle cx="260" cy="98" r="3"/><circle cx="290" cy="98" r="3"/></g>
+        <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55"><circle cx="80" cy="116" r="3"/><circle cx="110" cy="116" r="3"/><circle cx="140" cy="116" r="3"/><circle cx="170" cy="116" r="3"/><circle cx="200" cy="116" r="3"/><circle cx="230" cy="116" r="3"/><circle cx="260" cy="116" r="3"/><circle cx="290" cy="116" r="3"/></g>
+        <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55"><circle cx="80" cy="134" r="3"/><circle cx="110" cy="134" r="3"/><circle cx="140" cy="134" r="3"/><circle cx="170" cy="134" r="3"/><circle cx="200" cy="134" r="3"/><circle cx="230" cy="134" r="3"/><circle cx="260" cy="134" r="3"/><circle cx="290" cy="134" r="3"/></g>
+        <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55"><circle cx="80" cy="152" r="3"/><circle cx="110" cy="152" r="3"/><circle cx="140" cy="152" r="3"/><circle cx="170" cy="152" r="3"/><circle cx="200" cy="152" r="3"/><circle cx="230" cy="152" r="3"/><circle cx="260" cy="152" r="3"/><circle cx="290" cy="152" r="3"/></g>
+        <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55"><circle cx="80" cy="198" r="3"/><circle cx="110" cy="198" r="3"/><circle cx="140" cy="198" r="3"/><circle cx="170" cy="198" r="3"/><circle cx="200" cy="198" r="3"/><circle cx="230" cy="198" r="3"/><circle cx="260" cy="198" r="3"/><circle cx="290" cy="198" r="3"/></g>
+        <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55"><circle cx="80" cy="216" r="3"/><circle cx="110" cy="216" r="3"/><circle cx="140" cy="216" r="3"/><circle cx="170" cy="216" r="3"/><circle cx="200" cy="216" r="3"/><circle cx="230" cy="216" r="3"/><circle cx="260" cy="216" r="3"/><circle cx="290" cy="216" r="3"/></g>
+        <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55"><circle cx="80" cy="234" r="3"/><circle cx="110" cy="234" r="3"/><circle cx="140" cy="234" r="3"/><circle cx="170" cy="234" r="3"/><circle cx="200" cy="234" r="3"/><circle cx="230" cy="234" r="3"/><circle cx="260" cy="234" r="3"/><circle cx="290" cy="234" r="3"/></g>
+        <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55"><circle cx="80" cy="252" r="3"/><circle cx="110" cy="252" r="3"/><circle cx="140" cy="252" r="3"/><circle cx="170" cy="252" r="3"/><circle cx="200" cy="252" r="3"/><circle cx="230" cy="252" r="3"/><circle cx="260" cy="252" r="3"/><circle cx="290" cy="252" r="3"/></g>
+        <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55"><circle cx="80" cy="270" r="3"/><circle cx="110" cy="270" r="3"/><circle cx="140" cy="270" r="3"/><circle cx="170" cy="270" r="3"/><circle cx="200" cy="270" r="3"/><circle cx="230" cy="270" r="3"/><circle cx="260" cy="270" r="3"/><circle cx="290" cy="270" r="3"/></g>
+        <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55"><circle cx="80" cy="300" r="3"/><circle cx="110" cy="300" r="3"/><circle cx="140" cy="300" r="3"/><circle cx="170" cy="300" r="3"/><circle cx="200" cy="300" r="3"/><circle cx="230" cy="300" r="3"/><circle cx="260" cy="300" r="3"/><circle cx="290" cy="300" r="3"/></g>
+        <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55"><circle cx="80" cy="318" r="3"/><circle cx="110" cy="318" r="3"/><circle cx="140" cy="318" r="3"/><circle cx="170" cy="318" r="3"/><circle cx="200" cy="318" r="3"/><circle cx="230" cy="318" r="3"/><circle cx="260" cy="318" r="3"/><circle cx="290" cy="318" r="3"/></g>
+
+        <!-- Radbeteckningar -->
+        <g fill="currentColor" font-size="13" text-anchor="middle" opacity="0.75">
+          <text x="66" y="34">+</text>
+          <text x="66" y="52">−</text>
+          <text x="66" y="84">a</text>
+          <text x="66" y="102">b</text>
+          <text x="66" y="120">c</text>
+          <text x="66" y="138">d</text>
+          <text x="66" y="156">e</text>
+          <text x="66" y="202">f</text>
+          <text x="66" y="220">g</text>
+          <text x="66" y="238">h</text>
+          <text x="66" y="256">i</text>
+          <text x="66" y="274">j</text>
+          <text x="66" y="304">+</text>
+          <text x="66" y="322">−</text>
+        </g>
+
+        <!-- Mittspåret namngivet i ritningen. Förklaringarna står som text
+             under figuren i stället, så att de går att läsa på en mobil och
+             kan nås av en skärmläsare. -->
+        <text x="185" y="181" font-size="13" fill="currentColor"
+              text-anchor="middle" opacity="0.75">mittspår</text>
+      </svg>
+    </figure>
+
+    <p>Vad figuren visar, punkt för punkt:</p>
+    <ul>
+      <li><strong>Strömskenorna längs över- och underkanten</strong>, märkta
+        <strong>+</strong> och <strong>−</strong>, hänger ihop i sidled hela
+        däcket igenom. Dit drar du matningen en gång, och hämtar sedan därifrån
+        till varje krets.</li>
+      <li><strong>En kolumn om fem hål hänger ihop.</strong> I figuren är en av
+        kolumnerna mörkare markerad. Hålen a, b, c, d och e i den kolumnen är
+        <em>samma punkt</em> i kretsen. Sätter du två komponentben där har du
+        kopplat ihop dem, vare sig du menade det eller inte.</li>
+      <li><strong>Mittspåret bryter.</strong> Hål c och hål h i samma kolumn
+        sitter inte ihop, trots att de ser ut att ligga i rad. Det är två skilda
+        punkter, och den övre halvan (a–e) har ingen förbindelse alls med den
+        undre (f–j).</li>
+      <li><strong>Spåret är 0,3 tum brett.</strong> Det är exakt måttet mellan
+        benraderna på ett DIP-kapslat chip. Därför sätts ett chip grensle över
+        spåret: dess två benrader hamnar i var sin grupp, och benen kortsluts
+        inte mot varandra.</li>
+    </ul>
+
+    <p>Tre saker som varken syns i figuren eller står i listan ovan, och som
+      ändå gäller:</p>
+    <ul>
+      <li>Hålen sitter med 0,1 tums delning, alltså 2,54 mm. Det är standardmåttet
+        för komponentben och är skälet till att allt passar i varandra.</li>
+      <li>På många däck är strömskenorna <strong>brutna på mitten</strong>. Den
+        röda och blå linjen ser obruten ut, men klämman under är delad. Får du
+        ingen spänning i högra halvan av däcket är det oftast det här. Mät
+        efter innan du felsöker något annat.</li>
+      <li>Klämmorna slits. Ett hål som en tjock komponentben suttit i håller
+        sämre om en tunn kopplingstråd sedan sätts i samma hål. Sprid ut dig
+        över däcket i stället för att alltid använda samma rad.</li>
+    </ul>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+    <p><strong>I industrin:</strong> elektronikproduktion sker i så kallade
+      EPA-zoner, ESD-skyddade områden. Golvet är ledande, bordsmattan är jordad,
+      stolen är jordad, och den som arbetar har ett handledsband kopplat till
+      jord. Bandet har alltid ett motstånd på 1 MΩ i serie, och det är ingen
+      slump. Motståndet leder bort statisk laddning tillräckligt fort, men om
+      personen samtidigt råkar ta i 230 V blir strömmen genom bandet:</p>
+    <p><code>I = 230 V / 1 000 000 Ω = 0,00023 A = 0,23 mA</code></p>
+    <p>Alltså långt under de 30 mA som är farliga. Konstruktionen är en
+      avvägning mellan två risker, och den avvägningen är typisk för hur
+      säkerhet löses i industrin: man tar inte bort en risk, man byter den mot
+      en mindre.</p>
+    <p><strong>I vardagen:</strong> gnistan när du tar i bildörren efter att ha
+      glidit ur sätet är exakt samma fenomen. Du laddades av friktionen mot
+      klädseln, och laddningen gick ut genom fingret när du kom tillräckligt
+      nära metallen. Att det gjorde ont betyder att spänningen var minst några
+      tusen volt. En krets i fickan på samma jacka hade fått samma urladdning,
+      utan att någon märkt det.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <p>Det minsta steg som ger dig något: mät ett batteri.</p>
+    <ol>
+      <li>Sätt den svarta mätsladden i <strong>COM</strong> och den röda i
+        <strong>VΩmA</strong>. Kontrollera att den röda verkligen sitter där och
+        inte i A-ingången.</li>
+      <li>Vrid till likspänning. Har mätaren manuella områden, välj det minsta
+        som är större än det du väntar dig – 20 V för ett 9 V-batteri.</li>
+      <li>Röd spets på pluspolen, svart på minus. Läs av. Ett nytt alkaliskt
+        9 V-batteri visar oftast runt 9,5 V obelastat, inte exakt 9,0.</li>
+      <li>Byt plats på spetsarna. Samma tal, men med minustecken. Mätaren
+        berättar vilken av de två punkterna som ligger högst, ingenting annat.</li>
+      <li>Skriv upp värdet med enhet i din anteckningsbok. Vänj dig vid det nu –
+        mätvärden utan enhet räknas inte i dokumentationen.</li>
+    </ol>
+    <p>Gör sedan samma sak med ett motstånd: vrid till Ω, håll motståndet löst i
+      handen och lägg en spets på varje ben. Jämför med färgkoden på kroppen.</p>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Varför är 5 V ofarligt för dig, när 230 V inte är det?</summary>
+      <p>Det är strömmen genom kroppen som skadar, och den bestäms av spänningen
+        delat med kroppens motstånd. Med torr hud, ungefär 100 kΩ, ger 5 V
+        strömmen 5 / 100 000 = 0,00005 A = 0,05 mA. Det är under känseltröskeln
+        på ungefär 0,5 mA. Med 230 V och blöta händer, ner mot 1 000 Ω, blir det
+        i stället 230 / 1 000 = 0,23 A = 230 mA, alltså långt över de 30 mA som
+        jordfelsbrytaren är satt att bryta vid.</p>
+    </details>
+
+    <details>
+      <summary>Du bygger en krets, den fungerar, du visar den. Tre veckor senare
+        fungerar den inte längre, och du har inte rört den. Vad kan ha hänt?</summary>
+      <p>En latent ESD-skada är en av de troliga förklaringarna. Urladdningen
+        försvagade komponenten utan att döda den, och den gav upp senare. Det är
+        det vanligaste utfallet av en ESD-skada – inte att komponenten dör
+        direkt. Andra kandidater: en glapp koppling på däcket, ett urladdat
+        batteri, eller ett ben som brutits av att kretsen bänts loss.</p>
+    </details>
+
+    <details>
+      <summary>Din multimeter står på området 200 mV och du mäter över ett
+        9 V-batteri. Vad visar displayen, och är mätaren trasig?</summary>
+      <p>Den visar <code>1</code> längst till vänster, eller <code>OL</code>.
+        9 V är 9 000 mV, alltså 9 000 / 200 = 45 gånger över området. Mätaren är
+        inte trasig – spänningsområdet tål det. Den säger bara att talet inte får
+        plats. Vrid upp till ett större område.</p>
+    </details>
+
+    <details>
+      <summary>Två hål i samma kolumn på kopplingsdäcket, ett i rad c och ett i
+        rad h. Sitter de ihop?</summary>
+      <p>Nej. Rad c ligger i den övre gruppen (a–e) och rad h i den undre (f–j),
+        och mittspåret bryter mellan dem. De är två olika punkter i kretsen.
+        Vill du koppla ihop dem behövs en kopplingstråd.</p>
+    </details>
+
+    <details>
+      <summary>Varför sitter det ett motstånd på 1 MΩ i ett ESD-handledsband,
+        i stället för en ren kopparledning till jord?</summary>
+      <p>För att bandet inte ska göra bäraren till en bra jordledare. Statisk
+        laddning behöver bara ledas bort långsamt, och det klarar 1 MΩ. Om
+        personen samtidigt tar i nätspänning blir strömmen genom bandet
+        230 / 1 000 000 = 0,23 mA, alltså ofarlig. En ren kopparledning hade
+        gett hundratals milliampere.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Två ben på var sin sida om mittspåret.</strong> Du sätter
+        komponentens ben i vad som ser ut som samma kolumn, i rad d och rad g,
+        och kretsen är död. De sitter inte ihop. Mittspåret finns just för att
+        bryta, och det syns inte alls när komponentkroppen ligger över det.</li>
+      <li><strong>Två ben i samma femhålsgrupp.</strong> Det motsatta felet, och
+        lika vanligt. Sätter du motståndets båda ben i rad b och rad c i samma
+        kolumn har du kortslutit motståndet. Kretsen fungerar som om det inte
+        fanns – vilket för en lysdiod betyder att den lyser starkt en kort
+        stund.</li>
+      <li><strong>Komponenten åkte med i fickan.</strong> Du tar hem en krets
+        eller ett chip löst i byxfickan. Tyget mot tyget laddar upp allt som
+        ligger där. Komponenten fungerar när du testar den på kvällen, och det
+        säger ingenting, eftersom ESD-skadan oftast är latent. Ta med den i den
+        svarta påsen eller i skummet den kom i.</li>
+      <li><strong>Fel område kvar på multimetern.</strong> Mätaren står kvar på
+        Ω eller mA sedan förra mätningen och du mäter spänning. Värdet blir
+        obegripligt och du börjar felsöka kretsen i stället för mätaren. Titta
+        på vredet innan du tittar på displayen.</li>
+      <li><strong>Röda sladden kvar i A-ingången.</strong> Det farligaste av de
+        här felen. A-ingången är invändigt nästan en kortslutning. Lägger du
+        mätaren över ett batteri med sladden där går mätarens säkring, och med
+        en kraftigare strömkälla blir det värre än så. Flytta tillbaka sladden
+        till VΩmA direkt efter varje strömmätning, varje gång.</li>
+      <li><strong>Ändrar i kopplingen med spänningen på.</strong> En sladd som
+        glider en rad fel medan strömmen är på kan kortsluta batteriet innan du
+        hinner se det. Dra ur strömmen, ändra, koppla in igen. Det tar tre
+        sekunder extra och sparar en komponent.</li>
+      <li><strong>Mäter resistans i en spänningssatt krets.</strong> Ω-läget
+        skickar ut en egen liten ström och räknar baklänges. Det förutsätter att
+        kretsen är strömlös. Är den inte det blir värdet fel, och mätaren kan ta
+        skada. Bryt strömmen och lyft helst ut komponenten.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Nu vet du hur du inte förstör något. Nästa guide handlar om vad du
+      faktiskt mäter:
+      <a href="guide-spanning-strom-resistans.html">spänning, ström och
+      resistans</a>. Där kommer Ohms lag, och där lär du dig varför en
+      strömmätning måste bryta kretsen.</p>
+    <p>Ingen kod i det här området. <a href="../sprakreferens.html">Språkreferensen</a>
+      öppnar först i område 2.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 1</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

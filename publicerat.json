@@ -5,6 +5,12 @@
     "namn": "Gränssnittsdesign och Webbutveckling",
     "publicerad": "2026-08-25"
   },
+  "mekatronik1": {
+    "commit": "e569c87",
+    "kalla": "C:\\Skola\\Mekatronik1\\elevpaket",
+    "namn": "Mekatronik 1",
+    "publicerad": "2026-08-28"
+  },
   "webbserverprogrammering": {
     "commit": "f0bfcb9",
     "kalla": "C:\\Skola\\Webserverprogrammering 1\\elevpaket",

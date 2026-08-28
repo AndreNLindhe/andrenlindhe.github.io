@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Språkreferens – Mekatronik 1</title>
+  <link rel="stylesheet" href="stil.css">
+</head>
+<body data-nyckel="Mekatronik1-sprak">
+
+<header class="topp">
+  <a href="index.html">← Kursens material</a>
+  <span class="harifran"><strong>Språkreferens</strong></span>
+  <a href="dokumentationsmall.html">Dokumentationsmall</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#python-cpp">Från Python till C++</a></li>
+      <li><a href="#typer">Typer och variabler</a></li>
+      <li><a href="#villkor">Villkor</a></li>
+      <li><a href="#loopar">Loopar</a></li>
+      <li><a href="#funktioner">Funktioner</a></li>
+      <li><a href="#arrayer">Arrayer</a></li>
+      <li><a href="#tid">Tid och millis()</a></li>
+      <li><a href="#bibliotek">Bibliotek</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Mekatronik 1 · alltid till hands</p>
+    <h1>Språkreferens</h1>
+    <p class="inledning">C++ i ordnad följd, för dig som kan Python från tidigare
+      kurser. Sidan byggs ut i takt med områdena – de flesta avsnitten är ännu
+      tomma skal som fylls när området de hör till öppnar.</p>
+
+    <h2 id="python-cpp">Från Python till C++</h2>
+    <p>Samma idéer, annan syntax. De fyra skillnader som stör flest i början,
+      den första du möter innan någon av de andra ens hinner spela roll:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Python</th><th>C++</th><th>Vad som skiljer</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>python skript.py</code></td>
+            <td>Knappen <b>Ladda upp</b></td>
+            <td>Python kör raden du skrev, direkt. Det finns ingen REPL i
+              Arduino IDE – ingenting kör förrän hela sketchen kompilerat utan
+              fel, och då kör den på kortet, inte på datorn. Första
+              felmeddelandet du ser är ofta ett kompileringsfel på en rad du
+              var säker på var klar.</td>
+          </tr>
+          <tr>
+            <td><code>print("hej")</code></td>
+            <td><code>Serial.println("hej");</code></td>
+            <td>Utskrift går till seriemonitorn, inte till en terminal, och
+              varje rad avslutas med semikolon.</td>
+          </tr>
+          <tr>
+            <td><code>def area(bas, hojd):</code></td>
+            <td><code>float area(float bas, float hojd) {</code></td>
+            <td>C++ är statiskt typat. Både returtypen och varje parameters
+              typ skrivs ut, i stället för att gissas vid anropet.</td>
+          </tr>
+          <tr>
+            <td><code>varden = []</code></td>
+            <td><code>int varden[10];</code></td>
+            <td>En array i C++ har fast längd, satt när den skapas. Den växer
+              inte som en Python-lista – fler platser än <code>10</code> ryms
+              helt enkelt inte.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="typer">Typer och variabler</h2>
+    <p>Öppnas i takt med område 2: <code>int</code>, <code>float</code> och
+      <code>bool</code>, och skillnaden mot Pythons dynamiska typning.</p>
+
+    <h2 id="villkor">Villkor</h2>
+    <p>Öppnas i takt med område 2: <code>if</code>, <code>else if</code> och
+      <code>else</code> med måsvingar i stället för indrag.</p>
+
+    <h2 id="loopar">Loopar</h2>
+    <p>Öppnas i takt med område 3: <code>for</code>- och <code>while</code>-loopar,
+      och var <code>loop()</code> passar in.</p>
+
+    <h2 id="funktioner">Funktioner</h2>
+    <p>Öppnas i takt med område 2: att deklarera en funktion med returtyp och
+      parametertyper.</p>
+
+    <h2 id="arrayer">Arrayer</h2>
+    <p>Öppnas i takt med område 3: fasta arrayer, och hur de skiljer sig från
+      Pythons dynamiska listor i praktiken.</p>
+
+    <h2 id="tid">Tid och millis()</h2>
+    <p>Öppnas i takt med område 3: att mäta tid utan <code>delay()</code>, som
+      grund för allt som ska pågå samtidigt.</p>
+
+    <h2 id="bibliotek">Bibliotek</h2>
+    <p>Öppnas i takt med område 2: att inkludera och använda ett bibliotek som
+      <code>Servo.h</code>.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01</p>
+</footer>
+
+<script src="paket.js"></script>
+</body>
+</html>

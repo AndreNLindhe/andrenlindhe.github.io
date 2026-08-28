@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dokumentationsmall – Mekatronik 1</title>
+  <link rel="stylesheet" href="stil.css">
+</head>
+<body data-nyckel="Mekatronik1-dokumentation">
+
+<header class="topp">
+  <a href="index.html">← Kursens material</a>
+  <span class="harifran"><strong>Dokumentationsmall</strong></span>
+  <a href="samradsunderlag.html">Samrådsunderlag</a>
+</header>
+
+<div class="ram">
+  <main>
+    <h1>Dokumentationsmall</h1>
+    <p class="inledning">Använd den här mallen vid varje bygge, från Bygge 1 till
+      slutprojektet. Kryssen sparas i din webbläsare, ett bygge i taget – öppnar
+      du sidan igen inför nästa bygge börjar du om från noll.</p>
+
+    <p class="notis"><strong>Dokumentationen bär gränsen mellan E och C.</strong>
+      Kriterierna skiljer på "enkel" dokumentation för E och "noggrann"
+      dokumentation för C – samma ord som skiljer betygen i övrigt. Ett välbyggt
+      system med en tunn dokumentation stannar på E, oavsett hur bra det fungerar
+      på bordet. A kräver dessutom "utförlig" dokumentation, och att du kan sätta
+      bygget i ett större sammanhang.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="e">Nivå E <span style="color:var(--dov);font-weight:400">— enkel dokumentation</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e-1"><span><strong>Vad systemet gör.</strong>
+          Några meningar som beskriver syftet och hur systemet används. Skriv så
+          att någon som inte sett bygget förstår vad det är till för.</span></label></li>
+        <li><label><input type="checkbox" id="e-2"><span><strong>Kopplingsschema.</strong>
+          En bild eller ritning som visar hur komponenterna sitter ihop.
+          Handritat och fotograferat duger, så länge det går att läsa.</span></label></li>
+        <li><label><input type="checkbox" id="e-3"><span><strong>Koden.</strong>
+          Koden du skrivit, bifogad eller inklistrad, med kommentarer på de rader
+          som inte förklarar sig själva.</span></label></li>
+        <li><label><input type="checkbox" id="e-4"><span><strong>Vad som gick fel.</strong>
+          Minst ett fel du stötte på och vad du gjorde åt det, oavsett om det
+          löstes eller inte. En dokumentation utan ett enda fel berättar sällan
+          hela historien.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="c">Nivå C <span style="color:var(--dov);font-weight:400">— lägg till, gör noggrann</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="c-1"><span><strong>Motiverade komponentval.</strong>
+          Inte bara vilka komponenter du använde, utan varför just de. Koppla
+          motiveringen till en beräkning eller ett datablad, inte till att
+          "det var vad som fanns i lådan".</span></label></li>
+        <li><label><input type="checkbox" id="c-2"><span><strong>Mätvärden med enhet.</strong>
+          De värden du faktiskt mätt under bygget – spänning, ström, resistans,
+          tid, vinkel, vad som nu är relevant. Alltid med enhet.</span></label></li>
+      </ul>
+      <p>De fyra E-punkterna gäller fortfarande, men mer noggrant: exempel i
+        stället för påståenden, mätvärden i stället för gissningar.</p>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="a">Nivå A <span style="color:var(--dov);font-weight:400">— lägg till, gör utförlig</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="a-1"><span><strong>Jämförelse med en industriell tillämpning.</strong>
+          Hur löses samma typ av problem i ett riktigt system utanför skolan –
+          en hiss, en bilfabrik, ett kylskåp? Vad är likt, vad har du förenklat,
+          och varför var det rimligt att förenkla just där.</span></label></li>
+        <li><label><input type="checkbox" id="a-2"><span><strong>Vad du skulle ändra och varför.</strong>
+          Om du byggde om systemet i dag, vad skulle du göra annorlunda? Kräver
+          att du kan se ditt eget bygge utifrån, inte bara konstatera att det
+          fungerade.</span></label></li>
+      </ul>
+    </section>
+
+    <p><button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01</p>
+</footer>
+
+<script src="paket.js"></script>
+</body>
+</html>
