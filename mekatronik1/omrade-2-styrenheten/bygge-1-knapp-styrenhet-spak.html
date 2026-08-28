@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bygge 1 – knapp, styrenhet, spak – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o2-bygge1">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Bygge 1 – knapp, styrenhet, spak</strong> · område 2</span>
+  <a href="index.html">Område 2</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Område 2 · lektion 10 · 22 okt</p>
+    <h1>Bygge 1 – knapp, styrenhet, spak</h1>
+    <p class="inledning">Du trycker på en knapp. Ett kort läser den. Ett servo
+      drar en spak, och något rör sig. Det är hela bygget, och det är samtidigt
+      första gången i kursen som allt du lärt dig sitter ihop i samma
+      konstruktion.</p>
+
+    <p class="notis viktig"><span class="rubrik">Det här är ett bedömt mekatroniskt system</span>
+      <strong>Bygge 1 är det första av kursens fem bedömda system.</strong>
+      Betygskriterierna definierar ett mekatroniskt system som något som
+      sammanför <em>mekanisk struktur, elektroteknik och styrteknik</em> – alla
+      tre samtidigt. Bygge 0 hade bara elektrotekniken och var därför medvetet
+      inte ett system i den meningen. Det här bygget har spaken och fästet
+      (mekanisk struktur), kretsen med knapp och servo (elektroteknik) och koden
+      som avgör vad som händer (styrteknik).
+      Bygget ger belägg för fyra av de fem förmågorna:
+      <strong>F1</strong> planera och bygga, <strong>F2</strong> använda
+      ritningar och samarbeta, <strong>F3</strong> dokumentera, och
+      <strong>F5</strong> bedöma din egen förmåga vid samråd. F4 – att beskriva
+      systemuppbyggnad och fysikaliska principer – bedöms från och med bygge 2,
+      men du tjänar på att öva redan här.</p>
+
+    <h2 id="uppgiften">Uppgiften</h2>
+    <p>Bygg ett system där en tryckknapp får ett servo att flytta en spak mellan
+      två lägen, och där rörelsen gör något synligt: fäller en bom, öppnar en
+      lucka, knuffar en kloss, vinkar. Vad spaken gör bestämmer du. Kraven nedan
+      gäller oavsett vad du väljer.</p>
+    <p>Kretsen är den här:</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 440 250" role="img" aria-labelledby="svg-bygge1-titel"
+           style="width:100%;height:auto">
+        <title id="svg-bygge1-titel">Kopplingsschema för bygge 1. Till vänster en
+          rektangel som är Uno-kortet, med fyra anslutningar på höger sida: 5 V,
+          D9, GND och D2. Från 5 V går en ledning till servot M1 till höger i
+          bilden, från D9 går servots styrledning, och GND-ledningen går både
+          till servot och ned till en jordsymbol. Från D2 går en ledning nedåt
+          till strömbrytaren S1 och därifrån till en andra jordsymbol.</title>
+
+        <g stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <rect x="14" y="34" width="140" height="124" rx="5"/>
+          <rect x="330" y="40" width="96" height="92" rx="4"/>
+
+          <line x1="154" y1="58" x2="330" y2="58"/>
+          <line x1="154" y1="88" x2="330" y2="88"/>
+          <line x1="154" y1="118" x2="330" y2="118"/>
+
+          <line x1="250" y1="118" x2="250" y2="148"/>
+          <line x1="232" y1="148" x2="268" y2="148" stroke-width="2.2"/>
+          <line x1="239" y1="155" x2="261" y2="155" stroke-width="2.2"/>
+          <line x1="246" y1="162" x2="254" y2="162" stroke-width="2.2"/>
+
+          <line x1="154" y1="148" x2="216" y2="148"/>
+          <line x1="216" y1="148" x2="216" y2="206"/>
+          <line x1="216" y1="206" x2="220" y2="206"/>
+          <line x1="222" y1="205" x2="266" y2="187"/>
+          <line x1="274" y1="206" x2="316" y2="206"/>
+          <line x1="316" y1="206" x2="316" y2="222"/>
+          <line x1="298" y1="222" x2="334" y2="222" stroke-width="2.2"/>
+          <line x1="305" y1="229" x2="327" y2="229" stroke-width="2.2"/>
+          <line x1="312" y1="236" x2="320" y2="236" stroke-width="2.2"/>
+        </g>
+
+        <circle cx="250" cy="118" r="3.6" fill="currentColor"/>
+        <circle cx="220" cy="206" r="2.8" fill="currentColor"/>
+        <circle cx="272" cy="206" r="2.8" fill="currentColor"/>
+
+        <g fill="currentColor" font-size="17">
+          <text x="30" y="54">Uno</text>
+          <text x="148" y="63" text-anchor="end">5 V</text>
+          <text x="148" y="93" text-anchor="end">D9</text>
+          <text x="148" y="123" text-anchor="end">GND</text>
+          <text x="148" y="153" text-anchor="end">D2</text>
+          <text x="378" y="32" text-anchor="middle">M1</text>
+          <text x="378" y="92" text-anchor="middle">servo</text>
+          <text x="244" y="182" text-anchor="middle">S1</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>S1</strong> är tryckknappen, kopplad mellan D2 och jord.
+        Inget externt motstånd behövs – pinnen ställs in med
+        <code>INPUT_PULLUP</code> och drar sig själv till 5 V när knappen är
+        uppe.</li>
+      <li><strong>M1</strong> är servot. Tre sladdar: brun till GND, röd till
+        matningen, orange till D9.</li>
+      <li><strong>De två jordsymbolerna är samma nolla.</strong> Det är därför
+        de ser likadana ut. Ritar du om schemat själv får du gärna dra en
+        gemensam jordledning i stället – båda formerna är korrekta.</li>
+      <li><strong>Servots matning är det du ska tänka efter kring.</strong>
+        Schemat visar 5 V från kortet, vilket räcker för ett obelastat servo med
+        knapp marginal. Så fort spaken tar i behöver servot egen matning – se
+        <a href="guide-servot.html#genomgang">servoguiden</a>, avsnittet om
+        strömbehov. Ger du servot ett eget batteri ska batteriets minuspol till
+        samma jord.</li>
+    </ul>
+
+    <h2 id="parvis">Parvis, med egen dokumentation</h2>
+    <p><strong>Bygget görs i par.</strong> Ni planerar tillsammans, ritar
+      schemat tillsammans och felsöker tillsammans. Det är inte ett förslag
+      utan en del av bedömningen: <strong>F2</strong> handlar bland annat om att
+      samarbeta med andra, och resten av kursen är självstudier med ditt eget
+      kit hemma. Byggpassen är alltså det enda ställe där samarbetet går att
+      observera. Ett bygge som gjorts ensamt saknar belägg för den halvan av
+      F2, hur bra det än fungerar.</p>
+    <p><strong>Dokumentationen skriver ni var för sig.</strong> Samma bygge, två
+      texter. Skälet är att <strong>F3</strong> bedöms individuellt – det är din
+      förmåga att dokumentera som mäts, inte din kompis. Ni får titta på samma
+      mätvärden och samma schema. Formuleringarna, motiveringarna och slutsatsen
+      ska vara dina.</p>
+    <p>Fördela arbetet så att båda rör vid allt. Ett par där den ena bygger och
+      den andra skriver ger två halva belägg i stället för två hela.</p>
+
+    <h2 id="innan">Innan passet</h2>
+    <p>Fyll i <a href="../samradsunderlag.html">samrådsunderlaget</a> innan du
+      ber om handledning. De tre frågorna – vad jag redan kan, vad jag behöver
+      hjälp med, vad jag tror situationen kräver – tar två minuter, och det är
+      det <strong>enda</strong> belägget i hela kursen för F5. Utan ifyllt
+      underlag finns förmågan inte dokumenterad någonstans, oavsett hur bra
+      samtalet blir.</p>
+    <p>Läs också igenom de fyra guiderna i området en gång till, särskilt
+      <a href="guide-digital-ingang.html#genomgang">digital ingång</a> om
+      inversionen känns osäker och
+      <a href="guide-servot.html#genomgang">servot</a> om du inte räknat på
+      armlängden ännu.</p>
+
+    <h2 id="steg">Arbetsgång</h2>
+    <ol>
+      <li><strong>Bestäm vad spaken ska göra.</strong> En mening räcker: "en bom
+        som fälls ned när knappen trycks". Skriv den först – den blir
+        dokumentationens första rubrik och den avgör alla val efter den.</li>
+      <li><strong>Rita schemat.</strong> Ditt eget, inte en avritning av
+        figuren ovan. Beteckningar utsatta, pinnummer utsatta, och den matning
+        du faktiskt tänker använda. Det är den här ritningen du felsöker mot
+        senare, och den som ger belägg för F2:s ritningsdel.</li>
+      <li><strong>Räkna på armen.</strong> Mät från axelns mitt till där lasten
+        sitter, och räkna ut vad servot orkar där: F = 1,8 / r med r i
+        centimeter och svaret i kilo. Är marginalen mindre än ungefär
+        femtio procent – korta armen.</li>
+      <li><strong>Bygg elkretsen först, utan servot.</strong> Knapp på D2, och
+        en lysdiod på en annan pinne som tillfällig indikator. Kontrollera i
+        seriemonitorn att du får 1 när knappen är uppe och 0 när den är nere.
+        Nu vet du att ingången fungerar innan något rör sig.</li>
+      <li><strong>Koppla in servot och kör det ensamt.</strong>
+        <code>write(90)</code> i <code>setup()</code>, ingenting i
+        <code>loop()</code>. Notera var armen hamnar. Det är ditt nolläge.</li>
+      <li><strong>Sätt ihop dem.</strong> Nu först skriver du koden som låter
+        knappen välja vinkel. Två vinklar räcker: ett viloläge och ett
+        arbetsläge.</li>
+      <li><strong>Bygg mekaniken.</strong> Skruva fast servot i något som inte
+        fjädrar. Montera spaken. Kontrollera för hand att den går fritt hela
+        vägen mellan de två vinklarna innan du låter koden köra dit.</li>
+      <li><strong>Mät.</strong> Se nästa avsnitt. Mätningen görs på det färdiga
+        bygget, med belastningen på.</li>
+      <li><strong>Dokumentera.</strong> Var för sig, enligt mallen.</li>
+    </ol>
+
+    <h2 id="matningen">Mätningen</h2>
+    <p>Ett bedömt bygge ska innehålla minst ett mätvärde med enhet. Välj en av de
+      två mätningarna nedan – eller gör båda, om du siktar på C eller högre.
+      Siffrorna i tabellerna är exempel, inte facit. Dina egna blir andra.</p>
+
+    <h3>Alternativ A: servots strömbehov</h3>
+    <p>Bryt servots röda sladd och koppla in multimetern i serie, precis som du
+      mätte ström i område 1. Läs av i tre lägen.</p>
+    <p class="notis varna"><span class="rubrik">Använd 10 A-uttaget</span>
+      Ett servo som tar i kan dra över en halv ampere. Många multimetrar har ett
+      milliampere-uttag säkrat för 200 mA och ett separat 10 A-uttag utan
+      säkring. Sitter sladden i milliampere-uttaget bränner du säkringen i
+      stället för att få ett mätvärde. Byt uttag <em>och</em> vred innan du
+      mäter.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Läge</th><th>Uppmätt ström</th><th>Kommentar</th></tr></thead>
+        <tbody>
+          <tr><td>Vila, armen står still</td><td>8 mA</td><td>bara elektroniken inuti servot</td></tr>
+          <tr><td>Rörelse, obelastad arm</td><td>190 mA</td><td>motorn arbetar</td></tr>
+          <tr><td>Armen hålls fast med fingret</td><td>610 mA</td><td>motorn drar allt den kan</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Räkna sedan effekten i det mellersta läget, med 4,9 V uppmätt över
+      servot:</p>
+    <p><code>P = U · I = 4,9 V · 0,190 A = 0,93 W</code></p>
+    <p>Jämför med bygge 0, där hela kretsen omsatte 0,10 W. Det här bygget drar
+      nästan tio gånger så mycket, och det är därför strömförsörjningen plötsligt
+      är en fråga.</p>
+
+    <h3>Alternativ B: matningsspänningen under belastning</h3>
+    <p>Låt voltmetern sitta mellan kortets 5 V och GND medan bygget körs. Läs av
+      i vila och i det ögonblick servot rör sig med lasten på.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Läge</th><th>Uppmätt spänning</th></tr></thead>
+        <tbody>
+          <tr><td>Vila</td><td>4,96 V</td></tr>
+          <tr><td>Servot rör sig med last</td><td>4,52 V</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Skillnaden är</p>
+    <p><code>4,96 − 4,52 = 0,44 V</code></p>
+    <p><code>0,44 / 4,96 = 0,089 = 8,9 %</code></p>
+    <p>Ett dyk på nästan nio procent är mycket – men det är inte det som
+      startar om kortet. Kortets brownout-detektor löser ut först när matningen
+      kortvarigt faller mot omkring 2,7 V, alltså långt under de 4,52 V mätaren
+      visade.</p>
+    <p>Varför startar kortet då om ändå? Därför att <strong>multimetern visar
+      ett medelvärde</strong>. Den läser av några gånger i sekunden och jämnar
+      ut det den ser. Den verkliga transienten i ögonblicket servomotorn rycker
+      igång är mycket kortare och mycket djupare än 4,52 V, och det är den
+      spiken som fäller detektorn – den du aldrig ser på displayen. Ditt
+      mätvärde är alltså inte omstartens orsak utan dess spår: ett synligt dyk
+      på nio procent betyder att det finns osynliga dyk som är betydligt
+      värre.</p>
+    <p>Skriv i dokumentationen vad du mätte och vad du gjorde åt det – ett dyk
+      du upptäckt och åtgärdat är ett starkare belägg än ett bygge som råkade
+      fungera.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="krav">Kraven</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <p>Kryssen sparas i din egen webbläsare. De är en checklista för dig, inte
+        en inlämning.</p>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bygge1-krav-schema"><span><strong>Eget
+          kopplingsschema, ritat innan du kopplade.</strong> Alla komponenter med
+          beteckning, alla pinnummer utsatta, och den matning du faktiskt
+          använder. Ritningen ska gå att bygga efter utan att du står
+          bredvid.</span></label></li>
+        <li><label><input type="checkbox" id="bygge1-krav-koppling"><span><strong>Byggd
+          krets som stämmer med schemat.</strong> Knappen på en digital pinne mot
+          jord, servot inkopplat med gemensam GND. Skiljer sig bygget från
+          ritningen ska ritningen rättas – inte glömmas.</span></label></li>
+        <li><label><input type="checkbox" id="bygge1-krav-kod"><span><strong>Kod
+          som läser knappen och styr servot.</strong> <code>pinMode()</code> med
+          <code>INPUT_PULLUP</code> i <code>setup()</code>, ett villkor som
+          testar <code>LOW</code>, och <code>write()</code> med två vinklar du
+          valt själv och kan motivera.</span></label></li>
+        <li><label><input type="checkbox" id="bygge1-krav-mekanik"><span><strong>Spak
+          eller arm som gör något synligt.</strong> Servot skruvat i ett fäste
+          som inte fjädrar, hornet fastskruvat, och armen fri att röra sig hela
+          vägen mellan de två vinklarna. Rörelsen ska gå att peka på från andra
+          sidan rummet.</span></label></li>
+        <li><label><input type="checkbox" id="bygge1-krav-armberakning"><span><strong>Uträknad
+          armlängd.</strong> Hur långt sitter lasten från axeln, och hur mycket
+          orkar servot där? F = M / r, med servots moment som utgångspunkt. Ett
+          tal med enhet, och en mening om varför du valde den längd du
+          valde.</span></label></li>
+        <li><label><input type="checkbox" id="bygge1-krav-matning"><span><strong>En
+          mätning på det färdiga bygget.</strong> Servots ström eller
+          matningsspänningen under belastning, med enhet och med det läge du
+          mätte i angivet. Mätt, inte hämtat ur databladet.</span></label></li>
+        <li><label><input type="checkbox" id="bygge1-krav-samrad"><span><strong>Ifyllt
+          samrådsunderlag.</strong> De tre frågorna besvarade <em>före</em>
+          handledningen. Det är kursens enda belägg för F5 och tar två
+          minuter.</span></label></li>
+        <li><label><input type="checkbox" id="bygge1-krav-dokumentation"><span><strong>Egen
+          dokumentation enligt mallen.</strong> Skriven av dig, även om bygget
+          gjordes i par. Minst de fyra E-punkterna
+          i <a href="../dokumentationsmall.html">dokumentationsmallen</a>.</span></label></li>
+      </ul>
+      <p><button type="button" class="knapp tom" id="nollstall">Nollställ kryssen</button></p>
+    </section>
+
+    <h2 id="dokumentation">Dokumentationen</h2>
+    <p>Använd <a href="../dokumentationsmall.html">dokumentationsmallen</a>. De
+      fyra E-punkterna är golvet: vad systemet gör, kopplingsschemat, koden, och
+      vad som gick fel på vägen.</p>
+    <p class="notis"><span class="rubrik">Dokumentationen bär E/C-gränsen</span>
+      <strong>F3 skiljer E från C på ett enda ord: <em>enkel</em> mot
+      <em>noggrann</em>.</strong> Det betyder att ett utmärkt bygge med tunn
+      dokumentation landar på E, oavsett hur bra spaken rör sig. Det motsatta
+      gäller inte – du kan inte skriva dig till ett fungerande system. Men av de
+      två är det dokumentationen som oftast fattas, och det är den som är
+      billigast att göra något åt.</p>
+    <p>Tre av mallens punkter passar särskilt bra på det här bygget:</p>
+    <ul>
+      <li><strong>Motiverade komponentval</strong> är armlängden. Varför just
+        den längden, och vad kostade valet i kraft?</li>
+      <li><strong>Mätvärden med enhet</strong> är mätningen ovan, med läget
+        angivet. "610 mA när armen hålls fast" säger något; "ungefär en halv
+        ampere" gör det inte.</li>
+      <li><strong>Vad som gick fel</strong> är inte en bekännelse utan ett krav.
+        Kortet som startade om, knappen som räknade fel, hornet som gled – skriv
+        ner symtomet, vad du trodde det var, och vad det visade sig vara. Det är
+        den punkten som visar att du felsökt och inte bara byggt om tills det
+        råkade fungera.</li>
+    </ul>
+
+    <h2 id="fastnar">Om det inte fungerar</h2>
+    <ul>
+      <li><strong>Kortet startar om när servot rör sig.</strong> Brownout.
+        Servot drar mer ström än kortets matning kan lämna, spänningen dyker och
+        kortet startar om – vilket ser ut precis som ett kodfel, eftersom
+        programmet börjar om från början. Ta bort lasten från armen och prova
+        igen. Försvinner felet var det aldrig i koden. Ge servot egen matning
+        med gemensam GND.</li>
+      <li><strong>Servot står stilla eller rycker slumpmässigt.</strong> Gemensam
+        GND saknas mellan servots matning och kortet. En sladd.</li>
+      <li><strong>Ingenting händer när du trycker.</strong> Kontrollera i
+        ordning: står det <code>INPUT_PULLUP</code> och inte <code>INPUT</code>?
+        Testar villkoret <code>LOW</code> och inte <code>HIGH</code>? Sitter
+        knappens två sladdar på ben som faktiskt bryts av trycket? Det sista
+        avgörs med multimeterns genomgångsläge på fem sekunder.</li>
+      <li><strong>Spaken rycker fram och tillbaka vid varje tryck.</strong>
+        Kontaktstuds. Lägg in flankdetektering och pausen på cirka 20 ms från
+        <a href="guide-digital-ingang.html#genomgang">guiden om digital
+        ingång</a>.</li>
+      <li><strong>Servot brummar och blir varmt i ett av lägena.</strong> Det
+        står mot ett mekaniskt stopp. Ändra vinkeln i koden eller ta bort det
+        som är i vägen. Låt det inte stå så – servot går sönder av det.</li>
+      <li><strong>Armen rör sig mycket mindre än du räknat.</strong> Fästet
+        fjädrar. Skruva i något styvare än kartong, och kontrollera att servot
+        sitter fast i båda flänsarna.</li>
+      <li><strong>Nolläget vandrar efter en stund.</strong> Hornets skruv sitter
+        inte i, och hornet glider ett tandsteg i taget på axeln.</li>
+      <li><strong>Uppladdningen misslyckas.</strong> Sitter något på pinne 0
+        eller 1? Är rätt port vald? Koppla ur allt utom USB-sladden och ladda upp
+        en tom sketch för att avgöra om felet sitter i kortet eller i
+        bygget.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Med bygge 1 klart är område 2 avslutat, och du har byggt ditt första
+      mekatroniska system: något som känner av, bestämmer och rör sig.</p>
+    <p>Nästa område tar systemet vidare på två sätt. Det får <em>två</em>
+      insignaler i stället för en, och en logisk regel som avgör vad de betyder
+      tillsammans. Och det gör sig av med <code>delay()</code>, som du redan
+      märkt står i vägen så fort två saker ska hända samtidigt.</p>
+    <p>Tillbaka till <a href="index.html">område 2</a> eller till
+      <a href="../index.html">kursens material</a>.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 2</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

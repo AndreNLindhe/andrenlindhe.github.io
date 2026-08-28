@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 2 – Styrenheten och den första rörelsen – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o2-index">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Område 2</strong> · Styrenheten och den första rörelsen</span>
+  <a href="../sprakreferens.html">Språkreferens</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Område 2 · lektion 6–10 · 24 sep – 22 okt</p>
+    <h1>Styrenheten och den första rörelsen</h1>
+    <p class="inledning">Fem pass där Unon tas fram, C++ möter Python och ett
+      servo för första gången rör något fysiskt. Sist bygger du bygge 1 – ditt
+      första bedömda mekatroniska system.</p>
+
+    <p class="notis"><strong>Här börjar koden.</strong> Område 1 hade ingen alls,
+      och det var avsiktligt: den som aldrig mätt en spänning felsöker genom att
+      byta komponenter. Nu har du mätt, och den vanan följer med. Ett bygge som
+      inte fungerar felsöks fortfarande med multimetern lika ofta som med
+      seriemonitorn – det är det som skiljer mekatronik från programmering.</p>
+
+    <h2 id="guider">Guiderna</h2>
+    <p>Läs dem i ordning. Varje guide slutar med ett avsnitt om vanliga fel, och
+      det avsnittet är skrivet för dig som sitter ensam klockan nio på kvällen
+      med en sketch som inte kompilerar.</p>
+
+    <div class="rutnat">
+
+      <a class="kort" href="guide-mikrokontrollern.html">
+        <span class="sort">Lektion 6 · 24 sep</span>
+        <span class="rubrik">Mikrokontrollern och Arduino IDE</span>
+        <p>Vad en styrenhet är. Kortets pinnar, 5 V och GND, och vägen från
+          sketch till maskinkod. Första uppladdningen, setup(), loop() och
+          digitalWrite.</p>
+      </a>
+
+      <a class="kort" href="guide-cpp-efter-python.html">
+        <span class="sort">Lektion 7 · 1 okt</span>
+        <span class="rubrik">C++ efter Python</span>
+        <p>Statiska typer och kompilering – felet kommer före körningen. Varför
+          en int tar slut vid 32767, och varför Serial är en sladd och inte
+          stdout.</p>
+      </a>
+
+      <a class="kort" href="guide-digital-ingang.html">
+        <span class="sort">Lektion 8 · 8 okt</span>
+        <span class="rubrik">Digital ingång</span>
+        <p>Knapp, pull-up och kontaktstuds. digitalRead med INPUT_PULLUP och
+          inversionen som förvirrar alla. Ett villkor som låter knappen styra en
+          utgång.</p>
+      </a>
+
+      <a class="kort" href="guide-servot.html">
+        <span class="sort">Lektion 9 · 15 okt</span>
+        <span class="rubrik">Servot och den mekaniska strukturen</span>
+        <p>Servots arbetssätt, vinkel och strömbehov. Servo.h och write() på tre
+          rader. Hävarmen, momentet och att bygga ett fäste som håller.</p>
+      </a>
+
+      <a class="kort webb" href="bygge-1-knapp-styrenhet-spak.html">
+        <span class="sort">Lektion 10 · 22 okt · bygge</span>
+        <span class="rubrik">Bygge 1 – knapp, styrenhet, spak</span>
+        <p>Knapp in, servo ut, en spak som rör sig. Kursens första bedömda
+          mekatroniska system, byggt parvis och dokumenterat var för sig.</p>
+      </a>
+
+    </div>
+
+    <h2 id="tre">De tre delarna sitter ihop härifrån</h2>
+    <p>Ett mekatroniskt system i betygskriteriernas mening sammanför
+      <strong>mekanisk struktur, elektroteknik och styrteknik</strong>. Bygge 0
+      hade bara den mellersta delen och var därför medvetet inte ett bedömt
+      system. Bygge 1 har alla tre, och det är därför det är det första som
+      räknas mot ditt betyg.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>I bygge 1</th><th>Guiden som lär ut den</th></tr></thead>
+        <tbody>
+          <tr><td>Mekanisk struktur</td><td>spaken, armen och fästet</td><td><a href="guide-servot.html">Servot och den mekaniska strukturen</a></td></tr>
+          <tr><td>Elektroteknik</td><td>knappen, pull-upen, servots matning</td><td><a href="guide-digital-ingang.html">Digital ingång</a></td></tr>
+          <tr><td>Styrteknik</td><td>koden som avgör vad som händer</td><td><a href="guide-cpp-efter-python.html">C++ efter Python</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="efterat">När området är klart</h2>
+    <p>Då kan du ta ett kort ur lådan, koppla in en givare och ett ställdon,
+      skriva koden som binder ihop dem och bygga en mekanisk struktur som håller
+      för rörelsen. Du kan också läsa ett kompileringsfel utan att bli
+      avskräckt, och du vet att ett kort som startar om oftast betyder ström och
+      inte kod.</p>
+    <p>Det som saknas är sådant du märker att du saknar: hur två insignaler ska
+      vägas mot varandra, och hur något kan hända samtidigt som något annat.
+      Båda kommer i område 3.</p>
+
+    <h2 id="tillhands">Alltid till hands</h2>
+    <ul>
+      <li><a href="../sprakreferens.html">Språkreferens</a> – C++ i ordnad
+        följd. Kapitlen om typer och variabler samt villkor hör till det här
+        området.</li>
+      <li><a href="../dokumentationsmall.html">Dokumentationsmall</a> – vad som
+        krävs på E, C och A. Från bygge 1 räknas den.</li>
+      <li><a href="../samradsunderlag.html">Samrådsunderlag</a> – de tre
+        frågorna du fyller i innan du ber om handledning. Kursens enda belägg
+        för F5.</li>
+      <li><a href="../omrade-1-ellara-och-matning/index.html">Område 1</a> –
+        ellära, multimeter och kopplingsschema. Räknandet därifrån används
+        fortfarande i varje bygge.</li>
+    </ul>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 2</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

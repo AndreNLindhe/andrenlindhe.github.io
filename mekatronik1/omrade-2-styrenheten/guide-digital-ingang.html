@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital ingång – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o2-digital-ingang">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Digital ingång</strong> · område 2</span>
+  <a href="index.html">Område 2</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 2 · lektion 8</p>
+    <h1>Digital ingång</h1>
+    <p class="inledning">Hittills har kortet bara sagt saker. Nu ska det lyssna.
+      En knapp är den enklaste givaren som finns, och ändå gömmer den två fällor
+      som fäller nästan alla första gången: pinnen som inte är kopplad någonstans,
+      och kontakten som studsar.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan koppla en tryckknapp till en digital pinne utan externa
+        komponenter, och rita schemat.</li>
+      <li>Du kan förklara varför en opåverkad knapp med
+        <code>INPUT_PULLUP</code> läses som <code>HIGH</code> och en nedtryckt
+        som <code>LOW</code>.</li>
+      <li>Du kan skriva ett villkor som låter knappen styra en utgång.</li>
+      <li>Du kan känna igen kontaktstuds på symtomen och lägga in en enkel
+        spärr mot den.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>En ingång som inte är kopplad någonstans läser skräp</h3>
+    <p>Tänk dig att du gör pinne 2 till ingång och kopplar en knapp mellan pinnen
+      och GND. Trycker du ner knappen ligger pinnen på 0 V, alltså
+      <code>LOW</code>. Det är entydigt. Men när knappen är uppe – vad ligger
+      pinnen på då?</p>
+    <p>Ingenting. Den hänger löst, och en lös ingång plockar upp störningar från
+      lysrör, mobiltelefoner och din egen hand. <code>digitalRead()</code>
+      levererar då omväxlande <code>HIGH</code> och <code>LOW</code> utan att
+      någon rört knappen. Det kallas att ingången <strong>flyter</strong>, och
+      symtomet är ett bygge som gör saker helt av sig självt.</p>
+    <p>Lösningen är ett motstånd som drar pinnen till en känd nivå när inget
+      annat gör det. Dras den uppåt mot 5 V heter det <strong>pull-up</strong>,
+      nedåt mot GND <strong>pull-down</strong>. Vi använder pull-up, eftersom
+      kortet redan har ett sådant motstånd inbyggt i varje pinne.</p>
+
+    <h3>Kopplingen med intern pull-up</h3>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 430 200" role="img" aria-labelledby="svg-pullup-titel"
+           style="width:100%;height:auto">
+        <title id="svg-pullup-titel">Kopplingsschema för en knapp med intern
+          pull-up. Innanför en streckad ruta märkt ATmega328P går en ledning från
+          5 V ned genom ett motstånd på 20 till 50 kiloohm och vidare till pinne
+          D2. Utanför rutan fortsätter ledningen från D2 till strömbrytaren S1
+          och därifrån till jord.</title>
+
+        <g stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <rect x="14" y="22" width="204" height="150" rx="5"
+                stroke-dasharray="7 5" stroke-width="1.4"/>
+
+          <line x1="72" y1="46" x2="108" y2="46" stroke-width="2.6"/>
+          <line x1="90" y1="46" x2="90" y2="64"/>
+          <rect x="78" y="64" width="24" height="44" rx="2"/>
+          <line x1="90" y1="108" x2="90" y2="150"/>
+          <line x1="90" y1="150" x2="248" y2="150"/>
+
+          <circle cx="252" cy="150" r="2.8" fill="currentColor"/>
+          <line x1="255" y1="149" x2="298" y2="130"/>
+          <circle cx="304" cy="150" r="2.8" fill="currentColor"/>
+          <line x1="307" y1="150" x2="358" y2="150"/>
+
+          <line x1="358" y1="150" x2="358" y2="166"/>
+          <line x1="340" y1="166" x2="376" y2="166" stroke-width="2.2"/>
+          <line x1="347" y1="173" x2="369" y2="173" stroke-width="2.2"/>
+          <line x1="354" y1="180" x2="362" y2="180" stroke-width="2.2"/>
+        </g>
+
+        <rect x="211" y="143" width="14" height="14" fill="currentColor"/>
+
+        <g fill="currentColor" font-size="17">
+          <text x="90" y="38" text-anchor="middle">5 V</text>
+          <text x="112" y="92">20–50 kΩ</text>
+          <text x="14" y="16" font-size="16">ATmega328P</text>
+          <text x="218" y="136">D2</text>
+          <text x="278" y="122" text-anchor="middle">S1</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>Motståndet inuti den streckade rutan finns redan på kortet.</strong>
+        Du kopplar det inte – du slår på det, med en rad kod. Rutan är chippet,
+        och allt utanför är det du bygger på kopplingsdäcket.</li>
+      <li><strong>S1</strong> är tryckknappen. Den enda sladden du behöver dra
+        går från pinne D2 till knappen, och från knappen till GND. Två sladdar,
+        noll komponenter utöver knappen.</li>
+      <li><strong>Pull-up-motståndet är på 20–50 kΩ</strong> enligt kortets
+        datablad. Det är stort med flit: det ska räcka för att hålla pinnen uppe
+        men vara svagt nog att knappen enkelt drar ner den.</li>
+      <li><strong>Jordsymbolen</strong> är samma nolla som i område 1. Knappens
+        andra ben går dit.</li>
+    </ul>
+
+    <p>Hur mycket ström går det genom motståndet när knappen är nedtryckt?
+      Hela de 5 volten ligger då över det:</p>
+    <p><code>I = U / R = 5 V / 20 000 Ω = 0,00025 A = 0,25 mA</code></p>
+    <p><code>I = U / R = 5 V / 50 000 Ω = 0,0001 A = 0,10 mA</code></p>
+    <p>Alltså någonstans mellan 0,1 och 0,25 mA. Jämför med de 20 mA en lysdiod
+      vill ha: det här är åttio till tvåhundra gånger mindre, och det är hela
+      poängen. Ett pull-up-motstånd ska hålla en nivå, inte driva något.</p>
+
+    <h3>digitalRead och INPUT_PULLUP – och inversionen</h3>
+    <p>Två rader gör hela jobbet. Den ena står i <code>setup()</code>:</p>
+    <pre><code class="sprak-cpp">pinMode(KNAPP_PIN, INPUT_PULLUP);</code></pre>
+    <p>Den andra i <code>loop()</code>:</p>
+    <pre><code class="sprak-cpp">int lage = digitalRead(KNAPP_PIN);</code></pre>
+    <p>Och nu det som förvirrar alla första gången:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Knappen</th><th>Pinnens spänning</th><th><code>digitalRead()</code> ger</th><th>I seriemonitorn</th></tr></thead>
+        <tbody>
+          <tr><td>Uppe, opåverkad</td><td>5 V, dragen dit av pull-upen</td><td><code>HIGH</code></td><td>1</td></tr>
+          <tr><td>Nedtryckt</td><td>0 V, kortsluten till GND</td><td><code>LOW</code></td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Nedtryckt är alltså <code>LOW</code>, inte <code>HIGH</code>.</strong>
+      Det känns bakvänt, och det är det också – men bara språkligt. Elektriskt är
+      det raka motsatsen till bakvänt: knappen har ett enda jobb, och det är att
+      koppla pinnen till noll. Att den släppta knappen ger 5 V är motståndets
+      förtjänst, inte knappens.</p>
+    <p class="notis"><span class="rubrik">Skriv det i koden, inte i huvudet</span>
+      Skriv <code>if (digitalRead(KNAPP_PIN) == LOW)</code> och sätt en kommentar
+      efter: <code>// LOW betyder nedtryckt</code>. Om ett halvår läser du din
+      egen kod och minns inte inversionen. Kommentaren tar fem sekunder att
+      skriva och sparar tjugo minuters felsökning.</p>
+
+    <h3>Ett villkor som styr en utgång</h3>
+    <p>Nu sitter hela kedjan ihop: givare in, villkor i mitten, ställdon ut. Här
+      är den med en lysdiod som ställdon, eftersom servot kommer i lektion 9.</p>
+    <pre><code class="sprak-cpp">const int KNAPP_PIN = 2;
+const int LAMPA_PIN = 8;
+
+void setup() {
+  pinMode(KNAPP_PIN, INPUT_PULLUP);
+  pinMode(LAMPA_PIN, OUTPUT);
+}
+
+void loop() {
+  if (digitalRead(KNAPP_PIN) == LOW) {   // LOW betyder nedtryckt
+    digitalWrite(LAMPA_PIN, HIGH);
+  } else {
+    digitalWrite(LAMPA_PIN, LOW);
+  }
+}</code></pre>
+    <p>Lägg märke till att båda pinnarna får sin <code>pinMode()</code>, och att
+      de får olika. Den ena lyssnar, den andra driver. Glöms den ena bort blir
+      symtomen helt olika, och båda ser ut som kodfel.</p>
+
+    <h3>Kontaktstuds</h3>
+    <p>En tryckknapp är två metallbitar som slås ihop. De studsar mot varandra
+      innan de får kontakt, precis som en boll mot ett bord, och under den tiden
+      går kontakten till och från många gånger. Det pågår i storleksordningen
+      <strong>1 till 10 millisekunder</strong>.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 400 155" role="img" aria-labelledby="svg-studs-titel"
+           style="width:100%;height:auto">
+        <title id="svg-studs-titel">Signalen från en studsande knapp, ritad som
+          en fyrkantvåg över tiden. Signalen ligger på hög nivå, faller till låg,
+          och hoppar sedan tre gånger mellan låg och hög innan den lägger sig på
+          låg nivå. Under hopparna markerar en klammer att de pågår i 1 till 10
+          millisekunder.</title>
+
+        <g stroke="currentColor" stroke-width="2" fill="none"
+           stroke-linejoin="round" stroke-linecap="round">
+          <path d="M 60 40 L 160 40 L 160 110 L 170 110 L 170 40 L 178 40
+                   L 178 110 L 188 110 L 188 40 L 194 40 L 194 110 L 370 110"/>
+          <path d="M 160 126 L 160 133 L 196 133 L 196 126" stroke-width="1.4"/>
+        </g>
+
+        <g fill="currentColor" font-size="16">
+          <text x="52" y="45" text-anchor="end">HIGH</text>
+          <text x="52" y="115" text-anchor="end">LOW</text>
+          <text x="178" y="150" text-anchor="middle">1–10 ms</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li>Signalen ligger på <code>HIGH</code> så länge knappen är uppe – det är
+        pull-upen som håller den där.</li>
+      <li>I ögonblicket knappen trycks ned faller den till <code>LOW</code>, men
+        studsar sedan upp och ner några gånger innan den lägger sig.</li>
+      <li>Klammern markerar studsen. Efter den är signalen stabil.</li>
+      <li>Samma sak händer när du <em>släpper</em> knappen. Studsen är inte
+        något som bara drabbar nedtryckningen.</li>
+    </ul>
+
+    <p>Varför spelar några millisekunder roll? Därför att kortet är snabbt.
+      16 MHz betyder 16 miljoner klockcykler i sekunden, alltså 16 000 cykler per
+      millisekund. Ett varv i en <code>loop()</code> som bara läser en pinne och
+      sätter en utgång tar några mikrosekunder, så under en studs på 5 ms hinner
+      loopen varvas hundratals gånger – och den ser varje uppstuds som en ny
+      knapptryckning. Symtomet är att spaken rycker fram och tillbaka, eller att
+      räknaren hoppar från 3 till 7 på ett tryck.</p>
+    <p>Den enkla spärren är att läsa om efter en kort paus. Är knappen kvar i
+      samma läge var det ett riktigt tryck och inte en studs:</p>
+    <pre><code class="sprak-cpp">const int KNAPP_PIN = 2;
+const int LAMPA_PIN = 8;
+
+int forra = HIGH;          // knappens läge förra varvet
+bool tand = false;         // vad lampan ska vara
+
+void setup() {
+  pinMode(KNAPP_PIN, INPUT_PULLUP);
+  pinMode(LAMPA_PIN, OUTPUT);
+}
+
+void loop() {
+  int nu = digitalRead(KNAPP_PIN);
+
+  // Flanken: ögonblicket knappen går från uppe till nedtryckt.
+  if (forra == HIGH && nu == LOW) {
+    delay(20);                            // vänta ut studsen
+    if (digitalRead(KNAPP_PIN) == LOW) {  // ligger den kvar var trycket riktigt
+      tand = !tand;
+      digitalWrite(LAMPA_PIN, tand);
+    }
+  }
+
+  forra = nu;
+}</code></pre>
+    <p>Tre saker gör den här versionen annorlunda:</p>
+    <ul>
+      <li>Den reagerar på <strong>flanken</strong>, alltså på övergången från
+        uppe till nedtryckt, inte på att knappen ligger nere. Därför räknas ett
+        långt tryck som ett tryck.</li>
+      <li><code>delay(20)</code> väntar ut studsen med marginal – 20 ms är
+        dubbelt så långt som de 10 ms studsen som mest håller på.</li>
+      <li><code>tand = !tand;</code> vänder på värdet. Utropstecknet är C++:s
+        <code>not</code>.</li>
+    </ul>
+    <p class="notis"><span class="rubrik">Den här spärren är inte den slutgiltiga</span>
+      <code>delay(20)</code> stoppar allt annat i tjugo millisekunder. Med en
+      knapp och en lampa märks det inte. Med två knappar och något som ska blinka
+      samtidigt gör det systemet trögt och opålitligt. Den riktiga lösningen
+      mäter tid utan att stanna, med <code>millis()</code>, och den hör hemma i
+      område 3. Här nöjer vi oss med att veta vad problemet heter och att
+      spärren ovan duger till bygge 1.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+    <p><strong>I industrin:</strong> en nödstoppsknapp på en maskin kopplas
+      alltid med en <em>brytande</em> kontakt, betecknad <strong>NC</strong> i
+      datablad – den är sluten när allt är normalt, och trycket
+      <strong>bryter</strong> kretsen. Motsatsen, en <em>slutande</em> kontakt
+      (<strong>NO</strong>), är den vanliga tryckknappen: öppen i viloläge.
+      Skillnaden är ett ord i ett datablad och avgör om maskinen stannar eller
+      inte. Valet låter bakvänt av samma skäl som pull-upen gör det, och skälet
+      är detsamma: den nivå som betyder "allt är bra" ska vara den som kräver
+      att kretsen är hel. Går en
+      sladd av, lossnar en skruv eller korroderar en kontakt får styrsystemet
+      exakt samma signal som ett nödstopp och stannar maskinen. Ett fel som gör
+      systemet säkrare i stället för farligare kallas felsäkert, och det är den
+      principen som skiljer en industrikoppling från en hobbykoppling. Kretsarna
+      arbetar dessutom oftast på 24 V i stället för våra 5 V, eftersom den högre
+      spänningen tål längre kablar och mer störningar.</p>
+    <p><strong>I vardagen:</strong> tangentbordet du skriver på studsar också.
+      Varje tangent är en mekanisk kontakt med samma studs på några
+      millisekunder, och skulle datorn läsa den rakt av skulle ett tryck på
+      <kbd>a</kbd> ge tre eller fyra a:n. Avstudsningen sitter i tangentbordets
+      egen lilla styrkrets, som väntar ut studsen precis som koden ovan gör.
+      Riktningen är den motsatta mot nödstoppet: här är målet inte säkerhet utan
+      att ett tryck ska bli precis ett tecken, hundratals gånger i minuten,
+      utan att någon tänker på det.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li>Koppla en tryckknapp mellan pinne D2 och GND. Rita schemat först –
+        det är två sladdar, och det tar trettio sekunder.</li>
+      <li>Skriv en sketch som läser pinnen med <code>INPUT_PULLUP</code> och
+        skriver ut värdet till seriemonitorn två gånger i sekunden. Kontrollera
+        att du får 1 när knappen är uppe och 0 när den är nere.</li>
+      <li>Ta bort <code>_PULLUP</code> så det bara står <code>INPUT</code>.
+        Ladda upp och titta på monitorn utan att röra knappen. Så ser en
+        flytande ingång ut.</li>
+      <li>Bygg vidare till lysdiodsexemplet ovan, så att knappen tänder lampan.</li>
+      <li>Lägg till en räknare som skriver ut hur många gånger knappen tryckts.
+        Tryck tio gånger. Blev det tio? Lägg sedan in spärren mot kontaktstuds
+        och räkna om.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Varför blir en opåverkad knapp <code>HIGH</code> och inte
+        <code>LOW</code>?</summary>
+      <p>Därför att pull-up-motståndet inuti chippet drar pinnen upp mot 5 V så
+        länge ingenting annat drar den någon annanstans. Knappen kopplar pinnen
+        till GND när den trycks ned, och 0 V vinner över motståndet, eftersom
+        vägen till GND går genom knappens nästan obefintliga resistans medan
+        vägen till 5 V går genom tiotusentals ohm.</p>
+    </details>
+
+    <details>
+      <summary>Du har glömt <code>INPUT_PULLUP</code> och skrivit
+        <code>INPUT</code>. Vad ser du?</summary>
+      <p>Värdet hoppar mellan 0 och 1 utan att någon rör knappen, och det
+        påverkas av om du håller handen nära. Ingången flyter. Fungerar det
+        ibland och inte andra gånger är det nästan alltid det här.</p>
+    </details>
+
+    <details>
+      <summary>Om det interna motståndet är 30 kΩ, hur stor ström går genom det
+        när knappen hålls nedtryckt?</summary>
+      <p>I = U / R = 5 / 30 000 = 0,000167 A, alltså ungefär 0,17 mA. Effekten
+        blir P = U · I = 5 · 0,000167 = 0,00083 W, alltså under en milliwatt.
+        Det är därför du kan hålla knappen nedtryckt hur länge du vill utan att
+        något blir varmt.</p>
+    </details>
+
+    <details>
+      <summary>Din räknare hoppar från 4 till 9 på ett enda tryck. Vad är fel,
+        och vad är det inte?</summary>
+      <p>Det är kontaktstuds. Det är <em>inte</em> ett trasigt kort, en dålig
+        knapp eller ett fel i räknarlogiken. Koden ser varje studs som en ny
+        tryckning eftersom loopen hinner varvas hundratals gånger under de
+        millisekunder studsen pågår. Lägg in flankdetektering och en paus på
+        cirka 20 ms.</p>
+    </details>
+
+    <details>
+      <summary>Varför räcker det inte att skriva
+        <code>if (digitalRead(KNAPP_PIN) == LOW)</code> om du vill räkna
+        tryckningar?</summary>
+      <p>Därför att villkoret är sant hela tiden knappen hålls nere, inte bara i
+        ögonblicket den trycks. Ett tryck på en halv sekund räknas då tusentals
+        gånger. Du behöver jämföra med förra varvets värde och bara reagera när
+        det ändrats – det är vad flankdetektering betyder.</p>
+    </details>
+
+    <details>
+      <summary>Kan du använda pinne D2 till både knappen och en lysdiod?</summary>
+      <p>Nej. En pinne är antingen ingång eller utgång, och
+        <code>pinMode()</code> ställer in vilket. Kortet har fjorton digitala
+        pinnar, varav tolv är fria att använda – det finns ingen anledning att
+        tränga ihop sig.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong><code>INPUT</code> i stället för <code>INPUT_PULLUP</code>.</strong>
+        Ingången flyter och värdet hoppar av sig självt. Det ser ut som en
+        trasig knapp och är ett teckens skillnad i koden.</li>
+      <li><strong>Knappen kopplad mellan pinnen och 5 V.</strong> Med intern
+        pull-up ska knappen gå till <strong>GND</strong>. Går den till 5 V ligger
+        pinnen på 5 V både med och utan tryck, och ingenting händer någonsin.</li>
+      <li><strong>Villkoret testar <code>HIGH</code> när det borde testa
+        <code>LOW</code>.</strong> Allt fungerar tvärtom: lampan lyser tills du
+        trycker. Det är inversionen, och det är ett ord i koden.</li>
+      <li><strong>Fel ben på knappen.</strong> En fyrbent tryckknapp har benen
+        parvis ihopkopplade redan inuti. Sitter dina två sladdar på ett par som
+        alltid hänger ihop är kretsen sluten hela tiden. Vrid knappen ett kvarts
+        varv och prova igen, eller mät med multimeterns genomgångsläge.</li>
+      <li><strong>Knappen sitter över mittspåret på kopplingsdäcket.</strong>
+        Fyrbenta knappar är gjorda för att grensla spåret. Sitter den på ena
+        sidan är benen kortslutna av däckets egna femhålsgrupper.</li>
+      <li><strong>Räknaren rusar.</strong> Villkoret reagerar på att knappen
+        <em>är</em> nere i stället för att den <em>trycktes ned</em>. Jämför med
+        förra varvet.</li>
+      <li><strong>Lampan blinkar till i stället för att växla.</strong> Ett
+        enda tryck hinner räknas flera gånger, så utfallet blir slumpmässigt –
+        ibland tänds den, ibland står den kvar. Det är kontaktstuds, inte en
+        trasig knapp och inte ett fel i villkoret.</li>
+      <li><strong><code>pinMode()</code> saknas för knappen.</strong> Pinnen står
+        kvar som ingång utan pull-up, vilket är samma symtom som det första
+        felet i listan.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Kapitlen <a href="../sprakreferens.html#villkor">Villkor</a> och
+      <a href="../sprakreferens.html#typer">Typer och variabler</a> i
+      språkreferensen hör till den här guiden.</p>
+    <p>Nästa guide är <a href="guide-servot.html">servot och den mekaniska
+      strukturen</a>. Där byts lysdioden mot något som rör sig, och därmed blir
+      bygget ett mekatroniskt system i stället för en lampa med en knapp.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 2</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

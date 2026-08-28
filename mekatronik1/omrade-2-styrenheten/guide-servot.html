@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Servot och den mekaniska strukturen – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o2-servot">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Servot och den mekaniska strukturen</strong> · område 2</span>
+  <a href="index.html">Område 2</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 2 · lektion 9</p>
+    <h1>Servot och den mekaniska strukturen</h1>
+    <p class="inledning">Det här är passet där bygget slutar vara elektronik och
+      börjar vara mekatronik. Ett servo är billigt att programmera – tre rader –
+      och dyrt att bygga fäste till. Den obalansen är själva lärdomen.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan koppla in ett servo, ge det en vinkel med
+        <code>Servo.h</code>, och säga vad de tre sladdarna gör.</li>
+      <li>Du kan räkna ut hur tungt ditt servo orkar lyfta på en arm av en viss
+        längd, och välja armlängd med det som grund.</li>
+      <li>Du kan bedöma om servot får sin ström från rätt håll, och känna igen
+        symtomen när det inte gör det.</li>
+      <li>Du kan bygga ett fäste som håller kvar servot när armen tar i.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Vad ett servo är</h3>
+    <p>Ett modellservo är fyra saker i en liten låda: en likströmsmotor, en
+      växellåda som växlar ner den, en vridpotentiometer som mäter var utaxeln
+      faktiskt står, och en liten krets som jämför det uppmätta läget med det du
+      bett om och kör motorn tills de stämmer.</p>
+    <p>Det sista är hela poängen. Du säger inte "snurra" utan "stå på 90 grader",
+      och servot håller sedan det läget av egen kraft. Trycker du på armen
+      trycker den emot. Det är därför ett servo passar till en spak, en lucka
+      eller en ventil, och därför det inte passar till ett hjul – ett vanligt
+      modellservo kan bara vrida sig ungefär ett halvt varv.</p>
+    <p>De tre sladdarna, i den ordning de nästan alltid sitter:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Färg</th><th>Vad</th><th>Kopplas till</th></tr></thead>
+        <tbody>
+          <tr><td>Brun eller svart</td><td>GND, nollan</td><td>GND – alltid, och alltid gemensam med kortets GND</td></tr>
+          <tr><td>Röd</td><td>Matning, 4,8–6 V</td><td>5 V, eller ett eget batteri (se nedan)</td></tr>
+          <tr><td>Orange eller gul</td><td>Styrsignal</td><td>En digital pinne, till exempel D9</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Styrsladden bär nästan ingen ström alls – den bär bara information. All
+      kraft kommer från den röda sladden. Det är den skillnaden hela avsnittet
+      om strömbehov nedan handlar om.</p>
+
+    <h3>Styrsignalen: en puls var tjugonde millisekund</h3>
+    <p>Servot vill ha en kort puls med jämna mellanrum. Pulsens
+      <em>bredd</em> säger vilken vinkel det ska stå på.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 420 168" role="img" aria-labelledby="svg-puls-titel"
+           style="width:100%;height:auto">
+        <title id="svg-puls-titel">Servots styrsignal ritad som en fyrkantvåg
+          över tiden. Signalen ligger låg, går hög under en smal puls, och går
+          låg igen tills nästa puls börjar. En klammer över pulsen är märkt 1,5
+          millisekunder och en klammer under, från pulsens början till nästa
+          puls början, är märkt 20 millisekunder.</title>
+
+        <g stroke="currentColor" stroke-width="2" fill="none"
+           stroke-linejoin="round" stroke-linecap="round">
+          <path d="M 60 105 L 60 45 L 86 45 L 86 105 L 402 105 L 402 45 L 412 45"/>
+          <path d="M 60 38 L 60 33 L 86 33 L 86 38" stroke-width="1.4"/>
+          <path d="M 60 130 L 60 137 L 402 137 L 402 130" stroke-width="1.4"/>
+        </g>
+
+        <g fill="currentColor" font-size="16">
+          <text x="52" y="50" text-anchor="end">HIGH</text>
+          <text x="52" y="110" text-anchor="end">LOW</text>
+          <text x="73" y="24" text-anchor="middle">1,5 ms</text>
+          <text x="231" y="158" text-anchor="middle">20 ms</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li>Pulsen upprepas var 20:e millisekund. Det är 1 / 0,020 = 50 gånger i
+        sekunden, alltså 50 Hz.</li>
+      <li>Pulsbredden styr vinkeln: ungefär 1,0 ms betyder ena ytterläget,
+        1,5 ms mitten, och 2,0 ms andra ytterläget.</li>
+      <li>Vid 1,5 ms är signalen hög 1,5 av 20 ms, alltså 7,5 procent av tiden.
+        Resten ligger den still.</li>
+      <li>Hela vinkelområdet på 180 grader ryms i den enda millisekund som
+        skiljer 1,0 från 2,0 ms. En grad motsvarar alltså 1000 / 180 ≈ 5,6
+        mikrosekunder – och det är därför pulsen måste vara exakt på
+        mikrosekunden, vilket är precis vad biblioteket sköter åt dig.</li>
+    </ul>
+
+    <h3>Servo.h och write() – tre rader kod</h3>
+    <p>Du behöver aldrig göra pulserna själv. Biblioteket <code>Servo.h</code>
+      följer med Arduino-miljön och gör dem i bakgrunden.</p>
+    <pre><code class="sprak-cpp">#include &lt;Servo.h&gt;
+
+Servo spakservo;
+
+void setup() {
+  spakservo.attach(9);
+  spakservo.write(90);
+}
+
+void loop() {
+}</code></pre>
+    <p>De tre raderna som gör jobbet:</p>
+    <ul>
+      <li><code>#include &lt;Servo.h&gt;</code> hämtar in biblioteket. Raden hör
+        överst i filen och avslutas <em>inte</em> med semikolon – den är ingen
+        sats utan en instruktion till kompilatorn.</li>
+      <li><code>Servo spakservo;</code> skapar ett servo-objekt. Namnet väljer
+        du. Har du två servon behöver du två rader och två namn.</li>
+      <li><code>spakservo.attach(9);</code> talar om vilken pinne styrsladden
+        sitter på. Hör hemma i <code>setup()</code>.</li>
+      <li><code>spakservo.write(90);</code> ger en vinkel i hela grader,
+        <strong>0 till 180</strong>. Servot åker dit och stannar där tills du
+        säger något annat.</li>
+    </ul>
+    <p class="notis"><span class="rubrik">Servo.h tar pinne 9 och 10 med sig</span>
+      På ett Uno-kort använder biblioteket kortets Timer1 för att räkna ut
+      pulserna. Samma timer sköter <code>analogWrite()</code> på pinnarna 9 och
+      10, så <strong>så länge ett servo är anslutet fungerar inte
+      <code>analogWrite()</code> på D9 och D10</strong>. Det gäller även om
+      servot råkar sitta på en helt annan pinne. Vanliga
+      <code>digitalWrite()</code> påverkas inte. Det här är ett klassiskt tyst
+      fel: en lysdiod som ska dimras på pinne 9 lyser bara helt eller inte alls,
+      och koden ser rätt ut. Vi använder <code>analogWrite()</code> först i
+      område 5 – lägg raden på minnet tills dess.</p>
+
+    <h3>Strömbehovet, och varför kortet startar om</h3>
+    <p>Servot i kitet är av typen <strong>SG90</strong>. Ur databladet, med
+      reservation för att olika tillverkare anger olika värden:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Storhet</th><th>SG90, typiskt</th></tr></thead>
+        <tbody>
+          <tr><td>Matningsspänning</td><td>4,8–6 V</td></tr>
+          <tr><td>Ström i vila, obelastad</td><td>några milliampere</td></tr>
+          <tr><td>Ström under rörelse</td><td>storleksordningen 100–250 mA</td></tr>
+          <tr><td>Ström när axeln hålls fast</td><td>flera hundra mA, uppåt 700 mA</td></tr>
+          <tr><td>Vridmoment vid stopp</td><td>omkring 1,8 kg·cm</td></tr>
+          <tr><td>Vinkelområde</td><td>ungefär 0–180°</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Ställ de talen mot vad kortet kan lämna. Med kortet matat från USB är
+      hela budgeten 500 mA – det är vad en vanlig USB-port ger, och kortet har
+      dessutom en självåterställande säkring på samma nivå. Kortet självt drar
+      några tiotals milliampere, säg 50 mA. Kvar blir</p>
+    <p><code>500 mA − 50 mA = 450 mA</code></p>
+    <p>Ett obelastat servo som rör sig lugnt håller sig under det. Ett servo som
+      drar en spak som tar emot, eller som körs mot ett ändläge, gör det inte.
+      Då sjunker spänningen på kortets 5 V, och när den sjunker tillräckligt
+      startar kortet om.</p>
+    <p class="notis viktig"><span class="rubrik">Brownout ser ut som ett kodfel</span>
+      Symtomen är att servot rycker till och stannar, att seriemonitorn tappar
+      förbindelsen och börjar om från början, eller att lysdioder blinkar till
+      i takt med rörelsen. Det <em>ser</em> ut som att programmet startar om –
+      och det gör det också, men inte för att koden är fel. Det är matningen som
+      dyker. Du kommer att leta i koden i en timme om ingen sagt det här till
+      dig. Testet är enkelt: ta bort belastningen från armen. Om felet
+      försvinner var det aldrig i koden.</p>
+    <p>Botemedlet är att låta servot ta sin ström någon annanstans ifrån än
+      kortets 5 V-pinne:</p>
+    <ul>
+      <li>Fyra AA-batterier i serie ger 4 × 1,5 = 6,0 V med alkaliska celler,
+        eller 4 × 1,2 = 4,8 V med laddningsbara. Båda ligger inom servots
+        4,8–6 V.</li>
+      <li>En USB-powerbank med 5 V duger också, och de flesta lämnar en ampere
+        eller mer.</li>
+      <li><strong>GND måste kopplas ihop.</strong> Batteriets minuspol,
+        servots bruna sladd och kortets GND ska sitta i samma punkt. Utan
+        gemensam nolla har styrsignalen ingenting att mätas mot, och servot
+        antingen står stilla eller rycker slumpmässigt. Det här är det enskilt
+        vanligaste felet när ett servo får egen matning.</li>
+      <li>Den röda sladden kopplas till batteriets pluspol, <strong>inte</strong>
+        till kortets 5 V. Koppla aldrig ihop batteriets plus med kortets 5 V –
+        två spänningskällor mot varandra är en dålig idé.</li>
+    </ul>
+
+    <h3>Armen är en hävstång</h3>
+    <p>Nu lämnar vi elektroniken. Det servot faktiskt levererar är ett
+      <strong>vridmoment</strong> – en vridande verkan kring axeln. Momentet är
+      kraften gånger avståndet ut till där kraften verkar:</p>
+    <p><code>M = F · r</code></p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 400 190" role="img" aria-labelledby="svg-hav-titel"
+           style="width:100%;height:auto">
+        <title id="svg-hav-titel">Ett servo med en arm, sett från sidan. Servot
+          är en rektangel till vänster. Ur dess högra kant sticker utaxeln, ritad
+          som en liten cirkel. Från axeln går en rak arm åt höger till ett hål i
+          änden. En pil rakt uppåt vid armens ände är märkt F. En måttlinje under
+          armen, från axeln till änden, är märkt r.</title>
+
+        <g stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <rect x="30" y="58" width="80" height="64" rx="4"/>
+          <line x1="110" y1="90" x2="320" y2="90" stroke-width="4.5"/>
+          <circle cx="110" cy="90" r="9"/>
+          <circle cx="320" cy="90" r="5.5"/>
+
+          <line x1="320" y1="80" x2="320" y2="34"/>
+          <line x1="110" y1="126" x2="110" y2="140"/>
+          <line x1="320" y1="126" x2="320" y2="140"/>
+          <line x1="110" y1="133" x2="320" y2="133" stroke-width="1.3"/>
+        </g>
+
+        <polygon points="320,26 313,40 327,40" fill="currentColor"/>
+
+        <g fill="currentColor" font-size="17">
+          <text x="70" y="96" text-anchor="middle">servo</text>
+          <text x="334" y="46">F</text>
+          <text x="215" y="160" text-anchor="middle">r</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>r</strong> är hävarmen: avståndet från utaxelns mitt till den
+        punkt där lasten sitter. Inte armens hela längd, om lasten sitter en bit
+        in.</li>
+      <li><strong>F</strong> är kraften armen kan lämna där. Den är inte konstant
+        – den beror på hur långt ut du mäter.</li>
+      <li>Momentet <strong>M</strong> är det servot är märkt med, och det är
+        samma tal oavsett vilken arm du sätter på.</li>
+    </ul>
+
+    <p>Servotillverkare anger moment i den udda enheten <strong>kg·cm</strong>,
+      som betyder just vad den ser ut att betyda: hur många kilo servot orkar
+      hålla på en centimeters arm. SG90:ans 1,8 kg·cm blir alltså</p>
+    <p><code>r = 1 cm  →  F = 1,8 / 1 = 1,8 kg</code></p>
+    <p><code>r = 4 cm  →  F = 1,8 / 4 = 0,45 kg = 450 g</code></p>
+    <p><code>r = 8 cm  →  F = 1,8 / 8 = 0,225 kg = 225 g</code></p>
+    <p>Dubbla armen, halva lasten. Vill du hellre räkna i SI-enheter blir 1,8 kg
+      på en centimeter</p>
+    <p><code>F = 1,8 · 9,82 = 17,7 N</code></p>
+    <p><code>M = F · r = 17,7 N · 0,01 m = 0,18 N·m</code></p>
+    <p>Vad får du i utbyte för en längre arm? Rörelse. En arm som svänger 90
+      grader ritar en fjärdedels cirkel, och båglängden blir</p>
+    <p><code>r = 4 cm  →  2π · 4 / 4 = 6,28 cm</code></p>
+    <p><code>r = 8 cm  →  2π · 8 / 4 = 12,57 cm</code></p>
+    <p>Det är hela avvägningen, och den är rak: <strong>dubbel arm ger dubbel
+      rörelse och halv kraft.</strong> Att välja armlängd är alltså ett
+      konstruktionsbeslut med ett tal bakom sig, inte en fråga om vad som råkade
+      ligga i lådan. Skriv ner det talet i dokumentationen – det är precis
+      sådana motiverade val C-nivån efterfrågar.</p>
+
+    <h3>Fästet: att bygga något som håller</h3>
+    <p>Ett servo som inte sitter fast flyttar sig självt i stället för lasten.
+      Newtons tredje lag går inte att förhandla med: den kraft armen lämnar på
+      lasten får servohuset tillbaka åt andra hållet. Sitter huset löst är det
+      huset som rör sig.</p>
+    <ul>
+      <li><strong>Skruva, limma inte.</strong> SG90 har två hål i flänsarna, och
+        de finns där av en anledning. Smältlim håller ett par dagar och släpper
+        sedan mitt under redovisningen.</li>
+      <li><strong>Fästet ska inte fjädra.</strong> Trä, plywood eller en bit
+        plast duger. Kartong gör det inte – armen rör sig och underlaget rör sig
+        lika mycket åt andra hållet, och rörelsen ut blir hälften av vad du
+        räknat.</li>
+      <li><strong>Hornet ska sitta fast på axeln.</strong> Den lilla skruven som
+        följer med servot är inte extra. Utan den glider hornet på splinesen
+        efter några dussin rörelser och nolläget vandrar.</li>
+      <li><strong>Bygg in ändlägen i mekaniken, inte bara i koden.</strong> Kör
+        servot mot något som tar emot står det och drar full ström, blir varmt
+        och kan gå sönder. Se till att spaken har fritt att röra sig hela vägen
+        mellan de vinklar din kod använder, och prova gränserna med handen innan
+        du kör.</li>
+      <li><strong>Dragavlasta sladdarna.</strong> En sladd som spänns när armen
+        går ut lossnar förr eller senare, och felet ser då ut som ett kodfel
+        eftersom det bara händer i ett av lägena.</li>
+    </ul>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+    <p><strong>I industrin:</strong> en reglerventil i en processanläggning
+      öppnas och stängs av ett ställdon som gör exakt det ditt servo gör – tar
+      emot ett önskat läge, mäter var det verkligen står och kör tills de
+      stämmer. Skalan är en annan. Ställdonet på en större ventil arbetar med
+      vridmoment i storleksordningen tiotals till hundratals newtonmeter, mot
+      ditt servos 0,18 N·m, alltså hundratals gånger mer. Styrsignalen är
+      dessutom inte en puls utan en ström mellan 4 och 20 mA, där 4 mA betyder
+      helt stängd och 20 mA helt öppen. Att skalan börjar på 4 och inte 0 är
+      medvetet: en avbruten sladd ger 0 mA, vilket är skiljbart från ett giltigt
+      "stängd". En puls som uteblir kan ditt servo inte skilja från en puls som
+      säger noll grader.</p>
+    <p><strong>I vardagen:</strong> skrivaren på skolan gör samma sak med
+      betydligt högre precision. Skrivhuvudet ska stanna på rätt ställe med
+      tiondels millimeters noggrannhet, annars syns skarvarna i utskriften. Ditt
+      servo styrs i hela grader, och en grad på en 4 cm arm är</p>
+    <p><code>2π · 40 mm / 360 = 251 mm / 360 ≈ 0,7 mm</code></p>
+    <p>alltså ungefär sju gånger grövre än skrivarens. Det är inte ett fel i
+      servot utan en följd av vad det kostar: skrivaren har en optisk skala att
+      läsa av, ditt servo har en potentiometer.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li>Koppla in servot – brun till GND, röd till 5 V, orange till D9 – och
+        ladda upp exemplet med <code>write(90)</code>. Notera var armen hamnar.
+        Det är ditt nolläge att räkna vinklar från.</li>
+      <li>Skriv en sketch som växlar mellan 20 och 110 grader med en sekunds
+        mellanrum. Håll lätt emot med fingret medan den går. Känn att den
+        trycker tillbaka – det är återkopplingen du känner.</li>
+      <li><strong>Mät strömmen.</strong> Bryt den röda sladden och koppla in
+        multimetern i serie, precis som du lärde dig i område 1. Läs av i vila
+        och under rörelse. Använd mätarens 10 A-uttag, inte
+        milliampere-uttaget: ett servo som tar i kan dra mer än de 200 mA det
+        uttaget ofta är säkrat för, och då bränner du en säkring i stället för
+        att få ett mätvärde.</li>
+      <li>Sätt fast en arm – en glasspinne, en bit plast – och mät hur lång den
+        är från axelns mitt. Räkna ut hur många gram servot orkar hålla längst
+        ut, med 1,8 kg·cm som utgångspunkt. Testa sedan med något du vägt.
+        Stämmer det, och åt vilket håll skiljer det?
+        <strong>Ge servot egen matning innan du hänger på lasten.</strong> Med
+        servot på kortets 5 V är det brownout du mäter och inte moment – se
+        avsnittet om strömbehov ovan.</li>
+      <li>Skruva fast servot i en bit trä eller plywood. Kör sekvensen igen och
+        jämför hur mycket armen rör sig nu mot när servot låg löst på bordet.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Vad betyder det att servot är lägesstyrt och inte
+        hastighetsstyrt?</summary>
+      <p>Du anger var det ska stå, inte hur fort det ska snurra.
+        <code>write(90)</code> betyder "ställ dig på 90 grader och håll kvar",
+        och servot väljer själv hur det tar sig dit. Vill du styra hastigheten
+        får du skicka en följd av vinklar med pauser emellan.</p>
+    </details>
+
+    <details>
+      <summary>Ditt servo ska hålla 300 g längst ut på armen. Hur lång får armen
+        vara, med 1,8 kg·cm att röra sig med?</summary>
+      <p>r = M / F = 1,8 kg·cm / 0,300 kg = 6 cm. Men 6 cm är gränsen där servot
+        precis orkar och står och drar full ström. Välj kortare – 4 cm ger
+        1,8 / 4 = 0,45 kg = 450 g att hålla, alltså femtio procents marginal på
+        300 g.</p>
+    </details>
+
+    <details>
+      <summary>Kortet startar om varje gång servot rör sig. Var letar du
+        först?</summary>
+      <p>I strömförsörjningen, inte i koden. Servot drar mer än vad som blir
+        över av USB-portens 500 mA, spänningen dyker och kortet startar om. Ta
+        bort belastningen från armen och se om felet försvinner. Gör det det:
+        ge servot egen matning, med gemensam GND.</p>
+    </details>
+
+    <details>
+      <summary>Du gav servot ett eget batteri och nu står det bara och rycker.
+        Vad glömde du?</summary>
+      <p>Att koppla ihop batteriets minuspol med kortets GND. Utan gemensam
+        nolla har servot ingen referens att mäta styrpulsen mot, och pulsen
+        betyder ingenting. Det är en sladd, och det är det vanligaste felet i
+        hela det här bygget.</p>
+    </details>
+
+    <details>
+      <summary>Varför slutar en dimrad lysdiod på pinne 9 att gå att dimra när
+        du lägger till ett servo?</summary>
+      <p>Servo-biblioteket tar Timer1 i anspråk, och det är samma timer som
+        <code>analogWrite()</code> använder på pinne 9 och 10. Lysdioden går då
+        bara att tända och släcka, inte att dimra. Flytta den till en annan
+        PWM-pinne, till exempel 3, 5, 6 eller 11.</p>
+    </details>
+
+    <details>
+      <summary>Hur många grader per millisekund pulsbredd, och varför spelar det
+        roll för dig?</summary>
+      <p>180 grader ryms i den millisekund som skiljer 1,0 från 2,0 ms, alltså
+        180 grader per millisekund, eller omvänt 1000 / 180 ≈ 5,6 mikrosekunder
+        per grad. Det spelar roll därför att det förklarar varför du inte kan
+        göra pulserna med <code>delay()</code>: <code>delay()</code> räknar i
+        hela millisekunder och kan inte träffa en grad. Biblioteket gör det åt
+        dig, och det är skälet att det finns.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Servot matas från kortets 5 V och kortet startar om.</strong>
+        Brownout. Spänningen dyker när servot drar ström, kortet startar om, och
+        det ser exakt ut som ett kodfel – programmet börjar ju om från början.
+        Ett obelastat servo brukar gå på kortets 5 V med liten marginal; ett
+        belastat gör det inte, och två gör det aldrig. Ge servot egen matning.</li>
+      <li><strong>Gemensam GND saknas.</strong> Servot står stilla eller rycker
+        slumpmässigt så fort det fått egen matning. En sladd löser det.</li>
+      <li><strong><code>attach()</code> glömd.</strong> Ingenting händer alls,
+        och koden kompilerar. Samma sorts fel som en glömd
+        <code>pinMode()</code>.</li>
+      <li><strong>Vinkel utanför 0–180.</strong> <code>write(200)</code> ger
+        inte 200 grader utan 180 – biblioteket klipper värdet tyst, utan varning
+        och utan skillnad mot <code>write(180)</code>. Du tror att servot fastnat.
+        Tal från 544 och uppåt tolkas dessutom inte som grader alls utan som en
+        pulsbredd i mikrosekunder. Håll dig inom 0–180.</li>
+      <li><strong>Servot brummar och blir varmt i ett läge.</strong> Det står
+        mot ett mekaniskt stopp och drar full ström för att nå en vinkel det
+        inte kommer till. Ändra vinkeln i koden eller ta bort det som är i
+        vägen. Låt det inte stå så.</li>
+      <li><strong>Sladdarna sitter i fel ordning.</strong> Brun, röd, orange är
+        vanligast men inte lag. Får servot 5 V på styrsladden kan det ta skada.
+        Kontrollera mot servots eget datablad innan du kopplar in, inte
+        efteråt.</li>
+      <li><strong>Hornet lossnar och nolläget vandrar.</strong> Skruven i
+        mitten är inte valfri. Utan den glider hornet ett tandsteg i taget och
+        spaken hamnar snett efter en stund.</li>
+      <li><strong>Servot skruvat i kartong.</strong> Fästet fjädrar, och armen
+        rör sig mycket mindre än beräkningen sa. Felet ser ut som att servot är
+        för svagt, men servot gör precis vad det ska.</li>
+      <li><strong>Lysdioden på pinne 9 går inte att dimra.</strong>
+        Servo-biblioteket har tagit timern. Flytta lysdioden.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Kapitlet <a href="../sprakreferens.html#bibliotek">Bibliotek</a> i
+      språkreferensen hör till den här guiden. Där står receptet i fyra steg,
+      och den lärdom som gäller varje bibliotek du möter senare i kursen: det
+      kan ta hårdvara med sig.</p>
+    <p>Nu har du alla fyra delarna: kortet, språket, ingången och ställdonet.
+      Nästa steg är <a href="bygge-1-knapp-styrenhet-spak.html">bygge 1 – knapp,
+      styrenhet, spak</a>, ditt första bedömda mekatroniska system.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 2</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

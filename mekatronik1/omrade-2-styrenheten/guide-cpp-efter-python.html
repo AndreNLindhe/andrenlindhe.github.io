@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++ efter Python – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o2-cpp">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>C++ efter Python</strong> · område 2</span>
+  <a href="index.html">Område 2</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 2 · lektion 7</p>
+    <h1>C++ efter Python</h1>
+    <p class="inledning">Du kan redan programmera. Den här guiden handlar inte om
+      att lära sig det igen, utan om de fyra ställen där C++ inte gör som Python
+      – och där du annars sitter och stirrar på ett felmeddelande som inte
+      liknar något du sett förut.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan läsa ett kompileringsfel och hitta raden det handlar om.</li>
+      <li>Du kan deklarera en variabel med rätt typ, och säga varför typen
+        behövs.</li>
+      <li>Du kan säga vad en <code>int</code> rymmer på det här kortet, och känna
+        igen ett värde som spillt över.</li>
+      <li>Du kan skriva ut ett värde till seriemonitorn och läsa det utan att det
+        blir teckensallad.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Felet kommer före körningen</h3>
+    <p>I Python körs raderna en och en tills något går sönder. Ett stavfel längst
+      ner i filen märks först när programmet kommit dit. C++ fungerar tvärtom:
+      hela sketchen läses igenom och översätts till maskinkod <em>innan</em>
+      något körs, och hittas ett enda fel översätts ingenting.</p>
+    <p>Det låter som en nackdel och är motsatsen. På ett kort utan skärm är det
+      betydligt bättre att felet dyker upp i IDE:n än att en spak rör sig åt fel
+      håll när ingen tittar.</p>
+    <p>Ett typiskt felmeddelande ser ut ungefär så här:</p>
+    <pre class="fri"><code>sketch.ino: In function 'void loop()':
+sketch.ino:9:23: error: expected ';' before '}' token</code></pre>
+    <p>Läs det bakifrån: <em>vad</em> som saknas (<code>;</code>),
+      <em>var</em> (rad 9, tecken 23), och i <em>vilken funktion</em>
+      (<code>loop()</code>). Ett saknat semikolon anmärks ofta på raden
+      <em>efter</em> den där det saknas, eftersom kompilatorn läser vidare tills
+      den möter något som inte går ihop. Står felet på en rad som ser klanderfri
+      ut – titta på raden ovanför.</p>
+    <p class="notis"><span class="rubrik">Det första felet är det enda som räknas</span>
+      Ett enda misstag kan ge tjugo rader felmeddelanden, eftersom kompilatorn
+      tappar tråden och sedan klagar på allt som följer. Rätta det översta
+      felet, kompilera om, och se hur många som blev kvar. Att läsa hela listan
+      uppifrån och ner är bortkastad tid.</p>
+
+    <h3>Varje variabel har en typ, och typen står utskriven</h3>
+    <p>I Python skriver du <code>antal = 5</code> och tolken listar ut resten. I
+      C++ måste du säga vilken sorts låda värdet ska ligga i, och lådan byter
+      aldrig sort efteråt.</p>
+    <pre><code class="sprak-cpp">int antal = 5;
+float spanning = 4.92;
+bool tand = false;
+char bokstav = 'A';</code></pre>
+    <p>Fem typer räcker långt i den här kursen:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Typ</th><th>Storlek på Uno</th><th>Rymmer</th><th>Används till</th></tr></thead>
+        <tbody>
+          <tr><td><code>bool</code></td><td>1 byte</td><td><code>true</code> eller <code>false</code></td><td>av eller på, tryckt eller inte</td></tr>
+          <tr><td><code>byte</code></td><td>1 byte</td><td>0 … 255</td><td>små positiva tal, till exempel ett pinnummer</td></tr>
+          <tr><td><code>int</code></td><td>2 byte</td><td>−32768 … 32767</td><td>vanliga heltal: vinklar, räknare, mätvärden</td></tr>
+          <tr><td><code>long</code></td><td>4 byte</td><td>−2 147 483 648 … 2 147 483 647</td><td>stora tal, och tid i millisekunder</td></tr>
+          <tr><td><code>float</code></td><td>4 byte</td><td>ungefär 6–7 siffrors noggrannhet</td><td>spänningar och andra decimaltal</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Den enda överraskningen som verkligen biter: int är 16 bitar</h3>
+    <p>På den här kontrollern är en <code>int</code> <strong>2 byte</strong>,
+      alltså 16 bitar. Läser du en C++-bok skriven för en vanlig dator står det
+      att en <code>int</code> är 32 bitar, och kommer du från Python är du van
+      vid heltal utan övre gräns alls. Ingetdera gäller här.</p>
+    <p>Sexton bitar ger 2<sup>16</sup> = 65 536 olika värden. Hälften används till
+      negativa tal, så området blir</p>
+    <p><code>−2¹⁵ … 2¹⁵ − 1  =  −32768 … 32767</code></p>
+    <p>Vad händer när talet går över taket? Det viker runt till andra änden.
+      32767 + 1 blir −32768. Ett exempel som faktiskt drabbar folk:</p>
+    <pre><code class="sprak-cpp">int sekunder = 60;
+int millisekunder = sekunder * 1000;   // 60000 ryms inte i en int
+Serial.println(millisekunder);         // skriver -5536, inte 60000</code></pre>
+    <p>Räkna efter varifrån −5536 kommer:</p>
+    <p><code>60 000 − 65 536 = −5 536</code></p>
+    <p>Talet 60 000 ligger över taket, och när det viker runt hamnar det
+      65 536 steg längre ner. Lösningen är att välja en större låda:</p>
+    <pre><code class="sprak-cpp">long millisekunder = (long)sekunder * 1000;   // 60000, som det ska</code></pre>
+    <p><code>(long)</code> framför säger åt kompilatorn att räkna i den större
+      typen redan från början. Skriver du bara
+      <code>long millisekunder = sekunder * 1000;</code> hinner
+      multiplikationen spilla över <em>innan</em> resultatet läggs i den stora
+      lådan, och du får −5536 ändå. Det är ett fel som ser omöjligt ut när man
+      inte vet varför.</p>
+    <p class="notis"><span class="rubrik">Därför är tid alltid <code>long</code></span>
+      Kortets egen millisekundräknare, som du möter i område 3, passerar 32767
+      efter 32,767 sekunder – knappt en halv minut. Alla tider mäts därför i
+      <code>unsigned long</code>, som rymmer 0 … 4 294 967 295 millisekunder.
+      Det räcker i 4 294 967 295 / 1000 / 60 / 60 / 24 ≈ 49,7 dygn innan även
+      den viker runt.</p>
+
+    <h3>Konstanter: värden som inte ska ändra sig</h3>
+    <p>Pinnummer, vinklar och gränsvärden hör hemma överst i sketchen, med namn
+      och med <code>const</code> framför.</p>
+    <pre><code class="sprak-cpp">const int KNAPP_PIN = 2;
+const int SERVO_PIN = 9;
+const int VILOVINKEL = 20;</code></pre>
+    <p>Tre skäl, i stigande ordning:</p>
+    <ul>
+      <li><strong>Namnet säger vad talet är.</strong> <code>digitalRead(2)</code>
+        kräver att du minns vad som satt på tvåan. <code>digitalRead(KNAPP_PIN)</code>
+        gör det inte.</li>
+      <li><strong>Ändringen sker på ett ställe.</strong> Flyttar du knappen till
+        pinne 4 ändrar du en rad, inte sju.</li>
+      <li><strong><code>const</code> hindrar dig från att skriva över värdet av
+        misstag.</strong> Försöker du det blir det ett kompileringsfel, alltså
+        ett fel du ser innan bygget rör sig.</li>
+    </ul>
+    <p>Versaler i konstantnamn är ingen regel i språket utan en vana – samma vana
+      som i Python. Den gör att du ser på en rad kod om ett namn är något som
+      ändrar sig eller inte.</p>
+
+    <h3>Måsvingar i stället för indrag</h3>
+    <p>Python använder indraget för att avgöra vad som hör ihop. C++ använder
+      måsvingar <code>{ }</code> och struntar fullständigt i indraget. Att koden
+      ändå ska vara indragen är för din skull, inte kompilatorns – och just
+      därför blir felen elakare: koden kan se rätt ut och betyda något annat.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Python</th><th>C++</th></tr></thead>
+        <tbody>
+          <tr><td><code>if x &gt; 5:</code></td><td><code>if (x &gt; 5) {</code></td></tr>
+          <tr><td>indrag</td><td><code>}</code> avslutar</td></tr>
+          <tr><td><code>and · or · not</code></td><td><code>&amp;&amp; · || · !</code></td></tr>
+          <tr><td><code>True · False</code></td><td><code>true · false</code></td></tr>
+          <tr><td><code># kommentar</code></td><td><code>// kommentar</code></td></tr>
+          <tr><td>radslut avslutar satsen</td><td><code>;</code> avslutar satsen</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Måsvingar direkt efter <code>if</code> är valfria när det bara är en rad
+      som ska styras, men skriv dem alltid. Utan dem hör bara den första raden
+      till villkoret, hur du än drar in de följande – och det är ett fel som
+      överlever många genomläsningar.</p>
+
+    <h3>Serial är en sladd, inte stdout</h3>
+    <p>Det finns ingen konsol. <code>Serial.println()</code> skickar tecken ut
+      genom USB-sladden, och seriemonitorn i IDE:n är programmet som tar emot dem
+      i andra änden. Två saker följer av det.</p>
+    <p><strong>Först: hastigheten måste stämma i båda ändar.</strong>
+      <code>Serial.begin(9600)</code> säger att kortet skickar 9600 bitar per
+      sekund. Står seriemonitorns rullgardin på något annat tal kommer tecknen
+      fram som obegriplig teckensallad – inte som ingenting, utan som fel
+      tecken. Det är den vanligaste orsaken till en monitor full av frågetecken
+      och rutor.</p>
+    <p><strong>Sedan: det tar tid.</strong> Varje tecken skickas som tio bitar
+      (en startbit, åtta databitar, en stoppbit), så</p>
+    <p><code>9600 bitar/s / 10 bitar per tecken = 960 tecken per sekund</code></p>
+    <p><code>1 / 960 s ≈ 0,001 s = 1 ms per tecken</code></p>
+    <p>Tjugo tecken tar alltså ungefär 20 ms att få ut genom sladden. Själva
+      anropet återvänder snabbare än så – tecknen läggs i en buffert och skickas
+      i bakgrunden – men taket på 960 tecken i sekunden gäller ändå. Skriver du
+      ut tjugo tecken i varje varv av <code>loop()</code> kan varven i längden
+      inte komma tätare än 20 ms isär, hur snabbt kortet än är i övrigt: det är
+      genomströmningen som sätter gränsen, inte väntan vid varje anrop.
+      Utskrifter är ett felsökningsverktyg, inte något som ska ligga kvar när
+      bygget är klart.</p>
+    <pre><code class="sprak-cpp">void setup() {
+  pinMode(2, INPUT_PULLUP);
+  Serial.begin(9600);
+  Serial.println("Start");
+}
+
+void loop() {
+  int lage = digitalRead(2);
+  Serial.print("Knapp: ");
+  Serial.println(lage);
+  delay(500);
+}</code></pre>
+    <ul>
+      <li><code>Serial.begin(9600)</code> hör hemma i <code>setup()</code>, en
+        gång.</li>
+      <li><code>Serial.print()</code> skriver utan radbrytning,
+        <code>Serial.println()</code> med.</li>
+      <li>Öppna seriemonitorn med förstoringsglaset uppe till höger i IDE:n, och
+        kontrollera att den står på 9600.</li>
+      <li>Att öppna seriemonitorn startar om kortet. Programmet börjar alltså om
+        från <code>setup()</code> när du tittar – det är inte ett fel.</li>
+      <li>Håll dig till a–z i utskrifter. Å, ä och ö går ofta fram, men inte
+        alltid, och en trasig bokstav mitt i felsökningen hjälper ingen.</li>
+    </ul>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+    <p><strong>I industrin:</strong> en påsfyllningsmaskin väger upp varje sats
+      på en vågcell och räknar i gram. Läggs vikten i en <code>int</code> går det
+      utmärkt ända upp till 32 767 g, alltså 32,767 kg. Sedan tar det stopp: en
+      sats på 40 000 g blir 40 000 − 65 536 = −25 536 g, ett negativt värde som
+      styrsystemet tolkar som att skålen är tom. Maskinen fortsätter fylla. Det
+      är därför riktiga styrsystem har typvalet som en dokumenterad
+      konstruktionsfråga och inte som något programmeraren avgör i förbifarten –
+      i säkerhetskritiska system granskas det utifrån, precis som en ritning.</p>
+    <p><strong>I vardagen:</strong> när musikvideon till Gangnam Style passerade
+      2 147 483 647 visningar slog YouTubes räknare i taket. Det talet är
+      2<sup>31</sup> − 1, alltså exakt vad en 32-bitars <code>long</code>
+      rymmer – samma sorts tak som vår <code>int</code>, fast sexton bitar
+      bredare. YouTube fick byta till 64 bitar, som rymmer ungefär 9,2
+      triljoner.
+      Skillnaden mot exemplet ovan är inte tekniken utan konsekvensen: där blev
+      det fel visningssiffra, här blir det en påse som fylls tills den rinner
+      över.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li>Skriv en sketch som i <code>setup()</code> deklarerar
+        <code>int sekunder = 60;</code> och skriver ut både
+        <code>sekunder * 1000</code> och <code>(long)sekunder * 1000</code> till
+        seriemonitorn. Titta på de två talen. Kunde du förutsäga dem?</li>
+      <li>Ta bort ett semikolon någonstans mitt i sketchen med flit och tryck
+        Verifiera. Läs felmeddelandet och kontrollera: pekar det på raden där
+        semikolonet saknades, eller på nästa?</li>
+      <li>Ändra <code>Serial.begin(9600)</code> till <code>Serial.begin(4800)</code>
+        men låt monitorn stå kvar på 9600. Ladda upp och titta. Så ser fel
+        hastighet ut – lär dig känna igen bilden.</li>
+      <li>Skriv om blinkexemplet från förra guiden så att pinnummer och
+        blinktid ligger i <code>const int</code>-konstanter överst i filen, med
+        namn du själv valt.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Vad blir <code>32767 + 1</code> i en <code>int</code> på det här
+        kortet?</summary>
+      <p>−32768. Talet viker runt till andra änden av området, eftersom 32767 är
+        det största värde de sexton bitarna kan hålla. Det ger inget
+        felmeddelande, varken vid kompilering eller vid körning – bara ett
+        oväntat tal.</p>
+    </details>
+
+    <details>
+      <summary>Du behöver hålla ett antal millisekunder som kan bli 100 000.
+        Vilken typ väljer du?</summary>
+      <p><code>long</code> eller <code>unsigned long</code>. En <code>int</code>
+        tar slut vid 32767, alltså långt under 100 000. Kan värdet aldrig bli
+        negativt är <code>unsigned long</code> det naturliga valet, och det är
+        också den typ kortets egen tidräknare använder.</p>
+    </details>
+
+    <details>
+      <summary>Varför står det <code>void</code> framför <code>setup()</code>?</summary>
+      <p>Det är funktionens returtyp, och <code>void</code> betyder att den inte
+        lämnar tillbaka något värde. C++ kräver att varje funktion talar om vad
+        den ger tillbaka, till skillnad från Python där
+        <code>def setup():</code> räcker. <code>setup()</code> gör saker, den
+        räknar inte ut något åt någon annan.</p>
+    </details>
+
+    <details>
+      <summary>Seriemonitorn visar rader som <code>ÿ?ÿ??</code> i stället för
+        dina siffror. Vad är fel?</summary>
+      <p>Hastigheten stämmer inte mellan koden och monitorn. Kontrollera att
+        talet i <code>Serial.begin()</code> är samma som det som står i
+        monitorns rullgardin. Att det kommer <em>något</em> är själva ledtråden:
+        sladden fungerar, det är tolkningen av bitarna som är fel.</p>
+    </details>
+
+    <details>
+      <summary>Vad är skillnaden mellan <code>int vinkel = 20;</code> och
+        <code>const int VILOVINKEL = 20;</code>?</summary>
+      <p>Den första kan skrivas om medan programmet kör, den andra kan inte.
+        Försöker du ändra en <code>const</code> stoppar kompilatorn dig med ett
+        felmeddelande. Använd <code>const</code> för allt som är en inställning –
+        pinnummer, gränsvärden, fasta vinklar – och vanliga variabler för det
+        som faktiskt förändras medan systemet arbetar.</p>
+    </details>
+
+    <details>
+      <summary>Hur lång tid tar det ungefär att skriva ut raden
+        <code>Knapp: 1</code> vid 9600 baud?</summary>
+      <p>Raden är nio tecken plus radbrytningen, alltså omkring tio tecken. Vid
+        960 tecken per sekund blir det 10 / 960 ≈ 0,010 s, alltså cirka 10 ms.
+        I ett program som ska reagera på en knapp är det en märkbar tid.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Semikolon glömt.</strong> Felet anmärks nästan alltid på raden
+        efter den där det saknas. Titta uppåt, inte på raden meddelandet
+        pekar ut.</li>
+      <li><strong>Variabeln deklarerad inuti <code>loop()</code> men förväntas
+        minnas.</strong> En variabel som skapas i <code>loop()</code> börjar om
+        från sitt startvärde varje varv. Ska den minnas mellan varven måste den
+        stå utanför funktionerna, överst i filen.</li>
+      <li><strong>Typen glömd vid deklarationen.</strong>
+        <code>antal = 5;</code> utan <code>int</code> framför är ett
+        kompileringsfel i C++, inte en ny variabel som i Python.</li>
+      <li><strong><code>=</code> där det skulle stå <code>==</code>.</strong>
+        <code>if (lage = LOW)</code> tilldelar i stället för att jämföra, och
+        villkoret blir något helt annat än du tänkt. Kompilatorn varnar ibland
+        men inte alltid.</li>
+      <li><strong>Talet spiller över tyst.</strong> Inget felmeddelande, bara ett
+        värde som plötsligt är negativt eller orimligt litet. Ser du ett
+        oförklarligt negativt tal: kontrollera om något multiplicerats i en
+        <code>int</code>.</li>
+      <li><strong>Fel baudhastighet i monitorn.</strong> Teckensallad, inte
+        tomhet. Tomhet betyder i stället att <code>Serial.begin()</code> saknas
+        eller att fel port är vald.</li>
+      <li><strong>Utskrifter kvar i färdig kod.</strong> Varje tecken tar cirka
+        en millisekund. Ett bygge som reagerar trögt på en knapp har ofta ett
+        <code>Serial.println()</code> i varje varv som ingen tagit bort.</li>
+      <li><strong>Måsvingar som inte går ihop.</strong> Ett saknat <code>}</code>
+        ger ett felmeddelande långt ner i filen, ofta på sista raden. Räkna
+        vingarna, eller låt IDE:n formatera om koden och se var indraget hoppar
+        fel.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Kapitlen <a href="../sprakreferens.html#typer">Typer och variabler</a> och
+      <a href="../sprakreferens.html#python-cpp">Från Python till C++</a> i
+      språkreferensen hör till den här guiden. Slå upp dem mitt i ett bygge i
+      stället för att bläddra tillbaka hit.</p>
+    <p>Nästa guide är <a href="guide-digital-ingang.html">digital ingång</a>, där
+      kortet för första gången får veta något om världen utanför.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 2</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

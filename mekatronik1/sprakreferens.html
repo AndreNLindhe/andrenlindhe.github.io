@@ -35,8 +35,8 @@
     <p class="ledtext">Mekatronik 1 · alltid till hands</p>
     <h1>Språkreferens</h1>
     <p class="inledning">C++ i ordnad följd, för dig som kan Python från tidigare
-      kurser. Sidan byggs ut i takt med områdena – de flesta avsnitten är ännu
-      tomma skal som fylls när området de hör till öppnar.</p>
+      kurser. Sidan byggs ut i takt med områdena – de avsnitt som ännu är tomma
+      skal fylls när området de hör till öppnar.</p>
 
     <h2 id="python-cpp">Från Python till C++</h2>
     <p>Samma idéer, annan syntax. De fyra skillnader som stör flest i början,
@@ -79,20 +79,140 @@
     </div>
 
     <h2 id="typer">Typer och variabler</h2>
-    <p>Öppnas i takt med område 2: <code>int</code>, <code>float</code> och
-      <code>bool</code>, och skillnaden mot Pythons dynamiska typning.</p>
+    <p>I Python skriver du <code>antal = 5</code> och tolken listar ut resten. I
+      C++ säger du vilken sorts låda värdet ska ligga i, och lådan byter aldrig
+      sort efteråt. Deklarationen är typ, namn, likhetstecken, värde,
+      semikolon.</p>
+    <pre><code class="sprak-cpp">int antal = 5;
+float spanning = 4.92;
+bool tand = false;
+char bokstav = 'A';</code></pre>
+
+    <h3>Typerna, med de storlekar de har på ett Uno-kort</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Typ</th><th>Storlek</th><th>Rymmer</th><th>Används till</th></tr></thead>
+        <tbody>
+          <tr><td><code>bool</code></td><td>1 byte</td><td><code>true</code> eller <code>false</code></td><td>av eller på, tryckt eller inte</td></tr>
+          <tr><td><code>byte</code></td><td>1 byte</td><td>0 … 255</td><td>små positiva tal, till exempel ett pinnummer</td></tr>
+          <tr><td><code>int</code></td><td>2 byte</td><td>−32768 … 32767</td><td>vanliga heltal: vinklar, räknare, mätvärden</td></tr>
+          <tr><td><code>unsigned int</code></td><td>2 byte</td><td>0 … 65535</td><td>heltal som aldrig kan bli negativa</td></tr>
+          <tr><td><code>long</code></td><td>4 byte</td><td>−2 147 483 648 … 2 147 483 647</td><td>stora tal</td></tr>
+          <tr><td><code>unsigned long</code></td><td>4 byte</td><td>0 … 4 294 967 295</td><td>tid i millisekunder</td></tr>
+          <tr><td><code>float</code></td><td>4 byte</td><td>ungefär 6–7 siffrors noggrannhet</td><td>spänningar och andra decimaltal</td></tr>
+          <tr><td><code>char</code></td><td>1 byte</td><td>ett tecken, <code>'A'</code></td><td>enstaka tecken. Enkla citattecken</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>int är 16 bitar här, inte 32</h3>
+    <p>Det här är den enda typfakta som verkligen biter, och den överraskar även
+      den som läst C++ förut. På ATmega328P är en <code>int</code> två byte,
+      alltså 16 bitar. 2<sup>16</sup> = 65 536 värden, hälften negativa:</p>
+    <p><code>−2¹⁵ … 2¹⁵ − 1  =  −32768 … 32767</code></p>
+    <p>Går talet över taket viker det runt till andra änden, tyst och utan
+      felmeddelande. 32767 + 1 blir −32768. Ett verkligt fall:</p>
+    <pre><code class="sprak-cpp">int sekunder = 60;
+int millisekunder = sekunder * 1000;   // 60000 ryms inte
+Serial.println(millisekunder);         // skriver -5536</code></pre>
+    <p><code>60 000 − 65 536 = −5 536</code></p>
+    <p>Lösningen är en större typ – men typen måste vara större redan när
+      räkningen görs, inte först när svaret läggs undan:</p>
+    <pre><code class="sprak-cpp">long millisekunder = (long)sekunder * 1000;   // 60000, som det ska</code></pre>
+    <p><code>(long)</code> framför kallas en typomvandling och betyder "räkna det
+      här i den större typen". Utan den hinner multiplikationen spilla över
+      innan resultatet flyttas.</p>
+
+    <h3>const – värden som inte ska ändra sig</h3>
+    <p>Pinnummer, gränsvärden och fasta vinklar hör överst i filen, med namn och
+      med <code>const</code> framför. Försöker du skriva över en
+      <code>const</code> blir det ett kompileringsfel, alltså ett fel du ser
+      innan bygget rör sig.</p>
+    <pre><code class="sprak-cpp">const int KNAPP_PIN = 2;
+const int SERVO_PIN = 9;
+const int VILOVINKEL = 20;</code></pre>
+    <p>Versaler i namnet är ingen regel i språket utan samma vana som i Python:
+      den gör att du ser på en rad om ett namn är en inställning eller något som
+      förändras.</p>
+
+    <h3>Var variabeln står avgör vad den minns</h3>
+    <pre><code class="sprak-cpp">int raknare = 0;        // utanför funktionerna: minns mellan varven
+
+void setup() {
+}
+
+void loop() {
+  int tillfallig = 0;   // inuti loop(): börjar om från 0 varje varv
+  raknare = raknare + 1;
+}</code></pre>
+    <p>En variabel som deklareras inuti <code>loop()</code> skapas på nytt varje
+      varv och glömmer allt. Ska den minnas – ett tillstånd, en räknare, förra
+      varvets knappläge – måste den stå utanför funktionerna. Det är den
+      vanligaste orsaken till att en räknare envist står kvar på 1.</p>
 
     <h2 id="villkor">Villkor</h2>
-    <p>Öppnas i takt med område 2: <code>if</code>, <code>else if</code> och
-      <code>else</code> med måsvingar i stället för indrag.</p>
+    <p>Samma idé som i Python, tre skillnader i skrivsättet: villkoret står inom
+      parentes, blocket omges av måsvingar, och indraget betyder ingenting för
+      kompilatorn.</p>
+    <pre><code class="sprak-cpp">if (vinkel &gt; 90) {
+  Serial.println("hogt");        // ASCII i utskrifter – se Bibliotek nedan
+} else if (vinkel &gt; 45) {
+  Serial.println("mitten");
+} else {
+  Serial.println("lagt");
+}</code></pre>
+    <p>Skriv alltid måsvingarna, även när blocket är en enda rad. Utan dem hör
+      bara första raden till villkoret, hur du än drar in de följande – och det
+      är ett fel som överlever många genomläsningar.</p>
+
+    <h3>Jämförelser</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Python</th><th>C++</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><code>==</code></td><td><code>==</code></td><td>lika med</td></tr>
+          <tr><td><code>!=</code></td><td><code>!=</code></td><td>skilt från</td></tr>
+          <tr><td><code>&lt;</code> <code>&gt;</code></td><td><code>&lt;</code> <code>&gt;</code></td><td>mindre än, större än</td></tr>
+          <tr><td><code>&lt;=</code> <code>&gt;=</code></td><td><code>&lt;=</code> <code>&gt;=</code></td><td>mindre eller lika, större eller lika</td></tr>
+          <tr><td><code>and</code></td><td><code>&amp;&amp;</code></td><td>båda måste vara sanna</td></tr>
+          <tr><td><code>or</code></td><td><code>||</code></td><td>minst en måste vara sann</td></tr>
+          <tr><td><code>not</code></td><td><code>!</code></td><td>vänder på sanningsvärdet</td></tr>
+          <tr><td><code>True</code> <code>False</code></td><td><code>true</code> <code>false</code></td><td>små bokstäver i C++</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="notis"><span class="rubrik">Ett likhetstecken är inte två</span>
+      <code>if (lage = LOW)</code> <em>tilldelar</em> i stället för att jämföra,
+      och villkoret blir något helt annat än du menade. Python stoppar dig med
+      ett syntaxfel; C++ gör det inte alltid. Läs villkoret en extra gång och
+      räkna tecknen.</p>
+
+    <h3>Villkor som läser en pinne</h3>
+    <p>Det vanligaste villkoret i den här kursen jämför ett pinneläge. Med
+      <code>INPUT_PULLUP</code> är en nedtryckt knapp <code>LOW</code>, inte
+      <code>HIGH</code> – skriv en kommentar om det, varje gång.</p>
+    <pre><code class="sprak-cpp">if (digitalRead(KNAPP_PIN) == LOW) {   // LOW betyder nedtryckt
+  digitalWrite(LAMPA_PIN, HIGH);
+} else {
+  digitalWrite(LAMPA_PIN, LOW);
+}</code></pre>
+    <p>Ett villkor som ska reagera på att något <em>ändras</em> – ett knapptryck,
+      inte att knappen ligger nere – behöver jämföra med förra varvets värde:</p>
+    <pre><code class="sprak-cpp">if (forra == HIGH &amp;&amp; nu == LOW) {   // knappen gick just ned
+  tand = !tand;
+}</code></pre>
+    <p>Att kombinera flera villkor med <code>&amp;&amp;</code> och
+      <code>||</code> mot en sanningstabell hör till område 3, som bygger vidare
+      på det som står här.</p>
 
     <h2 id="loopar">Loopar</h2>
     <p>Öppnas i takt med område 3: <code>for</code>- och <code>while</code>-loopar,
       och var <code>loop()</code> passar in.</p>
 
     <h2 id="funktioner">Funktioner</h2>
-    <p>Öppnas i takt med område 2: att deklarera en funktion med returtyp och
-      parametertyper.</p>
+    <p>Öppnas i takt med område 4: att deklarera en egen funktion med returtyp
+      och parametertyper. Fram till dess räcker <code>setup()</code> och
+      <code>loop()</code>, som Arduino-miljön anropar åt dig.</p>
 
     <h2 id="arrayer">Arrayer</h2>
     <p>Öppnas i takt med område 3: fasta arrayer, och hur de skiljer sig från
@@ -103,8 +223,66 @@
       grund för allt som ska pågå samtidigt.</p>
 
     <h2 id="bibliotek">Bibliotek</h2>
-    <p>Öppnas i takt med område 2: att inkludera och använda ett bibliotek som
-      <code>Servo.h</code>.</p>
+    <p>Ett bibliotek är färdig kod någon annan skrivit, som du får använda utan
+      att öppna. <code>Servo.h</code> räknar ut servopulser på mikrosekunden –
+      något du varken vill eller behöver göra själv. En del bibliotek följer med
+      Arduino-miljön, andra hämtas med <strong>Verktyg → Hantera
+      bibliotek</strong>. <code>Servo</code> följer med.</p>
+
+    <h3>Receptet, i fyra steg</h3>
+    <p>Nästan alla bibliotek används likadant. <code>Servo.h</code> är exemplet,
+      men stegen ser likadana ut för de sensor- och displaybibliotek du möter
+      längre fram.</p>
+    <pre><code class="sprak-cpp">#include &lt;Servo.h&gt;      // 1. hämta in biblioteket
+
+Servo spakservo;         // 2. skapa det du ska styra, och döp det
+
+void setup() {
+  spakservo.attach(9);   // 3. koppla det till en pinne
+}
+
+void loop() {
+  spakservo.write(90);   // 4. använd det
+}</code></pre>
+    <ol>
+      <li><code>#include &lt;Servo.h&gt;</code> hör <strong>överst i filen</strong>,
+        utanför både <code>setup()</code> och <code>loop()</code>.
+        Vinkelparenteser runt namnet, och <strong>inget semikolon</strong> på
+        slutet – raden är ingen sats utan ett meddelande till kompilatorn.</li>
+      <li><code>Servo spakservo;</code> läses precis som <code>int antal;</code>:
+        en sak av sorten <code>Servo</code>, med namnet <code>spakservo</code>.
+        Namnet väljer du själv. Två servon kräver två rader och två namn.</li>
+      <li><code>attach()</code> hör i <code>setup()</code> och körs en gång.
+        Glöms den händer ingenting alls, och inget felmeddelande kommer.</li>
+      <li>Punkten mellan namnet och kommandot betyder "på just den här".
+        <code>spakservo.write(90)</code> rör <code>spakservo</code> och inget
+        annat servo du råkar ha inkopplat.</li>
+    </ol>
+    <p>Vilka kommandon ett bibliotek erbjuder står i dess dokumentation, inte i
+      koden du skriver. För <code>Servo</code> är det i praktiken
+      <code>attach()</code>, <code>write()</code> och <code>detach()</code>.</p>
+
+    <h3>Ett bibliotek kan ta hårdvara med sig</h3>
+    <p>Det här är lärdomen som gäller alla bibliotek och som ingen berättar i
+      förväg. Ett bibliotek använder kortets inbyggda resurser, och de tar
+      slut.</p>
+    <p><code>Servo</code> på ett Uno-kort tar kortets Timer1 i anspråk för att
+      räkna ut pulserna. Samma timer sköter <code>analogWrite()</code> på
+      pinnarna <strong>9 och 10</strong>, så de två pinnarna slutar gå att dimra
+      så länge biblioteket är i bruk – även när servot sitter på en helt annan
+      pinne. Vanliga <code>digitalWrite()</code> påverkas inte.</p>
+    <p>Symtomet är typiskt för den här sortens fel: koden ser rätt ut,
+      kompilatorn är nöjd, och något som fungerade i går slutade fungera när du
+      la till ett bibliotek. Börjar något bete sig så – fråga vad det senast
+      tillagda biblioteket tog med sig.</p>
+
+    <h3>Å, ä och ö i utskrifter</h3>
+    <p>Kodexemplen på den här sidan skriver <code>"hogt"</code> och inte
+      <code>"högt"</code>. Det är inget stavfel. Seriemonitorn tolkar inte
+      alltid svenska tecken rätt, och en trasig bokstav mitt i en felsökning
+      hjälper ingen. Håll dig till a–z i det som skickas ut genom
+      <code>Serial</code>. I kommentarer och i din dokumentation skriver du
+      förstås svenska som vanligt.</p>
 
   </main>
 </div>

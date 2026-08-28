@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mikrokontrollern och Arduino IDE – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o2-mikrokontrollern">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Mikrokontrollern och Arduino IDE</strong> · område 2</span>
+  <a href="index.html">Område 2</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 2 · lektion 6</p>
+    <h1>Mikrokontrollern och Arduino IDE</h1>
+    <p class="inledning">Nu kommer kortet fram. Område 1 handlade om kretsen som
+      gör samma sak varje gång den får spänning. Härifrån och framåt sitter det
+      något emellan som kan bestämma sig – och det du skriver är det som
+      bestämmer.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan peka ut 5 V, GND, de digitala pinnarna och USB-uttaget på ett
+        Uno-kort och säga vad var och en gör.</li>
+      <li>Du kan välja kort och port i Arduino IDE och ladda upp en sketch.</li>
+      <li>Du kan förklara vad <code>setup()</code> och <code>loop()</code> gör,
+        och i vilken ordning de körs.</li>
+      <li>Du kan tända och släcka en lysdiod med <code>digitalWrite()</code> på
+        en pinne du valt själv, med rätt förresistor.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Vad en styrenhet är</h3>
+    <p>En styrenhet sitter mitt i en kedja. Något går in, något händer inuti,
+      något går ut. Bygge 0 hade bara den vänstra och den högra delen ihopkopplade
+      med koppartråd: kretsen kunde inte välja något.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 440 130" role="img" aria-labelledby="svg-kedjan-titel"
+           style="width:100%;height:auto">
+        <title id="svg-kedjan-titel">Styrkedjan ritad som tre rutor på rad. Från
+          vänster: givare, styrenhet, ställdon. En pil går från givaren till
+          styrenheten och en pil från styrenheten till ställdonet. Inuti
+          styrenhetens ruta står ordet program.</title>
+
+        <g stroke="currentColor" stroke-width="1.6" fill="none">
+          <rect x="8" y="34" width="112" height="62" rx="4"/>
+          <rect x="164" y="24" width="112" height="82" rx="4" stroke-width="2.4"/>
+          <rect x="320" y="34" width="112" height="62" rx="4"/>
+          <line x1="120" y1="65" x2="156" y2="65"/>
+          <polygon points="156,65 146,60 146,70" fill="currentColor"/>
+          <line x1="276" y1="65" x2="312" y2="65"/>
+          <polygon points="312,65 302,60 302,70" fill="currentColor"/>
+        </g>
+
+        <g fill="currentColor" text-anchor="middle" font-size="17">
+          <text x="64" y="62">givare</text>
+          <text x="64" y="84">knapp</text>
+          <text x="220" y="58">styrenhet</text>
+          <text x="220" y="80">program</text>
+          <text x="376" y="62">ställdon</text>
+          <text x="376" y="84">servo</text>
+        </g>
+        <g fill="currentColor" text-anchor="middle" font-size="15">
+          <text x="138" y="52">in</text>
+          <text x="294" y="52">ut</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>Givaren</strong> är det som mäter eller känner av något. I
+        bygge 1 är det en knapp, i område 4 blir det en sensor med ett mätvärde.</li>
+      <li><strong>Styrenheten</strong> är kortet. Den läser insignalen, kör ditt
+        program och bestämmer vad utsignalen ska bli.</li>
+      <li><strong>Ställdonet</strong> är det som rör sig. I bygge 1 ett servo som
+        drar en spak.</li>
+      <li>Det är den här kedjan – givare, via styrenhet, till ställdon – som
+        ämnesplanen kallar uppbyggnaden av ett mekatroniskt system. Kan du rita
+        den för ditt eget bygge kan du också beskriva det.</li>
+    </ul>
+
+    <h3>Kortet, och vad de fyra pinngrupperna heter</h3>
+    <p>Kortet i ditt kit är en <strong>Arduino Uno R3</strong>. Chippet på det
+      heter ATmega328P och är själva mikrokontrollern; resten av kortet finns för
+      att göra chippet användbart – USB-anslutning, spänningsregulator,
+      stiftlister att sticka sladdar i.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 440 190" role="img" aria-labelledby="svg-kortet-titel"
+           style="width:100%;height:auto">
+        <title id="svg-kortet-titel">Uno-kortet sett uppifrån, förenklat. En
+          avlång rektangel med USB-uttaget till vänster och strömuttaget under
+          det. Längs överkanten ligger stiftlisten med de digitala pinnarna D0
+          till D13. Längs nederkanten ligger till vänster strömpinnarna 5 V, 3,3
+          V, GND och VIN, och till höger de analoga ingångarna A0 till A5. Mitt
+          på kortet sitter chippet ATmega328P.</title>
+
+        <g stroke="currentColor" stroke-width="1.6" fill="none">
+          <rect x="52" y="42" width="372" height="106" rx="6"/>
+          <rect x="16" y="52" width="42" height="34" rx="3" stroke-width="2"/>
+          <rect x="20" y="104" width="38" height="30" rx="3" stroke-width="2"/>
+          <rect x="196" y="80" width="96" height="34" rx="3" stroke-width="2"/>
+          <rect x="150" y="34" width="262" height="16" rx="2"/>
+          <rect x="64" y="140" width="136" height="16" rx="2"/>
+          <rect x="252" y="140" width="120" height="16" rx="2"/>
+        </g>
+
+        <g fill="currentColor" font-size="16">
+          <text x="281" y="102" text-anchor="middle">ATmega328P</text>
+          <text x="281" y="27" text-anchor="middle">D0 – D13</text>
+          <text x="132" y="176" text-anchor="middle">5 V · 3,3 V · GND · VIN</text>
+          <text x="312" y="176" text-anchor="middle">A0 – A5</text>
+          <text x="37" y="45" text-anchor="middle">USB</text>
+          <text x="39" y="150" text-anchor="middle">ström</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>D0–D13</strong> är de fjorton digitala pinnarna. Varje pinne kan
+        vara antingen ingång eller utgång, och känner bara till två lägen:
+        <code>HIGH</code> (5 V) och <code>LOW</code> (0 V).</li>
+      <li><strong>A0–A5</strong> är de sex analoga ingångarna. De kan läsa en
+        spänning någonstans mellan 0 och 5 V i stället för bara två lägen. Vi
+        använder dem först i område 4.</li>
+      <li><strong>5 V och 3,3 V</strong> lämnar spänning till kretsen du bygger.
+        <strong>GND</strong> är nollan – returvägen som allting mäts mot.</li>
+      <li><strong>D0 och D1</strong> används av USB-anslutningen för seriell
+        kommunikation. Sitter något på dem går uppladdningen ofta fel. Börja på
+        D2 och uppåt.</li>
+    </ul>
+
+    <p>Talen du behöver komma ihåg:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Storhet</th><th>Uno R3 / ATmega328P</th></tr></thead>
+        <tbody>
+          <tr><td>Logiknivå</td><td>5 V. <code>HIGH</code> är 5 V, <code>LOW</code> är 0 V</td></tr>
+          <tr><td>Digitala pinnar</td><td>14 stycken, D0–D13</td></tr>
+          <tr><td>Analoga ingångar</td><td>6 stycken, A0–A5</td></tr>
+          <tr><td>Klockfrekvens</td><td>16 MHz</td></tr>
+          <tr><td>Programminne (flash)</td><td>32 KB, varav 0,5 KB tas av bootloadern</td></tr>
+          <tr><td>Arbetsminne (SRAM)</td><td>2 KB</td></tr>
+          <tr><td>Ström per pinne</td><td>20 mA rekommenderat, 40 mA absolut tak</td></tr>
+          <tr><td>Ström genom alla I/O-pinnar tillsammans</td><td>200 mA. Chippets absoluta tak</td></tr>
+          <tr><td>Ström ut ur 5 V-stiftet</td><td>Sätts av matningen, inte av chippet. Över USB: 500 mA att dela på</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>De två sista raderna handlar om olika saker, och de blandas lätt ihop. De
+      <strong>200 mA</strong> är vad chippet självt tål genom sina pinnar
+      tillsammans – en gräns i kislet, som du slår i genom att hänga för många
+      lysdioder på för många pinnar. <strong>5 V-stiftet</strong> är däremot
+      ingen pinne på chippet utan en genomkoppling till kortets matning: matas
+      kortet över USB delar kortet och allt du kopplat in på portens 500 mA.
+      Servot i lektion 9 slår i den andra gränsen, aldrig i den första.</p>
+
+    <p>Två av talen är värda att räkna på direkt. <strong>16 MHz</strong> betyder
+      16 000 000 klockcykler per sekund, alltså</p>
+    <p><code>1 / 16 000 000 s = 0,0000000625 s = 62,5 ns per cykel</code></p>
+    <p>Det är därför en <code>loop()</code> som bara läser en pinne hinner varvas
+      många tusen gånger i sekunden. <strong>2 KB SRAM</strong> är 2048 byte, och
+      där ska allt som ändrar sig medan programmet kör rymmas. En lista med 100
+      heltal tar 100 · 2 = 200 byte, alltså 200 / 2048 ≈ 9,8 procent av hela
+      arbetsminnet. Datorn du skriver på har ungefär en miljon gånger mer.
+      Kortet är litet med flit: det ska kosta lite, dra lite ström och göra en
+      sak pålitligt.</p>
+
+    <h3>Programmet körs på kortet, inte på datorn</h3>
+    <p>Det här är den vana från Programmering 1 som spricker först. I Python
+      skriver du en rad och den körs. Här händer i stället det här:</p>
+    <ol>
+      <li>Du skriver en <strong>sketch</strong> – ett Arduino-program – i
+        Arduino IDE på datorn.</li>
+      <li>Du trycker <strong>Ladda upp</strong>. IDE:n <em>kompilerar</em> hela
+        sketchen till maskinkod. Finns ett enda fel någonstans stannar det
+        här, och ingenting laddas upp.</li>
+      <li>Maskinkoden överförs via USB-sladden till kortets flashminne.</li>
+      <li>Kortet startar om och börjar köra. <strong>Nu är datorn inte längre
+        inblandad.</strong> Drar du ur USB-sladden och sätter i den igen kör
+        programmet från början, utan att du laddat upp något nytt.</li>
+    </ol>
+    <p>Följden är att du inte kan skriva en halv rad och se vad som händer. Det
+      finns ingen REPL. Det finns heller ingen skärm att skriva ut på – det
+      närmaste är seriemonitorn, och den tas upp i nästa guide.</p>
+
+    <h3>Arduino IDE: de fyra sakerna du behöver hitta</h3>
+    <ul>
+      <li><strong>Verktyg → Kort</strong> ska stå på <em>Arduino Uno</em>.</li>
+      <li><strong>Verktyg → Port</strong> ska stå på den port kortet dök upp på
+        när du satte i sladden. Är listan tom är det sladden eller drivrutinen
+        det är fel på, inte koden. Vissa USB-sladdar är rena laddsladdar och
+        saknar datatrådar.</li>
+      <li><strong>Verifiera</strong> (bocken) kompilerar utan att ladda upp.
+        Använd den ofta – det är billigare att hitta felet där.</li>
+      <li><strong>Ladda upp</strong> (pilen) kompilerar och överför. Medan
+        överföringen pågår blinkar två små lysdioder märkta RX och TX på
+        kortet.</li>
+    </ul>
+
+    <h3>setup() och loop()</h3>
+    <p>En sketch måste innehålla exakt två funktioner, och de har bestämda namn.</p>
+    <pre><code class="sprak-cpp">void setup() {
+  // Körs en gång, direkt efter att kortet startat.
+}
+
+void loop() {
+  // Körs sedan om och om igen, för alltid.
+}</code></pre>
+    <p><code>setup()</code> är där du ställer in saker som ska gälla hela tiden:
+      vilka pinnar som är ingångar och vilka som är utgångar. <code>loop()</code>
+      är själva programmet. När <code>loop()</code> nått sista raden börjar den
+      om från den första, utan paus. Det är inte du som skriver den slingan –
+      den finns redan i Arduino-miljön och anropar din <code>loop()</code>.</p>
+    <p><code>void</code> framför namnet betyder att funktionen inte lämnar
+      tillbaka något värde. Mer om varför det måste stå där i nästa guide.</p>
+
+    <h3>Den första utsignalen: digitalWrite</h3>
+    <p>Uno-kortet har en inbyggd lysdiod kopplad till pinne 13. Den har det
+      färdiga namnet <code>LED_BUILTIN</code>, och den är perfekt att börja med
+      eftersom den inte kräver en enda sladd.</p>
+    <pre><code class="sprak-cpp">void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(500);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(500);
+}</code></pre>
+    <p>Tre nya ord:</p>
+    <ul>
+      <li><code>pinMode(pinne, OUTPUT)</code> bestämmer att pinnen ska driva ut
+        spänning i stället för att lyssna. <strong>Den raden måste stå i
+        <code>setup()</code>.</strong> Utan den händer ingenting, och koden
+        kompilerar ändå utan minsta klagomål.</li>
+      <li><code>digitalWrite(pinne, HIGH)</code> lägger 5 V på pinnen.
+        <code>LOW</code> lägger 0 V.</li>
+      <li><code>delay(500)</code> väntar 500 millisekunder, alltså en halv
+        sekund. Under tiden gör kortet ingenting annat alls – det är en
+        begränsning vi lever med i område 2 och gör oss av med i område 3.</li>
+    </ul>
+    <p>Blinkningen ovan tar 500 + 500 = 1000 ms per varv, alltså ett varv i
+      sekunden.</p>
+
+    <h3>En egen lysdiod på en egen pinne</h3>
+    <p>Byt <code>LED_BUILTIN</code> mot ett tal och du styr vilken pinne som
+      helst. Men en lysdiod på en egen pinne behöver samma förresistor som i
+      område 1, av exakt samma skäl:</p>
+    <p><code>U = 5,0 V − 2,0 V = 3,0 V</code></p>
+    <p><code>R = U / I = 3,0 V / 0,020 A = 150 Ω</code></p>
+    <p>De 20 mA som är rekommenderat tak per pinne är alltså precis den ström en
+      vanlig lysdiod vill ha. Det är ingen tillfällighet – men det betyder också
+      att pinnen inte har något över. Ska något dra mer än så måste strömmen
+      komma någon annanstans ifrån, vilket är hela poängen med servot i
+      lektion 9 och med drivkretsen i område 5.</p>
+    <pre><code class="sprak-cpp">const int LAMPA_PIN = 8;
+
+void setup() {
+  pinMode(LAMPA_PIN, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(LAMPA_PIN, HIGH);
+  delay(500);
+  digitalWrite(LAMPA_PIN, LOW);
+  delay(500);
+}</code></pre>
+    <p class="notis"><span class="rubrik">Rita innan du kopplar</span>
+      Kopplingsschemat från område 1 gäller fortfarande. Kortet ritas som en
+      ruta med de pinnar du faktiskt använder utsatta – inte alla fjorton. En
+      lysdiod på D8 blir: D8 → motstånd → lysdiodens anod, lysdiodens katod →
+      GND. Två komponenter och två sladdar, och ändå värt att rita, eftersom
+      det är ritningen du felsöker mot när den inte lyser.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+    <p><strong>I industrin:</strong> en produktionslina styrs sällan av ett
+      Uno-kort utan av en <strong>PLC</strong> – en programmerbar styrenhet
+      byggd för verkstadsmiljö. Idén är densamma: ingångar läses, ett program
+      kör, utgångar sätts. Skillnaden syns i talen. Uno-kortets pinnar arbetar
+      med 5 V och 20 mA per pinne, medan en PLC:s in- och utgångar typiskt
+      arbetar med 24 V och kan koppla en halv ampere direkt ut på en kontaktor
+      eller en ventil. Det är ungefär fem gånger spänningen och tjugofem gånger
+      strömmen, plus ett hölje som tål damm, olja och vibration. En PLC är
+      dessutom byggd för att köra i åratal utan omstart, medan ett Uno-kort är
+      byggt för att kosta lite.</p>
+    <p><strong>I vardagen:</strong> centrallåset i en bil är samma kedja som
+      figuren ovan, en gång per dörr. Du trycker på knappen i förardörren –
+      det är givaren. En styrenhet läser trycket och avgör om bilen står stilla
+      och om nyckeln finns i närheten. Sedan får en liten motor i varje dörr
+      order om att dra låskolven – ställdonet. Att det inte är fyra sladdar
+      direkt från knappen till fyra motorer märker du på att bilen vägrar låsa
+      när en dörr står på glänt: mellan knappen och motorn sitter något som kan
+      säga nej. Det är precis det en styrenhet är till för.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li>Sätt i kortet, välj kort och port, och ladda upp blinkexemplet med
+        <code>LED_BUILTIN</code>. Kontrollera att lysdioden på kortet blinkar en
+        gång i sekunden.</li>
+      <li>Ändra de två <code>delay(500)</code> till <code>delay(100)</code> och
+        ladda upp igen. Räkna ut i förväg hur många blinkningar per sekund du
+        ska få, och kontrollera sedan mot verkligheten.</li>
+      <li>Dra ur USB-sladden. Sätt i den igen utan att ladda upp. Vad händer, och
+        varför?</li>
+      <li>Räkna ut förresistorn till en röd lysdiod från 5 V vid 20 mA, bygg
+        kretsen på kopplingsdäcket från pinne D8, och flytta över blinkningen
+        dit. Rita schemat innan du kopplar.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Varför räcker det inte att skriva <code>digitalWrite(8, HIGH);</code>
+        om man glömt <code>pinMode()</code>?</summary>
+      <p>Utan <code>pinMode(8, OUTPUT)</code> står pinnen kvar som ingång. En
+        ingång lyssnar, den driver ingenting, och <code>digitalWrite</code> på
+        en ingång slår i stället på det interna pull-up-motståndet. Resultatet
+        blir i bästa fall en mycket svagt lysande lysdiod, i praktiken oftast
+        ingenting alls. Koden kompilerar utan fel, vilket är det som gör felet
+        svårt: det finns inget felmeddelande att läsa.</p>
+    </details>
+
+    <details>
+      <summary>Vad är skillnaden mellan Verifiera och Ladda upp?</summary>
+      <p>Verifiera kompilerar sketchen och stannar där. Ladda upp kompilerar och
+        överför resultatet till kortet. Verifiera går alltså att göra utan att
+        kortet ens är inkopplat, och är det snabbaste sättet att kontrollera att
+        koden är syntaktiskt hel.</p>
+    </details>
+
+    <details>
+      <summary>Din blinkning har <code>delay(250)</code> både för tänt och för
+        släckt. Hur många hela blinkningar blir det på tio sekunder?</summary>
+      <p>Ett varv tar 250 + 250 = 500 ms. På 10 sekunder, alltså 10 000 ms, blir
+        det 10 000 / 500 = 20 varv. Tjugo blinkningar.</p>
+    </details>
+
+    <details>
+      <summary>Du vill driva en liten summer som drar 60 mA direkt från en
+        pinne. Går det?</summary>
+      <p>Nej. Absolut tak per pinne är 40 mA och rekommenderat är 20 mA, så
+        60 mA ligger en och en halv gång över det absoluta taket. Pinnen kan
+        skadas, och skadan är permanent. Något som drar mer än 20 mA behöver ta
+        strömmen någon annanstans ifrån och bara styras av pinnen – det är vad
+        drivkretsen i område 5 handlar om.</p>
+    </details>
+
+    <details>
+      <summary>Varför ska du undvika pinne 0 och 1 till dina egna komponenter?</summary>
+      <p>De används av kortets seriella kommunikation över USB, alltså av samma
+        kanal som uppladdningen och seriemonitorn går genom. Sitter en komponent
+        på dem kan uppladdningen misslyckas eller utskrifterna bli obegripliga.
+        Det finns tolv andra digitala pinnar – använd dem.</p>
+    </details>
+
+    <details>
+      <summary>Kortet har 2 KB SRAM. Hur många heltal av typen <code>int</code>
+        ryms i minnet om ingenting annat funnes där?</summary>
+      <p>2 KB är 2048 byte och en <code>int</code> tar 2 byte på det här
+        kortet, alltså 2048 / 2 = 1024 heltal. I praktiken betydligt färre,
+        eftersom biblioteken och Arduino-miljön också behöver plats. Att en
+        <code>int</code> är just 2 byte här är nästa guides ämne.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Port saknas i listan.</strong> Kortet syns inte. Testa en annan
+        USB-sladd först – laddsladdar utan datatrådar ser identiska ut och är
+        den vanligaste orsaken. Sedan en annan USB-port, sedan drivrutinen.
+        Koden är oskyldig här.</li>
+      <li><strong>Fel kort valt.</strong> Står Verktyg → Kort på något annat än
+        Arduino Uno kompilerar sketchen ofta ändå, och uppladdningen avbryts
+        med ett kryptiskt fel om synkronisering. Kontrollera kortvalet innan du
+        börjar leta i koden.</li>
+      <li><strong><code>pinMode()</code> glömd i <code>setup()</code>.</strong>
+        Klassikern. Inget felmeddelande, ingen lysdiod, ingenting att gå på.
+        Vänj dig vid att läsa <code>setup()</code> först när något inte
+        fungerar.</li>
+      <li><strong>Lysdioden sitter direkt på pinnen utan motstånd.</strong> Den
+        lyser, ofta starkt, ett tag. Sedan är antingen lysdioden eller pinnen
+        förbrukad, och en trasig pinne syns inte utanpå. Räkna motståndet.</li>
+      <li><strong>Lysdioden vänd åt fel håll.</strong> Den lyser inte, och det
+        ser ut som ett kodfel. Långa benet mot pinnen, plattade kanten mot GND.</li>
+      <li><strong>Ingen gemensam GND.</strong> Så fort något får ström från annat
+        håll än kortet måste de två kretsarnas GND kopplas ihop. Utan det finns
+        ingen gemensam nolla att mäta signalen mot, och signalen betyder
+        ingenting. Det här felet återkommer i varenda bygge resten av kursen.</li>
+      <li><strong>Uppladdningen fungerar men ingenting händer.</strong>
+        Kontrollera att koden ligger i <code>loop()</code> och inte i
+        <code>setup()</code>. Något som skulle upprepas men står i
+        <code>setup()</code> gör exakt en sak, en gång, för fort för att
+        synas.</li>
+      <li><strong>Sladdar flyttade medan kortet var strömsatt.</strong> Koppla
+        alltid ur USB-sladden innan du bygger om. En felsatt sladd mellan 5 V
+        och GND är en kortslutning, och den märks som att kortet slocknar.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Kapitlet <a href="../sprakreferens.html#python-cpp">Från Python till
+      C++</a> i språkreferensen hör till den här guiden – särskilt den första
+      raden i tabellen, om att ingenting kör förrän allt kompilerat.</p>
+    <p>Nästa guide är <a href="guide-cpp-efter-python.html">C++ efter Python</a>,
+      där du får veta varför <code>void</code> och <code>int</code> måste stå
+      utskrivna, och hur du får se vad som händer inuti kortet.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 2</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>
