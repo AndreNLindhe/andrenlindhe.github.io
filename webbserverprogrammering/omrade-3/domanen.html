@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Välj din domän</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o3-domanen">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Lektion 15–16</strong> · Välj din domän</span>
+  <a href="#krav">Kraven</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#varfor">1. Varför nu</a></li>
+      <li><a href="#krav">2. Sju krav</a></li>
+      <li><a href="#forslag">3. Åtta förslag</a></li>
+      <li><a href="#egen">4. En egen idé</a></li>
+      <li><a href="#faller">5. Det som brukar fälla ett val</a></li>
+      <li><a href="#lamna">6. Så lämnar du valet</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 3 · lektion 15–16</p>
+    <h1>Välj din domän</h1>
+    <p class="inledning">Fram till nu har du övat på en engångsklass som hette
+      <code>Produkt</code>. Nu bestämmer du vad ditt projekt handlar om på riktigt.
+      Valet bär du till och med område 8 – genom komponenter, tjänster, databas, CRUD,
+      inloggning, säkerhetsgranskning och driftsättning.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-10-13">
+        <span class="nar">13 okt</span>
+        <span class="vad">Valet ska vara gjort till lektion 16
+          <small>En mening: vad domänen är, vad huvudentiteten heter, vad kategorin är.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="varfor">1. Varför nu</h2>
+    <p>Valet ligger här och inte tidigare av två skäl.</p>
+    <p>Det första är att du nu vet tillräckligt för att kunna välja. Efter område 2 vet
+      du vad en klass är, vad en lista med objekt gör och vad du faktiskt orkar skriva
+      kod för. Ett val i augusti hade varit en gissning.</p>
+    <p>Det andra är att område 3 är sista tillfället då bytet är gratis. Här finns bara
+      en hårdkodad lista att skriva om. I område 5 finns en databas, migrationer och
+      formulär som hänger på entiteten – att byta domän där kostar en vecka.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Domänen får inte vara filmer</span>
+      <p>Guiden bygger Filmarkivet med komplett kod. Väljer du filmer blir din
+        inlämning en avskrift, och det är inte en gråzon – det är samma sak som att
+        lämna in min kod.</p>
+      <p>Strukturen ska vara identisk med guidens. Innehållet ska inte vara det. Det är
+        översättningen mellan dem som visar att du förstått, och det är den jag rättar.</p>
+    </div>
+
+    <h2 id="krav">2. Sju krav</h2>
+    <p>Stäm av din idé mot listan innan du bestämmer dig. Kryssen sparas i din
+      webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Min domän klarar alla sju</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="dom-1"><span>En <b>huvudentitet</b> – det som katalogiseras</span></label></li>
+        <li><label><input type="checkbox" id="dom-2"><span>Minst <b>fem fält</b> på huvudentiteten, varav minst en text, ett heltal och ett fält som varken är text eller heltal</span></label></li>
+        <li><label><input type="checkbox" id="dom-3"><span>Ett längre <b>beskrivningsfält</b> som bara syns på detaljsidan</span></label></li>
+        <li><label><input type="checkbox" id="dom-4"><span>Ett fält som går att <b>söka</b> på och ett som går att <b>sortera</b> på</span></label></li>
+        <li><label><input type="checkbox" id="dom-5"><span>En <b>kategori</b> som flera poster kan höra till. Byggs i område 6, men måste gå att peka ut nu</span></label></li>
+        <li><label><input type="checkbox" id="dom-6"><span>En rimlig <b>samling</b> – något en besökare vill lägga undan under sitt besök. Byggs i område 4</span></label></li>
+        <li><label><input type="checkbox" id="dom-7"><span>Något som är rimligt att <b>administrera bakom inloggning</b>. Byggs i område 6</span></label></li>
+      </ul>
+    </section>
+
+    <p>Fem av sju räcker inte. Varje krav svarar mot ett område längre fram, och det
+      som fattas nu fattas då.</p>
+
+    <h2 id="forslag">3. Åtta förslag</h2>
+    <p>Alla åtta klarar samtliga sju krav. Du får ta ett rakt av – de är till för att
+      du ska kunna lägga tiden på koden i stället för på idén.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Domän</th><th>Huvudentitet</th><th>Kategori</th><th>Samling</th><th>Söka på</th><th>Sortera på</th></tr></thead>
+        <tbody>
+          <tr><td><b>Brädspelshyllan</b></td><td>Spel</td><td>Kategori</td><td>Önskelista</td><td>Titel</td><td>Speltid</td></tr>
+          <tr><td><b>Receptsamlingen</b></td><td>Recept</td><td>Kök</td><td>Veckomeny</td><td>Namn</td><td>Tillagningstid</td></tr>
+          <tr><td><b>Växtdatabasen</b></td><td>Växt</td><td>Familj</td><td>Odlingsplan</td><td>Namn</td><td>Höjd</td></tr>
+          <tr><td><b>Vinylarkivet</b></td><td>Skiva</td><td>Genre</td><td>Spellista</td><td>Titel</td><td>Utgivningsår</td></tr>
+          <tr><td><b>Klätterförarna</b></td><td>Led</td><td>Klippa</td><td>Projektlista</td><td>Namn</td><td>Svårighetsgrad</td></tr>
+          <tr><td><b>Träningsloggen</b></td><td>Pass</td><td>Passtyp</td><td>Veckans pass</td><td>Namn</td><td>Längd</td></tr>
+          <tr><td><b>Bilregistret</b></td><td>Modell</td><td>Märke</td><td>Jämförelselista</td><td>Modellnamn</td><td>Årsmodell</td></tr>
+          <tr><td><b>Konsertkalendern</b></td><td>Konsert</td><td>Scen</td><td>Bevakningar</td><td>Artist</td><td>Datum</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Att ta ett förslag är inget nederlag</span>
+      <p>Betyget sätts på koden, inte på idén. En genomarbetad brädspelshylla ger ett
+        högre betyg än en originell domän som faller isär i område 6. Lägg femton
+        minuter på valet, inte tre kvällar.</p>
+    </div>
+
+    <h2 id="egen">4. En egen idé</h2>
+    <p>Du får hitta på din egen. Stäm av mot de sju kraven först, och svara sedan på de
+      här fyra frågorna innan du bestämmer dig:</p>
+
+    <ol>
+      <li><b>Kan du skriva sex poster på tio minuter, utan att slå upp något?</b>
+        Behöver du googla varje post kommer du att undvika projektet.</li>
+      <li><b>Vad heter kategorin?</b> Kan du inte svara med ett ord finns den inte.</li>
+      <li><b>Vad lägger en besökare undan?</b> Är svaret "ingenting" saknas samlingen,
+        och område 4 blir konstlat.</li>
+      <li><b>Vem loggar in, och vad gör hen då?</b> Svaret ska vara mer än "ändrar
+        saker".</li>
+    </ol>
+
+    <h2 id="faller">5. Det som brukar fälla ett val</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Val</th><th>Vad som fattas</th><th>När det smäller</th></tr></thead>
+        <tbody>
+          <tr><td>"Mina vänner"</td><td>Ingen kategori, ingen samling, och personuppgifter om riktiga människor</td><td>Område 4 och 6</td></tr>
+          <tr><td>"Todo-lista"</td><td>Inget beskrivningsfält som motiverar en detaljsida</td><td>Redan här, i område 3</td></tr>
+          <tr><td>"Mina skor"</td><td>Sex poster går, sextio gör det inte. Sökning och sortering blir meningslösa</td><td>Område 6</td></tr>
+          <tr><td>"Ett spel"</td><td>Är ingen katalog. Kursen bygger en katalogapplikation, inte vad som helst</td><td>Område 5</td></tr>
+          <tr><td>"Länkar jag gillar"</td><td>För få fält. Ett namn och en adress är två, inte fem</td><td>Område 3 och 5</td></tr>
+          <tr><td>Filmer</td><td>Inget – det är guidens domän, och då blir din kod en avskrift</td><td>Vid rättningen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="lamna">6. Så lämnar du valet</h2>
+    <p>Två saker, och båda tar en minut.</p>
+
+    <ol>
+      <li><b>Säg det på lektion 16.</b> En mening: vad domänen är, vad huvudentiteten
+        heter, vad kategorin är. Jag godkänner på plats eller säger vad som fattas.</li>
+      <li><b>Skriv det i projektets <code>README.md</code>.</b> Det är ett krav i
+        <a href="uppgift.html">inlämningen</a>.</li>
+    </ol>
+
+    <p>Så här räcker det att det ser ut:</p>
+
+    <div class="notis">
+      <span class="rubrik">Exempel på en rad i README.md</span>
+      <p><b>Vinylarkivet.</b> Huvudentitet: <code>Skiva</code>. Kategori:
+        <code>Genre</code>. Samling: spellista. Söker på titel, sorterar på
+        utgivningsår. Bakom inloggning: lägga till och ta bort skivor.</p>
+    </div>
+
+    <p>När valet är gjort öppnar du
+      <a href="guide.html#sjalv">guidens översättningstabell</a> och fyller i
+      högerkolumnen. Den är kartan mellan mitt Filmarkiv och ditt projekt, och du
+      kommer att gå tillbaka till den i varje område som återstår.</p>
+
+    <footer class="fot">
+      <p><a href="guide.html">Till guiden</a> ·
+        <a href="uppgift.html">Till uppgiften</a> ·
+        <a href="index.html">Tillbaka till område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

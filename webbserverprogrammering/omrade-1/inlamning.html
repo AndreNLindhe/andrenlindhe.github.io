@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lämna in: sista kontrollen innan deadline</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o1-inlamning">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Lämna in</strong> · inlämning 1</span>
+  <a href="#stoppar">Det som stoppar</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#ordning">1. I vilken ordning</a></li>
+      <li><a href="#granska">2. Kamratgranskning</a></li>
+      <li><a href="#byggfiler">3. Byggfilerna i repot</a></li>
+      <li><a href="#lamna">4. Så lämnar du in</a></li>
+      <li><a href="#stoppar">5. Det som stoppar en inlämning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 1 · lektion 5</p>
+    <h1>Lämna in: sista kontrollen innan deadline</h1>
+    <p class="inledning">Sidan för det sista passet. Inget nytt innehåll — här står i
+      vilken ordning du gör de sista sakerna, och vad som brukar gå fel när det är en
+      timme kvar.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-09-02">
+        <span class="nar">2 sept</span>
+        <span class="vad">Inlämning 1 kl 23:59
+          <small>Repots adress klistras in i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du lektionen?</span>
+      <p>Passet var finputs och inlämning, så du kan göra allt själv — men gör det
+        <b>samma dag</b>, inte på kvällen. Ordningen i avsnitt 1 är densamma som klassen
+        följde. Har du ingen att kamratgranska med: gör kontrollerna i avsnitt 2 på ditt
+        eget projekt, långsamt, som om det var någon annans.</p>
+      <p>Har du inte fått något att fungera alls: lämna in det du har och skriv i
+        itslearning vad som fastnade. Något slår ingenting, och jag kan hjälpa dig vidare
+        först när jag ser koden.</p>
+    </div>
+
+    <h2 id="ordning">1. I vilken ordning</h2>
+    <p>Gör i den här ordningen. Den är sorterad efter vad som väger tyngst, inte efter
+      vad som är roligast.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Gör</th><th>Varför just den ordningen</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Kontrollera att projektet <b>startar</b> med <code>dotnet run</code>, utan varningar</td>
+            <td>Startar det inte finns det ingen inlämning att bedöma. Allt annat är meningslöst innan det här stämmer.</td></tr>
+          <tr><td>2</td><td>Gå igenom <a href="uppgift.html#ska">ska-kraven</a> på din egen sajt, punkt för punkt</td>
+            <td>Kryssa av medan du tittar på sidan, inte medan du minns hur den ser ut.</td></tr>
+          <tr><td>3</td><td>Läs din <b>arkitektursida</b> och öppna två av filerna den beskriver</td>
+            <td>Den väger tyngst i bedömningen, och det är den som avslöjar om filerna aldrig blivit öppnade.</td></tr>
+          <tr><td>4</td><td>Sök efter guidens innehåll i ditt projekt</td>
+            <td>Står <code>scb.se</code> eller <code>Webbresan</code> kvar någonstans är det guidens sajt, inte din. Se översättningstabellen i <a href="guide.html#sjalv">guiden</a>.</td></tr>
+          <tr><td>5</td><td>Kontrollera <a href="#byggfiler">byggfilerna</a></td>
+            <td>Den punkt som oftast missas, och den enda som inte syns i webbläsaren.</td></tr>
+          <tr><td>6</td><td><a href="#lamna">Commit, push, kontroll</a></td>
+            <td>Sist, och med marginal. Det som ligger på din dator är inte inlämnat.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kraven i sin helhet står i <a href="uppgift.html">uppgiften</a>, uppdelade på E, C
+      och A. Guidens egen checklista finns i <a href="guide.html#checklista">guiden</a>.
+      Den här sidan upprepar dem inte — två listor som säger nästan samma sak blir förr
+      eller senare två listor som säger olika saker.</p>
+
+    <h2 id="granska">2. Kamratgranskning</h2>
+    <p>Fem minuter var. Den som granskar sitter vid den andres dator — inte tittar över
+      axeln, utan tar tangentbordet.</p>
+
+    <ol>
+      <li><b>Ladda om startsidan fem gånger.</b> Ändras beviset? Ett klockslag som står
+        still är inskrivet för hand och räknas inte.</li>
+      <li><b>Läs arkitektursidan och öppna två av filerna den beskriver.</b> Stämmer
+        beskrivningen med vad som faktiskt står i filen?</li>
+      <li><b>Klicka igenom alla sidor.</b> Markeras rätt menypost? Fungerar alla länkar?</li>
+    </ol>
+
+    <p>Skriv sedan tre rader i den andres <code>README.md</code>: en sak som fungerar bra,
+      en sak som ska fixas, och en fråga.</p>
+
+    <div class="notis">
+      <span class="rubrik">Punkt 2 är den som gör skillnad</span>
+      <p>En arkitektursida som är skriven utan att filerna öppnats märks direkt när någon
+        annan läser den med filen bredvid. Att upptäcka det nu, av en klasskamrat, är
+        oändligt mycket bättre än att upptäcka det vid rättningen.</p>
+    </div>
+
+    <h2 id="byggfiler">3. Byggfilerna i repot</h2>
+    <p>När du kör <code>dotnet run</code> skapas mapparna <code>bin/</code> och
+      <code>obj/</code>. De innehåller det kompilerade resultatet — inte din kod. De ska
+      inte ligga i repot: de är stora, de ändras vid varje körning, och de går inte att
+      läsa som text.</p>
+
+    <p>Kontrollera så här:</p>
+
+<pre><code class="sprak-bash">git ls-files | grep -E "bin/|obj/"</code></pre>
+
+    <p>Ger kommandot inga rader är allt bra. Ger det träffar ligger byggfilerna i repot,
+      och du behöver två saker: en <code>.gitignore</code>, och att ta bort filerna ur
+      det git redan håller reda på.</p>
+
+<pre><code class="sprak-bash">git rm -r --cached bin obj
+git add .
+git commit -m "Ta bort byggfiler ur repot"</code></pre>
+
+    <div class="notis viktig">
+      <span class="rubrik">--cached betyder att filerna blir kvar</span>
+      <p><code>git rm --cached</code> tar bort filerna ur <b>repot</b>, inte från din
+        dator. Ditt projekt fortsätter fungera precis som förut. Utan
+        <code>--cached</code> hade de raderats på riktigt — och då hade du fått bygga om,
+        vilket också hade gått bra, men onödigt.</p>
+    </div>
+
+    <p>Har du ingen <code>.gitignore</code>: skapa en fil med det namnet i projektets rot,
+      med de här raderna.</p>
+
+<pre><code class="sprak-text">bin/
+obj/</code></pre>
+
+    <h2 id="lamna">4. Så lämnar du in</h2>
+    <p>Tre kommandon, och sedan en kontroll som många hoppar över.</p>
+
+<pre><code class="sprak-bash">git add .
+git commit -m "Klar med inlämning 1"
+git push</code></pre>
+
+    <ol>
+      <li>Öppna ditt repo på <b>github.com</b> i webbläsaren.</li>
+      <li>Se att dina filer faktiskt syns där, och att tidsstämpeln är från nyss.</li>
+      <li>Kopiera adressen ur adressfältet, till exempel
+        <code>https://github.com/dittnamn/webbresan</code></li>
+      <li>Klistra in den i inlämningsrutan i itslearning.</li>
+    </ol>
+
+    <div class="notis varna">
+      <span class="rubrik">En push du inte kontrollerat räknas inte</span>
+      <p>Steg 2 är det som avgör. <code>git push</code> kan misslyckas utan att du märker
+        det — fel inloggning, fel remote, eller ett fönster du stängde för tidigt. Ser du
+        filerna på github.com är du klar. Ser du dem inte är du inte klar, oavsett vad
+        terminalen sa.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Repot måste vara publikt</span>
+      <p>Ett privat repo går inte att rätta. Ligger ditt privat: <b>Settings</b> → längst
+        ned → <b>Change repository visibility</b>.</p>
+    </div>
+
+    <h2 id="stoppar">5. Det som stoppar en inlämning</h2>
+    <p>Felen som brukar dyka upp den sista timmen. Sök på det du ser.</p>
+
+    <div class="sok">
+      <label for="sok-stopp">Sök bland felen</label>
+      <input type="search" id="sok-stopp" data-sok="tabell-stopp" data-traffar="traffar-stopp"
+             placeholder="till exempel: push, bin, syns inte" autocomplete="off">
+      <p class="traffar" id="traffar-stopp">8 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-stopp">
+        <thead><tr><th>Symptom</th><th>Orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td><code>bin/</code> och <code>obj/</code> ligger i repot</td>
+            <td><code>.gitignore</code> saknades när du committade första gången</td>
+            <td>Se <a href="#byggfiler">avsnitt 3</a></td></tr>
+          <tr><td>Push nekas</td><td>Inte inloggad, eller fel remote</td>
+            <td>Logga in via editorn. Kontrollera med <code>git remote -v</code> att adressen är ditt repo</td></tr>
+          <tr><td>Filerna syns inte på GitHub</td><td>Committat men inte pushat</td>
+            <td><code>git push</code>, och ladda sedan om sidan på github.com</td></tr>
+          <tr><td>Beviset på startsidan ändras inte</td><td>Klockslaget är inskrivet för hand</td>
+            <td>Det ska räknas ut i <code>@code</code>. Se <a href="guide.html#steg-3">guiden steg 3</a></td></tr>
+          <tr><td>Menyn markerar Start på alla sidor</td><td><code>Match="NavLinkMatch.All"</code> saknas</td>
+            <td>Lägg tillbaka den på startsidans NavLink</td></tr>
+          <tr><td>Å Ä Ö blev <code>Ã¥Ã¤Ã¶</code></td><td>Filen sparad i fel teckenkodning</td>
+            <td>Spara om som UTF-8</td></tr>
+          <tr><td>Projektet startar inte</td><td>Ett fel i en <code>.razor</code>-fil</td>
+            <td>Läs det <b>första</b> felet i terminalen, inte det sista. Felen längre ned är oftast följdfel</td></tr>
+          <tr><td>"Jag har inget att lämna in"</td><td>Kom aldrig igång</td>
+            <td>Lämna in det som finns och skriv i itslearning vad som fastnade. Något slår ingenting</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Deadline är 23:59, inte när lektionen slutar</span>
+      <p>Du har kvällen om du behöver den. Men det du pushar under lektionen är det jag
+        kan hjälpa dig med — efter klockan fyra är du ensam med felmeddelandet.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Kraven i uppgiften</a> ·
+        <a href="guide.html">Guiden</a> ·
+        <a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

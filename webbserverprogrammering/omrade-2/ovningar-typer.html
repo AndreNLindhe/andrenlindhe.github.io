@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Övning 1–7: uttryck och typer</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o2-ovn-typer">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Övning 1–7</strong> · Uttryck och typer</span>
+  <a href="#avprickning">Avprickning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#ov-1">1. Presentationsraden</a></li>
+      <li><a href="#ov-2">2. Temperaturen</a></li>
+      <li><a href="#ov-3">3. Momsen</a></li>
+      <li><a href="#ov-4">4. Speltiden</a></li>
+      <li><a href="#ov-5">5. Kalkylatorn</a></li>
+      <li><a href="#ov-6">6. Är det ett tal?</a></li>
+      <li><a href="#ov-7">7. Bensinen</a></li>
+      <li><a href="#avprickning">Avprickning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 2 · lektion 6–7</p>
+    <h1>Uttryck och typer</h1>
+    <p class="inledning">Sju övningar om de fyra grundtyperna, stränginterpolation och
+      det som händer när <code>int</code> och <code>double</code> möts. De ligger alla
+      på samma sida i ditt projekt: <code>/ovningar/typer</code>.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du passet?</span>
+      <p>Lektion 6 var genomgången och lektion 7 eget arbete. Så här tar du igen det,
+        räkna med drygt två timmar:</p>
+      <ol>
+        <li>Läs <a href="guide.html#steg-1">guidens steg 1 till 5</a> och skriv av
+          koden. Det är genomgången från lektion 6, i sin helhet.</li>
+        <li>Skapa sidan <code>/ovningar/typer</code> i ditt eget projekt.</li>
+        <li>Lös övning 1 till 7 nedan, i ordning. De är sorterade efter svårighet.</li>
+        <li>Fastnar du på 4 eller 7: läs <a href="guide.html#steg-4">steg 4</a> igen.
+          Heltalsdivision är det som fäller båda.</li>
+      </ol>
+      <p>Facit delas ut efter övningspasset, inte före. Kör din kod och kontrollera mot
+        <em>Klart när</em> i stället – det är samma sak, fast du gör kontrollen själv.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Ett block per övning, prefixade namn</span>
+      <p>Varje övning får en egen rubrik och ett eget <code>@code</code>-block direkt
+        under den. Namnge fälten efter övningens nummer – <code>o3Pris</code>, inte
+        <code>pris</code> – annars krockar de med varandra och sidan slutar
+        kompilera.</p>
+    </div>
+
+    <h2 id="ov-1">1. Presentationsraden</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: de fyra grundtyperna och stränginterpolation</p>
+    <p>Skapa fyra fält: ett <code>string</code>, ett <code>int</code>, ett
+      <code>double</code> och ett <code>bool</code>. Låt dem beskriva något du själv
+      väljer – en bok, ett spel, en plats. Skriv sedan ut en enda mening som använder
+      alla fyra.</p>
+    <p><b>Klart när:</b> sidan visar en mening där alla fyra värdena finns insatta, och
+      du inte använt <code>+</code> för att sätta ihop texten.</p>
+
+    <h2 id="ov-2">2. Temperaturen</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>double</code> och en formel med flera operatorer</p>
+    <p>Ett fält håller en temperatur i Celsius. Räkna om den till Fahrenheit med
+      formeln <code>F = C * 9 / 5 + 32</code> och visa båda värdena.</p>
+    <p><b>Klart när:</b> 20 grader Celsius visas som 68 grader Fahrenheit. Kontrollera
+      med 37 grader också – det ska bli 98,6.</p>
+
+    <h2 id="ov-3">3. Momsen</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: decimaltal och avrundning vid utskrift</p>
+    <p>Ett pris exklusive moms ligger i ett <code>double</code>. Räkna ut momsen
+      (25 procent) och priset inklusive moms. Visa alla tre talen med två decimaler.</p>
+    <p>Använd <code>.ToString("0.00")</code> för att styra antalet decimaler.</p>
+    <p><b>Klart när:</b> priset 249 visas som moms 62,25 och totalt 311,25.</p>
+
+    <h2 id="ov-4">4. Speltiden</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: heltalsdivision och modulo</p>
+    <p>Ett antal minuter ligger i ett <code>int</code>. Visa samma tid som timmar och
+      minuter.</p>
+    <p><b>Klart när:</b> 142 visas som "2 h 22 min" och 60 visas som "1 h 0 min".</p>
+
+    <h2 id="ov-5">5. Kalkylatorn</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: typval, och att veta när heltal inte räcker</p>
+    <p>Två fält håller var sitt heltal. Visa summa, differens, produkt och kvot i en
+      tabell.</p>
+    <p>Kvoten ska visa decimaler. <code>7 / 2</code> blir <code>3</code> om båda talen
+      är <code>int</code> – det är inte avrundning, decimalerna kastas bort.</p>
+    <p><b>Klart när:</b> med talen 7 och 2 visar tabellen 9, 5, 14 och 3,5.</p>
+
+    <h2 id="ov-6">6. Är det ett tal?</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>int.TryParse</code> och att koden inte får krascha</p>
+    <p>Tre strängar ligger i var sitt fält: en som är ett tal, en som är text, och en
+      som är tom. Försök tolka var och en som ett heltal och visa antingen det tolkade
+      talet eller ett meddelande om att det inte gick.</p>
+    <p>Använd <code>int.TryParse</code>, inte <code>int.Parse</code>.</p>
+    <p><b>Klart när:</b> alla tre raderna visas och sidan inte kraschar på någon av dem.</p>
+
+    <h2 id="ov-7">7. Bensinen</h2>
+    <p class="ledtext"><b>Svår</b> · tränar: att välja typ medvetet och blanda <code>int</code> och <code>double</code></p>
+    <p>En resa är ett antal mil (<code>int</code>). Bilen drar ett antal liter per mil
+      (<code>double</code>) och bensinen kostar ett antal kronor per liter
+      (<code>double</code>). Visa hur många liter resan kräver och vad den kostar, med
+      två decimaler.</p>
+    <p>Lägg också till: hur många hela mil kan du köra för hundra kronor?</p>
+    <p><b>Klart när:</b> 45 mil, 0,62 liter per mil och 19,45 kr/liter ger 27,90 liter
+      och 542,66 kronor. Den sista frågan ska ge ett heltal, inte ett decimaltal.</p>
+
+    <h2 id="avprickning">Avprickning</h2>
+    <p>Kryssen sparas i din webbläsare. De är inte inlämningen – de är till för att du
+      ska veta hur många du har kvar när du sitter hemma i oktober.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Lösta övningar i det här temat</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="typer-1"><span>1. Presentationsraden</span></label></li>
+        <li><label><input type="checkbox" id="typer-2"><span>2. Temperaturen</span></label></li>
+        <li><label><input type="checkbox" id="typer-3"><span>3. Momsen</span></label></li>
+        <li><label><input type="checkbox" id="typer-4"><span>4. Speltiden</span></label></li>
+        <li><label><input type="checkbox" id="typer-5"><span>5. Kalkylatorn</span></label></li>
+        <li><label><input type="checkbox" id="typer-6"><span>6. Är det ett tal?</span></label></li>
+        <li><label><input type="checkbox" id="typer-7"><span>7. Bensinen</span></label></li>
+      </ul>
+    </section>
+
+    <p>Tjugo lösta övningar krävs för <a href="uppgift.html">inlämningen</a>, tjugofem
+      för C och alla tjugoåtta för A. Varje tema måste ha minst tre.</p>
+
+    <footer class="fot">
+      <p><a href="ovningar-villkor.html">Nästa tema: villkor och logik</a> ·
+        <a href="guide.html">Till guiden</a> ·
+        <a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

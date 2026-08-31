@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Övning 47–50: layout och livscykel</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o3-ovn-layout">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Övning 47–50</strong> · Layout och livscykel</span>
+  <a href="#avprickning">Avprickning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#tre-metoder">Tre metoder, och nollan</a></li>
+      <li><a href="#ov-47">47. Menyn som vet var man är</a></li>
+      <li><a href="#ov-48">48. En egen ram</a></li>
+      <li><a href="#ov-49">49. Ordningen på metoderna</a></li>
+      <li><a href="#ov-50">50. Rätt metod för rätt sak</a></li>
+      <li><a href="#avprickning">Avprickning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 3 · lektion 19</p>
+    <h1>Layout och livscykel</h1>
+    <p class="inledning">Fyra övningar om ramen runt sidan och om ordningen saker
+      händer i. Den sista är områdets enda övning där rätt svar inte syns på skärmen –
+      koden fungerar likadant oavsett, och ändå finns det ett svar som är rätt.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du passet?</span>
+      <p>Lektion 19 var den sista genomgången i området, och höstlovet låg direkt
+        efter. Så här tar du igen den, räkna med en och en halv timme:</p>
+      <ol>
+        <li>Läs <a href="guide.html#steg-13">guidens steg 13 till 15</a> och skriv av
+          koden.</li>
+        <li>Lägg <code>Livscykel.razor</code> ur referensprojektet i ditt eget projekt
+          och gå till <code>/livscykel</code>. Ladda om fem gånger och titta på
+          räknaren. Den sidan är hela momentet.</li>
+        <li>Lös övning 47 till 50.</li>
+      </ol>
+      <p>Efter det här passet kommer ingenting nytt i området. Allt som återstår är att
+        bygga färdigt till den 9 november.</p>
+    </div>
+
+    <h2 id="tre-metoder">Tre metoder, och nollan</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Metod</th><th>När</th><th>Till för</th></tr></thead>
+        <tbody>
+          <tr><td><code>OnInitialized</code></td><td>En gång, när objektet skapats</td><td>Sådant som <b>inte</b> beror på parametrarna</td></tr>
+          <tr><td><code>OnParametersSet</code></td><td>Varje gång parametrarna sätts</td><td>Sådant som <b>beror</b> på parametrarna</td></tr>
+          <tr><td><code>OnAfterRender</code></td><td>När sidan finns i webbläsaren</td><td>Kod som behöver en färdig sida att prata med</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Vid statisk serverrendering körs de två första <b>exakt en gång var</b>, i den
+      ordningen, per förfrågan. Den tredje körs <b>inte alls</b>: servern bygger HTML,
+      skickar i väg den, och komponenten är borta. Det finns inget "efter renderingen"
+      här.</p>
+
+    <div class="notis">
+      <span class="rubrik">Varför valet ändå spelar roll</span>
+      <p>Om båda körs en gång var kunde man tro att det är likgiltigt var koden
+        ligger. Två skäl att ändå välja rätt:</p>
+      <ul>
+        <li><b>Koden säger vad den beror på.</b> Läser någon
+          <code>OnParametersSet</code> vet hen att det som står där hänger på en
+          parameter. Det är dokumentation som inte kan bli inaktuell.</li>
+        <li><b>Det är rätt när komponenten inte skapas om.</b> Ett interaktivt
+          renderingsläge kan ge en komponent nya parametrar utan att bygga den på nytt.
+          Då körs <code>OnParametersSet</code> igen och <code>OnInitialized</code>
+          inte. Kod på fel plats slutar då uppdateras.</li>
+      </ul>
+      <p>Regeln: <b>beror koden på en parameter går den i
+        <code>OnParametersSet</code>, annars i <code>OnInitialized</code>.</b></p>
+    </div>
+
+    <h2 id="ov-47">47. Menyn som vet var man är</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>NavLink</code> och <code>Match</code></p>
+    <p>Lägg till dina övningssidor i <code>NavMenu.razor</code> med
+      <code>NavLink</code>. Kontrollera att exakt en post är markerad åt gången, också
+      på <code>/ovningar/43/7</code>.</p>
+    <p><b>Klart när:</b> startsidans länk <b>inte</b> är markerad när du står på en
+      övningssida.</p>
+
+    <h2 id="ov-48">48. En egen ram</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: layout och <code>@Body</code></p>
+    <p>Gör <code>Components/Layout/OvningsLayout.razor</code> som ärver
+      <code>LayoutComponentBase</code>, visar rubriken <em>Övning</em> överst och
+      <code>@Body</code> under. Sätt den på en av dina övningssidor med
+      <code>@layout OvningsLayout</code>.</p>
+    <p><b>Klart när:</b> den sidan har rubriken och de andra inte, utan att du ändrat i
+      någon annan sida.</p>
+
+    <h2 id="ov-49">49. Ordningen på metoderna</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>OnInitialized</code> och <code>OnParametersSet</code></p>
+    <p>Gör <code>Ovning49.razor</code> på <code>/ovningar/49/{tal:int}</code> som samlar
+      en rad text i en lista i vardera metoden och visar listan.</p>
+    <p>Gå mellan <code>/ovningar/49/1</code> och <code>/ovningar/49/2</code>.</p>
+    <p><b>Klart när:</b> du kan svara på hur många rader listan har, i vilken ordning de
+      står, och varför det blir likadant varje gång.</p>
+
+    <h2 id="ov-50">50. Rätt metod för rätt sak</h2>
+    <p class="ledtext"><b>Svår</b> · tränar: att välja livscykelmetod och kunna motivera valet</p>
+    <p>Given kod, med ett fel som inte syns:</p>
+
+    <pre><code class="sprak-razor">@page "/ovningar/50/{id:int}"
+
+&lt;h1&gt;@titel&lt;/h1&gt;
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private string titel = "";
+    private string startadKl = "";
+
+    protected override void OnInitialized()
+    {
+        titel = $"Post nummer {Id}";
+        startadKl = DateTime.Now.ToString("HH:mm:ss");
+    }
+}</code></pre>
+
+    <p>Två saker sker i <code>OnInitialized</code>. Bara den ena hör hemma där.</p>
+    <p>Flytta det som ska flyttas och skriv en kommentar på en rad om varför. Visa också
+      <code>startadKl</code> på sidan.</p>
+    <p><b>Klart när:</b> koden ligger rätt och kommentaren säger <em>vad valet beror
+      på</em>, inte vad metoden heter.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">En kommentar som bara upprepar namnet är ingen motivering</span>
+      <p><em>"OnParametersSet körs när parametrarna sätts"</em> är metodens namn
+        omskrivet. Kommentaren ska svara på varför just den här raden hamnade här.</p>
+    </div>
+
+    <h2 id="avprickning">Avprickning</h2>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Lösta övningar i det här temat</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="lay-47"><span>47. Menyn som vet var man är</span></label></li>
+        <li><label><input type="checkbox" id="lay-48"><span>48. En egen ram</span></label></li>
+        <li><label><input type="checkbox" id="lay-49"><span>49. Ordningen på metoderna</span></label></li>
+        <li><label><input type="checkbox" id="lay-50"><span>50. Rätt metod för rätt sak</span></label></li>
+      </ul>
+    </section>
+
+    <p>Övning 50 är den enda i hela området som prövas som en <em>förklara</em>-fråga
+      på provet. Kan du motivera var koden ska ligga kan du svara på den.</p>
+
+    <footer class="fot">
+      <p><a href="provet.html">Vad provet prövar</a> ·
+        <a href="uppgift.html">Till uppgiften</a> ·
+        <a href="index.html">Tillbaka till område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

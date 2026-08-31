@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Övning 41–46: routing</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o3-ovn-routing">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Övning 41–46</strong> · Routing</span>
+  <a href="#avprickning">Avprickning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#tva-satt">Två sätt att få data ur adressen</a></li>
+      <li><a href="#ov-41">41. En egen adress</a></li>
+      <li><a href="#ov-42">42. Ett ord ur adressen</a></li>
+      <li><a href="#ov-43">43. Ett tal ur adressen</a></li>
+      <li><a href="#ov-44">44. Två adresser, en sida</a></li>
+      <li><a href="#ov-45">45. Ett värde efter frågetecknet</a></li>
+      <li><a href="#ov-46">46. Rätt svar på fel fråga</a></li>
+      <li><a href="#avprickning">Avprickning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 3 · lektion 18</p>
+    <h1>Routing</h1>
+    <p class="inledning">Sex övningar om adressen som data. Ruttparametrar,
+      begränsningen <code>:int</code>, frågesträngen och en 404 som är en riktig 404 –
+      inte bara en text som säger att något inte finns.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du passet?</span>
+      <p>Lektion 18 var genomgången. Så här tar du igen den, räkna med drygt två
+        timmar:</p>
+      <ol>
+        <li>Läs <a href="guide.html#steg-9">guidens steg 9 till 11</a> och skriv av
+          koden. Det är genomgången i sin helhet.</li>
+        <li>Din modellklass behöver ett <code>Id</code> och ett längre
+          beskrivningsfält. Utan beskrivningsfältet blir din detaljsida en kopia av
+          ditt kort, och då finns ingen anledning att klicka.</li>
+        <li>Bygg din egen detaljsida innan du gör övningarna. Den är ett krav i
+          <a href="uppgift.html">inlämningen</a>, övningarna är det inte.</li>
+        <li>Lös övning 41 till 46 nedan, i ordning.</li>
+      </ol>
+      <p>Öppna webbläsarens nätverksflik (F12) innan du börjar. Tre av övningarna
+        handlar om statuskoder, och de syns inte på skärmen.</p>
+    </div>
+
+    <h2 id="tva-satt">Två sätt att få data ur adressen</h2>
+    <p>De liknar varandra och används till helt olika saker. Ha tabellen framme medan
+      du gör övningarna.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Ruttparameter</th><th>Frågesträng</th></tr></thead>
+        <tbody>
+          <tr><td><b>Ser ut som</b></td><td><code>/filmer/3</code></td><td><code>/filmer?sok=cykel</code></td></tr>
+          <tr><td><b>Deklareras med</b></td><td><code>{id:int}</code> i <code>@page</code> och <code>[Parameter]</code></td><td><code>[SupplyParameterFromQuery]</code></td></tr>
+          <tr><td><b>Måste finnas</b></td><td>Ja, annars matchar inte rutten</td><td>Nej</td></tr>
+          <tr><td><b>Används till</b></td><td><b>Vilken</b> sak som visas</td><td><b>Hur</b> den visas: sökning, filter, sortering</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Ett startvärde överlever inte</span>
+      <p>Blazor sätter varje parameter vid varje rendering. Den som inte finns i
+        adressen sätts till typens <b>tomma värde</b> – <code>0</code> för
+        <code>int</code>, <code>null</code> för <code>string</code> och
+        <code>int?</code>. Skriver du
+        <code>public int Sida { get; set; } = 1;</code> visar sidan utan tal
+        <em>Sida 0</em>, inte <em>Sida 1</em>.</p>
+      <p>Behöver du skilja "saknas" från "noll": använd <code>int?</code> och
+        <code>?? 1</code>. Det gäller övning 44 och 45.</p>
+    </div>
+
+    <h2 id="ov-41">41. En egen adress</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>@page</code></p>
+    <p>Gör <code>Components/Pages/Ovningar/Ovning41.razor</code> med adressen
+      <code>/ovningar/41</code>, som visar en rubrik och en länk tillbaka till
+      <code>/ovningar/omrade-3</code>.</p>
+    <p><b>Klart när:</b> adressen fungerar när du skriver den, och länken tillbaka
+      fungerar.</p>
+
+    <h2 id="ov-42">42. Ett ord ur adressen</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: ruttparameter som text</p>
+    <p>Gör <code>Ovning42.razor</code> på <code>/ovningar/42/{namn}</code> som skriver
+      <em>Hej, Anna!</em> när adressen är <code>/ovningar/42/Anna</code>.</p>
+    <p><b>Klart när:</b> tre olika namn i adressen ger tre olika hälsningar.</p>
+
+    <h2 id="ov-43">43. Ett tal ur adressen</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: ruttbegränsningen <code>:int</code></p>
+    <p>Gör <code>Ovning43.razor</code> på <code>/ovningar/43/{tal:int}</code> som visar
+      talet, dess kvadrat och om det är jämnt eller udda.</p>
+    <p>Prova sedan <code>/ovningar/43/abc</code>.</p>
+    <p><b>Klart när:</b> <code>/ovningar/43/7</code> visar <code>7</code>,
+      <code>49</code> och <em>udda</em>, och <code>/ovningar/43/abc</code> ger sidan
+      "finns inte" – inte en krasch.</p>
+
+    <h2 id="ov-44">44. Två adresser, en sida</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: flera <code>@page</code> på samma komponent</p>
+    <p>Gör <code>Ovning44.razor</code> som svarar på <b>både</b>
+      <code>/ovningar/44</code> och <code>/ovningar/44/{sida:int}</code>. Utan tal ska
+      den visa <em>Sida 1</em>, med tal <em>Sida N</em>.</p>
+    <p><b>Klart när:</b> båda adresserna fungerar och visar rätt sidnummer. Läs notisen
+      längst upp om du får <em>Sida 0</em>.</p>
+
+    <h2 id="ov-45">45. Ett värde efter frågetecknet</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>[SupplyParameterFromQuery]</code></p>
+    <p>Gör <code>Ovning45.razor</code> på <code>/ovningar/45</code> som läser
+      <code>?antal=</code> ur adressen och skriver ut lika många punkter i en lista.
+      Saknas värdet ska den visa tre.</p>
+    <p>Lägg till ett <code>&lt;form method="get"&gt;</code> med ett
+      <code>&lt;input name="antal"&gt;</code> så att man kan ändra utan att skriva i
+      adressfältet.</p>
+    <p><b>Klart när:</b> <code>/ovningar/45?antal=6</code> ger sex punkter,
+      <code>/ovningar/45</code> ger tre, och formuläret ändrar adressen när man skickar
+      det.</p>
+
+    <div class="notis">
+      <span class="rubrik">Knappen ska inte ha <code>@onclick</code></span>
+      <p>Vid statisk serverrendering händer ingenting alls när man klickar på en knapp
+        med <code>@onclick</code> – ingen krasch, inget felmeddelande, ingen effekt. Ett
+        <code>&lt;form method="get"&gt;</code> är ren HTML och gör jobbet: webbläsaren
+        bygger adressen åt dig och servern får en ny förfrågan.</p>
+    </div>
+
+    <h2 id="ov-46">46. Rätt svar på fel fråga</h2>
+    <p class="ledtext"><b>Svår</b> · tränar: <code>NavigationManager.NotFound()</code> och statuskoder</p>
+    <p>Gör <code>Ovning46.razor</code> på <code>/ovningar/46/{tal:int}</code> som bara
+      accepterar tal mellan 1 och 10. Utanför intervallet ska sidan svara <b>404</b>,
+      inte visa ett felmeddelande med status 200.</p>
+    <p><b>Klart när:</b> <code>/ovningar/46/5</code> ger 200 och
+      <code>/ovningar/46/50</code> ger 404, kontrollerat i nätverksfliken (F12).</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Varför statuskoden spelar roll</span>
+      <p>En sida som skriver "finns inte" men svarar <code>200 OK</code> ljuger för
+        allt som läser statuskoder i stället för text: sökmotorer, övervakning, andra
+        program. Det är därför kravet i uppgiften handlar om koden och inte om texten
+        – och därför du måste öppna nätverksfliken för att veta att du klarat det.</p>
+    </div>
+
+    <h2 id="avprickning">Avprickning</h2>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Lösta övningar i det här temat</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="rout-41"><span>41. En egen adress</span></label></li>
+        <li><label><input type="checkbox" id="rout-42"><span>42. Ett ord ur adressen</span></label></li>
+        <li><label><input type="checkbox" id="rout-43"><span>43. Ett tal ur adressen</span></label></li>
+        <li><label><input type="checkbox" id="rout-44"><span>44. Två adresser, en sida</span></label></li>
+        <li><label><input type="checkbox" id="rout-45"><span>45. Ett värde efter frågetecknet</span></label></li>
+        <li><label><input type="checkbox" id="rout-46"><span>46. Rätt svar på fel fråga</span></label></li>
+      </ul>
+    </section>
+
+    <p>Övning 43, 45 och 46 är de tre som återkommer direkt i
+      <a href="uppgift.html">inlämningen</a>: ruttbegränsningen, sökningen och 404:an.
+      Gör du bara tre, gör de tre.</p>
+
+    <footer class="fot">
+      <p><a href="ovningar-layout.html">Nästa tema: layout och livscykel</a> ·
+        <a href="guide.html">Till guiden</a> ·
+        <a href="index.html">Tillbaka till område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

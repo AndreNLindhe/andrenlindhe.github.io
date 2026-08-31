@@ -106,7 +106,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents();
+builder.Services.AddRazorComponents(); //.AddInteractiveServerComponents();
 
 var app = builder.Build();
 
@@ -123,7 +123,7 @@ app.UseHttpsRedirection();
 app.UseAntiforgery();
 
 app.MapStaticAssets();
-app.MapRazorComponents&lt;App&gt;();
+app.MapRazorComponents&lt;App&gt;(); //.AddInteractiveServerRenderMode();
 
 app.Run();</code></pre>
     <p>Körs <b>en gång</b>, när servern startar. Inte per förfrågan. Tre rader att
@@ -139,6 +139,25 @@ app.Run();</code></pre>
       <code>MapStaticAssets</code> levererar filer ur <code>wwwroot</code>.
       <code>UseAntiforgery</code> och <code>UseStatusCodePagesWithReExecute</code>
       kommer i område 5 och 7 — känn bara igen namnen nu.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">De två raderna som slutar med <code>//</code></span>
+      <p>Två rader har något bortkommenterat sist:
+        <code>//.AddInteractiveServerComponents();</code> och
+        <code>//.AddInteractiveServerRenderMode();</code>. Allt efter <code>//</code> är en
+        kommentar — C# läser det aldrig, och raderna gör alltså ingenting.</p>
+      <p>De står där för att visa <b>vad som skulle behöva läggas till</b> för att slå på
+        interaktiv server: den första anmäler tjänsterna, den andra slår på
+        renderingsläget. Ta bort snedstrecken och projektet skulle kunna köra
+        interaktiva komponenter — och då går det inte längre att svara på frågan
+        <i>var körs den här raden?</i> utan att titta efter. Det är precis den
+        otydligheten kursen valt bort. Se
+        <a href="renderingslagen.html#lagen">renderingslägen</a>.</p>
+      <p><b>Leta inte efter dem i ditt eget projekt.</b> Där finns de inte alls. Skapade
+        du projektet med <code>-int None</code> utelämnas raderna helt, och kommentaren
+        här är tillagd med flit för att du ska se skillnaden. Ett projekt skapat med
+        <code>-int Server</code> har dem på riktigt, utan snedstreck.</p>
+    </div>
 
     <div class="notis">
       <span class="rubrik">Ordningen är beteendet</span>

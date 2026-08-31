@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide: Filmarkivet – C# på serversidan</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o2-guide">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Guide</strong> · Filmarkivet</span>
+  <a href="#fel">När något går fel</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#bygger">Vad du bygger här</a></li>
+      <li><a href="#sjalv">Vad du ska göra själv efteråt</a></li>
+      <li><a href="#innan">Innan du börjar</a></li>
+      <li><a href="#begrepp">Begreppen i det här momentet</a></li>
+      <li><a href="#steg-1">Steg 1 – Projektet och den första sidan</a></li>
+      <li><a href="#steg-2">Steg 2 – De fyra typerna</a></li>
+      <li><a href="#steg-3">Steg 3 – Stränginterpolation</a></li>
+      <li><a href="#steg-4">Steg 4 – Räkna med heltal</a></li>
+      <li><a href="#steg-5">Steg 5 – Från text till tal</a></li>
+      <li><a href="#steg-6">Steg 6 – Villkor</a></li>
+      <li><a href="#steg-7">Steg 7 – Villkor i markupen</a></li>
+      <li><a href="#steg-8">Steg 8 – Ett värde ur adressen</a></li>
+      <li><a href="#steg-9">Steg 9 – switch</a></li>
+      <li><a href="#steg-10">Steg 10 – Loopar och listor</a></li>
+      <li><a href="#steg-11">Steg 11 – Räkna medan du går</a></li>
+      <li><a href="#steg-12">Steg 12 – while</a></li>
+      <li><a href="#steg-13">Steg 13 – En tabell ur en lista</a></li>
+      <li><a href="#steg-14">Steg 14 – Metoder</a></li>
+      <li><a href="#steg-15">Steg 15 – Klassen</a></li>
+      <li><a href="#steg-16">Steg 16 – Objekten och tabellen</a></li>
+      <li><a href="#steg-17">Steg 17 – Menyn och utseendet</a></li>
+      <li><a href="#fel">När något går fel</a></li>
+      <li><a href="#missa">Det som är lätt att missa när du gör det själv</a></li>
+      <li><a href="#checklista">Checklista</a></li>
+      <li><a href="#mer">Vill du mer</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 2 · guide</p>
+    <h1>Filmarkivet – C# på serversidan</h1>
+    <p class="inledning">Sjutton steg som bygger fem sidor: datatyper, villkor, loopar,
+      listor och till sist en tabell renderad ur en lista med filmobjekt. Följer du
+      sidan uppifrån och ned har du sett allt som prövas på provet, och du har
+      mönstret för din egen övningsbank.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du en lektion?</span>
+      <p>Guiden går att följa på egen hand. Så här hänger stegen ihop med passen:</p>
+      <ul>
+        <li><b>Lektion 6</b> (tis 8 sept) – <a href="#steg-1">steg 1</a> till
+          <a href="#steg-5">steg 5</a>. Typerna, interpolation, heltalsdivision och
+          <code>int.TryParse</code>. Öva sedan i
+          <a href="ovningar-typer.html">övning 1–7</a>.</li>
+        <li><b>Lektion 7</b> (ons 9 sept) – inget nytt. Eget arbete med
+          <a href="ovningar-typer.html">övning 1–7</a>.</li>
+        <li><b>Lektion 8</b> (tis 15 sept) – <a href="#steg-6">steg 6</a> till
+          <a href="#steg-9">steg 9</a>. Villkor, villkor i markupen, frågesträngen och
+          <code>switch</code>.</li>
+        <li><b>Lektion 9</b> (ons 16 sept) – <a href="ovningar-villkor.html">övning
+          8–14</a>, och <a href="felsokning.html">tre kodstycken med fel</a> som
+          klassen letade i par.</li>
+        <li><b>Lektion 10</b> (tis 22 sept) – <a href="#steg-10">steg 10</a> till
+          <a href="#steg-13">steg 13</a>. Loopar, <code>List&lt;T&gt;</code> och en
+          tabell byggd av en loop. Öva i
+          <a href="ovningar-loopar.html">övning 15–21</a>.</li>
+        <li><b>Lektion 11</b> (ons 23 sept) – eget arbete med
+          <a href="ovningar-loopar.html">övning 15–21</a>.</li>
+        <li><b>Lektion 12</b> (tis 29 sept) – <a href="#steg-14">steg 14</a> till
+          <a href="#steg-17">steg 17</a>. Metoder, klassen och objekten. Öva i
+          <a href="ovningar-metoder.html">övning 22–28</a>.</li>
+        <li><b>Lektion 13</b> (ons 30 sept) – <a href="#checklista">checklistan</a>,
+          <a href="uppgift.html">uppgiften</a> och
+          <a href="provet.html">vad provet prövar</a>.</li>
+      </ul>
+      <p>Steg 14 till 16 är den största biten och tar längre tid hemma än de
+        drygt fyrtio minuter klassen fick. Fastnar du: skriv i itslearning i stället
+        för att vänta till nästa pass.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Koden går inte att kopiera</span>
+      <p>Kodblocken på den här sidan går inte att markera, och det är med flit. Att
+        skriva av koden för hand är där en stor del av inlärningen sker: du läser
+        raden, håller den i huvudet och upptäcker vid tangentbordet vad du inte
+        förstod. Klistrar du in den hoppar du över precis det steget.</p>
+    </div>
+
+    <p><em>Guide · Område 2 · Webbserverprogrammering 1</em></p>
+    <h2 id="bygger">Vad du bygger här</h2>
+    <p>Filmarkivet, i sin första version: fem sidor som var och en visar en del av C#. Sidan för lektion 6 handlar om datatyper, sidan för lektion 8 om villkor, och så vidare fram till en tabell som byggs ur en lista med filmobjekt.</p>
+    <pre><code>Filmarkivet
+    ├── /               Vilken sida hör till vilket pass
+    ├── /datatyper      int, double, bool, string. Interpolation och int.TryParse
+    ├── /villkor        if, else if, else, switch. Villkor i markupen
+    ├── /loopar         for, foreach, while. List&lt;T&gt; renderad som tabell
+    └── /filmer         Metoder, klassen Film, en lista med objekt</code></pre>
+    <p>Det färdiga projektet ligger i <code>referensprojekt/Filmarkivet</code> – kör det gärna innan du börjar, så vet du vart du är på väg.</p>
+    <p><strong>Allt du skriver hamnar på en sida.</strong> Det finns inget konsolfönster i den här kursen. C# övas i <code>@code</code>-blocket i en komponent, och resultatet renderas i markupen. Det är samma modell som i område 1: koden körs på servern, webbläsaren får färdig HTML.</p>
+    <h2 id="sjalv">Vad du ska göra själv efteråt</h2>
+    <p>Två saker, och de hänger ihop.</p>
+    <p><strong>Övningsbanken.</strong> Fyra sidor i ditt eget projekt, en per tema, där du löser övningarna ur <code>ovningar/omrade-2.md</code>. Tjugo lösta övningar krävs för inlämningen.</p>
+    <p><strong>Din egen tabell.</strong> En modellklass <code>Produkt</code> som du hittar på fälten till, en <code>List&lt;Produkt&gt;</code> med minst fem objekt, och en komponent som renderar dem i en tabell. Samma sak som <code>/filmer</code> gör med filmer, fast med dina fält.</p>
+    <p><code>Produkt</code> är med flit en engångsklass. Din riktiga domän – den du bär resten av kursen – väljer du i område 3, och då finns det kriterier att välja efter. Här handlar det om att lära sig klasser, inte om att välja rätt.</p>
+    <h3>Översättningstabellen</h3>
+    <p>Fyll i högerkolumnen innan du börjar koda.</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Filmarkivet</th><th>Ditt projekt</th></tr></thead>
+    <tbody>
+    <tr><td>Klassen <code>Film</code></td><td><code>Produkt</code></td></tr>
+    <tr><td><code>Titel</code> (string)</td><td>ett textfält</td></tr>
+    <tr><td><code>Ar</code> (int)</td><td>ett heltalsfält</td></tr>
+    <tr><td><code>LangdMinuter</code> (int)</td><td>ett heltal du kan räkna på</td></tr>
+    <tr><td><code>Betyg</code> (int, 1–5)</td><td>ett fält med ett begränsat intervall</td></tr>
+    <tr><td><code>Tillganglig</code> (bool)</td><td>ett ja/nej-fält</td></tr>
+    <tr><td>Metoden <code>Speltid</code></td><td>en metod som formaterar ett av dina fält</td></tr>
+    <tr><td>Metoden <code>Snittbetyg</code></td><td>en metod som räknar på hela listan</td></tr>
+    <tr><td>Fem filmer i listan</td><td>minst fem av dina objekt</td></tr>
+    </tbody></table></div>
+    <p>Kopierar du mina fält rakt av blir din tabell en avskrift av min. Fälten ska vara dina, och metoderna ska räkna på dem.</p>
+    <h2 id="innan">Innan du börjar</h2>
+    <p>Du behöver ett projekt att öva i. Skapa det på samma sätt som i område 1:</p>
+    <pre><code class="sprak-bash">dotnet new blazor -o Ovningsbanken -int None
+    cd Ovningsbanken
+    dotnet run</code></pre>
+    <p>Du kan också fortsätta i projektet från område 1. Blanda då inte ihop dem: lägg övningssidorna i <code>Components/Pages/</code> med tydliga namn.</p>
+    <h2 id="begrepp">Begreppen i det här momentet</h2>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Begrepp</th><th>Vad det är</th></tr></thead>
+    <tbody>
+    <tr><td>Datatyp</td><td>Vad ett värde är för sorts sak: text, heltal, decimaltal, sant/falskt</td></tr>
+    <tr><td>Variabel</td><td>Ett namn som håller ett värde</td></tr>
+    <tr><td>Fält</td><td>En variabel som hör till komponenten och lever så länge sidan byggs</td></tr>
+    <tr><td>Interpolation</td><td><code>$"..."</code> – att sätta in värden mitt i en text</td></tr>
+    <tr><td>Villkor</td><td>En fråga som besvaras med sant eller falskt</td></tr>
+    <tr><td>Loop</td><td>Kod som körs flera gånger</td></tr>
+    <tr><td>Lista</td><td>En samling värden i en variabel, <code>List&lt;T&gt;</code></td></tr>
+    <tr><td>Metod</td><td>Ett namngivet kodstycke som tar emot värden och lämnar tillbaka ett svar</td></tr>
+    <tr><td>Klass</td><td>En beskrivning av vad något är: vilka fält det har</td></tr>
+    <tr><td>Objekt</td><td>En sak skapad ur en klass</td></tr>
+    </tbody></table></div>
+    <h2 id="steg-1">Steg 1 – Projektet och den första sidan</h2>
+    <p><strong>Vad vi gör.</strong> Skapar Filmarkivet och en tom sida att öva på.</p>
+    <p><strong>Kommandot.</strong></p>
+    <pre><code class="sprak-bash">dotnet new blazor -o Filmarkivet -int None
+    cd Filmarkivet</code></pre>
+    <p>Radera <code>Components/Pages/Weather.razor</code> och sätt <code>lang="sv"</code> i <code>Components/App.razor</code>, precis som i område 1.</p>
+    <p><strong>Filen.</strong> Skapa <code>Components/Pages/Datatyper.razor</code>:</p>
+    <pre><code class="sprak-razor">@page "/datatyper"
+
+    &lt;PageTitle&gt;Datatyper – Filmarkivet&lt;/PageTitle&gt;
+
+    &lt;h1&gt;Lektion 6: datatyper, variabler och utdata&lt;/h1&gt;
+
+    &lt;p&gt;Här kommer innehållet.&lt;/p&gt;
+
+    @code {
+        private string titel = "Nyckeln till frihet";
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>@code</code>-blocket är C#-delen av komponenten. Allt där körs på servern, en gång per förfrågan. <code>private</code> betyder att fältet hör till den här komponenten och inte syns utifrån.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/datatyper</code>. Rubriken syns.</p>
+    <p><strong>I ditt projekt.</strong> Samma sak, men döp sidan efter temat du övar på: <code>Components/Pages/OvningarTyper.razor</code> med <code>@page "/ovningar/typer"</code>.</p>
+    <h2 id="steg-2">Steg 2 – De fyra typerna</h2>
+    <p><strong>Vad vi gör.</strong> Lägger till ett fält av varje grundtyp och visar dem i en tabell.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/Datatyper.razor</code>, i <code>@code</code>-blocket:</p>
+    <pre><code class="sprak-csharp">private string titel = "Nyckeln till frihet";
+    private int langdMinuter = 142;
+    private double snittbetyg = 4.6;
+    private bool tillganglig = true;</code></pre>
+    <p>Och i markupen:</p>
+    <pre><code class="sprak-razor">&lt;table class="tabell"&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th scope="col"&gt;Typ&lt;/th&gt;
+                &lt;th scope="col"&gt;Innehåller&lt;/th&gt;
+                &lt;th scope="col"&gt;Exempel ur den här sidan&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            &lt;tr&gt;
+                &lt;th scope="row"&gt;&lt;code&gt;string&lt;/code&gt;&lt;/th&gt;
+                &lt;td&gt;Text&lt;/td&gt;
+                &lt;td&gt;@titel&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;th scope="row"&gt;&lt;code&gt;int&lt;/code&gt;&lt;/th&gt;
+                &lt;td&gt;Heltal&lt;/td&gt;
+                &lt;td&gt;@langdMinuter&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;th scope="row"&gt;&lt;code&gt;double&lt;/code&gt;&lt;/th&gt;
+                &lt;td&gt;Decimaltal&lt;/td&gt;
+                &lt;td&gt;@snittbetyg&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;th scope="row"&gt;&lt;code&gt;bool&lt;/code&gt;&lt;/th&gt;
+                &lt;td&gt;Sant eller falskt&lt;/td&gt;
+                &lt;td&gt;@tillganglig&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p>Typen står först i deklarationen: <code>int langdMinuter</code> betyder <em>ett heltal som heter langdMinuter</em>. Typen är inte en formalitet – den bestämmer vad du får göra. Du kan dividera ett <code>int</code>, men inte ett <code>bool</code>.</p>
+    <p><code>double</code> är decimaltal. Skriv <code>4.6</code> med punkt i koden, oavsett att svenskan skriver komma. Punkt är C#-syntax; kommat dyker upp först när värdet skrivs ut.</p>
+    <p>Ett <code>@</code> framför namnet i markupen växlar över till C# och skriver ut värdet. Det är samma <code>@</code> som i område 1.</p>
+    <p><strong>Kontrollera.</strong> Tabellen visar fyra rader. <code>@tillganglig</code> skrivs ut som <code>True</code> – inte <code>Sant</code>. Det är C#:s eget sätt att skriva ut ett <code>bool</code>.</p>
+    <p><strong>I ditt projekt.</strong> Fyra egna fält, ett av varje typ. Låt dem handla om något du bryr dig om.</p>
+    <h2 id="steg-3">Steg 3 – Stränginterpolation</h2>
+    <p><strong>Vad vi gör.</strong> Sätter ihop en mening av flera värden.</p>
+    <p><strong>Filen.</strong> Lägg till i <code>@code</code>:</p>
+    <pre><code class="sprak-csharp">// $ gör strängen interpolerad: allt inom { } räknas ut och sätts in.
+    private string sammanfattning =&gt;
+        $"{titel} är {langdMinuter} minuter lång och har betyg {snittbetyg}.";</code></pre>
+    <p>Och i markupen:</p>
+    <pre><code class="sprak-razor">&lt;p class="ruta"&gt;@sammanfattning&lt;/p&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p><code>$</code> före citattecknet är det som gör interpolationen möjlig. Utan det skrivs <code>{titel}</code> ut ordagrant, klammerparenteser och allt.</p>
+    <p><code>=&gt;</code> i stället för <code>=</code> betyder att värdet räknas ut varje gång det används, inte en gång när sidan börjar byggas. Här spelar det ingen roll, men det gör det så fort något kan ändras – och det gör att raden går att läsa som <em>sammanfattning är det här</em>, vilket den ju är.</p>
+    <p>Alternativet är att slå ihop text med <code>+</code>: <code>titel + " är " + langdMinuter + " minuter lång"</code>. Det fungerar, men blir svårläst så fort det är mer än två delar. Interpolation finns för att slippa det.</p>
+    <p><strong>Kontrollera.</strong> Meningen syns med rätt värden insatta.</p>
+    <p><strong>I ditt projekt.</strong> En mening som sätter ihop minst tre av dina fält.</p>
+    <h2 id="steg-4">Steg 4 – Räkna med heltal</h2>
+    <p><strong>Vad vi gör.</strong> Gör om minuter till timmar och minuter.</p>
+    <p><strong>Filen.</strong> Lägg till i <code>@code</code>:</p>
+    <pre><code class="sprak-csharp">private int timmar =&gt; langdMinuter / 60;   // heltalsdivision: 142 / 60 = 2
+    private int minuter =&gt; langdMinuter % 60;  // resten: 142 % 60 = 22</code></pre>
+    <p>Och i markupen:</p>
+    <pre><code class="sprak-razor">&lt;p&gt;
+        Filmen är @langdMinuter minuter lång, alltså @timmar timmar och @minuter minuter.
+    &lt;/p&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p><code>142 / 60</code> blir <code>2</code>, inte <code>2.3667</code>. När båda talen är <code>int</code> blir svaret också <code>int</code>, och decimalerna kastas bort. Det är inte avrundning – <code>2.9</code> blir <code>2</code>.</p>
+    <p><code>%</code> ger resten efter divisionen. <code>142 % 60</code> är <code>22</code>, alltså de minuter som blir över efter två hela timmar. Operatorn heter <em>modulo</em> och är förvånansvärt användbar: den avgör också om ett tal är jämnt, med <code>tal % 2 == 0</code>.</p>
+    <p>Vill du ha decimalerna måste minst ett av talen vara <code>double</code>: <code>(double)langdMinuter / 60</code> ger <code>2.3667</code>.</p>
+    <p><strong>Kontrollera.</strong> Sidan säger 2 timmar och 22 minuter.</p>
+    <p><strong>I ditt projekt.</strong> Räkna på ditt heltalsfält. Har du ett pris i ören: gör om det till kronor och ören med samma två operatorer.</p>
+    <h2 id="steg-5">Steg 5 – Från text till tal</h2>
+    <p><strong>Vad vi gör.</strong> Tolkar text som ett tal, utan att sidan kraschar när det inte går.</p>
+    <p><strong>Filen.</strong> Lägg till i <code>@code</code>:</p>
+    <pre><code class="sprak-csharp">// int.TryParse returnerar true eller false i stället för att krascha.
+    // Lyckas den läggs det tolkade värdet i variabeln efter out.
+    private string ForsokTolka(string text)
+    {
+        if (int.TryParse(text, out int tal))
+        {
+            return $"\"{text}\" gick att tolka som talet {tal}.";
+        }
+
+        return $"\"{text}\" gick inte att tolka som ett tal.";
+    }</code></pre>
+    <p>Och i markupen:</p>
+    <pre><code class="sprak-razor">&lt;ul&gt;
+        &lt;li&gt;@ForsokTolka("1994")&lt;/li&gt;
+        &lt;li&gt;@ForsokTolka("nittiofyra")&lt;/li&gt;
+    &lt;/ul&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p>Text som ser ut som ett tal <em>är</em> inte ett tal. <code>"1994"</code> är fyra tecken. Ska du räkna med värdet måste det konverteras först.</p>
+    <p><code>int.Parse("nittiofyra")</code> kraschar. <code>int.TryParse</code> gör det inte – den lämnar tillbaka <code>false</code> och låter dig hantera fallet. Det är skillnaden mellan en sida som går sönder för en besökare och en sida som svarar vänligt.</p>
+    <p><code>out int tal</code> deklarerar variabeln mitt i anropet. Lyckas tolkningen ligger talet där efteråt.</p>
+    <p><code>\"</code> inuti en sträng är ett citattecken som inte avslutar strängen. Snedstrecket säger <em>det här tecknet är data, inte syntax</em>.</p>
+    <p><strong>Kontrollera.</strong> Första raden lyckas, andra misslyckas. Ingen krasch.</p>
+    <p><strong>I ditt projekt.</strong> Samma metod, men med ett värde som är rimligt i din domän.</p>
+    <p><strong>Detta är en metod.</strong> Vi går igenom metoder ordentligt i steg 10 – här räcker det att se att den tar emot ett värde och lämnar tillbaka ett annat.</p>
+    <h2 id="steg-6">Steg 6 – Villkor</h2>
+    <p><strong>Vad vi gör.</strong> Låter sidan svara olika beroende på vad klockan är.</p>
+    <p><strong>Filen.</strong> Skapa <code>Components/Pages/Villkor.razor</code>:</p>
+    <pre><code class="sprak-razor">@page "/villkor"
+
+    &lt;PageTitle&gt;Villkor – Filmarkivet&lt;/PageTitle&gt;
+
+    &lt;h1&gt;Lektion 8: villkor och logik&lt;/h1&gt;
+
+    &lt;p class="ruta"&gt;@Halsning()&lt;/p&gt;
+
+    &lt;p&gt;
+        Klockan på servern är @nu.ToString("HH:mm"). Ladda om sidan om en timme och
+        hälsningen blir en annan – villkoret prövas på nytt vid varje förfrågan.
+    &lt;/p&gt;
+
+    @code {
+        private DateTime nu = DateTime.Now;
+
+        private string Halsning()
+        {
+            if (nu.Hour &lt; 12)
+            {
+                return "God förmiddag.";
+            }
+            else if (nu.Hour &lt; 18)
+            {
+                return "God eftermiddag.";
+            }
+            else
+            {
+                return "God kväll.";
+            }
+        }
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p>Ordningen spelar roll. <code>nu.Hour &lt; 12</code> prövas först, och är den sann prövas inget mer. Hade <code>&lt; 18</code> stått först hade <code>&lt; 12</code> aldrig kunnat bli sann – alla timmar under 12 är också under 18.</p>
+    <p><code>else if</code> är inte samma sak som två separata <code>if</code>. Med två <code>if</code> prövas båda, och båda kan slå till.</p>
+    <p>Det här är samma princip som beviset i område 1: koden körs på servern vid varje förfrågan, så svaret kan skilja mellan två sidvisningar.</p>
+    <p><strong>Kontrollera.</strong> Hälsningen stämmer med klockan. Ändra tillfälligt <code>nu.Hour</code> till ett fast tal och ladda om för att pröva de andra grenarna.</p>
+    <p><strong>I ditt projekt.</strong> Ett villkor som svarar olika beroende på ett av dina fält.</p>
+    <h2 id="steg-7">Steg 7 – Villkor i markupen</h2>
+    <p><strong>Vad vi gör.</strong> Låter villkoret bestämma vilken HTML som skapas, inte bara vilken text som skrivs ut.</p>
+    <p><strong>Filen.</strong> Lägg till i markupen i <code>Villkor.razor</code>:</p>
+    <pre><code class="sprak-razor">@if (nu.Hour &gt;= 18)
+    {
+        &lt;p class="ruta"&gt;Det är kväll. Perfekt tid för en lång film.&lt;/p&gt;
+    }
+    else if (nu.Hour &gt;= 12)
+    {
+        &lt;p class="ruta"&gt;Eftermiddag. Något kort kanske?&lt;/p&gt;
+    }
+    else
+    {
+        &lt;p class="ruta"&gt;Förmiddag. Filmarkivet är öppet ändå.&lt;/p&gt;
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p>Skillnaden mot steg 6: där valde villkoret en <em>text</em>, här väljer det vilken <em>HTML</em> som byggs. Grenen som inte tas skickas aldrig till webbläsaren – titta i sidkällan, det finns bara ett <code>&lt;p&gt;</code> där.</p>
+    <p><code>@if</code> i markupen behöver klammerparenteser runt HTML:en. <code>else if</code> och <code>else</code> skrivs utan <code>@</code> – växeln till C# gjordes redan av det första <code>@if</code>.</p>
+    <p><strong>Kontrollera.</strong> Visa sidkällan. Bara en av de tre paragraferna finns i det som skickades.</p>
+    <p><strong>I ditt projekt.</strong> En <code>@if</code> som visar olika HTML beroende på ett av dina fält.</p>
+    <h2 id="steg-8">Steg 8 – Ett värde ur adressen</h2>
+    <p><strong>Vad vi gör.</strong> Låter sidan svara på ett värde besökaren skriver i adressen.</p>
+    <p><strong>Filen.</strong> Lägg till i <code>@code</code>:</p>
+    <pre><code class="sprak-csharp">// Värdet hämtas ur frågesträngen. Saknas det blir Betyg 0.
+    [SupplyParameterFromQuery]
+    public int Betyg { get; set; }
+
+    private string BetygIOrd(int betyg)
+    {
+        if (betyg == 0)
+        {
+            return "Inget betyg angivet. Lägg till ?betyg=4 i adressen.";
+        }
+
+        if (betyg &lt; 1 || betyg &gt; 5)
+        {
+            return $"{betyg} är inget giltigt betyg. Skalan går från 1 till 5.";
+        }
+
+        return $"Betyg {betyg} av 5.";
+    }</code></pre>
+    <p>Och i markupen:</p>
+    <pre><code class="sprak-razor">&lt;p class="ruta"&gt;@BetygIOrd(Betyg)&lt;/p&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p>Det här är frågesträngen från område 1, nu använd på riktigt. <code>?betyg=4</code> sist i adressen, och värdet hamnar i egenskapen. <code>[SupplyParameterFromQuery]</code> är raden som kopplar ihop dem.</p>
+    <p>Egenskapen är <code>public</code>, inte <code>private</code>. Ramverket ska kunna sätta den utifrån, och då måste den vara synlig utifrån.</p>
+    <p>Saknas värdet blir <code>Betyg</code> noll – ett <code>int</code> kan inte vara tomt. Därför prövas noll först och betyder <em>inget angivet</em>.</p>
+    <p><code>||</code> betyder eller. <code>betyg &lt; 1 || betyg &gt; 5</code> är sant om något av dem stämmer.</p>
+    <p><strong>Kontrollera.</strong> Prova <code>/villkor</code>, <code>/villkor?betyg=4</code> och <code>/villkor?betyg=9</code>. Tre olika svar.</p>
+    <p><strong>I ditt projekt.</strong> Läs ett eget värde ur adressen och svara olika på det.</p>
+    <h2 id="steg-9">Steg 9 – switch</h2>
+    <p><strong>Vad vi gör.</strong> Byter en lång kedja av <code>else if</code> mot något läsbarare.</p>
+    <p><strong>Filen.</strong> Lägg till i <code>@code</code>:</p>
+    <pre><code class="sprak-csharp">private string Omdome(int betyg) =&gt; betyg switch
+    {
+        5 =&gt; "Mästerverk",
+        4 =&gt; "Mycket bra",
+        3 =&gt; "Sevärd",
+        2 =&gt; "Tveksam",
+        1 =&gt; "Undvik",
+        _ =&gt; "Okänt betyg"
+    };</code></pre>
+    <p>Och i markupen:</p>
+    <pre><code class="sprak-razor">&lt;ul&gt;
+        &lt;li&gt;Betyg 5: @Omdome(5)&lt;/li&gt;
+        &lt;li&gt;Betyg 3: @Omdome(3)&lt;/li&gt;
+        &lt;li&gt;Betyg 1: @Omdome(1)&lt;/li&gt;
+    &lt;/ul&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p>Fem <code>else if</code> efter varandra går att skriva, men ögat måste läsa hela kedjan för att hitta ett fall. En <code>switch</code> ställer upp alternativen i en lista.</p>
+    <p><code>_</code> är <em>allt annat</em>. Den måste finnas: C# kräver att varje möjligt värde har ett svar, och <code>int</code> kan vara mycket annat än 1 till 5.</p>
+    <p>Formen <code>betyg switch { ... }</code> är ett <em>switch-uttryck</em>: det ger ett värde. Det finns också en äldre form med <code>case</code> och <code>break</code> som du kommer att se när du googlar. Den gör samma sak, med fler rader.</p>
+    <p><strong>Kontrollera.</strong> Tre olika omdömen i listan.</p>
+    <p><strong>I ditt projekt.</strong> En <code>switch</code> över ett fält som har ett fåtal möjliga värden.</p>
+    <h2 id="steg-10">Steg 10 – Loopar och listor</h2>
+    <p><strong>Vad vi gör.</strong> Håller flera värden i en variabel och går igenom dem.</p>
+    <p><strong>Filen.</strong> Skapa <code>Components/Pages/Loopar.razor</code>:</p>
+    <pre><code class="sprak-razor">@page "/loopar"
+
+    &lt;PageTitle&gt;Loopar och listor – Filmarkivet&lt;/PageTitle&gt;
+
+    &lt;h1&gt;Lektion 10: loopar, listor och arrayer&lt;/h1&gt;
+
+    &lt;p&gt;
+        Listan innehåller @genrer.Count värden. Det första ligger på plats
+        &lt;code&gt;[0]&lt;/code&gt;, inte &lt;code&gt;[1]&lt;/code&gt;: @genrer[0].
+    &lt;/p&gt;
+
+    &lt;ul&gt;
+        @foreach (var genre in genrer)
+        {
+            &lt;li&gt;@genre&lt;/li&gt;
+        }
+    &lt;/ul&gt;
+
+    &lt;ol&gt;
+        @for (int i = 0; i &lt; genrer.Count; i++)
+        {
+            &lt;li&gt;Plats @i i listan: @genrer[i]&lt;/li&gt;
+        }
+    &lt;/ol&gt;
+
+    @code {
+        private List&lt;string&gt; genrer = new() { "Drama", "Thriller", "Komedi", "Dokumentär" };
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p><code>List&lt;string&gt;</code> betyder <em>en lista med strängar</em>. Det inom vinkelparenteserna är vad listan innehåller. <code>new() { ... }</code> skapar listan och fyller den direkt.</p>
+    <p><code>Count</code> är antalet. Inte <code>Length</code>, som gäller arrayer och strängar.</p>
+    <p>Listan börjar på plats noll. <code>genrer[0]</code> är den första. Det känns fel första gången och naturligt efter en vecka.</p>
+    <p><code>foreach</code> går igenom alla värden och du slipper räknaren. <code>for</code> ger dig räknaren, vilket behövs när numret ska synas eller när du vill gå baklänges. Välj <code>foreach</code> när du bara vill åt värdena.</p>
+    <p><strong>Kontrollera.</strong> Fyra punkter i den första listan, fyra numrerade i den andra.</p>
+    <p><strong>I ditt projekt.</strong> En lista med minst fyra av dina egna värden, renderad två gånger – en gång med <code>foreach</code>, en gång med <code>for</code>.</p>
+    <h2 id="steg-11">Steg 11 – Räkna medan du går</h2>
+    <p><strong>Vad vi gör.</strong> Samlar ihop ett svar ur alla värdena i en lista.</p>
+    <p><strong>Filen.</strong> Lägg till i <code>Loopar.razor</code>:</p>
+    <pre><code class="sprak-csharp">private List&lt;int&gt; speltider = new() { 142, 96, 175, 88, 120 };
+
+    private int SummeraForHand()
+    {
+        int summa = 0;
+
+        foreach (var tid in speltider)
+        {
+            summa = summa + tid;
+        }
+
+        return summa;
+    }</code></pre>
+    <p>Och i markupen:</p>
+    <pre><code class="sprak-razor">&lt;p class="ruta"&gt;
+        Sammanlagd speltid: @speltider.Sum() minuter fördelat på @speltider.Count filmer.
+        Den längsta är @speltider.Max() minuter.
+    &lt;/p&gt;
+
+    &lt;p&gt;
+        Samma sak räknat för hand med en loop, så att du ser vad &lt;code&gt;Sum&lt;/code&gt; gör:
+        @SummeraForHand() minuter.
+    &lt;/p&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p><code>Sum()</code> och <code>Max()</code> finns färdiga. Men skriv loopen en gång ändå: det är den som visar vad som händer, och det är den formen du behöver så fort uppgiften är något annat än summa eller max.</p>
+    <p><code>int summa = 0;</code> måste stå <strong>utanför</strong> loopen. Står den innanför nollställs den varje varv och svaret blir det sista värdet i stället för summan. Det är det vanligaste felet i hela området.</p>
+    <p><strong>Kontrollera.</strong> Båda raderna säger 621 minuter.</p>
+    <p><strong>I ditt projekt.</strong> Räkna ihop något ur din lista, både med en färdig metod och med en egen loop.</p>
+    <h2 id="steg-12">Steg 12 – while</h2>
+    <p><strong>Vad vi gör.</strong> En loop som körs tills något är sant, utan att veta hur många varv det blir.</p>
+    <p><strong>Filen.</strong> Lägg till i <code>Loopar.razor</code>:</p>
+    <pre><code class="sprak-csharp">private string Halveringar(int tal)
+    {
+        int antal = 0;
+        double varde = tal;
+
+        while (varde &gt;= 1)
+        {
+            varde = varde / 2;
+            antal++;
+        }
+
+        return $"{tal} kan halveras {antal} gånger innan det blir mindre än 1.";
+    }</code></pre>
+    <p>Och i markupen:</p>
+    <pre><code class="sprak-razor">&lt;p class="ruta"&gt;@Halveringar(142)&lt;/p&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p><code>for</code> och <code>foreach</code> vet hur många varv det blir innan de börjar. <code>while</code> gör inte det – den prövar villkoret före varje varv och slutar när det blir falskt.</p>
+    <p><code>varde</code> är <code>double</code>, inte <code>int</code>. Med <code>int</code> hade <code>1 / 2</code> blivit <code>0</code> direkt, och loopen hade slutat ett varv för tidigt. Typvalet är inte en detalj.</p>
+    <p><code>antal++</code> är kortform för <code>antal = antal + 1</code>.</p>
+    <p>**Om du glömmer att ändra <code>varde</code> inuti loopen blir villkoret aldrig falskt.** Då kör den för evigt, och sidan svarar aldrig. Avbryt med Ctrl+C i terminalen.</p>
+    <p><strong>Kontrollera.</strong> Sidan säger 8 gånger.</p>
+    <p><strong>I ditt projekt.</strong> En <code>while</code> som räknar något i din domän.</p>
+    <h2 id="steg-13">Steg 13 – En tabell ur en lista</h2>
+    <p><strong>Vad vi gör.</strong> Låter loopen bygga tabellraderna.</p>
+    <p><strong>Filen.</strong> Lägg till i markupen i <code>Loopar.razor</code>:</p>
+    <pre><code class="sprak-razor">&lt;table class="tabell"&gt;
+        &lt;caption&gt;Speltider&lt;/caption&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th scope="col"&gt;#&lt;/th&gt;
+                &lt;th scope="col"&gt;Minuter&lt;/th&gt;
+                &lt;th scope="col"&gt;Längd&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            @for (int i = 0; i &lt; speltider.Count; i++)
+            {
+                &lt;tr&gt;
+                    &lt;th scope="row"&gt;@(i + 1)&lt;/th&gt;
+                    &lt;td&gt;@speltider[i]&lt;/td&gt;
+                    &lt;td&gt;@(speltider[i] &gt;= 120 ? "Lång" : "Normal")&lt;/td&gt;
+                &lt;/tr&gt;
+            }
+        &lt;/tbody&gt;
+    &lt;/table&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p>Det här är hela poängen med loopar i en webbapplikation. Fem rader HTML skrivna som en. Kommer det en sjätte film ändrar du listan, inte tabellen.</p>
+    <p><code>@(i + 1)</code> behöver parenteser. Utan dem hade <code>@i</code> skrivits ut och <code>+ 1</code> blivit vanlig text. Parenteserna säger <em>hela det här är C#</em>.</p>
+    <p><code>villkor ? a : b</code> är en kortform för if–else som ger ett värde. Läs den som <em>om villkoret är sant, a, annars b</em>.</p>
+    <p><code>scope="row"</code> och <code>scope="col"</code> talar om för skärmläsare vad rubriken gäller.</p>
+    <p><strong>Kontrollera.</strong> Fem rader i tabellen. Lägg till ett värde i listan och ladda om – sex rader, utan att du rört tabellen.</p>
+    <p><strong>I ditt projekt.</strong> Samma tabell, dina värden.</p>
+    <h2 id="steg-14">Steg 14 – Metoder</h2>
+    <p><strong>Vad vi gör.</strong> Flyttar uträkningar ut ur markupen.</p>
+    <p><strong>Filen.</strong> Skapa <code>Components/Pages/Filmer.razor</code> och börja med två metoder:</p>
+    <pre><code class="sprak-csharp">// En metod tar emot värden, gör något, och lämnar tillbaka ett svar.
+    private string Speltid(int minuter) =&gt; $"{minuter / 60} h {minuter % 60} min";
+
+    private string Stjarnor(int betyg) =&gt; new string('*', betyg);</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p>En metod har fyra delar: vem som får se den (<code>private</code>), vad den lämnar tillbaka (<code>string</code>), vad den heter (<code>Speltid</code>), och vad den tar emot (<code>int minuter</code>).</p>
+    <p>Metodnamn skrivs i PascalCase, med stor bokstav. Variabler och parametrar i camelCase, med liten. Det är C#-praxis, och det är ett krav i uppgiften.</p>
+    <p><code>=&gt;</code> i stället för klamrar fungerar när metoden är ett enda uttryck. Behöver den flera rader används <code>{ }</code> och <code>return</code>.</p>
+    <p><code>new string('*', betyg)</code> skapar en sträng med tecknet upprepat. Enkla citattecken runt <code>'*'</code> betyder ett enskilt tecken, <code>char</code>, inte en sträng.</p>
+    <p><strong>Vinsten:</strong> markupen slipper räkna. <code>@Speltid(film.LangdMinuter)</code> säger vad som menas; <code>@(film.LangdMinuter / 60) h @(film.LangdMinuter % 60) min</code> gör inte det.</p>
+    <p><strong>Kontrollera.</strong> Metoderna kompilerar. De används i nästa steg.</p>
+    <p><strong>I ditt projekt.</strong> Två metoder som formaterar var sitt av dina fält.</p>
+    <h2 id="steg-15">Steg 15 – Klassen</h2>
+    <p><strong>Vad vi gör.</strong> Håller ihop det som hör ihop.</p>
+    <p><strong>Filen.</strong> Skapa <code>Models/Film.cs</code>:</p>
+    <pre><code class="sprak-csharp">namespace Filmarkivet.Models;
+
+    // En vanlig C#-klass. Inga attribut och ingen databas ännu – det kommer i
+    // område 5. Här är den bara ett sätt att hålla ihop värden som hör samman.
+    public class Film
+    {
+        public string Titel { get; set; } = "";
+        public int Ar { get; set; }
+        public int LangdMinuter { get; set; }
+        public int Betyg { get; set; }
+        public bool Tillganglig { get; set; }
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p>Fem filmer betyder fem titlar, fem årtal, fem speltider och fem betyg. Det går att hålla i fyra separata listor – tills något hamnar i otakt och film nummer tre får film nummer fyras betyg. En klass gör den sortens fel omöjligt.</p>
+    <p>Klassen skapar ingen film. Den säger vilka fält varje film har.</p>
+    <p><code>{ get; set; }</code> gör fältet till en <strong>egenskap</strong>: något som går att läsa och sätta utifrån. Det är formen du kommer att se överallt i C#.</p>
+    <p><code>= ""</code> ger <code>Titel</code> ett tomt startvärde. Utan det varnar kompilatorn för att egenskapen kan vara <code>null</code>. Talen behöver det inte – ett <code>int</code> är noll från början.</p>
+    <p>Klassen ligger i <code>Models/</code>, inte bland sidorna. En modellklass är inte en sida.</p>
+    <p><code>namespace Filmarkivet.Models;</code> säger var klassen hör hemma. Sidan som ska använda den behöver då <code>@using Filmarkivet.Models</code>.</p>
+    <p><strong>Kontrollera.</strong> Projektet kompilerar. Klassen används i nästa steg.</p>
+    <p><strong>I ditt projekt.</strong> <code>Models/Produkt.cs</code> med minst fem egenskaper: minst en text, minst ett heltal, och minst ett fält som varken är text eller heltal.</p>
+    <h2 id="steg-16">Steg 16 – Objekten och tabellen</h2>
+    <p><strong>Vad vi gör.</strong> Skapar objekt ur klassen och renderar dem.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/Filmer.razor</code>, hela:</p>
+    <pre><code class="sprak-razor">@page "/filmer"
+    @using Filmarkivet.Models
+
+    &lt;PageTitle&gt;Filmer – Filmarkivet&lt;/PageTitle&gt;
+
+    &lt;h1&gt;Lektion 12: metoder, klasser och objekt&lt;/h1&gt;
+
+    &lt;p&gt;
+        Fem filmer betyder fem titlar, fem årtal, fem speltider och fem betyg. Att hålla
+        dem i separata listor fungerar tills något hamnar i otakt. En &lt;strong&gt;klass&lt;/strong&gt;
+        håller ihop det som hör ihop.
+    &lt;/p&gt;
+
+    &lt;h2&gt;Klassen&lt;/h2&gt;
+
+    &lt;p&gt;
+        &lt;code&gt;Models/Film.cs&lt;/code&gt; beskriver vad en film &lt;em&gt;är&lt;/em&gt;. Den skapar ingen
+        film – den säger vilka fält varje film har.
+    &lt;/p&gt;
+
+    &lt;h2&gt;Objekten&lt;/h2&gt;
+
+    &lt;p&gt;
+        &lt;code&gt;new Film { ... }&lt;/code&gt; skapar ett objekt ur klassen. Listan håller
+        @filmer.Count stycken, och varje objekt bär alla sina fält samlade.
+    &lt;/p&gt;
+
+    &lt;table class="tabell"&gt;
+        &lt;caption&gt;Filmarkivet&lt;/caption&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th scope="col"&gt;Titel&lt;/th&gt;
+                &lt;th scope="col"&gt;År&lt;/th&gt;
+                &lt;th scope="col"&gt;Längd&lt;/th&gt;
+                &lt;th scope="col"&gt;Betyg&lt;/th&gt;
+                &lt;th scope="col"&gt;Status&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            @foreach (var film in filmer)
+            {
+                &lt;tr&gt;
+                    &lt;th scope="row"&gt;@film.Titel&lt;/th&gt;
+                    &lt;td&gt;@film.Ar&lt;/td&gt;
+                    &lt;td&gt;@Speltid(film.LangdMinuter)&lt;/td&gt;
+                    &lt;td&gt;@Stjarnor(film.Betyg)&lt;/td&gt;
+                    &lt;td&gt;@(film.Tillganglig ? "Tillgänglig" : "Utlånad")&lt;/td&gt;
+                &lt;/tr&gt;
+            }
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+
+    &lt;h2&gt;Metoder som räknar på samlingen&lt;/h2&gt;
+
+    &lt;ul&gt;
+        &lt;li&gt;Snittbetyg: @Snittbetyg().ToString("0.0")&lt;/li&gt;
+        &lt;li&gt;Längsta filmen: @LangstaFilmen().Titel, @LangstaFilmen().LangdMinuter minuter&lt;/li&gt;
+        &lt;li&gt;Tillgängliga just nu: @AntalTillgangliga() av @filmer.Count&lt;/li&gt;
+    &lt;/ul&gt;
+
+    @code {
+        private List&lt;Film&gt; filmer = new()
+        {
+            new Film { Titel = "Nyckeln till frihet", Ar = 1994, LangdMinuter = 142, Betyg = 5, Tillganglig = true },
+            new Film { Titel = "Sju samurajer", Ar = 1954, LangdMinuter = 207, Betyg = 5, Tillganglig = false },
+            new Film { Titel = "Rosemarys baby", Ar = 1968, LangdMinuter = 137, Betyg = 4, Tillganglig = true },
+            new Film { Titel = "Såsom i en spegel", Ar = 1961, LangdMinuter = 89, Betyg = 4, Tillganglig = true },
+            new Film { Titel = "Gökboet", Ar = 1975, LangdMinuter = 133, Betyg = 5, Tillganglig = false }
+        };
+
+        // En metod tar emot värden, gör något, och lämnar tillbaka ett svar.
+        private string Speltid(int minuter) =&gt; $"{minuter / 60} h {minuter % 60} min";
+
+        private string Stjarnor(int betyg) =&gt; new string('*', betyg);
+
+        private double Snittbetyg()
+        {
+            int summa = 0;
+
+            foreach (var film in filmer)
+            {
+                summa = summa + film.Betyg;
+            }
+
+            return (double)summa / filmer.Count;
+        }
+
+        private Film LangstaFilmen()
+        {
+            Film langst = filmer[0];
+
+            foreach (var film in filmer)
+            {
+                if (film.LangdMinuter &gt; langst.LangdMinuter)
+                {
+                    langst = film;
+                }
+            }
+
+            return langst;
+        }
+
+        private int AntalTillgangliga()
+        {
+            int antal = 0;
+
+            foreach (var film in filmer)
+            {
+                if (film.Tillganglig)
+                {
+                    antal++;
+                }
+            }
+
+            return antal;
+        }
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p><code>new Film { Titel = "...", ... }</code> skapar ett objekt och sätter egenskaperna direkt. Klassen är ritningen, objektet är saken.</p>
+    <p><code>List&lt;Film&gt;</code> är en lista med filmobjekt, precis som <code>List&lt;string&gt;</code> var en lista med strängar. Samma form, annat innehåll.</p>
+    <p><code>film.Titel</code> – punkten läser en egenskap ur objektet. <code>@foreach (var film in filmer)</code> ger dig ett objekt i taget, och inuti loopen kommer du åt alla dess fält samlade.</p>
+    <p><code>(double)summa / filmer.Count</code> – utan <code>(double)</code> hade det blivit heltalsdivision och snittet 4 i stället för 4,6. Samma fälla som i steg 4.</p>
+    <p><code>LangstaFilmen</code> returnerar en <code>Film</code>, inte en <code>string</code>. En metod kan lämna tillbaka vad som helst, också ett objekt.</p>
+    <p><code>ToString("0.0")</code> avrundar till en decimal vid utskrift.</p>
+    <p><strong>Kontrollera.</strong> Fem rader i tabellen. Snittbetyg 4,6. Längsta filmen Sju samurajer, 207 minuter. Tillgängliga 3 av 5.</p>
+    <p><strong>I ditt projekt.</strong> Minst fem objekt av din klass, renderade i en tabell, plus minst en metod som räknar på hela listan. Det är den delen av inlämningen som inte är övningar.</p>
+    <h2 id="steg-17">Steg 17 – Menyn och utseendet</h2>
+    <p><strong>Vad vi gör.</strong> Kopplar in sidorna och gör tabellerna läsbara.</p>
+    <p><strong>Filen.</strong> <code>Components/Layout/NavMenu.razor</code> – en post per sida, precis som i område 1:</p>
+    <pre><code class="sprak-razor">&lt;div class="nav-item px-3"&gt;
+        &lt;NavLink class="nav-link" href="datatyper"&gt;Datatyper&lt;/NavLink&gt;
+    &lt;/div&gt;</code></pre>
+    <p><strong>Filen.</strong> <code>wwwroot/app.css</code>, sist:</p>
+    <pre><code class="sprak-css">/* Filmarkivet */
+    .tabell {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 1rem 0;
+    }
+
+    .tabell caption {
+        text-align: left;
+        font-weight: 600;
+        padding-bottom: .4rem;
+    }
+
+    .tabell th,
+    .tabell td {
+        border: 1px solid #d0d0d0;
+        padding: .4rem .6rem;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .tabell thead th {
+        background: #f3f3f3;
+    }
+
+    .ruta {
+        background: #eef6ff;
+        border: 1px solid #b9d8ff;
+        padding: .8rem 1rem;
+    }</code></pre>
+    <p><strong>Kontrollera.</strong> Alla sidor nås från menyn och tabellerna har ramar.</p>
+    <p><strong>I ditt projekt.</strong> Dina fyra övningssidor plus tabellsidan i menyn.</p>
+    <h2 id="fel">När något går fel</h2>
+    <p>Slå upp felmeddelandet här innan du fastnar. Skriv en bit av det du ser.</p>
+
+        <div class="sok">
+          <label for="sok-fel">Sök bland felen</label>
+          <input type="search" id="sok-fel" data-sok="tabell-fel" data-traffar="traffar-fel"
+                 placeholder="till exempel: 404, namespace, Ã¥Ã¤Ã¶" autocomplete="off">
+          <p class="traffar" id="traffar-fel">9 rader</p>
+        </div>
+
+        <div class="tabellsvep">
+          <table id="tabell-fel">
+    <thead><tr><th>Felmeddelande</th><th>Vad det betyder</th><th>Gör så här</th></tr></thead>
+    <tbody>
+    <tr><td><code>CS0102: already contains a definition for 'x'</code></td><td>Två övningar på samma sida använder samma variabelnamn</td><td>Döp om efter övningsnumret: <code>o3Summa</code> i stället för <code>summa</code></td></tr>
+    <tr><td><code>CS0029: Cannot implicitly convert type 'string' to 'int'</code></td><td>Du tilldelar text till ett heltal</td><td>Antingen fel typ på variabeln, eller så behövs <code>int.TryParse</code></td></tr>
+    <tr><td><code>CS0161: not all code paths return a value</code></td><td>En gren i din metod saknar <code>return</code></td><td>Varje väg genom metoden måste lämna tillbaka något</td></tr>
+    <tr><td><code>CS0165: Use of unassigned local variable</code></td><td>Variabeln deklarerad men aldrig given ett värde</td><td><code>int summa = 0;</code>, inte bara <code>int summa;</code></td></tr>
+    <tr><td>Divisionen blir 0 eller fel</td><td>Heltalsdivision</td><td>Gör om ett av talen till <code>double</code> med <code>(double)</code></td></tr>
+    <tr><td>Summan blir samma som sista värdet</td><td><code>summa</code> nollställs inuti loopen</td><td>Flytta deklarationen utanför loopen</td></tr>
+    <tr><td>Sidan svarar aldrig, terminalen hänger</td><td>Oändlig <code>while</code>-loop</td><td>Ctrl+C. Kontrollera att villkoret kan bli falskt</td></tr>
+    <tr><td><code>The name 'Film' does not exist</code></td><td>Sidan hittar inte modellklassen</td><td>Lägg till <code>@using Filmarkivet.Models</code> högst upp</td></tr>
+    <tr><td>Tabellen visar <code>True</code> i stället för <code>Ja</code></td><td>Så skriver C# ut ett <code>bool</code></td><td>Använd <code>@(varde ? "Ja" : "Nej")</code></td></tr>
+    </tbody></table></div>
+    <h2 id="missa">Det som är lätt att missa när du gör det själv</h2>
+    <p><strong>Heltalsdivision biter två gånger.</strong> Först när du räknar timmar, sedan när du räknar snitt. Båda gångerna ser koden rätt ut och svaret är fel. Får du ett misstänkt jämnt tal: kontrollera typerna.</p>
+    <p><strong>Variabelnamn krockar när övningarna delar sida.</strong> Alla <code>@code</code>-block på en sida blir samma klass. Prefixa med övningsnumret från början, så slipper du döpa om tolv variabler i vecka fyra.</p>
+    <p><strong>Ett fel stoppar hela sidan.</strong> Kompilerar inte övning 17 går inte övning 1–16 att visa heller. Det är därför övningarna ligger på fyra sidor och inte en. Får du plötsligt en tom sida: läs det <em>första</em> felet i terminalen.</p>
+    <p>**<code>var</code> är inte en typ.** <code>var summa = 0;</code> betyder fortfarande <code>int</code>. Kompilatorn räknar ut typen ur värdet, men typen finns där. <code>var</code> gör koden kortare, inte lösare.</p>
+    <p><strong>Namngivningen är ett krav.</strong> PascalCase på metoder och egenskaper, camelCase på variabler och parametrar. Det står i uppgiften och det bedöms.</p>
+    <h2 id="checklista">Checklista</h2>
+    <p>Guidens egen checklista. Den är inte betygskraven – de står i
+          <a href="uppgift.html">uppgiften</a> och är uppdelade på E, C och A. Den här listan
+          säger bara om du gjort klart det guiden går igenom.</p>
+
+        <section class="kravblock" data-niva="ska">
+          <div class="huvud">
+            <h3>Klart när allt är ikryssat</h3>
+            <span class="antal"></span>
+          </div>
+          <div class="stapel"><span></span></div>
+          <ul class="krav">
+            <li><label><input type="checkbox" id="guide-1"><span>Projektet startar med <code>dotnet run</code> utan varningar</span></label></li>
+            <li><label><input type="checkbox" id="guide-2"><span>Fyra övningssidor, en per tema, som alla går att nå</span></label></li>
+            <li><label><input type="checkbox" id="guide-3"><span>Minst tjugo övningar lösta och synliga på sidorna</span></label></li>
+            <li><label><input type="checkbox" id="guide-4"><span>Variabelnamnen krockar inte – prefixade med övningsnummer</span></label></li>
+            <li><label><input type="checkbox" id="guide-5"><span>En egen modellklass i <code>Models/</code> med minst fem egenskaper</span></label></li>
+            <li><label><input type="checkbox" id="guide-6"><span>Minst fem objekt av klassen i en <code>List&lt;T&gt;</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-7"><span>Objekten renderade i en tabell med <code>@foreach</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-8"><span>Minst en metod som räknar på hela listan</span></label></li>
+            <li><label><input type="checkbox" id="guide-9"><span>PascalCase på metoder och egenskaper, camelCase på variabler</span></label></li>
+            <li><label><input type="checkbox" id="guide-10"><span>Koden är kommenterad där den inte är självklar</span></label></li>
+            <li><label><input type="checkbox" id="guide-11"><span>Allt är committat och pushat</span></label></li>
+          </ul>
+        </section>
+
+        <p>Kryssen sparas i din webbläsare.
+          <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+    <h2 id="mer">Vill du mer</h2>
+    <ul><li><a href="https://learn.microsoft.com/dotnet/csharp/tour-of-csharp/">C# för nybörjare</a> – rundtur i språket</li><li><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/operators/">Statements, expressions och operatorer</a> – hela listan över operatorer, inklusive <code>%</code> och <code>?:</code></li><li><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List&amp;lt;T&amp;gt;</a> – allt en lista kan göra utöver <code>Add</code> och <code>Count</code></li></ul>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Till uppgiften</a> ·
+        <a href="provet.html">Vad provet prövar</a> ·
+        <a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

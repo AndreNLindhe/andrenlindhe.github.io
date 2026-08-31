@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Övning 22–28: metoder, klasser och objekt</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o2-ovn-metoder">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Övning 22–28</strong> · Metoder, klasser och objekt</span>
+  <a href="#avprickning">Avprickning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#ov-22">22. Första metoden</a></li>
+      <li><a href="#ov-23">23. Ja eller nej</a></li>
+      <li><a href="#ov-24">24. Betyget i ord</a></li>
+      <li><a href="#ov-25">25. Klassen</a></li>
+      <li><a href="#ov-26">26. Listan med objekt</a></li>
+      <li><a href="#ov-27">27. Räkna på samlingen</a></li>
+      <li><a href="#ov-28">28. Metoden som ger tillbaka ett objekt</a></li>
+      <li><a href="#avprickning">Avprickning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 2 · lektion 12–13</p>
+    <h1>Metoder, klasser och objekt</h1>
+    <p class="inledning">Sju övningar som bygger ihop resten. Övning 25 till 28 är inte
+      bara övningar – de <em>är</em> inlämningens andra del. Har du gjort dem har du
+      modellklassen, listan med objekt och tabellen som uppgiften kräver. De ligger på
+      <code>/ovningar/metoder</code> i ditt projekt, och klassen i mappen
+      <code>Models</code>.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du passet?</span>
+      <p>Lektion 12 var genomgången, lektion 13 arbetspass och repetition. Så här tar
+        du igen det, räkna med drygt tre timmar – det här är områdets största bit:</p>
+      <ol>
+        <li>Läs <a href="guide.html#steg-14">guidens steg 14 till 17</a> och skriv av
+          koden. Metoderna, klassen <code>Film</code>, objekten och tabellen.</li>
+        <li>Lös övning 22 till 24. De är korta och tränar metoden som begrepp.</li>
+        <li>Gör övning 25 till 28. Där bestämmer du vad din klass ska föreställa – ta
+          tio minuter på det innan du skriver en rad kod.</li>
+        <li>Läs <a href="provet.html">vad provet prövar</a> och gå igenom
+          <a href="guide.html#checklista">checklistan</a>. Det var lektion 13.</li>
+      </ol>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Namngivningen bedöms</span>
+      <p>PascalCase på klasser, metoder och egenskaper: <code>LangdMinuter</code>,
+        <code>Snittbetyg</code>. camelCase på variabler och parametrar:
+        <code>antalMinuter</code>. Det är inte en artighet utan eget centralt innehåll
+        i kursen, och det syns direkt när det inte följs.</p>
+    </div>
+
+    <h2 id="ov-22">22. Första metoden</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: metod med parametrar och returvärde</p>
+    <p>Skriv en metod som tar emot två heltal och lämnar tillbaka deras summa. Anropa
+      den tre gånger med olika värden och visa svaren.</p>
+    <p><b>Klart när:</b> metoden heter något som börjar med versal, och parametrarna
+      med gemen.</p>
+
+    <h2 id="ov-23">23. Ja eller nej</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: metod som formaterar ett värde</p>
+    <p>Skriv en metod som tar emot ett <code>bool</code> och lämnar tillbaka
+      <code>"Ja"</code> eller <code>"Nej"</code>. Använd den på minst två olika fält.</p>
+    <p><b>Klart när:</b> sidan visar Ja och Nej i stället för True och False.</p>
+
+    <h2 id="ov-24">24. Betyget i ord</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: villkor inuti en metod</p>
+    <p>Skriv en metod som tar emot ett betyg (1–5) och lämnar tillbaka omdömet i ord –
+      samma logik som i <a href="ovningar-villkor.html#ov-8">övning 8</a>, men flyttad
+      in i en metod.</p>
+    <p>Metoden ska klara tal utanför 1–5 utan att krascha.</p>
+    <p><b>Klart när:</b> markupen bara anropar metoden. Ingen <code>if</code> finns kvar
+      i markupen.</p>
+
+    <h2 id="ov-25">25. Klassen</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: klass, egenskaper och <code>new</code></p>
+    <p>Skapa en klass i mappen <code>Models</code> som beskriver något du väljer. Den
+      ska ha minst fem egenskaper: minst en text, minst ett heltal, och minst ett fält
+      som varken är text eller heltal.</p>
+    <p>Skapa ett objekt av klassen och visa alla dess fält på sidan.</p>
+    <p><b>Klart när:</b> klassen ligger i <code>Models/</code>, sidan har
+      <code>@using</code> för den, och alla fem fälten syns.</p>
+
+    <h2 id="ov-26">26. Listan med objekt</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>List&lt;T&gt;</code> med egna objekt och <code>@foreach</code></p>
+    <p>Skapa minst fem objekt av din klass i en <code>List&lt;T&gt;</code> och rendera
+      dem i en tabell – en rad per objekt, en kolumn per egenskap.</p>
+    <p>Minst ett fält ska visas <b>formaterat</b> med en metod, inte råt.</p>
+    <p><b>Klart när:</b> tabellen har lika många rader som listan har objekt, och du kan
+      lägga till ett objekt utan att röra tabellen.</p>
+
+    <h2 id="ov-27">27. Räkna på samlingen</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: metod som går igenom en lista</p>
+    <p>Skriv en metod som räknar ut medelvärdet av ett av talfälten i din lista. Skriv
+      också en som räknar hur många objekt som uppfyller ett villkor du väljer.</p>
+    <p><b>Klart när:</b> medelvärdet visar decimaler och stämmer, och räknaren stämmer
+      med vad du ser i tabellen.</p>
+
+    <h2 id="ov-28">28. Metoden som ger tillbaka ett objekt</h2>
+    <p class="ledtext"><b>Svår</b> · tränar: att returnera en egen typ, och att hantera tomma listor</p>
+    <p>Skriv en metod som lämnar tillbaka <b>objektet</b> med det högsta värdet i ett av
+      talfälten – inte talet, utan hela objektet. Visa sedan två av dess egenskaper.</p>
+    <p>Metoden ska svara vettigt också när listan är tom.</p>
+    <p><b>Klart när:</b> rätt objekt hittas, och sidan inte kraschar om du tillfälligt
+      tömmer listan.</p>
+
+    <h2 id="avprickning">Avprickning</h2>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Lösta övningar i det här temat</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="metoder-22"><span>22. Första metoden</span></label></li>
+        <li><label><input type="checkbox" id="metoder-23"><span>23. Ja eller nej</span></label></li>
+        <li><label><input type="checkbox" id="metoder-24"><span>24. Betyget i ord</span></label></li>
+        <li><label><input type="checkbox" id="metoder-25"><span>25. Klassen</span></label></li>
+        <li><label><input type="checkbox" id="metoder-26"><span>26. Listan med objekt</span></label></li>
+        <li><label><input type="checkbox" id="metoder-27"><span>27. Räkna på samlingen</span></label></li>
+        <li><label><input type="checkbox" id="metoder-28"><span>28. Metoden som ger tillbaka ett objekt</span></label></li>
+      </ul>
+    </section>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Till uppgiften</a> ·
+        <a href="provet.html">Vad provet prövar</a> ·
+        <a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

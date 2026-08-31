@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sex komponenter som går sönder</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o3-felsokning">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Lektion 21</strong> · Sex komponenter som går sönder</span>
+  <a href="#poangen">Poängen</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#meddelandena">1. De sex meddelandena</a></li>
+      <li><a href="#fel-1">2. Fel 1 – parametern som inte finns</a></li>
+      <li><a href="#fel-2">3. Fel 2 – ChildContent med fel namn</a></li>
+      <li><a href="#fel-3">4. Fel 3 – egenskapen utan attribut</a></li>
+      <li><a href="#fel-4">5. Fel 4 – ruttens namn</a></li>
+      <li><a href="#fel-5">6. Fel 5 – ruttens typ</a></li>
+      <li><a href="#fel-6">7. Fel 6 – två sidor på samma adress</a></li>
+      <li><a href="#poangen">8. Poängen</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 3 · lektion 21</p>
+    <h1>Sex komponenter som går sönder</h1>
+    <p class="inledning">Sex fel, tio filer. <b>Alla sex kompilerar utan varning.</b>
+      Alla sex ger <code>500</code> när sidan öppnas. Det är hela poängen: i område 2
+      var felen röd text i editorn innan du hunnit köra. Här kopplas
+      komponentparametrar ihop när sidan renderas, och då är kompilatorn för länge
+      sedan klar.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Svara innan du läser vidare</span>
+      <p>Klassen fick de sex meddelandena projicerade utan koden och arbetade i par i
+        tre minuter. Ge dig själv lika lång tid. Orsakerna i tabellen nedan ligger
+        dolda tills du klickar på raden – de är inte värda mycket förrän du har ett
+        eget svar att jämföra med.</p>
+      <p>Vill du köra koden: lägg filerna i ditt projekts
+        <code>Components/Pages/</code> och gå till <code>/fel/1</code> och så vidare.
+        <code>Fel6.razor</code> och <code>Fel6Igen.razor</code> har med flit samma
+        <code>@page</code>-adress – projektet bygger ändå.</p>
+    </div>
+
+    <h2 id="meddelandena">1. De sex meddelandena</h2>
+    <p>Klicka på en rad för att se orsaken. Meddelandena är avskrivna ur terminalen,
+      inte ur minnet.</p>
+
+    <div class="tabellsvep">
+      <table class="facit" data-dolj="1">
+        <thead><tr><th>Felmeddelandet</th><th>Orsaken</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>Object of type '…Stjarnor' does not have a property matching the name 'Etikett'.</code></td>
+            <td>Sidan sätter en parameter som komponenten inte har. Stavfel, eller ett attribut som aldrig lades till.</td>
+          </tr>
+          <tr>
+            <td><code>Object of type '…Panel' does not have a property matching the name 'ChildContent'.</code></td>
+            <td>Komponenten kallar sin <code>RenderFragment</code> för <code>Innehall</code>. Markup mellan taggarna hamnar alltid i <code>ChildContent</code>, och det namnet är inte fritt valt.</td>
+          </tr>
+          <tr>
+            <td><code>…has a property matching the name 'Text', but it does not have [Parameter], [CascadingParameter], or any other parameter-supplying attribute.</code></td>
+            <td>Egenskapen finns, men <code>[Parameter]</code> saknas. Utan attributet är den privat för komponenten hur <code>public</code> den än är.</td>
+          </tr>
+          <tr>
+            <td><code>Object of type '…Fel4' does not have a property matching the name 'id'.</code></td>
+            <td>Rutten heter <code>{id:int}</code>, egenskapen heter <code>Nummer</code>. Namnen måste stämma – stor eller liten bokstav spelar ingen roll, stavningen gör det.</td>
+          </tr>
+          <tr>
+            <td><code>Unable to set property 'id' … Unable to cast object of type 'System.String' to type 'System.Int32'.</code></td>
+            <td>Rutten saknar <code>:int</code>. Allt som står i en adress är text tills du säger annat.</td>
+          </tr>
+          <tr>
+            <td><code>AmbiguousMatchException: The request matched multiple endpoints.</code></td>
+            <td>Två komponenter har samma <code>@page</code>. Routern vet inte vilken som menas, och säger till först när någon besöker adressen.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="fel-1">2. Fel 1 – parametern som inte finns</h2>
+    <p>Sidan på <code>/fel/1</code>:</p>
+
+    <!-- kod: exempel/felsokning/Fel1.razor -->
+    <pre><code class="sprak-razor">@page "/fel/1"
+
+&lt;h1&gt;Fel 1&lt;/h1&gt;
+
+&lt;p&gt;Betyget som stjärnor: &lt;Stjarnor Varde="4" Etikett="fyra av fem" /&gt;&lt;/p&gt;</code></pre>
+
+    <p>Och komponenten den använder:</p>
+
+    <!-- kod: exempel/felsokning/Stjarnor.razor -->
+    <pre><code class="sprak-razor">@* Hör till Fel1.razor. *@
+
+&lt;span&gt;@Text()&lt;/span&gt;
+
+@code {
+    [Parameter]
+    public int Varde { get; set; }
+
+    private string Text() =&gt; new string('*', Varde);
+}</code></pre>
+
+    <p><b>Rättningen:</b> ta bort <code>Etikett</code> ur taggen, eller lägg till
+      parametern i komponenten. Vilket som är rätt beror på vad du menade – och det är
+      poängen: felmeddelandet talar om <em>vad</em> som saknas, inte vad du ville.</p>
+
+    <h2 id="fel-2">3. Fel 2 – <code>ChildContent</code> med fel namn</h2>
+    <p>Sidan på <code>/fel/2</code>:</p>
+
+    <!-- kod: exempel/felsokning/Fel2.razor -->
+    <pre><code class="sprak-razor">@page "/fel/2"
+
+&lt;h1&gt;Fel 2&lt;/h1&gt;
+
+&lt;Panel Rubrik="Om arkivet"&gt;
+    &lt;p&gt;Sex filmer, alla utvalda för hand.&lt;/p&gt;
+&lt;/Panel&gt;</code></pre>
+
+    <p>Komponenten:</p>
+
+    <!-- kod: exempel/felsokning/Panel.razor -->
+    <pre><code class="sprak-razor">@* Hör till Fel2.razor. *@
+
+&lt;section class="ruta"&gt;
+    &lt;h2&gt;@Rubrik&lt;/h2&gt;
+    @Innehall
+&lt;/section&gt;
+
+@code {
+    [Parameter]
+    public string Rubrik { get; set; } = "";
+
+    [Parameter]
+    public RenderFragment? Innehall { get; set; }
+}</code></pre>
+
+    <p><b>Rättningen:</b> döp om <code>Innehall</code> till <code>ChildContent</code>.
+      Vill du behålla namnet måste den som använder komponenten skriva ut det som en
+      tagg: <code>&lt;Innehall&gt;…&lt;/Innehall&gt;</code>.</p>
+
+    <h2 id="fel-3">4. Fel 3 – egenskapen utan attribut</h2>
+    <p>Sidan på <code>/fel/3</code>:</p>
+
+    <!-- kod: exempel/felsokning/Fel3.razor -->
+    <pre><code class="sprak-razor">@page "/fel/3"
+
+&lt;h1&gt;Fel 3&lt;/h1&gt;
+
+&lt;p&gt;Status: &lt;Etikett Text="Tillgänglig" /&gt;&lt;/p&gt;</code></pre>
+
+    <p>Komponenten:</p>
+
+    <!-- kod: exempel/felsokning/Etikett.razor -->
+    <pre><code class="sprak-razor">@* Hör till Fel3.razor. *@
+
+&lt;span class="etikett"&gt;@Text&lt;/span&gt;
+
+@code {
+    public string Text { get; set; } = "";
+}</code></pre>
+
+    <p><b>Rättningen:</b> <code>[Parameter]</code> på raden ovanför egenskapen. Det här
+      är områdets vanligaste fel, och meddelandet är ovanligt hjälpsamt – det säger
+      rakt ut att egenskapen finns men saknar attributet.</p>
+
+    <h2 id="fel-4">5. Fel 4 – ruttens namn</h2>
+    <p>Sidan på <code>/fel/4/7</code>:</p>
+
+    <!-- kod: exempel/felsokning/Fel4.razor -->
+    <pre><code class="sprak-razor">@page "/fel/4/{id:int}"
+
+&lt;h1&gt;Fel 4&lt;/h1&gt;
+
+&lt;p&gt;Numret ur adressen: @Nummer&lt;/p&gt;
+
+@code {
+    [Parameter]
+    public int Nummer { get; set; }
+}</code></pre>
+
+    <p><b>Rättningen:</b> döp egenskapen till <code>Id</code>, eller döp om rutten till
+      <code>{nummer:int}</code>. Det ena eller det andra – namnen ska stämma.</p>
+
+    <h2 id="fel-5">6. Fel 5 – ruttens typ</h2>
+    <p>Sidan på <code>/fel/5/7</code>. Lägg märke till att adressen innehåller ett tal
+      och ändå kraschar:</p>
+
+    <!-- kod: exempel/felsokning/Fel5.razor -->
+    <pre><code class="sprak-razor">@page "/fel/5/{id}"
+
+&lt;h1&gt;Fel 5&lt;/h1&gt;
+
+&lt;p&gt;Numret ur adressen: @Id&lt;/p&gt;
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+}</code></pre>
+
+    <p><b>Rättningen:</b> <code>{id:int}</code> i stället för <code>{id}</code>.</p>
+
+    <div class="notis">
+      <span class="rubrik">Talet <em>är</em> ett tal – varför kraschar det ändå?</span>
+      <p>För att adressen inte vet det. En URL är text, hela vägen. Utan
+        <code>:int</code> lämnar routern över strängen <code>"7"</code>, och Blazor
+        försöker stoppa den i en <code>int</code>. Med <code>:int</code> gör routern
+        omvandlingen åt dig – och matchar inte alls om det inte går.</p>
+    </div>
+
+    <h2 id="fel-6">7. Fel 6 – två sidor på samma adress</h2>
+    <p>Två filer, båda med <code>@page "/fel/6"</code>:</p>
+
+    <!-- kod: exempel/felsokning/Fel6.razor -->
+    <pre><code class="sprak-razor">@page "/fel/6"
+
+&lt;h1&gt;Fel 6&lt;/h1&gt;
+
+&lt;p&gt;Den här sidan visar arkivet.&lt;/p&gt;</code></pre>
+
+    <!-- kod: exempel/felsokning/Fel6Igen.razor -->
+    <pre><code class="sprak-razor">@page "/fel/6"
+
+&lt;h1&gt;Fel 6, en gång till&lt;/h1&gt;
+
+&lt;p&gt;Den här sidan visar också arkivet.&lt;/p&gt;</code></pre>
+
+    <p><b>Rättningen:</b> ta bort den ena, eller ge den en annan adress. Sök i
+      projektet efter adressen – i verkliga projekt är det oftast en gammal sida som
+      skulle ha tagits bort.</p>
+
+    <h2 id="poangen">8. Poängen</h2>
+    <p>Ordningen är avsiktlig. 1–3 handlar om parametrar: fel namn, fel namn på fel
+      ställe, rätt namn utan attribut. 4–5 handlar om adressen: namnet och typen. 6
+      handlar om att två filer kan göra anspråk på samma sak utan att någon säger till
+      förrän någon besöker sidan.</p>
+
+    <p>Frågan att landa i:</p>
+
+    <blockquote>
+      <p>Varför säger inte kompilatorn något? Vad är det egentligen som händer när jag
+        skriver <code>&lt;Betygsstjarnor Varde="4" /&gt;</code>?</p>
+    </blockquote>
+
+    <p>Svaret är att det inte är ett metodanrop. Det är en <b>beskrivning</b> som slås
+      upp på namn när sidan byggs. Kompilatorn kontrollerar att koden går att
+      översätta, inte att namnen finns – den kopplingen görs först i körtid.</p>
+
+    <p>Det är samma insikt som gör <code>[Parameter]</code> begriplig, och det är därför
+      regeln i det här området lyder:</p>
+
+    <blockquote>
+      <p>Ändrat en komponent? <b>Öppna sidan.</b> Inte bara <code>dotnet build</code>.</p>
+    </blockquote>
+
+    <footer class="fot">
+      <p><a href="provet.html">Vad provet prövar</a> ·
+        <a href="index.html#felsokning">Hela felsökningstabellen</a> ·
+        <a href="guide.html#fel">Guidens felavsnitt</a> ·
+        <a href="index.html">Tillbaka till område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

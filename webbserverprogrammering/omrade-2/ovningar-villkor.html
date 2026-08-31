@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Övning 8–14: villkor och logik</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o2-ovn-villkor">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Övning 8–14</strong> · Villkor och logik</span>
+  <a href="#avprickning">Avprickning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#ov-8">8. Omdömet</a></li>
+      <li><a href="#ov-9">9. Åldersgränsen</a></li>
+      <li><a href="#ov-10">10. Veckodagen</a></li>
+      <li><a href="#ov-11">11. Lagerstatusen</a></li>
+      <li><a href="#ov-12">12. Rekommendationen</a></li>
+      <li><a href="#ov-13">13. Talet i adressen</a></li>
+      <li><a href="#ov-14">14. Skottåret</a></li>
+      <li><a href="#avprickning">Avprickning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 2 · lektion 8–9</p>
+    <h1>Villkor och logik</h1>
+    <p class="inledning">Sju övningar om <code>if</code>, <code>switch</code> och de
+      logiska operatorerna. Två av dem handlar om något du inte gjort förut: att låta
+      villkoret styra vilken <em>HTML</em> som byggs, och att läsa ett värde ur
+      adressen. De ligger alla på <code>/ovningar/villkor</code> i ditt projekt.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du passet?</span>
+      <p>Lektion 8 var genomgången, lektion 9 eget arbete plus en parövning. Så här tar
+        du igen det, räkna med drygt två timmar:</p>
+      <ol>
+        <li>Läs <a href="guide.html#steg-6">guidens steg 6 till 9</a> och skriv av
+          koden. Det är hela genomgången från lektion 8.</li>
+        <li>Gör <a href="felsokning.html">de tre kodstyckena med fel</a>. Klassen
+          arbetade i par i tjugo minuter – ta dig lika lång tid, och läs inte
+          rättningen förrän du har ett svar.</li>
+        <li>Lös övning 8 till 14 nedan.</li>
+      </ol>
+      <p>Övning 13 behöver <code>[SupplyParameterFromQuery]</code>, som gås igenom i
+        <a href="guide.html#steg-8">steg 8</a>. Hoppa inte över det steget.</p>
+    </div>
+
+    <h2 id="ov-8">8. Omdömet</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>if</code>, <code>else if</code>, <code>else</code></p>
+    <p>Ett betyg från 1 till 5 ligger i ett fält. Visa ett omdöme i ord: 5 är utmärkt,
+      4 bra, 3 godkänt, 2 svagt, 1 underkänt.</p>
+    <p><b>Klart när:</b> du kan ändra fältet till vilket av de fem talen som helst och
+      få rätt omdöme.</p>
+
+    <h2 id="ov-9">9. Åldersgränsen</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: jämförelseoperatorer och <code>bool</code></p>
+    <p>Ett fält håller en ålder. Visa om personen får se en film med 15-årsgräns.</p>
+    <p>Lös den två gånger: en gång med <code>if</code>/<code>else</code>, en gång med
+      <code>villkor ? "ja" : "nej"</code>. Visa båda svaren.</p>
+    <p><b>Klart när:</b> 14 ger nej och 15 ger ja i båda varianterna.</p>
+
+    <h2 id="ov-10">10. Veckodagen</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>switch</code> som uttryck</p>
+    <p>Ett <code>int</code> från 1 till 7 står för veckodag. Visa dagens namn med en
+      <code>switch</code>. Alla andra tal ska ge "okänd dag".</p>
+    <p><b>Klart när:</b> 3 ger onsdag och 9 ger "okänd dag".</p>
+
+    <h2 id="ov-11">11. Lagerstatusen</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>@if</code> i markupen</p>
+    <p>Ett <code>int</code> håller ett antal i lager. Visa <b>olika HTML</b> beroende
+      på antalet: en grön ruta när det finns fler än tio, en gul när det finns ett
+      till tio, och en röd när det är slut.</p>
+    <p>Villkoret ska styra vilken HTML som byggs, inte bara vilken text som skrivs ut.</p>
+    <p><b>Klart när:</b> sidkällan innehåller bara en av de tre rutorna, inte alla tre
+      med två dolda.</p>
+
+    <h2 id="ov-12">12. Rekommendationen</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>&amp;&amp;</code> och <code>||</code></p>
+    <p>Två fält: ett betyg (1–5) och ett <code>bool</code> som säger om varan finns i
+      lager. Ge en rekommendation som tar hänsyn till båda.</p>
+    <p>Minst tre olika svar ska vara möjliga.</p>
+    <p><b>Klart när:</b> betyg 5 i lager, betyg 5 slut och betyg 2 i lager ger tre
+      olika svar.</p>
+
+    <h2 id="ov-13">13. Talet i adressen</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>[SupplyParameterFromQuery]</code> och att hantera värden som saknas</p>
+    <p>Läs ett heltal ur frågesträngen med namnet <code>tal</code>. Svara olika
+      beroende på om värdet saknas, är negativt, är noll, eller är positivt.</p>
+    <p><b>Klart när:</b> <code>/ovningar/villkor</code>, <code>?tal=0</code>,
+      <code>?tal=-5</code> och <code>?tal=42</code> ger fyra olika svar.</p>
+
+    <h2 id="ov-14">14. Skottåret</h2>
+    <p class="ledtext"><b>Svår</b> · tränar: sammansatta villkor och operatorernas ordning</p>
+    <p>Ett årtal ligger i ett fält. Avgör om det är ett skottår.</p>
+    <p>Regeln: ett år är skottår om det är delbart med 4, <b>utom</b> om det är delbart
+      med 100, <b>men ändå</b> om det är delbart med 400.</p>
+    <p><b>Klart när:</b> 2024 och 2000 ger skottår, 1900 och 2023 gör det inte.</p>
+
+    <h2 id="avprickning">Avprickning</h2>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Lösta övningar i det här temat</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="villkor-8"><span>8. Omdömet</span></label></li>
+        <li><label><input type="checkbox" id="villkor-9"><span>9. Åldersgränsen</span></label></li>
+        <li><label><input type="checkbox" id="villkor-10"><span>10. Veckodagen</span></label></li>
+        <li><label><input type="checkbox" id="villkor-11"><span>11. Lagerstatusen</span></label></li>
+        <li><label><input type="checkbox" id="villkor-12"><span>12. Rekommendationen</span></label></li>
+        <li><label><input type="checkbox" id="villkor-13"><span>13. Talet i adressen</span></label></li>
+        <li><label><input type="checkbox" id="villkor-14"><span>14. Skottåret</span></label></li>
+      </ul>
+    </section>
+
+    <footer class="fot">
+      <p><a href="ovningar-loopar.html">Nästa tema: loopar och listor</a> ·
+        <a href="felsokning.html">Tre kodstycken med fel</a> ·
+        <a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

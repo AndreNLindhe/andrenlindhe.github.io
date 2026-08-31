@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide: Filmarkivet – komponenter, routing och layout</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o3-guide">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Guide</strong> · Filmarkivet</span>
+  <a href="#fel">När något går fel</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#bygger">Vad du bygger här</a></li>
+      <li><a href="#sjalv">Vad du ska göra själv efteråt</a></li>
+      <li><a href="#innan">Innan du börjar</a></li>
+      <li><a href="#begrepp">Begreppen i det här momentet</a></li>
+      <li><a href="#steg-1">Steg 1 – Filmerna flyttar ut ur sidan</a></li>
+      <li><a href="#steg-2">Steg 2 – Den första komponenten</a></li>
+      <li><a href="#steg-3">Steg 3 – Parametern</a></li>
+      <li><a href="#steg-4">Steg 4 – Två komponenter som inte vet något om filmer</a></li>
+      <li><a href="#steg-5">Steg 5 – Listan som komponent</a></li>
+      <li><a href="#steg-6">Steg 6 – Komponenten som räknar</a></li>
+      <li><a href="#steg-7">Steg 7 – Innehåll som parameter</a></li>
+      <li><a href="#steg-8">Steg 8 – En fotnot bara ibland</a></li>
+      <li><a href="#steg-9">Steg 9 – Detaljsidan och ruttparametern</a></li>
+      <li><a href="#steg-10">Steg 10 – När filmen inte finns</a></li>
+      <li><a href="#steg-11">Steg 11 – Sökningen och frågesträngen</a></li>
+      <li><a href="#steg-12">Steg 12 – Menyn</a></li>
+      <li><a href="#steg-13">Steg 13 – Layouten och sidfoten</a></li>
+      <li><a href="#steg-14">Steg 14 – `_Imports.razor`</a></li>
+      <li><a href="#steg-15">Steg 15 – Livscykeln</a></li>
+      <li><a href="#steg-16">Steg 16 – Utseendet</a></li>
+      <li><a href="#fel">När något går fel</a></li>
+      <li><a href="#missa">Det som är lätt att missa när du gör det själv</a></li>
+      <li><a href="#checklista">Checklista</a></li>
+      <li><a href="#mer">Vill du mer</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 3 · guide</p>
+    <h1>Filmarkivet – komponenter, routing och layout</h1>
+    <p class="inledning">Sexton steg som bygger om Filmarkivet från sidor till
+      byggstenar. Ett kort blir en fil, listan av kort blir en fil, och adressen
+      börjar bära data: <code>/filmer/2</code> visar film nummer två och
+      <code>/filmer/99</code> svarar 404. Projektet startar inte om – det är samma
+      Filmarkivet som i område 2, ett område längre fram.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du en lektion?</span>
+      <p>Guiden går att följa på egen hand. Så här hänger stegen ihop med passen:</p>
+      <ul>
+        <li><b>Lektion 15</b> (ons 7 okt) – <a href="#steg-1">steg 1</a> och
+          <a href="#steg-2">steg 2</a>. Skillnaden mellan en sida och en komponent,
+          och kortet som bryts ut. Välj också
+          <a href="domanen.html">din domän</a> till på tisdag.</li>
+        <li><b>Lektion 16</b> (tis 13 okt) – <a href="#steg-3">steg 3</a> till
+          <a href="#steg-7">steg 7</a>. Områdets tyngsta pass:
+          <code>[Parameter]</code>, typade parametrar, dataflödet nedåt och
+          <code>ChildContent</code>. Öva sedan i
+          <a href="ovningar-komponenter.html">övning 29–40</a>.</li>
+        <li><b>Lektion 17</b> (ons 14 okt) – inget nytt. Eget arbete med
+          <a href="ovningar-komponenter.html">övning 29–40</a>.</li>
+        <li><b>Lektion 18</b> (tis 20 okt) – <a href="#steg-9">steg 9</a> till
+          <a href="#steg-11">steg 11</a>. Ruttparametern, <code>:int</code>, 404 på
+          riktigt och sökningen. Öva i
+          <a href="ovningar-routing.html">övning 41–46</a>.</li>
+        <li><b>Lektion 19</b> (ons 21 okt) – <a href="#steg-13">steg 13</a> till
+          <a href="#steg-15">steg 15</a>. Layouten, <code>_Imports.razor</code> och
+          livscykeln. Öva i <a href="ovningar-layout.html">övning 47–50</a>.
+          <b>Höstlov efter det här passet.</b></li>
+        <li><b>Lektion 20–21</b> (tis 3 nov, ons 4 nov) – inget nytt.
+          <a href="#checklista">Checklistan</a>,
+          <a href="uppgift.html">uppgiften</a>,
+          <a href="felsokning.html">sex komponenter som går sönder</a> och
+          <a href="provet.html">vad provet prövar</a>.</li>
+      </ul>
+      <p><a href="#steg-8">Steg 8</a>, <a href="#steg-12">steg 12</a> och
+        <a href="#steg-16">steg 16</a> hanns inte alltid med i klassrummet. De är
+        korta och går att ta i vilken ordning som helst efter steg 7.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Ett bygge som går igenom bevisar ingenting</span>
+      <p>I område 2 sa kompilatorn till. Här kopplas komponenternas parametrar ihop
+        när sidan <em>renderas</em>, inte när projektet byggs. En glömd
+        <code>[Parameter]</code> ger noll fel och noll varningar i terminalen – och
+        <code>500</code> när du öppnar sidan.</p>
+      <p>Vanan att lägga sig till med i det här området: <b>ändrat en komponent?
+        Öppna sidan.</b> Inte bara <code>dotnet build</code>.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Koden går inte att kopiera</span>
+      <p>Kodblocken på den här sidan går inte att markera, och det är med flit. Att
+        skriva av koden för hand är där en stor del av inlärningen sker: du läser
+        raden, håller den i huvudet och upptäcker vid tangentbordet vad du inte
+        förstod. Klistrar du in den hoppar du över precis det steget.</p>
+    </div>
+
+    <p><em>Guide · Område 3 · Webbserverprogrammering 1</em></p>
+    <h2 id="bygger">Vad du bygger här</h2>
+    <p>Filmarkivet slutar vara sidor och blir byggstenar. Ett filmkort är en fil, listan av kort är en fil, och betygsstjärnorna är en tredje. Samma kort står på startsidan och på <code>/filmer</code> – skrivet en gång, använt två.</p>
+    <p>Adressen börjar bära data. <code>/filmer/2</code> visar film nummer 2, <code>/filmer/99</code> svarar 404, och <code>/filmer?sok=cykel</code> visar de titlar som innehåller <em>cykel</em>.</p>
+    <pre><code>Filmarkivet
+    ├── /                     Veckans film, topplistan, statistik
+    ├── /filmer               Alla filmer som kort. Sökruta
+    ├── /filmer/{id:int}      En film. Beskrivning och resten av arkivet
+    ├── /livscykel            Demo: när metoderna faktiskt körs
+    ├── /datatyper            Från område 2. Orörd
+    ├── /villkor              Från område 2. Orörd
+    └── /loopar               Från område 2. Orörd</code></pre>
+    <p>Det färdiga projektet ligger i <code>referensprojekt/Filmarkivet</code>. Kör det innan du börjar, så vet du vart du är på väg.</p>
+    <p><strong>Projektet startar inte om.</strong> Filmarkivet från område 2 är utgångsläget, och det växer. Sidorna <code>/datatyper</code>, <code>/villkor</code> och <code>/loopar</code> rörs inte en enda gång i den här guiden. Så kommer det att vara resten av kursen.</p>
+    <h2 id="sjalv">Vad du ska göra själv efteråt</h2>
+    <p><strong>Här väljer du din domän.</strong> Fram till nu har du övat på en engångsklass som hette <code>Produkt</code>. Nu bestämmer du vad ditt projekt handlar om, och det valet bär du till och med område 8. Kriterierna står i <code>uppgift.md</code> under <em>Steg 0</em>. Läs dem innan du bestämmer dig – en domän som är för tunn går inte att bygga vidare på, och att byta i område 5 kostar en vecka.</p>
+    <p>Sedan bygger du samma sak som guiden, i din domän:</p>
+    <ul><li>Minst fyra egna komponenter med typade parametrar</li><li>Minst en som tar emot innehåll som <code>RenderFragment</code></li><li>En listsida och en detaljsida, kopplade med en ruttparameter</li><li>En gemensam layout och en meny som fungerar</li><li>Data i en hårdkodad lista – databasen kommer i område 5</li></ul>
+    <h3>Översättningstabellen</h3>
+    <p>Fyll i högerkolumnen innan du börjar koda.</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Filmarkivet</th><th>Ditt projekt</th></tr></thead>
+    <tbody>
+    <tr><td><code>Film</code></td><td>din huvudentitet</td></tr>
+    <tr><td><code>Titel</code> (string)</td><td>ditt namnfält</td></tr>
+    <tr><td><code>Ar</code> (int)</td><td>ditt årtal eller motsvarande heltal</td></tr>
+    <tr><td><code>LangdMinuter</code> (int)</td><td>ett heltal du kan räkna och formatera på</td></tr>
+    <tr><td><code>Betyg</code> (int, 1–5)</td><td>ett fält med ett begränsat intervall</td></tr>
+    <tr><td><code>Beskrivning</code> (string)</td><td>din längre text, den som bara syns på detaljsidan</td></tr>
+    <tr><td><code>Tillganglig</code> (bool)</td><td>ditt ja/nej-fält</td></tr>
+    <tr><td><code>Id</code> (int)</td><td>samma. Detaljsidan behöver något att slå upp på</td></tr>
+    <tr><td><code>Filmdata.Alla</code></td><td>din hårdkodade lista, minst sex poster</td></tr>
+    <tr><td><code>FilmKort</code></td><td>ditt kort</td></tr>
+    <tr><td><code>FilmLista</code></td><td>din lista</td></tr>
+    <tr><td><code>Betygsstjarnor</code></td><td>din komponent för det begränsade intervallet</td></tr>
+    <tr><td><code>Statusetikett</code></td><td>din komponent för ja/nej-fältet</td></tr>
+    <tr><td><code>Ruta</code></td><td>samma. Den är domänfri och heter gärna likadant</td></tr>
+    <tr><td><code>/filmer/{id:int}</code></td><td><code>/dina-saker/{id:int}</code></td></tr>
+    </tbody></table></div>
+    <p>Har du ingen motsvarighet till <code>Beskrivning</code> blir din detaljsida en kopia av ditt kort, och då finns det ingen anledning att ha två sidor. Lägg till fältet.</p>
+    <h2 id="innan">Innan du börjar</h2>
+    <p>Du behöver Filmarkivet från område 2, eller ditt eget projekt i samma läge: en modellklass, en lista med objekt och en sida som renderar dem.</p>
+    <p>Kontrollen tar tio sekunder:</p>
+    <pre><code class="sprak-bash">cd Filmarkivet
+    dotnet run</code></pre>
+    <p>Gå till <code>/filmer</code>. Ser du en tabell med fem rader är du redo.</p>
+    <h2 id="begrepp">Begreppen i det här momentet</h2>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Begrepp</th><th>Vad det är</th></tr></thead>
+    <tbody>
+    <tr><td>Komponent</td><td>En <code>.razor</code>-fil med markup och <code>@code</code>. Kan användas inuti andra komponenter</td></tr>
+    <tr><td>Sida</td><td>En komponent som har <code>@page</code> och därför har en egen adress</td></tr>
+    <tr><td>Parameter</td><td>Ett värde som skickas in i en komponent utifrån</td></tr>
+    <tr><td><code>[Parameter]</code></td><td>Attributet som gör en egenskap mottaglig utifrån. Utan det når värdet inte fram</td></tr>
+    <tr><td><code>RenderFragment</code></td><td>Markup som skickas in i en komponent, inte bara ett värde</td></tr>
+    <tr><td><code>ChildContent</code></td><td>Namnet på den <code>RenderFragment</code> som fylls med det som står mellan taggarna</td></tr>
+    <tr><td>Rutt</td><td>Mönstret i <code>@page</code> som avgör vilken adress som leder till komponenten</td></tr>
+    <tr><td>Ruttparameter</td><td>En del av adressen som blir en parameter: <code>{id:int}</code></td></tr>
+    <tr><td>Ruttbegränsning</td><td><code>:int</code> i <code>{id:int}</code>. Adressen matchar bara om delen är ett heltal</td></tr>
+    <tr><td>Frågesträng</td><td>Det som står efter <code>?</code> i adressen: <code>?sok=cykel</code></td></tr>
+    <tr><td>Layout</td><td>Ramen runt sidan. <code>@Body</code> är hålet där sidan hamnar</td></tr>
+    <tr><td>Livscykel</td><td>De metoder Blazor kallar på i tur och ordning när en komponent byggs</td></tr>
+    </tbody></table></div>
+    <h2 id="steg-1">Steg 1 – Filmerna flyttar ut ur sidan</h2>
+    <p><strong>Vad vi gör.</strong> Ger <code>Film</code> ett <code>Id</code> och en <code>Beskrivning</code>, och flyttar listan till en egen fil.</p>
+    <p><strong>Filen.</strong> <code>Models/Film.cs</code>:</p>
+    <pre><code class="sprak-csharp">namespace Filmarkivet.Models;
+
+    // En vanlig C#-klass. Inga attribut och ingen databas ännu – det kommer i
+    // område 5. Här är den bara ett sätt att hålla ihop värden som hör samman.
+    public class Film
+    {
+        // Id tillkom i område 3. Detaljsidan ligger på /filmer/{id:int} och behöver
+        // något att slå upp filmen på.
+        public int Id { get; set; }
+        public string Titel { get; set; } = "";
+        public int Ar { get; set; }
+        public int LangdMinuter { get; set; }
+        public int Betyg { get; set; }
+        public string Beskrivning { get; set; } = "";
+        public bool Tillganglig { get; set; }
+    }</code></pre>
+    <p><strong>Filen.</strong> <code>Models/Filmdata.cs</code> – ny:</p>
+    <pre><code class="sprak-csharp">namespace Filmarkivet.Models;
+
+    public static class Filmdata
+    {
+        public static List&lt;Film&gt; Alla { get; } = new()
+        {
+            new Film
+            {
+                Id = 1,
+                Titel = "Nyckeln till frihet",
+                Ar = 1994,
+                LangdMinuter = 142,
+                Betyg = 5,
+                Beskrivning = "En bankman döms för ett mord han inte begått och bygger under nitton år i Shawshank en vänskap som bär honom.",
+                Tillganglig = true
+            },
+            // … resten av filmerna, se referensprojektet
+        };
+
+        // Slår upp en film på id. Returtypen Film? betyder att svaret kan vara null:
+        // frågar någon efter /filmer/99 finns ingen film att lämna tillbaka.
+        public static Film? Hamta(int id)
+        {
+            foreach (var film in Alla)
+            {
+                if (film.Id == id)
+                {
+                    return film;
+                }
+            }
+
+            return null;
+        }
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> I område 2 låg listan i ett <code>@code</code>-block i <code>Filmer.razor</code>. Det fungerade så länge en enda sida behövde den. Nu ska två sidor se samma filmer: <code>/filmer</code> visar dem och <code>/filmer/2</code> slår upp en av dem. Ett fält inuti en komponent syns inte från en annan komponent.</p>
+    <p><code>static</code> betyder att listan hör till klassen och inte till ett objekt. Det finns exakt en lista, gemensam för alla besökare, och den lever så länge servern gör det. <strong>Det är en förenkling.</strong> En riktig applikation håller inte data i en statisk lista – i område 4 flyttar innehållet in bakom gränssnittet <code>IFilmService</code>, och då försvinner både <code>static</code> och den här filen. Skälet att den finns nu är att område 3 handlar om komponenter, och att lösa datafrågan ordentligt skulle stjäla hela området.</p>
+    <p><code>Film?</code> med frågetecken är en <strong>nullbar</strong> typ: värdet kan saknas. Utan frågetecknet varnar kompilatorn för <code>return null</code>. Frågetecknet är ditt löfte att den som anropar metoden kommer att kontrollera svaret – och i steg 10 gör vi det.</p>
+    <p><code>foreach</code> i stället för LINQ. <code>Alla.FirstOrDefault(f =&gt; f.Id == id)</code> gör samma sak på en rad, men LINQ kommer i område 6. Skriv loopen nu, byt sedan.</p>
+    <p><strong>Kontrollera.</strong> Projektet bygger. Ingenting har ändrats på skärmen ännu.</p>
+    <p><strong>I ditt projekt.</strong> Samma två filer, dina namn. Har din huvudentitet inget naturligt <code>Id</code> – ett artikelnummer, ett ISBN – lägg till ett och numrera 1, 2, 3. Minst sex poster, annars blir listsidan svår att se någon poäng med.</p>
+    <h2 id="steg-2">Steg 2 – Den första komponenten</h2>
+    <p><strong>Vad vi gör.</strong> Bryter ut ett filmkort ur sidan till en egen fil.</p>
+    <p><strong>Filen.</strong> <code>Components/Filmer/FilmKort.razor</code> – ny mapp, ny fil:</p>
+    <pre><code class="sprak-razor">&lt;article class="filmkort"&gt;
+        &lt;h3 class="filmkort-titel"&gt;@Filmdata.Alla[0].Titel&lt;/h3&gt;
+
+        &lt;p class="filmkort-fakta"&gt;
+            @Filmdata.Alla[0].Ar
+        &lt;/p&gt;
+    &lt;/article&gt;</code></pre>
+    <p>Använd den i <code>Components/Pages/Home.razor</code>:</p>
+    <pre><code class="sprak-razor">&lt;h2&gt;Veckans film&lt;/h2&gt;
+
+    &lt;FilmKort /&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Skillnaden mellan en komponent och en sida är <strong>en enda rad</strong>: <code>@page</code>. Med <code>@page "/filmer"</code> har komponenten en egen adress och routern kan skicka besökare dit. Utan <code>@page</code> går den bara att använda inuti en annan komponent, som ett <code>&lt;FilmKort /&gt;</code> i markupen.</p>
+    <p>Taggen är filnamnet. <code>FilmKort.razor</code> blir <code>&lt;FilmKort /&gt;</code>. Därför måste komponentfiler börja med <strong>stor bokstav</strong> – Razor skiljer <code>&lt;filmkort&gt;</code>, som är okänd HTML, från <code>&lt;FilmKort&gt;</code>, som är en komponent.</p>
+    <p>Mappen <code>Components/Filmer/</code> är ett val, inte ett krav. Komponenter går att lägga var som helst. Men ett projekt där allt ligger i <code>Pages/</code> blir oläsligt vid tjugo filer, och du kommer att ha tjugo filer i område 6.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/</code>. Kortet syns under rubriken <em>Veckans film</em>.</p>
+    <p><strong>Och nu det viktiga:</strong> lägg <code>&lt;FilmKort /&gt;</code> en gång till, direkt under den första. Du får två kort som visar samma film. Komponenten kan bara visa <code>Alla[0]</code>, för det är det enda den vet. <strong>Det är problemet som steg 3 löser.</strong> Ta bort det extra kortet igen innan du går vidare.</p>
+    <p><strong>I ditt projekt.</strong> Bryt ut det du visar oftast. Är det en rad i en tabell blir det en <code>&lt;Rad&gt;</code>-komponent i stället för ett kort – strukturen är densamma.</p>
+    <h2 id="steg-3">Steg 3 – Parametern</h2>
+    <p><strong>Vad vi gör.</strong> Låter kortet ta emot vilken film det ska visa.</p>
+    <p><strong>Filen.</strong> <code>Components/Filmer/FilmKort.razor</code>:</p>
+    <pre><code class="sprak-razor">&lt;article class="filmkort"&gt;
+        &lt;h3 class="filmkort-titel"&gt;
+            &lt;a href="filmer/@Film.Id"&gt;@Film.Titel&lt;/a&gt;
+        &lt;/h3&gt;
+
+        &lt;p class="filmkort-fakta"&gt;
+            @Film.Ar &amp;middot; @Speltid()
+        &lt;/p&gt;
+    &lt;/article&gt;
+
+    @code {
+        // EditorRequired gör att editorn varnar om parametern glöms bort. Den är en
+        // varning, inte ett fel – koden kompilerar ändå.
+        [Parameter]
+        [EditorRequired]
+        public Film Film { get; set; } = new();
+
+        private string Speltid() =&gt; $"{Film.LangdMinuter / 60} h {Film.LangdMinuter % 60} min";
+    }</code></pre>
+    <p>Och i <code>Components/Pages/Home.razor</code>:</p>
+    <pre><code class="sprak-razor">&lt;FilmKort Film="Filmdata.Alla[0]" /&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>[Parameter]</code> är det som gör en egenskap mottaglig utifrån. Utan attributet är egenskapen helt vanlig C# och Blazor vägrar sätta den – med ett felmeddelande som säger precis det: <em>has a property matching the name 'Film', but it does not have [Parameter]</em>.</p>
+    <p>Attributet står på egen rad ovanför egenskapen. <code>public</code> krävs: en <code>private</code> egenskap går inte att sätta utifrån hur många attribut man än sätter på den.</p>
+    <p><code>= new()</code> i slutet är där för att kompilatorn annars varnar för att <code>Film</code> kan vara null innan den satts. Det är ett tomt objekt som aldrig hinner synas.</p>
+    <p>Att egenskapen heter <code>Film</code> och typen också heter <code>Film</code> är tillåtet i C# och vanligt i Blazor. Inuti komponenten betyder <code>Film</code> egenskapen; typen används bara i deklarationen.</p>
+    <p><strong>Data flödar nedåt.</strong> Sidan bestämmer vilken film kortet ska visa. Kortet kan inte säga något tillbaka, och det ska det inte kunna. Ett kort som ändrade i listan hade gjort att man måste läsa alla komponenter för att veta vad som händer med datan.</p>
+    <p><strong>Kontrollera.</strong> Lägg tillbaka det andra kortet, med <code>Filmdata.Alla[1]</code>. Nu visar de två olika filmer. Samma fil, två resultat – det är vad parametern köpte.</p>
+    <p><strong>I ditt projekt.</strong> En parameter per sak kortet behöver. Skicka hellre in hela objektet än sju enskilda fält: <code>&lt;Kort Bok="bok" /&gt;</code> slår <code>&lt;Kort Titel="…" Forfattare="…" Ar="…" /&gt;</code> på varje punkt utom en, och den enda är att komponenten då blir bunden till din entitet. Här är det rätt pris.</p>
+    <h2 id="steg-4">Steg 4 – Två komponenter som inte vet något om filmer</h2>
+    <p><strong>Vad vi gör.</strong> Bygger betygsstjärnorna och statusetiketten som egna komponenter.</p>
+    <p><strong>Filen.</strong> <code>Components/Delade/Betygsstjarnor.razor</code> – ny mapp:</p>
+    <pre><code class="sprak-razor">@* Visar ett betyg 1–5 som stjärnor. Vet ingenting om filmer – bara om ett tal. *@
+
+    &lt;span class="betyg" title="@Varde av 5"&gt;
+        @for (int i = 1; i &lt;= 5; i++)
+        {
+            &lt;span class="@(i &lt;= Varde ? "stjarna fylld" : "stjarna")"&gt;&amp;#9733;&lt;/span&gt;
+        }
+    &lt;/span&gt;
+
+    @code {
+        [Parameter]
+        [EditorRequired]
+        public int Varde { get; set; }
+    }</code></pre>
+    <p><strong>Filen.</strong> <code>Components/Delade/Statusetikett.razor</code>:</p>
+    <pre><code class="sprak-razor">@* Ett ja/nej-värde som en läsbar etikett. *@
+
+    &lt;span class="etikett @(Tillganglig ? "etikett-ja" : "etikett-nej")"&gt;
+        @(Tillganglig ? "Tillgänglig" : "Utlånad")
+    &lt;/span&gt;
+
+    @code {
+        [Parameter]
+        [EditorRequired]
+        public bool Tillganglig { get; set; }
+    }</code></pre>
+    <p>Använd dem i <code>FilmKort.razor</code>, efter fakta-raden:</p>
+    <pre><code class="sprak-razor">    &lt;Betygsstjarnor Varde="Film.Betyg" /&gt;
+        &lt;Statusetikett Tillganglig="Film.Tillganglig" /&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong> De två ligger i <code>Delade/</code> och inte i <code>Filmer/</code> därför att de inte känner till <code>Film</code>. <code>Betygsstjarnor</code> tar ett <code>int</code>, <code>Statusetikett</code> tar en <code>bool</code>. Det gör dem användbara på detaljsidan också, och i vilken framtida komponent som helst.</p>
+    <p><code>Varde="Film.Betyg"</code> utan snabel-a framför uttrycket. Blazor läser attributvärdet som C# när parametern inte är en <code>string</code>. Vore parametern en <code>string</code> hade <code>Varde="Film.Betyg"</code> betytt bokstavligen texten <code>Film.Betyg</code> – och då behövs <code>Varde="@Film.Betyg"</code>.</p>
+    <p><strong>Typad parameter</strong> betyder att <code>&lt;Betygsstjarnor Varde="fyra" /&gt;</code> inte kompilerar. Kompilatorn stoppar det, precis som den stoppar <code>int x = "fyra";</code>. Det är därför parametrar ska ha rätt typ och inte <code>string</code> överallt.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/</code>. Kortet visar fem stjärnor, varav fyra eller fem är gula, och en etikett som säger <em>Tillgänglig</em> eller <em>Utlånad</em>.</p>
+    <p><strong>I ditt projekt.</strong> Leta efter fälten som visas på ett särskilt sätt: ett betyg, en status, ett pris, ett datum. Varje sådan formatering är en kandidat till en egen liten komponent. Du behöver minst två för att nå kravet på fyra komponenter.</p>
+    <h2 id="steg-5">Steg 5 – Listan som komponent</h2>
+    <p><strong>Vad vi gör.</strong> Gör rutnätet av kort till en egen komponent.</p>
+    <p><strong>Filen.</strong> <code>Components/Filmer/FilmLista.razor</code>:</p>
+    <pre><code class="sprak-razor">&lt;section class="filmlista"&gt;
+        &lt;h2&gt;@Rubrik&lt;/h2&gt;
+
+        @if (Filmer.Count == 0)
+        {
+            &lt;p class="tomt"&gt;@TomText&lt;/p&gt;
+        }
+        else
+        {
+            &lt;div class="filmrutnat"&gt;
+                @foreach (var film in Filmer)
+                {
+                    &lt;FilmKort Film="film" /&gt;
+                }
+            &lt;/div&gt;
+        }
+    &lt;/section&gt;
+
+    @code {
+        [Parameter]
+        [EditorRequired]
+        public List&lt;Film&gt; Filmer { get; set; } = new();
+
+        [Parameter]
+        [EditorRequired]
+        public string Rubrik { get; set; } = "";
+
+        // Har ett förvalt värde och är därför frivillig att sätta.
+        [Parameter]
+        public string TomText { get; set; } = "Inga filmer att visa.";
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Komponenten bestämmer <strong>hur</strong> filmer visas, aldrig <strong>vilka</strong>. Listan kommer in som parameter. Det gör att samma komponent kan visa topplistan på startsidan, alla filmer på <code>/filmer</code> och sökträffarna – utan att veta något om något av det.</p>
+    <p><code>TomText</code> har ett förvalt värde och är därför frivillig. Sätts den inte används "Inga filmer att visa.". Så skiljer man en parameter som måste sättas från en som kan sättas: ett vettigt förval, inte <code>[EditorRequired]</code>.</p>
+    <p><code>@if (Filmer.Count == 0)</code> finns för att en tom lista annars ger en rubrik som svävar över ingenting. Det tomma fallet är alltid värt en rad kod – det är det som händer när sökningen inte ger träff, och det kommer att hända.</p>
+    <p>En komponent inuti en komponent: <code>FilmLista</code> använder <code>FilmKort</code>, som använder <code>Betygsstjarnor</code>. Tre nivåer, och varje nivå bryr sig bara om nivån under.</p>
+    <p><strong>Kontrollera.</strong> Byt ut tabellen i <code>Components/Pages/Filmer.razor</code> mot</p>
+    <pre><code class="sprak-razor">&lt;FilmLista Rubrik="Alla filmer" Filmer="Filmdata.Alla" /&gt;</code></pre>
+    <p>Gå till <code>/filmer</code>. Sex kort i ett rutnät i stället för tabellen från område 2.</p>
+    <p><strong>I ditt projekt.</strong> Din lista tar din <code>List&lt;T&gt;</code>. Behåller du en tabell i stället för kort blir <code>@foreach</code> en <code>&lt;tr&gt;</code> – strukturen är identisk, bara markupen skiljer.</p>
+    <h2 id="steg-6">Steg 6 – Komponenten som räknar</h2>
+    <p><strong>Vad vi gör.</strong> Flyttar metoderna från område 2 in i en komponent som äger dem.</p>
+    <p><strong>Filen.</strong> <code>Components/Filmer/Filmstatistik.razor</code>:</p>
+    <pre><code class="sprak-razor">&lt;ul class="statistik"&gt;
+        &lt;li&gt;Antal filmer: @Filmer.Count&lt;/li&gt;
+        &lt;li&gt;Snittbetyg: @Snittbetyg().ToString("0.0")&lt;/li&gt;
+        &lt;li&gt;Längsta filmen: @LangstaFilmen().Titel, @LangstaFilmen().LangdMinuter minuter&lt;/li&gt;
+        &lt;li&gt;Tillgängliga just nu: @AntalTillgangliga() av @Filmer.Count&lt;/li&gt;
+    &lt;/ul&gt;
+
+    @code {
+        [Parameter]
+        [EditorRequired]
+        public List&lt;Film&gt; Filmer { get; set; } = new();
+
+        private double Snittbetyg()
+        {
+            int summa = 0;
+
+            foreach (var film in Filmer)
+            {
+                summa = summa + film.Betyg;
+            }
+
+            return (double)summa / Filmer.Count;
+        }
+
+        private Film LangstaFilmen()
+        {
+            Film langst = Filmer[0];
+
+            foreach (var film in Filmer)
+            {
+                if (film.LangdMinuter &gt; langst.LangdMinuter)
+                {
+                    langst = film;
+                }
+            }
+
+            return langst;
+        }
+
+        private int AntalTillgangliga()
+        {
+            int antal = 0;
+
+            foreach (var film in Filmer)
+            {
+                if (film.Tillganglig)
+                {
+                    antal++;
+                }
+            }
+
+            return antal;
+        }
+    }</code></pre>
+    <p>I <code>Home.razor</code>:</p>
+    <pre><code class="sprak-razor">&lt;h2&gt;Om samlingen&lt;/h2&gt;
+
+    &lt;Filmstatistik Filmer="Filmdata.Alla" /&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Metoderna är oförändrade från område 2 – de har bara flyttat. Skillnaden är att de nu räknar på <code>Filmer</code>, parametern, i stället för på ett fält i sidan. Samma komponent kan räkna på hela arkivet eller på ett urval.</p>
+    <p>Det här är sista gången uträkningarna bor i en komponent. I område 4 flyttar de en gång till, in i en <strong>tjänst</strong>, och då är argumentet att en komponent ska visa och inte beräkna. Lägg märke till att flytten dit blir lätt just för att metoderna redan står samlade på ett ställe och tar sin data som parameter.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/</code>. Under <em>Om samlingen</em>: fyra rader med siffror. Snittet ska visas som <code>4,5</code>, inte <code>4</code>. Blir det <code>4</code> har <code>(double)</code> fallit bort.</p>
+    <p><strong>I ditt projekt.</strong> Minst en metod som räknar på hela listan. Snitt, summa, antal eller största – vad som är meningsfullt i din domän.</p>
+    <h2 id="steg-7">Steg 7 – Innehåll som parameter</h2>
+    <p><strong>Vad vi gör.</strong> Bygger en ruta där den som använder komponenten bestämmer vad som står inuti.</p>
+    <p><strong>Filen.</strong> <code>Components/Delade/Ruta.razor</code>:</p>
+    <pre><code class="sprak-razor">@* En ram med rubrik. Vad som står inuti bestämmer den som använder komponenten:
+       allt mellan &lt;Ruta&gt; och &lt;/Ruta&gt; hamnar i ChildContent. *@
+
+    &lt;section class="ruta"&gt;
+        &lt;h2&gt;@Rubrik&lt;/h2&gt;
+        @ChildContent
+    &lt;/section&gt;
+
+    @code {
+        [Parameter]
+        [EditorRequired]
+        public string Rubrik { get; set; } = "";
+
+        // RenderFragment är markup som skickas in utifrån. Heter parametern
+        // ChildContent fylls den automatiskt med det som står mellan taggarna.
+        [Parameter]
+        public RenderFragment? ChildContent { get; set; }
+    }</code></pre>
+    <p>I <code>Home.razor</code>:</p>
+    <pre><code class="sprak-razor">&lt;Ruta Rubrik="Vad som är nytt i område 3"&gt;
+        &lt;p&gt;
+            Sidorna byggs av komponenter i stället för av markup. Ett kort är en fil,
+            en lista är en fil, och betygsstjärnorna är en tredje.
+        &lt;/p&gt;
+    &lt;/Ruta&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong> En <code>string</code>-parameter skickar in ett <strong>värde</strong>. En <code>RenderFragment</code> skickar in <strong>markup</strong>: stycken, listor, länkar, till och med andra komponenter. Det gör skillnaden mellan en komponent som visar en text och en som är en ram runt vad som helst.</p>
+    <p>Namnet <code>ChildContent</code> är inte fritt valt. Blazor letar efter exakt det namnet när det står markup mellan öppnings- och stängningstaggen. Heter parametern något annat får du felet <em>does not have a property matching the name 'ChildContent'</em> – och det är ett <strong>körfel</strong>, inte ett kompileringsfel. Sidan bygger, och kraschar när någon öppnar den.</p>
+    <p>Frågetecknet i <code>RenderFragment?</code> betyder att den kan saknas. Skriver du <code>&lt;Ruta Rubrik="Tom" /&gt;</code> utan innehåll är <code>ChildContent</code> null och <code>@ChildContent</code> renderar ingenting alls. Ingen krasch.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/</code>. Rutan har en blå ram, rubriken står överst och ditt stycke inuti. Byt ut stycket mot en <code>&lt;ul&gt;</code> med tre punkter och ladda om – samma komponent, annat innehåll.</p>
+    <p><strong>I ditt projekt.</strong> <code>Ruta</code> är domänfri och kan heta likadant hos dig. Den räknas som en av dina fyra komponenter och uppfyller kravet på <code>RenderFragment</code>.</p>
+    <h2 id="steg-8">Steg 8 – En fotnot bara ibland</h2>
+    <p><strong>Vad vi gör.</strong> Ger <code>FilmKort</code> en andra <code>RenderFragment</code>, som bara vissa användningar fyller.</p>
+    <p><strong>Filen.</strong> <code>Components/Filmer/FilmKort.razor</code>, sist i markupen och i <code>@code</code>:</p>
+    <pre><code class="sprak-razor">    @if (Fotnot is not null)
+        {
+            &lt;div class="filmkort-fotnot"&gt;@Fotnot&lt;/div&gt;
+        }</code></pre>
+    <pre><code class="sprak-csharp">    // En namngiven RenderFragment. Den som använder kortet kan skicka in markup
+        // med &lt;Fotnot&gt;...&lt;/Fotnot&gt;. Utelämnas den är Fotnot null och raden uteblir.
+        [Parameter]
+        public RenderFragment? Fotnot { get; set; }</code></pre>
+    <p>I <code>Home.razor</code>:</p>
+    <pre><code class="sprak-razor">&lt;h2&gt;Veckans film&lt;/h2&gt;
+
+    &lt;FilmKort Film="veckansFilm"&gt;
+        &lt;Fotnot&gt;
+            Vald för att den är kortast i arkivet. &lt;strong&gt;@veckansFilm.LangdMinuter&lt;/strong&gt;
+            minuter hinns med en tisdagskväll.
+        &lt;/Fotnot&gt;
+    &lt;/FilmKort&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong> En komponent kan ha flera <code>RenderFragment</code>-parametrar. Den som heter <code>ChildContent</code> fylls automatiskt; alla andra fylls med en tagg som har parameterns namn. <code>&lt;Fotnot&gt;</code> är alltså inte en komponent utan namnet på en parameter i <code>FilmKort</code>.</p>
+    <p><code>FilmKort</code> har bara en <code>RenderFragment</code>, och därför räcker <code>&lt;Fotnot&gt;</code> ensam. Ger du komponenten <strong>både</strong> <code>ChildContent</code> och en namngiven måste båda skrivas ut som taggar – lös markup bredvid <code>&lt;Fotnot&gt;</code> ger kompileringsfelet <code>RZ9996</code>. Det är områdets enda felmeddelande som kommer före körningen, och det säger rakt ut vilka namn komponenten accepterar.</p>
+    <p><code>@if (Fotnot is not null)</code> gör att <code>&lt;div class="filmkort-fotnot"&gt;</code> bara skapas när det finns något att lägga i den. Utan villkoret hade varje kort i listan fått en tom div med en kantlinje överst.</p>
+    <p>**Detta är hela poängen med <code>RenderFragment</code>:** samma kort, olika mycket innehåll, beroende på sammanhanget. Kortet i listan har ingen fotnot. Kortet på startsidan har en, och den innehåller till och med ett uträknat värde från sidan.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/</code>. Kortet under <em>Veckans film</em> har en avdelad rad längst ned. Korten under <em>Högst betyg</em> har det inte. Samma fil.</p>
+    <p><strong>I ditt projekt.</strong> En namngiven <code>RenderFragment</code> någonstans där du ibland vill säga något extra: varför en post är utvald, en varning, ett datum.</p>
+    <h2 id="steg-9">Steg 9 – Detaljsidan och ruttparametern</h2>
+    <p><strong>Vad vi gör.</strong> Bygger sidan som visar en enda film, med id:t hämtat ur adressen.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/Filmdetalj.razor</code> – ny:</p>
+    <pre><code class="sprak-razor">@page "/filmer/{id:int}"
+
+    &lt;PageTitle&gt;@(film?.Titel ?? "Filmen finns inte") – Filmarkivet&lt;/PageTitle&gt;
+
+    @if (film is not null)
+    {
+        &lt;p class="brodsmula"&gt;&lt;a href="filmer"&gt;&amp;larr; Alla filmer&lt;/a&gt;&lt;/p&gt;
+
+        &lt;h1&gt;@film.Titel&lt;/h1&gt;
+
+        &lt;p class="filmkort-fakta"&gt;
+            @film.Ar &amp;middot; @film.LangdMinuter minuter
+        &lt;/p&gt;
+
+        &lt;Betygsstjarnor Varde="film.Betyg" /&gt;
+        &lt;Statusetikett Tillganglig="film.Tillganglig" /&gt;
+
+        &lt;p class="beskrivning"&gt;@film.Beskrivning&lt;/p&gt;
+    }
+
+    @code {
+        // Namnet måste stämma med {id:int} i @page-raden. Stor eller liten
+        // begynnelsebokstav spelar ingen roll, stavningen gör det.
+        [Parameter]
+        public int Id { get; set; }
+
+        private Film? film;
+
+        protected override void OnParametersSet()
+        {
+            film = Filmdata.Hamta(Id);
+        }
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>{id:int}</code> i <code>@page</code> säger två saker. Att den delen av adressen ska bli en parameter, och att den bara matchar om den är ett <strong>heltal</strong>. Utan <code>:int</code> matchar <code>/filmer/abc</code> också, och Blazor försöker då stoppa in texten <code>abc</code> i en <code>int</code>. Resultatet är ett körfel: <em>Unable to cast object of type 'System.String' to type 'System.Int32'</em>.</p>
+    <p>Med <code>:int</code> matchar rutten helt enkelt inte, och <code>/filmer/abc</code> blir en 404 – innan en enda rad i din komponent har körts. <strong>Ruttbegränsningen är den billigaste felhanteringen som finns.</strong></p>
+    <p>Namnet <code>Id</code> i <code>@code</code> måste stämma med <code>{id:int}</code> i rutten. Blazor jämför utan hänsyn till stor eller liten bokstav, men inte till stavning: heter egenskapen <code>Nummer</code> får du <em>does not have a property matching the name 'id'</em>.</p>
+    <p><code>OnParametersSet</code> och inte <code>OnInitialized</code>: uppslagningen beror på <code>Id</code>, och <code>Id</code> är en parameter. Steg 15 går igenom skillnaden.</p>
+    <p>Länken i <code>FilmKort</code> – <code>&lt;a href="filmer/@Film.Id"&gt;</code> – är det som leder hit. Den skrevs redan i steg 3 och pekade fram tills nu på ingenting.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/filmer</code> och klicka på en titel. Du landar på <code>/filmer/3</code> eller motsvarande och ser beskrivningen, som inte syns någon annanstans.</p>
+    <p><strong>I ditt projekt.</strong> <code>@page "/dina-saker/{id:int}"</code>. Kontrollera att ditt kort länkar dit, annars går sidan bara att nå genom att skriva adressen för hand.</p>
+    <h2 id="steg-10">Steg 10 – När filmen inte finns</h2>
+    <p><strong>Vad vi gör.</strong> Får <code>/filmer/99</code> att svara 404 i stället för en tom sida.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/Filmdetalj.razor</code>, överst och i <code>OnParametersSet</code>:</p>
+    <pre><code class="sprak-razor">@page "/filmer/{id:int}"
+    @inject NavigationManager Navigering</code></pre>
+    <pre><code class="sprak-csharp">    protected override void OnParametersSet()
+        {
+            film = Filmdata.Hamta(Id);
+
+            if (film is null)
+            {
+                // Ingen film med det id:t. NotFound() gör att Router visar
+                // NotFound-sidan och servern svarar 404 i stället för 200.
+                Navigering.NotFound();
+                return;
+            }
+        }</code></pre>
+    <p><strong>Filen.</strong> <code>Components/Pages/NotFound.razor</code> – skriv om mallens engelska text:</p>
+    <pre><code class="sprak-razor">@page "/not-found"
+    @layout MainLayout
+
+    &lt;PageTitle&gt;Sidan finns inte – Filmarkivet&lt;/PageTitle&gt;
+
+    &lt;h1&gt;Sidan finns inte&lt;/h1&gt;
+
+    &lt;p&gt;
+        Adressen ledde ingenstans. Det vanligaste är en film som inte finns:
+        &lt;code&gt;/filmer/99&lt;/code&gt; när arkivet bara har sex filmer.
+    &lt;/p&gt;
+
+    &lt;p&gt;&lt;a href="filmer"&gt;Till alla filmer&lt;/a&gt;&lt;/p&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>@inject NavigationManager Navigering</code> ber Blazor om tjänsten som kan adresser. <code>NavigationManager</code> kan läsa den aktuella adressen, byta adress, och – sedan .NET 10 – säga att det som efterfrågades inte finns.</p>
+    <p><code>Navigering.NotFound()</code> gör två saker samtidigt. <code>Router</code> i <code>Routes.razor</code> visar komponenten som står i <code>NotFoundPage</code>, och servern sätter statuskoden till <strong>404</strong>.</p>
+    <p>Statuskoden är det som spelar roll. En sida som skriver "finns inte" men svarar <code>200 OK</code> ljuger för allt som läser statuskoder i stället för text: sökmotorer, övervakning, andra program. Kontrollera i webbläsarens nätverksflik – står det 200 är det fel, hur rätt texten än är.</p>
+    <p><code>return</code> efter anropet: utan det fortsätter metoden med <code>film</code> som null och kraschar på nästa rad som rör den.</p>
+    <p><code>Routes.razor</code> har redan <code>NotFoundPage="typeof(Pages.NotFound)"</code> – det kom med mallen i .NET 10. <code>Program.cs</code> har <code>app.UseStatusCodePagesWithReExecute("/not-found", …)</code>, som är det som gör att <code>/nagot-som-inte-finns</code> också hamnar rätt.</p>
+    <p><strong>Kontrollera.</strong> Tre adresser:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Adress</th><th>Ska ge</th></tr></thead>
+    <tbody>
+    <tr><td><code>/filmer/3</code></td><td>Filmen. Status 200</td></tr>
+    <tr><td><code>/filmer/99</code></td><td>"Sidan finns inte". Status <strong>404</strong></td></tr>
+    <tr><td><code>/filmer/abc</code></td><td>"Sidan finns inte". Status <strong>404</strong>, stoppad av <code>:int</code></td></tr>
+    </tbody></table></div>
+    <p>Öppna nätverksfliken (F12) och kontrollera statuskoden, inte bara texten.</p>
+    <p><strong>I ditt projekt.</strong> Samma tre kontroller, dina adresser. Det här är ett av kraven för C – och en av de vanligaste sakerna som saknas.</p>
+    <h2 id="steg-11">Steg 11 – Sökningen och frågesträngen</h2>
+    <p><strong>Vad vi gör.</strong> Lägger en sökruta på <code>/filmer</code> som filtrerar på titel.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/Filmer.razor</code>:</p>
+    <pre><code class="sprak-razor">@page "/filmer"
+
+    &lt;PageTitle&gt;Filmer – Filmarkivet&lt;/PageTitle&gt;
+
+    &lt;h1&gt;Filmer&lt;/h1&gt;
+
+    &lt;form method="get" action="filmer" class="sokruta"&gt;
+        &lt;label for="sok"&gt;Sök på titel&lt;/label&gt;
+        &lt;input type="search" id="sok" name="sok" value="@Sok" /&gt;
+        &lt;button type="submit"&gt;Sök&lt;/button&gt;
+        &lt;a href="filmer"&gt;Visa alla&lt;/a&gt;
+    &lt;/form&gt;
+
+    &lt;FilmLista Rubrik="@Rubrik()"
+               Filmer="traffar"
+               TomText="@($"Ingen titel innehåller \"{Sok}\".")" /&gt;
+
+    @code {
+        // Värdet efter ?sok= i adressen. Formuläret ovanför skickar dit det.
+        [SupplyParameterFromQuery]
+        public string? Sok { get; set; }
+
+        private List&lt;Film&gt; traffar = new();
+
+        // OnParametersSet och inte OnInitialized: träffarna beror på Sok, och Sok är
+        // en parameter. Ändras adressen ska listan räknas om.
+        protected override void OnParametersSet()
+        {
+            traffar = new List&lt;Film&gt;();
+
+            foreach (var film in Filmdata.Alla)
+            {
+                if (string.IsNullOrWhiteSpace(Sok)
+                    || film.Titel.Contains(Sok, StringComparison.OrdinalIgnoreCase))
+                {
+                    traffar.Add(film);
+                }
+            }
+        }
+
+        private string Rubrik()
+        {
+            if (string.IsNullOrWhiteSpace(Sok))
+            {
+                return $"Alla filmer ({traffar.Count})";
+            }
+
+            return $"Träffar på \"{Sok}\" ({traffar.Count})";
+        }
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Två sätt att få data ur adressen, och de gör olika saker:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th></th><th>Ruttparameter</th><th>Frågesträng</th></tr></thead>
+    <tbody>
+    <tr><td>Ser ut som</td><td><code>/filmer/3</code></td><td><code>/filmer?sok=cykel</code></td></tr>
+    <tr><td>Deklareras med</td><td><code>{id:int}</code> i <code>@page</code> + <code>[Parameter]</code></td><td><code>[SupplyParameterFromQuery]</code></td></tr>
+    <tr><td>Måste finnas</td><td>Ja, annars matchar inte rutten</td><td>Nej, saknas den blir värdet null eller 0</td></tr>
+    <tr><td>Används till</td><td>Vilken sak som ska visas</td><td>Hur den ska visas: sökning, filter, sortering</td></tr>
+    </tbody></table></div>
+    <p><code>&lt;form method="get"&gt;</code> är ren HTML och kräver <strong>ingen</strong> interaktivitet. Webbläsaren tar <code>name="sok"</code> och värdet i rutan och bygger adressen <code>/filmer?sok=cykel</code> åt dig. Servern får en helt vanlig ny förfrågan, komponenten byggs om, och <code>Sok</code> är satt. Ingen JavaScript, ingen knapphändelse.</p>
+    <p><code>value="@Sok"</code> gör att sökordet står kvar i rutan efter sökningen. Utan den raden töms fältet varje gång, vilket ser trasigt ut.</p>
+    <p><code>StringComparison.OrdinalIgnoreCase</code> gör sökningen okänslig för stora och små bokstäver. <code>Contains(Sok)</code> utan den hade krävt exakt <code>Cykel</code> med stort C.</p>
+    <p><strong>Kontrollera.</strong> Fyra sökningar:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Adress</th><th>Ska ge</th></tr></thead>
+    <tbody>
+    <tr><td><code>/filmer</code></td><td>Alla filmer (6)</td></tr>
+    <tr><td><code>/filmer?sok=cykel</code></td><td>Träffar på "cykel" (1)</td></tr>
+    <tr><td><code>/filmer?sok=CYKEL</code></td><td>Samma träff</td></tr>
+    <tr><td><code>/filmer?sok=zzz</code></td><td>Texten från <code>TomText</code></td></tr>
+    </tbody></table></div>
+    <p>Skriv i rutan och tryck på knappen – adressfältet ska ändras. Det är beviset för att det är webbläsaren som bygger frågesträngen.</p>
+    <p><strong>I ditt projekt.</strong> Sök på ditt textfält. Kravet för A är dessutom en sortering, och den byggs likadant: en <code>&lt;select name="sortera"&gt;</code> i samma formulär och en andra <code>[SupplyParameterFromQuery]</code>.</p>
+    <h2 id="steg-12">Steg 12 – Menyn</h2>
+    <p><strong>Vad vi gör.</strong> Uppdaterar navigeringen och tittar närmare på <code>NavLink</code>.</p>
+    <p><strong>Filen.</strong> <code>Components/Layout/NavMenu.razor</code>, i <code>&lt;nav&gt;</code>:</p>
+    <pre><code class="sprak-razor">        @* Match="NavLinkMatch.All" på startsidan. Utan den skulle länken räknas
+               som aktiv på varje adress, eftersom alla adresser börjar med /. *@
+            &lt;div class="nav-item px-3"&gt;
+                &lt;NavLink class="nav-link" href="" Match="NavLinkMatch.All"&gt;Start&lt;/NavLink&gt;
+            &lt;/div&gt;
+            &lt;div class="nav-item px-3"&gt;
+                &lt;NavLink class="nav-link" href="filmer"&gt;Filmer&lt;/NavLink&gt;
+            &lt;/div&gt;
+
+            &lt;div class="nav-rubrik px-3"&gt;Genomgångar&lt;/div&gt;
+
+            &lt;div class="nav-item px-3"&gt;
+                &lt;NavLink class="nav-link" href="datatyper"&gt;Datatyper&lt;/NavLink&gt;
+            &lt;/div&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>NavLink</code> är en komponent som renderar en <code>&lt;a&gt;</code> och dessutom sätter klassen <code>active</code> när adressen stämmer. Det är hela skillnaden mot en vanlig länk, och det är tillräckligt för att det ska vara värt en komponent: alternativet är att varje sida talar om för menyn var den är.</p>
+    <p><code>Match="NavLinkMatch.All"</code> betyder att adressen måste stämma <strong>helt</strong>. Förvalet är <code>NavLinkMatch.Prefix</code>, som räcker för <code>href="filmer"</code> – den ska vara aktiv även på <code>/filmer/3</code>. Men startsidans <code>href=""</code> är prefix till precis varenda adress, så utan <code>All</code> lyser <em>Start</em> överallt.</p>
+    <p><code>href="filmer"</code> utan inledande snedstreck. <code>&lt;base href="/" /&gt;</code> i <code>App.razor</code> gör resten. Skriver du <code>/filmer</code> fungerar det också – men relativa adresser är det som gör att applikationen går att lägga i en undermapp i område 8.</p>
+    <p><strong>Kontrollera.</strong> Klicka runt. Exakt en menypost i taget ska vara markerad. Gå till <code>/filmer/3</code> – <em>Filmer</em> ska fortfarande vara markerad, inte <em>Start</em>.</p>
+    <p><strong>I ditt projekt.</strong> Dina sidor. Kravet är att navigeringen fungerar, och det som oftast fattas är just markeringen: en meny där ingenting eller allting är markerat räknas inte som fungerande.</p>
+    <h2 id="steg-13">Steg 13 – Layouten och sidfoten</h2>
+    <p><strong>Vad vi gör.</strong> Lägger en sidfot i layouten, så att den syns på varje sida.</p>
+    <p><strong>Filen.</strong> <code>Components/Delade/Sidfot.razor</code>:</p>
+    <pre><code class="sprak-razor">@* Ligger i layouten och syns därför på varje sida. *@
+
+    &lt;footer class="sidfot"&gt;
+        &lt;p&gt;
+            Filmarkivet &amp;middot; Webbserverprogrammering 1 &amp;middot;
+            @DateTime.Now.Year
+        &lt;/p&gt;
+    &lt;/footer&gt;</code></pre>
+    <p><strong>Filen.</strong> <code>Components/Layout/MainLayout.razor</code>:</p>
+    <pre><code class="sprak-razor">@inherits LayoutComponentBase
+
+    &lt;div class="page"&gt;
+        &lt;div class="sidebar"&gt;
+            &lt;NavMenu /&gt;
+        &lt;/div&gt;
+
+        &lt;main&gt;
+            &lt;div class="top-row px-4"&gt;
+                &lt;span class="top-row-text"&gt;Webbserverprogrammering 1 &amp;middot; område 3&lt;/span&gt;
+            &lt;/div&gt;
+
+            @* @Body är hålet i layouten. Här renderas den sida rutten pekade ut. *@
+            &lt;article class="content px-4"&gt;
+                @Body
+            &lt;/article&gt;
+
+            &lt;Sidfot /&gt;
+        &lt;/main&gt;
+    &lt;/div&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>@inherits LayoutComponentBase</code> är det som gör komponenten till en layout. Basklassen ger den egenskapen <code>Body</code>, av typen <code>RenderFragment</code> – **samma typ som <code>ChildContent</code> i steg 7**. En layout är alltså inget nytt begrepp: det är en komponent med en <code>RenderFragment</code> som routern fyller med sidan i stället för att du gör det.</p>
+    <p>Vilken layout som används står i <code>Routes.razor</code>: <code>DefaultLayout="typeof(Layout.MainLayout)"</code>. En enskild sida kan säga emot med <code>@layout NagonAnnanLayout</code> överst – det gör <code>NotFound.razor</code>, eftersom den renderas utanför den vanliga vägen.</p>
+    <p>Sidfoten skrivs en gång och syns på sju sidor. Skrivs den i stället i varje sida finns den på sju ställen, och den åttonde sidan glömmer den.</p>
+    <p><strong>Kontrollera.</strong> Alla sidor – även <code>/datatyper</code> från område 2 – har fått en sidfot utan att en enda av dem ändrats. Det är vad <code>@Body</code> betyder.</p>
+    <p><strong>I ditt projekt.</strong> Minst en sak i layouten som du inte upprepar per sida. Sidfot, sidhuvud eller en avdelare räcker; kravet är att layouten är gemensam och att du kan peka på vad den ger.</p>
+    <h2 id="steg-14">Steg 14 – `_Imports.razor`</h2>
+    <p><strong>Vad vi gör.</strong> Slipper skriva samma <code>@using</code> överst i varje fil.</p>
+    <p><strong>Filen.</strong> <code>Components/_Imports.razor</code>, tre rader tillagda sist:</p>
+    <pre><code class="sprak-razor">@using Filmarkivet.Models
+    @using Filmarkivet.Components.Delade
+    @using Filmarkivet.Components.Filmer</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>_Imports.razor</code> gäller för alla <code>.razor</code>-filer i sin egen mapp och i alla undermappar. En rad här ersätter samma rad i varje sida.</p>
+    <p>Utan <code>@using Filmarkivet.Models</code> måste varje sida som nämner <code>Film</code> ha den raden själv – i område 2 stod den överst i <code>Filmer.razor</code> av precis det skälet.</p>
+    <p>De två andra raderna gör att <code>&lt;FilmKort /&gt;</code> och <code>&lt;Ruta /&gt;</code> går att skriva utan mappnamn. Blazor letar efter komponenter i de namnrymder som är importerade. Är <code>Filmarkivet.Components.Delade</code> inte importerad blir <code>&lt;Ruta&gt;</code> bara en okänd HTML-tagg – och det ger en <strong>varning</strong>, inte ett fel, så sidan renderar en tom <code>&lt;ruta&gt;</code>-tagg som inte finns. Det är ett av de svåraste felen att se, eftersom ingenting kraschar.</p>
+    <p>Filen är inte magisk: den gäller bara <code>.razor</code>. Vanliga <code>.cs</code>-filer använder sina egna <code>using</code> som förut, eller <code>ImplicitUsings</code> i <code>.csproj</code>.</p>
+    <p><strong>Kontrollera.</strong> Ta bort <code>@using Filmarkivet.Models</code> från en sida som använder <code>Film</code>. Projektet bygger ändå.</p>
+    <p><strong>I ditt projekt.</strong> Lägg dina namnrymder här när du har mer än två komponentmappar. Innan dess är det lika lätt att skriva ut dem.</p>
+    <h2 id="steg-15">Steg 15 – Livscykeln</h2>
+    <p><strong>Vad vi gör.</strong> Tar reda på när <code>OnInitialized</code> och <code>OnParametersSet</code> faktiskt körs.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/Livscykel.razor</code> – demo:</p>
+    <pre><code class="sprak-razor">@page "/livscykel"
+    @page "/livscykel/{Tal:int}"
+
+    &lt;h1&gt;Livscykeln vid statisk serverrendering&lt;/h1&gt;
+
+    &lt;p&gt;
+        Den här sidan har byggts &lt;strong&gt;@minInstans&lt;/strong&gt; gånger sedan servern
+        startade.
+    &lt;/p&gt;
+
+    &lt;ol&gt;
+        @foreach (var rad in logg)
+        {
+            &lt;li&gt;&lt;code&gt;@rad&lt;/code&gt;&lt;/li&gt;
+        }
+    &lt;/ol&gt;
+
+    @code {
+        [Parameter]
+        public int Tal { get; set; }
+
+        // static: hör till klassen och överlever mellan förfrågningar. Samma trick
+        // som räknaren i område 1. En riktig applikation räknar inte så här.
+        private static int antalForfragningar = 0;
+        private static int antalAfterRender = 0;
+
+        private int minInstans;
+        private List&lt;string&gt; logg = new();
+
+        protected override void OnInitialized()
+        {
+            antalForfragningar++;
+            minInstans = antalForfragningar;
+            logg.Add("OnInitialized – objektet är skapat, parametrarna är satta en första gång");
+        }
+
+        protected override void OnParametersSet()
+        {
+            logg.Add($"OnParametersSet – Tal är {Tal}");
+        }
+
+        protected override void OnAfterRender(bool firstRender)
+        {
+            antalAfterRender++;
+        }
+    }</code></pre>
+    <p>Hela filen med förklaringarna runt omkring ligger i referensprojektet.</p>
+    <p><strong>Varför det ser ut så.</strong> Tre metoder, och de körs inte som man tror.</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Metod</th><th>När</th><th>Vad den är till för</th></tr></thead>
+    <tbody>
+    <tr><td><code>OnInitialized</code></td><td>En gång, när objektet skapats</td><td>Sådant som inte beror på parametrarna</td></tr>
+    <tr><td><code>OnParametersSet</code></td><td>Varje gång parametrarna sätts</td><td>Sådant som beror på parametrarna</td></tr>
+    <tr><td><code>OnAfterRender</code></td><td>När sidan finns i webbläsaren</td><td>Kod som behöver en färdig sida att prata med</td></tr>
+    </tbody></table></div>
+    <p>**Vid statisk serverrendering körs <code>OnInitialized</code> och <code>OnParametersSet</code> exakt en gång var, i den ordningen, per förfrågan – och <code>OnAfterRender</code> körs inte alls.** Varje adressbyte är en ny förfrågan, ett nytt objekt av komponenten och en ny omgång. Det är därför det i den här kursen aldrig gör någon <em>praktisk</em> skillnad vilken av de två första du väljer.</p>
+    <p>Men valet betyder något ändå, av två skäl. Det säger åt den som läser koden vad uppslagningen beror på. Och det är rätt när komponenten en dag får nya parametrar utan att skapas om, vilket är precis vad ett interaktivt renderingsläge gör.</p>
+    <p><strong>Regeln:</strong> beror koden på en parameter går den i <code>OnParametersSet</code>. Gör den inte det går den i <code>OnInitialized</code>. <code>Filmdetalj</code> slår upp på <code>Id</code> – <code>OnParametersSet</code>. <code>Home</code> bygger topplistan ur en lista den redan har – <code>OnInitialized</code>.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/livscykel</code>. Ladda om fem gånger: räknaren går 1, 2, 3, 4, 5 – varje omladdning är ett nytt objekt. Loggen har alltid exakt två rader, i samma ordning. Och <code>OnAfterRender</code> står kvar på <strong>noll</strong>, hur många gånger du än laddar om.</p>
+    <p>Den nollan är det som gör statisk serverrendering konkret. Komponenten finns inte kvar när sidan når webbläsaren.</p>
+    <p><strong>I ditt projekt.</strong> Din detaljsida ska slå upp i <code>OnParametersSet</code>. Kan du säga varför är du klar med det här steget.</p>
+    <h2 id="steg-16">Steg 16 – Utseendet</h2>
+    <p><strong>Vad vi gör.</strong> Lägger till klasserna komponenterna använder.</p>
+    <p><strong>Filen.</strong> <code>wwwroot/app.css</code>, sist i filen:</p>
+    <pre><code class="sprak-css">/* Område 3: komponenterna */
+    .filmrutnat {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+
+    .filmkort {
+        border: 1px solid #d0d0d0;
+        border-radius: .3rem;
+        padding: .8rem 1rem;
+        background: #fff;
+    }
+
+    .betyg .stjarna {
+        color: #cfcfcf;
+    }
+
+    .betyg .stjarna.fylld {
+        color: #e0a300;
+    }
+
+    .etikett-ja {
+        background: #e3f5e3;
+        color: #1c5c1c;
+    }</code></pre>
+    <p>Resten av klasserna – <code>.filmkort-titel</code>, <code>.filmkort-fakta</code>, <code>.filmkort-fotnot</code>, <code>.etikett</code>, <code>.etikett-nej</code>, <code>.sokruta</code>, <code>.sidfot</code>, <code>.nav-rubrik</code>, <code>.beskrivning</code>, <code>.tomt</code> – ligger i referensprojektets <code>wwwroot/app.css</code>.</p>
+    <p><strong>Varför det ser ut så.</strong> <code>app.css</code> gäller hela applikationen. Alternativet är en <code>FilmKort.razor.css</code> bredvid komponenten, vilket Blazor stöder och kallar <em>isolerad CSS</em>: reglerna gäller då bara den komponenten. <code>MainLayout.razor.css</code> och <code>NavMenu.razor.css</code> i projektet är just sådana.</p>
+    <p>Här räcker <code>app.css</code>, eftersom klasserna används av flera komponenter – <code>.filmkort-fakta</code> står både i kortet och på detaljsidan.</p>
+    <p><code>auto-fill</code> med <code>minmax(15rem, 1fr)</code> gör att antalet kolumner följer fönstrets bredd utan en enda mediefråga.</p>
+    <p><strong>Kontrollera.</strong> Ladda om och dra ihop fönstret. Korten går från tre i bredd till två till ett.</p>
+    <p><strong>I ditt projekt.</strong> Dina klasser, ditt utseende. Utseendet bedöms inte, men ett projekt där man inte ser var ett kort slutar och nästa börjar är svårt att läsa även för den som rättar.</p>
+    <h2 id="fel">När något går fel</h2>
+    <p>Felen i det här området är nästan alla <strong>körfel</strong>, inte kompileringsfel. Projektet bygger, och sidan svarar 500. Meddelandet står i terminalen där <code>dotnet run</code> körs, och i webbläsaren om du kör i utvecklingsläge.</p>
+    <p>Slå upp felmeddelandet här innan du fastnar. Skriv en bit av det du ser.</p>
+
+        <div class="sok">
+          <label for="sok-fel">Sök bland felen</label>
+          <input type="search" id="sok-fel" data-sok="tabell-fel" data-traffar="traffar-fel"
+                 placeholder="till exempel: 404, namespace, Ã¥Ã¤Ã¶" autocomplete="off">
+          <p class="traffar" id="traffar-fel">10 rader</p>
+        </div>
+
+        <div class="tabellsvep">
+          <table id="tabell-fel">
+    <thead><tr><th>Felmeddelande</th><th>Vad det betyder</th><th>Gör så här</th></tr></thead>
+    <tbody>
+    <tr><td><code>Object of type '…' does not have a property matching the name 'X'</code></td><td>Du sätter en parameter som komponenten inte har</td><td>Stavfel, eller så glömdes parametern. Jämför taggen med <code>@code</code>-blocket</td></tr>
+    <tr><td><code>…does not have a property matching the name 'ChildContent'</code></td><td>Det står markup mellan taggarna, men komponenten har ingen <code>ChildContent</code></td><td>Lägg till <code>[Parameter] public RenderFragment? ChildContent { get; set; }</code>. Namnet måste vara exakt det</td></tr>
+    <tr><td><code>has a property matching the name 'X', but it does not have [Parameter]</code></td><td>Egenskapen finns men saknar attributet</td><td>Sätt <code>[Parameter]</code> på raden ovanför. Kontrollera också att den är <code>public</code></td></tr>
+    <tr><td><code>does not have a property matching the name 'id'</code></td><td>Ruttens namn och egenskapens namn skiljer sig</td><td><code>{id:int}</code> kräver en egenskap som heter <code>Id</code></td></tr>
+    <tr><td><code>Unable to cast object of type 'System.String' to type 'System.Int32'</code></td><td>Rutten saknar <code>:int</code></td><td>Skriv <code>{id:int}</code>, inte <code>{id}</code></td></tr>
+    <tr><td><code>AmbiguousMatchException: The request matched multiple endpoints</code></td><td>Två komponenter har samma <code>@page</code></td><td>Sök i projektet efter adressen. Oftast en gammal sida som skulle tagits bort</td></tr>
+    <tr><td><code>RZ9996: Unrecognized child content inside component 'X'</code></td><td>Komponenten har en namngiven <code>RenderFragment</code>, och du blandar den med lös markup</td><td>Skriv ut <code>&lt;ChildContent&gt;</code> också. Används en namngiven måste alla skrivas ut. Det här är ett av områdets få <strong>kompileringsfel</strong></td></tr>
+    <tr><td><code>Found markup element with unexpected name 'Ruta'</code> (varning)</td><td>Komponenten hittades inte, taggen behandlas som HTML</td><td><code>@using</code> saknas, eller filnamnet är felstavat. Sidan renderar tomt utan att krascha</td></tr>
+    <tr><td><code>The type or namespace name 'Film' could not be found</code></td><td><code>@using Filmarkivet.Models</code> saknas</td><td>Lägg till den i <code>_Imports.razor</code></td></tr>
+    <tr><td>Sidan är tom, inget fel</td><td>En <code>@if</code> som aldrig blir sann</td><td>Är <code>film</code> null? Kontrollera vad <code>Hamta</code> fick för id</td></tr>
+    </tbody></table></div>
+    <p><code>exempel/felsokning/</code> innehåller sex filer som var och en ger ett av felen ovan. Kör dem om du vill se meddelandena innan du råkar ut för dem.</p>
+    <h2 id="missa">Det som är lätt att missa när du gör det själv</h2>
+    <p><strong>Fyra komponenter, inte fyra filer.</strong> Kravet är fyra komponenter som gör något. Fyra kopior av samma kort med olika namn räknas inte, och det syns direkt.</p>
+    <p><strong>Din detaljsida måste visa något som listsidan inte visar.</strong> Är kortet och detaljsidan lika finns ingen anledning att klicka. Det är därför <code>Beskrivning</code> finns i modellen – lägg in motsvarigheten i din.</p>
+    <p><strong>Kortet måste länka till detaljsidan.</strong> Guidens <code>&lt;a href="filmer/@Film.Id"&gt;</code> skrevs i steg 3, långt innan sidan fanns. Gör du stegen i annan ordning är det lätt att detaljsidan bara går att nå genom att skriva adressen för hand. Det räknas inte som "kopplade med ruttparameter".</p>
+    <p>**<code>{id:int}</code> och inte <code>{id}</code>.** Utan begränsningen kraschar sidan på varje adress som inte är ett tal – och sådana kommer, från länkar och sökmotorer.</p>
+    <p>**Parametrar är <code>public</code>.** <code>private int Varde</code> med <code>[Parameter]</code> ovanför ger ett kompileringsfel som handlar om helt andra saker och är svårt att tyda.</p>
+    <p>**Namnet <code>ChildContent</code> går inte att välja fritt.** Vill du kalla den något annat måste den som använder komponenten skriva ut namnet som en tagg, som <code>&lt;Fotnot&gt;</code> i steg 8. Blandar man ihop de två blir felet ett körfel.</p>
+    <p><strong>Sökningen behöver inget klick.</strong> Ett <code>&lt;form method="get"&gt;</code> räcker. Kod som lyssnar på <code>@onclick</code> gör ingenting alls vid statisk serverrendering – knappen händer bara ingenting när man trycker på den, utan felmeddelande.</p>
+    <p><strong>Statuskoden är en del av kravet.</strong> Kontrollera 404 i nätverksfliken, inte genom att läsa texten på sidan.</p>
+    <h2 id="checklista">Checklista</h2>
+    <p>Guidens egen checklista. Den är inte betygskraven – de står i
+          <a href="uppgift.html">uppgiften</a> och är uppdelade på E, C och A. Den här listan
+          säger bara om du gjort klart det guiden går igenom.</p>
+
+        <section class="kravblock" data-niva="ska">
+          <div class="huvud">
+            <h3>Klart när allt är ikryssat</h3>
+            <span class="antal"></span>
+          </div>
+          <div class="stapel"><span></span></div>
+          <ul class="krav">
+            <li><label><input type="checkbox" id="guide-1"><span><code>Models/</code> har en modellklass med <code>Id</code> och ett längre textfält</span></label></li>
+            <li><label><input type="checkbox" id="guide-2"><span>En hårdkodad lista med minst sex poster ligger utanför sidorna</span></label></li>
+            <li><label><input type="checkbox" id="guide-3"><span>Minst fyra egna komponenter, var och en med minst en <code>[Parameter]</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-4"><span>Minst två av parametrarna är något annat än <code>string</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-5"><span>Minst en komponent tar emot innehåll som <code>RenderFragment</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-6"><span>Minst en komponent används på **två** olika sidor</span></label></li>
+            <li><label><input type="checkbox" id="guide-7"><span>En listsida visar alla poster</span></label></li>
+            <li><label><input type="checkbox" id="guide-8"><span>En detaljsida på <code>/…/{id:int}</code> visar en post</span></label></li>
+            <li><label><input type="checkbox" id="guide-9"><span>Kortet på listsidan länkar till detaljsidan</span></label></li>
+            <li><label><input type="checkbox" id="guide-10"><span>Ett id som inte finns ger status **404**</span></label></li>
+            <li><label><input type="checkbox" id="guide-11"><span>Ett id som inte är ett tal ger status **404**</span></label></li>
+            <li><label><input type="checkbox" id="guide-12"><span>Menyn markerar rätt post, och bara en i taget</span></label></li>
+            <li><label><input type="checkbox" id="guide-13"><span>Layouten innehåller något som inte upprepas per sida</span></label></li>
+            <li><label><input type="checkbox" id="guide-14"><span>Uppslagning som beror på en parameter ligger i <code>OnParametersSet</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-15"><span><code>dotnet build</code> ger noll varningar</span></label></li>
+          </ul>
+        </section>
+
+        <p>Kryssen sparas i din webbläsare.
+          <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+    <h2 id="mer">Vill du mer</h2>
+    <ul><li><a href="https://learn.microsoft.com/aspnet/core/blazor/components/">ASP.NET Core Razor components</a> – vad en komponent är och vilka regler som gäller för filnamn och namnrymder.</li><li><a href="https://learn.microsoft.com/aspnet/core/blazor/components/#component-parameters">Razor component parameters</a> – <code>[Parameter]</code>, <code>[EditorRequired]</code> och varför parametrar måste vara <code>public</code>.</li><li><a href="https://learn.microsoft.com/aspnet/core/blazor/components/#child-content-render-fragments">Child content render fragments</a> – <code>ChildContent</code>, namngivna fragment och hur man skickar in markup.</li><li><a href="https://learn.microsoft.com/aspnet/core/blazor/fundamentals/routing">Blazor routing</a> – ruttparametrar, begränsningar som <code>:int</code> och <code>NavigationManager</code>.</li><li><a href="https://learn.microsoft.com/aspnet/core/blazor/fundamentals/routing#route-constraints">Route constraints</a> – hela listan: <code>:int</code>, <code>:guid</code>, <code>:datetime</code> och de andra.</li><li><a href="https://learn.microsoft.com/aspnet/core/blazor/components/layouts">Blazor layouts</a> – <code>LayoutComponentBase</code>, <code>@Body</code> och hur en sida byter layout.</li><li><a href="https://learn.microsoft.com/aspnet/core/blazor/components/lifecycle">Component lifecycle</a> – hela livscykeln, inklusive de metoder den här kursen inte använder.</li></ul>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Till uppgiften</a> ·
+        <a href="domanen.html">Välj din domän</a> ·
+        <a href="provet.html">Vad provet prövar</a> ·
+        <a href="index.html">Tillbaka till område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

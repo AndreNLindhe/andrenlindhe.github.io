@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Övning 15–21: loopar, listor och arrayer</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o2-ovn-loopar">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Övning 15–21</strong> · Loopar, listor och arrayer</span>
+  <a href="#avprickning">Avprickning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#ov-15">15. Tio rader</a></li>
+      <li><a href="#ov-16">16. Listan</a></li>
+      <li><a href="#ov-17">17. Summan för hand</a></li>
+      <li><a href="#ov-18">18. Numrerad lista</a></li>
+      <li><a href="#ov-19">19. Det största talet</a></li>
+      <li><a href="#ov-20">20. Bara de långa</a></li>
+      <li><a href="#ov-21">21. Multiplikationstabellen</a></li>
+      <li><a href="#avprickning">Avprickning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 2 · lektion 10–11</p>
+    <h1>Loopar, listor och arrayer</h1>
+    <p class="inledning">Sju övningar om kod som körs flera gånger och om samlingar av
+      värden. Flera av dem säger uttryckligen att du <em>inte</em> får använda den
+      färdiga metoden – <code>Sum()</code>, <code>Max()</code> – för att du ska se vad
+      den gör innan du får slippa skriva den. De ligger alla på
+      <code>/ovningar/loopar</code> i ditt projekt.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du passet?</span>
+      <p>Lektion 10 var genomgången och lektion 11 eget arbete. Så här tar du igen det,
+        räkna med drygt två timmar:</p>
+      <ol>
+        <li>Läs <a href="guide.html#steg-10">guidens steg 10 till 13</a> och skriv av
+          koden. <code>for</code>, <code>foreach</code>, <code>while</code>,
+          <code>List&lt;T&gt;</code> och en tabell byggd av en loop.</li>
+        <li>Lös övning 15 till 21 nedan, i ordning.</li>
+        <li>Fastnar sidan och terminalen hänger: du har en <code>while</code> vars
+          villkor aldrig blir falskt. Ctrl+C, och läs villkoret en gång till.</li>
+      </ol>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Deklarera utanför loopen</span>
+      <p>Ska du samla ihop ett värde – en summa, ett största tal, en räknare – måste
+        variabeln deklareras <b>före</b> loopen. Lägger du <code>int summa = 0;</code>
+        inuti loopen nollställs den varje varv, och svaret blir det sista värdet i
+        stället för summan. Det är det vanligaste felet i hela det här temat.</p>
+    </div>
+
+    <h2 id="ov-15">15. Tio rader</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>for</code> och att skriva ut i markupen</p>
+    <p>Skriv ut talen 1 till 10, ett per rad, med en <code>for</code>-loop.</p>
+    <p><b>Klart när:</b> tio rader visas, den första är 1 och den sista är 10.</p>
+
+    <h2 id="ov-16">16. Listan</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>List&lt;string&gt;</code> och <code>foreach</code></p>
+    <p>Skapa en lista med minst fem texter. Rendera dem som en punktlista och skriv ut
+      hur många de är.</p>
+    <p><b>Klart när:</b> alla värden syns och antalet stämmer med <code>Count</code>.</p>
+
+    <h2 id="ov-17">17. Summan för hand</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: att samla ihop ett värde i en loop</p>
+    <p>Skapa en <code>List&lt;int&gt;</code> med minst sex tal. Räkna ut summan och
+      medelvärdet <b>utan</b> att använda <code>Sum()</code> eller
+      <code>Average()</code>.</p>
+    <p>Medelvärdet ska visa decimaler.</p>
+    <p><b>Klart när:</b> dina tal ger rätt summa, och medelvärdet stämmer om du räknar
+      efter med miniräknare.</p>
+
+    <h2 id="ov-18">18. Numrerad lista</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>for</code> med index och <code>@(i + 1)</code></p>
+    <p>Rendera samma lista som i övning 16, men numrerad: "1. Drama", "2. Thriller" och
+      så vidare. Numret ska vara ett mer än platsen i listan.</p>
+    <p><b>Klart när:</b> första raden är 1, inte 0.</p>
+
+    <h2 id="ov-19">19. Det största talet</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: att jämföra i en loop och hålla kvar ett värde</p>
+    <p>Hitta det största talet i en <code>List&lt;int&gt;</code> <b>utan</b> att använda
+      <code>Max()</code>.</p>
+    <p><b>Klart när:</b> svaret stämmer, också om det största talet ligger först i
+      listan.</p>
+
+    <h2 id="ov-20">20. Bara de långa</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: villkor inuti en loop</p>
+    <p>Gå igenom en lista med speltider och visa bara de som är 120 minuter eller mer.
+      Visa också hur många av dem det blev.</p>
+    <p><b>Klart när:</b> rätt värden visas och räknaren stämmer med antalet visade
+      rader.</p>
+
+    <h2 id="ov-21">21. Multiplikationstabellen</h2>
+    <p class="ledtext"><b>Svår</b> · tränar: nästlade loopar och att bygga en HTML-tabell</p>
+    <p>Rendera multiplikationstabellen för 1 till 5 som en riktig
+      <code>&lt;table&gt;</code>: en rad per tal, en kolumn per tal, och produkten i
+      cellen.</p>
+    <p>Den yttre loopen gör raderna, den inre gör cellerna.</p>
+    <p><b>Klart när:</b> tabellen har fem rader och fem kolumner, och cellen där rad 3
+      möter kolumn 4 visar 12.</p>
+
+    <h2 id="avprickning">Avprickning</h2>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Lösta övningar i det här temat</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="loopar-15"><span>15. Tio rader</span></label></li>
+        <li><label><input type="checkbox" id="loopar-16"><span>16. Listan</span></label></li>
+        <li><label><input type="checkbox" id="loopar-17"><span>17. Summan för hand</span></label></li>
+        <li><label><input type="checkbox" id="loopar-18"><span>18. Numrerad lista</span></label></li>
+        <li><label><input type="checkbox" id="loopar-19"><span>19. Det största talet</span></label></li>
+        <li><label><input type="checkbox" id="loopar-20"><span>20. Bara de långa</span></label></li>
+        <li><label><input type="checkbox" id="loopar-21"><span>21. Multiplikationstabellen</span></label></li>
+      </ul>
+    </section>
+
+    <footer class="fot">
+      <p><a href="ovningar-metoder.html">Nästa tema: metoder, klasser och objekt</a> ·
+        <a href="guide.html#steg-13">Guidens tabell ur en lista</a> ·
+        <a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

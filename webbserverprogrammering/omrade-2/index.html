@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 2: C# på serversidan</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o2-start">
+
+<header class="topp">
+  <a href="../index.html">← Webbserverprogrammering 1</a>
+  <span class="harifran"><strong>Område 2</strong> · C# på serversidan</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#lektioner">1. Nio lektioner</a></li>
+      <li><a href="#kunna">2. Det här ska sitta</a></li>
+      <li><a href="#upplagg">3. Fyra sidor, inte en</a></li>
+      <li><a href="#igang">4. Kom igång</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+      <li><a href="#orden">6. Orden</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 2 · v.37–41</p>
+    <h1>C# på serversidan</h1>
+    <p class="inledning">Nu skriver du kod. Området går igenom språkets grunder –
+      typer, villkor, loopar, listor, metoder och klasser – och du övar tills de
+      sitter. Allt körs på servern och resultatet syns på en sida: det finns inget
+      konsolfönster i den här kursen.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-10-05">
+        <span class="nar">5 okt</span>
+        <span class="vad">Inlämning 2 – Övningsbanken C#, kl 23:59
+          <small>Repots adress lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-10-06">
+        <span class="nar">6 okt</span>
+        <span class="vad">Prov 1 – C# på serversidan
+          <small>80 minuter, utan dator. Papper och penna.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="rutnat">
+      <a class="kort webb" href="guide.html">
+        <span class="sort">Guide · hela området</span>
+        <span class="rubrik">Filmarkivet, steg för steg</span>
+        <p>Sjutton steg med all kod, från de fyra typerna till en tabell renderad ur en
+          lista med objekt. Följ den här om du missat ett pass.</p>
+      </a>
+      <a class="kort webb" href="uppgift.html">
+        <span class="sort">Inlämning 2</span>
+        <span class="rubrik">Övningsbanken C#</span>
+        <p>Krav för E, C och A, med kryssrutor som sparas i din webbläsare.</p>
+      </a>
+      <a class="kort gran" href="ovningar-typer.html">
+        <span class="sort">Övning 1–7 · lektion 6–7</span>
+        <span class="rubrik">Uttryck och typer</span>
+        <p>De fyra grundtyperna, interpolation, heltalsdivision och
+          <code>int.TryParse</code>.</p>
+      </a>
+      <a class="kort gran" href="ovningar-villkor.html">
+        <span class="sort">Övning 8–14 · lektion 8–9</span>
+        <span class="rubrik">Villkor och logik</span>
+        <p><code>if</code>, <code>switch</code>, <code>&amp;&amp;</code> och
+          <code>||</code>. Villkor som styr vilken HTML som byggs.</p>
+      </a>
+      <a class="kort gran" href="ovningar-loopar.html">
+        <span class="sort">Övning 15–21 · lektion 10–11</span>
+        <span class="rubrik">Loopar, listor och arrayer</span>
+        <p><code>for</code>, <code>foreach</code>, <code>while</code> och
+          <code>List&lt;T&gt;</code> renderad som tabell.</p>
+      </a>
+      <a class="kort gran" href="ovningar-metoder.html">
+        <span class="sort">Övning 22–28 · lektion 12–13</span>
+        <span class="rubrik">Metoder, klasser och objekt</span>
+        <p>Metoder med returvärden, din egen modellklass och en lista med objekt.</p>
+      </a>
+      <a class="kort gran" href="felsokning.html">
+        <span class="sort">Lektion 9 · parövning</span>
+        <span class="rubrik">Tre kodstycken med fel</span>
+        <p>Alla tre kompilerar. Två ger fel svar utan att säga något. Hitta felen innan
+          du läser rättningen.</p>
+      </a>
+      <a class="kort webb" href="provet.html">
+        <span class="sort">Lektion 13–14</span>
+        <span class="rubrik">Vad provet prövar</span>
+        <p>De fyra frågetyperna, vad som inte kommer, och tolv repetitionsfrågor att
+          svara på innan du vänder på svaret.</p>
+      </a>
+    </div>
+
+    <h2 id="lektioner">1. Nio lektioner</h2>
+    <p>Tisdagarna bär det nya, onsdagarna befäster. Kolumnen längst till höger säger
+      vad du gör om du var borta.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>#</th><th>Datum</th><th>Längd</th><th>Vad vi gör</th><th>Missade du passet?</th></tr></thead>
+        <tbody>
+          <tr><td>6</td><td>tis 8 sept</td><td>85 min</td>
+            <td>Datatyper, variabler och utdata. <code>int</code>, <code>double</code>,
+              <code>bool</code>, <code>string</code>, interpolation, <code>int.TryParse</code>.</td>
+            <td><a href="guide.html#steg-1">Guiden steg 1–5</a>, sedan
+              <a href="ovningar-typer.html">övning 1–7</a></td></tr>
+          <tr><td>7</td><td>ons 9 sept</td><td>45 min</td>
+            <td>Övningspass: uttryck och typer. Eget arbete, två övningar gemensamt på slutet.</td>
+            <td><a href="ovningar-typer.html">Övning 1–7</a></td></tr>
+          <tr><td>8</td><td>tis 15 sept</td><td>85 min</td>
+            <td>Villkor och logik. <code>if</code>, <code>else if</code>, <code>switch</code>,
+              villkor i markupen, ett värde ur adressen.</td>
+            <td><a href="guide.html#steg-6">Guiden steg 6–9</a></td></tr>
+          <tr><td>9</td><td>ons 16 sept</td><td>45 min</td>
+            <td>Övningspass: villkor. Parvis felsökning av tre färdiga kodstycken.</td>
+            <td><a href="ovningar-villkor.html">Övning 8–14</a> och
+              <a href="felsokning.html">de tre kodstyckena</a></td></tr>
+          <tr><td>10</td><td>tis 22 sept</td><td>85 min</td>
+            <td>Loopar, listor och arrayer. <code>for</code>, <code>foreach</code>,
+              <code>while</code>, <code>List&lt;T&gt;</code>, tabell ur en loop.</td>
+            <td><a href="guide.html#steg-10">Guiden steg 10–13</a></td></tr>
+          <tr><td>11</td><td>ons 23 sept</td><td>45 min</td>
+            <td>Övningspass: loopar och listor. Eget arbete med handledning.</td>
+            <td><a href="ovningar-loopar.html">Övning 15–21</a></td></tr>
+          <tr><td>12</td><td>tis 29 sept</td><td>85 min</td>
+            <td>Metoder, klasser och objekt. Modellklassen, <code>new</code>, objekt i en
+              lista, namngivning enligt C#-praxis.</td>
+            <td><a href="guide.html#steg-14">Guiden steg 14–17</a>, sedan
+              <a href="ovningar-metoder.html">övning 22–28</a></td></tr>
+          <tr><td>13</td><td>ons 30 sept</td><td>45 min</td>
+            <td>Arbetspass och repetition. Sista finputs, och vad provet prövar.</td>
+            <td><a href="provet.html">Vad provet prövar</a> och
+              <a href="guide.html#checklista">checklistan</a></td></tr>
+          <tr><td>14</td><td>tis 6 okt</td><td>85 min</td>
+            <td>Prov 1. Skriftligt, 80 minuter, utan dator.</td>
+            <td>Går inte att ta igen på egen hand – anmäl frånvaron och gör
+              uppsamlingsprovet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kunna">2. Det här ska sitta</h2>
+    <ul>
+      <li>Du kan välja typ medvetet och säga varför ett fält är <code>int</code> och inte <code>double</code>.</li>
+      <li>Du kan läsa ett kodstycke och säga vad det skriver ut, utan att köra det.</li>
+      <li>Du kan skriva ett villkor som täcker också gränsfallet och det oväntade värdet.</li>
+      <li>Du kan gå igenom en lista med en loop och samla ihop ett svar under vägen.</li>
+      <li>Du kan lyfta ut en uträkning ur markupen och lägga den i en metod.</li>
+      <li>Du kan beskriva något med en egen klass och rendera en lista med objekt som en tabell.</li>
+      <li>Du följer C#:s namngivning: PascalCase på metoder och egenskaper, camelCase på variabler.</li>
+    </ul>
+
+    <h2 id="upplagg">3. Fyra sidor, inte en</h2>
+    <p>Övningarna ligger på fyra sidor i ditt projekt, en per tema. Det är inte
+      pyssel – det finns två konkreta skäl.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sida i ditt projekt</th><th>Övningar</th><th>Tema</th></tr></thead>
+        <tbody>
+          <tr><td><code>/ovningar/typer</code></td><td>1–7</td><td>Uttryck, typer, utdata</td></tr>
+          <tr><td><code>/ovningar/villkor</code></td><td>8–14</td><td>Villkor och logik</td></tr>
+          <tr><td><code>/ovningar/loopar</code></td><td>15–21</td><td>Loopar, listor, arrayer</td></tr>
+          <tr><td><code>/ovningar/metoder</code></td><td>22–28</td><td>Metoder, klasser, objekt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Ett fel stoppar hela sidan</span>
+      <p>Kompilerar inte övning 17 går övning 1–16 inte att visa heller – sidan blir
+        tom. Fyra sidor begränsar skadan till ett tema. Får du plötsligt en tom sida:
+        läs det <b>första</b> felet i terminalen, inte det sista.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Prefixa variabelnamnen</span>
+      <p>Alla <code>@code</code>-block på en sida blir samma klass. Två övningar som
+        båda använder <code>summa</code> ger <code>CS0102: already contains a
+        definition</code>. Döp fälten efter övningens nummer från början –
+        <code>o3Pris</code>, <code>o3MedMoms</code> – så slipper du döpa om tolv
+        variabler i vecka fyra.</p>
+    </div>
+
+    <h2 id="igang">4. Kom igång</h2>
+    <p>Du behöver ett projekt att öva i. Skapa ett nytt, eller fortsätt i projektet
+      från område 1 – blanda då inte ihop sidorna.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Det du gör</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Skapa ett tomt, publikt repo på github.com som heter <code>ovningsbanken</code>. Inga bockar.</td></tr>
+          <tr><td>2</td><td>Skapa projektet: <code>dotnet new blazor -o Ovningsbanken -int None</code></td></tr>
+          <tr><td>3</td><td>Gå in i mappen och kör det: <code>cd Ovningsbanken</code> och <code>dotnet run</code></td></tr>
+          <tr><td>4</td><td>Skapa de fyra sidorna i <code>Components/Pages/</code>, med <code>@page "/ovningar/typer"</code> och så vidare.</td></tr>
+          <tr><td>5</td><td>Lägg in de fyra sidorna i menyn, <code>Components/Layout/NavMenu.razor</code>.</td></tr>
+          <tr><td>6</td><td>Koppla på GitHub: <code>git init</code>, <code>git add .</code>, <code>git commit -m "Fyra tomma övningssidor"</code>, <code>git branch -M main</code>, <code>git remote add origin …</code>, <code>git push -u origin main</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Committa efter varje övningspass, inte allt sista kvällen. Fem commits är ett
+      krav i uppgiften just därför.</p>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <p>Sök på felmeddelandet du fick, eller på ett ord ur det.</p>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: CS0102, division, tom sida" autocomplete="off">
+      <p class="traffar" id="traffar-fel">14 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td><code>CS0102: already contains a definition for 'x'</code></td><td>Två övningar på samma sida använder samma variabelnamn</td><td>Döp om efter övningsnumret: <code>o3Summa</code> i stället för <code>summa</code>.</td></tr>
+          <tr><td><code>CS0029: Cannot implicitly convert type 'string' to 'int'</code></td><td>Du tilldelar text till ett heltal</td><td>Antingen fel typ på variabeln, eller så behövs <code>int.TryParse</code>.</td></tr>
+          <tr><td><code>CS0161: not all code paths return a value</code></td><td>En gren i din metod saknar <code>return</code></td><td>Varje väg genom metoden måste lämna tillbaka något.</td></tr>
+          <tr><td><code>CS0165: Use of unassigned local variable</code></td><td>Variabeln är deklarerad men aldrig given ett värde</td><td><code>int summa = 0;</code>, inte bara <code>int summa;</code></td></tr>
+          <tr><td><code>CS8509: switch expression does not handle all possible values</code></td><td>Din <code>switch</code> saknar fallet för allt annat</td><td>Lägg till <code>_ =&gt; "okänt"</code>. En varning är inte en åsikt.</td></tr>
+          <tr><td><code>SwitchExpressionException</code>, sidan svarar 500</td><td>Samma sak som ovan, men värdet kom faktiskt</td><td>Lägg till <code>_ =&gt;</code>-grenen och ladda om.</td></tr>
+          <tr><td>Divisionen blir 0 eller ett misstänkt jämnt tal</td><td>Heltalsdivision – decimalerna kastas bort</td><td>Gör om ett av talen till <code>double</code>: <code>(double)summa / antal</code></td></tr>
+          <tr><td>Summan blir samma som sista värdet</td><td><code>summa</code> nollställs inuti loopen</td><td>Flytta deklarationen utanför loopen.</td></tr>
+          <tr><td>Sidan svarar aldrig, terminalen hänger</td><td>Oändlig <code>while</code>-loop</td><td>Ctrl+C. Kontrollera att villkoret kan bli falskt.</td></tr>
+          <tr><td>Sidan är tom fast bara en övning är trasig</td><td>Ett kompileringsfel stoppar hela komponenten</td><td>Läs det <b>första</b> felet i terminalen och rätta det.</td></tr>
+          <tr><td><code>The name 'Film' does not exist</code></td><td>Sidan hittar inte modellklassen</td><td>Lägg till <code>@using DittProjekt.Models</code> högst upp.</td></tr>
+          <tr><td>Tabellen visar <code>True</code> i stället för <code>Ja</code></td><td>Så skriver C# ut ett <code>bool</code></td><td><code>@(varde ? "Ja" : "Nej")</code>, eller en metod som formaterar.</td></tr>
+          <tr><td>Numreringen börjar på 0</td><td>Index i en lista börjar på noll</td><td><code>@(i + 1)</code> när du skriver ut numret.</td></tr>
+          <tr><td><code>bin/</code> och <code>obj/</code> ligger i repot</td><td><code>.gitignore</code> saknas</td><td><code>git rm -r --cached bin obj</code>, och lägg till en <code>.gitignore</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="orden">6. Orden</h2>
+    <p>Orden nedan används från och med nu utan förklaring. Träna tills du kan dem –
+      en av provets fyra frågetyper är <em>förklara</em>.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>datatyp</b></td><td>Vad ett värde är för sorts sak: text, heltal, decimaltal, sant eller falskt.</td></tr>
+          <tr><td><b>variabel</b></td><td>Ett namn som håller ett värde.</td></tr>
+          <tr><td><b>fält</b></td><td>En variabel som hör till komponenten och lever så länge sidan byggs.</td></tr>
+          <tr><td><b>interpolation</b></td><td>Att sätta in värden mitt i en text med <code>$"..."</code> i stället för att limma ihop den med plus.</td></tr>
+          <tr><td><b>heltalsdivision</b></td><td>När båda talen är heltal kastas decimalerna bort. 7 delat med 2 blir 3.</td></tr>
+          <tr><td><b>modulo</b></td><td>Resten vid en division, skrivet <code>%</code>. 142 % 60 är 22.</td></tr>
+          <tr><td><b>villkor</b></td><td>En fråga som besvaras med sant eller falskt.</td></tr>
+          <tr><td><b>operator</b></td><td>Ett tecken som gör något med värden: <code>+</code>, <code>&gt;=</code>, <code>&amp;&amp;</code>.</td></tr>
+          <tr><td><b>loop</b></td><td>Kod som körs flera gånger.</td></tr>
+          <tr><td><b>index</b></td><td>Platsen i en lista. Den första platsen är 0.</td></tr>
+          <tr><td><b>lista</b></td><td>En samling värden i en variabel, <code>List&lt;T&gt;</code>.</td></tr>
+          <tr><td><b>metod</b></td><td>Ett namngivet kodstycke som tar emot värden och lämnar tillbaka ett svar.</td></tr>
+          <tr><td><b>parameter</b></td><td>Värdet en metod tar emot, namngivet inuti metoden.</td></tr>
+          <tr><td><b>returvärde</b></td><td>Det metoden lämnar tillbaka till den som anropade den.</td></tr>
+          <tr><td><b>klass</b></td><td>En beskrivning av vad något är: vilka egenskaper det har.</td></tr>
+          <tr><td><b>objekt</b></td><td>En sak skapad ur en klass med <code>new</code>.</td></tr>
+          <tr><td><b>egenskap</b></td><td>Ett namngivet värde som hör till ett objekt. Skrivs i PascalCase.</td></tr>
+          <tr><td><b>PascalCase</b></td><td>Stor bokstav i varje ord: <code>LangdMinuter</code>. Används på klasser, metoder och egenskaper.</td></tr>
+          <tr><td><b>camelCase</b></td><td>Liten bokstav först: <code>antalMinuter</code>. Används på variabler och parametrar.</td></tr>
+          <tr><td><b>frågesträng</b></td><td>Värdena efter <code>?</code> i adressen. Läses med <code>[SupplyParameterFromQuery]</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="guide.html">Till guiden</a> ·
+        <a href="uppgift.html">Till uppgiften</a> ·
+        <a href="../index.html">Tillbaka till kursstarten</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vad prov 2 prövar</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o3-provet">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Prov 2</strong> · Vad provet prövar</span>
+  <a href="#repetition">Repetition</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#formen">1. Formen</a></li>
+      <li><a href="#innehallet">2. Vad som kommer</a></li>
+      <li><a href="#typ-1">3. Frågetyp 1 – vad skrivs ut?</a></li>
+      <li><a href="#typ-2">4. Frågetyp 2 – vad är fel?</a></li>
+      <li><a href="#typ-3">5. Frågetyp 3 – skriv koden</a></li>
+      <li><a href="#typ-4">6. Frågetyp 4 – förklara</a></li>
+      <li><a href="#repetition">7. Fjorton repetitionsfrågor</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 3 · lektion 21–22</p>
+    <h1>Vad prov 2 prövar</h1>
+    <p class="inledning">Osäkerhet inför ett prov kostar mer än innehållet. Den här
+      sidan säger vad som kommer, vad som inte kommer, och hur frågorna ser ut. Tre av
+      de fyra frågetyperna har kod i sig – de finns nedan, körda och klara.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-11-09">
+        <span class="nar">9 nov</span>
+        <span class="vad">Inlämning 3, kl 23:59
+          <small>Att göra klart uppgiften är den bästa provförberedelsen som finns.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-11-10">
+        <span class="nar">10 nov</span>
+        <span class="vad">Prov 2 – komponenter, routing och layout
+          <small>80 minuter, utan dator.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="formen">1. Formen</h2>
+    <ul>
+      <li><b>Åttio minuter.</b> Sluttiden skrivs på tavlan.</li>
+      <li>Ingen dator, ingen telefon, inga anteckningar. Papper och penna.</li>
+      <li><b>Fjorton frågor.</b> Poängen står vid varje fråga.</li>
+      <li>Läs hela provet innan du börjar svara.</li>
+      <li>Kod som är nästan rätt ger poäng. En komponent utan <code>[Parameter]</code>
+        men med allt annat rätt är värd mer än ett tomt svar.</li>
+    </ul>
+
+    <h2 id="innehallet">2. Vad som kommer</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Område</th><th>Ungefär</th><th>Typiskt innehåll</th></tr></thead>
+        <tbody>
+          <tr><td>Komponent kontra sida</td><td>2 frågor</td><td>Vad <code>@page</code> gör, var en komponent kan användas</td></tr>
+          <tr><td>Parametrar</td><td>4 frågor</td><td><code>[Parameter]</code>, <code>public</code>, typade parametrar, förvalda värden</td></tr>
+          <tr><td>Dataflöde</td><td>2 frågor</td><td>Vem bestämmer vad, varför data går nedåt</td></tr>
+          <tr><td><code>RenderFragment</code></td><td>1 fråga</td><td><code>ChildContent</code> och namngivna fragment</td></tr>
+          <tr><td>Routing</td><td>3 frågor</td><td>Ruttparameter, <code>:int</code>, frågesträng, 404</td></tr>
+          <tr><td>Layout och livscykel</td><td>2 frågor</td><td><code>@Body</code>, <code>OnInitialized</code> mot <code>OnParametersSet</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Det här kommer säkert:</b> skillnaden mellan en komponent och en sida. Vad
+      <code>[Parameter]</code> gör. Vad <code>:int</code> gör. Varför
+      <code>/filmer/99</code> ska svara 404 och inte 200. Och när
+      <code>OnParametersSet</code> körs.</p>
+
+    <p><b>Det här kommer inte:</b> ingen CSS, inga metodnamn ur ramverket som inte
+      använts i kursen, ingenting om databaser eller tjänster.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Minst tre frågor handlar om kod som bygger</span>
+      <p>Att något kompilerar räcker aldrig som svar på om det är rätt. Det är
+        områdets kärna, och den syns i provet.</p>
+    </div>
+
+    <h2 id="typ-1">3. Frågetyp 1 – vad skrivs ut?</h2>
+    <p>Du får en komponent och en sida som använder den, och skriver vad som hamnar på
+      skärmen.</p>
+
+    <p>Komponenten:</p>
+
+    <!-- kod: exempel/provtraning/Sats.razor -->
+    <pre><code class="sprak-razor">&lt;p&gt;
+    @Titel (@Ar) talas på @Sprak.
+&lt;/p&gt;
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public string Titel { get; set; } = "";
+
+    [Parameter]
+    [EditorRequired]
+    public int Ar { get; set; }
+
+    [Parameter]
+    public string Sprak { get; set; } = "japanska";
+}</code></pre>
+
+    <p>Sidan:</p>
+
+    <!-- kod: exempel/provtraning/Provfraga1.razor -->
+    <pre><code class="sprak-razor">@page "/provtraning/1"
+
+@* Frågetyp 1: vad skrivs ut? *@
+
+&lt;h1&gt;Provfråga 1&lt;/h1&gt;
+
+&lt;Sats Titel="Sju samurajer" Ar="1954" /&gt;
+&lt;Sats Titel="Cykeltjuven" Ar="1948" Sprak="italienska" /&gt;
+
+@code {
+}</code></pre>
+
+    <p>Svara innan du klickar.</p>
+
+    <div class="tabellsvep">
+      <table class="facit" data-dolj="1">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Vad står på sidan?</td>
+            <td><code>Sju samurajer (1954) talas på japanska.</code> och
+              <code>Cykeltjuven (1948) talas på italienska.</code></td>
+          </tr>
+          <tr>
+            <td>Varför står det <em>japanska</em> på första raden, när sidan aldrig nämner något språk?</td>
+            <td><code>Sprak</code> har ett förvalt värde. En parameter med förval är frivillig att sätta – sätts den inte används förvalet. Det är fällan i den här frågan.</td>
+          </tr>
+          <tr>
+            <td>Vad hade hänt om <code>Titel</code> utelämnats?</td>
+            <td>Ingenting alls vid bygget. <code>[EditorRequired]</code> är en varning i editorn, inte ett krav. Sidan hade renderat med tom titel.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="typ-2">4. Frågetyp 2 – vad är fel?</h2>
+    <p>Ett kodstycke som bygger utan fel och utan varningar, kör utan att krascha – och
+      ändå svarar fel.</p>
+
+    <!-- kod: exempel/provtraning/Provfraga2.razor -->
+    <pre><code class="sprak-razor">@page "/provtraning/2"
+@page "/provtraning/2/{sida:int}"
+
+@* Frågetyp 2: vad är fel? Sidan bygger, kraschar inte, och svarar ändå fel. *@
+
+&lt;h1&gt;Sida @Sida av 4&lt;/h1&gt;
+
+&lt;p&gt;Visar poster @((Sida - 1) * 10 + 1) till @(Sida * 10).&lt;/p&gt;
+
+@code {
+    [Parameter]
+    public int Sida { get; set; } = 1;
+}</code></pre>
+
+    <p>Sidan finns på två adresser. Vad blir fel, och på vilken?</p>
+
+    <div class="tabellsvep">
+      <table class="facit" data-dolj="1">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Vad visar <code>/provtraning/2/3</code>?</td>
+            <td><code>Sida 3 av 4</code> och <code>Visar poster 21 till 30</code>. Helt rätt.</td>
+          </tr>
+          <tr>
+            <td>Vad visar <code>/provtraning/2</code>?</td>
+            <td><code>Sida 0 av 4</code> och <code>Visar poster -9 till 0</code>. Fel, utan ett enda felmeddelande.</td>
+          </tr>
+          <tr>
+            <td>Varför?</td>
+            <td>Blazor sätter varje parameter vid varje rendering. Den som inte finns i adressen sätts till typens <b>tomma värde</b> – <code>0</code> för <code>int</code>. Startvärdet <code>= 1</code> skrivs över innan sidan renderas.</td>
+          </tr>
+          <tr>
+            <td>Rättningen?</td>
+            <td><code>public int? Sida { get; set; }</code> och <code>@(Sida ?? 1)</code> där värdet används. Med <code>int?</code> är det tomma värdet <code>null</code>, och då går det att skilja "saknas" från "noll".</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="typ-3">5. Frågetyp 3 – skriv koden</h2>
+    <p>Du får en beskrivning och skriver komponenten för hand. Så här kan den lyda:</p>
+
+    <blockquote>
+      <p>Skriv en komponent <code>Lagerstatus</code> som tar emot ett antal som
+        <code>int</code> och visar <em>Slut</em> när antalet är noll, <em>Få kvar (N)</em>
+        när det är lågt och <em>I lager (N)</em> annars. Gränsen för "lågt" ska gå att
+        ändra utifrån, men ska vara 3 om ingen säger något.</p>
+    </blockquote>
+
+    <p>Ett fullpoängssvar:</p>
+
+    <!-- kod: exempel/provtraning/Lagerstatus.razor -->
+    <pre><code class="sprak-razor">&lt;span class="@Klass()"&gt;@Text()&lt;/span&gt;
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public int Antal { get; set; }
+
+    [Parameter]
+    public int Grans { get; set; } = 3;
+
+    private string Klass() =&gt; Antal == 0 ? "etikett etikett-nej" : "etikett etikett-ja";
+
+    private string Text()
+    {
+        if (Antal == 0)
+        {
+            return "Slut";
+        }
+
+        if (Antal &lt;= Grans)
+        {
+            return $"Få kvar ({Antal})";
+        }
+
+        return $"I lager ({Antal})";
+    }
+}</code></pre>
+
+    <p>Och en sida som använder den:</p>
+
+    <!-- kod: exempel/provtraning/Provfraga3.razor -->
+    <pre><code class="sprak-razor">@page "/provtraning/3"
+
+@* Frågetyp 3: skriv koden. Det här är ett fullpoängssvar. *@
+
+&lt;h1&gt;Provfråga 3&lt;/h1&gt;
+
+&lt;Lagerstatus Antal="7" /&gt;
+&lt;Lagerstatus Antal="0" /&gt;
+&lt;Lagerstatus Antal="2" Grans="5" /&gt;
+
+@code {
+}</code></pre>
+
+    <div class="notis">
+      <span class="rubrik">Vad som ger poäng</span>
+      <p><code>[Parameter]</code> på båda, <code>public</code> på båda, rätt typ
+        (<code>int</code>, inte <code>string</code>), och ett förvalt värde på
+        <code>Grans</code> så att den blir frivillig. Att logiken ligger i en metod och
+        inte i markupen ger poäng men är inte ett krav.</p>
+      <p>Handskriven kod behöver inte kompilera på papper. Ett saknat semikolon kostar
+        ingenting – ett saknat <code>[Parameter]</code> gör det.</p>
+    </div>
+
+    <h2 id="typ-4">6. Frågetyp 4 – förklara</h2>
+    <p>En mening om varför något är som det är. Den här typen har ingen kod, och den
+      går inte att plugga in kvällen före – den kräver att du byggt något och tänkt på
+      varför.</p>
+
+    <p>Exempel på hur de kan låta:</p>
+    <ul>
+      <li>Varför måste en parameter vara <code>public</code>?</li>
+      <li>Varför kan inte en komponent ändra i listan den fick?</li>
+      <li>Varför är det ett problem att en sida som säger "finns inte" svarar 200?</li>
+      <li>Varför spelar det roll var uppslagningen ligger, när båda metoderna körs en
+        gång var ändå?</li>
+    </ul>
+
+    <h2 id="repetition">7. Fjorton repetitionsfrågor</h2>
+    <p>Svara högt för dig själv innan du klickar på raden. Att känna igen ett svar är
+      inte samma sak som att kunna det.</p>
+
+    <div class="tabellsvep">
+      <table class="facit" data-dolj="1">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Vad skiljer en sida från en komponent?</td><td>En rad: <code>@page</code>. Med den har komponenten en egen adress.</td></tr>
+          <tr><td>Vad heter taggen för en fil som heter <code>FilmKort.razor</code>?</td><td><code>&lt;FilmKort /&gt;</code>. Taggen är filnamnet, och stor begynnelsebokstav krävs.</td></tr>
+          <tr><td>Vad gör <code>[Parameter]</code>?</td><td>Gör en egenskap mottaglig utifrån. Utan attributet vägrar Blazor sätta den.</td></tr>
+          <tr><td>Varför måste parametern vara <code>public</code>?</td><td>En <code>private</code> egenskap går inte att sätta utifrån, hur många attribut man än sätter på den.</td></tr>
+          <tr><td>Vad händer om <code>[Parameter]</code> glöms?</td><td>Projektet bygger utan fel och utan varningar. Sidan svarar 500 när den öppnas.</td></tr>
+          <tr><td>Vad gör ett förvalt värde på en parameter?</td><td>Gör den frivillig att sätta. Sätts den inte används förvalet.</td></tr>
+          <tr><td>Vad betyder att data flödar nedåt?</td><td>Sidan bestämmer vad komponenten ska visa. Komponenten kan inte svara tillbaka – annars måste man läsa varenda komponent för att veta vad som händer med datan.</td></tr>
+          <tr><td>Vad är skillnaden mellan en <code>string</code>-parameter och en <code>RenderFragment</code>?</td><td>En <code>string</code> skickar in ett värde. En <code>RenderFragment</code> skickar in markup: stycken, listor, till och med andra komponenter.</td></tr>
+          <tr><td>Varför måste den heta just <code>ChildContent</code>?</td><td>Blazor letar efter exakt det namnet när det står markup mellan öppnings- och stängningstaggen. Ett annat namn måste skrivas ut som en tagg.</td></tr>
+          <tr><td>Vad gör <code>:int</code> i <code>{id:int}</code>?</td><td>Rutten matchar bara om delen är ett heltal, och Blazor gör om texten till <code>int</code>. Utan den kraschar sidan på <code>/filmer/abc</code>.</td></tr>
+          <tr><td>Vad är skillnaden mellan <code>/filmer/3</code> och <code>/filmer?sok=cykel</code>?</td><td>Det första säger <b>vilken</b> sak som ska visas och måste finnas. Det andra säger <b>hur</b> den ska visas och är frivilligt.</td></tr>
+          <tr><td>Varför räcker det inte att skriva "finns inte" på sidan?</td><td>Statuskoden blir då 200. Sökmotorer, övervakning och andra program läser koden, inte texten. <code>NavigationManager.NotFound()</code> ger 404.</td></tr>
+          <tr><td>Vad är <code>@Body</code>?</td><td>Hålet i layouten, av typen <code>RenderFragment</code> – samma typ som <code>ChildContent</code>. Routern fyller det med sidan.</td></tr>
+          <tr><td>När körs <code>OnAfterRender</code> vid statisk serverrendering?</td><td>Aldrig. Servern bygger HTML, skickar i väg den, och komponenten är borta. Det finns ingen sida i webbläsaren att prata med.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Den bästa förberedelsen</span>
+      <p>Gör klart <a href="uppgift.html">inlämningen</a>. Provet frågar om exakt det du
+        bygger där – och den som fått sin egen detaljsida att svara 404 på ett id som
+        inte finns behöver inte plugga på den frågan.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Till uppgiften</a> ·
+        <a href="felsokning.html">Sex komponenter som går sönder</a> ·
+        <a href="guide.html">Till guiden</a> ·
+        <a href="index.html">Tillbaka till område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

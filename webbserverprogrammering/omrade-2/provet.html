@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vad prov 1 prövar</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o2-provet">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Prov 1</strong> · C# på serversidan</span>
+  <a href="#repetition">Repetition</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#formen">1. Formen</a></li>
+      <li><a href="#typ-1">2. Vad skrivs ut?</a></li>
+      <li><a href="#typ-2">3. Vad är fel?</a></li>
+      <li><a href="#typ-3">4. Skriv koden</a></li>
+      <li><a href="#typ-4">5. Förklara</a></li>
+      <li><a href="#inte">6. Det som inte kommer</a></li>
+      <li><a href="#repetition">7. Tolv repetitionsfrågor</a></li>
+      <li><a href="#kvallen">8. Kvällen innan</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 2 · lektion 13–14</p>
+    <h1>Vad prov 1 prövar</h1>
+    <p class="inledning">Osäkerhet inför ett prov kostar mer än innehållet gör. Den här
+      sidan säger så konkret det går vad som kommer, vad som inte kommer, och hur
+      frågorna ser ut. Har du gjort övningarna och läst facit är du förberedd – det
+      finns ingen genväg vid sidan av den.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-10-06">
+        <span class="nar">6 okt</span>
+        <span class="vad">Prov 1 – C# på serversidan
+          <small>80 minuter. Dagen efter deadline för inlämning 2.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="formen">1. Formen</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Så är det</th></tr></thead>
+        <tbody>
+          <tr><td>Tid</td><td>80 minuter. Sluttiden skrivs på tavlan.</td></tr>
+          <tr><td>Hjälpmedel</td><td>Inga. Ingen dator, ingen telefon, inga anteckningar.</td></tr>
+          <tr><td>Omfattning</td><td>Ungefär fjorton frågor. Poängen står vid varje fråga.</td></tr>
+          <tr><td>Material</td><td>Provet på papper, plus kladdpapper. Ta med penna du kan sudda med.</td></tr>
+          <tr><td>Tyngdpunkt</td><td>Att <b>läsa kod och säga vad som skrivs ut</b> – inte att skriva stora program.</td></tr>
+          <tr><td>Klar tidigt</td><td>Du får lämna efter 40 minuter, tyst.</td></tr>
+          <tr><td>Sen ankomst</td><td>Du släpps in fram till 20 minuter in. Ingen förlängd tid.</td></tr>
+          <tr><td>Frånvaro</td><td>Uppsamlingsprov enligt skolans rutin, samma innehåll.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Två råd som är värda poäng</span>
+      <p><b>Läs hela provet innan du börjar svara.</b> Fråga fyra kan innehålla
+        ledtråden till fråga elva.</p>
+      <p><b>Kod som är nästan rätt ger poäng.</b> Skriv hellre något som visar hur du
+        tänker än att lämna blankt. Räcker inte tiden: svara på det du kan i stället
+        för att göra en fråga perfekt.</p>
+    </div>
+
+    <p>Fyra frågetyper. Tre av dem har kod i sig, och de tre finns här nedan som
+      körbara komponenter – lägg dem i ditt projekts <code>Components/Pages/</code> om
+      du vill se svaren på skärmen i stället för att bara tro på dem.</p>
+
+    <h2 id="typ-1">2. Frågetyp 1: vad skrivs ut?</h2>
+    <p>Ett kodstycke, du skriver svaret. Den här typen är den vanligaste på provet.</p>
+    <p>Svara på papper innan du läser vidare: vad står i den utskrivna meningen?</p>
+
+    <!-- kod: exempel/provtraning/Provfraga1.razor -->
+    <pre><code>@page "/provtraning/1"
+
+&lt;PageTitle&gt;Provträning 1 – vad skrivs ut?&lt;/PageTitle&gt;
+
+&lt;h1&gt;Frågetyp 1: vad skrivs ut?&lt;/h1&gt;
+
+&lt;p&gt;Svara på papper först. Ladda sedan om sidan och jämför.&lt;/p&gt;
+
+&lt;p&gt;@Svaret()&lt;/p&gt;
+
+@code {
+    private string Svaret()
+    {
+        List&lt;int&gt; tider = new List&lt;int&gt; { 96, 142, 120, 88 };
+
+        int summa = 0;
+        int langa = 0;
+
+        foreach (int tid in tider)
+        {
+            summa = summa + tid;
+
+            if (tid &gt;= 120)
+            {
+                langa++;
+            }
+        }
+
+        int snitt = summa / tider.Count;
+
+        return $"Summa {summa}, snitt {snitt}, långa {langa}";
+    }
+}</code></pre>
+
+    <div class="tabellsvep">
+      <table class="facit">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Vad skrivs ut?</td><td><code>Summa 446, snitt 111, långa 2</code></td></tr>
+          <tr><td>Var ligger fällan?</td><td>Snittet. 446 delat med 4 är 111,5, men båda talen är <code>int</code> – decimalerna kastas bort och svaret blir 111.</td></tr>
+          <tr><td>Hur får man 111,5?</td><td><code>(double)summa / tider.Count</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="typ-2">3. Frågetyp 2: vad är fel?</h2>
+    <p>Ett kodstycke som kompilerar men gör fel sak. Du säger vad felet är och hur det
+      rättas.</p>
+    <p>Metoden nedan ska ge det största talet i listan. För den här listan svarar den
+      rätt. Vilken lista avslöjar felet?</p>
+
+    <!-- kod: exempel/provtraning/Provfraga2.razor -->
+    <pre><code>@page "/provtraning/2"
+
+&lt;PageTitle&gt;Provträning 2 – vad är fel?&lt;/PageTitle&gt;
+
+&lt;h1&gt;Frågetyp 2: vad är fel?&lt;/h1&gt;
+
+&lt;p&gt;Metoden ska lämna tillbaka det största talet i listan. Den kompilerar, och för
+den här listan svarar den rätt. Vilken lista avslöjar felet?&lt;/p&gt;
+
+&lt;p&gt;Största talet: @Storst(talen)&lt;/p&gt;
+
+@code {
+    private List&lt;int&gt; talen = new List&lt;int&gt; { 12, 47, 3, 29 };
+
+    private int Storst(List&lt;int&gt; tal)
+    {
+        int storst = 0;
+
+        foreach (int t in tal)
+        {
+            if (t &gt; storst)
+            {
+                storst = t;
+            }
+        }
+
+        return storst;
+    }
+}</code></pre>
+
+    <div class="tabellsvep">
+      <table class="facit">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Vad är fel?</td><td><code>storst</code> startar på 0. Inget tal i listan behöver vara större än 0.</td></tr>
+          <tr><td>Vilken lista avslöjar det?</td><td>En med bara negativa tal, till exempel <code>{ -12, -3, -47 }</code>. Svaret blir 0, som inte finns i listan.</td></tr>
+          <tr><td>Rättningen</td><td>Börja på listans första värde: <code>int storst = tal[0];</code> – och svara vettigt när listan är tom.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Fler av den här sorten finns på <a href="felsokning.html">de tre kodstyckena med
+      fel</a> från lektion 9. Är du osäker på frågetypen är det där du ska öva.</p>
+
+    <h2 id="typ-3">4. Frågetyp 3: skriv koden</h2>
+    <p>Tre till fem rader, för hand. Ingen IDE rättar åt dig, så namn och semikolon är
+      dina.</p>
+    <p>Uppgiften: skriv en metod som tar emot ett antal minuter och lämnar tillbaka
+      tiden som timmar och minuter. Skriv ditt svar innan du läser koden.</p>
+
+    <!-- kod: exempel/provtraning/Provfraga3.razor -->
+    <pre><code>@page "/provtraning/3"
+
+&lt;PageTitle&gt;Provträning 3 – skriv koden&lt;/PageTitle&gt;
+
+&lt;h1&gt;Frågetyp 3: skriv koden&lt;/h1&gt;
+
+&lt;p&gt;Uppgiften på provet: skriv en metod som tar emot ett antal minuter och lämnar
+tillbaka tiden som timmar och minuter, till exempel "2 h 22 min". Tre till fem
+rader, för hand.&lt;/p&gt;
+
+&lt;p&gt;Skriv ditt svar på papper först. Så här ser ett fullpoängssvar ut:&lt;/p&gt;
+
+&lt;p&gt;142 minuter blir @Speltid(142). 60 minuter blir @Speltid(60).&lt;/p&gt;
+
+@code {
+    private string Speltid(int minuter)
+    {
+        int timmar = minuter / 60;
+        int rest = minuter % 60;
+
+        return $"{timmar} h {rest} min";
+    }
+}</code></pre>
+
+    <div class="tabellsvep">
+      <table class="facit">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Vad ger 142?</td><td><code>2 h 22 min</code></td></tr>
+          <tr><td>Vad ger 60?</td><td><code>1 h 0 min</code></td></tr>
+          <tr><td>Vad ger poäng?</td><td>Rätt returtyp, <code>/</code> för timmarna och <code>%</code> för resten. Metodnamn med versal, parametern med gemen.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="typ-4">5. Frågetyp 4: förklara</h2>
+    <p>En mening om varför något är som det är. Ingen kod, inget facit att rabbla – det
+      är här facit till övningarna lönar sig, eftersom det säger <em>varför</em> och inte
+      bara vad.</p>
+    <p>Frågorna ser ut ungefär så här:</p>
+    <ul>
+      <li>Varför blir <code>7 / 2</code> lika med 3 och inte 3,5?</li>
+      <li>Varför måste <code>summa</code> deklareras utanför loopen?</li>
+      <li>Vad är skillnaden mellan en klass och ett objekt?</li>
+      <li>Varför är <code>int.TryParse</code> bättre än <code>int.Parse</code> på något
+        användaren skrivit?</li>
+    </ul>
+    <p>Ett svar på en mening räcker. Ett svar som bara upprepar frågan gör det inte.</p>
+
+    <h2 id="inte">6. Det som inte kommer</h2>
+    <ul>
+      <li>Ingen HTML utantill.</li>
+      <li>Inga metodnamn ur ramverket som inte använts i kursen.</li>
+      <li>Inget om databaser – det är område 5.</li>
+      <li>Inget om komponenter, routing eller layout – det är område 3.</li>
+    </ul>
+
+    <h2 id="repetition">7. Tolv repetitionsfrågor</h2>
+    <p>Samma tolv som lagen fick på lektion 13. Svara högt för dig själv, klicka sedan
+      på raden. Att säga svaret innan du ser det är hela poängen – läser du bara
+      igenom listan känns allt bekant, och känslan är inte samma sak som att kunna.</p>
+
+    <div class="tabellsvep">
+      <table class="facit">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>1. Vad blir <code>7 / 2</code> när båda talen är <code>int</code>?</td><td>3. Decimalerna kastas bort – det är inte avrundning.</td></tr>
+          <tr><td>2. Vad blir <code>7 % 2</code>?</td><td>1. Resten vid divisionen.</td></tr>
+          <tr><td>3. Vad skriver <code>@tillganglig</code> ut om fältet är ett <code>bool</code> som är sant?</td><td><code>True</code>, med versal. Vill du ha "Ja" får du formatera det själv.</td></tr>
+          <tr><td>4. Vilken plats i listan har det första värdet?</td><td>Plats 0.</td></tr>
+          <tr><td>5. Vad heter antalet värden i en <code>List&lt;T&gt;</code>?</td><td><code>Count</code>. (<code>Length</code> är för arrayer.)</td></tr>
+          <tr><td>6. Varför måste <code>summa</code> deklareras utanför loopen?</td><td>Deklareras den inuti nollställs den varje varv, och svaret blir sista värdet i stället för summan.</td></tr>
+          <tr><td>7. Vad händer om en <code>switch</code> saknar fallet för allt annat och får ett värde den inte täcker?</td><td>Undantag i körningen: <code>SwitchExpressionException</code>, och sidan svarar 500. Kompilatorn varnade redan med CS8509.</td></tr>
+          <tr><td>8. Vad är skillnaden mellan <code>&amp;&amp;</code> och <code>||</code>?</td><td><code>&amp;&amp;</code> kräver att båda villkoren är sanna, <code>||</code> att minst ett är det.</td></tr>
+          <tr><td>9. Vad gör <code>int.TryParse</code> som <code>int.Parse</code> inte gör?</td><td>Den kraschar inte på text som inte är ett tal – den lämnar tillbaka <code>false</code> så att du kan svara vettigt.</td></tr>
+          <tr><td>10. Vad är skillnaden mellan en klass och ett objekt?</td><td>Klassen är beskrivningen, objektet är en sak skapad ur den med <code>new</code>. En klass, många objekt.</td></tr>
+          <tr><td>11. Varför skrivs metodnamn med stor bokstav?</td><td>C#-praxis: PascalCase på klasser, metoder och egenskaper, camelCase på variabler och parametrar. Det är kodningsstandard och bedöms.</td></tr>
+          <tr><td>12. Vad betyder <code>?</code> efter en typ, som i <code>Film?</code>?</td><td>Att värdet får saknas – det kan vara <code>null</code>. Kompilatorn påminner dig då om att kontrollera det.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kvallen">8. Kvällen innan</h2>
+    <p>Inlämningen går ut kvällen före provet. Gör den klar först – att göra klart
+      uppgiften är den bästa provförberedelsen som finns, och de tre sakerna nedan tar
+      en kvart tillsammans.</p>
+
+    <ol>
+      <li>Räkna dina lösta övningar. Är det färre än tjugo: bestäm vilka du tar, och ta
+        dem. Vet du att du har sex kvar gör du sex; tror du att du "ligger efter" gör
+        du ingenting.</li>
+      <li>Kontrollera att alla fyra sidorna svarar. Ett fel på en sida syns inte från de
+        andra.</li>
+      <li><code>git add .</code>, <code>git commit</code>, <code>git push</code> – och
+        öppna repot på github.com för att se att filerna faktiskt kom fram. En push som
+        inte kontrollerats räknas inte.</li>
+    </ol>
+
+    <p>Gå sedan igenom <a href="guide.html#missa">det som är lätt att missa</a> i guiden.
+      Det är fyra stycken och tar fem minuter, och de fyra sakerna är precis de som
+      provet frågar om.</p>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Till uppgiften</a> ·
+        <a href="felsokning.html">Tre kodstycken med fel</a> ·
+        <a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

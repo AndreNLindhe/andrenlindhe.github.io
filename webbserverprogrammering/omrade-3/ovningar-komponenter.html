@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Övning 29–40: komponenter och parametrar</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o3-ovn-komponenter">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Övning 29–40</strong> · Komponenter och parametrar</span>
+  <a href="#avprickning">Avprickning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#upplagg">Så lägger du upp dem</a></li>
+      <li><a href="#ov-29">29. Komponenten utan parametrar</a></li>
+      <li><a href="#ov-30">30. Den första parametern</a></li>
+      <li><a href="#ov-31">31. En parameter som inte är text</a></li>
+      <li><a href="#ov-32">32. Ett ja eller nej</a></li>
+      <li><a href="#ov-33">33. Ett helt objekt som parameter</a></li>
+      <li><a href="#ov-34">34. En lista som parameter</a></li>
+      <li><a href="#ov-35">35. Parametern man kan strunta i</a></li>
+      <li><a href="#ov-36">36. Komponent inuti komponent</a></li>
+      <li><a href="#ov-37">37. ChildContent</a></li>
+      <li><a href="#ov-38">38. Rubrik och innehåll</a></li>
+      <li><a href="#ov-39">39. Två hål i samma komponent</a></li>
+      <li><a href="#ov-40">40. Hålet som får vara tomt</a></li>
+      <li><a href="#avprickning">Avprickning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 3 · lektion 16–17</p>
+    <h1>Komponenter och parametrar</h1>
+    <p class="inledning">Tolv övningar om <code>[Parameter]</code>, typade parametrar,
+      komponenter i lager och markup som skickas in utifrån. Numreringen fortsätter
+      från område 2, som slutade på 28.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du passet?</span>
+      <p>Lektion 16 var genomgången och lektion 17 eget arbete. Så här tar du igen det,
+        räkna med drygt tre timmar:</p>
+      <ol>
+        <li>Välj din domän om du inte gjort det. <a href="domanen.html">Kriterierna
+          står här</a> – det tar femton minuter och allt annat hänger på det.</li>
+        <li>Läs <a href="guide.html#steg-3">guidens steg 3 till 7</a> och skriv av
+          koden. Det är genomgången från lektion 16, i sin helhet.</li>
+        <li>Se till att du har en modellklass med <code>Id</code> och en hårdkodad
+          lista med minst sex poster. Utan den går övningarna 33–36 inte att göra.</li>
+        <li>Lös övning 29 till 40 nedan, i ordning. De är sorterade efter svårighet.</li>
+        <li>Fastnar du på 36: läs <a href="guide.html#steg-5">steg 5</a> igen. Det är
+          samma idé – en komponent som använder en annan.</li>
+      </ol>
+      <p>Facit delas ut efter övningspasset, inte före. Kör din kod och kontrollera mot
+        <em>Klart när</em> i stället – det är samma sak, fast du gör kontrollen själv.</p>
+    </div>
+
+    <h2 id="upplagg">Så lägger du upp dem</h2>
+    <p>Varje övning blir <b>en egen fil</b>. Komponenterna i
+      <code>Components/Ovningar/</code>, sidorna i
+      <code>Components/Pages/Ovningar/</code>.</p>
+
+    <p>Gör en sida som visar komponentövningarna, till exempel
+      <code>/ovningar/omrade-3</code>, och använd dem där:</p>
+
+    <pre><code class="sprak-razor">@page "/ovningar/omrade-3"
+
+&lt;h1&gt;Övningar, område 3&lt;/h1&gt;
+
+&lt;h2&gt;29&lt;/h2&gt;
+&lt;Ovning29 /&gt;
+
+&lt;h2&gt;30&lt;/h2&gt;
+&lt;Ovning30 Text="Utlånad" /&gt;</code></pre>
+
+    <div class="notis">
+      <span class="rubrik">Ingen prefixning behövs längre</span>
+      <p>I område 2 låg allt i <code>@code</code>-block på fyra sidor, och du fick
+        prefixa varje variabel med övningsnumret för att slippa <code>CS0102</code>.
+        Här behövs inget prefix: varje komponent är sin egen klass. Det är inte
+        administration – det är en av de saker komponenter köper, och den märks
+        direkt.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Bygg och öppna sidan</span>
+      <p>Nästan alla fel i det här området är <b>körfel</b>. En glömd
+        <code>[Parameter]</code> ger noll fel i terminalen och <code>500</code> när du
+        öppnar sidan. <code>dotnet build</code> bevisar ingenting här.</p>
+    </div>
+
+    <h2 id="ov-29">29. Komponenten utan parametrar</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: skillnaden mellan en sida och en komponent</p>
+    <p>Gör en komponent <code>Ovning29.razor</code> som visar texten
+      <em>Filmarkivet – ett skolprojekt</em> i en <code>&lt;p&gt;</code>. Använd den
+      <b>två gånger</b> på din övningssida.</p>
+    <p><b>Klart när:</b> texten syns två gånger, och det bara finns ett ställe att
+      ändra den på.</p>
+
+    <h2 id="ov-30">30. Den första parametern</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>[Parameter]</code> med en <code>string</code></p>
+    <p>Gör <code>Ovning30.razor</code> som visar en text du skickar in, inuti en
+      <code>&lt;span&gt;</code> med klassen <code>etikett</code>.</p>
+    <pre><code class="sprak-razor">&lt;Ovning30 Text="Tillgänglig" /&gt;
+&lt;Ovning30 Text="Utlånad" /&gt;</code></pre>
+    <p><b>Klart när:</b> samma fil ger två olika texter på sidan.</p>
+
+    <h2 id="ov-31">31. En parameter som inte är text</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: typad parameter och uträkning i komponenten</p>
+    <p>Gör <code>Ovning31.razor</code> som tar emot ett pris i <b>ören</b> som
+      <code>int</code> och visar det i kronor med två decimaler. <code>12950</code> ska
+      bli <code>129,50 kr</code>.</p>
+    <pre><code class="sprak-razor">&lt;Ovning31 Ore="12950" /&gt;</code></pre>
+    <p><b>Klart när:</b> sidan visar <code>129,50 kr</code>. Prova också
+      <code>500</code> – det ska bli <code>5,00 kr</code>, inte <code>5 kr</code>.</p>
+
+    <h2 id="ov-32">32. Ett ja eller nej</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>bool</code> som parameter, villkor i markupen</p>
+    <p>Gör <code>Ovning32.razor</code> som tar en <code>bool Klar</code> och visar
+      <em>✔ Klar</em> eller <em>✘ Kvar</em>. Sätt olika CSS-klass i de två fallen.</p>
+    <p><b>Klart när:</b> <code>&lt;Ovning32 Klar="true" /&gt;</code> och
+      <code>&lt;Ovning32 Klar="false" /&gt;</code> ger olika text och olika färg.</p>
+
+    <h2 id="ov-33">33. Ett helt objekt som parameter</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: att skicka in ett objekt i stället för lösa fält</p>
+    <p>Given kod, lägg i <code>Models/Person.cs</code>:</p>
+    <pre><code class="sprak-csharp">namespace DittProjekt.Models;
+
+public class Person
+{
+    public string Namn { get; set; } = "";
+    public int Alder { get; set; }
+    public string Ort { get; set; } = "";
+}</code></pre>
+    <p>Gör <code>Ovning33.razor</code> som tar emot en <code>Person</code> och visar
+      alla tre fälten. Skapa två personer på övningssidan och visa båda.</p>
+    <p><b>Klart när:</b> två olika personer visas av samma komponent, och komponenten
+      har <b>en</b> parameter – inte tre.</p>
+
+    <h2 id="ov-34">34. En lista som parameter</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>List&lt;T&gt;</code> som parameter, det tomma fallet</p>
+    <p>Gör <code>Ovning34.razor</code> som tar emot en <code>List&lt;string&gt;</code>
+      och visar den som en <code>&lt;ul&gt;</code>. Är listan tom ska komponenten i
+      stället skriva <em>Listan är tom</em> – ingen tom <code>&lt;ul&gt;</code>.</p>
+    <p><b>Klart när:</b> en lista med tre namn ger tre punkter, och en tom lista ger
+      texten. Prova båda.</p>
+
+    <h2 id="ov-35">35. Parametern man kan strunta i</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: förvalt värde</p>
+    <p>Bygg vidare på övning 34. Lägg till en parameter <code>Rubrik</code> med
+      förvalet <code>"Lista"</code>, och visa den i en <code>&lt;h3&gt;</code> ovanför
+      punkterna.</p>
+    <p><b>Klart när:</b> <code>&lt;Ovning34 Namn="namnen" /&gt;</code> visar rubriken
+      <em>Lista</em>, och
+      <code>&lt;Ovning34 Namn="namnen" Rubrik="Skådespelare" /&gt;</code> visar
+      <em>Skådespelare</em>. Båda fungerar utan att komponenten ändras däremellan.</p>
+
+    <h2 id="ov-36">36. Komponent inuti komponent</h2>
+    <p class="ledtext"><b>Svår</b> · tränar: att bygga i lager</p>
+    <p>Gör två komponenter.</p>
+    <p><code>Ovning36Stapel.razor</code> tar <code>int Varde</code> och
+      <code>int Max</code> och ritar en stapel: <code>Varde</code> fyllda tecken och
+      resten tomma, upp till <code>Max</code>.</p>
+    <p><code>Ovning36.razor</code> tar en <code>List&lt;int&gt;</code> med betyg och
+      visar en stapel per betyg, med <code>Max</code> satt till 5.</p>
+    <p><b>Klart när:</b>
+      <code>&lt;Ovning36 Betyg="new List&lt;int&gt; { 5, 3, 4 }" /&gt;</code> ger tre
+      staplar av olika längd, och <code>Ovning36</code> innehåller ingen kod som ritar
+      tecken.</p>
+
+    <h2 id="ov-37">37. <code>ChildContent</code></h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>RenderFragment</code></p>
+    <p>Gör <code>Ovning37.razor</code> som ramar in vad som helst i en
+      <code>&lt;div class="varning"&gt;</code>.</p>
+    <pre><code class="sprak-razor">&lt;Ovning37&gt;
+    &lt;p&gt;Filmen är utlånad till och med fredag.&lt;/p&gt;
+&lt;/Ovning37&gt;</code></pre>
+    <p><b>Klart när:</b> stycket syns inuti ramen. Byt ut stycket mot en
+      <code>&lt;ul&gt;</code> med två punkter och kontrollera att det också fungerar.</p>
+
+    <h2 id="ov-38">38. Rubrik och innehåll</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: en vanlig parameter och en <code>RenderFragment</code> i samma komponent</p>
+    <p>Gör <code>Ovning38.razor</code> med en <code>string Etikett</code> och en
+      <code>ChildContent</code>. Etiketten visas i en <code>&lt;h3&gt;</code>,
+      innehållet under.</p>
+    <p><b>Klart när:</b> samma komponent används två gånger på sidan med olika etikett
+      och helt olika innehåll.</p>
+
+    <h2 id="ov-39">39. Två hål i samma komponent</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: namngiven <code>RenderFragment</code></p>
+    <p>Gör <code>Ovning39.razor</code> med <b>två</b>
+      <code>RenderFragment</code>-parametrar: <code>Huvud</code> och
+      <code>ChildContent</code>. Huvudet renderas i en <code>&lt;header&gt;</code>,
+      innehållet i en <code>&lt;div&gt;</code>.</p>
+    <p>Så här ska den användas:</p>
+    <pre><code class="sprak-razor">&lt;Ovning39&gt;
+    &lt;Huvud&gt;&lt;strong&gt;Sju samurajer&lt;/strong&gt; (1954)&lt;/Huvud&gt;
+    &lt;ChildContent&gt;&lt;p&gt;Kurosawas mest kopierade film.&lt;/p&gt;&lt;/ChildContent&gt;
+&lt;/Ovning39&gt;</code></pre>
+    <p>Lägg märke till att <code>&lt;ChildContent&gt;</code> står utskriven. Så fort en
+      namngiven <code>RenderFragment</code> används måste <b>alla</b> skrivas ut – lös
+      markup bredvid <code>&lt;Huvud&gt;</code> ger kompileringsfelet
+      <code>RZ9996</code>. Prova gärna, felmeddelandet är ovanligt tydligt.</p>
+    <p><b>Klart när:</b> både huvudet och innehållet syns, på rätt plats.</p>
+
+    <h2 id="ov-40">40. Hålet som får vara tomt</h2>
+    <p class="ledtext"><b>Svår</b> · tränar: frivillig <code>RenderFragment</code> och <code>is not null</code></p>
+    <p>Bygg vidare på övning 39. Gör så att <code>&lt;header&gt;</code>-taggen
+      <b>inte skapas alls</b> när <code>Huvud</code> utelämnas.</p>
+    <p>Kontrollera i webbläsarens elementinspektör, inte bara på skärmen.</p>
+    <p><b>Klart när:</b>
+      <code>&lt;Ovning39&gt;&lt;p&gt;Text&lt;/p&gt;&lt;/Ovning39&gt;</code> ger HTML
+      utan <code>&lt;header&gt;</code>, och inget felmeddelande.</p>
+
+    <h2 id="avprickning">Avprickning</h2>
+    <p>Kryssen sparas i din webbläsare. De är inte inlämningen – de är till för att du
+      ska veta hur många du har kvar när du sitter hemma i november.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Lösta övningar i det här temat</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="komp-29"><span>29. Komponenten utan parametrar</span></label></li>
+        <li><label><input type="checkbox" id="komp-30"><span>30. Den första parametern</span></label></li>
+        <li><label><input type="checkbox" id="komp-31"><span>31. En parameter som inte är text</span></label></li>
+        <li><label><input type="checkbox" id="komp-32"><span>32. Ett ja eller nej</span></label></li>
+        <li><label><input type="checkbox" id="komp-33"><span>33. Ett helt objekt som parameter</span></label></li>
+        <li><label><input type="checkbox" id="komp-34"><span>34. En lista som parameter</span></label></li>
+        <li><label><input type="checkbox" id="komp-35"><span>35. Parametern man kan strunta i</span></label></li>
+        <li><label><input type="checkbox" id="komp-36"><span>36. Komponent inuti komponent</span></label></li>
+        <li><label><input type="checkbox" id="komp-37"><span>37. ChildContent</span></label></li>
+        <li><label><input type="checkbox" id="komp-38"><span>38. Rubrik och innehåll</span></label></li>
+        <li><label><input type="checkbox" id="komp-39"><span>39. Två hål i samma komponent</span></label></li>
+        <li><label><input type="checkbox" id="komp-40"><span>40. Hålet som får vara tomt</span></label></li>
+      </ul>
+    </section>
+
+    <p>Övningarna är träning, inte inlämning. Det som bedöms är
+      <a href="uppgift.html">din egen applikation</a> – men den som gjort de här tolv
+      har redan skrivit fyra komponenter med parametrar och en
+      <code>RenderFragment</code>, och därmed halva E-kravet.</p>
+
+    <footer class="fot">
+      <p><a href="ovningar-routing.html">Nästa tema: routing</a> ·
+        <a href="guide.html">Till guiden</a> ·
+        <a href="index.html">Tillbaka till område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

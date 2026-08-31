@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inlämning 3: Komponentbibliotek</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o3-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Inlämning 3</strong> · Komponentbibliotek</span>
+  <a href="#misstag">Vanliga misstag</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#doman">2. Steg 0 – välj din domän</a></li>
+      <li><a href="#ska">3. Ska-krav – E</a></li>
+      <li><a href="#bor">4. Bör-krav – C</a></li>
+      <li><a href="#utmaning">5. Utmaning – A</a></li>
+      <li><a href="#bedomning">6. Så bedöms den</a></li>
+      <li><a href="#inlamning">7. Inlämning</a></li>
+      <li><a href="#misstag">8. Vanliga misstag</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 3</p>
+    <h1>Inlämning 3 – Komponentbibliotek</h1>
+    <p class="inledning">Bygg om din applikation så att sidorna består av komponenter i
+      stället för av markup, och koppla ihop en listsida med en detaljsida genom
+      adressen. Data ligger fortfarande i en hårdkodad lista – det är
+      komponentstrukturen som bedöms.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-10-13">
+        <span class="nar">13 okt</span>
+        <span class="vad">Domänvalet ska vara gjort
+          <small>Kriterierna finns på <a href="domanen.html">egen sida</a>.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-11-09">
+        <span class="nar">9 nov</span>
+        <span class="vad">Deadline kl 23:59
+          <small>Repots adress lämnas i itslearning. Prov dagen efter.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+    <p>Du börjar inte om. Projektet från område 2 är utgångsläget och växer – så
+      kommer det att vara resten av kursen.</p>
+
+    <p>Du får med dig fem saker:</p>
+    <ul>
+      <li><b><a href="guide.html">Guiden</a></b>, som bygger Filmarkivets komponenter
+        steg för steg med all kod.</li>
+      <li><b>Referensprojektet Filmarkivet</b>, färdigt att köra och läsa.</li>
+      <li><b>Övningsbanken</b> med 22 övningar:
+        <a href="ovningar-komponenter.html">29–40</a>,
+        <a href="ovningar-routing.html">41–46</a> och
+        <a href="ovningar-layout.html">47–50</a>.</li>
+      <li><b><a href="felsokning.html">Sex komponenter som går sönder</a></b>, med de
+        felmeddelanden du kommer att få.</li>
+      <li><b>Lektionerna 15–21.</b> Genomgångarna ligger på 15, 16, 18 och 19.</li>
+    </ul>
+
+    <p>Facit till övningarna delas ut efter övningspasset, inte före.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Din domän, inte guidens</span>
+      <p>Guiden bygger Filmarkivet med komplett kod. Din applikation ska ha
+        <b>samma struktur</b> och <b>annat innehåll</b>. Eftersom dina entiteter heter
+        något annat och har andra fält går det inte att kopiera – bara att förstå och
+        översätta. Översättningen är examinationen.</p>
+      <p>Fyll i högerkolumnen i
+        <a href="guide.html#sjalv">guidens översättningstabell</a> innan du börjar
+        koda.</p>
+    </div>
+
+    <h2 id="doman">2. Steg 0 – välj din domän</h2>
+    <p>Valet ska vara gjort på lektion 16 och godkänt av mig innan du börjar bygga.
+      Kriterierna, åtta färdiga förslag och det som brukar fälla ett val står på
+      <a href="domanen.html">egen sida</a>.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det här är sista gången bytet är gratis</span>
+      <p>Här finns bara en hårdkodad lista att skriva om. I område 5 finns en databas,
+        migrationer och formulär som hänger på entiteten. Domänen ska bära dig till och
+        med område 8 – lägg femton minuter på valet nu.</p>
+      <p><b>Domänen får inte vara filmer.</b></p>
+    </div>
+
+    <p>Kryssen nedan sparas i din webbläsare, så du kan bocka av allteftersom.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">3. Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Projektet startar med <code>dotnet run</code> utan fel</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>En modellklass med <code>Id</code>, ett beskrivningsfält och minst fem fält totalt</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>En hårdkodad lista med minst <b>sex poster</b>, placerad <b>utanför</b> sidorna</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Minst <b>fyra egna komponenter</b>, var och en med minst en <code>[Parameter]</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Minst <b>en</b> av komponenterna tar emot innehåll som <code>RenderFragment</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Minst en komponent används på <b>två olika sidor</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>En <b>listsida</b> som visar alla poster</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>En <b>detaljsida</b> på <code>/…/{id:int}</code> som visar en enskild post</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>Listsidans poster <b>länkar</b> till detaljsidan</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>En gemensam <b>layout</b> med <code>@Body</code>, och en meny där alla sidor går att nå</span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span>Klasser, komponenter och parametrar i PascalCase; lokala variabler i camelCase</span></label></li>
+        <li><label><input type="checkbox" id="ska-12"><span>Domänvalet står som en rad i projektets <code>README.md</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-13"><span>Minst fem commits med begripliga meddelanden</span></label></li>
+        <li><label><input type="checkbox" id="ska-14"><span><code>bin/</code> och <code>obj/</code> är <b>inte</b> med i repot</span></label></li>
+      </ul>
+    </section>
+
+    <p>Skillnaden mot C är inte fler komponenter. Den är att komponenterna är
+      <b>avgränsade</b>: var och en gör en sak, och det går att säga vilken.</p>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">4. Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C, utöver E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Minst <b>två parametrar som inte är <code>string</code></b> – ett <code>int</code>, en <code>bool</code>, ett <code>DateTime</code> eller ditt eget objekt</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Minst en komponent som <b>inte känner till din huvudentitet</b> och därför går att använda i vilket sammanhang som helst</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Minst en parameter med ett <b>förvalt värde</b>, som alltså är frivillig att sätta</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Ett id som inte finns ger status <b>404</b>, kontrollerat i nätverksfliken</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Ett id som inte är ett tal ger status <b>404</b>, stoppat av ruttbegränsningen</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Det <b>tomma fallet</b> hanteras: en lista utan poster ger ett begripligt meddelande</span></label></li>
+        <li><label><input type="checkbox" id="bor-7"><span>Menyn markerar rätt post, och bara en i taget</span></label></li>
+        <li><label><input type="checkbox" id="bor-8"><span>Uppslagning som beror på en parameter ligger i <code>OnParametersSet</code>, och du kan förklara varför</span></label></li>
+        <li><label><input type="checkbox" id="bor-9"><span><code>dotnet build</code> ger <b>noll varningar</b></span></label></li>
+        <li><label><input type="checkbox" id="bor-10"><span>Kommentarer där koden inte är självförklarande, och bara där</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">5. Utmaning <span style="color:var(--dov);font-weight:400">— nivå A, utöver C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>En <b>sökning</b> via frågesträngen som filtrerar listsidan</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>En <b>sortering</b> via frågesträngen, som fungerar samtidigt som sökningen</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Minst <b>sex komponenter</b>, ordnade i mappar efter vad de kan: de som känner till din domän för sig, de domänfria för sig</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>En komponent med <b>två</b> <code>RenderFragment</code>-parametrar, varav en namngiven</span></label></li>
+        <li><label><input type="checkbox" id="utm-5"><span>En komponent som anropar en annan som i sin tur anropar en tredje, och en mening om varför uppdelningen ser ut så</span></label></li>
+        <li><label><input type="checkbox" id="utm-6"><span>Något i layouten som du inte upprepar per sida, och en motivering</span></label></li>
+        <li><label><input type="checkbox" id="utm-7"><span>Du föreslår själv <b>en komponent till</b> som du inte hann bygga, och beskriver vilka parametrar den skulle ha och vad den skulle ersätta</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bedomning">6. Så bedöms den</h2>
+    <p>Uppgiften prövar två av kursens betygskriterier särskilt.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>Vad det betyder här</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Att skilja presentationslagret från övrig logik</b></td>
+            <td>På E ska det vara skilt "i någon utsträckning", på C "tydligt". Det är
+              precis vad komponenterna handlar om: en komponent som visar ska inte
+              samtidigt bestämma vad den visar. En lista som själv går och hämtar sin
+              data är fel byggd – den ska <em>få</em> listan.</td>
+          </tr>
+          <tr>
+            <td><b>Att koda enligt vedertagen praxis för vald teknik</b></td>
+            <td>Namngivning, mappstruktur, en komponent per fil, parametrar som är
+              <code>public</code>. Kodningsstandard är eget centralt innehåll i kursen,
+              inte en artighet.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Jag läser koden och kör projektet. Tre saker väger tyngst:</p>
+
+    <ul>
+      <li><b>Att komponenterna är återanvändbara.</b> Frågan jag ställer till varje
+        komponent är: går den att använda på ett andra ställe utan att ändras? Kan den
+        inte det är den en sida som råkat hamna i fel mapp.</li>
+      <li><b>Att adressen fungerar.</b> Detaljsidan ska gå att nå genom att klicka, ett
+        id som inte finns ska ge 404, och ett id som inte är ett tal ska också ge 404.
+        Tre kontroller, tre sekunder var.</li>
+      <li><b>Att strukturen är begriplig.</b> Jag ska kunna öppna
+        <code>Components/</code> och gissa vad varje fil gör innan jag öppnat den.</li>
+    </ul>
+
+    <h2 id="inlamning">7. Inlämning</h2>
+    <ol>
+      <li>Kontrollera att projektet startar och att alla sidor svarar.</li>
+      <li>Kontrollera de tre adresserna: en post som finns, ett id som inte finns, ett
+        id som inte är ett tal. <b>Titta i nätverksfliken</b>, inte på texten.</li>
+      <li>Skriv domänvalet i projektets <code>README.md</code> om det inte redan står där.</li>
+      <li>Gå igenom kravlistan för den nivå du siktar på.</li>
+      <li><code>git add .</code>, <code>git commit -m "…"</code>, <code>git push</code></li>
+      <li>Öppna ditt repo på github.com och se att filerna finns där.</li>
+      <li>Klistra in repots adress i inlämningsrutan i itslearning.</li>
+    </ol>
+
+    <p>Deadline är måndag 9 november kl 23:59. <b>Provet är tisdag 10 november</b> och
+      prövar samma innehåll – att göra klart uppgiften är den bästa provförberedelsen
+      som finns.</p>
+
+    <h2 id="misstag">8. Vanliga misstag</h2>
+    <p>Det här är det som gör att uppgiften underkänns i onödan.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Misstag</th><th>Vad som händer</th><th>Undvik det så här</th></tr></thead>
+        <tbody>
+          <tr><td>Fyra kopior av samma komponent</td><td>Räknas som en. Kravet är fyra som gör olika saker</td><td>Bryt ut det som faktiskt upprepas</td></tr>
+          <tr><td>Komponenten hämtar sin egen data</td><td>Går inte att återanvända, och sänker på C</td><td>Skicka in listan som parameter</td></tr>
+          <tr><td>Komponenten används bara en gång</td><td>Då är den en sida, inte en komponent</td><td>Använd minst en på två sidor</td></tr>
+          <tr><td><code>{id}</code> utan <code>:int</code></td><td>Sidan kraschar på <code>/filmer/abc</code></td><td>Skriv <code>{id:int}</code></td></tr>
+          <tr><td>Detaljsidan nås bara genom att skriva adressen</td><td>Räknas inte som kopplade</td><td>Länka från kortet</td></tr>
+          <tr><td>Ett id som inte finns ger tom sida med status 200</td><td>Sidan ljuger om att allt gick bra</td><td><code>NavigationManager.NotFound()</code>, med <code>return</code> efter</td></tr>
+          <tr><td><code>[Parameter]</code> glömd</td><td>Körfel, inte kompileringsfel. Sidan bygger och kraschar</td><td>Läs felmeddelandet – det säger exakt detta</td></tr>
+          <tr><td><code>RenderFragment</code> som heter något annat än <code>ChildContent</code></td><td>Körfel när sidan öppnas</td><td>Antingen döp om, eller skriv ut taggnamnet vid användning</td></tr>
+          <tr><td>Detaljsidan visar samma sak som kortet</td><td>Ingen anledning att klicka. Sänker betyget</td><td>Lägg beskrivningsfältet bara på detaljsidan</td></tr>
+          <tr><td>Domänen vald på känsla</td><td>Faller isär i område 6 när kategorin ska in</td><td>Bocka av mot <a href="domanen.html">de sju kraven</a></td></tr>
+          <tr><td>Allt committat sista kvällen</td><td>Historiken visar inte arbetet</td><td>Committa efter varje pass</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="guide.html">Till guiden</a> ·
+        <a href="domanen.html">Välj din domän</a> ·
+        <a href="provet.html">Vad provet prövar</a> ·
+        <a href="index.html">Tillbaka till område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

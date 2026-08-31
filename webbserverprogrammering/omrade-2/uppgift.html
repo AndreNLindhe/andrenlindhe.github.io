@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inlämning 2: Övningsbanken C#</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o2-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Inlämning 2</strong> · Övningsbanken C#</span>
+  <a href="#misstag">Vanliga misstag</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#upplagg">2. Så ska projektet vara upplagt</a></li>
+      <li><a href="#ska">3. Ska-krav – E</a></li>
+      <li><a href="#bor">4. Bör-krav – C</a></li>
+      <li><a href="#utmaning">5. Utmaning – A</a></li>
+      <li><a href="#bedomning">6. Så bedöms den</a></li>
+      <li><a href="#inlamning">7. Inlämning</a></li>
+      <li><a href="#misstag">8. Vanliga misstag</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 2</p>
+    <h1>Inlämning 2 – Övningsbanken C#</h1>
+    <p class="inledning">Visa att du behärskar C#:s grundfunktioner genom att lösa
+      tjugo övningar ur kursens övningsbank, och att du kan hålla ihop data i en egen
+      klass genom att bygga en tabell som renderas ur en lista med objekt.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-10-05">
+        <span class="nar">5 okt</span>
+        <span class="vad">Deadline kl 23:59
+          <small>Repots adress lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+    <p>Allt ligger i ett Blazor-projekt. Det finns inget konsolfönster i den här
+      kursen – koden körs på servern och resultatet syns på en sida.</p>
+
+    <p>Du får med dig fyra saker:</p>
+    <ul>
+      <li><b><a href="guide.html">Guiden</a></b>, som bygger Filmarkivet steg för steg med all kod.</li>
+      <li><b>Referensprojektet Filmarkivet</b>, färdigt att köra och läsa.</li>
+      <li><b>Övningsbanken</b> med 28 övningar:
+        <a href="ovningar-typer.html">1–7</a>,
+        <a href="ovningar-villkor.html">8–14</a>,
+        <a href="ovningar-loopar.html">15–21</a> och
+        <a href="ovningar-metoder.html">22–28</a>.</li>
+      <li><b>Lektionerna 6–13.</b> Genomgångarna ligger på 6, 8, 10 och 12.</li>
+    </ul>
+
+    <p>Facit till övningarna delas ut efter varje övningspass, inte före.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Din egen klass, inte guidens</span>
+      <p>Guiden bygger klassen <code>Film</code>. Din klass ska föreställa något
+        annat, och metoderna ska räkna på dina fält. Översättningstabellen i guiden
+        visar vad som måste bytas ut. <code>Produkt</code> är med flit en
+        engångsklass – den domän du bär resten av kursen väljer du i område 3.</p>
+    </div>
+
+    <h2 id="upplagg">2. Så ska projektet vara upplagt</h2>
+    <p>Fyra sidor för övningarna, en per tema. Varje övning får en egen rubrik och ett
+      eget <code>@code</code>-block direkt under den.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sida</th><th>Övningar</th><th>Tema</th></tr></thead>
+        <tbody>
+          <tr><td><code>/ovningar/typer</code></td><td>1–7</td><td>Uttryck, typer, utdata</td></tr>
+          <tr><td><code>/ovningar/villkor</code></td><td>8–14</td><td>Villkor och logik</td></tr>
+          <tr><td><code>/ovningar/loopar</code></td><td>15–21</td><td>Loopar, listor, arrayer</td></tr>
+          <tr><td><code>/ovningar/metoder</code></td><td>22–28</td><td>Metoder, klasser, objekt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Att lägga alla övningar på en enda sida fungerar tekniskt, men ett fel i en
+      övning gör då att ingen av de andra går att visa.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Namnge variabler efter övningens nummer</span>
+      <p><code>o3Summa</code>, inte <code>summa</code>. Alla <code>@code</code>-block
+        på en sida blir samma klass, och två övningar som använder samma namn ger
+        felet <code>CS0102: already contains a definition</code>.</p>
+    </div>
+
+    <p>Kryssen nedan sparas i din webbläsare, så du kan bocka av allteftersom.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">3. Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Projektet startar med <code>dotnet run</code> utan fel</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Fyra övningssidor som går att nå från menyn</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Minst <b>tjugo övningar</b> lösta, fördelade så att varje tema har minst tre</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Varje löst övning syns på sidan med sitt nummer och sitt resultat</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>En egen modellklass i mappen <code>Models</code> med minst <b>fem egenskaper</b>: minst en text, minst ett heltal, och minst ett fält som varken är text eller heltal</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Minst <b>fem objekt</b> av klassen i en <code>List&lt;T&gt;</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Objekten renderade i en tabell med <code>@foreach</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Minst en <b>metod</b> som tar emot ett värde och lämnar tillbaka ett annat</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>Klasser, egenskaper och metoder i PascalCase; variabler och parametrar i camelCase</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>Minst fem commits med begripliga meddelanden</span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span><code>bin/</code> och <code>obj/</code> är <b>inte</b> med i repot</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">4. Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C, utöver E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Minst <b>tjugofem övningar</b> lösta, varav minst fem märkta <em>Medel</em> eller <em>Svår</em></span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Uträkningar ligger i <b>metoder</b>, inte i markupen. Markupen anropar och visar</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Minst en metod som räknar på hela listan – snitt, summa, antal eller största</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Kommentarer där koden inte är självförklarande, och <b>bara</b> där. En kommentar som säger om raden vad raden redan säger är brus</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Tabellen visar minst ett fält <b>formaterat</b>, inte råt: ett <code>bool</code> som Ja/Nej, minuter som timmar och minuter, eller liknande</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Du kan förklara varför du valt <code>int</code> eller <code>double</code> på varje talfält</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">5. Utmaning <span style="color:var(--dov);font-weight:400">— nivå A, utöver C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utmaning-1"><span><b>Samtliga 28 övningar</b> lösta</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-2"><span>Minst en övning löst på <b>två sätt</b>, med en kort motivering av vilket du föredrar och varför</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-3"><span>En metod som lämnar tillbaka ett <b>objekt</b>, inte bara ett tal eller en text</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-4"><span>Ett värde läses ur <b>frågesträngen</b> och påverkar vad tabellen visar – en filtrering eller en sortering</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-5"><span>Koden hanterar det som kan gå fel: <code>int.TryParse</code> i stället för <code>int.Parse</code> där indata inte är garanterad, och ett vettigt svar när listan är tom</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-6"><span>Du föreslår själv <b>en förbättring</b> du inte hann göra, och beskriver i en kommentar eller i README vad den skulle kräva</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bedomning">6. Så bedöms den</h2>
+    <p>Jag läser koden och kör projektet. Tre saker väger tyngst.</p>
+
+    <p><b>Att det fungerar.</b> En övning som inte kompilerar är inte löst. Kontrollera
+      alla fyra sidorna innan du lämnar in – ett fel på en sida syns inte från de
+      andra.</p>
+
+    <p><b>Att du valt.</b> Fälten i din klass, typerna, och vad metoderna räknar på är
+      dina beslut. En klass med <code>Fält1</code>, <code>Fält2</code> och
+      <code>Fält3</code> visar att du inte tänkt på vad den ska föreställa.</p>
+
+    <p><b>Att det går att läsa.</b> Namn som säger vad värdet är, konsekvent
+      namngivning, och kod som inte upprepar sig i onödan. Kodningsstandard är eget
+      centralt innehåll i kursen, inte en artighet.</p>
+
+    <h2 id="inlamning">7. Inlämning</h2>
+    <ol>
+      <li>Kontrollera att projektet startar och att alla fyra sidorna svarar.</li>
+      <li>Gå igenom kravlistan för den nivå du siktar på.</li>
+      <li><code>git add .</code>, <code>git commit -m "…"</code>, <code>git push</code></li>
+      <li>Öppna ditt repo på github.com och se att filerna finns där.</li>
+      <li>Klistra in repots adress i inlämningsrutan i itslearning.</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Provet kommer dagen efter</span>
+      <p>Deadline är måndag 5 oktober kl 23:59. <b>Provet är tisdag 6 oktober</b> och
+        prövar samma innehåll. Att göra klart uppgiften är den bästa
+        provförberedelsen som finns – se <a href="provet.html">vad provet prövar</a>.</p>
+    </div>
+
+    <h2 id="misstag">8. Vanliga misstag</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Misstag</th><th>Vad som händer</th><th>Undvik det så här</th></tr></thead>
+        <tbody>
+          <tr><td>Alla övningar på en sida</td><td>Ett fel gör att ingen övning går att visa</td><td>Fyra sidor, en per tema</td></tr>
+          <tr><td>Samma variabelnamn i två övningar</td><td><code>CS0102: already contains a definition</code></td><td>Prefixa med övningsnumret</td></tr>
+          <tr><td><code>summa</code> deklareras inuti loopen</td><td>Svaret blir sista värdet i stället för summan</td><td>Deklarera utanför loopen</td></tr>
+          <tr><td>Heltalsdivision där decimaler behövs</td><td>Snittet blir 4 i stället för 4,6</td><td><code>(double)summa / antal</code></td></tr>
+          <tr><td>Klassen har fält som <code>Fält1</code>, <code>Fält2</code></td><td>Sänker betyget – visar att domänen inte är genomtänkt</td><td>Bestäm vad klassen föreställer först</td></tr>
+          <tr><td>Uträkningar mitt i markupen</td><td>Svårläst, och sänker på C-nivå</td><td>Flytta till en metod</td></tr>
+          <tr><td><code>int.Parse</code> på något användaren skrivit</td><td>Sidan kraschar på fel indata</td><td><code>int.TryParse</code></td></tr>
+          <tr><td>Allt committat sista kvällen</td><td>Historiken visar inte arbetet</td><td>Committa efter varje övningspass</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="guide.html">Till guiden</a> ·
+        <a href="ovningar-typer.html">Till övningarna</a> ·
+        <a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

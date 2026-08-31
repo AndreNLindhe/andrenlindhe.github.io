@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tre kodstycken med fel</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o2-felsokning">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Lektion 9</strong> · Tre kodstycken med fel</span>
+  <a href="#poangen">Poängen</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#koden">1. Koden</a></li>
+      <li><a href="#a">2. A – gränsfallet</a></li>
+      <li><a href="#b">3. B – tre if som alla kör</a></li>
+      <li><a href="#c">4. C – switchen som inte täcker allt</a></li>
+      <li><a href="#poangen">5. Poängen</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 2 · lektion 9</p>
+    <h1>Tre kodstycken med fel</h1>
+    <p class="inledning">Tre metoder. Alla tre kompilerar. Två av dem ger fel svar utan
+      att säga något, och den tredje fungerar tills någon skickar in ett värde den inte
+      tänkt på. Din uppgift är att hitta felen genom att jämföra vad koden <em>säger</em>
+      med vad den <em>borde</em> säga.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Svara innan du läser vidare</span>
+      <p>Klassen arbetade i par i tjugo minuter innan något avslöjades. Ge dig själv
+        lika lång tid. Rättningarna ligger dolda i tabeller du klickar på – de är inte
+        värda mycket förrän du har ett eget svar att jämföra med.</p>
+      <p>Vill du köra koden: lägg filen nedan i ditt projekts
+        <code>Components/Pages/</code> och gå till <code>/fel</code>.</p>
+    </div>
+
+    <h2 id="koden">1. Koden</h2>
+    <p>Hela filen, som den ser ut. Läs den innan du läser avsnitten under.</p>
+
+    <!-- kod: exempel/felsokning/Fel.razor -->
+    <pre><code>@page "/fel"
+&lt;h1&gt;Tre kodstycken&lt;/h1&gt;
+
+&lt;h2&gt;A&lt;/h2&gt;
+&lt;p&gt;14 år: @A(14) · 15 år: @A(15) · 16 år: @A(16)&lt;/p&gt;
+
+&lt;h2&gt;B&lt;/h2&gt;
+&lt;p&gt;Betyg 5: @B(5) · Betyg 3: @B(3) · Betyg 1: @B(1)&lt;/p&gt;
+
+&lt;h2&gt;C&lt;/h2&gt;
+&lt;p&gt;Dag 1: @C(1) · Dag 5: @C(5)&lt;/p&gt;
+
+@code {
+    private string A(int alder)
+    {
+        if (alder &gt; 15)
+        {
+            return "får se filmen";
+        }
+        else
+        {
+            return "för ung";
+        }
+    }
+
+    private string B(int betyg)
+    {
+        string svar = "";
+        if (betyg &gt;= 4) { svar = "bra"; }
+        if (betyg &gt;= 2) { svar = "godkänt"; }
+        if (betyg &gt;= 1) { svar = "svagt"; }
+        return svar;
+    }
+
+    private string C(int nr) =&gt; nr switch
+    {
+        1 =&gt; "måndag",
+        2 =&gt; "tisdag",
+        3 =&gt; "onsdag",
+        4 =&gt; "torsdag",
+        5 =&gt; "fredag"
+    };
+}</code></pre>
+
+    <p>Sidan visar det här:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Metod</th><th>Vad sidan skriver ut</th></tr></thead>
+        <tbody>
+          <tr><td><b>A</b></td><td>14 år: för ung · 15 år: för ung · 16 år: får se filmen</td></tr>
+          <tr><td><b>B</b></td><td>Betyg 5: svagt · Betyg 3: svagt · Betyg 1: svagt</td></tr>
+          <tr><td><b>C</b></td><td>Dag 1: måndag · Dag 5: fredag</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="a">2. A – gränsfallet</h2>
+    <p>Åldersgränsen är 15 år. Den som fyllt 15 ska få se filmen.</p>
+    <p>Kompilatorn säger ingenting, och två av tre testvärden ger rätt svar. Det är
+      precis därför felet överlever. Vilket testvärde avslöjar det?</p>
+
+    <div class="tabellsvep">
+      <table class="facit">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Vilket testvärde avslöjar felet?</td><td>15. Det är det enda som ligger precis på gränsen.</td></tr>
+          <tr><td>Vad är fel?</td><td>Villkoret är <code>alder &gt; 15</code>. Det släpper bara igenom 16 och uppåt.</td></tr>
+          <tr><td>Rättningen</td><td><code>&gt;=</code> i stället för <code>&gt;</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="b">3. B – tre if som alla kör</h2>
+    <p>Alla tre anropen ger samma svar. Resultatet är så uppenbart fel att ingen tror
+      på koden – men orsaken är inte uppenbar alls.</p>
+    <p>Frågan att svara på först: varför blev det just "svagt", och inte "bra"?</p>
+
+    <div class="tabellsvep">
+      <table class="facit">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Varför blir svaret alltid detsamma?</td><td>Villkoren överlappar. Betyg 5 uppfyller alla tre.</td></tr>
+          <tr><td>Varför just "svagt"?</td><td>Varje <code>if</code> skriver över <code>svar</code>. Den sista tilldelningen vinner.</td></tr>
+          <tr><td>Rättningen</td><td><code>else if</code>, så att kedjan slutar vid första sanna villkoret. Eller <code>return</code> direkt i varje gren i stället för att tilldela.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="c">4. C – switchen som inte täcker allt</h2>
+    <p>Den här är annorlunda: kompilatorn <b>varnar</b>.</p>
+
+    <blockquote><p>warning CS8509: The switch expression does not handle all possible
+      values of its input type (it is not exhaustive). For example, the pattern '0' is
+      not covered.</p></blockquote>
+
+    <p>Sidan fungerar ändå, så länge bara 1–5 skickas in. Ändra ett anrop till
+      <code>C(9)</code> och ladda om.</p>
+
+    <div class="tabellsvep">
+      <table class="facit">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Vad händer vid <code>C(9)</code>?</td><td>Sidan svarar <b>500</b> och terminalen säger <code>System.Runtime.CompilerServices.SwitchExpressionException</code>.</td></tr>
+          <tr><td>Vad saknas?</td><td>Grenen för allt annat.</td></tr>
+          <tr><td>Rättningen</td><td>Lägg till <code>_ =&gt; "okänd dag"</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="poangen">5. Poängen</h2>
+    <p>Ordningen är avsiktlig. <b>A</b> ger fel svar i ett enda gränsfall. <b>B</b> ger
+      fel svar alltid. <b>C</b> ger rätt svar tills det inte gör det. Tillsammans täcker
+      de tre olika sorters buggar.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">En varning är inte en åsikt</span>
+      <p>C är den enda kompilatorn försökte varna för. Den hade redan sagt exakt vad som
+        skulle hända, i förväg, och det gick att bygga ändå. Hur många varningar har du
+        i ditt eget projekt just nu?</p>
+    </div>
+
+    <p>På provet kommer en fråga av typen <em>vad är fel</em> – ett kodstycke som
+      kompilerar men gör fel sak. De tre här är mönstret för den frågetypen. Se
+      <a href="provet.html">vad provet prövar</a>.</p>
+
+    <footer class="fot">
+      <p><a href="ovningar-villkor.html">Till övning 8–14</a> ·
+        <a href="provet.html">Vad provet prövar</a> ·
+        <a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
