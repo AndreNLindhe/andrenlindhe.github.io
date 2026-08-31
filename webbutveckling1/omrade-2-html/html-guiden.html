@@ -1,0 +1,1067 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML-guiden – Webbutveckling 1 område 2</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<!-- Topplänken och sidfoten pekar på kursens startsida tills områdesstarten
+     elevpaket/omrade-2-html/index.html finns. Byt till index.html då. -->
+<body data-nyckel="WebbIND-1-2-html-guiden">
+
+<header class="topp">
+  <a href="../index.html">← Kursen</a>
+  <span class="harifran"><strong>Guide</strong> · HTML</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#grunden">1. Dokumentets grund</a></li>
+      <li><a href="#tecken">2. Teckenkodning och entiteter</a></li>
+      <li><a href="#semantik">3. Semantiska element</a></li>
+      <li><a href="#text">4. Text och listor</a></li>
+      <li><a href="#lankar">5. Länkar och sökvägar</a></li>
+      <li><a href="#bilder">6. Bilder</a></li>
+      <li><a href="#media">7. Ljud och video</a></li>
+      <li><a href="#tabeller">8. Tabeller</a></li>
+      <li><a href="#formular">9. Formulär</a></li>
+      <li><a href="#validering">10. Validering och test</a></li>
+      <li><a href="#langre">11. Ta det längre</a></li>
+      <li><a href="#felsokning">12. Felsökning</a></li>
+      <li><a href="#snabbreferens">13. Snabbreferens</a></li>
+      <li><a href="#ordlista">14. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 2 · guide</p>
+    <h1>HTML – innehåll och struktur</h1>
+    <p class="inledning">Områdets uppslagsbok. Allt från lektion 10 till 14 står här, i
+      den ordning det gås igenom. Var du borta en lektion är det hit du går, och slår du
+      i den under ett arbetspass hittar du rätt genom innehållsförteckningen eller
+      sökrutan i felsökningen.</p>
+
+    <p>Exemplen är hämtade ur områdets förlaga, sajten om Vikstads naturreservat, som du
+      får se på lektionerna. Kraven guiden stödjer står i
+      <a href="projekt-1.html">Projekt 1</a>.</p>
+
+    <h2 id="efterat">Vad du kan efter guiden</h2>
+    <ul>
+      <li>Skriva ett komplett HTML-dokument från grunden, utan mall.</li>
+      <li>Förklara varför åäö ibland blir konstiga tecken, och laga det.</li>
+      <li>Välja semantiskt element efter vad innehållet är, inte efter hur det ska se ut.</li>
+      <li>Länka mellan dina egna sidor, till andra sajter och till ett ställe längre ned
+        på samma sida.</li>
+      <li>Lägga in bilder med alt-text som fungerar för den som inte ser bilden.</li>
+      <li>Bygga en tabell som går att läsa upp, och ett formulär där varje fält har en
+        etikett.</li>
+      <li>Validera en sida, läsa felmeddelandet och rätta felet.</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Så hänger avsnitten ihop med lektionerna</span>
+      <p>Avsnitt 1–2 hör till måndag 7/9, avsnitt 3–5 till tisdag 8/9, 6–7 till fredag
+        11/9, 8–9 till måndag 14/9 och avsnitt 10 till tisdag 15/9.</p>
+    </div>
+
+    <h2 id="grunden">1. Dokumentets grund</h2>
+
+    <h3 id="grunden-element">Element, tagg och attribut</h3>
+    <p>Tre ord som används om vartannat men betyder olika saker.</p>
+    <p>En <b>tagg</b> är det som står mellan vinkelparenteser: <code>&lt;p&gt;</code> är
+      en starttagg och <code>&lt;/p&gt;</code> är en sluttagg. Ett <b>element</b> är
+      starttaggen, innehållet och sluttaggen tillsammans. Ett <b>attribut</b> står inne i
+      starttaggen och säger något extra om elementet.</p>
+
+<pre><code class="sprak-html">&lt;a href="stigar.html"&gt;Stigarna&lt;/a&gt;</code></pre>
+
+    <p>Här är <code>a</code> elementet, <code>&lt;a ...&gt;</code> och
+      <code>&lt;/a&gt;</code> är taggarna, <code>href</code> är ett attribut och
+      <code>stigar.html</code> är attributets värde. Attributvärden skrivs inom
+      citattecken.</p>
+
+    <p>Några element har inget innehåll och därför ingen sluttagg. <code>img</code>,
+      <code>meta</code>, <code>link</code>, <code>br</code> och <code>hr</code> är de du
+      kommer att möta. Det finns inget <code>&lt;/img&gt;</code>.</p>
+
+    <h3 id="grunden-skelett">Dokumentets fyra delar</h3>
+    <p>Varje HTML-sida du skriver i den här kursen har samma yttre skelett:</p>
+
+<pre><code class="sprak-html">&lt;!doctype html&gt;
+&lt;html lang="sv"&gt;
+
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+    &lt;title&gt;Sidans namn&lt;/title&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;p&gt;Allt som syns på sidan ligger här.&lt;/p&gt;
+  &lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+
+    <p><code>&lt;!doctype html&gt;</code> är inte ett element utan en instruktion till
+      webbläsaren: tolka det här som modern HTML. Utelämnar du den byter webbläsaren till
+      ett gammalt läge där saker beter sig annorlunda, och validatorn stannar direkt.</p>
+
+    <p><code>&lt;html lang="sv"&gt;</code> omsluter hela dokumentet. <code>lang</code>
+      säger vilket språk sidan är skriven på. Det spelar roll för skärmläsare, som annars
+      läser svensk text med engelskt uttal, och för webbläsarens stavningskontroll och
+      översättningsfunktion.</p>
+
+    <p><code>&lt;head&gt;</code> är information <i>om</i> sidan. Ingenting i
+      <code>head</code> syns på sidan. <code>&lt;body&gt;</code> är sidan – allt som syns
+      ligger där.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad i head</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;meta charset="utf-8"&gt;</code></td><td>Säger hur tecknen ska tolkas. Ska stå först i <code>head</code></td></tr>
+          <tr><td><code>&lt;meta name="viewport" ...&gt;</code></td><td>Gör att sidan utgår från skärmens bredd på mobil. Vi går igenom den i område 4 – låt den stå</td></tr>
+          <tr><td><code>&lt;title&gt;</code></td><td>Namnet i flikens rubrik, i bokmärken och i sökresultat</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">title är inte h1</span>
+      <p><code>title</code> står i <code>head</code> och syns i fliken.
+        <code>h1</code> står i <code>body</code> och syns på sidan. De får gärna likna
+        varandra, men de gör olika jobb. Ge varje sida en egen <code>title</code> – fyra
+        flikar som alla heter "Min sajt" går inte att skilja åt.</p>
+    </div>
+
+    <p>Så här börjar <code>stigar.html</code> i förlagan. Sidans namn först, sajtens namn
+      efter, så att fliken går att läsa även när den är smal:</p>
+
+<pre><code class="sprak-html">&lt;!doctype html&gt;
+&lt;html lang="sv"&gt;
+
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+    &lt;title&gt;Stigarna – Vikstads naturreservat&lt;/title&gt;
+  &lt;/head&gt;</code></pre>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Skapa <code>index.html</code>, skriv skelettet från minnet och byt ut
+        <code>title</code> mot ditt eget ämne. Öppna filen och titta på flikens namn. Ta
+        sedan bort raden <code>&lt;!doctype html&gt;</code>, ladda om och se att sidan
+        fortfarande visas – felet syns inte, och det är precis därför validatorn
+        behövs.</p>
+    </div>
+
+    <h2 id="tecken">2. Teckenkodning och entiteter</h2>
+
+    <h3 id="tecken-utf8">Varför åäö går sönder</h3>
+    <p>Datorn lagrar text som siffror. En <b>teckenkodning</b> är tabellen som säger
+      vilken siffra som betyder vilket tecken. Skriver du filen med en tabell och
+      webbläsaren läser den med en annan blir det fel – och det är alltid åäö som drabbas
+      först, eftersom a, b och c ligger likadant i nästan alla tabeller.</p>
+
+    <p>Så här ser det ut när det gått fel:</p>
+
+<pre><code>NÃ¤ckrosmossen Ã¤r blÃ¶t Ã¥ret om</code></pre>
+
+    <p>Två tecken i stället för ett, varje gång ett svenskt tecken skulle stått. Det
+      betyder att filen är sparad som UTF-8 men läses som något annat. Lösningen är en
+      enda rad, och den ska ligga <b>först</b> i <code>head</code>:</p>
+
+<pre><code class="sprak-html">&lt;meta charset="utf-8"&gt;</code></pre>
+
+    <p><b>UTF-8</b> är teckenkodningen som rymmer alla språks tecken. Codespaces sparar
+      dina filer som UTF-8 automatiskt. Det du behöver göra är att tala om det för
+      webbläsaren. Ligger raden längre ned i <code>head</code> har webbläsaren redan
+      hunnit gissa fel på det som stod före den.</p>
+
+    <h3 id="tecken-entiteter">Entiteter</h3>
+    <p>Vissa tecken betyder något särskilt i HTML och kan därför inte skrivas rakt av.
+      Vill du visa dem som text skriver du dem som en <b>entitet</b>: ett och-tecken, ett
+      namn och ett semikolon.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Entitet</th><th>Blir</th><th>När du behöver den</th></tr></thead>
+        <tbody>
+          <tr><td><code>&amp;lt;</code></td><td><code>&lt;</code></td><td>När du vill visa HTML-kod som text på en sida</td></tr>
+          <tr><td><code>&amp;gt;</code></td><td><code>&gt;</code></td><td>Samma sak</td></tr>
+          <tr><td><code>&amp;amp;</code></td><td><code>&amp;</code></td><td>I text: "Ost &amp; kex". Behövs även i adresser</td></tr>
+          <tr><td><code>&amp;nbsp;</code></td><td>mellanslag som inte bryts</td><td>Mellan tal och enhet: <code>5&amp;nbsp;km</code></td></tr>
+          <tr><td><code>&amp;ndash;</code></td><td>–</td><td>Tankstreck och intervall: <code>9&amp;ndash;12</code></td></tr>
+          <tr><td><code>&amp;copy;</code></td><td>©</td><td>I sidfoten</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+<pre><code class="sprak-html">&lt;p&gt;Så här skriver du ett stycke: &amp;lt;p&amp;gt;Text&amp;lt;/p&amp;gt;&lt;/p&gt;</code></pre>
+
+    <p>Sidan visar <code>&lt;p&gt;Text&lt;/p&gt;</code> som text i stället för att skapa
+      ett stycke.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Åäö är inga entiteter</span>
+      <p>Med <code>&lt;meta charset="utf-8"&gt;</code> på plats skriver du å, ä och ö rakt
+        av. Skriver du <code>&amp;aring;</code> i stället gör du dig själv en otjänst –
+        koden blir oläslig och nästa person tror att något är trasigt.</p>
+    </div>
+
+    <p>I <code>stigar.html</code> används tankstreck i löpande text:</p>
+
+<pre><code class="sprak-html">&lt;p&gt;Spängerna är hala när det regnar &amp;ndash; gå försiktigt, särskilt med barn.&lt;/p&gt;</code></pre>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Skriv ett stycke som innehåller ett tankstreck och ett och-tecken. Ladda om och
+        kontrollera att båda syns. Ta sedan bort <code>&lt;meta charset="utf-8"&gt;</code>,
+        ladda om, och se vad som händer med dina å, ä och ö. Sätt tillbaka raden.</p>
+    </div>
+
+    <h2 id="semantik">3. Semantiska element</h2>
+
+    <p>Ett <b>semantiskt</b> element säger vad innehållet <i>är</i>, inte hur det ska se
+      ut. <code>nav</code> betyder "det här är navigation". <code>div</code> betyder
+      ingenting alls.</p>
+
+    <p>Det spelar roll för tre grupper: skärmläsare, som kan hoppa direkt till
+      <code>main</code>; sökmotorer, som förstår vad som är huvudinnehåll; och du själv om
+      tre veckor, när du letar efter var något låg.</p>
+
+    <p>Utan CSS syns knappt någon skillnad på sidan. Det är därför området ligger före
+      CSS – du väljer element efter innebörd, inte efter utseende, eftersom utseende ännu
+      inte finns.</p>
+
+<pre><code class="sprak-html">&lt;body&gt;
+
+  &lt;header&gt;
+    &lt;p&gt;Sajtens namn&lt;/p&gt;
+    &lt;nav&gt;...&lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;main&gt;
+    &lt;h1&gt;Sidans rubrik&lt;/h1&gt;
+    &lt;section&gt;...&lt;/section&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;
+    &lt;p&gt;Vem som gjort sidan.&lt;/p&gt;
+  &lt;/footer&gt;
+
+&lt;/body&gt;</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Element</th><th>Vad det är</th><th>Regler</th></tr></thead>
+        <tbody>
+          <tr><td><code>header</code></td><td>Sidans eller ett avsnitts topp</td><td>Får finnas flera per sida</td></tr>
+          <tr><td><code>nav</code></td><td>En samling länkar som leder någonstans</td><td>Bara för större länkgrupper, inte varje länk</td></tr>
+          <tr><td><code>main</code></td><td>Sidans huvudinnehåll</td><td><b>Exakt en per sida.</b> Innehåller inte header, nav eller footer</td></tr>
+          <tr><td><code>section</code></td><td>Ett tematiskt avsnitt</td><td>Ska ha en rubrik. Har den ingen är det troligen en <code>div</code></td></tr>
+          <tr><td><code>article</code></td><td>Något som står för sig självt</td><td>Ska gå att lyfta ur och fortfarande vara begriplig</td></tr>
+          <tr><td><code>aside</code></td><td>Innehåll vid sidan om, som en faktaruta</td><td>Inte "höger spalt" – det är utseende</td></tr>
+          <tr><td><code>footer</code></td><td>Sidans eller ett avsnitts fot</td><td>Får finnas flera per sida</td></tr>
+          <tr><td><code>div</code></td><td>Ingenting</td><td>Sista utvägen. I den här uppgiften behövs den nästan aldrig</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">section eller article?</span>
+      <p>Fråga dig om innehållet skulle vara begripligt om du klippte ut det och satte det
+        någon annanstans. En artikel om tranan fungerar fristående –
+        <code>article</code>. Avsnittet "Fåglar", som bara är en grupp av artiklar, gör
+        det inte – <code>section</code>.</p>
+    </div>
+
+    <p>Så ser det ut i förlagan, med en <code>section</code> per djurgrupp och en
+      <code>article</code> per art. Rubriknivåerna följer nästlingen:</p>
+
+<pre><code class="sprak-html">&lt;section id="faglar"&gt;
+  &lt;h2&gt;Fåglar&lt;/h2&gt;
+
+  &lt;article&gt;
+    &lt;h3&gt;Trana&lt;/h3&gt;
+    &lt;p&gt;Ett till två par häckar på mossen varje år.&lt;/p&gt;
+  &lt;/article&gt;
+
+  &lt;article&gt;
+    &lt;h3&gt;Fiskgjuse&lt;/h3&gt;
+    &lt;p&gt;Ett par häckar i en tall vid Skogsleden.&lt;/p&gt;
+  &lt;/article&gt;
+
+&lt;/section&gt;</code></pre>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Rita din sida på papper och skriv ut vilka block den har innan du kodar. Koda
+        sedan skelettet med <code>header</code>, <code>nav</code>, <code>main</code> och
+        <code>footer</code>, utan innehåll. Kontrollera att du har exakt en
+        <code>main</code>, och att varken <code>header</code> eller <code>footer</code>
+        ligger inuti den.</p>
+    </div>
+
+    <h2 id="text">4. Text och listor</h2>
+
+    <h3 id="text-rubriker">Rubriker</h3>
+    <p><code>h1</code> till <code>h6</code> är rubriknivåer, inte textstorlekar. De bygger
+      sidans innehållsförteckning.</p>
+    <ul>
+      <li><b>En <code>h1</code> per sida.</b> Den säger vad sidan handlar om.</li>
+      <li><b>Hoppa inte över nivåer.</b> Efter <code>h2</code> kommer <code>h3</code>,
+        aldrig <code>h4</code>.</li>
+      <li>Välj nivå efter var innehållet hör hemma, inte efter hur stor texten blir.
+        Storleken ändrar du med CSS i område 3.</li>
+    </ul>
+
+<pre><code class="sprak-html">&lt;h1&gt;Djur och växter&lt;/h1&gt;
+  &lt;h2&gt;Fåglar&lt;/h2&gt;
+    &lt;h3&gt;Trana&lt;/h3&gt;
+    &lt;h3&gt;Fiskgjuse&lt;/h3&gt;
+  &lt;h2&gt;Däggdjur&lt;/h2&gt;</code></pre>
+
+    <p>Indraget ovan är bara för att visa strukturen – rubriker nästlas inte inuti
+      varandra i koden.</p>
+
+    <h3 id="text-stycken">Stycken och betoning</h3>
+
+<pre><code class="sprak-html">&lt;p&gt;Ett stycke text. Radbrytningar i koden syns inte på sidan.&lt;/p&gt;</code></pre>
+
+    <p>Vill du ha ett nytt stycke skriver du ett nytt <code>p</code>. Använd inte
+      <code>&lt;br&gt;</code> för att skapa luft – <code>br</code> är för radbrytningar
+      som hör till innehållet, som i en adress eller en diktrad.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Element</th><th>Betyder</th><th>Ser ut som</th></tr></thead>
+        <tbody>
+          <tr><td><code>strong</code></td><td>Viktigt</td><td>Fet</td></tr>
+          <tr><td><code>em</code></td><td>Betonat</td><td>Kursiv</td></tr>
+          <tr><td><code>b</code></td><td>Fet utan innebörd</td><td>Fet</td></tr>
+          <tr><td><code>i</code></td><td>Kursiv utan innebörd</td><td>Kursiv</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Välj <code>strong</code> och <code>em</code> när betoningen betyder något,
+      <code>b</code> och <code>i</code> när det bara är utseende. En skärmläsare läser
+      <code>strong</code> med tryck och <code>b</code> som vanlig text.</p>
+
+    <h3 id="text-listor">Tre sorters listor</h3>
+    <p><b><code>ul</code> – punktlista.</b> Ordningen spelar ingen roll.</p>
+
+<pre><code class="sprak-html">&lt;ul&gt;
+  &lt;li&gt;Du får plocka bär och matsvamp.&lt;/li&gt;
+  &lt;li&gt;Du får inte göra upp eld utanför de två eldstäderna.&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+    <p><b><code>ol</code> – numrerad lista.</b> Ordningen spelar roll: steg, placeringar,
+      instruktioner. Numren skriver du inte själv – webbläsaren räknar.</p>
+
+<pre><code class="sprak-html">&lt;ol&gt;
+  &lt;li&gt;Kör Vikstadsvägen till dess slut.&lt;/li&gt;
+  &lt;li&gt;Parkera på grusplanen.&lt;/li&gt;
+  &lt;li&gt;Följ skylten mot fågeltornet.&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+    <p><b><code>dl</code> – beskrivningslista.</b> Par av term och förklaring. En ordlista,
+      ett antal begrepp som ska förklaras. <code>dt</code> är termen, <code>dd</code> är
+      beskrivningen.</p>
+
+<pre><code class="sprak-html">&lt;dl&gt;
+  &lt;dt&gt;Rundsileshår&lt;/dt&gt;
+  &lt;dd&gt;Köttätande, ungefär fem centimeter bred.&lt;/dd&gt;
+
+  &lt;dt&gt;Tuvull&lt;/dt&gt;
+  &lt;dd&gt;De vita ulltussarna över mossen i juni.&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+    <div class="notis varna">
+      <span class="rubrik">Bara li direkt i listan</span>
+      <p>I alla tre listorna får bara <code>li</code> – eller <code>dt</code> och
+        <code>dd</code> – ligga direkt inuti listan. Ett <code>p</code> mellan två
+        <code>li</code> är ett valideringsfel. Lägg det inuti ett <code>li</code> i
+        stället.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Skriv en <code>ul</code> med tre saker om ditt ämne, och gör om samma innehåll
+        till en <code>dl</code> där varje punkt får en förklaring. Titta på skillnaden och
+        behåll den som passar innehållet bäst.</p>
+    </div>
+
+    <h2 id="lankar">5. Länkar och sökvägar</h2>
+
+<pre><code class="sprak-html">&lt;a href="stigar.html"&gt;Stigarna&lt;/a&gt;</code></pre>
+
+    <p><code>href</code> säger vart länken går. Texten mellan taggarna är det du klickar
+      på.</p>
+
+    <h3 id="lankar-sokvagar">Relativa och absoluta sökvägar</h3>
+    <p>En <b>relativ</b> sökväg utgår från filen du står i. En <b>absolut</b> sökväg
+      börjar med <code>https://</code> och pekar ut en adress på internet.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sökväg</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><code>stigar.html</code></td><td>Filen <code>stigar.html</code> i samma mapp som den här filen</td></tr>
+          <tr><td><code>bilder/karta.svg</code></td><td>Mappen <code>bilder</code> bredvid den här filen, och filen i den</td></tr>
+          <tr><td><code>../index.html</code></td><td>En mapp uppåt, och filen <code>index.html</code> där</td></tr>
+          <tr><td><code>https://www.naturvardsverket.se/</code></td><td>En annan sajt. Hela adressen krävs</td></tr>
+          <tr><td><code>/stigar.html</code></td><td>Börja om från serverns rot. <b>Använd aldrig i den här kursen</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Tre fel som bara syns efter publicering</span>
+      <p><b>Inledande snedstreck.</b> Hos dig fungerar det. På GitHub Pages ligger din
+        sajt under <code>användarnamn.github.io/reponamn/</code>, och snedstrecket hoppar
+        över reponamnet och letar på fel ställe.</p>
+      <p><b>Versaler i filnamn.</b> GitHubs server skiljer på stort och smått, din egen
+        dator gör det oftast inte. <code>Stigar.html</code> och <code>stigar.html</code>
+        är två olika filer för servern.</p>
+      <p><b>Mellanslag i filnamn.</b> Använd bindestreck:
+        <code>djur-och-vaxter.html</code>.</p>
+    </div>
+
+    <h3 id="lankar-ankare">Ankarlänkar</h3>
+    <p>En länk kan peka på ett ställe längre ned på samma sida. Elementet du vill nå får
+      ett <code>id</code>, och länken skriver samma namn med <code>#</code> framför.</p>
+
+<pre><code class="sprak-html">&lt;a href="#vaxter"&gt;Växter på mossen&lt;/a&gt;
+
+&lt;section id="vaxter"&gt;
+  &lt;h2&gt;Växter på mossen&lt;/h2&gt;
+&lt;/section&gt;</code></pre>
+
+    <p>Ett <code>id</code> får finnas <b>en gång per sida</b>. Två element med samma
+      <code>id</code> är ett valideringsfel, och länken landar på det första.
+      Ankarlänkar fungerar även mellan sidor: <code>besok.html#kontaktformular</code>
+      öppnar <code>besok.html</code> och hoppar direkt till formuläret.</p>
+
+    <h3 id="lankar-text">Länktexter som säger vart de går</h3>
+    <p>Skärmläsare kan lista sidans alla länkar. En lista med sju "läs mer" är
+      obrukbar.</p>
+
+<pre><code class="sprak-html">&lt;!-- Fungerar inte --&gt;
+&lt;p&gt;Vill du veta mer om föreskrifterna, &lt;a href="..."&gt;klicka här&lt;/a&gt;.&lt;/p&gt;
+
+&lt;!-- Fungerar --&gt;
+&lt;p&gt;Läs mer om vad som gäller i naturreservat hos
+  &lt;a href="https://www.naturvardsverket.se/"&gt;Naturvårdsverket&lt;/a&gt;.&lt;/p&gt;</code></pre>
+
+    <p>Länktexten ska gå att förstå lyft ur meningen.</p>
+
+    <h3 id="lankar-nav">Navigationen</h3>
+    <p>En navigation är en lista med länkar, inuti <code>nav</code>. Länkarna ligger i en
+      <code>ul</code> för att de <i>är</i> en lista. Utan CSS syns punkterna, och det är
+      rätt så länge.</p>
+
+<pre><code class="sprak-html">&lt;nav aria-label="Huvudmeny"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="index.html" aria-current="page"&gt;Start&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="stigar.html"&gt;Stigarna&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="djur-och-vaxter.html"&gt;Djur och växter&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="besok.html"&gt;Planera besöket&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+
+    <div class="notis viktig">
+      <span class="rubrik">aria-current flyttas manuellt</span>
+      <p><code>aria-current="page"</code> sätts på länken till den sida man står på – den
+        talar om för skärmläsaren "du är här". Den ska stå på exakt en länk per sida, och
+        du måste flytta den när du kopierar navigationen till nästa sida. Det är ett av de
+        vanligaste slarvfelen.</p>
+    </div>
+
+    <p><code>aria-label</code> på <code>nav</code> ger navigationen ett namn. Har sidan
+      flera <code>nav</code> – huvudmeny och en innehållsförteckning – behövs det för att
+      skilja dem åt.</p>
+
+    <p>Länkar som inte går till en sida:</p>
+
+<pre><code class="sprak-html">&lt;a href="mailto:parkenheten@vikstad.example"&gt;parkenheten@vikstad.example&lt;/a&gt;
+&lt;a href="tel:055512345"&gt;0555-123 45&lt;/a&gt;</code></pre>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Bygg navigationen på din startsida med alla fyra sidorna, och kopiera den till de
+        tre andra. Flytta <code>aria-current="page"</code> på varje sida. Klicka dig sedan
+        runt hela sajten och kontrollera att du kan nå varje sida från varje annan.</p>
+    </div>
+
+    <h2 id="bilder">6. Bilder</h2>
+
+<pre><code class="sprak-html">&lt;img src="bilder/karta.svg" alt="Karta över reservatet med tre markerade stigar."&gt;</code></pre>
+
+    <p><code>img</code> har ingen sluttagg. <code>src</code> är sökvägen till bildfilen,
+      <code>alt</code> är texten som ersätter bilden.</p>
+
+    <h3 id="bilder-alt">Alt-texten</h3>
+    <p><code>alt</code> läses upp av skärmläsare och visas om bilden inte laddas. Den är
+      ett krav på varje bild i uppgiften. Skriv vad bilden <b>visar</b>, inte vad den
+      heter:</p>
+
+<pre><code class="sprak-html">&lt;!-- Säger ingenting --&gt;
+&lt;img src="bilder/trana.svg" alt="trana.svg"&gt;
+&lt;img src="bilder/trana.svg" alt="bild"&gt;
+
+&lt;!-- Säger något --&gt;
+&lt;img src="bilder/trana.svg"
+     alt="En trana i profil. Fågeln är grå med lång hals, långa ben och en röd
+          fläck på hjässan."&gt;</code></pre>
+
+    <p>Skriv inte "bild på" eller "bilden visar" – att det är en bild vet skärmläsaren
+      redan. Är bilden rent dekorativ och tillför ingenting skriver du
+      <code>alt=""</code>, tomt men närvarande. Då hoppar skärmläsaren över den. Att
+      utelämna <code>alt</code> helt är alltid fel.</p>
+
+    <h3 id="bilder-matt">width, height och figure</h3>
+
+<pre><code class="sprak-html">&lt;img src="bilder/karta.svg" width="640" height="400" alt="..."&gt;</code></pre>
+
+    <p>Måtten anges utan enhet och i bildens verkliga pixelstorlek. De styr inte utseendet
+      – det gör CSS senare – utan låter webbläsaren reservera rätt plats innan bilden
+      laddats, så att texten inte hoppar när den kommer.</p>
+
+    <p>Hör det en bildtext till bilden, håll ihop dem:</p>
+
+<pre><code class="sprak-html">&lt;figure&gt;
+  &lt;img src="bilder/sileshar.svg" width="480" height="360"
+       alt="En rundsileshår sedd uppifrån. Bladen bildar en rosett."&gt;
+  &lt;figcaption&gt;Rundsileshår fångar insekter med klibbiga droppar på bladen.&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+    <p><code>figcaption</code> ska ligga direkt inuti <code>figure</code>, som första
+      eller sista barn. Bildtexten och alt-texten säger olika saker: alt-texten beskriver
+      vad man ser, bildtexten säger något om det. Skriv inte samma sak två gånger.</p>
+
+    <h3 id="bilder-format">Formaten</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Format</th><th>Passar till</th><th>Egenskaper</th></tr></thead>
+        <tbody>
+          <tr><td><b>JPG</b></td><td>Foton</td><td>Liten fil, men tappar kvalitet varje gång den sparas om</td></tr>
+          <tr><td><b>PNG</b></td><td>Skärmbilder, skarpa kanter, genomskinlighet</td><td>Större fil, tappar ingen kvalitet</td></tr>
+          <tr><td><b>WebP</b></td><td>Både foton och grafik</td><td>Mindre än både JPG och PNG. Fungerar i alla moderna webbläsare</td></tr>
+          <tr><td><b>SVG</b></td><td>Ikoner, kartor, diagram, logotyper</td><td>Ritad med koordinater i stället för pixlar. Skalar hur långt som helst utan att bli suddig</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Tumregel: <b>fotografi → JPG eller WebP. Ritad figur → SVG.</b> Bilderna i förlagan
+      är SVG, eftersom de är ritade figurer – en karta, en fågel, en växt. En karta som
+      SVG är skarp både på mobilen och på projektorn.</p>
+
+    <p>Bilder från kameran är ofta fyra megabyte. Det är för mycket för en webbsida. Skala
+      ner till den bredd den faktiskt visas i, ungefär 1600 pixlar räcker gott, innan du
+      lägger in den.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Lägg in en bild med <code>alt</code>, <code>width</code> och <code>height</code>.
+        Läs alt-texten högt för dig själv utan att titta på bilden – förstår du vad den
+        visar? Ändra sedan <code>src</code> till ett filnamn som inte finns, ladda om, och
+        se att alt-texten är det som visas i stället.</p>
+    </div>
+
+    <h2 id="media">7. Ljud och video</h2>
+
+<pre><code class="sprak-html">&lt;audio src="ljud/tranrop.mp3" controls&gt;&lt;/audio&gt;
+
+&lt;video src="film/mossen.mp4" width="640" height="360" controls&gt;&lt;/video&gt;</code></pre>
+
+    <p><code>controls</code> ger uppspelningsknapparna. Utan det syns ingen spelare alls.
+      Sätt inte <code>autoplay</code> – ljud som startar av sig självt är ett av de
+      säkraste sätten att få någon att stänga en sida.</p>
+
+    <h3 id="media-track">Undertexter med track</h3>
+    <p>Video utan undertext utestänger den som inte hör. <code>track</code> lägger till en
+      textfil som visas i takt med filmen:</p>
+
+<pre><code class="sprak-html">&lt;video width="640" height="360" controls&gt;
+  &lt;source src="film/mossen.mp4" type="video/mp4"&gt;
+  &lt;track src="film/mossen.vtt" kind="captions" srclang="sv" label="Svenska" default&gt;
+  &lt;p&gt;Din webbläsare kan inte spela upp video.
+    &lt;a href="film/mossen.mp4"&gt;Ladda ner filmen&lt;/a&gt; i stället.&lt;/p&gt;
+&lt;/video&gt;</code></pre>
+
+    <p><code>source</code> i stället för <code>src</code> gör att du kan erbjuda flera
+      format. Texten längst ned visas bara om webbläsaren inte klarar <code>video</code>
+      alls.</p>
+
+    <p>Undertextfilen är en vanlig textfil med ändelsen <code>.vtt</code>:</p>
+
+<pre><code>WEBVTT
+
+00:00:00.000 --&gt; 00:00:04.000
+Näckrosmossen är åtta meter djup på mitten.
+
+00:00:04.000 --&gt; 00:00:09.500
+Den har byggts upp sedan istiden, en millimeter om året.</code></pre>
+
+    <p>Ett <b>transkript</b> – hela innehållet i text under spelaren – är ännu bättre. Det
+      går att söka i, att läsa snabbt, och det fungerar för den som varken hör eller kan
+      spela upp filmen.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Det ligger ett kort videoklipp i <b>itslearning</b>, under område 2, som du får
+        använda. Ladda ner det och lägg in det med <code>video</code> och
+        <code>controls</code>. Skapa sedan en fil <code>undertext.vtt</code> bredvid det,
+        skriv undertexter till de första tjugo sekunderna, och koppla den med
+        <code>track</code>.</p>
+      <p>Spela upp och kontrollera att texten kommer när den ska. Gör den inte det är det
+        nästan alltid tidsformatet: två siffror för timmar, minuter och sekunder, och
+        punkt före millisekunderna.</p>
+    </div>
+
+    <h2 id="tabeller">8. Tabeller</h2>
+
+    <p>En tabell är för <b>data som hör ihop i rader och kolumner</b>. Tidtabeller,
+      priser, jämförelser, mätvärden. En tabell är aldrig för layout – vill du ha två
+      saker bredvid varandra löser du det med CSS i område 3.</p>
+
+<pre><code class="sprak-html">&lt;table&gt;
+  &lt;caption&gt;De tre markerade stigarna&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope="col"&gt;Stig&lt;/th&gt;
+      &lt;th scope="col"&gt;Längd&lt;/th&gt;
+      &lt;th scope="col"&gt;Tid&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Mosseleden&lt;/th&gt;
+      &lt;td&gt;2,4 km&lt;/td&gt;
+      &lt;td&gt;1 timme&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Strandleden&lt;/th&gt;
+      &lt;td&gt;4,1 km&lt;/td&gt;
+      &lt;td&gt;1 timme 30 minuter&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Element</th><th>Vad det är</th></tr></thead>
+        <tbody>
+          <tr><td><code>caption</code></td><td>Tabellens rubrik. Ska ligga <b>först</b> inuti <code>table</code></td></tr>
+          <tr><td><code>thead</code></td><td>Raden eller raderna med kolumnrubriker</td></tr>
+          <tr><td><code>tbody</code></td><td>Tabellens innehåll</td></tr>
+          <tr><td><code>tr</code></td><td>En rad</td></tr>
+          <tr><td><code>th</code></td><td>En rubrikcell</td></tr>
+          <tr><td><code>td</code></td><td>En datacell</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="tabeller-scope">scope</h3>
+    <p><code>scope</code> säger vad en rubrikcell är rubrik <b>för</b>. Utan den vet en
+      skärmläsare inte om <code>th</code>-cellen hör till kolumnen eller raden.</p>
+    <ul>
+      <li><code>scope="col"</code> – rubrik för kolumnen under sig.</li>
+      <li><code>scope="row"</code> – rubrik för raden bredvid sig.</li>
+    </ul>
+
+    <p>Har tabellen rubriker åt båda håll, som exemplet ovan, blir varje datacell
+      entydig: en skärmläsare kan säga "Strandleden, Längd, 4,1 km" i stället för bara
+      "4,1 km".</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Radrubriken är ett th</span>
+      <p>Första cellen i varje rad är en rubrik, inte data. Den ska vara
+        <code>&lt;th scope="row"&gt;</code>, inte <code>&lt;td&gt;</code>. Det är den
+        vanligaste missen i hela avsnittet.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Bygg en tabell med minst tre rader och tre kolumner om ditt ämne. Ge den en
+        <code>caption</code>, <code>scope="col"</code> på kolumnrubrikerna och
+        <code>scope="row"</code> på första cellen i varje rad. Läs sedan upp en godtycklig
+        datacell tillsammans med dess två rubriker – blir det en begriplig mening?</p>
+    </div>
+
+    <h2 id="formular">9. Formulär</h2>
+
+    <div class="notis">
+      <span class="rubrik">Formulären i den här kursen skickar ingenting</span>
+      <p>Ett riktigt formulär har ett <code>action</code> som pekar på ett program på en
+        server. Något sådant har vi inte, och att bygga det ligger utanför kursen. Därför
+        saknar formulären här <code>action</code>, och ingenting händer när du trycker på
+        knappen. Markeringen är däremot exakt densamma som i ett formulär som fungerar,
+        och det är den som bedöms.</p>
+    </div>
+
+    <h3 id="formular-label">label och for – den viktigaste regeln</h3>
+
+<pre><code class="sprak-html">&lt;label for="namn"&gt;Namn&lt;/label&gt;
+&lt;input type="text" id="namn" name="namn"&gt;</code></pre>
+
+    <p><code>for</code> på etiketten ska vara <b>exakt samma sträng</b> som
+      <code>id</code> på fältet. Då händer tre saker: skärmläsaren läser upp etiketten när
+      fältet får fokus, klick på texten sätter markören i fältet, och kryssrutor blir
+      mycket lättare att träffa.</p>
+
+    <p><code>id</code> och <code>name</code> är olika saker som ofta får samma värde.
+      <code>id</code> är sidans interna identitet och kopplar ihop etikett och fält.
+      <code>name</code> är namnet som skickas till servern.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">En placeholder är inte en etikett</span>
+      <p>Den försvinner när man börjar skriva, och den som tappade tråden har ingen chans
+        att se vad fältet var till för. Varje fält behöver en <code>label</code>.</p>
+    </div>
+
+    <h3 id="formular-typer">Fälttyper</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th><code>type</code></th><th>Till</th></tr></thead>
+        <tbody>
+          <tr><td><code>text</code></td><td>Vanlig text</td></tr>
+          <tr><td><code>email</code></td><td>E-postadress. Mobilen visar ett tangentbord med @</td></tr>
+          <tr><td><code>tel</code></td><td>Telefonnummer. Numeriskt tangentbord</td></tr>
+          <tr><td><code>number</code></td><td>Tal. Går att begränsa med <code>min</code> och <code>max</code></td></tr>
+          <tr><td><code>date</code></td><td>Datum. Webbläsaren visar en kalender</td></tr>
+          <tr><td><code>url</code></td><td>Webbadress</td></tr>
+          <tr><td><code>search</code></td><td>Sökfält</td></tr>
+          <tr><td><code>password</code></td><td>Text som döljs</td></tr>
+          <tr><td><code>checkbox</code></td><td>Kryssruta. Flera kan väljas</td></tr>
+          <tr><td><code>radio</code></td><td>Alternativknapp. Bara ett kan väljas i en grupp</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kryssrutor och alternativknappar har etiketten <i>efter</i> fältet, till skillnad
+      från övriga:</p>
+
+<pre><code class="sprak-html">&lt;input type="checkbox" id="kikare" name="behov" value="kikare"&gt;
+&lt;label for="kikare"&gt;Vi vill låna kikare&lt;/label&gt;</code></pre>
+
+    <p>Alternativknappar hör ihop genom att ha <b>samma <code>name</code></b>. Det är det
+      som gör att bara en i taget kan väljas:</p>
+
+<pre><code class="sprak-html">&lt;input type="radio" id="svar-epost" name="svarssatt" value="epost" checked&gt;
+&lt;label for="svar-epost"&gt;E-post&lt;/label&gt;
+
+&lt;input type="radio" id="svar-sms" name="svarssatt" value="sms"&gt;
+&lt;label for="svar-sms"&gt;SMS&lt;/label&gt;</code></pre>
+
+    <p>Samma <code>name</code>, olika <code>id</code>. Glömmer du det kan användaren
+      kryssa i båda.</p>
+
+    <h3 id="formular-select">select och textarea</h3>
+
+<pre><code class="sprak-html">&lt;label for="tur"&gt;Inriktning&lt;/label&gt;
+&lt;select id="tur" name="tur"&gt;
+  &lt;option value="allman"&gt;Allmän tur om reservatet&lt;/option&gt;
+  &lt;option value="faglar"&gt;Fågeltur, start klockan sex&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+
+<pre><code class="sprak-html">&lt;label for="meddelande"&gt;Övrigt&lt;/label&gt;
+&lt;textarea id="meddelande" name="meddelande" rows="6" cols="40"&gt;&lt;/textarea&gt;</code></pre>
+
+    <p><code>textarea</code> har alltid en sluttagg, direkt efter starttaggen om fältet ska
+      vara tomt. Allt du skriver emellan hamnar som förifylld text i rutan – även
+      mellanslag och radbrytningar.</p>
+
+    <h3 id="formular-fieldset">fieldset och legend</h3>
+
+<pre><code class="sprak-html">&lt;fieldset&gt;
+  &lt;legend&gt;Dina uppgifter&lt;/legend&gt;
+
+  &lt;p&gt;
+    &lt;label for="namn"&gt;Namn&lt;/label&gt;
+    &lt;input type="text" id="namn" name="namn" autocomplete="name" required&gt;
+  &lt;/p&gt;
+
+  &lt;p&gt;
+    &lt;label for="epost"&gt;E-postadress&lt;/label&gt;
+    &lt;input type="email" id="epost" name="epost" autocomplete="email" required&gt;
+  &lt;/p&gt;
+&lt;/fieldset&gt;</code></pre>
+
+    <p><code>legend</code> ska vara <b>första</b> elementet inuti <code>fieldset</code>.
+      För alternativknappar är <code>fieldset</code> inte bara snyggt utan nödvändigt:
+      utan en <code>legend</code> hör skärmläsaren "E-post" och "SMS" utan att få veta vad
+      frågan var.</p>
+
+    <h3 id="formular-krav">Krav och hjälp</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Attribut</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>required</code></td><td>Fältet måste fyllas i</td></tr>
+          <tr><td><code>min</code>, <code>max</code></td><td>Gränser för <code>number</code> och <code>date</code></td></tr>
+          <tr><td><code>pattern</code></td><td>Ett mönster värdet måste följa</td></tr>
+          <tr><td><code>value</code></td><td>Förifyllt värde</td></tr>
+          <tr><td><code>checked</code></td><td>Förvald kryssruta eller alternativknapp</td></tr>
+          <tr><td><code>autocomplete</code></td><td>Låter webbläsaren fylla i namn, e-post och adress åt användaren</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><code>autocomplete="name"</code>, <code>autocomplete="email"</code> och
+      <code>autocomplete="tel"</code> är de du behöver. De sparar tid för alla, och mycket
+      tid för den som har svårt att skriva.</p>
+
+<pre><code class="sprak-html">&lt;button type="submit"&gt;Skicka anmälan&lt;/button&gt;</code></pre>
+
+    <p>Skriv vad knappen gör. "Skicka anmälan" är bättre än "Skicka", som är bättre än
+      "OK".</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Bygg ett formulär med ett textfält, ett e-postfält och en <code>textarea</code>,
+        alla med kopplade etiketter. Klicka sedan på varje etikett och kontrollera att
+        markören hamnar i rätt fält. Gör den inte det stämmer inte <code>for</code> med
+        <code>id</code>.</p>
+    </div>
+
+    <h2 id="validering">10. Validering och webbläsartest</h2>
+
+    <p>W3C:s validator läser din HTML och säger vad som inte följer standarden. Den finns
+      på <code>validator.w3.org</code> och kan ta din kod på tre sätt:</p>
+    <ul>
+      <li><b>Address</b> – klistra in din publicerade adress. Enklast när sajten ligger
+        uppe.</li>
+      <li><b>File Upload</b> – ladda upp filen från din dator.</li>
+      <li><b>Direct Input</b> – klistra in koden. Fungerar innan sajten är
+        publicerad.</li>
+    </ul>
+
+    <p>Validera <b>varje sida för sig</b>. Validatorn läser ett dokument i taget och
+      följer inte dina länkar.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Läs uppifrån</span>
+      <p>Ett fel skapar ofta tio. En ostängd <code>&lt;section&gt;</code> högt upp gör att
+        allt därefter hamnar på fel ställe, och validatorn klagar på varje element hela
+        vägen ner. Rätta det <b>översta</b> felet, validera om, och se hur många som
+        försvann. Att börja i mitten av en lista med sextio fel är bortkastad tid.</p>
+    </div>
+
+    <p>Validatorn skiljer på tre sorter: <b>Error</b> är fel och ska bort.
+      <b>Warning</b> är något som troligen är fel. <b>Info</b> är en upplysning. Kravet på
+      E är noll Error, på C noll av båda.</p>
+
+    <h3 id="validering-fel">De vanligaste felen</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Meddelande</th><th>Vad det betyder</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td><code>Start tag seen without seeing a doctype first</code></td><td>Dokumentet saknar doctype</td><td>Lägg <code>&lt;!doctype html&gt;</code> allra överst</td></tr>
+          <tr><td><code>Element head is missing a required instance of child element title</code></td><td>Ingen <code>title</code></td><td>Lägg <code>&lt;title&gt;</code> i <code>head</code></td></tr>
+          <tr><td><code>Consider adding a lang attribute</code></td><td><code>lang</code> saknas på <code>html</code></td><td><code>&lt;html lang="sv"&gt;</code></td></tr>
+          <tr><td><code>An img element must have an alt attribute</code></td><td>Bild utan alt-text</td><td>Skriv <code>alt</code>, tomt om bilden är dekorativ</td></tr>
+          <tr><td><code>Duplicate ID</code></td><td>Samma <code>id</code> två gånger på sidan</td><td>Ett <code>id</code> per sida. Döp om det ena</td></tr>
+          <tr><td><code>End tag X seen, but there were open elements</code></td><td>En tagg är ostängd</td><td>Leta efter elementet som saknar sluttagg, ovanför</td></tr>
+          <tr><td><code>Stray end tag</code></td><td>En sluttagg utan starttagg</td><td>Ta bort den, eller lägg till starttaggen</td></tr>
+          <tr><td><code>Element figcaption not allowed as child of element X</code></td><td><code>figcaption</code> ligger utanför sin <code>figure</code></td><td>Flytta in den i <code>figure</code></td></tr>
+          <tr><td><code>Element li not allowed as child of element X</code></td><td><code>li</code> ligger utanför en lista</td><td><code>li</code> måste ligga direkt i <code>ul</code> eller <code>ol</code></td></tr>
+          <tr><td><code>The element button must not appear as a descendant of the a element</code></td><td>Klickbart i klickbart</td><td>Välj det ena</td></tr>
+          <tr><td><code>Section lacks heading</code> (varning)</td><td><code>section</code> utan rubrik</td><td>Ge den en rubrik, eller gör om den till <code>div</code></td></tr>
+          <tr><td><code>Table column N established by element th has no cells beginning in it</code></td><td>Rader med olika antal celler</td><td>Räkna cellerna. Varje rad ska ha lika många</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="validering-test">Testa i två webbläsare</h3>
+    <p>Öppna sajten i två olika webbläsare – Chrome och Firefox, eller Edge och Firefox.
+      De tolkar korrekt HTML likadant, men de har olika standardstil: rubrikstorlekar,
+      formulärfält och datumväljare ser olika ut.</p>
+
+    <p>Det är därför det ingår i uppgiften. Ser något helt annorlunda ut i den ena är det
+      nästan alltid ett strukturfel som råkar visa sig i just den webbläsaren.</p>
+
+    <p>Testa också med enbart tangentbord. <kbd>Tab</kbd> flyttar framåt,
+      <kbd>Shift</kbd> + <kbd>Tab</kbd> bakåt, <kbd>Enter</kbd> följer en länk. Kommer du
+      åt alla länkar och alla fält, och i en ordning som följer sidan?</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Validera en av dina sidor nu, innan den är klar. Rätta det översta felet, validera
+        om och räkna hur många som försvann. Gör om tills det står
+        <b>Document checking completed. No errors or warnings to show.</b></p>
+    </div>
+
+    <h2 id="langre">11. Ta det längre</h2>
+    <p>För dig som har ska-kraven på plats och siktar mot C eller A.</p>
+
+    <ul>
+      <li><b>Språkbyten mitt i texten.</b> Ett engelskt uttryck i svensk text kan märkas
+        ut, så att skärmläsaren byter uttal:
+        <code>&lt;span lang="en"&gt;responsive design&lt;/span&gt;</code>.</li>
+      <li><b>Tid som går att läsa maskinellt.</b>
+        <code>&lt;time datetime="2026-09-07"&gt;7 september&lt;/time&gt;</code>. Datumet i
+        <code>datetime</code> skrivs alltid som år-månad-dag.</li>
+      <li><b>Förkortningar.</b>
+        <code>&lt;abbr title="HyperText Markup Language"&gt;HTML&lt;/abbr&gt;</code> visar
+        förklaringen när man pekar på ordet.</li>
+      <li><b>Rubriker på flera navigationer.</b> Har sidan både en huvudmeny och en
+        innehållsförteckning behöver båda ett <code>aria-label</code>.</li>
+      <li><b>Tabeller med rubriker åt båda håll.</b> <code>scope="col"</code> på
+        kolumnrubrikerna <i>och</i> <code>scope="row"</code> på första cellen i varje
+        rad.</li>
+      <li><b>Formulär som hjälper till.</b> <code>required</code> på det som verkligen
+        krävs, <code>pattern</code> där formatet är bestämt, <code>autocomplete</code> på
+        namn, e-post och telefon.</li>
+      <li><b>Ankarlänkar på långa sidor.</b> En innehållsförteckning högst upp med länkar
+        till sidans egna avsnitt.</li>
+      <li><b>Motivera dina bildformat.</b> Kunna säga varför just den bilden är SVG och
+        den andra JPG, och vad som hade blivit sämre med det omvända.</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">A är inte mer kod</span>
+      <p>Det är inte mängden som skiljer A från C. Det är att varje element är valt, och
+        att du kan säga varför.</p>
+    </div>
+
+    <h2 id="felsokning">12. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: åäö, bild, tabell, länk, validator" autocomplete="off">
+      <p class="traffar" id="traffar-fel">21 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Åäö blir konstiga tecken</td><td><code>&lt;meta charset="utf-8"&gt;</code> saknas eller ligger för långt ned</td><td>Först i <code>head</code>, före <code>title</code></td></tr>
+          <tr><td>Sidan visas men validatorn stannar direkt</td><td>Doctype saknas</td><td><code>&lt;!doctype html&gt;</code> allra överst</td></tr>
+          <tr><td>Resten av sidan hamnar inuti ett block</td><td>En tagg är ostängd</td><td>Leta efter elementet utan sluttagg, ovanför felet</td></tr>
+          <tr><td>Validatorn hittar hundratals fel</td><td>Ett tidigt fel skapar följdfel</td><td>Rätta det översta felet och validera om</td></tr>
+          <tr><td>Bilden visas som en trasig ikon</td><td><code>src</code> pekar fel, eller filen är inte committad</td><td>Jämför sökvägen med filträdet. Kontrollera att filen syns på github.com</td></tr>
+          <tr><td>Bilden syns hos mig men inte publicerat</td><td>Versal i mapp- eller filnamnet</td><td>Servern skiljer på stort och smått. Gemener överallt</td></tr>
+          <tr><td>Alla länkar dör efter publicering</td><td>Inledande snedstreck i <code>href</code></td><td><code>stigar.html</code>, inte <code>/stigar.html</code></td></tr>
+          <tr><td>Ankarlänken hoppar till fel ställe</td><td>Två element har samma <code>id</code></td><td>Ett <code>id</code> per sida</td></tr>
+          <tr><td>Ankarlänken gör ingenting</td><td><code>id</code> saknas på målet, eller stavas olika</td><td><code>href="#vaxter"</code> kräver <code>id="vaxter"</code></td></tr>
+          <tr><td>Rubrikerna blir olika stora</td><td>Du hoppade från <code>h1</code> till <code>h3</code></td><td>Nivåerna ska följa på varandra</td></tr>
+          <tr><td>Punktlistan renderar konstigt</td><td>Något annat än <code>li</code> ligger direkt i <code>ul</code></td><td>Flytta in innehållet i ett <code>li</code></td></tr>
+          <tr><td>Tabellen ser ut som en radda text</td><td>Ingen CSS. Linjer är form, inte struktur</td><td>Rätt så länge. Linjerna kommer i område 3</td></tr>
+          <tr><td>En kolumn hamnar snett i tabellen</td><td>Olika antal celler på olika rader</td><td>Räkna <code>td</code> och <code>th</code> per rad</td></tr>
+          <tr><td>Klick på etiketten gör ingenting</td><td><code>for</code> matchar inte fältets <code>id</code></td><td>Ska vara exakt samma sträng</td></tr>
+          <tr><td>Båda alternativknapparna går att välja</td><td>De har olika <code>name</code></td><td>Samma <code>name</code>, olika <code>id</code></td></tr>
+          <tr><td>Textarean är förifylld med mellanslag</td><td>Radbrytningar mellan <code>&lt;textarea&gt;</code> och <code>&lt;/textarea&gt;</code></td><td>Skriv sluttaggen direkt efter starttaggen</td></tr>
+          <tr><td>Formuläret gör ingenting när jag skickar</td><td>Det finns ingen server som tar emot</td><td>Förväntat. Strukturen bedöms, inte att det skickas</td></tr>
+          <tr><td>Bilden täcker halva skärmen</td><td>Ingen CSS</td><td>Så ska det se ut. Storleken sätts i område 3</td></tr>
+          <tr><td><code>figcaption</code> ger valideringsfel</td><td>Den ligger utanför sin <code>figure</code></td><td>Flytta in den, först eller sist i <code>figure</code></td></tr>
+          <tr><td>Skärmläsaren säger bara "4,1 km"</td><td>Radrubriken är <code>td</code>, inte <code>th</code> med <code>scope="row"</code></td><td>Byt cellen till <code>th scope="row"</code></td></tr>
+          <tr><td>Sidan ser annorlunda ut i Firefox</td><td>Olika standardstil för formulär och rubriker</td><td>Förväntat utan CSS. Skiljer det sig mycket, leta strukturfel</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="snabbreferens">13. Snabbreferens</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Element</th><th>Vad det är</th><th>Avsnitt</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;!doctype html&gt;</code></td><td>Säger att dokumentet är modern HTML</td><td><a href="#grunden">1</a></td></tr>
+          <tr><td><code>html lang="sv"</code></td><td>Omsluter dokumentet, anger språk</td><td><a href="#grunden">1</a></td></tr>
+          <tr><td><code>head</code></td><td>Information om sidan. Syns inte</td><td><a href="#grunden">1</a></td></tr>
+          <tr><td><code>meta charset="utf-8"</code></td><td>Teckenkodning. Först i <code>head</code></td><td><a href="#tecken">2</a></td></tr>
+          <tr><td><code>title</code></td><td>Flikens namn</td><td><a href="#grunden">1</a></td></tr>
+          <tr><td><code>body</code></td><td>Allt som syns</td><td><a href="#grunden">1</a></td></tr>
+          <tr><td><code>header</code></td><td>Topp på sidan eller ett avsnitt</td><td><a href="#semantik">3</a></td></tr>
+          <tr><td><code>nav</code></td><td>Grupp av navigationslänkar</td><td><a href="#lankar">5</a></td></tr>
+          <tr><td><code>main</code></td><td>Sidans huvudinnehåll. En per sida</td><td><a href="#semantik">3</a></td></tr>
+          <tr><td><code>section</code></td><td>Tematiskt avsnitt med rubrik</td><td><a href="#semantik">3</a></td></tr>
+          <tr><td><code>article</code></td><td>Fristående innehåll</td><td><a href="#semantik">3</a></td></tr>
+          <tr><td><code>aside</code></td><td>Innehåll vid sidan om</td><td><a href="#semantik">3</a></td></tr>
+          <tr><td><code>footer</code></td><td>Fot på sidan eller ett avsnitt</td><td><a href="#semantik">3</a></td></tr>
+          <tr><td><code>div</code></td><td>Ingen innebörd. Sista utvägen</td><td><a href="#semantik">3</a></td></tr>
+          <tr><td><code>h1</code>–<code>h6</code></td><td>Rubriknivåer</td><td><a href="#text">4</a></td></tr>
+          <tr><td><code>p</code></td><td>Stycke</td><td><a href="#text">4</a></td></tr>
+          <tr><td><code>strong</code>, <code>em</code></td><td>Viktigt, betonat</td><td><a href="#text">4</a></td></tr>
+          <tr><td><code>ul</code>, <code>ol</code>, <code>li</code></td><td>Punktlista, numrerad lista, listrad</td><td><a href="#text">4</a></td></tr>
+          <tr><td><code>dl</code>, <code>dt</code>, <code>dd</code></td><td>Beskrivningslista, term, beskrivning</td><td><a href="#text">4</a></td></tr>
+          <tr><td><code>a href</code></td><td>Länk</td><td><a href="#lankar">5</a></td></tr>
+          <tr><td><code>id</code></td><td>Unik identitet på sidan. Mål för ankarlänk</td><td><a href="#lankar">5</a></td></tr>
+          <tr><td><code>aria-current="page"</code></td><td>Markerar aktuell sida i menyn</td><td><a href="#lankar">5</a></td></tr>
+          <tr><td><code>img src alt</code></td><td>Bild med ersättningstext</td><td><a href="#bilder">6</a></td></tr>
+          <tr><td><code>width</code>, <code>height</code></td><td>Bildens verkliga mått, utan enhet</td><td><a href="#bilder">6</a></td></tr>
+          <tr><td><code>figure</code>, <code>figcaption</code></td><td>Bild med bildtext</td><td><a href="#bilder">6</a></td></tr>
+          <tr><td><code>audio</code>, <code>video</code>, <code>controls</code></td><td>Mediespelare</td><td><a href="#media">7</a></td></tr>
+          <tr><td><code>source</code>, <code>track</code></td><td>Format respektive undertext</td><td><a href="#media">7</a></td></tr>
+          <tr><td><code>table</code>, <code>caption</code></td><td>Tabell och tabellrubrik</td><td><a href="#tabeller">8</a></td></tr>
+          <tr><td><code>thead</code>, <code>tbody</code>, <code>tr</code></td><td>Rubrikdel, innehåll, rad</td><td><a href="#tabeller">8</a></td></tr>
+          <tr><td><code>th scope</code>, <code>td</code></td><td>Rubrikcell, datacell</td><td><a href="#tabeller">8</a></td></tr>
+          <tr><td><code>form</code></td><td>Formulär</td><td><a href="#formular">9</a></td></tr>
+          <tr><td><code>label for</code></td><td>Etikett kopplad till fält</td><td><a href="#formular">9</a></td></tr>
+          <tr><td><code>input type</code></td><td>Fält. Se typtabellen i avsnitt 9</td><td><a href="#formular">9</a></td></tr>
+          <tr><td><code>select</code>, <code>option</code></td><td>Rullgardin</td><td><a href="#formular">9</a></td></tr>
+          <tr><td><code>textarea</code></td><td>Flerradigt textfält</td><td><a href="#formular">9</a></td></tr>
+          <tr><td><code>fieldset</code>, <code>legend</code></td><td>Fältgrupp och dess namn</td><td><a href="#formular">9</a></td></tr>
+          <tr><td><code>button</code></td><td>Knapp</td><td><a href="#formular">9</a></td></tr>
+          <tr><td><code>required</code>, <code>pattern</code></td><td>Krav på ifyllnad respektive format</td><td><a href="#formular">9</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">14. Ordlista</h2>
+    <p>Klicka på en rad för att visa betydelsen, eller träna på orden med knapparna
+      nedan.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>element</b></td><td>Starttagg, innehåll och sluttagg tillsammans</td></tr>
+          <tr><td><b>tagg</b></td><td>Det som står mellan vinkelparenteser, som <code>&lt;p&gt;</code></td></tr>
+          <tr><td><b>attribut</b></td><td>Extra information i starttaggen, som <code>href="..."</code></td></tr>
+          <tr><td><b>doctype</b></td><td>Raden överst som säger att dokumentet är modern HTML</td></tr>
+          <tr><td><b>semantik</b></td><td>Att elementet säger vad innehållet är, inte hur det ser ut</td></tr>
+          <tr><td><b>teckenkodning</b></td><td>Tabellen som säger vilken siffra som betyder vilket tecken</td></tr>
+          <tr><td><b>UTF-8</b></td><td>Teckenkodningen som rymmer alla språks tecken</td></tr>
+          <tr><td><b>entitet</b></td><td>Skrivsätt för tecken som betyder något särskilt i HTML, som <code>&amp;lt;</code></td></tr>
+          <tr><td><b>relativ sökväg</b></td><td>Sökväg som utgår från filen du står i</td></tr>
+          <tr><td><b>absolut sökväg</b></td><td>Hela adressen, från <code>https://</code></td></tr>
+          <tr><td><b>ankarlänk</b></td><td>Länk till ett <code>id</code> längre ned på en sida</td></tr>
+          <tr><td><b>alt-text</b></td><td>Texten som ersätter en bild för den som inte ser den</td></tr>
+          <tr><td><b>validering</b></td><td>Att kontrollera att koden följer standarden</td></tr>
+          <tr><td><b>skärmläsare</b></td><td>Program som läser upp sidan för den som inte ser skärmen</td></tr>
+          <tr><td><b>landmärke</b></td><td>Ett semantiskt block, som <code>main</code> eller <code>nav</code>, som går att hoppa till</td></tr>
+          <tr><td><b>transkript</b></td><td>Hela innehållet i en ljud- eller videofil skrivet som text</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="projekt-1.html">Vidare till Projekt 1</a> · <a href="../index.html">Tillbaka till kursen</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

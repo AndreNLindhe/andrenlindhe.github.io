@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uppgift – Projekt 1: Flersidig ostilad webbplats</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-2-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Uppgift</strong> · Projekt 1</span>
+  <a href="guide-html.html">Guide: HTML</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>På sidan</p>
+    <ol>
+      <li><a href="#uppdraget">Uppdraget</a></li>
+      <li><a href="#formen">Välj en form</a></li>
+      <li><a href="#kom-igang">Kom igång</a></li>
+      <li><a href="#ska">Ska-krav (E)</a></li>
+      <li><a href="#bor">Bör-krav (C)</a></li>
+      <li><a href="#utmaningar">Utmaningar (A)</a></li>
+      <li><a href="#tekniska">Tekniska krav</a></li>
+      <li><a href="#matris">Bedömningsmatris</a></li>
+      <li><a href="#lamna-in">Innan du lämnar in</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling · område 2</p>
+    <h1>Projekt 1 – Flersidig ostilad webbplats</h1>
+    <p class="inledning">Din första riktiga webbplats. Flera sidor, inget CSS, och bilderna
+      från ditt eget bildpaket.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-10-13">
+        <span class="nar">13 okt</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Repolänk och Pages-adress i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="uppdraget">Uppdraget</h2>
+    <p>Du ska bygga en webbplats på <b>minst fyra sidor</b>, helt utan CSS. Ämnet är detsamma
+      som ditt bildpaket från Gränssnittsdesign – bilderna du gjorde i september är de som ska
+      in här. Sajten ska gå att förstå, navigera och läsa upp av en skärmläsare utan att en
+      enda rad formgivning finns.</p>
+    <p>Att den är ostilad är inte en förenkling, det är hela poängen. En sida som fungerar
+      utan CSS fungerar för alla. En sida som bara ser rätt ut med CSS är byggd i fel ordning,
+      och det märks inte förrän någon stänger av stilmallen eller kommer med en skärmläsare.</p>
+    <p>Den här sajten är grunden du stilsätter i november. Bygg den så att du vill arbeta
+      vidare på den.</p>
+
+    <h2 id="formen">Välj en form</h2>
+    <p>Ämnet är ditt eget. <b>Formen väljer du bland de fem här</b> – alla fem kräver samma
+      delar, men de blir olika sajter.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead>
+          <tr><th>Form</th><th>Vad sajten är</th><th>Sidor det brukar bli</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>Guiden</b></td><td>Så gör du något, steg för steg</td>
+            <td>Start · steg 1–3 · material · frågor</td></tr>
+          <tr><td><b>Platsen</b></td><td>En plats eller ett evenemang</td>
+            <td>Start · om platsen · program · hitta hit</td></tr>
+          <tr><td><b>Samlingen</b></td><td>En katalog över flera saker</td>
+            <td>Start · översikt · två detaljsidor · bidra</td></tr>
+          <tr><td><b>Föreningen</b></td><td>En klubb eller en verksamhet</td>
+            <td>Start · om oss · schema · bli medlem</td></tr>
+          <tr><td><b>Recensionerna</b></td><td>Omdömen om flera saker</td>
+            <td>Start · recensioner · betygslista · tipsa oss</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="notis">
+      <span class="rubrik">Kan du inte välja</span>
+      <p>Ta <b>Samlingen</b>. Den passar nästan alla bildpaket, eftersom sex bilder som hör
+        ihop redan <i>är</i> en samling.</p>
+    </div>
+
+    <h2 id="kom-igang">Kom igång</h2>
+    <ol>
+      <li><b>Skapa repot och de fyra tomma sidorna först.</b> <code>index.html</code> och tre
+        till, alla med samma grundstruktur. Innehållet kommer sedan.</li>
+      <li><b>Lägg in navigeringen på alla fyra</b> innan du skriver en enda rad text. Då
+        upptäcker du direkt om sökvägarna är fel, i stället för i oktober.</li>
+      <li><b>Kopiera in bildpaketet</b> i en <code>bilder/</code>-mapp och skriv
+        <code>alt</code>-texterna medan bilderna är färska i minnet.</li>
+    </ol>
+
+    <p>Kryssen nedan sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span><b>Minst fyra sidor</b>, varje sida
+          ett komplett HTML-dokument med <code>&lt;!doctype html&gt;</code>,
+          <code>&lt;html lang="sv"&gt;</code>, <code>&lt;head&gt;</code> och
+          <code>&lt;body&gt;</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span><code>&lt;meta charset="utf-8"&gt;</code>
+          och en egen <code>&lt;title&gt;</code> på varje sida – ingen sida heter
+          <i>Document</i></span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span><b>Semantisk struktur</b>:
+          <code>header</code>, <code>nav</code>, <code>main</code> och <code>footer</code>
+          på varje sida</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>En <code>&lt;h1&gt;</code> per sida,
+          och rubriknivåerna hoppar inte över steg</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>En <b>navigering som finns på alla
+          sidor</b> och som når varje sida</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span><b>Relativa sökvägar</b> – sajten
+          fungerar när mappen flyttas</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Minst <b>fyra bilder ur ditt
+          bildpaket</b>, alla med <code>alt</code> som beskriver bilden</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Minst en <code>&lt;figure&gt;</code>
+          med <code>&lt;figcaption&gt;</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span><b>En datatabell</b> med
+          <code>&lt;caption&gt;</code> och <code>&lt;th scope="…"&gt;</code> – för data,
+          aldrig för layout</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span><b>Ett formulär</b> där varje fält
+          har en <code>&lt;label for="…"&gt;</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span>Sajten <b>validerar utan fel</b>
+          hos W3C, alla sidor</span></label></li>
+        <li><label><input type="checkbox" id="ska-12"><span>Publicerad med GitHub Pages, och
+          adressen fungerar</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Du kan <b>motivera dina
+          elementval</b> – varför <code>article</code> här och <code>section</code> där,
+          varför just den rubriknivån</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span><b>Länktexterna fungerar utan
+          sammanhang.</b> Ingen länk heter <i>klicka här</i> eller <i>läs mer</i></span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Formuläret har
+          <code>fieldset</code> och <code>legend</code> där fälten hör ihop, och rätt
+          <code>type</code> på varje <code>input</code></span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Tabellen har <code>scope</code>
+          satt rätt på både rad- och kolumnrubriker</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span><code>alt</code>-texterna är skrivna
+          för <b>den som inte ser bilden</b> – inte <i>bild på hamnen</i> utan vad bilden
+          visar</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Sajten är <b>testad i två
+          webbläsare</b> och på telefon, och du kan säga vad som skilde</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaningar">Utmaningar <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>En <b>ankarlänk-navigering</b> på
+          en lång sida, med fungerande hopp tillbaka till toppen</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span><code>audio</code> eller
+          <code>video</code> med <b>undertext eller transkript</b></span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Du har <b>läst sajten med
+          skärmläsare</b> eller enbart med tangentbord, och kan berätta var det gick trögt
+          och vad du ändrade</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>En sida använder
+          <code>&lt;table&gt;</code> med både <code>thead</code>, <code>tbody</code> och
+          <code>&lt;th scope="row"&gt;</code>, och går att följa rad för rad</span></label></li>
+        <li><label><input type="checkbox" id="utm-5"><span>Du kan förklara <b>var du valde
+          bort ett element</b> som hade varit frestande men fel</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="tekniska">Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Vad som gäller</th></tr></thead>
+        <tbody>
+          <tr><td>Filstruktur</td><td><code>index.html</code> i roten, övriga sidor i roten,
+            bilder i <code>bilder/</code></td></tr>
+          <tr><td>Filnamn</td><td>Gemener, bindestreck i stället för mellanslag, inga å ä ö</td></tr>
+          <tr><td>Sökvägar</td><td>Relativa. <code>bilder/hamn-kran-1200.webp</code>, aldrig
+            <code>/bilder/…</code></td></tr>
+          <tr><td>CSS</td><td><b>Ingen.</b> Ingen <code>style</code>-tagg, inget
+            <code>style</code>-attribut, ingen <code>.css</code>-fil</td></tr>
+          <tr><td>Teckenkodning</td><td>UTF-8 utan BOM</td></tr>
+          <tr><td>Validering</td><td>W3C-validatorn, noll fel på samtliga sidor</td></tr>
+          <tr><td>Webbläsartest</td><td>Två olika webbläsare, plus telefon</td></tr>
+          <tr><td>Var det lämnas</td><td>Repolänk <b>och</b> Pages-adress i itslearning</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="matris">Bedömningsmatris</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><b>Struktur och semantik</b></td>
+            <td>Sidorna har header, nav, main och footer, och en h1 per sida</td>
+            <td>Elementvalen är motiverade och rubrikhierarkin håller genom hela sajten</td>
+            <td>Strukturen bär innehållet så väl att den går att läsa som en innehållsförteckning</td></tr>
+          <tr><td><b>Innehåll och navigation</b></td>
+            <td>Fyra sidor som når varandra med relativa sökvägar</td>
+            <td>Länktexterna fungerar lösryckta, navigeringen är konsekvent</td>
+            <td>Sajten går att röra sig i utan att gissa, även med enbart tangentbord</td></tr>
+          <tr><td><b>Tabell och formulär</b></td>
+            <td>En datatabell och ett formulär finns, med caption och label</td>
+            <td>scope, fieldset och legend är satta rätt, input-typerna stämmer</td>
+            <td>Tabellen går att följa rad för rad, formuläret är begripligt utan att ha setts förut</td></tr>
+          <tr><td><b>Tillgänglighet</b></td>
+            <td>Alla bilder har alt, alla fält har label</td>
+            <td>alt-texterna beskriver innehållet för den som inte ser bilden</td>
+            <td>Sajten är testad med skärmläsare eller tangentbord och åtgärdad efter testet</td></tr>
+          <tr><td><b>Kvalitetssäkring</b></td>
+            <td>Validerar utan fel och är publicerad</td>
+            <td>Testad i två webbläsare, skillnaderna kända</td>
+            <td>Felen är förebyggda snarare än rättade – koden var ren första gången</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="lamna-in">Innan du lämnar in</h2>
+    <p>Sista passet, 13 oktober, är till för det här. Gå igenom i tur och ordning:</p>
+    <ol>
+      <li><b>Validera varje sida.</b> Inte bara startsidan. Laga det översta felet först och
+        validera om – ett fel orsakar ofta tio.</li>
+      <li><b>Klicka igenom navigeringen på den publicerade adressen</b>, inte i VS Code. Det
+        är där sökvägsfelen visar sig.</li>
+      <li><b>Kontrollera att bilderna syns publicerat.</b> Stavning och skiftläge måste
+        stämma exakt – servern skiljer på <code>Bild.jpg</code> och <code>bild.jpg</code>,
+        din dator gör det inte.</li>
+      <li><b>Öppna sajten i en andra webbläsare.</b> Skillnader i formulärfält och
+        rubrikstorlek är förväntade och ofarliga.</li>
+      <li><b>Lämna båda adresserna</b> i itslearning: repot och den publicerade sidan.</li>
+    </ol>
+
+    <div class="notis varna">
+      <span class="rubrik">Provet dagen efter</span>
+      <p>Prov 1 är 14 oktober, skriftligt utan dator, och utgår från referensprojektet
+        <i>Fyrar längs Bohuskusten</i>. Guidens
+        <a href="guide-html.html#snabbreferens">snabbreferens</a> är det du repeterar på.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

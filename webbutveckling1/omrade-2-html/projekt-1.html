@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projekt 1 – Flersidig ostilad webbplats – Webbutveckling 1 område 2</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<!-- Topplänken och sidfoten pekar på kursens startsida tills områdesstarten
+     elevpaket/omrade-2-html/index.html finns. Byt till index.html då. -->
+<body data-nyckel="WebbIND-1-2-projekt-1">
+
+<header class="topp">
+  <a href="../index.html">← Kursen</a>
+  <span class="harifran"><strong>Uppgift</strong> · Projekt 1</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#avsnitt-1">1. Uppdraget</a></li>
+      <li><a href="#avsnitt-2">2. Ämnet</a></li>
+      <li><a href="#kraven">3. Kraven</a></li>
+      <li><a href="#avsnitt-4">4. Tekniska krav</a></li>
+      <li><a href="#matrisen">5. Bedömningsmatris</a></li>
+      <li><a href="#avsnitt-6">6. Så lämnar du in</a></li>
+      <li><a href="#avsnitt-7">7. Kom igång</a></li>
+      <li><a href="#avsnitt-8">8. Så ligger tiden</a></li>
+      <li><a href="#avsnitt-9">9. Innan du lämnar in</a></li>
+      <li><a href="#felsokning">10. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 2 · projekt</p>
+    <h1>Projekt 1 – Flersidig ostilad webbplats</h1>
+    <p class="inledning">En webbplats på minst fyra sidor om ett ämne du väljer själv.
+      Helt utan CSS, semantiskt uppbyggd och validerad utan ett enda fel. Det här
+      projektet sätter betyg.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-10-02">
+        <span class="nar">2 okt</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Länken till ditt nya publika repo lämnas i itslearning-uppgiften.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-10-05">
+        <span class="nar">5 okt</span>
+        <span class="vad">Prov 1 – kodprov HTML
+          <small>Skriftligt prov utan dator.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="avsnitt-1">1. Uppdraget</h2>
+    <p>Du ska bygga en webbplats på minst fyra sidor om ett ämne du väljer själv. Sidorna
+      är länkade till varandra med samma navigation, och innehållet är skrivet med dina
+      egna ord. Någonstans på sajten finns en tabell med data och ett formulär.</p>
+
+    <p>Sajten ska vara helt <b>ostilad</b>. Ingen stilmall, inga färger, inga typsnitt.
+      Det är själva poängen med området: HTML säger vad något är, CSS säger hur det ser
+      ut, och de två sakerna ska vara uppenbart olika innan vi slår ihop dem i
+      område 3.</p>
+
+    <p>Sajten ska ge noll fel i W3C:s validator. Det blir sista steget i varje uppgift
+      resten av kursen, och det börjar här.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Sajten kommer att se ful ut. Det är rätt</span>
+      <p>Utan CSS blir bilderna enorma, tabellen en radda text och rubrikerna olika
+        stora. Leta inte efter något att skriva för att fixa det. En sida som ser
+        ostilad ut men har rätt element är exakt vad uppgiften ber om – och i område 3
+        är det den här sajten du stilsätter.</p>
+    </div>
+
+    <h2 id="avsnitt-2">2. Ämnet</h2>
+    <p>Välj något du kan skriva fyra sidor om utan att slå upp varje mening. En sport,
+      ett spel, en plats, ett hantverk, en musikgenre, en djurgrupp. Ämnet bedöms inte –
+      det som bedöms är strukturen, koden och att texten är din.</p>
+
+    <p>Två saker att undvika: ämnen där du bara kan skriva av en encyklopedi, och
+      personer i din närhet. Ingen text, bild eller uppgift om någon annan person utan
+      att den personen vet om det.</p>
+
+    <p>Sajten du bygger nu följer med resten av kursen. I område 3 stilsätter du den, i
+      område 4 gör du den mobilanpassad, och i område 6 bygger du in interaktiva moduler
+      i den. Välj ett ämne du står ut med till mars.</p>
+
+    <h2 id="kraven">3. Kraven</h2>
+    <p>Kryssa av allt eftersom. Kryssen sparas i din webbläsare.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Sajten ligger i ett <b>nytt publikt repo</b>, skilt från mitt <code>webbutveckling1</code>-repo.</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Minst fyra HTML-sidor, och <code>index.html</code> är startsidan.</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Varje sida har <code>&lt;!doctype html&gt;</code>, <code>&lt;html lang="sv"&gt;</code>, <code>&lt;meta charset="utf-8"&gt;</code> och en egen <code>title</code> som säger vad just den sidan innehåller.</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Varje sida har <code>header</code>, <code>nav</code>, <code>main</code> och <code>footer</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Samma navigation på alla sidor, och varje sida går att nå från varje annan sida.</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>En <code>h1</code> per sida. Rubriknivåerna under den hoppar inte över något steg.</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Minst tre stycken egen text per sida.</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Minst en lista, <code>ul</code> eller <code>ol</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>Minst tre bilder på sajten, alla med en <code>alt</code>-text som beskriver vad bilden visar.</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>En tabell med data, med <code>th</code>-celler och en <code>caption</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span>Ett formulär där varje fält har en <code>label</code> kopplad med <code>for</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-12"><span>Alla sökvägar är relativa och fungerar på den publicerade adressen.</span></label></li>
+        <li><label><input type="checkbox" id="ska-13"><span>Ingen CSS: ingen stilmall, inget <code>style</code>-element, inga <code>style</code>-attribut.</span></label></li>
+        <li><label><input type="checkbox" id="ska-14"><span>Alla sidor ger <b>noll fel</b> i W3C-validatorn.</span></label></li>
+        <li><label><input type="checkbox" id="ska-15"><span>Sajten är publicerad med GitHub Pages och adressen fungerar.</span></label></li>
+        <li><label><input type="checkbox" id="ska-16"><span>Repo-länken är inlämnad i itslearning senast fredag 2 oktober 23:59.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— mot nivå C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Texten är skriven med mina egna ord. Källorna står i <code>footer</code>.</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span><code>section</code> och <code>article</code> används där det finns skäl, och jag kan motivera varje val.</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Länktexterna säger vart de går. Ingen länk heter "klicka här" eller "läs mer".</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Den aktuella sidan är markerad i navigationen med <code>aria-current="page"</code>.</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Bilderna ligger i <code>bilder/</code> och filnamnen beskriver innehållet.</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Minst en bild ligger i en <code>figure</code> med en <code>figcaption</code>.</span></label></li>
+        <li><label><input type="checkbox" id="bor-7"><span>Tabellens rubrikceller har <code>scope</code>.</span></label></li>
+        <li><label><input type="checkbox" id="bor-8"><span>Formuläret har mer än en <code>input</code>-typ och en <code>textarea</code>, samlade i <code>fieldset</code> med <code>legend</code>.</span></label></li>
+        <li><label><input type="checkbox" id="bor-9"><span>Noll fel <b>och</b> noll varningar i validatorn.</span></label></li>
+        <li><label><input type="checkbox" id="bor-10"><span>Sajten är provad i två webbläsare och ser likadan ut i båda.</span></label></li>
+        <li><label><input type="checkbox" id="bor-11"><span>Minst sex commits, spridda över arbetspassen, med meddelanden som säger vad jag gjorde.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— mot nivå A</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>En sida har en innehållsförteckning med ankarlänkar till sina egna avsnitt.</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Bildformaten är valda medvetet – SVG för figurer, WebP eller JPG för foton – och jag kan motivera varje val.</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Sajten har ett ljud- eller videoklipp med <code>track</code> för undertexter, eller ett transkript i texten.</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>Formuläret använder <code>required</code> och <code>pattern</code>, och fälten har <code>autocomplete</code> där det finns ett standardvärde att använda.</span></label></li>
+        <li><label><input type="checkbox" id="utm-5"><span>Tabellen har rubriker på både rader och kolumner, med <code>scope</code> satt åt båda hållen.</span></label></li>
+        <li><label><input type="checkbox" id="utm-6"><span>Hela sajten går att använda med enbart tangentbord, och tabbordningen följer sidan.</span></label></li>
+        <li><label><input type="checkbox" id="utm-7"><span>Jag kan förklara varje element jag valt, och varför det och inte en <code>div</code>.</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="avsnitt-4">4. Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Så ska det vara</th></tr></thead>
+        <tbody>
+          <tr><td>Repo</td><td>Nytt och publikt. Namnet säger vad sajten handlar om, gemener och bindestreck</td></tr>
+          <tr><td>Startsida</td><td><code>index.html</code> i repots rot</td></tr>
+          <tr><td>Filnamn</td><td>Gemener, bindestreck i stället för mellanslag, ändelsen <code>.html</code></td></tr>
+          <tr><td>Bilder</td><td>I mappen <code>bilder/</code>, samma regler för filnamnen</td></tr>
+          <tr><td>Sökvägar</td><td>Relativa: <code>bilder/karta.svg</code>, <code>kontakt.html</code>. Aldrig inledande snedstreck</td></tr>
+          <tr><td>Indrag</td><td>2 mellanslag</td></tr>
+          <tr><td>Språk</td><td><code>lang="sv"</code> på varje sida</td></tr>
+          <tr><td>Teckenkodning</td><td><code>&lt;meta charset="utf-8"&gt;</code> som första rad i varje <code>head</code></td></tr>
+          <tr><td>CSS</td><td>Ingen alls. Ingen stilmall, inget <code>style</code>-element, inga <code>style</code>-attribut</td></tr>
+          <tr><td>JavaScript</td><td>Krävs inte, och behövs inte till något i den här uppgiften</td></tr>
+          <tr><td>Validering</td><td><code>validator.w3.org</code>, noll fel på varje enskild sida</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Så här ser repot ut när du är klar. Filnamnen är dina – <code>index.html</code> är
+      det enda som måste heta som det heter:</p>
+
+<pre><code>bilder/
+  ...
+index.html
+sida-2.html
+sida-3.html
+sida-4.html
+README.md</code></pre>
+
+    <h2 id="matrisen">5. Bedömningsmatris</h2>
+    <p>Så här bedöms sajten, kriterium för kriterium. Matrisen är inte hemlig och den är
+      inte till för slutet – tisdag 29 september går du igenom din egen sajt mot varje
+      rad på lektionen, medan det fortfarande finns tre dagar kvar att göra något åt
+      det.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Dokumentets grund</b></td>
+            <td>Alla sidor har doctype, <code>lang</code>, <code>charset</code> och en <code>title</code></td>
+            <td>Varje <code>title</code> säger vad just den sidan innehåller. Åäö fungerar överallt, även i filnamn och länkar</td>
+            <td>Entiteter används där de behövs, och du kan förklara skillnaden mellan tecknet och entiteten</td>
+          </tr>
+          <tr>
+            <td><b>Semantisk struktur</b></td>
+            <td><code>header</code>, <code>nav</code>, <code>main</code> och <code>footer</code> på varje sida. En <code>h1</code> per sida</td>
+            <td><code>section</code> och <code>article</code> används med skäl. Rubriknivåerna hoppar inte, och strukturen syns i indraget</td>
+            <td>Elementvalen är motiverade genomgående. Ingen <code>div</code> där ett semantiskt element finns</td>
+          </tr>
+          <tr>
+            <td><b>Text och länkar</b></td>
+            <td>Minst tre stycken per sida, en lista, och en navigation som når alla sidor</td>
+            <td>Egna ord med källor i <code>footer</code>. Länktexterna säger vart de går. Aktuell sida markerad med <code>aria-current</code></td>
+            <td>Ankarlänkar inom en sida, och en sajt som går att ta sig runt i med enbart tangentbord</td>
+          </tr>
+          <tr>
+            <td><b>Bilder och media</b></td>
+            <td>Minst tre bilder, alla med beskrivande <code>alt</code></td>
+            <td>Bilder i <code>bilder/</code>, minst en i <code>figure</code> med <code>figcaption</code>, filnamn som beskriver innehållet</td>
+            <td>Formaten är valda medvetet och motiverade. Ljud eller video med <code>track</code> eller transkript</td>
+          </tr>
+          <tr>
+            <td><b>Tabell och formulär</b></td>
+            <td>En tabell med <code>th</code> och <code>caption</code>. Ett formulär där varje fält har en <code>label</code> med <code>for</code></td>
+            <td><code>scope</code> på rubrikcellerna. Flera <code>input</code>-typer och en <code>textarea</code>, samlade i <code>fieldset</code> med <code>legend</code></td>
+            <td>Rubriker åt båda håll i tabellen. <code>required</code>, <code>pattern</code> och <code>autocomplete</code> använda där de hör hemma</td>
+          </tr>
+          <tr>
+            <td><b>Validering och test</b></td>
+            <td>Noll fel på varje sida</td>
+            <td>Noll fel och noll varningar. Provad i två webbläsare</td>
+            <td>Du kan läsa ett valideringsfel och säga vad det betyder innan du rättar det</td>
+          </tr>
+          <tr>
+            <td><b>Arbetssätt</b></td>
+            <td>Koden ligger i det nya publika repot och sajten är publicerad</td>
+            <td>Minst sex commits spridda över arbetspassen, med meddelanden som säger vad du gjorde</td>
+            <td>Du kan förklara varje rad du skrivit, och varför den ser ut som den gör</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Ingen rad väger tyngre än någon annan. Ett E på en rad drar inte ned de andra –
+      men en sajt som inte validerar eller inte är publicerad är inte inlämnad, oavsett
+      vad som står i koden.</p>
+
+    <div class="notis">
+      <span class="rubrik">A handlar inte om mer kod</span>
+      <p>Ett E kräver varken CSS eller JavaScript, och det gör inte ett A heller.
+        Skillnaden ligger i att elementen du valt är rätt element, och att du kan säga
+        varför du valde dem.</p>
+    </div>
+
+    <h2 id="avsnitt-6">6. Så lämnar du in</h2>
+    <ol>
+      <li>Din kod är sparad, committad och synkad till det nya repot.</li>
+      <li>Sajten är publicerad via GitHub Pages, och du har provat adressen i ett privat
+        fönster där du inte är inloggad.</li>
+      <li>Länken till det <b>publika repot</b> är inlämnad i itslearning-uppgiften.</li>
+    </ol>
+
+    <p>Det är repots adress som lämnas in, inte sajtens:</p>
+
+<pre><code>https://github.com/ANVÄNDARNAMN/REPONAMN</code></pre>
+
+    <p>Rättningen tittar på koden, inte bara på hur sidorna ser ut, och sajten når man
+      själv därifrån.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Nytt repo betyder ny Pages-inställning</span>
+      <p>GitHub Pages slås på per repo. Att ditt gamla repo är publicerat hjälper inte
+        det nya. Stegen är desamma som i september: <b>Settings</b> → <b>Pages</b> →
+        <b>Source: Deploy from a branch</b> → <b>Branch: main</b> → <b>Save</b>. Står de
+        i detalj på <a href="../omrade-1-igang-med-webben/sa-fungerar-webben.html#avsnitt-9">uppgiftssidan
+        från område 1</a>.</p>
+      <p>Repot måste också vara <b>publikt</b>. Ett privat repo publicerar ingenting alls
+        och ger 404 för alla utom dig.</p>
+    </div>
+
+    <h2 id="avsnitt-7">7. Kom igång – de tre första sakerna</h2>
+    <ol>
+      <li>Bestäm ämnet och vilka fyra sidor sajten ska ha. Skriv rubrikerna på papper
+        först – det tar tre minuter och sparar en timme.</li>
+      <li>Skapa det nya publika repot på <code>github.com/new</code>. Kryssa i
+        <b>Add a README file</b>, så att repot inte är tomt.</li>
+      <li>Öppna ett Codespace på det nya repot, skapa <code>index.html</code> och skriv
+        grunddokumentet: doctype, <code>html</code>, <code>head</code> med
+        <code>charset</code> och <code>title</code>, och <code>body</code>.</li>
+    </ol>
+
+    <h2 id="avsnitt-8">8. Så ligger tiden</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Datum</th><th>Vad som händer</th></tr></thead>
+        <tbody>
+          <tr><td>mån 7/9</td><td><b>Genomgång:</b> HTML-dokumentets grund. Uppgiften delas ut</td></tr>
+          <tr><td>tis 8/9</td><td><b>Genomgång:</b> semantik, text och länkar</td></tr>
+          <tr><td>fre 11/9</td><td><b>Genomgång:</b> bilder och media</td></tr>
+          <tr><td>mån 14/9</td><td><b>Genomgång:</b> tabeller och formulär</td></tr>
+          <tr><td>tis 15/9</td><td><b>Genomgång:</b> validering och webbläsartest</td></tr>
+          <tr><td>fre 18/9</td><td>Arbetspass med handledning</td></tr>
+          <tr><td>mån 21/9</td><td>Arbetspass</td></tr>
+          <tr><td>tis 22/9</td><td>Arbetspass</td></tr>
+          <tr><td>fre 25/9</td><td>Ledig dag. Ingen lektion</td></tr>
+          <tr><td>mån 28/9</td><td>Arbetspass</td></tr>
+          <tr><td>tis 29/9</td><td>Arbetspass. <b>Avstämning mot bedömningsmatrisen</b></td></tr>
+          <tr><td>fre 2/10</td><td>Sista finputs. Validera, testa i två webbläsare, committa. <b>Deadline 23:59</b></td></tr>
+          <tr><td>mån 5/10</td><td><b>Prov 1</b> – kodprov HTML, skriftligt utan dator</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Genomgångarna är fem och arbetspassen sex. Du hinner inte bygga hela sajten på
+      arbetspassen om du väntar med allt tills de börjar – börja skriva sidorna redan
+      under genomgångsveckan, och använd arbetspassen till att göra dem rätt.</p>
+
+    <h2 id="avsnitt-9">9. Innan du lämnar in</h2>
+    <p>Gå igenom listan på fredagen den 2 oktober, i den här ordningen. Den sista
+      punkten är den som oftast glöms.</p>
+    <ol>
+      <li>Alla fyra sidorna öppnas från navigationen – provat från varje sida.</li>
+      <li>Varje sida har en egen <code>title</code>.</li>
+      <li>Alla bilder har <code>alt</code>, och sökvägarna fungerar på den publicerade
+        adressen.</li>
+      <li>Tabellen har <code>th</code> och <code>caption</code>.</li>
+      <li>Varje formulärfält har en <code>label</code> med <code>for</code>.</li>
+      <li>Ingen CSS någonstans – sök efter <code>style</code> i koden.</li>
+      <li>Varje sida ger noll fel i validatorn.</li>
+      <li>Allt är committat och synkat, och syns i repot på <code>github.com</code>.</li>
+      <li>Adressen fungerar i ett privat fönster.</li>
+      <li>Repo-länken är inlämnad i itslearning.</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Publicerad är inte inlämnad</span>
+      <p>En sajt som ligger uppe men aldrig lämnades in räknas inte. Klicka
+        <b>Lämna in</b> i itslearning-uppgiften även om du tänker fixa något mer på
+        kvällen.</p>
+    </div>
+
+    <h2 id="felsokning">10. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: validator, bild, formulär, 404" autocomplete="off">
+      <p class="traffar" id="traffar-fel">20 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Åäö visas som konstiga tecken</td><td><code>&lt;meta charset="utf-8"&gt;</code> saknas eller ligger för långt ned</td><td>Den ska stå först i <code>head</code>, före <code>title</code></td></tr>
+          <tr><td>Validatorn: "Start tag seen without seeing a doctype first"</td><td>Dokumentet börjar inte med <code>&lt;!doctype html&gt;</code></td><td>Lägg raden allra överst, före <code>&lt;html&gt;</code></td></tr>
+          <tr><td>Validatorn: "Consider adding a lang attribute"</td><td><code>lang</code> saknas på <code>html</code></td><td><code>&lt;html lang="sv"&gt;</code></td></tr>
+          <tr><td>Validatorn: "Duplicate ID"</td><td>Samma <code>id</code> används två gånger på sidan</td><td>Ett <code>id</code> får finnas en gång per sida. Döp om det ena</td></tr>
+          <tr><td>Validatorn: "Element figcaption not allowed here"</td><td><code>figcaption</code> ligger utanför sin <code>figure</code></td><td>Flytta in den, som första eller sista barn i <code>figure</code></td></tr>
+          <tr><td>Validatorn: "Section lacks heading" (varning)</td><td>En <code>section</code> utan rubrik</td><td>Ge den en rubrik. Har den ingen är det sällan en <code>section</code></td></tr>
+          <tr><td>Validatorn hittar hundratals fel på en sida</td><td>En tagg är ostängd tidigt i dokumentet</td><td>Rätta det översta felet och validera om. Ett fel skapar ofta tio</td></tr>
+          <tr><td>Alla länkar i navigationen ger 404 på webben</td><td>Versaler i filnamnen</td><td>Servern skiljer på stort och smått. Gemener i både filnamn och <code>href</code></td></tr>
+          <tr><td>Länkarna fungerar hos mig men inte publicerat</td><td>Inledande snedstreck i sökvägen</td><td>Ta bort det: <code>kontakt.html</code>, inte <code>/kontakt.html</code></td></tr>
+          <tr><td>Bilden visas som en trasig ikon</td><td><code>src</code> pekar fel, eller bildfilen är inte committad</td><td>Jämför sökvägen med filträdet, och kontrollera att filen syns i repot på github.com</td></tr>
+          <tr><td>Bilderna täcker halva skärmen</td><td>Ingenting – sajten har ingen CSS</td><td>Så ska det se ut här. Storleken sätts i område 3</td></tr>
+          <tr><td>Tabellen ser ut som en radda text utan linjer</td><td>Ingen CSS. Ramar och linjer är form, inte struktur</td><td>Rätt. <code>th</code> och <code>caption</code> gör tabellen korrekt, inte snygg</td></tr>
+          <tr><td>Formuläret gör ingenting när jag klickar Skicka</td><td>Det finns ingen server som tar emot</td><td>Förväntat. Här bedöms formulärets struktur, inte att det skickas</td></tr>
+          <tr><td>Klick på texten bredvid fältet gör ingenting</td><td><code>label</code> saknar <code>for</code>, eller <code>for</code> matchar inget <code>id</code></td><td><code>for</code> ska vara exakt samma sträng som fältets <code>id</code></td></tr>
+          <tr><td>Sidan ser stilad ut fast jag inte lagt till CSS</td><td>Ett <code>style</code>-attribut ligger kvar, eller så är det webbläsarens standardstil</td><td>Sök efter <code>style</code> i koden. Standardstilen är inte din CSS och ska vara kvar</td></tr>
+          <tr><td>Rubrikerna blir olika stora på olika sidor</td><td>Du hoppade från <code>h1</code> till <code>h3</code></td><td>Nivåerna ska följa på varandra. Storleken är standardstilen, inte ett fel</td></tr>
+          <tr><td>Pages-adressen visar en fillista i stället för sajten</td><td>Startsidan heter något annat än <code>index.html</code></td><td>Pages letar efter <code>index.html</code> i repots rot. Döp om filen</td></tr>
+          <tr><td>404 direkt efter att jag slog på Pages</td><td>Bygget är inte klart</td><td>Vänta en minut och ladda om. Först därefter felsöker du</td></tr>
+          <tr><td>Läraren ser ett tomt repo</td><td>Du committade i det gamla repot</td><td>Kontrollera repots namn högst upp i Codespace innan du committar</td></tr>
+          <tr><td>Mitt Codespace öppnar fel projekt</td><td>Du har ett Codespace per repo, och öppnade det gamla</td><td>Gå via det nya repots <b>Code</b> → <b>Codespaces</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="../index.html">Tillbaka till kursen</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
