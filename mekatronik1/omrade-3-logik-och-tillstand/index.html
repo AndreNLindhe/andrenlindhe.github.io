@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 3 – Logik, tid och tillstånd – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o3-index">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Område 3</strong> · Logik, tid och tillstånd</span>
+  <a href="../sprakreferens.html">Språkreferens</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Område 3 · lektion 11–17 · 5 nov – 17 dec</p>
+    <h1>Logik, tid och tillstånd</h1>
+    <p class="inledning">Sju pass, områdets största, och terminens sista. Ditt
+      bygge får två insignaler i stället för en, en regel som avgör vad de
+      betyder tillsammans, och ett minne av vad som redan hänt. På vägen gör du
+      dig av med <code>delay()</code>.</p>
+
+    <p class="notis"><span class="rubrik">Här betalas löftet från förra området</span>
+      I guiden om digital ingång stod att avstudsningen med <code>delay(20)</code>
+      inte var den slutgiltiga lösningen, och att den riktiga mäter tid utan att
+      stanna. Det är den här delen av kursen som infriar det. Efter området har
+      du ett verktyg som låter ett bygge blinka, lyssna på två knappar och röra
+      ett servo – samtidigt, utan att något av det står i vägen för det
+      andra.</p>
+
+    <h2 id="guider">Guiderna</h2>
+    <p>Läs dem i ordning. De fem guiderna bygger på varandra tätare än i något
+      tidigare område: sanningstabellen från den första används i den andra,
+      tiden från den tredje används i den fjärde, och den femte kravställer
+      bygget som de fyra föregående gör möjligt.</p>
+
+    <div class="rutnat">
+
+      <a class="kort" href="guide-binart-och-logik.html">
+        <span class="sort">Lektion 11 · 5 nov</span>
+        <span class="rubrik">Binärt och logiska grundfunktioner</span>
+        <p>Varför två nivåer räcker, och hur de räknar. AND, OR, NOT och XOR
+          som grindar, som sanningstabeller och som kod.</p>
+      </a>
+
+      <a class="kort" href="guide-villkor-i-cpp.html">
+        <span class="sort">Lektion 12 · 12 nov</span>
+        <span class="rubrik">Villkor i C++</span>
+        <p>bool, jämförelser och de tre operatorerna. Skillnaden mellan
+          &amp;&amp; och &amp;, som kompilerar utan varning och gör fel sak.</p>
+      </a>
+
+      <a class="kort" href="guide-tid-utan-delay.html">
+        <span class="sort">Lektion 13 · 19 nov</span>
+        <span class="rubrik">Tid utan delay</span>
+        <p>Vad delay() faktiskt stoppar. millis(), tidsstämplar, och varför
+          subtraktionen överlever att räknaren viker runt efter 49,7 dygn.</p>
+      </a>
+
+      <a class="kort" href="guide-tillstand.html">
+        <span class="sort">Lektion 14 · 26 nov</span>
+        <span class="rubrik">Tillstånd</span>
+        <p>Vad systemet minns. En tillståndsvariabel, ett tillståndsdiagram,
+          och skillnaden mot en krets som bara reagerar på nuet.</p>
+      </a>
+
+      <a class="kort" href="guide-industri-och-vardag.html">
+        <span class="sort">Lektion 15 · 3 dec</span>
+        <span class="rubrik">I industrin och i vardagen</span>
+        <p>Tvåhandsgreppet på en industripress och mikrovågsugnens lucka. Två
+          spärrar, byggda på olika sätt av olika skäl. Här kravställs bygge 2.</p>
+      </a>
+
+      <a class="kort webb" href="bygge-2-lucka.html">
+        <span class="sort">Lektion 16–17 · 10 dec – 17 dec · bygge</span>
+        <span class="rubrik">Bygge 2 – en logisk regel som öppnar en lucka</span>
+        <p>Två insignaler, en regel, en lucka som öppnas. Kursens andra bedömda
+          system, och det första som beläggs mot alla fem förmågorna.</p>
+      </a>
+
+    </div>
+
+    <h2 id="tvapass">Bygget löper över två pass</h2>
+    <p>Till skillnad från bygge 1 har bygge 2 två pass avsatta, och de har olika
+      uppgifter. Byggsidan är densamma för båda – det är arbetet som ändrar
+      karaktär.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Vad passet är till för</th><th>Vad du ska ha med dig</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Lektion 16 · 10 dec</td>
+            <td>Arbetspass. Samråd, bygge och felsökning parvis.</td>
+            <td>Ifyllt samrådsunderlag, ritat schema, ifylld sanningstabell.
+              Kretsen behöver inte fungera – det är därför passet finns.</td>
+          </tr>
+          <tr>
+            <td>Lektion 17 · 17 dec</td>
+            <td>Färdigställande, kontroll mot kravlistan och inlämning.</td>
+            <td>Ett bygge som gör det du sagt att det ska göra, och en
+              dokumentation som är påbörjad, inte tom.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Kom med ett bygge som inte fungerar till det första passet. Det är den
+      dagen felsökningen är billigast, och det är då jag är i rummet.</p>
+
+    <h2 id="tre">De tre delarna i bygge 2</h2>
+    <p>Ett mekatroniskt system sammanför <strong>mekanisk struktur,
+      elektroteknik och styrteknik</strong>. Bygge 2 har alla tre, precis som
+      bygge 1, men tyngdpunkten har flyttat: den svåra delen ligger nu i
+      styrtekniken.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>I bygge 2</th><th>Guiden som lär ut den</th></tr></thead>
+        <tbody>
+          <tr><td>Mekanisk struktur</td><td>luckan, gångjärnet och servofästet</td><td><a href="../omrade-2-styrenheten/guide-servot.html">Servot och den mekaniska strukturen</a></td></tr>
+          <tr><td>Elektroteknik</td><td>två knappar med pull-up, servots matning</td><td><a href="../omrade-2-styrenheten/guide-digital-ingang.html">Digital ingång</a></td></tr>
+          <tr><td>Styrteknik</td><td>den logiska regeln, tiden och tillståndet</td><td><a href="guide-villkor-i-cpp.html">Villkor i C++</a>, <a href="guide-tid-utan-delay.html">Tid utan delay</a> och <a href="guide-tillstand.html">Tillstånd</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ci">Områdets centrala innehåll</h2>
+    <p>Tre punkter ur ämnesplanen hävdas här. Den första är områdets kärna:</p>
+    <ul>
+      <li><strong>Hur logiska grundfunktioner kan användas för olika
+        styrtekniska lösningar.</strong> AND, OR, NOT och XOR, först som grindar
+        och sanningstabeller, sedan som villkor i kod, sist som den regel som
+        avgör när din lucka får öppnas.</li>
+      <li><strong>Elarbete, mekaniskt arbete och enklare programmering av
+        styrenheter.</strong> Samma som i förra området, men med två insignaler
+        i stället för en.</li>
+      <li><strong>Tekniska lösningar i vardagen för omvandling av energi,
+        materia eller information.</strong> En grind omvandlar <em>information</em>
+        – två signaler in, en ut, och ingenting annat lämnar kretsen. Det är den
+        tredje av de tre omvandlingarna, och den enda som inte syns.</li>
+    </ul>
+
+    <h2 id="efterat">När området är klart</h2>
+    <p>Då kan du läsa två givare, väga dem mot varandra med en regel du kan
+      motivera, hålla reda på var i ett förlopp systemet befinner sig, och låta
+      flera saker pågå samtidigt utan att någon av dem blockerar de andra. Du
+      kan också rita ett tillståndsdiagram över ditt eget bygge, vilket är den
+      snabbaste vägen att upptäcka ett fall du inte tänkt på.</p>
+    <p>Det som återstår är att mäta något annat än av eller på. Alla insignaler
+      hittills har varit ettor och nollor. I nästa område blir de tal, med allt
+      vad det för med sig: brus, kalibrering och datablad.</p>
+
+    <h2 id="tillhands">Alltid till hands</h2>
+    <ul>
+      <li><a href="../sprakreferens.html">Språkreferens</a> – C++ i ordnad
+        följd. Kapitlen <a href="../sprakreferens.html#villkor">Villkor</a> och
+        <a href="../sprakreferens.html#tid">Tid och millis()</a> hör till det
+        här området.</li>
+      <li><a href="../dokumentationsmall.html">Dokumentationsmall</a> – vad som
+        krävs på E, C och A. Bygge 2 bedöms mot alla fem förmågorna, så
+        beskrivningsdelen väger tyngre här än i bygge 1.</li>
+      <li><a href="../samradsunderlag.html">Samrådsunderlag</a> – de tre
+        frågorna du fyller i innan du ber om handledning.</li>
+      <li><a href="../omrade-2-styrenheten/index.html">Område 2</a> – knappen,
+        servot och den första rörelsen. Bygge 2 bygger vidare på bygge 1 och
+        ersätter det inte.</li>
+    </ul>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 3</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

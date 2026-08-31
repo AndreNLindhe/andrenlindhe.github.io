@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Binärt och logiska grundfunktioner – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o3-binart-och-logik">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Binärt och logiska grundfunktioner</strong> · område 3</span>
+  <a href="index.html">Område 3</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 3 · lektion 11</p>
+    <h1>Binärt och logiska grundfunktioner</h1>
+    <p class="inledning">Ditt bygge har hittills haft en insignal. Nu ska det få
+      två, och då uppstår en fråga som inte fanns förut: vad betyder de
+      <em>tillsammans</em>? Svaret på den frågan har ett eget namn och en egen
+      notation, och den är äldre än datorn.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan förklara varför en styrenhet arbetar med två nivåer i stället
+        för många, och vilka spänningar de två nivåerna motsvarar på ett
+        Uno-kort.</li>
+      <li>Du kan räkna om ett binärt tal till decimalt och säga hur många
+        kombinationer <em>n</em> insignaler ger.</li>
+      <li>Du kan rita och läsa sanningstabellen för AND, OR, NOT och XOR utan
+        att slå upp den.</li>
+      <li>Du kan känna igen de fyra grindsymbolerna i ett schema och säga vilken
+        funktion var och en gör.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Två nivåer, och varför det räcker</h3>
+    <p>En sladd kan bära vilken spänning som helst mellan 0 och 5 V. Ändå
+      bestämde sig den som konstruerade kortet för att bara använda två av dem.
+      Det ser ut som slöseri, och det är motsatsen.</p>
+    <p>Databladet för <strong>ATmega328P</strong> – chippet på ditt kort – anger
+      inte två spänningar utan två <em>områden</em>, räknade som andelar av
+      matningsspänningen. En ingång läses som <code>LOW</code> under
+      0,3 av matningen och som <code>HIGH</code> över 0,6 av den. Med 5 V blir
+      det:</p>
+    <p><code>LOW: U ≤ 0,3 · 5 V = 1,5 V</code></p>
+    <p><code>HIGH: U ≥ 0,6 · 5 V = 3,0 V</code></p>
+    <p>Mellan 1,5 och 3,0 V är svaret odefinierat – chippet får läsa vad det
+      vill. Det gapet på 1,5 V är hela poängen. En störning som lyfter en
+      nollsignal med en halv volt gör den till 0,5 V, som fortfarande är
+      entydigt <code>LOW</code>. Skulle sladden i stället bära ett mätvärde
+      hade samma störning förvanskat värdet med tio procent utan att någon
+      märkte det.</p>
+    <p class="notis"><span class="rubrik">Robusthet, inte enkelhet</span>
+      Två nivåer valdes inte för att de var lätta att räkna med. De valdes för
+      att en signal som bara har två giltiga lägen kan <strong>återställas</strong>
+      i varje steg: varje grind läser en smutsig signal och skickar vidare en
+      ren. Ett mätvärde kan aldrig återställas på samma sätt – det du tappat i
+      brus är borta. Därför är världens signaler analoga men världens
+      styrsystem digitala.</p>
+
+    <h3>Binärt: att räkna med två siffror</h3>
+    <p>Med bara siffrorna 0 och 1 fungerar räknandet precis som vanligt, men
+      varje position är värd dubbelt så mycket som den till höger i stället för
+      tio gånger. Positionerna är alltså 1, 2, 4, 8, 16 och så vidare.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Position</th><th>8</th><th>4</th><th>2</th><th>1</th></tr></thead>
+        <tbody>
+          <tr><td>Talet 1011</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td>Bidrar med</td><td>8</td><td>0</td><td>2</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><code>1011₂ = 8 + 0 + 2 + 1 = 11</code></p>
+    <p>Åt andra hållet: hur många olika värden ryms i ett visst antal bitar?
+      Varje bit fördubblar antalet, så <em>n</em> bitar ger <code>2ⁿ</code>
+      kombinationer.</p>
+    <p><code>1 bit: 2¹ = 2 · 2 bitar: 2² = 4 · 3 bitar: 2³ = 8 · 8 bitar: 2⁸ = 256</code></p>
+    <p>Det där sista talet har du redan sett: <code>byte</code> i
+      språkreferensens typtabell rymmer 0 till 255, alltså 256 värden.</p>
+    <p><strong>Samma räkning gäller insignaler.</strong> Två knappar kan stå i
+      2² = 4 lägen tillsammans. Tre knappar ger 2³ = 8. Det är därför en
+      sanningstabell för två insignaler alltid har exakt fyra rader – varken
+      fler eller färre – och det är också måttet på hur mycket du behöver
+      testa när bygget är klart.</p>
+
+    <h3>De fyra grundfunktionerna</h3>
+    <p>En <strong>grind</strong> är en krets som tar en eller två insignaler och
+      lämnar en utsignal. Symbolerna nedan är de som står i scheman och i
+      datablad.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 340 210" role="img" aria-labelledby="svg-grindar-titel"
+           style="width:100%;height:auto">
+        <title id="svg-grindar-titel">Symbolerna för fyra logiska grindar,
+          ordnade i två rader om två. Uppe till vänster AND, ritad som en
+          rektangel med halvcirkelformad högersida, med två ingångar A och B
+          till vänster och utgången U till höger. Uppe till höger OR, ritad med
+          inbuktad vänstersida och spetsig högersida, med samma anslutningar.
+          Nere till vänster XOR, samma form som OR men med en extra båge
+          utanför vänstersidan. Nere till höger NOT, ritad som en triangel med
+          en liten ring på spetsen, med bara en ingång A.</title>
+
+        <g stroke="currentColor" stroke-width="1.8" fill="none"
+           stroke-linecap="round" stroke-linejoin="round">
+
+          <g transform="translate(0,0)">
+            <line x1="20" y1="30" x2="48" y2="30"/>
+            <line x1="20" y1="50" x2="48" y2="50"/>
+            <path d="M 48 20 H 70 A 20 20 0 0 1 70 60 H 48 Z"/>
+            <line x1="90" y1="40" x2="116" y2="40"/>
+          </g>
+
+          <g transform="translate(170,0)">
+            <path d="M 46 20 Q 62 40 46 60 L 64 60 Q 84 54 92 40
+                     Q 84 26 64 20 Z"/>
+            <line x1="20" y1="30" x2="53" y2="30"/>
+            <line x1="20" y1="50" x2="53" y2="50"/>
+            <line x1="92" y1="40" x2="116" y2="40"/>
+          </g>
+
+          <g transform="translate(0,105)">
+            <path d="M 46 20 Q 62 40 46 60 L 64 60 Q 84 54 92 40
+                     Q 84 26 64 20 Z"/>
+            <path d="M 36 20 Q 52 40 36 60"/>
+            <line x1="20" y1="30" x2="53" y2="30"/>
+            <line x1="20" y1="50" x2="53" y2="50"/>
+            <line x1="92" y1="40" x2="116" y2="40"/>
+          </g>
+
+          <g transform="translate(170,105)">
+            <line x1="20" y1="40" x2="48" y2="40"/>
+            <path d="M 48 18 L 84 40 L 48 62 Z"/>
+            <circle cx="89" cy="40" r="5"/>
+            <line x1="94" y1="40" x2="116" y2="40"/>
+          </g>
+        </g>
+
+        <g fill="currentColor" font-size="15">
+          <text x="8" y="35">A</text>
+          <text x="8" y="55">B</text>
+          <text x="120" y="45">U</text>
+          <text x="178" y="35">A</text>
+          <text x="178" y="55">B</text>
+          <text x="290" y="45">U</text>
+          <text x="8" y="140">A</text>
+          <text x="8" y="160">B</text>
+          <text x="120" y="150">U</text>
+          <text x="178" y="145">A</text>
+          <text x="290" y="150">U</text>
+        </g>
+
+        <g fill="currentColor" font-size="17" text-anchor="middle">
+          <text x="66" y="88">AND</text>
+          <text x="236" y="88">OR</text>
+          <text x="66" y="193">XOR</text>
+          <text x="236" y="193">NOT</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>AND</strong> ger etta bara när <em>båda</em> ingångarna är
+        ettor. Formen känns igen på den raka vänstersidan och den runda
+        högersidan.</li>
+      <li><strong>OR</strong> ger etta när <em>minst en</em> ingång är etta.
+        Vänstersidan buktar inåt och högersidan går ut i en spets.</li>
+      <li><strong>XOR</strong> ger etta när ingångarna är <em>olika</em>. Den
+        ritas som en OR med en extra båge utanför – och det är den enda
+        skillnaden i symbolen, så titta efter bågen.</li>
+      <li><strong>NOT</strong> har en enda ingång och vänder på den. Ringen på
+        spetsen är själva inverteringen; triangeln utan ring är bara en
+        förstärkare.</li>
+      <li><strong>A och B</strong> är ingångarna, <strong>U</strong> är
+        utgången. Bokstäverna är en vana, inte en regel – i ett verkligt schema
+        heter de vad signalerna heter.</li>
+    </ul>
+
+    <h3>Sanningstabellerna</h3>
+    <p>En sanningstabell räknar upp <em>alla</em> lägen ingångarna kan stå i och
+      vad utgången blir i vart och ett. Med två ingångar är det fyra rader, av
+      skälet som räknades ut ovan. Tabellen är inte en beskrivning av grinden –
+      den <strong>är</strong> grinden. Två kretsar med samma sanningstabell gör
+      samma sak, hur olika de än är byggda.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>A</th><th>B</th><th>A AND B</th><th>A OR B</th><th>A XOR B</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>NOT har bara en ingång och därför bara två rader:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>A</th><th>NOT A</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>1</td></tr>
+          <tr><td>1</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Läs den stora tabellen kolumnvis en gång och lägg märke till tre saker.
+      AND-kolumnen har en enda etta, längst ned. OR-kolumnen har en enda nolla,
+      längst upp. Och XOR skiljer sig från OR i exakt <strong>en</strong> rad:
+      den sista, där båda är ettor. Det är hela skillnaden mellan "minst en" och
+      "precis en av dem".</p>
+    <p class="notis"><span class="rubrik">Ordningen på raderna är ingen slump</span>
+      Skriv alltid raderna som 00, 01, 10, 11. Det är talen 0, 1, 2 och 3
+      skrivna binärt, i ordning – samma räkning som i förra avsnittet. Gör du
+      det får du aldrig en tabell med en glömd eller dubblerad rad, och en
+      granskare kan läsa den utan att kontrollräkna.</p>
+
+    <h3>Samma funktioner uttryckta i kod</h3>
+    <p>En grind är hårdvara. I ditt bygge finns ingen grind – där finns en
+      styrenhet som gör samma sak i mjukvara, med tre tecken som du redan sett i
+      språkreferensens jämförelsetabell.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Grind</th><th>I C++</th><th>Uttalas</th></tr></thead>
+        <tbody>
+          <tr><td>AND</td><td><code>&amp;&amp;</code></td><td>och</td></tr>
+          <tr><td>OR</td><td><code>||</code></td><td>eller</td></tr>
+          <tr><td>NOT</td><td><code>!</code></td><td>inte</td></tr>
+          <tr><td>XOR</td><td><code>!=</code></td><td>skilt från</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Den sista raden ser fel ut och är rätt. C++ har ingen egen operator för
+      logiskt XOR. Men "A och B är olika" är precis vad <code>!=</code> säger,
+      och för två sanningsvärden är det samma funktion som XOR-tabellen ovan.</p>
+    <p>En AND-grind mellan två knappar och en lysdiod blir alltså det här,
+      med konstanterna deklarerade överst i filen som vanligt:</p>
+    <pre><code class="sprak-cpp">const int KNAPP_A_PIN = 2;
+const int KNAPP_B_PIN = 3;
+const int LAMPA_PIN   = 8;
+
+// ... och inne i loop():
+if (digitalRead(KNAPP_A_PIN) == LOW &amp;&amp; digitalRead(KNAPP_B_PIN) == LOW) {
+  // båda nedtryckta – LOW betyder nedtryckt med INPUT_PULLUP
+  digitalWrite(LAMPA_PIN, HIGH);
+} else {
+  digitalWrite(LAMPA_PIN, LOW);
+}</code></pre>
+    <p>Två saker att lägga märke till redan nu. Det står <strong>två</strong>
+      et-tecken, inte ett – ett ensamt <code>&amp;</code> är en annan operator
+      som gör en annan sak, och kompilatorn säger ingenting. Och villkoret
+      testar <code>LOW</code>, eftersom knappen med intern pull-up är
+      nedtryckt när den ligger på noll. Inversionen från förra området gäller
+      fortfarande, och den blir bara mer förvirrande när den möter en logisk
+      regel.</p>
+    <p>Nästa guide går igenom operatorerna ordentligt, inklusive vad det ensamma
+      et-tecknet faktiskt gör.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <p><strong>I industrin:</strong> innan styrenheter blev billiga byggdes
+      maskinlogik av fysiska komponenter, och den byggs fortfarande så där det
+      måste gå fort eller vara enkelt att granska. En krets som
+      <strong>74HC08</strong> innehåller <em>fyra</em> AND-grindar i en kapsel
+      med fjorton ben, och en grind i den svarar på en insignal inom
+      storleksordningen tio nanosekunder. Samma funktion byggdes i äldre
+      maskinskåp med reläer: ett relä per grind, med en omslagstid i
+      storleksordningen tio millisekunder. Skillnaden är</p>
+    <p><code>10 ms / 10 ns = 0,01 s / 0,00000001 s = 1 000 000 gånger</code></p>
+    <p>En miljon gångers skillnad i snabbhet – och ändå sitter reläer kvar i
+      säkerhetskretsar än i dag, av precis det skäl som gör dem långsamma: ett
+      relä är en fysisk kontakt som går att se, mäta och tvångsstyra. Ett
+      säkerhetsrelä där kontakterna är mekaniskt hopkopplade kan inte fastna i
+      "sluten" utan att det syns på en annan kontakt. En grind i ett chip kan
+      det.</p>
+
+    <p><strong>I vardagen:</strong> hallen hemma har troligen två strömbrytare
+      till samma lampa, en vid varje dörr. Den kopplingen är en XOR som ingen
+      kallar för en XOR. Två växelströmbrytare ger 2² = 4 kombinationer, och
+      lampan lyser i två av dem – de två där brytarna står i <em>olika</em>
+      lägen. Beroende på hur de två ledarna mellan brytarna dras kan det bli
+      XOR eller dess motsats XNOR, och för den som bor i huset spelar det ingen
+      roll: den enda egenskap man bryr sig om är att vippa på endera brytaren
+      alltid byter lampans läge, och det gäller i båda fallen. Det finns ingen
+      elektronik i kopplingen alls – logiken sitter i hur sladdarna är dragna,
+      vilket är den äldsta formen av logisk grundfunktion som finns i ett hem.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li>Skriv sanningstabellerna för AND, OR, XOR och NOT ur minnet på ett
+        papper. Rader i ordningen 00, 01, 10, 11. Jämför sedan med tabellerna
+        ovan och rätta.</li>
+      <li>Räkna om 1101, 0110 och 10000 till decimala tal. Kontrollera genom att
+        addera positionsvärdena. Facit finns bland kontrollfrågorna.</li>
+      <li>Koppla in <strong>två</strong> tryckknappar, en på D2 och en på D3,
+        båda mellan pinnen och GND. Ställ in båda med
+        <code>INPUT_PULLUP</code>.</li>
+      <li>Skriv en sketch som skriver ut båda knapparnas lägen till
+        seriemonitorn ungefär fem gånger i sekunden, som två siffror på samma
+        rad. Tryck knapparna i alla fyra kombinationerna och kontrollera att du
+        ser 11, 10, 01 och 00. Kom ihåg att en <em>uppsläppt</em> knapp visar 1
+        på grund av pull-upen.</li>
+      <li>Lägg till en lysdiod på D8 och låt den lysa enligt AND: bara när båda
+        knapparna är nedtryckta. Byt sedan villkoret till OR och kontrollera att
+        beteendet ändras som tabellen säger.</li>
+      <li>Sista steget, och det är svårare än det låter: få lysdioden att följa
+        XOR, alltså lysa när precis en av knapparna är nedtryckt. Du behöver
+        inte fler än en rad, och <code>!=</code> är den raden.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Vad blir 1101, 0110 och 10000 som decimala tal?</summary>
+      <p>1101 = 8 + 4 + 0 + 1 = 13. 0110 = 0 + 4 + 2 + 0 = 6.
+        10000 = 16 + 0 + 0 + 0 + 0 = 16. Kontrollen är enkel: ett tal med en
+        etta längst till vänster och bara nollor efter är alltid en jämn
+        tvåpotens.</p>
+    </details>
+
+    <details>
+      <summary>Hur många rader har sanningstabellen för fyra insignaler, och
+        varför?</summary>
+      <p>2⁴ = 16 rader. Varje ny insignal fördubblar antalet kombinationer,
+        eftersom varje rad som fanns förut nu finns i två versioner – en där
+        den nya signalen är 0 och en där den är 1.</p>
+    </details>
+
+    <details>
+      <summary>En ingång på ditt kort ligger på 2,2 V. Vad läser
+        <code>digitalRead()</code>?</summary>
+      <p>Det går inte att säga. 2,2 V ligger i gapet mellan 1,5 V och 3,0 V,
+        där databladet inte lovar någonting. Du kan få <code>HIGH</code>,
+        <code>LOW</code>, eller olika svar från gång till gång. En signal som
+        hamnar där är alltid ett fel i kopplingen, inte ett fall att hantera i
+        koden – den vanligaste orsaken är en ingång utan pull-up.</p>
+    </details>
+
+    <details>
+      <summary>Vilken enda rad skiljer XOR från OR?</summary>
+      <p>Raden där båda ingångarna är ettor. OR ger 1 där, XOR ger 0. I alla
+        tre andra rader är de identiska. Det är därför XOR ibland läses som
+        "eller, men inte båda".</p>
+    </details>
+
+    <details>
+      <summary>Två knappar ska öppna en lucka bara när <em>ingen</em> av dem är
+        nedtryckt. Vilken funktion är det, uttryckt med grindarna du kan?</summary>
+      <p>Det är NOT applicerat på OR, alltså NOR: <code>!(A || B)</code>. Den
+        är sann i exakt en av de fyra raderna – den översta, där båda är nollor.
+        Samma sak kan skrivas <code>!A &amp;&amp; !B</code>, vilket är samma
+        funktion uttryckt som en AND mellan två inverteringar.</p>
+    </details>
+
+    <details>
+      <summary>Varför spelar det gap på 1,5 V mellan nivåerna någon roll när
+        signalen ändå kommer fram?</summary>
+      <p>Därför att sladdar plockar upp störningar. Gapet är den marginal en
+        störning får ta i anspråk innan signalen blir feltolkad. Ju längre
+        sladd och ju mer elektrisk smuts i miljön, desto mer marginal behövs –
+        och det är därför industrikretsar ofta arbetar på 24 V i stället för
+        5 V. Samma andelar, större absolut marginal.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Sanningstabellen har tre rader eller fem.</strong> Antalet
+        rader är bestämt av antalet ingångar: 2ⁿ, alltid. Fattas en rad är det
+        ett fall bygget aldrig testades i, och det är där det senare kommer att
+        gå sönder.</li>
+      <li><strong>XOR ritas som en OR.</strong> Den extra bågen utanför
+        vänstersidan är den enda skillnaden i symbolen, och den försvinner lätt
+        i en handritad skiss. Skriv ut XOR bredvid symbolen i ditt eget
+        schema.</li>
+      <li><strong>Ringen glöms på NOT.</strong> En triangel utan ring är en
+        förstärkare som skickar signalen vidare oförändrad. Med ring är den en
+        inverterare. Skillnaden är hela funktionen.</li>
+      <li><strong>Nedtryckt antas vara 1.</strong> Med
+        <code>INPUT_PULLUP</code> är nedtryckt <code>LOW</code>, alltså 0. Din
+        sanningstabell på papperet talar om ettor och nollor; din kod läser
+        knappar som är inverterade. Bestäm dig tidigt för vilket håll tabellen
+        beskriver och skriv ut det ovanför tabellen.</li>
+      <li><strong>Ett et-tecken i stället för två.</strong> <code>&amp;</code>
+        och <code>&amp;&amp;</code> är olika operatorer, och den felaktiga
+        kompilerar utan varning. Nästa guide handlar bland annat om det.</li>
+      <li><strong>Talet skrivs binärt men läses decimalt.</strong> 10 binärt är
+        2, inte tio. Skriv ut basen när det kan missförstås, som
+        <code>1011₂</code>.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Kapitlet <a href="../sprakreferens.html#villkor">Villkor</a> i
+      språkreferensen hör till den här guiden, särskilt tabellen som ställer
+      Pythons <code>and</code>, <code>or</code> och <code>not</code> mot C++:s
+      tecken. <a href="../sprakreferens.html#typer">Typer och variabler</a>
+      innehåller storlekarna som gör 2⁸ och 2¹⁶ till praktiska tal och inte
+      bara matematik.</p>
+    <p>Nästa guide är <a href="guide-villkor-i-cpp.html">Villkor i C++</a>. Där
+      flyttar sanningstabellerna in i koden, och de två operatorer som ser nästan
+      likadana ut får varsin behandling.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 3</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

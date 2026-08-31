@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Villkor i C++ – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o3-villkor-i-cpp">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Villkor i C++</strong> · område 3</span>
+  <a href="index.html">Område 3</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 3 · lektion 12</p>
+    <h1>Villkor i C++</h1>
+    <p class="inledning">Sanningstabellerna från förra passet ska nu skrivas som
+      kod. Det är fyra tecken att lära sig, och ett av dem har en nästan
+      identisk tvilling som gör något helt annat utan att kompilatorn säger
+      ifrån. Den tvillingen är den här guidens huvudperson.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan använda <code>bool</code>, och vet varför den tar en hel byte
+        på ett Uno-kort trots att den bara rymmer två värden.</li>
+      <li>Du kan skriva AND, OR, NOT och XOR som villkor i C++ och kontrollera
+        koden mot sanningstabellen rad för rad.</li>
+      <li>Du kan förklara skillnaden mellan <code>&amp;&amp;</code> och
+        <code>&amp;</code>, och känna igen symtomet när fel variant råkat komma
+        med.</li>
+      <li>Du kan bygga ett villkor av två insignaler som styr en utgång, och
+        sätta parenteser så att det betyder det du menar.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>bool: en typ med två värden och åtta bitar</h3>
+    <p>En <code>bool</code> rymmer <code>true</code> eller <code>false</code>,
+      ingenting annat. Den skrivs som vilken variabel som helst:</p>
+    <pre><code class="sprak-cpp">bool larmet_pa = false;
+bool luckan_oppen = true;</code></pre>
+    <p>Här kommer den detalj som förvånar: en <code>bool</code> tar
+      <strong>en byte</strong>, alltså åtta bitar, inte en bit. Skälet är att
+      chippets minne är adresserat i byte – den minsta bit av minnet som har en
+      egen adress är åtta bitar stor. En variabel som bara har två giltiga
+      värden kan alltså inte packas mindre än så utan extra arbete, och sju
+      åttondelar av utrymmet står tomt.</p>
+    <p><code>8 bitar − 1 använd bit = 7 outnyttjade bitar per bool</code></p>
+    <p>Det är inget att bekymra sig över i den här kursen. Unons ATmega328P har
+      2 048 byte arbetsminne, så tusen booler får plats med marginal. Men det
+      förklarar varför du i datablad ser bitar packade i register i stället för
+      i variabler: när utrymmet verkligen tar slut är åtta booler i en byte
+      skillnaden.</p>
+
+    <h3>Jämförelser är också bool</h3>
+    <p>Varje jämförelse i C++ lämnar ett sanningsvärde. Du kan därför lägga
+      undan resultatet i en variabel i stället för att upprepa jämförelsen, och
+      koden blir läsbar på köpet:</p>
+    <pre><code class="sprak-cpp">bool a_nere = (digitalRead(KNAPP_A_PIN) == LOW);   // LOW betyder nedtryckt
+bool b_nere = (digitalRead(KNAPP_B_PIN) == LOW);
+
+if (a_nere &amp;&amp; b_nere) {
+  luckservo.write(VINKEL_OPPEN);
+}</code></pre>
+    <p>Den här formen är värd att ta för vana. Inversionen – att nedtryckt är
+      <code>LOW</code> – hanteras då på <em>ett</em> ställe högst upp, och
+      resten av koden handlar om knappar som är nere eller uppe. Blandas
+      inversionen in i varje villkor blir det förr eller senare fel i ett av
+      dem, och det villkoret är det du inte tittar på.</p>
+
+    <h3>De tre operatorerna, mot tabellen</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Grind</th><th>C++</th><th>Sant när</th><th>Exempel</th></tr></thead>
+        <tbody>
+          <tr><td>AND</td><td><code>&amp;&amp;</code></td><td>båda leden är sanna</td><td><code>a_nere &amp;&amp; b_nere</code></td></tr>
+          <tr><td>OR</td><td><code>||</code></td><td>minst ett led är sant</td><td><code>a_nere || b_nere</code></td></tr>
+          <tr><td>NOT</td><td><code>!</code></td><td>ledet är falskt</td><td><code>!a_nere</code></td></tr>
+          <tr><td>XOR</td><td><code>!=</code></td><td>leden är olika</td><td><code>a_nere != b_nere</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Kontrollera koden mot tabellen genom att gå igenom raderna, inte genom
+      att läsa villkoret och tycka att det ser rimligt ut. Fyra rader tar en
+      halv minut:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th><code>a_nere</code></th><th><code>b_nere</code></th><th><code>a &amp;&amp; b</code></th><th><code>a || b</code></th><th><code>a != b</code></th><th><code>!a &amp;&amp; !b</code></th></tr></thead>
+        <tbody>
+          <tr><td>false</td><td>false</td><td>false</td><td>false</td><td>false</td><td>true</td></tr>
+          <tr><td>false</td><td>true</td><td>false</td><td>true</td><td>true</td><td>false</td></tr>
+          <tr><td>true</td><td>false</td><td>false</td><td>true</td><td>true</td><td>false</td></tr>
+          <tr><td>true</td><td>true</td><td>true</td><td>true</td><td>false</td><td>false</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Sista kolumnen är NOR – "ingen av dem" – och den är sann i exakt en rad,
+      precis som AND är, fast i den motsatta.</p>
+
+    <h3>Ett et-tecken är inte två</h3>
+    <p>Det här är områdets dyraste fel, och det är dyrt just för att ingenting
+      klagar. <code>&amp;&amp;</code> och <code>&amp;</code> är två olika
+      operatorer. Båda kompilerar, båda ger ett tal, och den ena gör inte det du
+      tror.</p>
+    <ul>
+      <li><code>&amp;&amp;</code> är <strong>logiskt</strong> och: det tittar på
+        om leden är sanna eller falska, och lämnar sant eller falskt.</li>
+      <li><code>&amp;</code> är <strong>bitvis</strong> och: det tar talen bit
+        för bit, gör AND på varje bitpar för sig, och lämnar ett tal.</li>
+    </ul>
+    <p>Med två knappvärden som ändå bara är 0 eller 1 ger de samma svar, och
+      därför kan felet ligga kvar i månader. Så fort något av leden är ett annat
+      tal än 0 eller 1 skiljer de sig. Ta 4 och 2:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Bitposition</th><th>8</th><th>4</th><th>2</th><th>1</th></tr></thead>
+        <tbody>
+          <tr><td>Talet 4</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+          <tr><td>Talet 2</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+          <tr><td>4 <code>&amp;</code> 2, bit för bit</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><code>4 &amp; 2 = 0  →  falskt</code></p>
+    <p><code>4 &amp;&amp; 2 = true  →  sant, eftersom båda talen är skilda från noll</code></p>
+    <p>Två tal som båda är sanna ger alltså <em>falskt</em> när fel operator
+      används. Det finns ingen varning, ingen röd rad och ingen ledtråd i
+      seriemonitorn – bara ett villkor som aldrig blir sant.</p>
+    <p>Samma sak gäller <code>||</code> och <code>|</code>, men där är
+      konsekvensen lömskare:</p>
+    <p><code>4 | 2 = 6  →  sant, eftersom 6 är skilt från noll</code></p>
+    <p><code>4 || 2 = true  →  sant</code></p>
+    <p>Här ger den felaktiga varianten <strong>rätt svar</strong>, den här
+      gången. Det är sämre än att den ger fel svar, eftersom felet då stannar
+      kvar i koden tills dagen då det inte längre stämmer.</p>
+    <p class="notis viktig"><span class="rubrik">Kortslutningen är den andra skillnaden</span>
+      <code>&amp;&amp;</code> slutar räkna så fort svaret är avgjort. Är
+      vänsterledet falskt läses högerledet aldrig. <code>&amp;</code> räknar
+      alltid ut båda leden. Så länge leden bara är variabler märks det inte, men
+      så fort ett led är ett funktionsanrop – <code>digitalRead()</code>, en
+      mätning, något som tar tid – blir skillnaden verklig. Regeln är enkel:
+      <strong>i ett villkor skriver du alltid det dubbla tecknet.</strong> Det
+      enkla hör hemma i bitoperationer på register, och dit kommer du i
+      område 5.</p>
+
+    <h3>XOR i C++ finns, men inte där du letar</h3>
+    <p>Det finns <code>&amp;&amp;</code> och <code>||</code>, men det finns
+      <strong>inget <code>^^</code></strong>. C++ har ingen logisk
+      XOR-operator alls. Tecknet <code>^</code> finns, men det är
+      <em>bitvis</em> XOR, samma familj som <code>&amp;</code> och
+      <code>|</code>.</p>
+    <p>För två <code>bool</code>-värden fungerar <code>^</code> ändå, eftersom
+      de bara kan vara 0 eller 1. Men samma fälla som ovan gäller: så fort du
+      råkar skicka in ett heltal som inte är 0 eller 1 blir svaret bitvis och
+      inte logiskt. Använd därför <code>!=</code>:</p>
+    <pre><code class="sprak-cpp">bool exakt_en_nere = (a_nere != b_nere);   // logiskt XOR</code></pre>
+    <p>Det läses "a är skilt från b", vilket är precis vad XOR-tabellen säger,
+      och det fungerar för alla värden en <code>bool</code> kan ha.</p>
+
+    <h3>Två insignaler som styr en utgång</h3>
+    <p>Nu sitter delarna ihop. Regeln nedan är den enklaste versionen av bygge
+      2:s logik: luckan öppnas när <em>båda</em> knapparna hålls nere, och
+      stängs annars.</p>
+    <pre><code class="sprak-cpp">#include &lt;Servo.h&gt;
+
+const int KNAPP_A_PIN = 2;
+const int KNAPP_B_PIN = 3;
+const int SERVO_PIN   = 9;
+
+const int VINKEL_STANGD = 15;
+const int VINKEL_OPPEN  = 100;
+
+Servo luckservo;
+
+void setup() {
+  pinMode(KNAPP_A_PIN, INPUT_PULLUP);
+  pinMode(KNAPP_B_PIN, INPUT_PULLUP);
+  luckservo.attach(SERVO_PIN);
+  luckservo.write(VINKEL_STANGD);
+  Serial.begin(9600);            // behövs så fort något ska skrivas ut
+}
+
+void loop() {
+  bool a_nere = (digitalRead(KNAPP_A_PIN) == LOW);   // LOW betyder nedtryckt
+  bool b_nere = (digitalRead(KNAPP_B_PIN) == LOW);
+
+  if (a_nere &amp;&amp; b_nere) {
+    luckservo.write(VINKEL_OPPEN);
+  } else {
+    luckservo.write(VINKEL_STANGD);
+  }
+}</code></pre>
+    <p>Den här versionen duger som ett första steg och räcker <em>inte</em> som
+      bygge 2. Två saker fattas, och båda kommer i de två följande guiderna:
+      luckan bryr sig inte om <em>när</em> knapparna trycktes, och den minns
+      ingenting mellan varven. Släpper du en knapp stänger den omedelbart, och
+      tejpar du fast den ena knappen fungerar bygget med en hand. Precis den
+      bristen är skälet till att en industripress har fler krav än
+      "båda knapparna nere".</p>
+
+    <h3>Parenteser, och vad som binder hårdast</h3>
+    <p>Blandar du <code>&amp;&amp;</code> och <code>||</code> i samma villkor
+      gäller en prioritetsordning, precis som att multiplikation går före
+      addition. Den är:</p>
+    <p><code>! binder hårdast, sedan &amp;&amp;, sedan ||</code></p>
+    <p>Det betyder att <code>a || b &amp;&amp; c</code> läses som
+      <code>a || (b &amp;&amp; c)</code>. Det kan vara vad du menade, och det
+      kan vara raka motsatsen. Sätt parenteser även när de är överflödiga –
+      koden blir längre och tvetydigheten försvinner:</p>
+    <pre><code class="sprak-cpp">if ((vaxel_i_p || vaxel_i_n) &amp;&amp; bromsen_nere) {
+  startmotorn_far_ga = true;
+}</code></pre>
+    <p>Utan parenteserna hade villkoret betytt "växeln står i P, <em>eller</em>
+      också står den i N och bromsen är nere" – vilket hade låtit bilen startas
+      i P utan fot på bromsen.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <p><strong>I industrin:</strong> en PLC – den styrenhet som sitter i nästan
+      varje maskin – programmeras oftast i <strong>ladderdiagram</strong>, ett
+      språk som ser ut som ett elschema och inte som text. Två lodräta linjer är
+      matningen, och varje vågrät rad kallas en <em>slinga</em>. Kontakter i
+      serie är AND. Kontakter parallellt är OR. Spolen längst till höger är
+      utgången.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 320 175" role="img" aria-labelledby="svg-ladder-titel"
+           style="width:100%;height:auto">
+        <title id="svg-ladder-titel">Två slingor i ett ladderdiagram mellan två
+          lodräta matningslinjer. Den övre slingan har två kontakter A och B
+          efter varandra i serie och därefter en spole K1. Den nedre slingan har
+          kontakterna A och B parallellt över varandra, med en gemensam väg fram
+          till spolen K2.</title>
+
+        <g stroke="currentColor" stroke-width="1.8" fill="none"
+           stroke-linecap="round">
+          <line x1="18" y1="18" x2="18" y2="160"/>
+          <line x1="302" y1="18" x2="302" y2="160"/>
+
+          <line x1="18" y1="45" x2="66" y2="45"/>
+          <line x1="66" y1="33" x2="66" y2="57"/>
+          <line x1="84" y1="33" x2="84" y2="57"/>
+          <line x1="84" y1="45" x2="136" y2="45"/>
+          <line x1="136" y1="33" x2="136" y2="57"/>
+          <line x1="154" y1="33" x2="154" y2="57"/>
+          <line x1="154" y1="45" x2="247" y2="45"/>
+          <path d="M 252 31 Q 242 45 252 59"/>
+          <path d="M 262 31 Q 272 45 262 59"/>
+          <line x1="267" y1="45" x2="302" y2="45"/>
+
+          <line x1="18" y1="125" x2="52" y2="125"/>
+          <line x1="52" y1="105" x2="52" y2="145"/>
+          <line x1="52" y1="105" x2="66" y2="105"/>
+          <line x1="66" y1="93" x2="66" y2="117"/>
+          <line x1="84" y1="93" x2="84" y2="117"/>
+          <line x1="84" y1="105" x2="170" y2="105"/>
+          <line x1="52" y1="145" x2="66" y2="145"/>
+          <line x1="66" y1="133" x2="66" y2="157"/>
+          <line x1="84" y1="133" x2="84" y2="157"/>
+          <line x1="84" y1="145" x2="170" y2="145"/>
+          <line x1="170" y1="105" x2="170" y2="145"/>
+          <line x1="170" y1="125" x2="247" y2="125"/>
+          <path d="M 252 111 Q 242 125 252 139"/>
+          <path d="M 262 111 Q 272 125 262 139"/>
+          <line x1="267" y1="125" x2="302" y2="125"/>
+        </g>
+
+        <g fill="currentColor" font-size="16" text-anchor="middle">
+          <text x="75" y="26">A</text>
+          <text x="145" y="26">B</text>
+          <text x="251" y="26">K1</text>
+          <text x="75" y="86">A</text>
+          <text x="75" y="172">B</text>
+          <text x="251" y="106">K2</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>Den övre slingan är AND.</strong> Strömmen når spolen K1 bara
+        om både A och B är slutna, eftersom kontakterna sitter efter
+        varandra.</li>
+      <li><strong>Den nedre slingan är OR.</strong> Strömmen når K2 om A
+        <em>eller</em> B är sluten, eftersom det finns två vägar fram.</li>
+      <li><strong>Kontaktsymbolen</strong> är två korta lodräta streck med ett
+        glapp emellan – samma symbol vare sig det är en fysisk knapp eller ett
+        internt minne i styrenheten.</li>
+      <li><strong>Spolen</strong> ritas som två bågar. I ett gammalt reläskåp
+        var det en verklig spole. I en PLC är det en variabel som skrivs.</li>
+    </ul>
+
+    <p>Poängen för dig: <em>samma</em> logiska funktion som du skriver
+      <code>a &amp;&amp; b</code> ritas i industrin som två kontakter efter
+      varandra. En underhållselektriker läser din regel snabbare som en ritning
+      än som en textrad, och det är därför språket ser ut som det gör. Det är
+      också därför sanningstabellen är det som gäller när ni jämför: den ser
+      likadan ut oavsett vilket av de två språken funktionen är skriven i.</p>
+
+    <p><strong>I vardagen:</strong> en automatväxlad bil startar inte hur som
+      helst. Villkoret är att växelväljaren står i <strong>P eller N</strong>
+      <em>och</em> att bromspedalen är nedtryckt. Skrivet som kod är det exakt
+      raden med parenteser ovan. Räknar man de tre signalerna som oberoende blir
+      det 2³ = 8 rader i tabellen, men två av dem – de där växeln påstås stå i
+      både P och N samtidigt – kan aldrig inträffa. Kvar blir sex möjliga
+      lägen, och i två av dem får startmotorn gå:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>P</th><th>N</th><th>Broms</th><th>Startar</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0</td><td>0</td><td>nej</td></tr>
+          <tr><td>0</td><td>0</td><td>1</td><td>nej, växeln står i ett körläge</td></tr>
+          <tr><td>0</td><td>1</td><td>0</td><td>nej, foten saknas</td></tr>
+          <tr><td>0</td><td>1</td><td>1</td><td>ja</td></tr>
+          <tr><td>1</td><td>0</td><td>0</td><td>nej, foten saknas</td></tr>
+          <tr><td>1</td><td>0</td><td>1</td><td>ja</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Det är två genuint olika sorters krav i samma villkor: växelläget är en
+      <em>mekanisk</em> förutsättning för att bilen inte ska rulla, och
+      bromspedalen är ett krav på att en människa är på plats. Den som bara läser
+      koden ser tre likadana signaler. Den som läser bilen ser skillnaden, och
+      det är den skillnaden du ska kunna beskriva i dokumentationen till bygge 2.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li>Ladda upp exemplet med de två knapparna och servot ovan. Kontrollera
+        att luckan bara öppnas när båda knapparna hålls nere.</li>
+      <li>Byt <code>&amp;&amp;</code> mot <code>||</code> och prova igen. Skriv
+        ner i en mening hur beteendet ändrades, innan du byter tillbaka.</li>
+      <li>Byt till <code>!=</code> så att luckan öppnas när precis en knapp är
+        nere. Kontrollera alla fyra kombinationerna mot XOR-raderna i
+        tabellen.</li>
+      <li>Skriv ut ett tal i stället: låt <code>Serial.println(4 &amp; 2);</code>
+        och <code>Serial.println(4 &amp;&amp; 2);</code> stå efter varandra i
+        <code>setup()</code>. Du ska få 0 och 1. Det är hela felet, synligt på
+        två rader.</li>
+      <li>Bygg villkoret <code>(a_nere || b_nere) &amp;&amp; !larm</code> med
+        <code>larm</code> som en tredje knapp på D4. Rita sanningstabellens åtta
+        rader först, på papper, och bocka av dem mot bygget efteråt.</li>
+      <li>Ta bort parenteserna i föregående steg och pröva igen. Hitta
+        <em>alla</em> rader i tabellen där beteendet skiljer sig, och skriv ner
+        vilka. Det är fler än en.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Vad blir <code>4 &amp; 2</code>, och vad blir
+        <code>4 &amp;&amp; 2</code>?</summary>
+      <p>4 <code>&amp;</code> 2 = 0. Talen är 0100 och 0010 binärt; ingen
+        bitposition har etta i båda, så resultatet blir 0000. 4
+        <code>&amp;&amp;</code> 2 är <code>true</code>, eftersom båda talen är
+        skilda från noll och logiskt och därför är sant. Samma två tal, motsatt
+        svar.</p>
+    </details>
+
+    <details>
+      <summary>Varför är det farligare när <code>|</code> råkar användas i
+        stället för <code>||</code> än när <code>&amp;</code> råkar användas i
+        stället för <code>&amp;&amp;</code>?</summary>
+      <p>Därför att <code>|</code> ofta ger rätt svar av misstag. 4
+        <code>|</code> 2 = 6, som är skilt från noll och alltså sant – samma
+        svar som <code>||</code> hade gett. Ett fel som ger rätt svar upptäcks
+        inte, och det ligger kvar tills ett talpar dyker upp där svaren
+        skiljer sig. Ett fel som ger fel svar direkt är billigare.</p>
+    </details>
+
+    <details>
+      <summary>Hur skriver du "precis en av knapparna är nedtryckt" i C++?</summary>
+      <p><code>a_nere != b_nere</code>. Det är logiskt XOR. Skriv inte
+        <code>^^</code> – den operatorn finns inte i C++ och ger ett
+        kompileringsfel. <code>^</code> finns men är bitvis, och bör sparas till
+        register.</p>
+    </details>
+
+    <details>
+      <summary>Hur stor är en <code>bool</code> på ditt kort, och hur många
+        bitar av den används?</summary>
+      <p>En byte, alltså 8 bitar, varav 1 används och 7 står tomma. Skälet är
+        att minnet är adresserat i byte: en enskild bit har ingen egen adress.
+        Med 2 048 byte arbetsminne i ATmega328P är det inget problem i den här
+        kursen.</p>
+    </details>
+
+    <details>
+      <summary>Vad betyder <code>a || b &amp;&amp; c</code> utan
+        parenteser?</summary>
+      <p><code>a || (b &amp;&amp; c)</code>, eftersom <code>&amp;&amp;</code>
+        binder hårdare än <code>||</code>. Menade du
+        <code>(a || b) &amp;&amp; c</code> är det ett annat villkor med annat
+        beteende. Sätt parenteserna själv, så slipper du komma ihåg
+        ordningen.</p>
+    </details>
+
+    <details>
+      <summary>Ditt villkor <code>if (a_nere &amp; b_nere)</code> fungerar
+        perfekt i bygget. Är det ändå fel?</summary>
+      <p>Ja. Det fungerar bara därför att en <code>bool</code> aldrig är något
+        annat än 0 eller 1, så bitvis och logiskt och råkar sammanfalla. I
+        samma sekund som något av leden byts mot ett heltal – ett mätvärde, en
+        räknare, ett läge – slutar det fungera, och felet ser då ut att sitta i
+        det nya och inte i den gamla raden. Rätta det medan du minns varför.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Ett et-tecken i stället för två.</strong> Villkoret blir
+        aldrig sant, eller blir sant vid fel tillfälle, och kompilatorn säger
+        ingenting. Sök igenom din kod efter ensamma <code>&amp;</code> och
+        <code>|</code> innan du felsöker något annat.</li>
+      <li><strong><code>^^</code> skrivs i tron att XOR finns.</strong> Det är
+        ett kompileringsfel, vilket är tur. Använd <code>!=</code>.</li>
+      <li><strong>Inversionen upprepas fel.</strong>
+        <code>digitalRead(A) == LOW</code> på ett ställe och
+        <code>digitalRead(B) == HIGH</code> på ett annat, i tron att båda
+        betyder nedtryckt. Läs in båda till <code>bool</code>-variabler överst i
+        <code>loop()</code> och slipp problemet.</li>
+      <li><strong>Ett likhetstecken i villkoret.</strong>
+        <code>if (a_nere = true)</code> tilldelar i stället för att jämföra och
+        är alltid sant. Skriv hellre <code>if (a_nere)</code> – då kan felet
+        inte uppstå.</li>
+      <li><strong>Parenteser saknas när <code>&amp;&amp;</code> och
+        <code>||</code> blandas.</strong> Koden gör något rimligt, bara inte det
+        du menade. Skillnaden syns ofta i bara ett par av tabellens rader – i
+        bilexemplet ovan i en enda, den där växeln står i P utan fot på bromsen
+        – och just därför märks den inte förrän den raden inträffar.</li>
+      <li><strong>Villkoret testas i huvudet i stället för mot tabellen.</strong>
+        Fyra rader tar en halv minut att gå igenom. Ett villkor som "ser rätt ut"
+        har fällt fler byggen än något annat i det här området.</li>
+      <li><strong>Servot skrivs varje varv.</strong> Exemplet ovan anropar
+        <code>write()</code> i varje loopvarv, vilket fungerar men gör servot
+        surrigt och strömtörstigt. Från och med nästa guide har du verktygen för
+        att bara skriva när något faktiskt ändrats.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Kapitlet <a href="../sprakreferens.html#villkor">Villkor</a> i
+      språkreferensen är den här guidens uppslagsdel, och
+      <a href="../sprakreferens.html#typer">Typer och variabler</a> innehåller
+      <code>bool</code> och de övriga storlekarna.</p>
+    <p>Nästa guide är <a href="guide-tid-utan-delay.html">Tid utan delay</a>.
+      Där löses den brist som exemplet ovan har: koden vet ingenting om
+      <em>när</em> något hände, och kan därför inte kräva att två knappar trycks
+      nära varandra i tiden.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 3</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

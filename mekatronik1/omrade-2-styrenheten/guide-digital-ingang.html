@@ -245,7 +245,7 @@ void loop() {
   int nu = digitalRead(KNAPP_PIN);
 
   // Flanken: ögonblicket knappen går från uppe till nedtryckt.
-  if (forra == HIGH && nu == LOW) {
+  if (forra == HIGH &amp;&amp; nu == LOW) {
     delay(20);                            // vänta ut studsen
     if (digitalRead(KNAPP_PIN) == LOW) {  // ligger den kvar var trycket riktigt
       tand = !tand;

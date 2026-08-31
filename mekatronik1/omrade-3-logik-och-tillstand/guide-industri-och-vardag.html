@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>I industrin och i vardagen – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o3-industri-och-vardag">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>I industrin och i vardagen</strong> · område 3</span>
+  <a href="index.html">Område 3</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#kravstall">Kravställ ditt bygge 2</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 3 · lektion 15</p>
+    <h1>I industrin och i vardagen</h1>
+    <p class="inledning">De fyra föregående passen har byggt ett verktyg:
+      logik, tid och tillstånd. Det här passet handlar om vad verktyget används
+      till utanför skolsalen, och det är nästan alltid samma sak – att göra ett
+      farligt eller olämpligt läge omöjligt. Sist i guiden kravställer du
+      bygge 2.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan förklara vad en förregling är, och varför den byggs så att ett
+        fel leder till stopp och inte till start.</li>
+      <li>Du kan beskriva tvåhandsgreppet på en industripress: de tre kraven,
+        varför släppkravet är det viktigaste, och vad greppet <em>inte</em>
+        skyddar mot.</li>
+      <li>Du kan beskriva mikrovågsugnens luckspärr och säga varför den är
+        mekanisk och dubblerad i stället för en kontroll i mjukvaran.</li>
+      <li>Du kan peka ut var i ett mekatroniskt system energi, materia och
+        information omvandlas.</li>
+      <li>Du kan skriva ett krav som går att pröva, och kravställa ditt eget
+        bygge 2.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Förregling: att göra ett läge omöjligt</h3>
+    <p>En <strong>förregling</strong> binder ihop två saker så att den ena inte
+      kan ske medan den andra gäller. Luckan är öppen, alltså går inte motorn.
+      Verktyget är uppe, alltså får skyddet lyftas. Formuleringen låter som ett
+      villkor i kod, och den avgörande skillnaden är att en riktig förregling är
+      <em>byggd</em> så att den håller även när något går sönder.</p>
+    <p>Ordningen mellan åtgärder är bestämd och den är alltid densamma:</p>
+    <ol>
+      <li><strong>Konstruera bort faran.</strong> Går rörelsen att göra
+        långsammare, svagare eller onåbar är det alltid bättre än ett skydd.</li>
+      <li><strong>Skydd och förregling.</strong> Det som inte går att
+        konstruera bort byggs in bakom något som stoppar maskinen när skyddet
+        öppnas.</li>
+      <li><strong>Information och instruktion.</strong> Skyltar, varningar och
+        utbildning. Sist, eftersom de kräver att en människa gör rätt varje
+        gång.</li>
+    </ol>
+    <p>Att lita på steg tre för något som borde lösts i steg ett är det
+      vanligaste konstruktionsfelet i hela mekatroniken, och det ser i
+      efterhand alltid ut som slarv av den som skadade sig.</p>
+
+    <h3>Felsäkert: vilken väg felet ska falla</h3>
+    <p>Du mötte principen redan i
+      <a href="../omrade-2-styrenheten/guide-digital-ingang.html#industri">guiden om
+      digital ingång</a>: en nödstoppsknapp
+      kopplas <em>brytande</em>, så att en avsliten sladd ger samma signal som
+      ett nödstopp. Det är samma tanke som styr hela det här passet. En
+      förregling ska konstrueras så att varje rimligt fel – en trasig kontakt,
+      en glappande sladd, en död styrenhet – leder till att maskinen
+      <strong>stannar</strong>.</p>
+    <p>En kontroll i mjukvara har svårt att uppfylla det. Programmet kan hänga
+      sig i ett läge där utgången redan står på. En ingång som tappat sin sladd
+      flyter och kan läsas som vad som helst. En variabel kan hålla ett värde
+      som ingen gren av koden räknade med. Därför sitter de förreglingar som
+      verkligen måste hålla i mekanik och i kretsen, inte i en
+      <code>if</code>-sats.</p>
+
+    <h3>Tvåhandsgreppet, punkt för punkt</h3>
+    <p>En excenterpress eller en kantpress är farlig av ett enkelt skäl: den
+      del av maskinen som formar plåten kan lika gärna forma en hand.
+      Tvåhandsgreppet löser det genom att kräva att operatörens båda händer är
+      upptagna någon annanstans medan rörelsen pågår. Tre krav gör det till en
+      spärr i stället för till två knappar.</p>
+    <ol>
+      <li><strong>Knapparna sitter så långt isär att en hand inte når båda.</strong>
+        Det är ett geometriskt krav, inte ett elektriskt, och det kontrolleras
+        med måttband. Utformningen ska dessutom hindra att de trycks med
+        underarmen eller med en armbåge.</li>
+      <li><strong>Båda ska tryckas nära varandra i tiden</strong>, i praktiken
+        inom omkring en halv sekund. Utan det kravet räcker det att tejpa fast
+        den ena knappen på morgonen och sedan använda maskinen med en hand
+        resten av dagen.</li>
+      <li><strong>Båda ska släppas innan nästa cykel kan startas.</strong> Det
+        här är det krav som gör konstruktionen till en tillståndsmaskin, och det
+        är det som oftast saknas i en hemmabyggd variant.</li>
+    </ol>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 340 155" role="img" aria-labelledby="svg-tvahand-titel"
+           style="width:100%;height:auto">
+        <title id="svg-tvahand-titel">Två signaler ritade över tiden. Den övre,
+          märkt A, ligger högt och faller till låg nivå tidigt. Den nedre, märkt
+          B, ligger högt en bit längre och faller sedan också. Streckade lodräta
+          linjer går från de två fallen ned till en klammer som mäter avståndet
+          mellan dem, märkt högst 0,5 sekunder.</title>
+
+        <g stroke="currentColor" fill="none" stroke-linecap="round"
+           stroke-linejoin="round">
+          <path d="M 62 30 L 120 30 L 120 58 L 320 58" stroke-width="2"/>
+          <path d="M 62 88 L 178 88 L 178 116 L 320 116" stroke-width="2"/>
+          <path d="M 120 58 L 120 126" stroke-width="1.1" stroke-dasharray="4 4"/>
+          <path d="M 178 116 L 178 126" stroke-width="1.1" stroke-dasharray="4 4"/>
+          <path d="M 120 126 L 120 133 L 178 133 L 178 126" stroke-width="1.4"/>
+        </g>
+
+        <g fill="currentColor" font-size="15">
+          <text x="54" y="35" text-anchor="end">A</text>
+          <text x="54" y="93" text-anchor="end">B</text>
+          <text x="149" y="151" text-anchor="middle">högst 0,5 s</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>A och B är de två knapparna.</strong> Hög nivå betyder
+        uppsläppt, låg betyder nedtryckt – samma inversion som en knapp med
+        intern pull-up ger i ditt eget bygge.</li>
+      <li><strong>Klammern mäter tiden mellan de två nedtryckningarna.</strong>
+        Ryms den inom fönstret startar maskinen. Är den längre händer
+        ingenting, och operatören måste släppa båda och börja om.</li>
+      <li><strong>Vad som händer efter de streckade linjerna</strong> syns inte
+        i figuren och är minst lika viktigt: släpps någon av knapparna under
+        rörelsen ska maskinen stanna.</li>
+    </ul>
+
+    <p>Släppkravet är det som gör greppet till en tillståndsmaskin med minst
+      fyra lägen: <em>låst</em> tills båda knapparna släppts, <em>redo</em> när
+      de är uppe, <em>väntar</em> när den första gått ned och klockan går, och
+      <em>kör</em> när båda hunnit ned i tid. Utan det låsta läget kan maskinen
+      startas om av en enda knapp som fortfarande hålls nere, vilket är precis
+      vad greppet skulle förhindra.</p>
+
+    <p class="notis viktig"><span class="rubrik">Vad tvåhandsgreppet inte skyddar</span>
+      Det skyddar <strong>operatörens</strong> händer, och ingenting annat. En
+      kollega som sträcker sig in i maskinen medan operatören håller båda
+      knapparna nedtryckta är helt oskyddad. Därför står tvåhandsgreppet aldrig
+      ensamt i en riktig maskin – det kombineras med ljusridå, staket eller
+      inbyggnad, som skyddar alla som är i närheten. Det här är den
+      begränsning som är värd att kunna beskriva: en spärr skyddar bara mot det
+      fall den konstruerades för.</p>
+
+    <h3>Så långt bort att handen inte hinner fram</h3>
+    <p>Avståndet mellan knapparna och det farliga stället är inte gissat. Det
+      räknas ut ur två storheter: hur fort maskinen stannar, och hur fort en
+      hand rör sig. Standarderna för säkerhetsavstånd räknar med en
+      handhastighet på <strong>1 600 mm/s</strong>. Tar maskinen 0,25 s på sig
+      att stanna hinner handen</p>
+    <p><code>s = v · t = 1 600 mm/s · 0,25 s = 400 mm</code></p>
+    <p>Fyra decimeter är alltså det absoluta minimum bara för stopptiden, och
+      standarden lägger till en fast marginal utöver det för att handen hinner
+      röra sig en bit redan innan knappen är släppt. Räkningen är värd att göra
+      en gång för hand, eftersom den visar vad ett säkerhetsavstånd faktiskt
+      är: en hastighet gånger en tid, precis som i mekaniken du läst tidigare.
+      Halveras maskinens stopptid halveras avståndet.</p>
+
+    <h3>Var energi, materia och information omvandlas</h3>
+    <p>Ämnesplanen talar om tekniska lösningar för omvandling av
+      <strong>energi, materia eller information</strong>. Alla tre finns i en
+      press, och de går att peka ut var för sig:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Omvandling</th><th>I pressen</th><th>I ditt bygge 2</th></tr></thead>
+        <tbody>
+          <tr><td>Information</td><td>två knappar och en klocka blir ett
+            start&shy;besked</td><td>två insignaler och en regel blir ett
+            beslut</td></tr>
+          <tr><td>Energi</td><td>el blir hydraultryck blir rörelse</td>
+            <td>el blir servots vridmoment</td></tr>
+          <tr><td>Materia</td><td>en plan plåt blir en bockad detalj</td>
+            <td>en lucka flyttas från stängt till öppet läge</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Den första raden är den som hela det här området handlar om, och den är
+      den enda av de tre som inte syns. Ingen energi och ingen materia lämnar en
+      logisk grindfunktion – det som omvandlas är enbart <em>vad systemet
+      vet</em>. Det är också därför den är så lätt att göra fel på: ett
+      mekaniskt fel hörs, ett elektriskt fel luktar, ett logikfel gör
+      ingenting alls förrän en dag då det gör allt.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <p><strong>I industrin:</strong> en excenterpress i en plåtverkstad har
+      tvåhandsdon på ett pulpet framför maskinen, ofta i en nedsänkt ram så att
+      knapparna inte går att trycka med något annat än fingertoppar. Styrningen
+      sitter i ett <strong>säkerhetsrelä</strong> eller en säkerhets-PLC – inte
+      i maskinens vanliga styrenhet – och den kretsen är dubblerad: två
+      oberoende kanaler läser varje knapp, och skiljer de sig åt går maskinen
+      till stopp i stället för att gissa. Ett fel i den ena kanalen kan alltså
+      inte starta pressen, bara stoppa den.</p>
+    <p>Cykeln ser ut ungefär så här. Operatören lägger i en plåt med båda
+      händerna fria. Sedan flyttas händerna till knapparna och trycker båda inom
+      fönstret. Slaget går, och släpper operatören en knapp under slaget stannar
+      pressen. När slaget är klart är maskinen <em>låst</em> tills båda
+      knapparna släppts – först då får en ny cykel startas. Det låsta läget är
+      inte en bekvämlighet utan det som gör tejp meningslös, och det är
+      anledningen till att den här funktionen inte går att bygga med en ren
+      sanningstabell. Den kräver ett minne.</p>
+    <p>Lägg märke till vad som <em>inte</em> ligger i mjukvaran. Slagets
+      stopptid, knapparnas avstånd och ramarna runt knapparna är mekanik.
+      Kanaldubbleringen är krets. Programmet sköter takt och räkning, men det
+      är inte programmet som avgör om det är säkert att gå.</p>
+
+    <p><strong>I vardagen:</strong> mikrovågsugnen i köket löser samma sorts
+      problem med samma sorts svar, och den gör det utan att en enda rad kod är
+      inblandad. Ugnens magnetron arbetar på <strong>2,45 GHz</strong>.
+      Våglängden blir</p>
+    <p><code>λ = c / f = 299 792 458 m/s / 2 450 000 000 Hz = 0,122 m = 12,2 cm</code></p>
+    <p>Det förklarar det första skyddet, som är ren fysik: metallnätet i luckan
+      har hål på någon eller några millimeter, alltså i storleksordningen
+      hundra gånger mindre än våglängden. Strålningen kommer inte igenom ett så
+      finmaskigt galler, medan synligt ljus – med en våglängd runt en halv
+      mikrometer, alltså ett par hundra tusen gånger kortare – passerar
+      obehindrat. Du ser in, mikrovågorna kommer inte ut.</p>
+    <p>Det andra skyddet är luckans förregling, och den är mekanisk och
+      dubblerad:</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 340 160" role="img" aria-labelledby="svg-mikro-titel"
+           style="width:100%;height:auto">
+        <title id="svg-mikro-titel">Ett förenklat kopplingsschema. Från
+          fasanslutningen L går ledningen genom säkringen F1 till en
+          förgreningspunkt. Därifrån går den övre vägen genom två strömbrytare
+          S1 och S2 efter varandra och vidare till magnetronen M1, och ned till
+          nolledaren N. Från samma förgreningspunkt går en andra väg nedåt genom
+          strömbrytaren S3 direkt till nolledaren.</title>
+
+        <g stroke="currentColor" stroke-width="1.6" fill="none"
+           stroke-linecap="round">
+          <line x1="18" y1="40" x2="40" y2="40"/>
+          <rect x="40" y="32" width="36" height="16" rx="2"/>
+          <line x1="76" y1="40" x2="110" y2="40"/>
+          <line x1="140" y1="40" x2="160" y2="40"/>
+          <line x1="190" y1="40" x2="210" y2="40"/>
+          <rect x="210" y="26" width="70" height="28" rx="3"/>
+          <line x1="280" y1="40" x2="300" y2="40"/>
+          <line x1="300" y1="40" x2="300" y2="140"/>
+          <line x1="18" y1="140" x2="300" y2="140"/>
+
+          <line x1="113" y1="39" x2="136" y2="29"/>
+          <line x1="163" y1="39" x2="186" y2="29"/>
+
+          <line x1="96" y1="40" x2="96" y2="95"/>
+          <line x1="96" y1="95" x2="112" y2="95"/>
+          <line x1="142" y1="95" x2="168" y2="95"/>
+          <line x1="168" y1="95" x2="168" y2="140"/>
+          <line x1="115" y1="94" x2="138" y2="84"/>
+        </g>
+
+        <circle cx="96" cy="40" r="3.4" fill="currentColor"/>
+        <circle cx="110" cy="40" r="2.8" fill="currentColor"/>
+        <circle cx="140" cy="40" r="2.8" fill="currentColor"/>
+        <circle cx="160" cy="40" r="2.8" fill="currentColor"/>
+        <circle cx="190" cy="40" r="2.8" fill="currentColor"/>
+        <circle cx="112" cy="95" r="2.8" fill="currentColor"/>
+        <circle cx="142" cy="95" r="2.8" fill="currentColor"/>
+        <circle cx="168" cy="140" r="3.4" fill="currentColor"/>
+
+        <g fill="currentColor" font-size="15">
+          <text x="8" y="45">L</text>
+          <text x="8" y="145">N</text>
+          <text x="58" y="24" text-anchor="middle">F1</text>
+          <text x="125" y="22" text-anchor="middle">S1</text>
+          <text x="175" y="22" text-anchor="middle">S2</text>
+          <text x="127" y="78" text-anchor="middle">S3</text>
+          <text x="245" y="45" text-anchor="middle">M1</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>S1 och S2</strong> är två oberoende luckbrytare i serie.
+        Båda ska vara slutna för att magnetronen M1 ska få ström – en AND-grind
+        byggd av två mekaniska kontakter. Att de är två är hela poängen: en
+        enskild brytare som fastnar sluten får inte räcka.</li>
+      <li><strong>S3 är monitorbrytaren</strong>, och den arbetar tvärtom. Den
+        sluter när luckan öppnas. Fungerar allt som det ska har S1 och S2 redan
+        brutit då, och ingenting händer.</li>
+      <li><strong>Om S1 och S2 fastnar slutna</strong> ligger plötsligt både
+        magnetronens väg och S3:s väg öppna samtidigt. S3 kortsluter då
+        matningen, säkringen <strong>F1</strong> går, och ugnen är obrukbar.
+        Konstruktionen offrar alltså ugnen hellre än att låta den gå med öppen
+        lucka.</li>
+      <li><strong>Ingen styrenhet finns i den här kedjan.</strong> Ugnens
+        processor sköter display, tid och effekt och kan gott visa
+        "lucka öppen" – men den kan varken hindra kedjan från att bryta eller
+        släppa fram ström förbi den.</li>
+    </ul>
+
+    <p class="notis varna"><span class="rubrik">Öppna inte en mikrovågsugn</span>
+      Högspänningskondensatorn inuti en mikrovågsugn kan hålla laddning kvar
+      länge efter att sladden dragits ur, och spänningarna där är i
+      storleksordningen tusentals volt. Det här avsnittet är till för att förstås och
+      beskrivas, inte för att undersökas med skruvmejsel. Undersök gärna
+      <em>luckan</em> och hur den känns när den stänger – resten stannar
+      i beskrivningen.</p>
+
+    <p>Ställ de två exemplen mot varandra, för det är den jämförelsen som ger
+      belägg för F4. Pressen skyddar mot en <em>rörelse</em> och gör det med
+      logik, tid och tillstånd i en dubblerad krets, där en människas händer är
+      en del av konstruktionen. Ugnen skyddar mot <em>strålning</em> och gör det
+      med två mekaniska brytare, en offerkoppling och ett metallgaller – helt
+      utan minne och helt utan tidsberoende. Samma mål, motsatta lösningar, och
+      skillnaden kommer av vad faran är: pressens fara finns bara när något
+      rör sig, ugnens finns i varje ögonblick luckan är öppen och magnetronen
+      går.</p>
+
+    <h2 id="kravstall">Kravställ ditt bygge 2</h2>
+    <p>Att kravställa är att skriva ner vad systemet ska göra, i meningar som
+      går att pröva, <em>innan</em> du bygger. Det är första delen av F1 –
+      "planerar och bygger" – och det är den delen som brukar hoppas över.</p>
+    <p>Ett krav går att pröva när två personer som läser det kan komma överens
+      om huruvida bygget klarar det eller inte, utan att fråga dig:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Går inte att pröva</th><th>Går att pröva</th></tr></thead>
+        <tbody>
+          <tr><td>Luckan ska öppnas snabbt.</td>
+            <td>Luckan ska ha nått öppet läge inom 1 s från att båda knapparna
+              tryckts.</td></tr>
+          <tr><td>Det ska vara säkert.</td>
+            <td>Om bara en knapp hålls nedtryckt ska luckan förbli stängd, hur
+              länge knappen än hålls.</td></tr>
+          <tr><td>Systemet ska komma ihåg vad som hänt.</td>
+            <td>Efter en cykel ska en ny cykel inte kunna startas förrän båda
+              knapparna varit uppsläppta samtidigt.</td></tr>
+          <tr><td>Koden ska vara snygg.</td>
+            <td><code>loop()</code> ska inte innehålla något anrop till
+              <code>delay()</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Regeln du ska välja</h3>
+    <p>Bygge 2 kräver två insignaler och en logisk regel som avgör när luckan
+      får öppnas. Regeln väljer du och din byggpartner. Tre förslag, i stigande
+      svårighet – ett eget förslag är lika välkommet, men ska stämmas av vid
+      samrådet:</p>
+    <ol>
+      <li><strong>Tvåhandsgrepp.</strong> Båda knapparna inom ett tidsfönster
+        du bestämmer, och båda måste släppas innan nästa gång. Den regel som
+        ligger närmast passets industriexempel, och den som ger mest att
+        beskriva.</li>
+      <li><strong>Förregling.</strong> En knapp är kommandot, den andra är en
+        lägesgivare som säger att något är på plats – en mikrobrytare som känner
+        att luckan är fri, eller att en detalj ligger rätt. Luckan öppnas bara
+        när kommandot kommer <em>och</em> lägesgivaren säger ja.</li>
+      <li><strong>Val med XOR.</strong> Två väljare där precis en åt gången får
+        vara aktiv. Två samtidigt är ett felläge som ska visas och inte tolkas –
+        vilket i sig är ett bra krav att skriva.</li>
+    </ol>
+
+    <h3>Sju frågor att svara på innan du bygger</h3>
+    <ol>
+      <li>Vilka är de två insignalerna, fysiskt? Två knappar, en knapp och en
+        mikrobrytare, något annat?</li>
+      <li>Vad är regeln, skriven som en sanningstabell med alla 2² = 4 rader
+        ifyllda?</li>
+      <li>Vilka tillstånd har systemet, och vilket gäller när kortet just
+        startat? Det läget måste vara ofarligt.</li>
+      <li>Vilka övergångar utlöses av tid, och hur lång är den tiden?</li>
+      <li>Vad ska luckan göra, mekaniskt? Vad väger den, och orkar servot där
+        armen sitter?</li>
+      <li>Vad ska hända i de fall som <em>inte</em> ska öppna luckan? Att
+        ingenting händer är ett giltigt svar – men det ska vara valt.</li>
+      <li>Vilket industriexempel och vilket vardagsexempel ska du beskriva ditt
+        system mot? Det är ett krav i dokumentationen och inte en extrauppgift,
+        så välj dem nu medan du minns det här passet.</li>
+    </ol>
+    <p>Svaren skriver du i <a href="../samradsunderlag.html">samrådsunderlaget</a>
+      inför nästa pass. Kravlistan i sin helhet står på
+      <a href="bygge-2-lucka.html">bygge 2:s sida</a>.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li>Gå runt hemma och leta upp tre förreglingar. Kylskåpets lampa,
+        tvättmaskinens luckelås, häcksaxens tvågreppsspärr, bilens startspärr –
+        det finns fler än du tror. Skriv en mening per fynd om vad som är
+        förreglat mot vad.</li>
+      <li>Välj en av dem och avgör om spärren är mekanisk, elektrisk eller
+        programmerad. Motivera med vad som skulle hända om just den delen gick
+        sönder.</li>
+      <li>Bygg tvåhandsgreppets tidsfönster med två knappar och seriemonitorn.
+        Skriv ut tiden i millisekunder mellan den första och den andra
+        nedtryckningen, med tidsstämpelmönstret från förra guiden.</li>
+      <li>Mät ditt eget fönster: tryck tio gånger så snabbt du kan med båda
+        händerna och notera den största tiden. Ligger den under 500 ms med
+        marginal, eller behöver ditt bygge ett större fönster?</li>
+      <li>Lägg till det låsta läget: efter en lyckad cykel ska ingenting hända
+        förrän båda knapparna varit uppe. Prova sedan att tejpa fast en knapp –
+        bygget ska nu vara omöjligt att utlösa med en hand.</li>
+      <li>Räkna om säkerhetsavståndet för en maskin som stannar på 0,1 s i
+        stället för 0,25 s, med samma handhastighet 1 600 mm/s. Vad blir det,
+        och vad säger svaret om varför snabbare bromsar är värda pengar?</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Varför räcker det inte att kräva att båda knapparna hålls nere?</summary>
+      <p>Därför att en knapp går att tejpa, kila eller lägga en tung sak på.
+        Kravet att båda ska tryckas nära varandra i tiden gör tejpen
+        verkningslös, och kravet att båda ska släppas innan nästa cykel gör att
+        maskinen inte kan gå ett andra slag med en hand kvar på en fastlåst
+        knapp. Utan de två tilläggen är tvåhandsdonet bara två knappar.</p>
+    </details>
+
+    <details>
+      <summary>Vad är monitorbrytarens uppgift i en mikrovågsugn?</summary>
+      <p>Den övervakar de två andra brytarna. Den sluter när luckan öppnas, och
+        skulle luckbrytarna då ha fastnat slutna kortsluter den matningen så att
+        säkringen går. Ugnen blir obrukbar, vilket är avsikten: konstruktionen
+        väljer ett trasigt vitvara framför en ugn som strålar med öppen
+        lucka.</p>
+    </details>
+
+    <details>
+      <summary>En elev föreslår att mikrovågsugnens lucka i stället kontrolleras
+        av ugnens processor, som ju ändå läser knapparna. Vad är invändningen?</summary>
+      <p>Att en processor kan hänga sig, att en ingång kan flyta och att en
+        variabel kan hålla fel värde – och i alla tre fallen kan magnetronen bli
+        kvar påslagen. Den mekaniska kedjan bryter strömmen fysiskt, och gör det
+        även om varje rad kod är fel. Mjukvaran får gärna göra samma kontroll
+        också, men den får inte vara den enda.</p>
+    </details>
+
+    <details>
+      <summary>Hur långt hinner en hand medan en maskin bromsar i 0,1 s, räknat
+        med standardens handhastighet?</summary>
+      <p>s = v · t = 1 600 mm/s · 0,1 s = 160 mm. Jämfört med 400 mm vid 0,25 s
+        är det mindre än hälften, vilket är hela skälet till att man betalar för
+        snabbare bromsar: säkerhetsavståndet krymper i samma takt, och
+        maskinen kan byggas mindre och användas bekvämare.</p>
+    </details>
+
+    <details>
+      <summary>Vilken av CI:ns tre omvandlingar sker i en logisk grind, och hur
+        vet du det?</summary>
+      <p>Information. Ingen materia flyttas och ingen nämnvärd energi lämnar
+        grinden – ut kommer en signal vars enda innehåll är ett svar på en
+        fråga. Energiomvandlingen i ditt bygge sker i servot, materiaomvandlingen
+        i luckan som flyttas.</p>
+    </details>
+
+    <details>
+      <summary>Vad skyddar tvåhandsgreppet <em>inte</em> mot?</summary>
+      <p>Alla andra än operatören. En kollega som sträcker sig in i maskinen är
+        helt oskyddad, eftersom greppet bara vet var operatörens händer är.
+        Därför kombineras det alltid med ljusridå, staket eller inbyggnad. Att
+        kunna säga vad en spärr inte täcker är en del av att beskriva ett system
+        utförligt.</p>
+    </details>
+
+    <details>
+      <summary>Skriv om kravet "luckan ska stänga sig av sig själv" så att det
+        går att pröva.</summary>
+      <p>Till exempel: "Luckan ska börja stänga 3,0 s efter att den nått öppet
+        läge, utan att någon knapp berörs, och ska ha nått stängt läge inom
+        ytterligare 1,0 s." Nu finns en tid, en startpunkt och ett mätbart
+        slutläge, och två personer kan enas om huruvida bygget klarar det.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Kraven skrivs efter bygget.</strong> Då beskriver de vad
+        bygget råkade göra, och kravställningen har inte hjälpt någon. Skriv
+        dem före samrådet, ändra dem gärna efteråt, och spara båda
+        versionerna.</li>
+      <li><strong>Ett krav utan tal.</strong> "Snabbt", "säkert" och "stabilt"
+        går inte att pröva. Sätt en siffra och en enhet, även när siffran är en
+        gissning – en gissning går att rätta, en känsla gör det inte.</li>
+      <li><strong>Tvåhandsgreppet byggs utan det låsta läget.</strong> Det ser
+        ut att fungera vid provkörning och faller så fort någon håller kvar en
+        knapp. Prova alltid med en knapp fasttejpad.</li>
+      <li><strong>Tidsfönstret sätts för snävt.</strong> 100 ms låter proffsigt
+        och gör bygget omöjligt att använda. Mät hur snabb du faktiskt är innan
+        du väljer talet.</li>
+      <li><strong>Industriexemplet och vardagsexemplet är samma sak två
+        gånger.</strong> "Tvåhandsgrepp på en press" och "tvåhandsgrepp på en
+        häcksax" är en idé i två kläder. Välj exempel som skiljer sig i vad
+        faran är och i hur spärren är byggd.</li>
+      <li><strong>Bygget beskrivs som en säkerhetsanordning.</strong> Ditt
+        bygge är en <em>modell</em> av en säkerhetsfunktion. Regeln ligger i
+        mjukvara, kretsen är inte dubblerad, och ingenting är provat mot en
+        standard. Att skriva ut den skillnaden är ett starkare belägg för F4 än
+        att låta bli.</li>
+      <li><strong>Beskrivningen sparas till sist.</strong> F4 bedöms på det du
+        skriver, inte på det du förstod. Välj dina två exempel nu, medan passet
+        är färskt.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Språkreferensen har inget eget kapitel för det här passet – innehållet
+      är styrteknik och inte språk. De kapitel du behöver under bygget är
+      <a href="../sprakreferens.html#villkor">Villkor</a> och
+      <a href="../sprakreferens.html#tid">Tid och millis()</a>.</p>
+    <p>Nästa steg är <a href="bygge-2-lucka.html">bygge 2</a>, som löper över
+      områdets två sista pass. Ta med samrådsunderlaget ifyllt och
+      sanningstabellen ritad till det första av dem – då räcker de sextio
+      minuterna till felsökning i stället för till planering.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 3</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

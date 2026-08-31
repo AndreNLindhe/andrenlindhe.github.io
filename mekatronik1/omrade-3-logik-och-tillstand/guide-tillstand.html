@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tillstånd – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o3-tillstand">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Tillstånd</strong> · område 3</span>
+  <a href="index.html">Område 3</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 3 · lektion 14</p>
+    <h1>Tillstånd</h1>
+    <p class="inledning">Två knappar och en regel räcker inte. Ett riktigt
+      bygge behöver också veta <em>var i förloppet det befinner sig</em>: om
+      luckan redan är öppen, om någon fortfarande håller in en knapp sedan
+      förra gången, om väntetiden är igång. Det systemet minns kallas dess
+      tillstånd, och att skriva ner det är den billigaste felsökning som
+      finns.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan förklara skillnaden mellan en krets som bara reagerar på nuet
+        och ett system som minns, och säga vilken av dem ditt bygge är.</li>
+      <li>Du kan införa en tillståndsvariabel med namngivna lägen och skriva
+        övergångarna mellan dem.</li>
+      <li>Du kan rita ett tillståndsdiagram över ditt eget bygge och räkna ut
+        hur många fall diagrammet måste svara på.</li>
+      <li>Du kan kombinera tillstånd med <code>millis()</code>, så att ett läge
+        kan ta slut av sig självt.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Två sorters kretsar</h3>
+    <p>Grindarna i den första guiden har inget minne. Skickar du in samma
+      insignaler får du samma utsignal, varje gång, oavsett vad som hände en
+      sekund tidigare. En sådan krets kallas <strong>kombinatorisk</strong>, och
+      hela dess beteende ryms i sanningstabellen.</p>
+    <p>Så fort svaret beror på något mer än de nuvarande insignalerna har
+      systemet ett <strong>tillstånd</strong>. Utsignalen beror då på
+      insignalerna <em>och</em> på vad som hänt tidigare, och sanningstabellen
+      räcker inte längre som beskrivning.</p>
+    <p>Du har redan byggt ett sådant system utan att kalla det så. Raden
+      <code>tand = !tand;</code> i
+      <a href="../omrade-2-styrenheten/guide-digital-ingang.html#genomgang">avstudsningsexemplet
+      från förra området</a> är en
+      tillståndsvariabel med två lägen: lampan är tänd eller släckt, och ett
+      tryck betyder olika saker beroende på vilket. Samma knapptryck, två olika
+      utfall – det är definitionen på ett system med minne.</p>
+
+    <h3>Tillståndet är det systemet minns, inte allt det vet</h3>
+    <p>Ett tillstånd är inte varje variabel i programmet. Det är den knappa
+      uppsättning lägen systemet kan befinna sig i, där varje läge betyder något
+      annat för hur nästa insignal ska tolkas. Bra tillstånd går att säga högt i
+      ett ord: <em>stängd</em>, <em>öppnar</em>, <em>öppen</em>,
+      <em>stänger</em>.</p>
+    <p>Testet är enkelt: om du kan svara på frågan "vad händer om någon trycker
+      på knappen nu?" utan att veta vilket läge systemet står i, har du
+      förmodligen inget tillstånd. Måste du fråga tillbaka "var är det nu?" –
+      då har du det.</p>
+
+    <h3>Tillståndsdiagrammet</h3>
+    <p>Diagrammet ritas som lägen med pilar emellan. Varje pil är en
+      <strong>övergång</strong>, och intill pilen står vad som utlöser den.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 340 225" role="img" aria-labelledby="svg-tillstand-titel"
+           style="width:100%;height:auto">
+        <title id="svg-tillstand-titel">Ett tillståndsdiagram med fyra rutor
+          placerade i en fyrkant och pilar mellan dem i en rundgång medurs. Uppe
+          till vänster rutan STÄNGD, uppe till höger ÖPPNAR, nere till höger
+          ÖPPEN och nere till vänster STÄNGER. Pilen från STÄNGD till ÖPPNAR är
+          märkt båda ned, pilen från ÖPPNAR till ÖPPEN är märkt i läge, pilen
+          från ÖPPEN till STÄNGER är märkt tiden ute, och pilen från STÄNGER
+          tillbaka till STÄNGD är märkt i läge.</title>
+
+        <g stroke="currentColor" stroke-width="1.8" fill="none"
+           stroke-linecap="round" stroke-linejoin="round">
+          <rect x="16" y="30" width="104" height="40" rx="6"/>
+          <rect x="220" y="30" width="104" height="40" rx="6"/>
+          <rect x="220" y="170" width="104" height="40" rx="6"/>
+          <rect x="16" y="170" width="104" height="40" rx="6"/>
+
+          <line x1="120" y1="50" x2="214" y2="50"/>
+          <path d="M 212 45 L 220 50 L 212 55"/>
+
+          <line x1="272" y1="70" x2="272" y2="164"/>
+          <path d="M 267 162 L 272 170 L 277 162"/>
+
+          <line x1="220" y1="190" x2="126" y2="190"/>
+          <path d="M 128 185 L 120 190 L 128 195"/>
+
+          <line x1="68" y1="170" x2="68" y2="76"/>
+          <path d="M 63 78 L 68 70 L 73 78"/>
+        </g>
+
+        <g fill="currentColor" font-size="15" text-anchor="middle">
+          <text x="68" y="55">STÄNGD</text>
+          <text x="272" y="55">ÖPPNAR</text>
+          <text x="272" y="195">ÖPPEN</text>
+          <text x="68" y="195">STÄNGER</text>
+        </g>
+
+        <g fill="currentColor" font-size="13">
+          <text x="170" y="42" text-anchor="middle">båda ned</text>
+          <text x="280" y="124">i läge</text>
+          <text x="170" y="182" text-anchor="middle">tiden ute</text>
+          <text x="60" y="124" text-anchor="end">i läge</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>Rutorna är lägen.</strong> Systemet står alltid i exakt ett av
+        dem, aldrig i två och aldrig i inget.</li>
+      <li><strong>Pilarna är övergångar</strong>, och texten intill är villkoret
+        som utlöser dem. "Båda ned" betyder att båda knapparna är nedtryckta,
+        "i läge" att servot nått sin vinkel, "tiden ute" att väntetiden i öppet
+        läge löpt ut.</li>
+      <li><strong>Rundgången går bara åt ett håll.</strong> Det finns ingen pil
+        från ÖPPEN direkt till STÄNGD, och det är ett medvetet val: luckan måste
+        passera STÄNGER, där rörelsen sker.</li>
+      <li><strong>Saknad pil är också information.</strong> Från ÖPPNAR leder
+        ingen pil tillbaka till STÄNGD. Släpper du knapparna medan luckan är på
+        väg upp händer alltså ingenting – och det är precis den sortens fråga
+        diagrammet tvingar dig att svara på innan du skriver koden.</li>
+    </ul>
+
+    <p class="notis"><span class="rubrik">Räkna fallen innan du ritar</span>
+      Med fyra lägen och två knappar finns 4 · 2² = <strong>16</strong>
+      kombinationer av läge och insignal. Diagrammet ovan har fyra pilar, alltså
+      fyra fall där något händer. I de återstående tolv står systemet kvar där
+      det är – vilket också är ett svar, men bara om du tagit ställning till
+      det. Ett bygge går sönder i det fall ingen tänkte på.</p>
+
+    <h3>En tillståndsvariabel i praktiken</h3>
+    <p>Ett tillstånd är i koden ett heltal med ett namn. Lägena får varsin
+      <code>const int</code> överst i filen, och allt som ska minnas mellan
+      varven – tillståndet självt och tidsstämplarna – står också utanför
+      funktionerna, annars glöms det varje varv.</p>
+    <pre><code class="sprak-cpp">// Lägena. Prefixet T gör det tydligt i koden att det är ett tillstånd
+// och inte en vinkel eller ett pinnummer.
+const int T_STANGD  = 0;
+const int T_OPPNAR  = 1;
+const int T_OPPEN   = 2;
+const int T_STANGER = 3;
+
+// Tiderna. unsigned long på allt som rör millis(), utan undantag.
+const unsigned long RORELSETID = 600;    // ms servot behöver för att nå fram
+const unsigned long OPPEN_TID  = 3000;   // ms luckan står öppen
+
+// Det systemet minns. Utanför funktionerna, alltså kvar mellan varven.
+int tillstand = T_STANGD;
+
+unsigned long bytteVid    = 0;   // när tillståndet senast byttes
+unsigned long oppnadesVid = 0;   // när luckan nådde öppet läge</code></pre>
+    <p class="notis"><span class="rubrik">Resten av namnen kommer från förra guiden</span>
+      <code>KNAPP_A_PIN</code>, <code>KNAPP_B_PIN</code>,
+      <code>VINKEL_STANGD</code>, <code>VINKEL_OPPEN</code> och
+      <code>luckservo</code> deklareras precis som i den fullständiga skissen i
+      <a href="guide-villkor-i-cpp.html#genomgang">Villkor i C++</a>, tillsammans
+      med <code>setup()</code>. Blocket ovan läggs till, det ersätter
+      ingenting.</p>
+    <p>Själva logiken blir en kedja av <code>if</code> och
+      <code>else if</code>, en gren per läge. Det ser långt ut och det ska det
+      göra: varje gren är ett läge i diagrammet, och det är den likheten som gör
+      koden möjlig att granska mot ritningen.</p>
+    <pre><code class="sprak-cpp">void loop() {
+  unsigned long nu = millis();
+
+  bool a_nere = (digitalRead(KNAPP_A_PIN) == LOW);   // LOW betyder nedtryckt
+  bool b_nere = (digitalRead(KNAPP_B_PIN) == LOW);
+
+  if (tillstand == T_STANGD) {
+    if (a_nere &amp;&amp; b_nere) {
+      luckservo.write(VINKEL_OPPEN);
+      bytteVid = nu;
+      tillstand = T_OPPNAR;
+    }
+
+  } else if (tillstand == T_OPPNAR) {
+    if (nu - bytteVid &gt;= RORELSETID) {     // servot har hunnit fram
+      oppnadesVid = nu;
+      tillstand = T_OPPEN;
+    }
+
+  } else if (tillstand == T_OPPEN) {
+    if (nu - oppnadesVid &gt;= OPPEN_TID) {
+      luckservo.write(VINKEL_STANGD);
+      bytteVid = nu;
+      tillstand = T_STANGER;
+    }
+
+  } else if (tillstand == T_STANGER) {
+    if (nu - bytteVid &gt;= RORELSETID) {
+      tillstand = T_STANGD;
+    }
+  }
+}</code></pre>
+    <p>Lägg märke till formen. Varje gren gör två saker och inte fler: den
+      undersöker om något ska hända, och om det ska det utför den handlingen
+      <em>och</em> byter tillstånd. Ingen gren pillar på ett annat läges
+      variabler, och ingen kod utanför kedjan ändrar <code>tillstand</code>.
+      Håller du den disciplinen kan du läsa koden mot diagrammet med fingret.</p>
+
+    <h3>Tillstånd och tid hör ihop</h3>
+    <p>Exemplet ovan hade varit omöjligt före förra guiden. Två av de fyra
+      övergångarna utlöses inte av en knapp utan av att tid gått – att servot
+      hunnit fram, att luckan stått öppen tillräckligt länge. Utan
+      <code>millis()</code> hade de krävt <code>delay()</code>, och då hade
+      knapparna inte lästs under tiden.</p>
+    <p>Mönstret är alltid detsamma: <strong>stämpla tiden när du byter
+      tillstånd</strong>, och jämför mot den i det läge du hamnade i. En egen
+      tidsstämpel per sak som mäter tid, precis som förra guiden sa.</p>
+
+    <h3>Hur många lägen, och hur många bitar</h3>
+    <p>Antalet lägen ska vara litet. Fyra är lagom för bygge 2, och räkningen
+      från den första guiden i området säger varför fyra är ett trevligt tal:</p>
+    <p><code>4 lägen ryms i 2 bitar, eftersom 2² = 4</code></p>
+    <p><code>5 lägen kräver 3 bitar, eftersom 2² = 4 är för litet och 2³ = 8 räcker</code></p>
+    <p>På ditt kort spelar det ingen roll – en <code>int</code> rymmer alla
+      lägen du kan tänka dig. Men i en PLC eller i ett datablad ser du samma
+      räkning på riktigt: tillståndet lagras i ett par bitar i ett register, och
+      antalet bitar avgör hur många lägen som får plats.</p>
+    <p>Den viktigare gränsen är den mänskliga. Varje nytt läge du lägger till
+      ökar antalet fall att tänka igenom med antalet insignalkombinationer. Med
+      två knappar kostar ett femte läge fyra nya fall. Med tre knappar kostar
+      det åtta. Håll antalet lägen nere tills bygget fungerar.</p>
+
+    <h3>Rita ditt eget bygges diagram</h3>
+    <p>Gör det på papper, innan du skriver kod, och gör det i den här
+      ordningen:</p>
+    <ol>
+      <li>Skriv ner alla lägen bygget kan vara i. Ett ord vardera. Är du osäker
+        på om två är samma läge – kan du svara likadant på "vad händer om någon
+        trycker nu?" i båda, är de samma.</li>
+      <li>Rita en ruta per läge och sätt ut vilket som gäller när kortet just
+        startat. Det läget måste vara ofarligt, eftersom kortet kan starta om
+        mitt i vad som helst.</li>
+      <li>Dra pilar för varje övergång du vill ha, och skriv villkoret intill
+        varje pil.</li>
+      <li>Gå igenom rutorna en i taget och fråga vad som händer vid <em>varje</em>
+        insignalkombination. Saknas ett svar har du hittat ett fall att ta
+        ställning till.</li>
+      <li>Skriv koden med en gren per ruta. Diagrammet är då redan din
+        dokumentation, och det ska med i inlämningen.</li>
+    </ol>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <p><strong>I industrin:</strong> en motordriven rullport i ett lager har
+      exakt de fyra lägen som diagrammet ovan visar, och de är valda av
+      säkerhetsskäl snarare än av bekvämlighet. Porten har en
+      <strong>fotocell</strong> tvärs över öppningen, och den signalen betyder
+      olika saker i olika lägen. I läget ÖPPNAR bryr sig styrningen inte om den
+      alls – porten går bort från allt som kan klämmas. I läget STÄNGER är den
+      avgörande: bryts strålen ska porten omedelbart vända och gå tillbaka till
+      ÖPPNAR. <em>Samma insignal, motsatt betydelse, och det är tillståndet som
+      avgör vilken.</em> Det är inte möjligt att uttrycka i en sanningstabell.</p>
+    <p>Tiderna ger en känsla för storleksordningen. En port med tre meters
+      öppning som stänger med 0,2 m/s tar</p>
+    <p><code>3 m / 0,2 m/s = 15 s</code></p>
+    <p>att stänga, och under hela de femton sekunderna är fotocellen den enda
+      som håller koll. Därför är den kopplad direkt till styrningens ingång och inte via
+      något som kan bli upptaget – och därför får porten aldrig sitta i ett
+      program som kan blockera sig självt. Tillstånd och tid utan blockering är
+      samma krav sett från två håll.</p>
+
+    <p><strong>I vardagen:</strong> ett trafikljus i en korsning har i Sverige
+      fyra lägen i en fast rundgång: röd, röd och gul tillsammans, grön, gul,
+      och tillbaka till röd. Fyra lägen ryms i 2 bitar, och rundgången går bara
+      åt ett håll – det finns ingen övergång från gul till grön, hur mycket
+      trafik som än står och väntar. Den saknade pilen är inte en glömska utan
+      hela säkerhetskonstruktionen.</p>
+    <p>Det intressanta för dig sitter i tryckknappen för gående. Den ändrar
+      ingenting i samma sekund. Trycket lagras som ett <em>minne</em> – en enda
+      bit – och nästa gång rundgången kommer till rätt ställe tas den biten med
+      i beslutet och nollställs. Det är samma sak som din knapp gör i bygge 2:
+      insignalen tolkas inte där den kommer in, utan där rundgången är beredd
+      att hantera den. Skillnaden mot rullporten är att här är tillståndet till
+      för att hålla ordning på en <em>sekvens</em>, medan portens tillstånd är
+      till för att tolka en <em>givare</em>.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li>Rita tillståndsdiagrammet för bygge 1: knappen och spaken, med två
+        lägen. Det tar två minuter och blir din mall för det svårare.</li>
+      <li>Bygg en lampa som växlar mellan tänd och släckt vid varje tryck, med
+        flankdetektering och avstudsning enligt förra guiden. Skriv om koden så
+        att den använder en namngiven tillståndsvariabel i stället för
+        <code>bool tand</code>. Beteendet ska vara identiskt – poängen är
+        formen.</li>
+      <li>Lägg till ett tredje läge: efter tio sekunder tänd släcks lampan av
+        sig själv. Nu behöver du en tidsstämpel som sätts när lampan tänds.</li>
+      <li>Koppla in den andra knappen och gör om bygget till fyra lägen enligt
+        diagrammet ovan, med en lysdiod i stället för servot – byt alltså
+        <code>luckservo.write(...)</code> mot <code>digitalWrite(...)</code> och
+        låt lampan lysa i lägena ÖPPNAR och ÖPPEN. Kontrollera varje pil för
+        sig.</li>
+      <li>Prova det som inte står i diagrammet: släpp knapparna mitt i ÖPPNAR.
+        Tryck igen medan systemet står i ÖPPEN. Håll båda nere hela tiden. Skriv
+        ner vad som händer i varje fall och jämför med vad du <em>trodde</em>
+        skulle hända.</li>
+      <li>Rita om diagrammet så att det stämmer med det du observerade, inte med
+        det du tänkte. Skillnaden mellan de två ritningarna är den mest
+        användbara raden i din dokumentation.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Vad skiljer en kombinatorisk krets från ett system med
+        tillstånd?</summary>
+      <p>Den kombinatoriska kretsens utsignal beror bara på insignalerna just
+        nu, och hela dess beteende ryms i en sanningstabell. Ett system med
+        tillstånd svarar olika på samma insignal beroende på vad som hänt
+        tidigare, och behöver därför ett diagram i stället för en tabell.</p>
+    </details>
+
+    <details>
+      <summary>Hur många fall måste ett diagram med fyra lägen och två knappar
+        ta ställning till?</summary>
+      <p>4 · 2² = 16. Fyra lägen gånger fyra insignalkombinationer. De flesta
+        av dem är "ingenting händer", men det ska vara ett beslut och inte en
+        glömska – det är i det oövervägda fallet bygget går sönder.</p>
+    </details>
+
+    <details>
+      <summary>Varför måste starttillståndet vara ofarligt?</summary>
+      <p>Därför att kortet kan starta om när som helst: ett strömglapp, ett
+        servo som drar för mycket, någon som råkar trycka på reset. Vid en
+        omstart nollställs alla variabler, och systemet hamnar i det läge du
+        skrivit som utgångsvärde. Är det läget "luckan öppen" öppnar sig luckan
+        varje gång strömmen blinkar till.</p>
+    </details>
+
+    <details>
+      <summary>Din tillståndsvariabel står deklarerad inuti <code>loop()</code>.
+        Vad ser du?</summary>
+      <p>Systemet står kvar i sitt starttillstånd för alltid. Variabeln skapas
+        på nytt varje varv och sätts till utgångsvärdet, så tillståndsbytet du
+        gjorde förra varvet är borta. Symtomet är att första övergången verkar
+        ske om och om igen, eller att ingenting alls verkar hända.</p>
+    </details>
+
+    <details>
+      <summary>Hur många bitar behövs för sex lägen?</summary>
+      <p>Tre. 2² = 4 räcker inte för sex lägen, 2³ = 8 gör det, och två av de
+        åtta kombinationerna blir då oanvända. På ditt kort spelar det ingen
+        roll – tillståndet ligger i en <code>int</code> med gott om plats – men
+        räkningen är densamma som i den första guiden i området.</p>
+    </details>
+
+    <details>
+      <summary>Fotocellen i rullporten ger samma signal i ÖPPNAR och i STÄNGER.
+        Varför gör porten olika saker?</summary>
+      <p>Därför att betydelsen av en insignal avgörs av tillståndet. I ÖPPNAR
+        rör sig porten bort från det som kan klämmas, och signalen är
+        ointressant. I STÄNGER rör den sig mot, och samma signal måste då vända
+        porten. Ett system utan tillstånd kan inte skilja de två fallen åt,
+        eftersom insignalen är identisk.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Tillståndsvariabeln deklareras inuti <code>loop()</code>.</strong>
+        Systemet kommer aldrig ur sitt första läge. Den ska stå utanför
+        funktionerna, som räknaren i språkreferensens exempel.</li>
+      <li><strong>Två grenar kan byta till samma läge samtidigt.</strong> Koden
+        blir oförutsägbar och beter sig olika varje gång. En gren per läge, och
+        bara den grenen ändrar tillståndet.</li>
+      <li><strong>En handling ligger utanför sitt läge.</strong> Ett
+        <code>write()</code> som körs varje varv oavsett tillstånd överröstar
+        det grenarna gör. Allt som ska ske vid ett byte ska ske i själva
+        bytet.</li>
+      <li><strong>Diagrammet ritas efteråt.</strong> Då ritar du det du kodade,
+        inte det du menade, och det fall du missade saknas i båda. Rita
+        först.</li>
+      <li><strong>Ett läge saknar väg ut.</strong> Systemet fastnar där, och
+        det ser ut som att kortet hängt sig. Gå igenom rutorna och kontrollera
+        att varje ruta har minst en pil ut.</li>
+      <li><strong>Tillståndet byts men tidsstämpeln sätts inte.</strong> Nästa
+        läge jämför mot en gammal stämpel och löper ut omedelbart, eller aldrig.
+        Stämpla i samma block som du byter.</li>
+      <li><strong>Starttillståndet är det öppna.</strong> Vid varje omstart
+        öppnar sig bygget. Utgångsvärdet på tillståndsvariabeln är en
+        säkerhetsfråga och inte en smaksak.</li>
+      <li><strong>Alltför många lägen.</strong> Nio lägen och två knappar ger 36
+        fall att tänka igenom. Slå ihop lägen som svarar likadant på alla
+        insignaler – de är samma läge.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Kapitlen <a href="../sprakreferens.html#villkor">Villkor</a> och
+      <a href="../sprakreferens.html#tid">Tid och millis()</a> i språkreferensen
+      hör båda hit: tillståndsmaskinen är ingenting annat än villkor och
+      tidsstämplar satta i en form som går att granska.
+      <a href="../sprakreferens.html#typer">Typer och variabler</a> förklarar
+      varför variabeln måste stå utanför funktionerna för att minnas något.</p>
+    <p>Nästa guide är
+      <a href="guide-industri-och-vardag.html">I industrin och i vardagen</a>.
+      Där sätts allt du byggt hittills mot två verkliga spärrar – en
+      industripress och en mikrovågsugn – och där kravställs bygge 2.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 3</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

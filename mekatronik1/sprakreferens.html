@@ -206,8 +206,10 @@ void loop() {
       på det som står här.</p>
 
     <h2 id="loopar">Loopar</h2>
-    <p>Öppnas i takt med område 3: <code>for</code>- och <code>while</code>-loopar,
-      och var <code>loop()</code> passar in.</p>
+    <p>Öppnas i takt med område 4: <code>for</code>- och <code>while</code>-loopar,
+      och var <code>loop()</code> passar in. Först där uppstår det egentliga
+      behovet – att läsa en givare flera gånger i rad och bilda ett medelvärde
+      av avläsningarna.</p>
 
     <h2 id="funktioner">Funktioner</h2>
     <p>Öppnas i takt med område 4: att deklarera en egen funktion med returtyp
@@ -215,12 +217,129 @@ void loop() {
       <code>loop()</code>, som Arduino-miljön anropar åt dig.</p>
 
     <h2 id="arrayer">Arrayer</h2>
-    <p>Öppnas i takt med område 3: fasta arrayer, och hur de skiljer sig från
-      Pythons dynamiska listor i praktiken.</p>
+    <p>Öppnas i takt med område 4: fasta arrayer, och hur de skiljer sig från
+      Pythons dynamiska listor i praktiken. De hör ihop med loopkapitlet ovan –
+      det är när flera mätvärden ska sparas och vägas samman som en array blir
+      nödvändig i stället för bekväm.</p>
 
     <h2 id="tid">Tid och millis()</h2>
-    <p>Öppnas i takt med område 3: att mäta tid utan <code>delay()</code>, som
-      grund för allt som ska pågå samtidigt.</p>
+    <p>Att mäta tid i stället för att vänta ut den. Det är grunden för allt som
+      ska pågå samtidigt, och det är skillnaden mellan ett bygge som gör en sak
+      och ett som gör tre.</p>
+
+    <h3>delay() stoppar din kod, inte kortet</h3>
+    <p><code>delay(500)</code> är ingen paus utan en tom slinga: kortet
+      kontrollerar sin egen klocka om och om igen tills tiden gått, och kör inte
+      en enda rad av din <code>loop()</code> under tiden. Ingen pinne läses,
+      ingen utgång ändras.</p>
+    <p>Avbrotten i bakgrunden fortsätter däremot. Millisekundräknaren tickar
+      vidare inuti en <code>delay()</code>, och tecken som kommer in på
+      serieporten tappas oftast inte bort – de samlas i en mottagningsbuffert
+      på 64 byte, och först när den är full går tecken förlorade. Det som står
+      stilla är enbart det du skrivit.</p>
+    <p><code>delay()</code> är fortfarande rätt i <code>setup()</code>, i ett
+      litet testprogram, och när pausen är kortare än en millisekund. Så fort
+      <code>loop()</code> har mer än en sak att göra hör den inte hemma
+      där.</p>
+
+    <h3>millis() och micros()</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Anrop</th><th>Ger</th><th>Typ</th><th>Viker runt efter</th></tr></thead>
+        <tbody>
+          <tr><td><code>millis()</code></td><td>millisekunder sedan start</td>
+            <td><code>unsigned long</code></td><td>ungefär 49,7 dygn</td></tr>
+          <tr><td><code>micros()</code></td><td>mikrosekunder sedan start</td>
+            <td><code>unsigned long</code></td><td>ungefär 71,6 minuter</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Båda lämnar <code>unsigned long</code>, alltså fyra byte utan tecken.
+      <code>micros()</code> har på ett Uno-kort en upplösning på 4 µs – talet
+      hoppar alltså i steg om fyra – och behövs sällan i den här kursen.
+      Använd <code>millis()</code> om du inte har ett skäl att göra något
+      annat.</p>
+
+    <h3>Mönstret: en tidsstämpel och ett intervall</h3>
+    <pre><code class="sprak-cpp">const unsigned long INTERVALL = 500;   // ms mellan varje omslag
+
+unsigned long forra = 0;               // utanför funktionerna: minns mellan varven
+bool lampanLyser = false;
+
+void loop() {
+  unsigned long nu = millis();
+
+  if (nu - forra &gt;= INTERVALL) {
+    forra = nu;                        // stämpla om, direkt
+    lampanLyser = !lampanLyser;
+    digitalWrite(LAMPA_PIN, lampanLyser);
+  }
+
+  // Allt annat får plats här, och körs varje varv.
+}</code></pre>
+    <p>Tre regler följer med mönstret. <code>forra</code> står
+      <strong>utanför</strong> funktionerna, annars nollställs den varje varv.
+      Omstämplingen sker <strong>först</strong> i blocket. Och villkoret är en
+      <strong>subtraktion</strong>, aldrig en addition.</p>
+
+    <h3>Flera saker samtidigt</h3>
+    <p>Varje sak som har sin egen takt får sin egen tidsstämpel. Att låta två
+      saker dela på en variabel är ett av de vanligaste felen.</p>
+    <pre><code class="sprak-cpp">unsigned long forraBlinket = 0;
+unsigned long forraUtskriften = 0;
+
+void loop() {
+  unsigned long nu = millis();
+
+  if (nu - forraBlinket &gt;= 500) {
+    forraBlinket = nu;
+    lampanLyser = !lampanLyser;
+    digitalWrite(LAMPA_PIN, lampanLyser);
+  }
+
+  if (nu - forraUtskriften &gt;= 2000) {
+    forraUtskriften = nu;
+    Serial.println(nu);
+  }
+}</code></pre>
+
+    <h3>Räknaren viker runt, och varför det inte gör något</h3>
+    <p>En <code>unsigned long</code> är 32 bitar och rymmer</p>
+    <p><code>2³² = 4 294 967 296 värden, alltså 0 … 4 294 967 295</code></p>
+    <p>Räknat som millisekunder blir det</p>
+    <p><code>4 294 967 296 / 1000 / 60 / 60 / 24 = 49,71 dygn</code></p>
+    <p>ungefär 49 dygn och 17 timmar. Sedan börjar räknaren om på 0.</p>
+    <p>Skriver du <code>nu - forra</code> märks det inte alls. Räkning med
+      heltal <em>utan tecken</em> är i C++ definierad modulo 2³²: ett resultat
+      som skulle blivit negativt räknas om från toppen. Har räknaren hoppat över
+      kanten har den gjort samma hopp åt andra hållet, och de två tar ut
+      varandra. Differensen är därför alltid den verkliga tidsskillnaden.</p>
+    <p>Skriver du i stället <code>nu &gt;= forra + INTERVALL</code> går det
+      sönder, och av ett skäl som är värt att förstå: summan
+      <code>forra + INTERVALL</code> viker också runt och blir ett litet tal,
+      medan <code>nu</code> ännu inte vikt runt och alltså är enormt. Men
+      jämförelsen <code>&gt;=</code> räknar inte modulo någonting – den ställer
+      talen mot varandra rakt av. Villkoret blir sant direkt, och sedan sant
+      varje varv, ända tills räknaren också vikt runt.</p>
+    <p class="notis"><span class="rubrik">Regeln</span>
+      Flytta aldrig över intervallet till andra sidan jämförelsen. Skriv
+      <code>nu - forra &gt;= INTERVALL</code>, och låt både <code>nu</code> och
+      <code>forra</code> vara <code>unsigned long</code>.</p>
+
+    <h3>Vanliga fel</h3>
+    <ul>
+      <li><strong>Tidsstämpeln deklarerad inuti <code>loop()</code>.</strong>
+        Den nollställs varje varv och villkoret slår till hela tiden.</li>
+      <li><strong>Fel typ.</strong> <code>int</code> tar slut vid 32 767, alltså
+        efter 32,8 sekunder. <code>long</code> kan bli negativ. Det ska stå
+        <code>unsigned long</code>.</li>
+      <li><strong>Additionen i stället för subtraktionen.</strong> Fungerar i
+        varje test du hinner göra och går sönder efter 49,7 dygn.</li>
+      <li><strong>Två takter delar på en tidsstämpel.</strong> Båda beter sig
+        oförutsägbart. En variabel per sak.</li>
+      <li><strong>Omstämplingen glöms.</strong> Utan <code>forra = nu;</code> är
+        villkoret sant från första gången och sedan för alltid.</li>
+    </ul>
 
     <h2 id="bibliotek">Bibliotek</h2>
     <p>Ett bibliotek är färdig kod någon annan skrivit, som du får använda utan

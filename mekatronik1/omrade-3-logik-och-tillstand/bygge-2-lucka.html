@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bygge 2 – en logisk regel som öppnar en lucka – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o3-bygge2">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Bygge 2 – en logisk regel som öppnar en lucka</strong> · område 3</span>
+  <a href="index.html">Område 3</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Område 3 · lektion 16–17 · 10 dec – 17 dec</p>
+    <h1>Bygge 2 – en logisk regel som öppnar en lucka</h1>
+    <p class="inledning">Två insignaler går in. En regel som du valt och kan
+      motivera avgör vad de betyder tillsammans. Ett servo öppnar en lucka, och
+      systemet minns vad som redan hänt. Det är kursens andra bedömda system,
+      och det första som beläggs mot alla fem förmågorna.</p>
+
+    <p class="notis viktig"><span class="rubrik">Det här är ett bedömt mekatroniskt system</span>
+      <strong>Bygge 2 sammanför alla tre delarna:</strong> luckan, gångjärnet
+      och fästet är den mekaniska strukturen, de två knapparna och servots
+      matning är elektrotekniken, och regeln, tiden och tillståndet är
+      styrtekniken. Till skillnad från bygge 1 ger det här bygget belägg för
+      <strong>alla fem förmågorna</strong>: <strong>F1</strong> planera och
+      bygga, <strong>F2</strong> använda ritningar och samarbeta,
+      <strong>F3</strong> dokumentera, <strong>F4</strong> beskriva
+      systemuppbyggnad och fysikaliska principer med exempel från både industri
+      och vardagsliv, och <strong>F5</strong> bedöma din egen förmåga vid
+      samråd. F4 är den nya, och den beläggs enbart av det du
+      <em>skriver</em> – det finns ingen del av själva bygget som ger belägg för
+      den. Se avsnittet om dokumentationen.</p>
+
+    <h2 id="uppgiften">Uppgiften</h2>
+    <p>Bygg ett system där <strong>två</strong> insignaler tillsammans avgör om
+      ett servo får öppna en lucka. Vad luckan sitter på bestämmer du: ett
+      förvaringsfack, en modell av en maskinhuv, en brevlådelucka, en spjällucka
+      i en låda. Regeln bestämmer du också, men den ska vara en riktig logisk
+      regel med minst två insignaler, och den ska gå att skriva som en
+      sanningstabell.</p>
+    <p>Tre regler att välja bland, från
+      <a href="guide-industri-och-vardag.html#kravstall">kravställningen</a>:
+      tvåhandsgrepp, förregling mot en lägesgivare, eller ett val med XOR. Ett
+      eget förslag är lika välkommet och stäms av vid samrådet.</p>
+    <p>Grundkretsen är den här. Den räcker för alla tre reglerna – det som
+      skiljer dem åt är koden, inte kopplingen.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 440 295" role="img" aria-labelledby="svg-bygge2-titel"
+           style="width:100%;height:auto">
+        <title id="svg-bygge2-titel">Kopplingsschema för bygge 2. Till vänster
+          en rektangel som är Uno-kortet, med fem anslutningar på höger sida:
+          5 V, D9, GND, D2 och D3. Från 5 V, D9 och GND går tre ledningar till
+          servot M1 till höger i bilden, och från GND-ledningen går en
+          förgrening ned till en jordsymbol. Från D2 går en ledning nedåt till
+          strömbrytaren S1 och vidare till en jordsymbol. Från D3 går en ledning
+          längre ned till strömbrytaren S2 och vidare till en tredje
+          jordsymbol.</title>
+
+        <g stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <rect x="14" y="26" width="134" height="150" rx="5"/>
+          <rect x="330" y="32" width="96" height="88" rx="4"/>
+
+          <line x1="148" y1="50" x2="330" y2="50"/>
+          <line x1="148" y1="80" x2="330" y2="80"/>
+          <line x1="148" y1="110" x2="330" y2="110"/>
+
+          <line x1="280" y1="110" x2="280" y2="128"/>
+          <line x1="262" y1="128" x2="298" y2="128" stroke-width="2.2"/>
+          <line x1="269" y1="135" x2="291" y2="135" stroke-width="2.2"/>
+          <line x1="276" y1="142" x2="284" y2="142" stroke-width="2.2"/>
+
+          <line x1="148" y1="140" x2="196" y2="140"/>
+          <line x1="196" y1="140" x2="196" y2="192"/>
+          <line x1="196" y1="192" x2="208" y2="192"/>
+          <line x1="211" y1="191" x2="250" y2="175"/>
+          <line x1="256" y1="192" x2="300" y2="192"/>
+          <line x1="300" y1="192" x2="300" y2="210"/>
+          <line x1="282" y1="210" x2="318" y2="210" stroke-width="2.2"/>
+          <line x1="289" y1="217" x2="311" y2="217" stroke-width="2.2"/>
+          <line x1="296" y1="224" x2="304" y2="224" stroke-width="2.2"/>
+
+          <line x1="148" y1="170" x2="176" y2="170"/>
+          <line x1="176" y1="170" x2="176" y2="250"/>
+          <line x1="176" y1="250" x2="208" y2="250"/>
+          <line x1="211" y1="249" x2="250" y2="233"/>
+          <line x1="256" y1="250" x2="300" y2="250"/>
+          <line x1="300" y1="250" x2="300" y2="268"/>
+          <line x1="282" y1="268" x2="318" y2="268" stroke-width="2.2"/>
+          <line x1="289" y1="275" x2="311" y2="275" stroke-width="2.2"/>
+          <line x1="296" y1="282" x2="304" y2="282" stroke-width="2.2"/>
+        </g>
+
+        <circle cx="280" cy="110" r="3.4" fill="currentColor"/>
+        <circle cx="208" cy="192" r="2.8" fill="currentColor"/>
+        <circle cx="256" cy="192" r="2.8" fill="currentColor"/>
+        <circle cx="208" cy="250" r="2.8" fill="currentColor"/>
+        <circle cx="256" cy="250" r="2.8" fill="currentColor"/>
+
+        <g fill="currentColor" font-size="17">
+          <text x="30" y="46">Uno</text>
+          <text x="144" y="45" text-anchor="end">5 V</text>
+          <text x="144" y="75" text-anchor="end">D9</text>
+          <text x="144" y="105" text-anchor="end">GND</text>
+          <text x="144" y="135" text-anchor="end">D2</text>
+          <text x="144" y="165" text-anchor="end">D3</text>
+          <text x="378" y="24" text-anchor="middle">M1</text>
+          <text x="378" y="84" text-anchor="middle">servo</text>
+          <text x="232" y="168" text-anchor="middle">S1</text>
+          <text x="232" y="226" text-anchor="middle">S2</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>S1 och S2</strong> är de två insignalerna, båda kopplade
+        mellan sin pinne och jord. Inga externa motstånd behövs – båda pinnarna
+        ställs in med <code>INPUT_PULLUP</code>, och en uppsläppt knapp läses
+        därför som <code>HIGH</code>.</li>
+      <li><strong>Den andra insignalen behöver inte vara en tryckknapp.</strong>
+        En mikrobrytare som känner att luckan är i stängt läge, eller en enkel
+        vippströmbrytare, kopplas exakt likadant och räknas lika mycket som
+        insignal.</li>
+      <li><strong>M1</strong> är servot. Tre sladdar: brun till GND, röd till
+        matningen, orange till D9.</li>
+      <li><strong>De tre jordsymbolerna är samma nolla.</strong> Ger du servot
+        egen matning ska batteriets minuspol till samma jord – annars har
+        kortet och servot ingen gemensam referens och servot rycker
+        slumpmässigt.</li>
+      <li><strong>Servots matning är det du ska tänka efter kring.</strong> En
+        lucka väger mer än bygge 1:s spak, så marginalen från kortets 5 V är
+        mindre här. Se
+        <a href="../omrade-2-styrenheten/guide-servot.html#genomgang">servoguiden</a>,
+        avsnittet om strömbehov.</li>
+    </ul>
+
+    <h2 id="passen">Bygget löper över två pass</h2>
+    <p>Bygge 2 har två pass avsatta, och de har olika uppgifter. Kom med ett
+      bygge som inte fungerar till det första – det är den dagen felsökningen
+      är billigast.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Så används de 85 minuterna</th><th>Ha med dig</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Lektion 16 · 10 dec</strong><br>arbetspass</td>
+            <td>15 min samrådsunderlag, 60 min bygge och felsökning parvis,
+              10 min avstämning inför sista passet.</td>
+            <td>Ifyllt samrådsunderlag, ritat schema, ifylld sanningstabell och
+              ritat tillståndsdiagram. Kitet och luckan.</td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 17 · 17 dec</strong><br>bygge klart</td>
+            <td>55 min färdigställande och kontroll mot kravlistan, 30 min
+              dokumentation och inlämning.</td>
+            <td>Ett bygge som gör det du sagt att det ska göra, och en
+              dokumentation som är påbörjad – inte tom.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Mellan passen ligger en vecka, och kitet är hemma hos dig. Det är den
+      veckan bygget blir klart. Passen är till för samråd och felsökning, inte
+      för att bygga från noll.</p>
+
+    <h2 id="parvis">Parvis, med egen dokumentation</h2>
+    <p><strong>Bygget görs i par</strong>, som bygge 1. Ni planerar, ritar och
+      felsöker tillsammans. <strong>F2</strong> handlar bland annat om att
+      samarbeta, och byggpassen är det enda ställe i kursen där samarbetet går
+      att observera.</p>
+    <p><strong>Dokumentationen skriver ni var för sig.</strong> Samma bygge, två
+      texter. <strong>F3</strong> och <strong>F4</strong> bedöms individuellt –
+      det är din förmåga att dokumentera och beskriva som mäts. Ni får dela
+      mätvärden, schema och tillståndsdiagram. Formuleringarna, motiveringarna
+      och exemplen ska vara dina.</p>
+    <p>En bra arbetsfördelning i det här bygget är att en av er skriver koden
+      för en gren i tillståndsmaskinen medan den andra läser den mot diagrammet,
+      och att ni sedan byter. Ett par där den ena kodar och den andra bygger
+      mekanik ger två halva belägg i stället för två hela.</p>
+
+    <h2 id="innan">Innan det första passet</h2>
+    <p>Fyll i <a href="../samradsunderlag.html">samrådsunderlaget</a>. De tre
+      frågorna – vad jag redan kan, vad jag behöver hjälp med, vad jag tror
+      situationen kräver – tar två minuter och är kursens
+      <strong>enda</strong> belägg för F5.</p>
+    <p>Svara också på de sju frågorna i
+      <a href="guide-industri-och-vardag.html#kravstall">kravställningen</a>
+      innan du kommer. Två av dem är särskilt lätta att skjuta upp och
+      särskilt dyra att skjuta upp: vilket <em>starttillstånd</em> systemet har
+      när kortet just startat, och vilka <em>två exempel</em> du ska beskriva
+      ditt system mot.</p>
+
+    <h2 id="steg">Arbetsgång</h2>
+    <ol>
+      <li><strong>Skriv en mening om vad systemet ska göra.</strong> "Luckan på
+        förvaringsfacket öppnas när båda knapparna trycks inom en halv sekund,
+        och stängs igen efter tre sekunder." Den meningen blir dokumentationens
+        första rubrik och avgör alla val efter den.</li>
+      <li><strong>Fyll i sanningstabellen.</strong> Alla 2² = 4 rader, med en
+        kolumn för vad utgången ska göra. Är någon rad omöjlig i praktiken –
+        skriv det i tabellen i stället för att stryka raden.</li>
+      <li><strong>Rita tillståndsdiagrammet.</strong> Rutorna, pilarna,
+        villkoren och starttillståndet. Gå igenom varje ruta och fråga vad som
+        händer vid varje insignalkombination.</li>
+      <li><strong>Rita kopplingsschemat.</strong> Ditt eget, inte en avritning
+        av figuren ovan. Beteckningar, pinnummer och den matning du faktiskt
+        tänker använda.</li>
+      <li><strong>Bygg elkretsen först, utan servot.</strong> Två knappar och
+        <code>Serial</code>. Kontrollera att du ser alla fyra kombinationerna
+        innan något rör sig. En lysdiod på en ledig pinne är en billig och
+        användbar tillfällig indikator.</li>
+      <li><strong>Skriv logiken utan servot.</strong> Låt seriemonitorn skriva
+        ut tillståndsbytena. Nu felsöker du regeln, och bara den.</li>
+      <li><strong>Koppla in servot och kör det ensamt.</strong>
+        <code>write()</code> med dina två vinklar, ingenting annat. Notera var
+        armen hamnar i vardera läget.</li>
+      <li><strong>Sätt ihop dem.</strong> Servot styrs nu av tillståndsmaskinen
+        och skrivs bara när ett tillstånd byts, inte varje varv.</li>
+      <li><strong>Bygg mekaniken.</strong> Luckan, gångjärnet och fästet.
+        Kontrollera för hand att luckan går fritt hela vägen mellan lägena innan
+        du låter koden köra dit.</li>
+      <li><strong>Mät.</strong> Se nästa avsnitt. Mätningen görs på det färdiga
+        bygget.</li>
+      <li><strong>Prova det som inte ska fungera.</strong> Tejpa fast en knapp.
+        Håll bara den ena. Tryck för långsamt. Dra ur och sätt i strömmen mitt i
+        en cykel. Anteckna vad som hände – de anteckningarna är
+        dokumentationens bästa avsnitt.</li>
+      <li><strong>Dokumentera.</strong> Var för sig, enligt mallen.</li>
+    </ol>
+
+    <h2 id="matningen">Mätningen</h2>
+    <p>Ett bedömt bygge ska innehålla minst ett mätvärde med enhet. Välj en av
+      de två nedan, eller gör båda om du siktar på C eller högre. Siffrorna i
+      tabellerna är exempel, inte facit.</p>
+
+    <h3>Alternativ A: ditt eget tidsfönster</h3>
+    <p>Det här är områdets egen mätning, och den går att göra utan multimeter.
+      Låt koden stämpla tiden i en egen <code>unsigned long forstaTrycket</code>
+      när den <em>första</em> knappen går ned, och skriva ut skillnaden mot
+      <code>nu</code> när den <em>andra</em> gör det:</p>
+    <pre><code class="sprak-cpp">Serial.print("Tid mellan knapparna: ");
+Serial.print(nu - forstaTrycket);
+Serial.println(" ms");</code></pre>
+    <p>Tryck tio gånger så snabbt du kan med båda händerna och anteckna varje
+      värde.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Försök</th><th>Uppmätt tid</th></tr></thead>
+        <tbody>
+          <tr><td>Snabbast av tio</td><td>34 ms</td></tr>
+          <tr><td>Långsammast av tio</td><td>187 ms</td></tr>
+          <tr><td>Med handskar på</td><td>260 ms</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Välj sedan ditt tidsfönster ur mätvärdena i stället för ur magkänslan.
+      Med 187 ms som värsta fall ger ett fönster på 500 ms en marginal på</p>
+    <p><code>500 − 187 = 313 ms, alltså 313 / 187 = 1,7 gånger värsta fallet</code></p>
+    <p>Skriv i dokumentationen vilket fönster du valde och vilken marginal
+      mätvärdena gav. Ett tal med en motivering är belägg. Ett tal utan är en
+      gissning.</p>
+
+    <h3>Alternativ B: servots ström när luckan lyfts</h3>
+    <p>Bryt servots röda sladd och koppla in multimetern i serie, som i
+      bygge 1. Mät i vila, under rörelse utan lucka, och under rörelse med
+      luckan monterad.</p>
+    <p class="notis varna"><span class="rubrik">Använd 10 A-uttaget</span>
+      Ett servo som lyfter en lucka kan dra över en halv ampere. Sitter sladden
+      i milliampere-uttaget bränner du säkringen i stället för att få ett
+      mätvärde. Byt uttag <em>och</em> vred innan du mäter.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Läge</th><th>Uppmätt ström</th><th>Kommentar</th></tr></thead>
+        <tbody>
+          <tr><td>Vila, luckan stilla</td><td>9 mA</td><td>bara elektroniken i servot</td></tr>
+          <tr><td>Rörelse utan lucka</td><td>195 mA</td><td>motorn arbetar obelastad</td></tr>
+          <tr><td>Rörelse med luckan på</td><td>430 mA</td><td>lastens verkliga pris</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Effekten i det sista läget, med 4,8 V uppmätt över servot:</p>
+    <p><code>P = U · I = 4,8 V · 0,430 A = 2,06 W</code></p>
+    <p>Jämför med bygge 1, där samma räkning gav 0,93 W. Luckan kostar alltså
+      ungefär dubbelt så mycket effekt som spaken gjorde:</p>
+    <p><code>2,06 / 0,93 = 2,2 gånger</code></p>
+    <p>Det är den siffran som avgör om servot klarar sig på kortets 5 V eller
+      behöver egen matning.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="krav">Kraven</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <p>Kryssen sparas i din egen webbläsare. De är en checklista för dig, inte
+        en inlämning.</p>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bygge2-krav-kravlista"><span><strong>Egna
+          krav, skrivna före bygget.</strong> Minst fyra meningar om vad systemet
+          ska göra, formulerade så att någon annan kan avgöra om bygget klarar
+          dem. Minst ett av kraven ska innehålla en tid eller ett annat tal med
+          enhet.</span></label></li>
+        <li><label><input type="checkbox" id="bygge2-krav-sanningstabell"><span><strong>Ifylld
+          sanningstabell för din regel.</strong> Alla 2ⁿ rader, i ordningen 00,
+          01, 10, 11, med en kolumn för vad utgången ska göra. Skriv ovanför
+          tabellen om 1 betyder nedtryckt eller uppsläppt.</span></label></li>
+        <li><label><input type="checkbox" id="bygge2-krav-schema"><span><strong>Eget
+          kopplingsschema, ritat innan du kopplade.</strong> Båda insignalerna,
+          servot, alla pinnummer och den matning du faktiskt använder. Ritningen
+          ska gå att bygga efter utan att du står bredvid.</span></label></li>
+        <li><label><input type="checkbox" id="bygge2-krav-koppling"><span><strong>Byggd
+          krets som stämmer med schemat.</strong> Två insignaler på var sin
+          digital pinne mot jord, servot inkopplat med gemensam GND. Skiljer sig
+          bygget från ritningen ska ritningen rättas, inte
+          glömmas.</span></label></li>
+        <li><label><input type="checkbox" id="bygge2-krav-logik"><span><strong>Regeln
+          i kod, med rätt operatorer.</strong> <code>&amp;&amp;</code>,
+          <code>||</code>, <code>!</code> eller <code>!=</code> – inte de
+          enkla tecknen <code>&amp;</code> och <code>|</code>. Koden ska gå att
+          läsa rad för rad mot sanningstabellen.</span></label></li>
+        <li><label><input type="checkbox" id="bygge2-krav-tillstand"><span><strong>Tillståndsdiagram
+          och en tillståndsvariabel.</strong> Ritningen med rutor, pilar och
+          villkor, och en kodkedja med en gren per ruta. Starttillståndet ska
+          vara utsatt på ritningen och vara det ofarliga
+          läget.</span></label></li>
+        <li><label><input type="checkbox" id="bygge2-krav-millis"><span><strong>Ingen
+          <code>delay()</code> i <code>loop()</code>.</strong> All tidsstyrning
+          med <code>millis()</code> och tidsstämplar av typen
+          <code>unsigned long</code>, skrivet som
+          <code>nu - forra &gt;= INTERVALL</code>. Knapparna ska läsas varje
+          varv.</span></label></li>
+        <li><label><input type="checkbox" id="bygge2-krav-mekanik"><span><strong>Lucka
+          som öppnas och stängs på riktigt.</strong> Gångjärn eller motsvarande,
+          servot skruvat i ett fäste som inte fjädrar, och luckan fri att röra
+          sig hela vägen mellan lägena. Rörelsen ska gå att peka på från andra
+          sidan rummet.</span></label></li>
+        <li><label><input type="checkbox" id="bygge2-krav-matning"><span><strong>En
+          mätning på det färdiga bygget.</strong> Tidsfönstret eller servots
+          ström, med enhet och med läget angivet. Mätt, inte hämtat ur ett
+          datablad.</span></label></li>
+        <li><label><input type="checkbox" id="bygge2-krav-beskrivning"><span><strong>Skriftlig
+          beskrivning med ett industriexempel och ett vardagsexempel.</strong>
+          Hur ditt system är uppbyggt, vilka fysikaliska principer som är
+          inblandade, och två verkliga system som löser en liknande uppgift –
+          ett ur industrin och ett ur vardagen. Det här kravet är hela belägget
+          för F4.</span></label></li>
+        <li><label><input type="checkbox" id="bygge2-krav-samrad"><span><strong>Ifyllt
+          samrådsunderlag.</strong> De tre frågorna besvarade <em>före</em>
+          handledningen på det första passet. Kursens enda belägg för
+          F5.</span></label></li>
+        <li><label><input type="checkbox" id="bygge2-krav-dokumentation"><span><strong>Egen
+          dokumentation enligt mallen.</strong> Skriven av dig, även om bygget
+          gjordes i par. Minst de fyra E-punkterna i
+          <a href="../dokumentationsmall.html">dokumentationsmallen</a>.</span></label></li>
+      </ul>
+      <p><button type="button" class="knapp tom" id="nollstall">Nollställ kryssen</button></p>
+    </section>
+
+    <h2 id="dokumentation">Dokumentationen</h2>
+    <p>Använd <a href="../dokumentationsmall.html">dokumentationsmallen</a>. De
+      fyra E-punkterna är golvet: vad systemet gör, kopplingsschemat, koden, och
+      vad som gick fel på vägen.</p>
+    <p class="notis"><span class="rubrik">Dokumentationen bär E/C-gränsen</span>
+      <strong>F3 skiljer E från C på ett enda ord: <em>enkel</em> mot
+      <em>noggrann</em>. F4 skiljer dem på ett annat: <em>översiktligt</em> mot
+      <em>utförligt</em>.</strong> Båda orden handlar om vad du skriver, inte om
+      vad du byggt. Ett utmärkt bygge med tunn text landar på E. Det motsatta
+      gäller inte – du kan inte skriva dig till en fungerande lucka. Men av de
+      två är det texten som oftast fattas.</p>
+
+    <h3>Beskrivningen som ger belägg för F4</h3>
+    <p>Det här är nytt sedan bygge 1 och det är den enskilt viktigaste
+      tillkomsten. F4 lyder att eleven beskriver systemuppbyggnad och
+      fysikaliska principer <strong>med exempel från både industri och
+      vardagsliv</strong>. Utan en sådan text finns inget belägg alls för
+      förmågan, hur bra bygget än fungerar. Skriv fyra stycken:</p>
+    <ol>
+      <li><strong>Systemets uppbyggnad.</strong> Följ signalvägen: från de två
+        insignalerna, genom regeln och tillståndsmaskinen, till servot och
+        luckan. Namnge de tre delarna mekanisk struktur, elektroteknik och
+        styrteknik och peka ut vad i ditt bygge som är vad.</li>
+      <li><strong>De fysikaliska principerna.</strong> Vad omvandlas var? El
+        blir vridmoment i servot, vridmomentet blir en kraft i änden av armen,
+        kraften flyttar luckan. Ta med minst en beräkning – armlängden och
+        kraften, eller effekten ur mätningen.</li>
+      <li><strong>Ett exempel ur industrin.</strong> En press med tvåhandsdon,
+        en rullport med fotocell, en förregling på en maskinhuv. Skriv vad som
+        är <em>likt</em> ditt bygge och vad som är <em>olikt</em> – det olika är
+        oftast det mest intressanta: dubblerade kanaler, mekaniska spärrar,
+        beräknade säkerhetsavstånd.</li>
+      <li><strong>Ett exempel ur vardagen.</strong> Mikrovågsugnens luckspärr,
+        tvättmaskinens luckelås, trapphusets två strömbrytare, bilens
+        startspärr. Det ska vara ett <em>annat slags</em> system än ditt
+        industriexempel, inte samma idé i andra kläder.</li>
+    </ol>
+    <p>Ett stycke till, om du siktar högre: skriv vad ditt bygge <em>inte</em>
+      är. Regeln ligger i mjukvara, kretsen är inte dubblerad, ingenting är
+      provat mot en standard. Att kunna säga var din modell slutar och den
+      riktiga konstruktionen börjar är precis vad "utförligt och nyanserat"
+      betyder.</p>
+
+    <h3>Tre punkter i mallen som passar särskilt bra här</h3>
+    <ul>
+      <li><strong>Motiverade komponentval</strong> är tidsfönstret och
+        vinklarna. Varför just 500 ms, och vad hade hänt vid 100 ms?</li>
+      <li><strong>Mätvärden med enhet</strong> är mätningen ovan, med läget
+        angivet. "187 ms som långsammaste av tio försök" säger något; "det gick
+        ganska fort" gör det inte.</li>
+      <li><strong>Vad som gick fel</strong> är inte en bekännelse utan ett krav.
+        Villkoret som aldrig blev sant, tillståndet som fastnade, luckan som
+        fastnade i gångjärnet – skriv symtomet, vad du trodde det var, och vad
+        det visade sig vara.</li>
+    </ul>
+
+    <h2 id="fastnar">Om det inte fungerar</h2>
+    <ul>
+      <li><strong>Villkoret blir aldrig sant.</strong> Kontrollera först att det
+        står två tecken och inte ett: <code>&amp;&amp;</code>, inte
+        <code>&amp;</code>. Det felet kompilerar utan varning och är det
+        vanligaste i hela området.</li>
+      <li><strong>Systemet står kvar i sitt första tillstånd.</strong>
+        Tillståndsvariabeln är deklarerad inuti <code>loop()</code> och
+        nollställs varje varv. Flytta den utanför funktionerna.</li>
+      <li><strong>Något som ska ta 500 ms sker omedelbart.</strong>
+        Tidsstämpeln är deklarerad inuti <code>loop()</code>, eller så har den
+        fel typ. Både stämpeln och den avlästa tiden ska vara
+        <code>unsigned long</code>.</li>
+      <li><strong>Knappen missas ibland.</strong> Ett <code>delay()</code>
+        ligger kvar någonstans i <code>loop()</code>, ofta i en avstudsning från
+        förra området. Sök efter ordet.</li>
+      <li><strong>Ett tryck räknas som flera.</strong> Kontaktstuds. Kräv att
+        det gått minst 20 ms sedan det förra godtagna trycket, med
+        tidsstämpelmönstret – inte med <code>delay(20)</code>.</li>
+      <li><strong>Bygget går att utlösa med en hand.</strong> Det låsta
+        tillståndet saknas. Efter en cykel ska ingenting hända förrän
+        <em>båda</em> insignalerna varit i viloläge samtidigt.</li>
+      <li><strong>Servot surrar hela tiden och blir varmt.</strong>
+        <code>write()</code> anropas varje varv, eller så står luckan mot ett
+        mekaniskt stopp. Skriv bara vid tillståndsbyte, och ändra vinkeln om
+        något är i vägen.</li>
+      <li><strong>Kortet startar om när luckan lyfts.</strong> Brownout. Servot
+        drar mer än kortets matning orkar. Ta bort luckan och prova igen –
+        försvinner felet var det aldrig i koden. Ge servot egen matning med
+        gemensam GND.</li>
+      <li><strong>Luckan öppnar sig vid varje strömglapp.</strong>
+        Starttillståndet är fel. Vid en omstart hamnar systemet i
+        utgångsvärdet, och det ska vara det stängda läget.</li>
+      <li><strong>Uppladdningen misslyckas.</strong> Sitter något på pinne 0
+        eller 1? Är rätt port vald? Koppla ur allt utom USB-sladden och ladda
+        upp en tom sketch för att avgöra om felet sitter i kortet eller i
+        bygget.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Med bygge 2 inlämnat är område 3 klart och höstterminen slut. Du har då
+      byggt två bedömda mekatroniska system, och det andra kan något det första
+      inte kunde: väga två signaler mot varandra, hålla reda på var i ett
+      förlopp det är, och göra flera saker samtidigt.</p>
+    <p>Nästa område byter ut ettorna och nollorna mot tal. En givare som svarar
+      med ett värde i stället för ett av eller på öppnar mätning, kalibrering
+      och datablad – och den första riktiga användningen för loopar och
+      arrayer.</p>
+    <p>Tillbaka till <a href="index.html">område 3</a> eller till
+      <a href="../index.html">kursens material</a>.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 3</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tid utan delay – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o3-tid-utan-delay">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Tid utan delay</strong> · område 3</span>
+  <a href="index.html">Område 3</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 3 · lektion 13</p>
+    <h1>Tid utan delay</h1>
+    <p class="inledning">I
+      <a href="../omrade-2-styrenheten/guide-digital-ingang.html#genomgang">guiden om
+      digital ingång</a> stod att
+      <code>delay(20)</code> inte var den slutgiltiga lösningen och att den
+      riktiga hör hemma här. Det här är den. Den handlar om ett enda uttryck –
+      <code>millis() - forra</code> – som är rätt av ett skäl de flesta
+      handledningar på nätet inte förklarar, och några av dem får fel.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan förklara vad <code>delay()</code> faktiskt stoppar, och känna
+        igen symtomen på ett bygge som blockerar sig självt.</li>
+      <li>Du kan skriva mönstret med tidsstämpel och intervall, och läsa
+        knappar i samma loop som något annat pågår.</li>
+      <li>Du kan räkna ut när <code>millis()</code> viker runt, och förklara
+        varför subtraktionen överlever det medan additionen inte gör det.</li>
+      <li>Du kan ersätta avstudsningen från förra området med en variant som
+        inte stoppar resten av bygget.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Vad delay() faktiskt gör</h3>
+    <p><code>delay(500)</code> ser ut som en paus. Det är det inte. Det är en
+      tom slinga: kortet står och kollar sin egen klocka om och om igen tills
+      500 millisekunder har gått, och gör ingenting annat under tiden. Ingen
+      <code>digitalRead()</code> körs. Ingen utgång ändras. Ingen rad i din
+      <code>loop()</code> nås.</p>
+    <p>Hur mycket är det som inte händer? Kortet går på 16 MHz, alltså 16
+      miljoner klockcykler i sekunden. Ett varv i en enkel <code>loop()</code>
+      som läser en pinne och sätter en utgång tar några mikrosekunder – räkna
+      med 5 µs. Under en enda <code>delay(500)</code> hade loopen alltså hunnit
+      varvas</p>
+    <p><code>500 ms / 5 µs = 0,5 s / 0,000005 s = 100 000 varv</code></p>
+    <p>Hundratusen tillfällen att läsa en knapp, kastade bort. Och det är just
+      knappen som drabbas: trycker du i ungefär en tiondels sekund, och koden
+      bara tittar en gång per halvsekund, är chansen att den ser trycket</p>
+    <p><code>100 ms / 500 ms = 0,2 = 20 %</code></p>
+    <p>Fyra tryck av fem försvinner. Det är inte ett kontaktfel, inte en trasig
+      knapp och inte kontaktstuds. Det är <code>delay()</code>.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 340 150" role="img" aria-labelledby="svg-blockering-titel"
+           style="width:100%;height:auto">
+        <title id="svg-blockering-titel">Två tidsaxlar över varandra. Den övre,
+          märkt delay, har täta streck som avbryts av ett brett skuggat fält
+          över mitten av axeln. En pil märkt tryck pekar ned mitt i det skuggade
+          fältet. Den nedre axeln, märkt millis, har lika täta streck hela vägen
+          utan avbrott, och samma pil märkt tryck pekar ned på ett av
+          strecken.</title>
+
+        <g stroke="currentColor" fill="none" stroke-linecap="round">
+          <g stroke-width="1.8">
+            <line x1="70" y1="45" x2="332" y2="45"/>
+            <line x1="70" y1="125" x2="332" y2="125"/>
+            <line x1="200" y1="20" x2="200" y2="38"/>
+            <path d="M 195 30 L 200 38 L 205 30"/>
+            <line x1="200" y1="100" x2="200" y2="118"/>
+            <path d="M 195 110 L 200 118 L 205 110"/>
+          </g>
+
+          <g stroke-width="1.4">
+            <line x1="70" y1="38" x2="70" y2="52"/>
+            <line x1="80" y1="38" x2="80" y2="52"/>
+            <line x1="90" y1="38" x2="90" y2="52"/>
+            <line x1="100" y1="38" x2="100" y2="52"/>
+            <line x1="110" y1="38" x2="110" y2="52"/>
+            <line x1="120" y1="38" x2="120" y2="52"/>
+            <line x1="130" y1="38" x2="130" y2="52"/>
+            <line x1="282" y1="38" x2="282" y2="52"/>
+            <line x1="292" y1="38" x2="292" y2="52"/>
+            <line x1="302" y1="38" x2="302" y2="52"/>
+            <line x1="312" y1="38" x2="312" y2="52"/>
+            <line x1="322" y1="38" x2="322" y2="52"/>
+            <line x1="332" y1="38" x2="332" y2="52"/>
+
+            <line x1="70" y1="118" x2="70" y2="132"/>
+            <line x1="80" y1="118" x2="80" y2="132"/>
+            <line x1="90" y1="118" x2="90" y2="132"/>
+            <line x1="100" y1="118" x2="100" y2="132"/>
+            <line x1="110" y1="118" x2="110" y2="132"/>
+            <line x1="120" y1="118" x2="120" y2="132"/>
+            <line x1="130" y1="118" x2="130" y2="132"/>
+            <line x1="140" y1="118" x2="140" y2="132"/>
+            <line x1="150" y1="118" x2="150" y2="132"/>
+            <line x1="160" y1="118" x2="160" y2="132"/>
+            <line x1="170" y1="118" x2="170" y2="132"/>
+            <line x1="180" y1="118" x2="180" y2="132"/>
+            <line x1="190" y1="118" x2="190" y2="132"/>
+            <line x1="200" y1="118" x2="200" y2="132"/>
+            <line x1="210" y1="118" x2="210" y2="132"/>
+            <line x1="220" y1="118" x2="220" y2="132"/>
+            <line x1="230" y1="118" x2="230" y2="132"/>
+            <line x1="240" y1="118" x2="240" y2="132"/>
+            <line x1="250" y1="118" x2="250" y2="132"/>
+            <line x1="260" y1="118" x2="260" y2="132"/>
+            <line x1="270" y1="118" x2="270" y2="132"/>
+            <line x1="282" y1="118" x2="282" y2="132"/>
+            <line x1="292" y1="118" x2="292" y2="132"/>
+            <line x1="302" y1="118" x2="302" y2="132"/>
+            <line x1="312" y1="118" x2="312" y2="132"/>
+            <line x1="322" y1="118" x2="322" y2="132"/>
+            <line x1="332" y1="118" x2="332" y2="132"/>
+          </g>
+        </g>
+
+        <rect x="136" y="36" width="140" height="18" rx="3"
+              fill="currentColor" fill-opacity="0.16"
+              stroke="currentColor" stroke-width="1.4"/>
+
+        <g fill="currentColor" font-size="15">
+          <text x="6" y="50">delay()</text>
+          <text x="6" y="130">millis()</text>
+        </g>
+        <g fill="currentColor" font-size="15" text-anchor="middle">
+          <text x="200" y="15">tryck</text>
+          <text x="200" y="95">tryck</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>Varje streck är ett loopvarv</strong>, alltså ett tillfälle då
+        koden hinner läsa knappen.</li>
+      <li><strong>Det skuggade fältet på den övre axeln</strong> är tiden inuti
+        <code>delay()</code>. Där finns inga streck, eftersom inga varv körs.</li>
+      <li><strong>Trycket i den övre axeln hamnar mitt i fältet</strong> och är
+        borta när kortet vaknar. Knappen var nere och uppe igen medan koden stod
+        stilla.</li>
+      <li><strong>Den nedre axeln har streck hela vägen.</strong> Loopen går
+        vidare, tiden mäts i stället för att väntas ut, och samma tryck hamnar
+        på ett varv som faktiskt körs.</li>
+    </ul>
+
+    <p class="notis"><span class="rubrik">Kortet är inte helt dött under delay()</span>
+      Avbrotten fortsätter gå i bakgrunden. Det är därför millisekundräknaren
+      tickar vidare även inuti en <code>delay()</code>, och det är därför tecken
+      som kommer in på serieporten oftast inte tappas bort – de samlas i en
+      mottagningsbuffert som rymmer 64 byte, och en tillräckligt lång
+      <code>delay()</code> hinner fylla den. Men <em>din</em> kod – allt
+      du skrivit i <code>loop()</code> – står stilla. Det är den skillnaden som
+      spelar roll i ett bygge.</p>
+
+    <h3>millis(): en räknare som aldrig stannar</h3>
+    <p><code>millis()</code> lämnar antalet millisekunder sedan kortet
+      startade. Den räknar av sig själv, i bakgrunden, oavsett vad din kod
+      håller på med. Anropet tar mikrosekunder och stoppar ingenting.</p>
+    <pre><code class="sprak-cpp">unsigned long nu = millis();
+Serial.println(nu);      // t.ex. 12480, alltså 12,48 sekunder sedan start</code></pre>
+    <p>Typen är <code>unsigned long</code> och ingenting annat. Det är fyra
+      byte, alltså 32 bitar, och den kan inte vara negativ. Både variabeln du
+      lägger värdet i och variabeln du sparar en tidpunkt i måste ha den typen –
+      hela resten av den här guiden vilar på det.</p>
+
+    <h3>Mönstret: en tidsstämpel och ett intervall</h3>
+    <p>Idén är att inte vänta utan att <em>komma ihåg när det senast hände</em>
+      och fråga varje varv om det gått tillräckligt länge sedan dess.</p>
+    <pre><code class="sprak-cpp">const int LAMPA_PIN = 8;
+const unsigned long INTERVALL = 500;   // ms mellan varje omslag
+
+unsigned long forra = 0;               // när det senast hände
+bool lampanLyser = false;
+
+void loop() {
+  unsigned long nu = millis();
+
+  if (nu - forra &gt;= INTERVALL) {
+    forra = nu;                        // stämpla om, direkt
+    lampanLyser = !lampanLyser;
+    digitalWrite(LAMPA_PIN, lampanLyser);
+  }
+
+  // Här nedanför får allt annat plats, och det körs varje varv.
+}</code></pre>
+    <p>Tre rader att lägga på minnet. <code>forra</code> står
+      <strong>utanför</strong> funktionerna, annars nollställs den varje varv
+      och intervallet löper aldrig ut. <code>forra = nu;</code> sker
+      <strong>först</strong> i blocket, så att nästa intervall räknas från rätt
+      punkt. Och villkoret är en <strong>subtraktion</strong>, inte en
+      addition – vilket är nästa avsnitt.</p>
+
+    <h3>Räknaren viker runt efter 49,7 dygn</h3>
+    <p>En <code>unsigned long</code> är 32 bitar. Med samma räkning som i den
+      första guiden i området rymmer den</p>
+    <p><code>2³² = 4 294 967 296 olika värden, alltså 0 … 4 294 967 295</code></p>
+    <p>Värdena är millisekunder. Räkna om till dygn:</p>
+    <p><code>4 294 967 296 ms / 1000 = 4 294 967,296 s</code></p>
+    <p><code>4 294 967,296 s / 60 = 71 582,79 min</code></p>
+    <p><code>71 582,79 min / 60 = 1 193,05 h</code></p>
+    <p><code>1 193,05 h / 24 = 49,71 dygn</code></p>
+    <p>Efter ungefär <strong>49 dygn och 17 timmar</strong> är räknaren full.
+      Nästa millisekund blir den inte 4 294 967 296 – det talet ryms inte – utan
+      <strong>0</strong>, och så börjar den om. Det kallas att den viker runt.</p>
+    <p>Ett bygge som står påslaget i en och en halv månad är ovanligt i en
+      skolsal och fullständigt normalt i en maskin. Och felet är inte att
+      räknaren viker runt. Felet är att den ena av de två varianterna nedan tål
+      det och den andra inte gör det.</p>
+
+    <h3>Varför subtraktionen är säker och additionen inte är det</h3>
+    <p>De två varianterna ser lika rimliga ut:</p>
+    <pre><code class="sprak-cpp">if (nu - forra &gt;= INTERVALL)      // säker
+if (nu &gt;= forra + INTERVALL)      // trasig</code></pre>
+    <p>Grunden till skillnaden är en regel i C++ som är lätt att missa:
+      <strong>räkning med heltal utan tecken viker runt med flit.</strong> Det är
+      inte ett fel, inte något odefinierat – språket lovar att varje resultat
+      räknas modulo 2³², alltså att det som blir för stort räknas om från
+      början. Subtraktionen som skulle bli negativ blir i stället ett stort
+      positivt tal. Och det talet är precis rätt.</p>
+    <p>Det syns bäst i en mindre räknare. Låt oss låtsas att räknaren bara är 8
+      bitar, alltså 2⁸ = 256 värden, 0 till 255. Sätt
+      <code>INTERVALL</code> till 20 och antag att sist det hände var vid 250 –
+      alltså strax innan varvet tar slut.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead>
+          <tr><th>Räknaren nu</th><th>Verklig tid sedan 250</th>
+            <th><code>nu − 250</code> modulo 256</th>
+            <th>Säker: <code>≥ 20</code></th>
+            <th>Trasig: <code>nu ≥ 250 + 20</code></th></tr>
+        </thead>
+        <tbody>
+          <tr><td>252</td><td>2</td><td>2</td><td>nej, rätt</td><td>252 ≥ 14 → ja, 18 steg för tidigt</td></tr>
+          <tr><td>254</td><td>4</td><td>4</td><td>nej, rätt</td><td>254 ≥ 14 → ja, för tidigt igen</td></tr>
+          <tr><td>0</td><td>6</td><td>6</td><td>nej, rätt</td><td>0 ≥ 14 → nej</td></tr>
+          <tr><td>14</td><td>20</td><td>20</td><td>ja, exakt rätt</td><td>14 ≥ 14 → ja</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Två rader i tabellen behöver läsas långsamt.</p>
+    <p><strong>Kolumnen med subtraktionen.</strong> När räknaren står på 14 har
+      den passerat 255 och börjat om. Räknat rakt av är <code>14 − 250</code>
+      lika med −236, ett negativt tal som inte finns i en
+      <code>unsigned</code>-typ. Modulo 256 blir det i stället</p>
+    <p><code>14 − 250 + 256 = 20</code></p>
+    <p>vilket är exakt den verkliga tiden: från 250 upp till 255 är fem steg,
+      över kanten till 0 är ett steg, och från 0 till 14 är fjorton. 5 + 1 + 14
+      = 20. <strong>Rundningen i räknaren och rundningen i subtraktionen tar ut
+      varandra.</strong> Det är hela hemligheten, och det gäller lika mycket för
+      2³² som för 256.</p>
+    <p><strong>Kolumnen med additionen.</strong> <code>250 + 20 = 270</code>,
+      som inte heller ryms. Modulo 256 blir det</p>
+    <p><code>270 − 256 = 14</code></p>
+    <p>Målvärdet har alltså vikt runt och blivit ett litet tal – men räknaren
+      har <em>inte</em> vikt runt än, den står fortfarande på 252. Och
+      jämförelsen <code>≥</code> viker inte runt: den ställer två tal mot
+      varandra rakt av. 252 är större än 14, så villkoret slår till direkt, 18
+      steg för tidigt. Sedan stämplas <code>forra</code> om till 252, nytt mål
+      blir 272 modulo 256 = 16, och 253 är större än det också. Villkoret är
+      sant <em>varje varv</em> ända tills räknaren vikt runt.</p>
+    <p>Översatt till kortet: den trasiga varianten fungerar felfritt i 49 dygn
+      och 17 timmar, spårar sedan ur i ungefär en halv sekund – ett blink som
+      går i loopens hastighet i stället för i halvsekunder – och fungerar
+      därefter felfritt i 49 dygn till. Det är därför felet överlever i så
+      många färdiga projekt: nästan ingen har sitt bygge påslaget så länge, och
+      den som har det tror att det var ett strömglapp.</p>
+    <p class="notis viktig"><span class="rubrik">Regeln, i en mening</span>
+      <strong>Flytta aldrig över intervallet till andra sidan
+      jämförelsen.</strong> Skriv <code>nu - forra &gt;= INTERVALL</code> och
+      låt både <code>nu</code> och <code>forra</code> vara
+      <code>unsigned long</code>. Då är differensen alltid den verkliga
+      tidsskillnaden, oavsett var i sitt varv räknaren råkar befinna sig.</p>
+
+    <h3>Blinka och läsa knapp samtidigt</h3>
+    <p>Här är hela poängen med området, i en sketch. Lampan blinkar i sin egen
+      takt. Knappen läses varje varv, räknas med flankdetektering, och avstudsas
+      med tid i stället för med <code>delay()</code>.</p>
+    <pre><code class="sprak-cpp">const int KNAPP_PIN = 2;
+const int LAMPA_PIN = 8;
+
+const unsigned long BLINKINTERVALL = 500;   // ms mellan omslagen
+const unsigned long STUDSTID       = 20;    // ms som studsen får hålla på
+
+unsigned long forraBlinket = 0;
+unsigned long forraTrycket = 0;
+
+bool lampanLyser = false;
+int  forraLaget  = HIGH;
+int  antalTryck  = 0;
+
+void setup() {
+  pinMode(KNAPP_PIN, INPUT_PULLUP);
+  pinMode(LAMPA_PIN, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  unsigned long nu = millis();
+
+  // 1. Blinket sköter sig självt och stoppar ingenting.
+  if (nu - forraBlinket &gt;= BLINKINTERVALL) {
+    forraBlinket = nu;
+    lampanLyser = !lampanLyser;
+    digitalWrite(LAMPA_PIN, lampanLyser);
+  }
+
+  // 2. Knappen läses varje varv, alltså tusentals gånger i sekunden.
+  int laget = digitalRead(KNAPP_PIN);      // LOW betyder nedtryckt
+  if (forraLaget == HIGH &amp;&amp; laget == LOW
+      &amp;&amp; nu - forraTrycket &gt;= STUDSTID) {
+    forraTrycket = nu;
+    antalTryck = antalTryck + 1;
+    Serial.println(antalTryck);
+  }
+  forraLaget = laget;
+}</code></pre>
+    <p>Jämför med <a href="../omrade-2-styrenheten/guide-digital-ingang.html#genomgang">avstudsningen
+      i förra området</a>. Där stod
+      <code>delay(20)</code> mitt i flankdetekteringen och stoppade allt i tjugo
+      millisekunder. Här är samma tjugo millisekunder ett <em>villkor</em>: ett
+      nytt tryck godtas inte förrän det gått minst så länge sedan det förra.
+      Studsarna sållas bort på samma sätt, men ingenting står stilla under
+      tiden, och blinket märker inte att en knapp trycktes.</p>
+
+    <h3>När delay() ändå duger</h3>
+    <p>Det här är inte ett förbud. <code>delay()</code> är rätt verktyg när
+      ingenting annat behöver hända:</p>
+    <ul>
+      <li>I <code>setup()</code>, när något ska hinna starta innan resten
+        börjar.</li>
+      <li>I ett litet testprogram som bara ska visa att en komponent lever.</li>
+      <li>När pausen är kortare än en millisekund och mätbart oviktig.</li>
+    </ul>
+    <p>Regeln är enkel: så fort <code>loop()</code> har mer än en sak att göra
+      hör <code>delay()</code> inte hemma där. I bygge 2 har <code>loop()</code>
+      minst tre saker att göra, och kravlistan säger därför rakt ut att den ska
+      vara fri från <code>delay()</code>.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <p><strong>I industrin:</strong> en PLC arbetar i en fast rundgång som
+      heter <strong>cykel</strong> eller scan. Den läser <em>alla</em> ingångar
+      till ett minne, kör igenom hela programmet en gång, skriver
+      <em>alla</em> utgångar, och börjar om. En typisk cykeltid ligger runt
+      5 ms, alltså</p>
+    <p><code>1 s / 5 ms = 1 / 0,005 = 200 cykler i sekunden</code></p>
+    <p>I det arbetssättet finns inget <code>delay()</code> att skriva. Vill man
+      att en ventil ska stå öppen i tre sekunder startar man en
+      <em>timer</em> och låter cykeln fortsätta – exakt samma idé som
+      tidsstämpeln ovan, med samma skäl. En blockerande väntan hade fryst alla
+      maskinens andra utgångar samtidigt, inklusive dem som håller något
+      säkert. Styrenheten har dessutom en <strong>watchdog</strong> som
+      övervakar cykeltiden: tar en cykel längre än den inställda gränsen antar
+      den att programmet hängt sig och går till ett säkert läge. En blockerande
+      väntan skulle alltså inte bara vara olämplig – den skulle fälla
+      maskinen.</p>
+
+    <p><strong>I vardagen:</strong> blinkersen i en bil ska enligt reglerna
+      blinka omkring <strong>90 gånger i minuten</strong>. Det ger en
+      blinkcykel på</p>
+    <p><code>60 s / 90 = 0,67 s per cykel, alltså cirka 333 ms tänd och 333 ms släckt</code></p>
+    <p>Under de 333 millisekunderna fortsätter bilen att göra allt annat: läsa
+      bromspedalen, tända bromsljuset, läsa den andra blinkersspaken, hålla
+      igång instrumenten. Styrenheten som sköter karossfunktionerna använder
+      samma sorts tidsstämpel som du just skrivit – den kommer ihåg när lampan
+      senast slog om och jämför mot nu. Hade den i stället väntat ut tiden hade
+      bromsljuset släpat en tredjedels sekund efter foten, varje gång blinkersen
+      var på. Det är samma fel som ditt bygge gör när knappen missas, med den
+      skillnaden att ingen skriver om ditt bygge i en olycksrapport.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li>Skriv ett program som skriver ut <code>millis()</code> en gång i
+        sekunden med tidsstämpelmönstret. Kontrollera i seriemonitorn att
+        talen ökar med ungefär 1 000 varje rad.</li>
+      <li>Bygg det blockerande felet med flit: en lampa som blinkar med
+        <code>delay(500)</code> och en knapp som ska räknas. Tryck tio korta
+        tryck och se hur många som räknas. Anteckna siffran.</li>
+      <li>Skriv om samma bygge med <code>millis()</code> enligt exemplet ovan.
+        Tryck tio korta tryck igen. Jämför med din anteckning.</li>
+      <li>Lägg till en <strong>andra</strong> lampa som blinkar med ett annat
+        intervall, till exempel 130 ms. Den behöver en egen
+        <code>unsigned long</code> för sin tidsstämpel. Två blink och en knapp,
+        i samma loop, utan att något stör något annat.</li>
+      <li>Byt typen på en av tidsstämplarna från <code>unsigned long</code> till
+        <code>int</code> och låt bygget gå i en dryg halvminut. Vid 32 767 ms
+        tar en <code>int</code> slut – notera vad som händer, och byt sedan
+        tillbaka.</li>
+      <li>Skriv om villkoret till den trasiga formen
+        <code>nu &gt;= forra + INTERVALL</code>. Bygget fungerar. Skriv en
+        mening om varför du ändå inte kan upptäcka felet genom att prova, och
+        hur länge du hade behövt låta kortet stå på.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Efter hur lång tid viker <code>millis()</code> runt, och vad
+        händer då?</summary>
+      <p>Efter 2³² millisekunder, alltså 4 294 967 296 ms. Det blir
+        4 294 967,296 s, som är 71 582,79 min, som är 1 193,05 h, som är
+        49,71 dygn – ungefär 49 dygn och 17 timmar. Då börjar räknaren om på 0.
+        Skriver du <code>nu - forra &gt;= INTERVALL</code> märks det inte alls,
+        eftersom subtraktionen ger rätt svar även över kanten.</p>
+    </details>
+
+    <details>
+      <summary>Varför fungerar <code>nu - forra</code> när <code>nu</code> är
+        mindre än <code>forra</code>?</summary>
+      <p>Därför att räkning med heltal utan tecken är definierad modulo 2³² i
+        C++. Ett resultat som skulle blivit negativt räknas om från toppen och
+        blir ett stort positivt tal – och just det talet är den verkliga
+        tidsskillnaden, eftersom räknaren själv har gjort samma hopp åt andra
+        hållet. De två rundningarna tar ut varandra.</p>
+    </details>
+
+    <details>
+      <summary>Vad är egentligen fel med
+        <code>if (nu &gt;= forra + INTERVALL)</code>?</summary>
+      <p>Summan <code>forra + INTERVALL</code> viker runt och blir ett litet
+        tal, medan <code>nu</code> ännu inte vikt runt och alltså är ett mycket
+        stort tal. Jämförelsen <code>&gt;=</code> jobbar inte modulo någonting –
+        den ställer talen mot varandra rakt av – så villkoret blir sant direkt
+        och sedan sant varje varv, ända tills räknaren också vikt runt.
+        Följden är ungefär en halv sekunds galenskap vart femtionde dygn.</p>
+    </details>
+
+    <details>
+      <summary>Du har deklarerat <code>int forra = 0;</code> i stället för
+        <code>unsigned long</code>. När märks det?</summary>
+      <p>Efter drygt en halv minut. En <code>int</code> på ett Uno-kort tar
+        slut vid 32 767, och 32 767 ms är 32,8 sekunder. Efter det innehåller
+        <code>forra</code> ett stympat och ofta negativt värde, och
+        differensen blir ett meningslöst tal. Symtomet är ett bygge som
+        fungerar under provkörningen på lektionen och inte gör det hemma, där
+        det får stå på längre.</p>
+    </details>
+
+    <details>
+      <summary>Räknar <code>millis()</code> vidare inuti en
+        <code>delay()</code>?</summary>
+      <p>Ja. Räknaren drivs av ett avbrott som går oavsett vad din kod gör, så
+        tiden är korrekt när du kommer ut ur pausen. Det som står stilla är din
+        <code>loop()</code> – ingen pinne läses, ingen utgång ändras. Det är
+        därför problemet inte är tidmätningen utan allt <em>annat</em> som inte
+        blir gjort.</p>
+    </details>
+
+    <details>
+      <summary>Varför ska <code>forra = nu;</code> stå först i blocket och inte
+        sist?</summary>
+      <p>Det spelar sällan roll i praktiken, men det är lättare att läsa och
+        omöjligt att glömma. Står omstämplingen efter en lång rad kod är risken
+        att en tidig <code>return</code> eller ett nytt villkor hoppar över den,
+        och då blir intervallet aldrig klart – villkoret är i stället sant varje
+        varv, för alltid.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Tidsstämpeln deklareras inuti <code>loop()</code>.</strong>
+        Den sätts till 0 varje varv, differensen blir alltid dagens
+        <code>millis()</code>, och villkoret slår till varje varv. Symtomet är
+        en lampa som ser konstant tänd ut fast koden säger 500 ms.</li>
+      <li><strong>Fel typ på tidsstämpeln.</strong> <code>int</code> tar slut
+        efter 32,8 sekunder, <code>long</code> kan bli negativ. Det ska stå
+        <code>unsigned long</code> på både stämpeln och den avlästa tiden.</li>
+      <li><strong>Intervallet flyttas till högersidan.</strong>
+        <code>nu &gt;= forra + INTERVALL</code> fungerar i alla tester du hinner
+        göra och går sönder efter 49,7 dygn. Ett fel du inte kan prova dig fram
+        till måste läsas fram.</li>
+      <li><strong><code>delay()</code> ligger kvar någonstans i
+        <code>loop()</code>.</strong> Ofta i avstudsningen från förra området,
+        eller i en <code>Serial.println()</code>-felsökning som aldrig togs
+        bort. Sök efter ordet innan du felsöker vidare.</li>
+      <li><strong>Två saker delar på en tidsstämpel.</strong> Blinket och
+        avstudsningen skriver till samma <code>forra</code>, och båda beter sig
+        oförutsägbart. Varje sak som har sin egen takt behöver sin egen
+        variabel.</li>
+      <li><strong>Servot skrivs varje varv i stället för vid ändring.</strong>
+        Nu när loopen går tusentals varv i sekunden anropas
+        <code>write()</code> lika ofta. Det fungerar, men servot surrar och drar
+        ström i onödan. Skriv bara när värdet faktiskt bytt.</li>
+      <li><strong>Omstämplingen glöms helt.</strong> Utan
+        <code>forra = nu;</code> är villkoret sant från första gången och sedan
+        för alltid.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Kapitlet <a href="../sprakreferens.html#tid">Tid och millis()</a> i
+      språkreferensen är den här guidens uppslagsdel, med mönstret, typerna och
+      rundningen samlade på ett ställe.
+      <a href="../sprakreferens.html#typer">Typer och variabler</a> förklarar
+      varför en <code>int</code> tar slut vid 32 767 och en
+      <code>unsigned long</code> vid drygt fyra miljarder.</p>
+    <p>Nästa guide är <a href="guide-tillstand.html">Tillstånd</a>. Nu när
+      bygget kan mäta tid utan att stanna behöver det också minnas var i ett
+      förlopp det befinner sig – annars vet det inte vad tiden som gått
+      betyder.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 3</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>
