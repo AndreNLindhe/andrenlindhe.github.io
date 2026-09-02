@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Motståndsgivare – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o4-motstandsgivare">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Motståndsgivare</strong> · område 4</span>
+  <a href="index.html">Område 4</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 4 · lektion 19</p>
+    <h1>Motståndsgivare</h1>
+    <p class="inledning">De enklaste givarna som finns gör en enda sak: de ändrar
+      sitt motstånd när omvärlden ändrar sig. En LDR gör det när ljuset ändras,
+      en NTC när temperaturen gör det. De har inga anslutningar för matning, inget
+      protokoll och inget datablad du måste förstå för att komma igång. Priset är
+      att de inte lämnar någonting kortet kan läsa förrän du satt dem i
+      spänningsdelaren från förra guiden.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan förklara åt vilket håll en LDR och en NTC ändrar sitt motstånd,
+        och mäta upp din egen givares ytterlägen med multimetern.</li>
+      <li>Du kan koppla en motståndsgivare som spänningsdelare åt båda hållen,
+        och välja hållet efter vilket håll du vill att råvärdet ska gå.</li>
+      <li>Du kan välja det fasta motståndet så att givaren utnyttjar en så stor
+        del av de 1024 stegen som möjligt.</li>
+      <li>Du kan säga varför NTC:ns kurva inte är en rät linje, och varför det
+        inte hindrar dig från att mäta med den.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>LDR: motståndet faller när ljuset stiger</h3>
+    <p>En <strong>LDR</strong> – <em>light dependent resistor</em>, ljusberoende
+      motstånd – är en platta av ett halvledande material med två anslutningar.
+      Ljus som träffar plattan slår loss laddningsbärare i materialet, och fler
+      laddningsbärare betyder att strömmen går lättare fram. <strong>Mer ljus ger
+      lägre resistans.</strong></p>
+    <p class="notis viktig"><span class="rubrik">Siffrorna varierar enormt mellan exemplar</span>
+      En LDR i mörker ligger någonstans mellan ett par hundra kΩ och långt över
+      en MΩ. I ett upplyst rum ligger den i storleksordningen några kΩ, och i
+      direkt solljus kan den gå ned mot ett par hundra Ω. Det här är
+      <strong>riktvärden och ingenting annat</strong>. Två LDR:er ur samma påse
+      kan skilja sig med en faktor två, och två olika typnummer med mycket mer.
+      Skriv aldrig in ett tal ur den här guiden i din kod. Mät din egen givare –
+      det tar en minut och det är ändå det första steget i kalibreringen.</p>
+
+    <h3>NTC: motståndet faller när temperaturen stiger</h3>
+    <p>En <strong>NTC</strong> – <em>negativ temperaturkoefficient</em> – är en
+      termistor vars resistans sjunker när den blir varmare. Mekanismen liknar
+      LDR:ns: värme är rörelse, rörelsen frigör laddningsbärare i halvledaren,
+      och fler laddningsbärare ger lägre resistans. Skillnaden mot ett vanligt
+      metallmotstånd är riktningen. I en metall stiger resistansen med
+      temperaturen; i en halvledare faller den, och den faller mycket mer.</p>
+    <p>Termistorer märks med sin resistans vid 25 °C. Den vanligaste i skolkit är
+      <strong>10 kΩ vid 25 °C</strong>. Här är en tabell för en sådan, räknad ur
+      ett datablad för en typ med B-värde omkring 3950. Din egen kan skilja sig
+      med några procent – tabellen är till för att visa formen, inte för att
+      skrivas av.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Temperatur</th><th>Resistans</th><th>Ändring per föregående 10 °C</th></tr></thead>
+        <tbody>
+          <tr><td>0 °C</td><td>33,6 kΩ</td><td>–</td></tr>
+          <tr><td>10 °C</td><td>20,2 kΩ</td><td>−13,4 kΩ</td></tr>
+          <tr><td>20 °C</td><td>12,5 kΩ</td><td>−7,7 kΩ</td></tr>
+          <tr><td>25 °C</td><td>10,0 kΩ</td><td>–</td></tr>
+          <tr><td>30 °C</td><td>8,04 kΩ</td><td>−4,5 kΩ</td></tr>
+          <tr><td>40 °C</td><td>5,30 kΩ</td><td>−2,7 kΩ</td></tr>
+          <tr><td>50 °C</td><td>3,59 kΩ</td><td>−1,7 kΩ</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Titta i den sista kolumnen. Tio grader kostar</p>
+    <p><code>12,5 − 8,04 = 4,5 kΩ mellan 20 och 30 °C</code></p>
+    <p>men bara</p>
+    <p><code>5,30 − 3,59 = 1,71 kΩ mellan 40 och 50 °C</code></p>
+    <p>alltså</p>
+    <p><code>4,5 / 1,71 = 2,6 gånger mindre</code></p>
+    <p>för samma tio grader. <strong>Det är vad det betyder att kurvan inte är en
+      rät linje.</strong> En rät linje hade gett samma ändring överallt. Orsaken
+      är att antalet laddningsbärare i en halvledare växer ungefär exponentiellt
+      med temperaturen, inte proportionellt mot den.</p>
+    <p>Den fullständiga beskrivningen av en termistor heter Steinhart–Harts
+      ekvation och ligger utanför den här kursen. Du behöver den inte. Två
+      hanterbara vägar finns i stället, och båda används på riktigt:</p>
+    <ul>
+      <li><strong>Kalibrera i två punkter</strong> inom det område du faktiskt
+        ska mäta i. En rät linje mellan två punkter som ligger nära varandra är
+        en mycket god beskrivning av en kurva emellan dem. Det är nästa guides
+        ämne.</li>
+      <li><strong>Använd databladets tabell</strong> och slå upp. Ett program kan
+        göra det med en array och en loop, vilket också hör till nästa guide.</li>
+    </ul>
+
+    <h3>Att koppla givaren som spänningsdelare</h3>
+    <p>Givaren är hälften av delaren; den andra hälften är ett fast motstånd du
+      väljer. Vilken av de två halvorna som sitter överst avgör åt vilket håll
+      råvärdet går.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 340 250" role="img" aria-labelledby="svg-givardelare-titel"
+           style="width:100%;height:auto">
+        <title id="svg-givardelare-titel">Två kopplingsscheman bredvid varandra,
+          märkta A och B. I båda går en lodrät ledning från en anslutning märkt
+          5 V, genom två stående motstånd, ned till en jordsymbol, med en
+          avgrening till en anslutning märkt A0 mellan motstånden. I schema A
+          sitter det fasta motståndet Rf överst och givaren Rg, som är ritad med
+          en diagonal pil genom sig, underst. I schema B är de två
+          omkastade.</title>
+
+        <g stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round">
+          <line x1="70" y1="42" x2="70" y2="64"/>
+          <rect x="56" y="64" width="28" height="48" rx="3"/>
+          <line x1="70" y1="112" x2="70" y2="156"/>
+          <rect x="56" y="156" width="28" height="48" rx="3"/>
+          <line x1="70" y1="204" x2="70" y2="222"/>
+          <line x1="70" y1="134" x2="112" y2="134"/>
+          <line x1="52" y1="222" x2="88" y2="222" stroke-width="2.4"/>
+          <line x1="59" y1="229" x2="81" y2="229" stroke-width="2.4"/>
+          <line x1="66" y1="236" x2="74" y2="236" stroke-width="2.4"/>
+          <line x1="46" y1="212" x2="92" y2="150"/>
+          <path d="M 82 150 L 92 150 L 92 160"/>
+
+          <line x1="240" y1="42" x2="240" y2="64"/>
+          <rect x="226" y="64" width="28" height="48" rx="3"/>
+          <line x1="240" y1="112" x2="240" y2="156"/>
+          <rect x="226" y="156" width="28" height="48" rx="3"/>
+          <line x1="240" y1="204" x2="240" y2="222"/>
+          <line x1="240" y1="134" x2="282" y2="134"/>
+          <line x1="222" y1="222" x2="258" y2="222" stroke-width="2.4"/>
+          <line x1="229" y1="229" x2="251" y2="229" stroke-width="2.4"/>
+          <line x1="236" y1="236" x2="244" y2="236" stroke-width="2.4"/>
+          <line x1="216" y1="120" x2="262" y2="58"/>
+          <path d="M 252 58 L 262 58 L 262 68"/>
+        </g>
+
+        <circle cx="70" cy="134" r="3.4" fill="currentColor"/>
+        <circle cx="240" cy="134" r="3.4" fill="currentColor"/>
+
+        <g fill="currentColor" font-size="16">
+          <text x="70" y="18" text-anchor="middle">A</text>
+          <text x="240" y="18" text-anchor="middle">B</text>
+          <text x="70" y="36" text-anchor="middle">5 V</text>
+          <text x="240" y="36" text-anchor="middle">5 V</text>
+          <text x="44" y="94" text-anchor="end">Rf</text>
+          <text x="44" y="186" text-anchor="end">Rg</text>
+          <text x="214" y="94" text-anchor="end">Rg</text>
+          <text x="214" y="186" text-anchor="end">Rf</text>
+          <text x="118" y="139">A0</text>
+          <text x="288" y="139">A0</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>Rf</strong> är det fasta motståndet du väljer.
+        <strong>Rg</strong> är givaren, ritad med en pil tvärs igenom för att
+        visa att den ändrar sig. Det är standardsymbolen för ett variabelt
+        motstånd.</li>
+      <li><strong>I schema A</strong> mäter A0 spänningen över givaren:
+        <code>Uut = 5 · Rg / (Rf + Rg)</code>. Faller Rg – mer ljus, högre
+        temperatur – faller Uut, och <strong>råvärdet sjunker</strong>.</li>
+      <li><strong>I schema B</strong> mäter A0 i stället spänningen över det
+        fasta motståndet: <code>Uut = 5 · Rf / (Rg + Rf)</code>. Faller Rg
+        stiger Uut, och <strong>råvärdet ökar</strong>.</li>
+      <li><strong>Båda är rätt.</strong> Ingen av dem mäter bättre än den andra.
+        Välj den som gör att talet går åt det håll du tycker är naturligt att
+        läsa – mer ljus, större tal – så slipper du en vändning i koden som du
+        senare glömmer bort.</li>
+    </ul>
+
+    <h3>Att välja det fasta motståndet</h3>
+    <p>Här finns ett riktigt val att göra, och det finns ett rätt svar. Anta att
+      du mätt din LDR med multimetern och fått</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Läge</th><th>Uppmätt resistans</th></tr></thead>
+        <tbody>
+          <tr><td>Skrivbordslampan rakt på</td><td>1,2 kΩ</td></tr>
+          <tr><td>Handen över givaren</td><td>90 kΩ</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Tumregeln är att välja det fasta motståndet som
+      <strong>geometriska medelvärdet</strong> av givarens två ytterlägen,
+      alltså roten ur produkten:</p>
+    <p><code>Rf = √(1 200 · 90 000) = √108 000 000 = 10 392 Ω ≈ 10 kΩ</code></p>
+    <p>Varför just det? Räkna igenom tre val i schema A och jämför hur stor del
+      av skalan givaren hinner utnyttja. Med <code>Rf = 10 kΩ</code>:</p>
+    <p><code>ljust: Uut = 5 · 1 200 / 11 200 = 0,54 V → rå = 0,54 · 1023 / 5 = 110</code></p>
+    <p><code>mörkt: Uut = 5 · 90 000 / 100 000 = 4,50 V → rå = 4,50 · 1023 / 5 = 921</code></p>
+    <p><code>spann = 921 − 110 = 811 steg av 1023, alltså 79 %</code></p>
+    <p>Med ett för litet fast motstånd, <code>Rf = 1 kΩ</code>:</p>
+    <p><code>ljust: 5 · 1 200 / 2 200 = 2,73 V → rå = 558</code></p>
+    <p><code>mörkt: 5 · 90 000 / 91 000 = 4,95 V → rå = 1 012</code></p>
+    <p><code>spann = 1 012 − 558 = 454 steg, alltså 44 %</code></p>
+    <p>Med ett för stort, <code>Rf = 100 kΩ</code>:</p>
+    <p><code>ljust: 5 · 1 200 / 101 200 = 0,059 V → rå = 12</code></p>
+    <p><code>mörkt: 5 · 90 000 / 190 000 = 2,37 V → rå = 485</code></p>
+    <p><code>spann = 485 − 12 = 473 steg, alltså 46 %</code></p>
+    <p>Det geometriska medelvärdet ger nästan dubbelt så stort spann som de båda
+      andra. Ett större spann betyder att varje grad, eller varje steg i ljus,
+      motsvarar fler råvärdessteg – alltså finare upplösning i den storhet du
+      faktiskt bryr dig om. Att just roten ur produkten är det bästa valet går
+      att visa med derivering; de tre räknade fallen ovan räcker som skäl att
+      lita på regeln.</p>
+    <p class="notis"><span class="rubrik">Marginalen på 10 kΩ igen</span>
+      Kontrollera också att valet inte gör källan för trög för omvandlaren, som
+      i <a href="guide-analogt-och-digitalt.html#genomgang">förra guiden</a>. I
+      det mörka läget är Rf och Rg parallellt <code>10 000 · 90 000 / 100 000 =
+      9 000 Ω</code>, alltså precis på databladets rekommenderade gräns. Det går
+      bra, men gå inte högre. Ett par tiondels sekunders väntan mellan
+      avläsningarna hjälper också, och den har du gratis om du ändå läser fyra
+      gånger i sekunden.</p>
+
+    <h3>Mäta och tolka råvärdet</h3>
+    <p>Ordningen som gör att du slipper felsöka i blindo:</p>
+    <ol>
+      <li><strong>Mät givaren ensam med multimetern</strong>, i minst två lägen,
+        innan den sitter i en krets. Skriv ned båda talen med enhet. Det är
+        givarens datablad, framtaget av dig, och det är giltigt för just din
+        givare.</li>
+      <li><strong>Välj Rf</strong> ur de två talen och räkna ut det väntade
+        råvärdet i båda lägena, som ovan.</li>
+      <li><strong>Bygg kretsen och läs råvärdet</strong> i samma två lägen.
+        Jämför med det du räknade fram.</li>
+      <li><strong>Tolka avvikelsen.</strong> Några tiotal steg fel är normalt –
+        motståndets tolerans är kanske 1 %, givarens mycket mer, och matningen
+        är inte 5,000 V. Hundratals steg fel, eller ett råvärde som står stilla,
+        är däremot ett kopplingsfel.</li>
+    </ol>
+    <p>Ett litet program som räcker för hela det här steget:</p>
+    <pre><code class="sprak-cpp">const int GIVARE_PIN = A0;
+const unsigned long UTSKRIFTSINTERVALL = 250;   // ms mellan raderna
+
+unsigned long forraUtskriften = 0;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  unsigned long nu = millis();
+
+  if (nu - forraUtskriften &gt;= UTSKRIFTSINTERVALL) {
+    forraUtskriften = nu;
+
+    int ravarde = analogRead(GIVARE_PIN);
+    float spanning = ravarde * 5.0 / 1023.0;
+
+    Serial.print(ravarde);
+    Serial.print("  ");
+    Serial.print(spanning, 2);        // tva decimaler racker
+    Serial.println(" V");
+  }
+}</code></pre>
+    <p>Två detaljer är värda att stanna vid. <code>5.0</code> och
+      <code>1023.0</code> skrivs med decimalpunkt, annars räknar C++ hela
+      uttrycket i heltal och du får 2 där du väntade 2,50 – samma fälla som
+      kommer tillbaka med full kraft i nästa guide. Och utskriften sker fyra
+      gånger i sekunden med tidsstämpelmönstret, inte varje varv: en rad per
+      loopvarv skulle vara tusentals rader i sekunden, och serieporten hinner
+      inte med.</p>
+    <p class="notis"><span class="rubrik">Givaren mäter sig själv, inte världen</span>
+      En NTC visar sin egen temperatur, inte rummets. Sitter den intryckt mot
+      ditt finger mäter den fingret. Går det ström genom den värmer den upp sig
+      själv – med 10 kΩ över 5 V blir strömmen genom delaren ungefär 0,25 mA och
+      effekten i givaren under en milliwatt, vilket är försumbart, men med
+      hundra gånger mindre motstånd hade det inte varit det. Samma sak gäller
+      LDR:n: den mäter ljuset som träffar just den, inklusive
+      skrivbordslampans reflex i ditt kopplingsdäck.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <p><strong>I industrin:</strong> temperaturen i en processanläggning mäts
+      nästan alltid med ett <strong>Pt100</strong> – en tunn platinatråd med
+      resistansen 100,00 Ω vid 0 °C. Platina är en metall, så resistansen
+      <em>stiger</em> med temperaturen, tvärtemot din NTC, och den gör det
+      nästan rakt: vid 100 °C är motståndet 138,51 Ω, alltså i medeltal</p>
+    <p><code>(138,51 − 100) / 100 = 0,385 Ω per grad</code></p>
+    <p>Jämför känsligheten relativt givarens eget värde. Pt100:</p>
+    <p><code>0,385 / 100 = 0,385 % per grad</code></p>
+    <p>NTC:n ur tabellen ovan går från 10,00 kΩ vid 25 °C till 9,57 kΩ vid
+      26 °C:</p>
+    <p><code>(10 000 − 9 570) / 10 000 = 4,3 % per grad</code></p>
+    <p>alltså</p>
+    <p><code>4,3 / 0,385 = 11 gånger känsligare</code></p>
+    <p>Ändå väljer industrin platinan. Skälet är att en Pt100 är
+      <strong>utbytbar</strong>: alla Pt100 följer samma standardkurva, så en
+      trasig givare kan bytas mot en ny utan att någonting kalibreras om, och
+      mätningen är spårbar till en internationell temperaturskala. En NTC är
+      känsligare och mycket billigare, men två exemplar är inte utbytbara mot
+      varandra utan ny kalibrering. Det är exakt den avvägningen du gör i ditt
+      eget bygge, med den skillnaden att du bara har ett exemplar.</p>
+
+    <p><strong>I vardagen:</strong> mobilen dimmar sin skärm efter ljuset i
+      rummet. Belysningsstyrkan den ska klara sträcker sig från månsken, ungefär
+      0,1 lux, till direkt solljus, uppemot 100 000 lux – ett område på</p>
+    <p><code>100 000 / 0,1 = 1 000 000 gånger</code></p>
+    <p>En miljon till ett. Det finns ingen linjär skala med 1024 steg som rymmer
+      det: ett steg hade behövt vara en tiondels lux i mörker, och då tar talen
+      slut redan vid hundra lux. En LDR löser det av sig själv, eftersom dess
+      resistans faller <em>hopträngt</em> med ljuset – en tiodubbling av
+      belysningen ger ungefär samma faktor i resistansändring var på skalan man
+      än befinner sig. Ett enormt område ryms därmed i få steg, precis som ögat
+      klarar både skymning och solsken.</p>
+    <p>Mobilens givare är däremot ingen LDR utan en <strong>fotodiod</strong>,
+      och en fotodiod svarar rakt proportionellt mot ljuset. Hopträngningen
+      måste därför byggas in någon annanstans: kretsen skiftar mellan flera
+      förstärkningslägen, ungefär som att byta mätområde på en multimeter.
+      Anledningen att LDR:n inte används är dessutom en helt annan – den vanliga
+      typen innehåller kadmium och får inte sitta i konsumentprodukter inom EU.
+      I skolkit och i äldre utrustning lever den vidare.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li>Mät din LDR med multimetern i tre lägen: lampa rakt på, vanligt
+        rumsljus, handen över. Skriv upp alla tre med enhet. Gör samma sak med
+        NTC:n: rumstemperatur, mellan fingrarna, mot något kallt.</li>
+      <li>Räkna ut det geometriska medelvärdet av dina två ytterlägen och välj
+        det närmaste motståndet du har i sortimentet. Skriv ned vilket du valde
+        och varför.</li>
+      <li>Bygg schema A med din LDR och skriv ut råvärdet fyra gånger i sekunden
+        med programmet ovan. Notera talet i dina tre ljuslägen.</li>
+      <li>Koppla om till schema B. Förutsäg först vad som händer med talen, och
+        kontrollera sedan. Talen ska nu gå åt motsatt håll och ligga ungefär
+        symmetriskt kring mitten jämfört med förra mätningen.</li>
+      <li>Byt Rf mot ett tio gånger större motstånd. Mät ytterlägena igen och
+        räkna ut hur många steg spannet krympte. Jämför med räkneexemplen
+        ovan.</li>
+      <li>Håll NTC:n mellan tumme och pekfinger i en halv minut och titta på
+        råvärdet under tiden. Släpp och titta igen. Hur lång tid tar det innan
+        talet är tillbaka? Den tiden är givarens tröghet, och den är en
+        egenskap hos ditt bygge som du ska kunna nämna i dokumentationen.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Åt vilket håll går en LDR:s resistans när det blir mörkare, och
+        åt vilket håll går en NTC:s när det blir kallare?</summary>
+      <p>Båda uppåt. Mindre ljus och lägre temperatur betyder färre fria
+        laddningsbärare i halvledaren, alltså högre resistans. Det är samma
+        mekanism i två förklädnader.</p>
+    </details>
+
+    <details>
+      <summary>Din NTC sitter underst i delaren, mot jord, med ett fast motstånd
+        överst. Rummet blir varmare. Går råvärdet upp eller ned?</summary>
+      <p>Ned. Varmare ger lägre resistans i NTC:n, alltså en mindre andel av
+        resistansen och därmed en mindre andel av spänningen över den. Det är
+        schema A i figuren ovan.</p>
+    </details>
+
+    <details>
+      <summary>Din givare mäter mellan 2 kΩ och 50 kΩ. Vilket fast motstånd
+        väljer du?</summary>
+      <p><code>√(2 000 · 50 000) = √100 000 000 = 10 000 Ω</code>, alltså
+        10 kΩ. Att den kvadratroten går jämnt ut är en tillfällighet – hade
+        ytterlägena varit 2 kΩ och 60 kΩ hade svaret blivit
+        <code>√120 000 000 = 10 954 Ω</code>, och då väljer du det
+        närmaste sortimentet har, till exempel 10 kΩ eller 12 kΩ.</p>
+    </details>
+
+    <details>
+      <summary>Varför är NTC:ns kurva inte en rät linje, och gör det något?</summary>
+      <p>Antalet fria laddningsbärare i halvledaren växer ungefär exponentiellt
+        med temperaturen, inte proportionellt. Följden syns i tabellen: tio
+        grader kostar 4,5 kΩ kring 25 °C men bara 1,7 kΩ kring 45 °C. Det gör
+        inget så länge du kalibrerar inom det område du ska mäta i – en kurva
+        är nästan rak om man bara tittar på en kort bit av den.</p>
+    </details>
+
+    <details>
+      <summary>Du har kopplat LDR:n mellan 5 V och A0, utan något mer. Vad läser
+        du?</summary>
+      <p>Ett tal nära 1023, oavsett ljus. Utan ett motstånd ned till jord finns
+        ingen delning – pinnen dras bara mot 5 V. Delaren behöver båda halvorna,
+        och den halvan är den som glöms bort oftast.</p>
+    </details>
+
+    <details>
+      <summary>Varför lämnar en motståndsgivare ingen signal i sig själv?</summary>
+      <p>Därför att resistans inte är någonting som går att mäta genom att titta
+        på en ledning. Det som finns att mäta på en pinne är en spänning, och
+        spänning uppstår först när en ström går genom motståndet. Delaren gör
+        precis det: den skickar en känd, liten ström genom givaren och gör
+        resistansändringen till en spänningsändring.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Ett tal ur en guide skrivs in i koden.</strong> "LDR:n är
+        10 kΩ i mörker" gäller någon annans givare. Ditt program ska bygga på
+        tal du mätt upp själv, annars är kalibreringen en gissning i finare
+        kläder.</li>
+      <li><strong>Råvärdet står nära 1023 hela tiden.</strong> Det fasta
+        motståndet ned till jord saknas, eller sitter i fel hål. Följ ledningen
+        från A0 hela vägen till GND.</li>
+      <li><strong>Råvärdet ändrar sig bara några steg.</strong> Det fasta
+        motståndet är fel valt – oftast alldeles för litet eller för stort mot
+        givarens område. Mät givarens ytterlägen och räkna om det geometriska
+        medelvärdet.</li>
+      <li><strong>Spänningen räknas ut med heltal.</strong>
+        <code>ravarde * 5 / 1023</code> ger 0, 1, 2, 3 eller 4 och ingenting
+        däremellan, eftersom alla tre talen är heltal. Skriv <code>5.0</code>
+        och <code>1023.0</code>.</li>
+      <li><strong>NTC:n mäter din hand.</strong> Den sitter fastklämd, eller
+        alldeles intill spänningsregulatorn på kortet, som blir varm. En givare
+        mäter sin egen omgivning och ingenting annat.</li>
+      <li><strong>LDR:n mäter kortets egen lysdiod.</strong> Den inbyggda
+        lysdioden på pinne 13, eller en indikator du själv satt dit, kan lysa
+        rakt in i givaren. Symtomet är ett råvärde som ändrar sig i takt med
+        att något blinkar.</li>
+      <li><strong>Givaren sitter i A0 men koden läser A1.</strong> De sex analoga
+        pinnarna ligger tätt och är lätta att förväxla. Kontrollera den raden
+        innan du misstänker något annat.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Kapitlet <a href="../sprakreferens.html#typer">Typer och variabler</a> i
+      språkreferensen hör till den här guiden, särskilt avsnittet om varför
+      heltalsräkning kapar decimalerna. Det felet dyker upp igen i nästa guide, i
+      en form som är svårare att upptäcka.</p>
+    <p>Nästa guide är <a href="guide-kalibrering.html">Kalibrering</a>. Nu när
+      du har ett råvärde som rör sig åt rätt håll ska det bli ett tal med en
+      enhet – och där öppnar också loopen, arrayen och den första egna
+      funktionen.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 4</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

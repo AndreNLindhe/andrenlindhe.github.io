@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visa mätvärdet – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o4-visa-matvardet">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Visa mätvärdet</strong> · område 4</span>
+  <a href="index.html">Område 4</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#kravstall">Kravställ ditt bygge 3</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 4 · lektion 22</p>
+    <h1>Visa mätvärdet</h1>
+    <p class="inledning">Ett mätvärde som bara finns inuti kortet är ingen
+      mätning. Den här guiden handlar om det sista steget i kedjan sensor →
+      styrenhet → aktuator: att göra talet läsbart för en människa. Tre vägar
+      finns, och den tredje – en visare som rör sig – är den enda som gör bygget
+      till ett mekatroniskt system. Den ställer också ett krav de två andra inte
+      gör: <strong>skalan måste stämma</strong>, inte bara se proportionerlig
+      ut.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan välja mellan seriemonitor, teckenfönster och mekanisk visare
+        efter vad visningen ska användas till.</li>
+      <li>Du kan räkna ut hur ofta en utskrift eller en skärmuppdatering får ske
+        utan att den bromsar bygget.</li>
+      <li>Du kan omvandla en kalibrerad storhet till en servovinkel i rätt
+        ordning, och förklara vad som går fel om ordningen kastas om.</li>
+      <li>Du kan rita en skala som stämmer med visarens rörelse, och räkna ut hur
+        fint den får graderas.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Serial: utmärkt att felsöka med, dåligt som instrument</h3>
+    <p>Seriemonitorn har varit ditt fönster in i bygget sedan område 2, och den
+      förblir det bästa felsökningsverktyget du har. Men som <em>instrument</em>
+      har den tre problem: den kräver en dator med sladd, den visar en rullande
+      lista i stället för ett värde, och den är långsam.</p>
+    <p>Räkna på hastigheten, för den överraskar. <code>Serial.begin(9600)</code>
+      betyder 9600 bitar i sekunden. Varje tecken skickas med en startbit och en
+      stoppbit runt sina åtta databitar, alltså tio bitar per tecken:</p>
+    <p><code>9600 / 10 = 960 tecken i sekunden</code></p>
+    <p>En rad som <code>24.3 C  47 %</code> med radbrytning är omkring sexton
+      tecken, alltså</p>
+    <p><code>16 / 960 = 0,0167 s = 17 ms per rad</code></p>
+    <p>Fyra rader i sekunden kostar <code>4 · 17 = 68 ms</code> av varje sekund,
+      alltså knappt sju procent av tiden. Det märks inte. Men en utskrift
+      <em>varje loopvarv</em>, med tusentals varv i sekunden, skulle kräva
+      tiotusentals tecken i sekunden när bara 960 ryms. Kortet har en
+      sändbuffert på 64 byte, och när den är full väntar
+      <code>Serial.print</code> tills det finns plats. <strong>Utskriften blir
+      då ett <code>delay()</code> i förklädnad</strong>, och hela området 3:s
+      arbete med att inte blockera går förlorat på en rad som såg ofarlig ut.</p>
+    <p>Regeln är densamma som för allt annat i det här området: lägg utskriften
+      i tidsstämpelmönstret och skriv fyra gånger i sekunden. Snabbare än så kan
+      ingen läsa ändå.</p>
+
+    <h3>LCD 16×2: ett instrument utan dator</h3>
+    <p>Ett teckenfönster på två rader med sexton tecken gör bygget fristående.
+      Modulerna i kitet har ett litet kort på baksidan som gör om displayens
+      sexton anslutningar till fyra: matning, jord, <strong>SDA</strong> och
+      <strong>SCL</strong>. De två sista är en databuss som heter I²C.</p>
+    <p class="notis viktig"><span class="rubrik">I²C tar två av dina analoga pinnar</span>
+      På ett Uno-kort ligger SDA på <strong>A4</strong> och SCL på
+      <strong>A5</strong>. Kopplar du in en I²C-display är alltså bara A0 till
+      A3 kvar för <code>analogRead</code>. Det här är exakt samma sorts fälla som
+      <a href="../sprakreferens.html#bibliotek">språkreferensen</a> beskriver för
+      <code>Servo</code> och Timer1: ett bibliotek tar hårdvara med sig, och det
+      står inte i din kod. Planera pinnarna innan du kopplar, inte efter.</p>
+    <p>Varje I²C-enhet har en adress, och displaymodulerna kommer med olika.
+      <strong>0x27 och 0x3F är de två vanliga</strong>, men det finns fler, och
+      vilken just din har går inte att se på den. Att ta reda på det är en del
+      av arbetet: ladda upp en I²C-avsökare – de finns som exempel i
+      Arduino-miljön – och läs adressen i seriemonitorn. Fungerar displayen inte
+      alls, och du inte kört avsökaren, är det där du ska börja.</p>
+    <p>Displayen är också långsam på ett sätt som spelar roll. Varje tecken
+      kräver flera överföringar på bussen, och en full omskrivning av båda
+      raderna – trettiotvå tecken – landar i storleksordningen tio
+      millisekunder. Fyra uppdateringar i sekunden kostar då</p>
+    <p><code>4 · 10 ms = 40 ms av varje sekund, alltså 4 %</code></p>
+    <p>vilket är oproblematiskt. En uppdatering varje loopvarv skulle däremot
+      göra att loopen inte kan gå fortare än ungefär hundra varv i sekunden, och
+      texten skulle dessutom flimra.</p>
+    <p>Två vanor gör displayen lugn att titta på:</p>
+    <ul>
+      <li><strong>Använd inte <code>clear()</code> vid varje uppdatering.</strong>
+        Kommandot tar ensamt drygt en och en halv millisekund i displayen, och
+        under tiden är rutan tom – det är just det som ser ut som flimmer. Sätt
+        markören och skriv över den gamla texten i stället.</li>
+      <li><strong>Skriv alltid lika många tecken.</strong> Går värdet från
+        <code>9.8</code> till <code>10.2</code> och tillbaka blir det annars en
+        kvarglömd siffra på slutet. Fyll ut med mellanslag till en bestämd
+        bredd.</li>
+    </ul>
+
+    <h3>Den mekaniska visaren</h3>
+    <p>Ett servo med en arm är en visare. Det är den tredje visningsvägen och den
+      enda som ger bygget en <strong>mekanisk struktur</strong> – utan den är
+      bygget inget mekatroniskt system i kriteriernas mening, hur bra mätningen
+      än är.</p>
+    <p>Visaren har egenskaper som varken serieporten eller displayen har. Den
+      syns tvärs över rummet. Den visar <em>riktning</em>: att värdet är på väg
+      upp ser du utan att läsa något. Och den visar avvikelse från det normala
+      på en enda blick, förutsatt att skalan är ritad så. Priset är att den bara
+      kan visa en enda storhet, och att den kräver att du gör två saker rätt som
+      inte finns i de andra vägarna: ordningen på räkningen, och skalan.</p>
+
+    <h3>Kalibrera först, mappa sedan</h3>
+    <p>Det här är guidens viktigaste avsnitt, och det fel det beskriver är
+      besvärligt just för att bygget ser rätt ut när man provar det.</p>
+    <p>Frestelsen är att göra det i ett steg: mappa råvärdet direkt till en
+      vinkel.</p>
+    <p><code>vinkel = map(rå, rå_vid_0_grader, rå_vid_50_grader, 0, 180)</code></p>
+    <p>Det ger en visare som står rätt vid båda ändarna av skalan – och fel
+      överallt däremellan. Skälet är att givaren inte är rätlinjig. Råvärdet
+      ändrar sig inte lika mycket per grad överallt, och en rät mappning från
+      råvärde till vinkel ärver den skevheten.</p>
+    <p>Räkna igenom det med NTC:n från
+      <a href="guide-kalibrering.html#genomgang">kalibreringsguiden</a>, en
+      tavla graderad 0–50 °C över 180 grader. Rätt vinkel är</p>
+    <p><code>vinkel = 180 · T / 50 = 3,6 grader per grad Celsius</code></p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Verklig temp</th><th>Råvärde</th><th>Rätt vinkel</th><th>Vinkel om du mappar råvärdet</th><th>Vad tavlan då visar</th><th>Fel</th></tr></thead>
+        <tbody>
+          <tr><td>0 °C</td><td>788</td><td>0,0°</td><td>0,0°</td><td>0,0 °C</td><td>0,0</td></tr>
+          <tr><td>10 °C</td><td>684</td><td>36,0°</td><td>36,1°</td><td>10,0 °C</td><td>+0,0</td></tr>
+          <tr><td>20 °C</td><td>569</td><td>72,0°</td><td>76,1°</td><td>21,1 °C</td><td>+1,1</td></tr>
+          <tr><td>25 °C</td><td>512</td><td>90,0°</td><td>95,9°</td><td>26,6 °C</td><td>+1,6</td></tr>
+          <tr><td>30 °C</td><td>456</td><td>108,0°</td><td>115,4°</td><td>32,1 °C</td><td>+2,1</td></tr>
+          <tr><td>35 °C</td><td>403</td><td>126,0°</td><td>133,8°</td><td>37,2 °C</td><td>+2,2</td></tr>
+          <tr><td>40 °C</td><td>354</td><td>144,0°</td><td>150,8°</td><td>41,9 °C</td><td>+1,9</td></tr>
+          <tr><td>50 °C</td><td>270</td><td>180,0°</td><td>180,0°</td><td>50,0 °C</td><td>0,0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Vinklarna står med en decimal, så att avläsningskolumnen går att räkna
+      ur dem; servot tar förstås ett heltal, och den avrundningen är mindre än
+      servots eget dödband.</p>
+    <p>Kolumnen längst till höger är hela poängen. <strong>Instrumentet är exakt
+      rätt i båda ändarna och över två grader fel på mitten.</strong> Och de två
+      ändarna är precis det man kontrollerar när man provar ett nybyggt
+      instrument. Felet överlever därför provkörningen, hamnar i redovisningen,
+      och upptäcks först av den som jämför med en termometer mitt i området.</p>
+    <p>Räkningen bakom en rad, så att du kan göra om den med dina egna tal. Vid
+      25 °C är råvärdet 512, och den direkta mappningen ger</p>
+    <p><code>(512 − 788) · 180 / (270 − 788) = (−276) · 180 / (−518) = 49 680 / 518 = 95,9°</code></p>
+    <p>På en tavla där 180 grader svarar mot 50 °C avläses den vinkeln som</p>
+    <p><code>95,9 / 180 · 50 = 26,6 °C</code></p>
+    <p>alltså 1,6 grader fel.</p>
+    <p><strong>Rätt ordning är i två steg.</strong> Först råvärde till storhet
+      med din kalibrering, sedan storhet till vinkel med en rät linje. Den andra
+      omvandlingen får vara rätlinjig, för nu är storheten en riktig
+      temperatur.</p>
+    <pre><code class="sprak-cpp">const float SKALA_MIN  = 0.0;    // grader vid visarens ena andlage
+const float SKALA_MAX  = 50.0;   // grader vid det andra
+const int   VINKEL_MIN = 10;     // servovinkel vid SKALA_MIN
+const int   VINKEL_MAX = 170;    // servovinkel vid SKALA_MAX
+
+int graderTillVinkel(float grader) {
+  float begransad = constrain(grader, SKALA_MIN, SKALA_MAX);
+  float andel = (begransad - SKALA_MIN) / (SKALA_MAX - SKALA_MIN);
+  return VINKEL_MIN + (int)(andel * (VINKEL_MAX - VINKEL_MIN) + 0.5);
+}</code></pre>
+    <p>Kontrollräkna funktionen vid tre punkter, som du alltid ska göra med en
+      egen omvandling. Vid 0,0 grader är <code>andel</code> lika med 0 och svaret
+      blir <code>10 + 0 = 10</code>. Vid 50,0 är andelen 1 och svaret
+      <code>10 + 160 = 170</code>. Vid 25,0 är andelen 0,5 och svaret</p>
+    <p><code>10 + (int)(0,5 · 160 + 0,5) = 10 + 80 = 90</code></p>
+    <p>Mitt emellan, som det ska vara. <code>+ 0.5</code> före omvandlingen till
+      <code>int</code> är avrundning: utan den kapas decimalerna neråt, precis
+      som <code>map()</code> gör.</p>
+    <p>Och <code>constrain</code> ligger <em>före</em> räkningen, så att ett
+      värde utanför skalan parkerar visaren i ändläget i stället för att skicka
+      servot mot ett stopp. Det var
+      <a href="guide-kalibrering.html#genomgang">kalibreringsguidens</a>
+      andra halva av map-fällan.</p>
+
+    <h3>Skalan ska ritas, inte gissas</h3>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 320 220" role="img" aria-labelledby="svg-visare-titel"
+           style="width:100%;height:auto">
+        <title id="svg-visare-titel">En halvcirkelformad instrumenttavla. Längs
+          bågen sitter sex streck jämnt fördelade. Vid vänstra änden står
+          siffran 0, mitt uppe står 25 och vid högra änden 50. Från en punkt i
+          halvcirkelns mitt pekar en visare rakt uppåt, mot strecket vid
+          25.</title>
+
+        <path d="M 45 180 A 115 115 0 0 1 275 180" fill="none"
+              stroke="currentColor" stroke-width="2"/>
+
+        <g stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <line x1="45" y1="180" x2="60" y2="180"/>
+          <line x1="67" y1="112" x2="79" y2="121"/>
+          <line x1="124" y1="71" x2="129" y2="85"/>
+          <line x1="196" y1="71" x2="191" y2="85"/>
+          <line x1="253" y1="112" x2="241" y2="121"/>
+          <line x1="275" y1="180" x2="260" y2="180"/>
+        </g>
+
+        <line x1="160" y1="180" x2="160" y2="92" stroke="currentColor"
+              stroke-width="3.2" stroke-linecap="round"/>
+        <circle cx="160" cy="180" r="6" fill="currentColor"/>
+
+        <g fill="currentColor" font-size="16">
+          <text x="40" y="200" text-anchor="middle">0</text>
+          <text x="160" y="58" text-anchor="middle">25</text>
+          <text x="280" y="200" text-anchor="middle">50</text>
+          <text x="160" y="210" text-anchor="middle">°C</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>Strecken sitter var tionde grad Celsius</strong>, alltså sex
+        stycken från 0 till 50.</li>
+      <li><strong>De sitter jämnt fördelade längs bågen.</strong> Det är rätt
+        <em>bara</em> om omvandlingen gjordes i två steg, med kalibreringen
+        först. Mappar du råvärdet direkt måste strecken sitta ojämnt, precis där
+        visaren faktiskt hamnar vid varje referenstemperatur.</li>
+      <li><strong>Visaren pekar rakt upp vid 25 °C</strong>, alltså på mitten av
+        rörelsen, eftersom 25 ligger mitt i skalan 0–50.</li>
+      <li><strong>Tavlan är en del av instrumentet.</strong> En visare som rör
+        sig proportionellt mot en skala som inte stämmer är ett fel instrument,
+        inte ett halvfärdigt.</li>
+    </ul>
+
+    <p>Räkna ut var strecken ska sitta i stället för att uppskatta. Med
+      servovinklarna 10 till 170 grader över 0 till 50 °C sveper visaren</p>
+    <p><code>170 − 10 = 160 grader för 50 °C, alltså 160 / 50 = 3,2 grader per grad Celsius</code></p>
+    <p>Ett streck var tionde grad Celsius sitter alltså</p>
+    <p><code>10 · 3,2 = 32 grader isär</code></p>
+    <p>Har din visare längden 60 mm blir avståndet mellan två streck, mätt längs
+      bågen,</p>
+    <p><code>60 mm · 32 · π / 180 = 60 · 0,559 = 33,5 mm</code></p>
+    <p>och hela skalans båge</p>
+    <p><code>60 · 160 · π / 180 = 60 · 2,793 = 168 mm</code></p>
+    <p>Nu vet du hur stor tavlan blir innan du klipper ut den, och du kan rita
+      strecken med gradskiva i stället för på ögonmått.</p>
+
+    <h3>Hur fint det är meningsfullt att gradera</h3>
+    <p>Tre saker begränsar upplösningen, och den grövsta av dem bestämmer.</p>
+    <ul>
+      <li><strong>Omvandlaren.</strong> Ett råvärdessteg var 0,0885 °C i
+        kalibreringsexemplet, alltså <code>0,0885 · 3,2 = 0,28</code> grader
+        visarrörelse. Försumbart.</li>
+      <li><strong>Bruset.</strong> Efter medelvärde över sexton prov låg det
+        kvar på ungefär 0,13 °C, alltså <code>0,13 · 3,2 = 0,42</code> graders
+        oro i visaren. Knappt synligt.</li>
+      <li><strong>Servot.</strong> <code>write()</code> spänner pulslängderna
+        544 till 2400 mikrosekunder över 180 grader, alltså
+        <code>(2400 − 544) / 180 = 10,3 µs per grad</code>. Ett litet servo har
+        ett dödband på storleksordningen 10 µs – ändringar mindre än så gör
+        ingenting alls. Det motsvarar ungefär <strong>en grad</strong>
+        visarrörelse, vilket i temperatur är <code>1 / 3,2 = 0,31 °C</code>.</li>
+    </ul>
+    <p>Servot är alltså grövst, med god marginal. <strong>Ungefär en tredjedels
+      grad Celsius är instrumentets verkliga upplösning</strong>, och att gradera
+      tavlan finare än varannan grad vore att låtsas. Ett streck var femte grad,
+      med siffra var tionde, är en ärlig tavla.</p>
+    <p class="notis"><span class="rubrik">Varför 10 och 170 och inte 0 och 180</span>
+      Ett SG90 är märkt 0–180 grader, men de verkliga ändlägena varierar mellan
+      exemplar. Ett servo som beordras dit det inte kommer surrar mot sitt stopp,
+      drar ström och blir varmt – och drar det tillräckligt mycket startar
+      kortet om, precis som beskrivs i
+      <a href="../omrade-2-styrenheten/guide-servot.html#genomgang">servoguidens
+      avsnitt om strömbehov</a>. Ta tio graders marginal i vardera änden och
+      prova dig fram till dina egna gränser. Du förlorar inget: skalan ritar du
+      ändå själv, efter de vinklar din visare faktiskt når.</p>
+    <p>Sista detaljen, från område 3: skriv bara till servot när vinkeln
+      <em>ändrats</em>. En <code>write()</code> per loopvarv med samma värde ger
+      ett servo som surrar och drar ström i onödan.</p>
+    <pre><code class="sprak-cpp">#include &lt;Servo.h&gt;
+
+const int SERVO_PIN = 9;
+
+Servo visare;
+int forraVinkeln = -1;      // ett omojligt varde, sa forsta skrivningen alltid sker
+
+void satVisare(int vinkel) {
+  if (vinkel != forraVinkeln) {
+    visare.write(vinkel);
+    forraVinkeln = vinkel;
+  }
+}
+
+void setup() {
+  visare.attach(SERVO_PIN);
+}</code></pre>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <p><strong>I industrin:</strong> i ett ställverk eller ett kontrollrum sitter
+      pekarinstrument kvar bredvid skärmarna, femtio år efter att siffrorna
+      fanns tillgängliga. Skälet är att en visare visar <em>avvikelse</em>
+      snabbare än en siffra gör. Nätfrekvensen ska hållas vid 50 Hz med små
+      marginaler; ett instrument som spänner 49 till 51 Hz över 90 grader ger</p>
+    <p><code>90 grader / 2 Hz = 45 grader per hertz</code></p>
+    <p>så en avvikelse på 0,1 Hz blir</p>
+    <p><code>0,1 · 45 = 4,5 grader</code></p>
+    <p>tydligt synlig visarrörelse. En display som växlar mellan 49,9 och 50,1
+      kräver att du läser, minns och drar ifrån. Vanan att ställa in
+      <em>alla</em> instrument i en rad så att visarna pekar rakt upp vid
+      normalläge bygger på samma tanke: då är en avvikande visare det enda som
+      inte är lodrätt, och den syns utan att ett enda tal läses.</p>
+
+    <p><strong>I vardagen:</strong> bilens hastighetsmätare är ett instrument
+      som med flit visar fel, och det står i regelverket. EU:s
+      typgodkännanderegler säger att den visade hastigheten aldrig får vara
+      <em>lägre</em> än den verkliga, men gärna högre – upp till tio procent
+      plus fyra kilometer i timmen. Vid en verklig hastighet på 100 km/h får
+      mätaren alltså visa ända upp till</p>
+    <p><code>100 + 0,10 · 100 + 4 = 114 km/h</code></p>
+    <p>men aldrig 99. Tillverkaren lägger sig medvetet en bit över, eftersom en
+      mätare som visar för lite kan ge föraren fortkörningsböter medan en som
+      visar för mycket bara är irriterande. Skalan är alltså inte konstruerad
+      för att vara sann utan för att felet ska falla åt ett bestämt håll.</p>
+    <p>Det är precis motsatsen till kravet på ditt bygge, och kontrasten är
+      poängen: <strong>ett instrument ska ha ett känt fel som pekar åt ett känt
+      håll.</strong> Bilens har det, av ett skäl som går att skriva ned. Ett
+      bygge där skalan är ritad på ögonmått har ett okänt fel åt okänt håll, och
+      det är något helt annat.</p>
+
+    <h2 id="kravstall">Kravställ ditt bygge 3</h2>
+    <p>De sista trettio minuterna av det här passet ägnas åt att bestämma vad
+      ditt bygge 3 ska vara. Hela kravlistan står på
+      <a href="bygge-3-visare.html">byggsidan</a>; det som ska bestämmas nu är de
+      val som allt annat hänger på.</p>
+
+    <p class="notis viktig"><span class="rubrik">Sportlovet ligger mellan det här passet och arbetspasset</span>
+      Efter den här lektionen är det <strong>två veckor</strong> till
+      arbetspasset, med kravlistan och kitet hemma hos dig och utan handledning
+      emellan. Det är där bygget ska bli till. <strong>Kom till arbetspasset med
+      något halvbyggt och en specifik fråga</strong> – "råvärdet står stilla på
+      1023 fast jag mätt att LDR:n ändrar sig" är en fråga som går att svara på
+      under ett pass. Ett tomt kopplingsdäck är det inte.</p>
+
+    <h3>Välj din givare</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Givare</th><th>Mäter</th><th>Talar för</th><th>Talar emot</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>LDR</td><td>ljus</td>
+            <td>Enklast att koppla och lättast att göra stora, tydliga
+              ändringar med. Kalibrering mot en mobil ljusmätarapp går snabbt.</td>
+            <td>Det finns ingen naturlig enhet du redan har en referens för, om
+              du inte har en app du litar på.</td>
+          </tr>
+          <tr>
+            <td>NTC</td><td>temperatur</td>
+            <td>Alla guidens exempel går att följa rakt av. En vanlig termometer
+              duger som referens och alla har en.</td>
+            <td>Trögheten gör kalibreringen långsam – räkna en minut per
+              punkt.</td>
+          </tr>
+          <tr>
+            <td>Potentiometer</td><td>vinkel eller läge</td>
+            <td>Rätlinjig, snabb och stabil. Referensen är en gradskiva eller
+              en linjal.</td>
+            <td>Ger mindre att skriva om felkällor, eftersom nästan ingenting
+              stör den.</td>
+          </tr>
+          <tr>
+            <td>HC-SR04</td><td>avstånd</td>
+            <td>Ett tumstocksmått är en utmärkt referens och kalibreringen blir
+              övertygande.</td>
+            <td>Kräver <code>pulseIn</code> och en tidsgräns, och ekot uteblir
+              ibland. Mer att felsöka.</td>
+          </tr>
+          <tr>
+            <td>DHT11 eller DHT22</td><td>temperatur och fukt</td>
+            <td>Ett bibliotek gör avläsningen enkel, och du får två storheter.</td>
+            <td>Givaren är redan kalibrerad, så kalibreringskravet blir en
+              kontroll i stället för en kalibrering. Diskutera vid samrådet hur
+              du löser det.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Åtta frågor att svara på innan du bygger</h3>
+    <ol>
+      <li><strong>Vilken storhet ska instrumentet visa, och med vilken
+        enhet?</strong> En mening. "Rumstemperaturen i grader Celsius."</li>
+      <li><strong>Vilket område ska tavlan täcka?</strong> Från vilket värde till
+        vilket. Det är samma område som dina kalibreringspunkter ska ligga i
+        ändarna av.</li>
+      <li><strong>Vilken referens ska du kalibrera mot, och hur bra är
+        den?</strong> Namnge den. "Termometern i köket, som visar hela grader."
+        Referensens noggrannhet är ett golv för hela ditt instrument.</li>
+      <li><strong>Vilka två punkter ska du mäta upp, och hur får du fram
+        dem?</strong> Konkret: kranvatten och varmvatten, mörker och
+        skrivbordslampa, 10 cm och 100 cm.</li>
+      <li><strong>Vilket fast motstånd, och varför just det?</strong> Räknat ur
+        givarens uppmätta ytterlägen, inte hämtat ur en guide.</li>
+      <li><strong>Hur ser visaren och tavlan ut?</strong> Armens längd, var
+        strecken sitter och hur ofta det står en siffra. Räknat med gradskiva.</li>
+      <li><strong>Vad händer utanför området?</strong> Visaren parkerar i
+        ändläget – och vad mer? En lysdiod, en text, ingenting? Beslutet ska
+        vara ditt och stå i dokumentationen.</li>
+      <li><strong>Vilka två exempel ska du beskriva ditt system mot?</strong> Ett
+        ur industrin och ett ur vardagen. Den frågan är lättast att skjuta upp
+        och dyrast att skjuta upp – den bär hela belägget för F4, och den ska
+        med i redovisningen.</li>
+    </ol>
+    <p>Ta med svaren, tillsammans med
+      <a href="../samradsunderlag.html">samrådsunderlaget</a>, till
+      arbetspasset.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li>Skriv ut ett värde varje loopvarv i en halv minut och räkna hur många
+        rader du får. Flytta sedan utskriften in i tidsstämpelmönstret med 250 ms
+        intervall och räkna igen. Jämför med de 960 tecken i sekunden
+        räkneexemplet gav.</li>
+      <li>Koppla in en LCD och kör en I²C-avsökare. Skriv ned adressen din modul
+        har. Kör sedan ett program som skriver ett räknande tal, först med
+        <code>clear()</code> vid varje uppdatering och sedan utan. Titta på
+        skillnaden.</li>
+      <li>Sätt en arm på servot och skriv ett program som sveper från
+        <code>VINKEL_MIN</code> till <code>VINKEL_MAX</code> och tillbaka.
+        Markera med penna var armen står vid 10, 90 och 170 grader. Kontrollera
+        att avståndet mellan 10 och 90 är lika stort som mellan 90 och 170.</li>
+      <li>Prova <code>write(0)</code> och <code>write(180)</code> och lyssna. Hör
+        du ett surr står armen mot sitt stopp. Krypa uppåt från 0 och nedåt från
+        180 tills surret upphör – där har du dina verkliga ändlägen.</li>
+      <li>Rita tavlan på papper med gradskiva, enligt räkningen i guiden. Mät med
+        linjal att strecken sitter jämnt utmed bågen.</li>
+      <li>Bygg felet med flit: mappa råvärdet direkt till vinkeln, i ett steg.
+        Kontrollera instrumentet vid båda ändarna – det stämmer. Kontrollera det
+        sedan på mitten mot en termometer. Anteckna avvikelsen, och jämför med
+        tabellen i guiden.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Varför får inte utskriften ligga direkt i <code>loop()</code>
+        utan tidsstämpel?</summary>
+      <p>Vid 9600 baud ryms 960 tecken i sekunden. En loop som går tusentals
+        varv i sekunden skulle producera mångdubbelt fler, sändbufferten på 64
+        byte fylls, och <code>Serial.print</code> väntar tills det finns plats.
+        Utskriften blir då en blockering, precis det som område 3 handlade om
+        att bli av med.</p>
+    </details>
+
+    <details>
+      <summary>Du kopplar in en I²C-display och plötsligt ger
+        <code>analogRead(A4)</code> skräp. Varför?</summary>
+      <p>På ett Uno-kort ligger I²C-bussen på A4 och A5. De två pinnarna används
+        nu av displayen och kan inte längre läsas som analoga ingångar. Flytta
+        givaren till A0 till A3.</p>
+    </details>
+
+    <details>
+      <summary>Din visare står rätt vid 0 och vid 50 grader men visar 32 när
+        termometern säger 30. Vad är felet?</summary>
+      <p>Omvandlingen görs i ett steg, direkt från råvärde till vinkel. Givarens
+        kurva är inte rät, och skevheten hamnar i vinkeln. Ändarna stämmer per
+        konstruktion, mitten gör det inte. Rätta genom att först räkna om
+        råvärdet till grader med din kalibrering och sedan grader till vinkel med
+        en rät linje.</p>
+    </details>
+
+    <details>
+      <summary>Din tavla ska visa 10 till 30 °C över servovinklarna 15 till 165.
+        Hur många grader visarrörelse går det på en grad Celsius, och var sitter
+        strecket för 20 °C?</summary>
+      <p>Svepet är <code>165 − 15 = 150</code> grader över
+        <code>30 − 10 = 20</code> °C, alltså <code>150 / 20 = 7,5</code> grader
+        per grad Celsius. 20 °C ligger tio grader upp från skalans början, alltså
+        vid <code>15 + 10 · 7,5 = 90</code> grader – rakt upp, mitt i
+        svepet.</p>
+    </details>
+
+    <details>
+      <summary>Varför skriver man bara till servot när vinkeln ändrats?</summary>
+      <p>Loopen går tusentals varv i sekunden och skulle annars anropa
+        <code>write()</code> lika ofta med samma värde. Servot försöker då hålla
+        sitt läge aktivt hela tiden, surrar och drar ström. Det syns som ett
+        instrument som brummar och ett kort som blir varmt, och i värsta fall
+        startar om.</p>
+    </details>
+
+    <details>
+      <summary>Varför är det ingen idé att gradera tavlan i tiondels grader
+        Celsius?</summary>
+      <p>Därför att servot inte kan ställa in sig finare än ungefär en grads
+        vinkel, vilket med 3,2 grader per grad Celsius motsvarar ungefär
+        0,3 °C. En gradering finare än instrumentets upplösning påstår en
+        precision som inte finns – samma fel som att skriva ut fyra decimaler ur
+        en tiobitars omvandlare.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Displayen är svart eller visar bara vita rutor.</strong>
+        Antingen fel I²C-adress i koden, eller kontrasten som behöver justeras
+        med den lilla skruven på modulens baksida. Kör avsökaren först, vrid
+        skruven sedan.</li>
+      <li><strong>Displayen flimrar.</strong> <code>clear()</code> anropas vid
+        varje uppdatering, eller så uppdateras den varje loopvarv. Skriv över
+        texten i stället, fyra gånger i sekunden.</li>
+      <li><strong>En siffra blir kvar när talet blir kortare.</strong> 10,2 blev
+        9,8 men tvåan står kvar. Skriv alltid lika många tecken och fyll ut med
+        mellanslag.</li>
+      <li><strong>Visaren rör sig men står fel på mitten.</strong> Omvandlingen
+        görs i ett steg. Se avsnittet om ordningen ovan – det här är områdets
+        signaturfel.</li>
+      <li><strong>Visaren står i ändläget och surrar.</strong> Värdet ligger
+        utanför skalan och <code>constrain</code> saknas, eller så är
+        servovinklarna satta till 0 och 180 utan marginal.</li>
+      <li><strong>Visaren darrar oroligt.</strong> Ingen medelvärdesbildning, för
+        få prov, eller så skrivs servot vid varje varv. Sexton prov och en
+        skrivning bara vid ändring löser oftast båda.</li>
+      <li><strong>Kortet startar om när visaren rör sig.</strong> Brownout.
+        Servot drar mer än kortets 5 V orkar med. Se
+        <a href="../omrade-2-styrenheten/guide-servot.html#genomgang">servoguiden</a>
+        – ge servot egen matning med gemensam GND.</li>
+      <li><strong>Tavlan är ritad efter att visaren monterats.</strong> Då blir
+        strecken satta där armen råkade hamna, inte där räkningen säger. Rita
+        efter gradskiva och kontrollera mot minst tre uppmätta punkter.</li>
+      <li><strong>Instrumentet är bara kontrollerat i ändarna.</strong> Det är
+        just där båda metoderna stämmer. Kontrollera alltid på mitten också.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Kapitlen <a href="../sprakreferens.html#funktioner">Funktioner</a> och
+      <a href="../sprakreferens.html#bibliotek">Bibliotek</a> i språkreferensen
+      hör till den här guiden. Funktionen <code>graderTillVinkel()</code> är
+      områdets andra egna funktion, och den finns av samma skäl som den första:
+      samma tal ska användas på två ställen.</p>
+    <p>Nästa steg är <a href="bygge-3-visare.html">bygge 3</a>, som sätter ihop
+      hela området till ett system och som redovisas muntligt. Det är kursens
+      första redovisning, och byggsidan beskriver både bygget och hur du
+      förbereder dig för att förklara det.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 4</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

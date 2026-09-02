@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 4 – Sensorer, att mäta världen – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o4-index">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Område 4</strong> · Sensorer – att mäta världen</span>
+  <a href="../sprakreferens.html">Språkreferens</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Område 4 · lektion 18–24 · 14 jan – 4 mars</p>
+    <h1>Sensorer – att mäta världen</h1>
+    <p class="inledning">Hittills har varje insignal varit en etta eller en
+      nolla. Nu blir den ett tal. Ett tal kan vara nästan rätt, lite fel eller
+      helt fel utan att någonting ser trasigt ut, och det är därför det här
+      området handlar lika mycket om att kontrollera mätvärdet som om att läsa
+      det. Området slutar med kursens första redovisning.</p>
+
+    <p class="notis"><span class="rubrik">Tre nya saker i språket, alla av samma skäl</span>
+      <strong>Loopen, arrayen och den egna funktionen</strong> kommer in här,
+      och de kommer in för att mätningen kräver dem. En enda avläsning hoppar
+      några steg fram och tillbaka – botemedlet är att läsa flera gånger och
+      ta medelvärdet, vilket kräver en loop och en plats att lägga värdena i.
+      Och omvandlingen från råvärde till en riktig storhet behövs på mer än ett
+      ställe i bygget, vilket är precis vad en funktion är till för.</p>
+
+    <h2 id="guider">Guiderna</h2>
+    <p>Läs dem i ordning. De fem bygger på varandra: omvandlaren i den första
+      ger råvärdet, den andra kopplar en givare som lämnar ett, den tredje gör
+      om det till en storhet med enhet, den fjärde hämtar talen ur ett datablad
+      i stället för ur en gissning, och den femte visar resultatet för en
+      människa.</p>
+
+    <div class="rutnat">
+
+      <a class="kort" href="guide-analogt-och-digitalt.html">
+        <span class="sort">Lektion 18 · 14 jan</span>
+        <span class="rubrik">Analogt och digitalt</span>
+        <p>Varför världen är analog och kortet inte är det. analogRead, de tio
+          bitarna och de 1024 stegen. Spänningsdelaren, härledd.</p>
+      </a>
+
+      <a class="kort" href="guide-motstandsgivare.html">
+        <span class="sort">Lektion 19 · 21 jan</span>
+        <span class="rubrik">Motståndsgivare</span>
+        <p>LDR och NTC. Ett motstånd som ändrar sig är ingen spänning – först
+          i en spänningsdelare blir det något kortet kan läsa.</p>
+      </a>
+
+      <a class="kort" href="guide-kalibrering.html">
+        <span class="sort">Lektion 20 · 28 jan</span>
+        <span class="rubrik">Kalibrering</span>
+        <p>Från råvärde till grader. Två punkter räcker, map() trunkerar, och
+          brus är något annat än ett systematiskt fel.</p>
+      </a>
+
+      <a class="kort" href="guide-datablad.html">
+        <span class="sort">Lektion 21 · 4 feb</span>
+        <span class="rubrik">Datablad</span>
+        <p>Vad man letar efter först i ett datablad. HC-SR04 där tiden är
+          måttet, och DHT där ett bibliotek är rätt svar.</p>
+      </a>
+
+      <a class="kort" href="guide-visa-matvardet.html">
+        <span class="sort">Lektion 22 · 11 feb</span>
+        <span class="rubrik">Visa mätvärdet</span>
+        <p>Serial, LCD och en mekanisk visare. En visare som rör sig proportionellt
+          mot fel skala är ett fel instrument. Här kravställs bygge 3.</p>
+      </a>
+
+      <a class="kort webb" href="bygge-3-visare.html">
+        <span class="sort">Lektion 23–24 · 25 feb – 4 mars · bygge och redovisning</span>
+        <span class="rubrik">Bygge 3 – sensor med mekanisk visare</span>
+        <p>En sensor mätt, kalibrerad och visad på en visare med rätt skala.
+          Kursens tredje bedömda system, och det första som redovisas muntligt.</p>
+      </a>
+
+    </div>
+
+    <h2 id="sportlov">Sportlovet ligger mitt i bygget</h2>
+    <p>Det här är områdets viktigaste praktiska detalj, och den är lätt att
+      missa i schemat. Kravställningen sker på lektion 22, den 11 februari.
+      Arbetspasset är inte förrän lektion 23, den 25 februari. Torsdagen
+      däremellan är sportlov, så det ligger <strong>två veckor</strong> mellan
+      att du får kraven och att du får handledning.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Vad som händer</th><th>Vad du ska ha med dig</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Lektion 22 · 11 feb</strong><br>genomgång</td>
+            <td>Serial, LCD och visaren. Sista halvtimmen kravställs bygge 3
+              och du väljer din givare.</td>
+            <td>Kitet, så att du kan prova givaren innan du går.</td>
+          </tr>
+          <tr>
+            <td colspan="3"><em>Sportlov. Två veckor med kravlistan och kitet
+              hemma, utan handledning.</em></td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 23 · 25 feb</strong><br>arbetspass</td>
+            <td>15 min samrådsunderlag, 60 min bygge och felsökning parvis,
+              10 min avstämning inför redovisningen.</td>
+            <td>Ett halvbyggt system och en konkret fråga. Inte ett tomt
+              kopplingsdäck.</td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 24 · 4 mars</strong><br>redovisning</td>
+            <td>55 min redovisningar, 30 min dokumentation och återkoppling.</td>
+            <td>Ett fungerande system, din dokumentation och en redovisning du
+              förberett.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Kom med ett halvbyggt system och ett specifikt problem.</strong>
+      Passet den 25 februari är det enda tillfälle du får med mig innan
+      redovisningen, och 60 minuter räcker till felsökning men inte till att
+      bygga från noll. Har du fastnat på lovet: skriv ned exakt var, med
+      råvärdena du såg, och ta med anteckningen.</p>
+
+    <h2 id="redovisningen">Området slutar med en redovisning</h2>
+    <p>Kursens första. Den finns av ett skäl som står i betygskriterierna:
+      <strong>F4</strong> handlar om att <em>beskriva</em> hur ett system är
+      uppbyggt, och <strong>F2</strong> handlar bland annat om att samarbeta.
+      Ingen av dem går att belägga med en inlämnad text ensam. En redovisning
+      gör båda samtidigt.</p>
+    <p>Den är kort – tio elever på 55 minuter blir ungefär fem minuter var –
+      och den handlar inte om att sälja bygget. Den handlar om att följa
+      signalvägen från givaren till visaren och kunna svara på varför varje
+      steg ser ut som det gör. Hela upplägget står på
+      <a href="bygge-3-visare.html#redovisning">bygge 3:s sida</a>.</p>
+
+    <h2 id="tre">De tre delarna i bygge 3</h2>
+    <p>Ett mekatroniskt system sammanför <strong>mekanisk struktur,
+      elektroteknik och styrteknik</strong>. I bygge 3 är alla tre lika tunga,
+      och för första gången i kursen börjar kedjan i en riktig givare.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>I bygge 3</th><th>Guiden som lär ut den</th></tr></thead>
+        <tbody>
+          <tr><td>Mekanisk struktur</td><td>visaren, skalan och fästet</td><td><a href="guide-visa-matvardet.html">Visa mätvärdet</a></td></tr>
+          <tr><td>Elektroteknik</td><td>givaren som spänningsdelare, matningen</td><td><a href="guide-analogt-och-digitalt.html">Analogt och digitalt</a> och <a href="guide-motstandsgivare.html">Motståndsgivare</a></td></tr>
+          <tr><td>Styrteknik</td><td>medelvärdet, kalibreringen och funktionen</td><td><a href="guide-kalibrering.html">Kalibrering</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ci">Områdets centrala innehåll</h2>
+    <p>Fyra punkter ur ämnesplanen hävdas här. Den första är områdets kärna och
+      den enda som kräver alla tre delarna samtidigt:</p>
+    <ul>
+      <li><strong>Uppbyggnad av mekatroniska system från sensor, via styrenhet,
+        till aktuator.</strong> Bygge 3 är den kedjan i sin enklaste kompletta
+        form: en givare lämnar en spänning, kortet räknar om den till en
+        storhet, och ett servo visar den.</li>
+      <li><strong>Mätning av olika mekaniska och elektriska storheter.</strong>
+        Du mäter både det elektriska – spänningen ur delaren, givarens resistans
+        – och det som givaren egentligen känner: ljus, temperatur eller
+        avstånd.</li>
+      <li><strong>Grundläggande elektriska storheter och begrepp.</strong>
+        Spänningsdelaren är område 1:s seriekoppling en gång till, nu med ett
+        motstånd som ändrar sig.</li>
+      <li><strong>Tolkning av ritningar och manualer.</strong> Ett datablad är
+        en manual, och det här är området där du läser ett på riktigt i stället
+        för att söka upp en färdig kodrad.</li>
+    </ul>
+
+    <h2 id="efterat">När området är klart</h2>
+    <p>Då kan du koppla en givare som ändrar sitt motstånd, läsa den med
+      <code>analogRead</code>, veta vad de 1024 stegen är värda i volt, ta bort
+      bruset med ett medelvärde, kalibrera med två punkter mot en referens du
+      litar på, och visa resultatet så att någon annan kan avläsa det. Du kan
+      också säga vad ditt instrument <em>inte</em> kan, vilket är den skillnad
+      som gör en mätning till mer än en siffra.</p>
+    <p>Nästa område ger bygget kraft. Servot har hittills orkat med en spak och
+      en lucka. Det som ska dra, lyfta eller rulla behöver en motor, och en
+      motor får inte sitta på en pinne.</p>
+
+    <h2 id="tillhands">Alltid till hands</h2>
+    <ul>
+      <li><a href="../sprakreferens.html">Språkreferens</a> – C++ i ordnad
+        följd. Kapitlen <a href="../sprakreferens.html#loopar">Loopar</a>,
+        <a href="../sprakreferens.html#arrayer">Arrayer</a> och
+        <a href="../sprakreferens.html#funktioner">Funktioner</a> öppnar med det
+        här området.</li>
+      <li><a href="../dokumentationsmall.html">Dokumentationsmall</a> – vad som
+        krävs på E, C och A. Bygge 3 bedöms mot alla fem förmågorna.</li>
+      <li><a href="../samradsunderlag.html">Samrådsunderlag</a> – de tre
+        frågorna du fyller i innan du ber om handledning.</li>
+      <li><a href="../omrade-3-logik-och-tillstand/index.html">Område 3</a> –
+        tiden och tillstånden. Mönstret med <code>millis()</code> används i hela
+        det här området, eftersom både givarna och skärmen har sin egen takt.</li>
+    </ul>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 4</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

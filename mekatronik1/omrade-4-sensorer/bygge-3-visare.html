@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bygge 3 – sensor med mekanisk visare – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o4-bygge3">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Bygge 3 – sensor med mekanisk visare</strong> · område 4</span>
+  <a href="index.html">Område 4</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Område 4 · lektion 23–24 · 25 feb – 4 mars</p>
+    <h1>Bygge 3 – sensor med mekanisk visare</h1>
+    <p class="inledning">En givare mäter något i världen. Kortet räknar om
+      råvärdet till en storhet med enhet, kalibrerad mot en referens du kan
+      namnge. Ett servo flyttar en visare över en skala du själv ritat och kan
+      försvara. Det är kursens tredje bedömda system, och det första du ska
+      förklara muntligt.</p>
+
+    <p class="notis viktig"><span class="rubrik">Det här är ett bedömt mekatroniskt system</span>
+      <strong>Bygge 3 sammanför alla tre delarna:</strong> visaren, tavlan och
+      servofästet är den mekaniska strukturen, givaren i sin spänningsdelare och
+      servots matning är elektrotekniken, och medelvärdet, kalibreringen och
+      omvandlingen till vinkel är styrtekniken. Det ger belägg för <strong>alla
+      fem förmågorna</strong>: <strong>F1</strong> planera och bygga,
+      <strong>F2</strong> använda ritningar och manualer samt samarbeta,
+      <strong>F3</strong> dokumentera, <strong>F4</strong> beskriva
+      systemuppbyggnad och fysikaliska principer, och <strong>F5</strong> bedöma
+      din egen förmåga vid samråd. Det nya jämfört med bygge 2 är att
+      <strong>F4 och samarbetsdelen av F2 beläggs muntligt</strong>, i
+      redovisningen på det andra passet. En inlämnad text kan inte visa att du
+      kan förklara ditt system för någon som frågar tillbaka.</p>
+
+    <h2 id="uppgiften">Uppgiften</h2>
+    <p>Bygg ett <strong>instrument</strong>. Inte en mätning, inte ett program
+      som skriver ut ett tal – ett instrument som någon annan kan gå fram till,
+      läsa av och lita på.</p>
+    <p>Du väljer givaren själv bland kitets: LDR, NTC, potentiometer, HC-SR04
+      eller DHT. Avvägningarna står i
+      <a href="guide-visa-matvardet.html#kravstall">kravställningen i guiden
+      Visa mätvärdet</a>. Vad instrumentet mäter är alltså ditt beslut; vad det
+      ska <em>klara</em> står i kravlistan längre ned.</p>
+    <p>Grundkretsen ser ut så här. Den gäller för LDR, NTC och potentiometer;
+      med HC-SR04 eller DHT byter du ut spänningsdelaren mot givarens egna
+      anslutningar, resten är detsamma.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 440 350" role="img" aria-labelledby="svg-bygge3-titel"
+           style="width:100%;height:auto">
+        <title id="svg-bygge3-titel">Kopplingsschema för bygge 3. Till vänster
+          en rektangel som är Uno-kortet, med fyra anslutningar på höger sida:
+          5 V, D9, GND och A0. Från 5 V, D9 och GND går tre ledningar till
+          servot M1 till höger i bilden, och från GND-ledningen grenar en
+          ledning av nedåt till en jordsymbol. Från 5 V-ledningen grenar en
+          ledning av nedåt genom det fasta motståndet Rf, vidare till en punkt
+          och sedan genom givaren Rg, som är ritad med en diagonal pil genom
+          sig, ned till en andra jordsymbol. Från A0 går en ledning nedåt och
+          höger till punkten mellan de två motstånden.</title>
+
+        <g stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <rect x="14" y="26" width="130" height="140" rx="5"/>
+          <rect x="330" y="32" width="96" height="84" rx="4"/>
+
+          <line x1="144" y1="50" x2="330" y2="50"/>
+          <line x1="144" y1="80" x2="330" y2="80"/>
+          <line x1="144" y1="110" x2="330" y2="110"/>
+
+          <line x1="290" y1="110" x2="290" y2="142"/>
+          <line x1="272" y1="142" x2="308" y2="142" stroke-width="2.2"/>
+          <line x1="279" y1="149" x2="301" y2="149" stroke-width="2.2"/>
+          <line x1="286" y1="156" x2="294" y2="156" stroke-width="2.2"/>
+
+          <line x1="200" y1="50" x2="200" y2="180"/>
+          <rect x="186" y="180" width="28" height="46" rx="3"/>
+          <line x1="200" y1="226" x2="200" y2="272"/>
+          <rect x="186" y="272" width="28" height="44" rx="3"/>
+          <line x1="200" y1="316" x2="200" y2="330"/>
+          <line x1="182" y1="330" x2="218" y2="330" stroke-width="2.2"/>
+          <line x1="189" y1="337" x2="211" y2="337" stroke-width="2.2"/>
+          <line x1="196" y1="344" x2="204" y2="344" stroke-width="2.2"/>
+
+          <line x1="176" y1="326" x2="224" y2="266"/>
+          <path d="M 214 266 L 224 266 L 224 276"/>
+
+          <line x1="144" y1="140" x2="166" y2="140"/>
+          <line x1="166" y1="140" x2="166" y2="252"/>
+          <line x1="166" y1="252" x2="200" y2="252"/>
+        </g>
+
+        <circle cx="200" cy="50" r="3.4" fill="currentColor"/>
+        <circle cx="200" cy="252" r="3.4" fill="currentColor"/>
+        <circle cx="290" cy="110" r="3.4" fill="currentColor"/>
+
+        <g fill="currentColor" font-size="17">
+          <text x="30" y="46">Uno</text>
+          <text x="140" y="45" text-anchor="end">5 V</text>
+          <text x="140" y="75" text-anchor="end">D9</text>
+          <text x="140" y="105" text-anchor="end">GND</text>
+          <text x="140" y="135" text-anchor="end">A0</text>
+          <text x="378" y="24" text-anchor="middle">M1</text>
+          <text x="378" y="80" text-anchor="middle">servo</text>
+          <text x="224" y="208">Rf</text>
+          <text x="234" y="302">Rg</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>Rf är det fasta motståndet</strong> du valt ur din givares
+        uppmätta ytterlägen, med det geometriska medelvärdet som utgångspunkt.
+        Vilket värde du valde och varför är ett eget krav i listan nedan.</li>
+      <li><strong>Rg är givaren</strong>, ritad med en pil tvärs igenom.
+        Ordningen mellan Rf och Rg avgör åt vilket håll råvärdet går – båda
+        hållen är rätt, se
+        <a href="guide-motstandsgivare.html#genomgang">motståndsgivarguiden</a>.</li>
+      <li><strong>A0 mäter mellan de två.</strong> Använder du en I²C-display
+        är A4 och A5 upptagna, så givaren får sitta på A0 till A3.</li>
+      <li><strong>M1 är servot som bär visaren.</strong> Tre sladdar: brun till
+        GND, röd till matningen, orange till D9.</li>
+      <li><strong>De två jordsymbolerna är samma nolla.</strong> Ger du servot
+        egen matning ska batteriets minuspol till samma jord, annars har kortet
+        och servot ingen gemensam referens och visaren rycker slumpmässigt.</li>
+    </ul>
+
+    <h2 id="passen">Två pass, och två veckor emellan dem</h2>
+    <p>Det här är den viktigaste raden på hela sidan. Bygge 3 kravställs på
+      genomgången den 11 februari, men arbetspasset är inte förrän lektion 23.
+      Torsdagen däremellan är sportlov.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Så används de 85 minuterna</th><th>Ha med dig</th></tr></thead>
+        <tbody>
+          <tr>
+            <td colspan="3"><em>Sportlov. Två veckor med kravlistan och kitet
+              hemma hos dig, utan handledning. Det är den tiden bygget blir
+              till.</em></td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 23 · 25 feb</strong><br>arbetspass</td>
+            <td>15 min samrådsunderlag, 60 min bygge och felsökning parvis,
+              10 min avstämning inför redovisningen.</td>
+            <td>Ett halvbyggt system, en konkret fråga, ifyllt samrådsunderlag,
+              ritat schema och dina två kalibreringspunkter.</td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 24 · 4 mars</strong><br>redovisning</td>
+            <td>55 min redovisningar, 30 min dokumentation och återkoppling.</td>
+            <td>Ett fungerande instrument, en förberedd redovisning och en
+              dokumentation som är påbörjad, inte tom.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="notis viktig"><span class="rubrik">Kom med något halvbyggt och en specifik fråga</span>
+      Arbetspasset är det <strong>enda</strong> tillfälle du får med mig innan
+      redovisningen, och sextio minuter räcker till felsökning men inte till att
+      bygga från noll. "Råvärdet står stilla på 1023 fast jag mätt att LDR:n
+      ändrar sig mellan 1,2 och 90 kΩ" är en fråga som går att svara på under ett
+      pass. Ett tomt kopplingsdäck är det inte. Fastnar du under lovet: skriv
+      ned exakt var, med de råvärden du såg, och ta med anteckningen.</p>
+
+    <h2 id="parvis">Parvis, med egen dokumentation och egen redovisning</h2>
+    <p><strong>Bygget görs i par</strong>, som bygge 1 och 2. Ni planerar, ritar
+      och felsöker tillsammans. <strong>F2</strong> handlar bland annat om att
+      samarbeta, och arbetspasset plus redovisningen är de enda ställen där
+      samarbetet går att observera.</p>
+    <p><strong>Dokumentationen skriver ni var för sig, och ni redovisar var för
+      sig.</strong> Samma bygge, två texter, två förklaringar.
+      <strong>F3</strong> och <strong>F4</strong> bedöms individuellt. Ni får
+      dela mätvärden, schema och kalibreringspunkter; formuleringarna,
+      motiveringarna och exemplen ska vara dina.</p>
+    <p>En bra arbetsfördelning i det här bygget är att en av er kalibrerar och
+      den andra mäter kontrollpunkterna, och att ni sedan byter roller och gör om
+      det. Ett par där den ena kodar och den andra bygger tavlan får två halva
+      belägg i stället för två hela – och den som inte rört kalibreringen har
+      ingenting att säga på redovisningen.</p>
+
+    <h2 id="innan">Innan arbetspasset</h2>
+    <p>Fyll i <a href="../samradsunderlag.html">samrådsunderlaget</a>. De tre
+      frågorna – vad jag redan kan, vad jag behöver hjälp med, vad jag tror
+      situationen kräver – tar två minuter och är kursens <strong>enda</strong>
+      belägg för F5.</p>
+    <p>Svara också på de åtta frågorna i
+      <a href="guide-visa-matvardet.html#kravstall">kravställningen</a>. Två av
+      dem är särskilt lätta att skjuta upp och särskilt dyra att skjuta upp:
+      <em>vilken referens</em> du kalibrerar mot, och <em>vilka två exempel</em>
+      du ska beskriva ditt system mot i redovisningen.</p>
+
+    <h2 id="steg">Arbetsgång</h2>
+    <ol>
+      <li><strong>Skriv en mening om vad instrumentet ska visa.</strong>
+        "Rumstemperaturen mellan 15 och 30 grader, avläsbar på en meters
+        avstånd." Den meningen avgör alla val efter den.</li>
+      <li><strong>Mät givaren ensam med multimetern</strong>, i minst två lägen i
+        vardera änden av ditt område. Skriv ned båda talen med enhet. Det är
+        givarens datablad, framtaget av dig.</li>
+      <li><strong>Välj det fasta motståndet</strong> ur de två talen och räkna ut
+        de råvärden du väntar dig i båda ändarna.</li>
+      <li><strong>Rita kopplingsschemat.</strong> Ditt eget, inte en avritning av
+        figuren ovan. Beteckningar, pinnummer, ditt faktiska motståndsvärde och
+        den matning du tänker använda.</li>
+      <li><strong>Bygg kretsen utan servot</strong> och skriv ut råvärdet fyra
+        gånger i sekunden. Jämför med det du räknade fram i steg 3. Gå inte
+        vidare förrän de stämmer överens.</li>
+      <li><strong>Lägg till medelvärdet</strong> med en <code>for</code>-loop och
+        skriv ut både en enskild avläsning och medelvärdet på samma rad. Notera
+        hur mycket lugnare den andra kolumnen är – det är ett mätvärde till
+        dokumentationen.</li>
+      <li><strong>Kalibrera i två punkter</strong> mot din referens. Vänta in
+        givaren vid varje punkt. Skriv ned par av referensvärde och råvärde, med
+        datum.</li>
+      <li><strong>Skriv omvandlingsfunktionen</strong> och kontrollera den mot
+        båda punkterna och mot minst en punkt emellan.</li>
+      <li><strong>Koppla in servot och kör det ensamt</strong> från
+        <code>VINKEL_MIN</code> till <code>VINKEL_MAX</code>. Hitta dina verkliga
+        ändlägen genom att lyssna efter surret.</li>
+      <li><strong>Räkna ut och rita tavlan.</strong> Grader visarrörelse per
+        enhet, avstånd mellan strecken längs bågen, och var siffrorna sitter.
+        Gradskiva, inte ögonmått.</li>
+      <li><strong>Sätt ihop kedjan.</strong> Medelvärde, kalibrering till
+        storhet, <code>constrain</code>, storhet till vinkel, skrivning till
+        servot bara vid ändring. I den ordningen.</li>
+      <li><strong>Bygg den mekaniska strukturen.</strong> Servot i ett fäste som
+        inte fjädrar, tavlan fast, visaren styv nog att inte böja sig.
+        Kontrollera för hand att armen går fritt hela vägen mellan ändlägena
+        innan du låter koden köra dit.</li>
+      <li><strong>Gör kontrollmätningen.</strong> Se nästa avsnitt. Den görs på
+        det färdiga instrumentet.</li>
+      <li><strong>Prova det som inte ska fungera.</strong> Gå utanför området i
+        båda riktningarna. Dra ur och sätt i strömmen. Skugga givaren mitt i en
+        avläsning. Anteckna vad som hände – de anteckningarna blir
+        dokumentationens bästa avsnitt.</li>
+      <li><strong>Förbered redovisningen</strong> och dokumentera. Var för sig.</li>
+    </ol>
+
+    <h2 id="matningen">Kontrollmätningen</h2>
+    <p>Ett bedömt bygge ska innehålla mätvärden med enhet. I det här bygget är
+      mätningen dessutom hela poängen: ett instrument som ingen kontrollerat är
+      bara en visare som rör sig.</p>
+
+    <h3>Obligatorisk: kalibreringen kontrollerad mot referensen</h3>
+    <p>Mät minst <strong>fem punkter</strong> spridda över hela ditt område,
+      varav minst två som <em>inte</em> är dina kalibreringspunkter, och minst en
+      på mitten. Läs av tavlan som en annan människa skulle göra det – på
+      strecken, inte i koden – och jämför med referensen.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Referensen visar</th><th>Råvärde</th><th>Tavlan avläses till</th><th>Fel</th></tr></thead>
+        <tbody>
+          <tr><td>16,0 °C</td><td>615</td><td>16,0 °C</td><td>0,0 (kalibreringspunkt)</td></tr>
+          <tr><td>19,5 °C</td><td>575</td><td>19,0 °C</td><td>−0,5</td></tr>
+          <tr><td>23,0 °C</td><td>535</td><td>22,5 °C</td><td>−0,5</td></tr>
+          <tr><td>26,5 °C</td><td>495</td><td>26,5 °C</td><td>0,0</td></tr>
+          <tr><td>30,0 °C</td><td>456</td><td>30,0 °C</td><td>0,0 (kalibreringspunkt)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Siffrorna är ett exempel på hur en tabell ska se ut, inte ett facit. Det
+      som gör den till ett belägg är sista kolumnen och en mening om vad den
+      betyder: ligger felen åt <em>samma</em> håll är de systematiska och du kan
+      förklara varför; hoppar de fram och tillbaka är det brus, och då ska du
+      säga hur stort.</p>
+
+    <h3>Obligatorisk: bygget mäter sitt eget brus</h3>
+    <p>Låt bygget skriva ut skillnaden mellan största och minsta av sina sexton
+      prov, som i
+      <a href="guide-kalibrering.html#genomgang">kalibreringsguiden</a>. Anteckna
+      spridningen i råvärdessteg och räkna om den till din storhet. Räkningen ur
+      tabellen ovan, som har kalibreringspunkterna 16,0 °C vid råvärde 615 och
+      30,0 °C vid 456:</p>
+    <p><code>k = (30,0 − 16,0) / (456 − 615) = 14,0 / (−159) = −0,0881 °C per steg</code></p>
+    <p>Med en uppmätt spridning på 6 steg blir det</p>
+    <p><code>6 · 0,0881 = 0,53 °C mellan största och minsta enskilda avläsning</code></p>
+    <p><code>0,53 / √16 = 0,53 / 4 = 0,13 °C kvar efter medelvärdesbildningen</code></p>
+    <p>Det talet svarar på frågan hur många decimaler instrumentet får visa, och
+      det ska stå i dokumentationen.</p>
+
+    <h3>Frivillig, för den som siktar högre: servots ström</h3>
+    <p>Bryt servots röda sladd och koppla in multimetern i serie, som i bygge 1
+      och 2. Mät i vila och när visaren rör sig. Jämför med vad kortets 5 V kan
+      lämna och avgör om instrumentet behöver egen matning.</p>
+    <p class="notis varna"><span class="rubrik">Använd 10 A-uttaget</span>
+      Ett servo kan dra över en halv ampere när det rör sig. Sitter sladden i
+      milliampere-uttaget bränner du säkringen i stället för att få ett mätvärde.
+      Byt uttag <em>och</em> vred innan du mäter.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="krav">Kraven</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <p>Kryssen sparas i din egen webbläsare. De är en checklista för dig, inte
+        en inlämning.</p>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bygge3-krav-givarval"><span><strong>Vald
+          givare med uppmätta ytterlägen.</strong> Vilken givare du valde, vad
+          den ska mäta, och minst två resistanser eller motsvarande mätta med
+          multimeter i vardera änden av ditt område. Med enhet.</span></label></li>
+        <li><label><input type="checkbox" id="bygge3-krav-delare"><span><strong>Givaren
+          kopplad som spänningsdelare, med motiverat fast motstånd.</strong>
+          Vilket värde du valde, räkningen som gav det, och vilket håll du satte
+          givaren åt. Använder du HC-SR04 eller DHT motiverar du i stället
+          pinnval och tidskrav ur databladet.</span></label></li>
+        <li><label><input type="checkbox" id="bygge3-krav-schema"><span><strong>Eget
+          kopplingsschema, ritat innan du kopplade.</strong> Givaren, det fasta
+          motståndet, servot, alla pinnummer och den matning du faktiskt
+          använder. Ritningen ska gå att bygga efter utan att du står
+          bredvid.</span></label></li>
+        <li><label><input type="checkbox" id="bygge3-krav-medelvarde"><span><strong>Medelvärde
+          av minst åtta prov, med en <code>for</code>-loop.</strong> Inte en
+          enskild <code>analogRead</code>. Antalet prov ska stå som en
+          <code>const int</code> och användas både i loopen och där summan
+          delas.</span></label></li>
+        <li><label><input type="checkbox" id="bygge3-krav-funktion"><span><strong>Egen
+          funktion med returtyp som gör om råvärdet till din storhet.</strong>
+          Deklarerad ovanför <code>setup()</code>, med parametertyp och returtyp
+          utskrivna. Den ska anropas från mer än ett ställe, eller vara skriven
+          så att den kan det.</span></label></li>
+        <li><label><input type="checkbox" id="bygge3-krav-kalibrering"><span><strong>Tvåpunktskalibrering
+          med båda punkterna dokumenterade.</strong> Referensvärde, råvärde,
+          datum och <em>vilken referens</em> du använde. Punkterna ska ligga i
+          vardera änden av det område instrumentet ska visa.</span></label></li>
+        <li><label><input type="checkbox" id="bygge3-krav-constrain"><span><strong>Bestämt
+          beteende utanför området.</strong> <code>constrain()</code> på plats,
+          servovinklar med marginal till ändlägena, och en mening om vad
+          instrumentet gör när värdet ligger utanför skalan.</span></label></li>
+        <li><label><input type="checkbox" id="bygge3-krav-visare"><span><strong>Mekanisk
+          visare som rör sig på riktigt.</strong> Servot skruvat i ett fäste som
+          inte fjädrar, en arm som inte böjer sig, och en rörelse som går att
+          peka på från andra sidan rummet. Servot skrivs bara när vinkeln
+          ändrats.</span></label></li>
+        <li><label><input type="checkbox" id="bygge3-krav-skala"><span><strong>Skala
+          ritad efter beräkning, inte efter ögonmått.</strong> Grader
+          visarrörelse per enhet, avståndet mellan strecken, och en siffra vid
+          minst tre streck. Räkningen ska finnas i dokumentationen. En visare som
+          rör sig proportionellt mot en fel skala är ett fel
+          instrument.</span></label></li>
+        <li><label><input type="checkbox" id="bygge3-krav-kontrollmatning"><span><strong>Kontrollmätning
+          i minst fem punkter mot referensen.</strong> Tabell med referensvärde,
+          råvärde, avläst värde och fel, varav minst två punkter som inte är
+          kalibreringspunkter och minst en på mitten av
+          skalan.</span></label></li>
+        <li><label><input type="checkbox" id="bygge3-krav-brus"><span><strong>Bygget
+          mäter sin egen spridning.</strong> Skillnaden mellan största och minsta
+          prov, i råvärdessteg och omräknad till din storhet, med en slutsats om
+          hur många decimaler instrumentet får visa.</span></label></li>
+        <li><label><input type="checkbox" id="bygge3-krav-beskrivning"><span><strong>Skriftlig
+          beskrivning med ett industriexempel och ett vardagsexempel.</strong>
+          Hur ditt system är uppbyggt från givare via styrenhet till aktuator,
+          vilka fysikaliska principer som är inblandade, och två verkliga system
+          som löser en liknande uppgift – ett ur industrin och ett ur
+          vardagen.</span></label></li>
+        <li><label><input type="checkbox" id="bygge3-krav-redovisning"><span><strong>Förberedd
+          redovisning på fem minuter.</strong> Signalvägen från givare till
+          visare, ett tal ur din kalibrering, ett fel du hittade, och dina två
+          exempel. Se avsnittet om redovisningen nedan.</span></label></li>
+        <li><label><input type="checkbox" id="bygge3-krav-samrad"><span><strong>Ifyllt
+          samrådsunderlag.</strong> De tre frågorna besvarade <em>före</em>
+          handledningen på arbetspasset. Kursens enda belägg för
+          F5.</span></label></li>
+        <li><label><input type="checkbox" id="bygge3-krav-dokumentation"><span><strong>Egen
+          dokumentation enligt mallen.</strong> Skriven av dig, även om bygget
+          gjordes i par. Minst de fyra E-punkterna i
+          <a href="../dokumentationsmall.html">dokumentationsmallen</a>.</span></label></li>
+      </ul>
+      <p><button type="button" class="knapp tom" id="nollstall">Nollställ kryssen</button></p>
+    </section>
+
+    <h2 id="redovisning">Redovisningen</h2>
+    <p>Kursens första. Den är kort – tio elever på 55 minuter blir ungefär
+      <strong>fem minuter var</strong> – och den finns av ett bestämt skäl.
+      <strong>F4</strong> lyder att eleven <em>beskriver</em> hur ett system är
+      uppbyggt, och <strong>F2</strong> handlar bland annat om att samarbeta.
+      Ingen av de två går att belägga med en inlämnad text ensam: en text kan
+      vara skriven av vem som helst, och den kan inte frågas tillbaka.</p>
+
+    <h3>Vad de fem minuterna ska innehålla</h3>
+    <ol>
+      <li><strong>Vad instrumentet visar, och över vilket område.</strong> En
+        mening, med enhet. Börja här och gå aldrig tillbaka hit.</li>
+      <li><strong>Signalvägen, del för del.</strong> Peka på bygget medan du
+        pratar: givaren, spänningsdelaren, den analoga ingången, medelvärdet,
+        kalibreringen, vinkeln, servot, visaren. <strong>Namnge de tre delarna</strong>
+        – mekanisk struktur, elektroteknik, styrteknik – och säg vad i ditt bygge
+        som är vad. Det är den meningen som direkt belägger F4.</li>
+      <li><strong>Ett tal ur din kalibrering.</strong> Vilka två punkter du
+        mätte, mot vilken referens, och vad ett råvärdessteg blev värt i din
+        storhet. Ett tal med en motivering väger mer än fem påståenden.</li>
+      <li><strong>Ett fel du hittade och vad det visade sig vara.</strong> Det
+        här är det avsnitt som brukar bli bäst, och det är också det som är
+        svårast att hitta på i efterhand. Anteckna medan du bygger.</li>
+      <li><strong>Dina två exempel.</strong> Ett system ur industrin och ett ur
+        vardagen som löser en liknande uppgift. Säg vad som är likt och vad som
+        är olikt – det olika är oftast det intressanta.</li>
+    </ol>
+
+    <h3>Så förbereder du dig</h3>
+    <ul>
+      <li><strong>Öva högt en gång, med klockan.</strong> Fem minuter är kortare
+        än det låter. Den som inte övat kommer till punkt två när tiden är
+        slut.</li>
+      <li><strong>Ta med bygget, inte bilder på det.</strong> Du ska kunna peka.
+        Fungerar det inte den dagen redovisar du det ändå och säger vad som är
+        fel – det är fullt godkänt och ofta mer intressant.</li>
+      <li><strong>Ha ett papper med dina fem tal på.</strong> Kalibreringspunkter,
+        spridning, största fel i kontrollmätningen. Inga andra anteckningar
+        behövs.</li>
+      <li><strong>Räkna med följdfrågor.</strong> "Varför just det motståndet?"
+        "Vad händer om det blir kallare än skalan?" "Hur vet du att tavlan
+        stämmer på mitten?" Alla tre går att förbereda.</li>
+    </ul>
+    <p class="notis"><span class="rubrik">Skillnaden mellan E och C hörs i redovisningen</span>
+      <strong>F4 skiljer E från C på ett enda ord: <em>översiktligt</em> mot
+      <em>utförligt</em>.</strong> En översiktlig beskrivning säger vad delarna
+      heter. En utförlig säger också <em>varför</em> varje del ser ut som den gör
+      och vad som hade hänt om den sett ut annorlunda. "Här sitter ett motstånd
+      på 10 kΩ" är det första. "Här sitter 10 kΩ eftersom givaren går mellan 1,2
+      och 90 kΩ och roten ur produkten blir 10,4 kΩ – med 1 kΩ hade jag bara fått
+      44 procent av skalan" är det andra. Samma bygge, olika betyg.</p>
+
+    <h2 id="dokumentation">Dokumentationen</h2>
+    <p>Använd <a href="../dokumentationsmall.html">dokumentationsmallen</a>. De
+      fyra E-punkterna är golvet: vad systemet gör, kopplingsschemat, koden, och
+      vad som gick fel på vägen.</p>
+    <p class="notis"><span class="rubrik">Dokumentationen bär E/C-gränsen</span>
+      <strong>F3 skiljer E från C på ett enda ord: <em>enkel</em> mot
+      <em>noggrann</em>.</strong> Ordet handlar om vad du skriver, inte om vad du
+      byggt. Ett utmärkt instrument med tunn text landar på E. Det motsatta
+      gäller inte – du kan inte skriva dig till en visare som pekar rätt. Men av
+      de två är det texten som oftast fattas.</p>
+
+    <h3>Fyra saker som hör särskilt till det här bygget</h3>
+    <ul>
+      <li><strong>Kalibreringen som en egen rubrik.</strong> De två punkterna,
+        referensen med namn, datum, den framräknade lutningen och vad ett
+        råvärdessteg är värt. Det här är bygge 3:s motsvarighet till bygge 0:s
+        beräknat-mot-uppmätt, och det är det tyngsta enskilda beviset för
+        F1.</li>
+      <li><strong>Skalans räkning.</strong> Grader visarrörelse per enhet,
+        avståndet mellan strecken längs bågen, och varför du valde just den
+        graderingen. En mening om instrumentets upplösning hör hit.</li>
+      <li><strong>Felkällorna, uppdelade.</strong> Vilka av dina fel är
+        slumpmässiga och vilka är systematiska? Använd tabellen i
+        <a href="guide-kalibrering.html#genomgang">kalibreringsguiden</a> som
+        checklista och skriv om <em>dina</em>, inte om alla.</li>
+      <li><strong>Vad instrumentet inte kan.</strong> Området det inte täcker,
+        noggrannheten hos referensen du kalibrerade mot, trögheten hos givaren.
+        Att kunna säga var din modell slutar och den riktiga konstruktionen
+        börjar är precis vad "utförligt och nyanserat" betyder.</li>
+    </ul>
+
+    <h2 id="fastnar">Om det inte fungerar</h2>
+    <ul>
+      <li><strong>Råvärdet står stilla nära 0 eller 1023.</strong> Delaren saknar
+        sin ena halva, eller en gren är avbruten. Mät spänningen på A0 med
+        multimetern – det skiljer fallen åt på tio sekunder.</li>
+      <li><strong>Råvärdet hoppar vilt fast givaren står still.</strong> Antingen
+        glapp i kopplingsdäcket, eller så är A0 inte kopplad till någonting alls.
+        En analog ingång utan koppling är en antenn.</li>
+      <li><strong>Instrumentet stämmer i ändarna men inte på mitten.</strong>
+        Omvandlingen görs i ett steg, direkt från råvärde till vinkel. Kalibrera
+        först, mappa sedan. Det här är områdets signaturfel och det står
+        utförligt i <a href="guide-visa-matvardet.html#genomgang">guiden Visa
+        mätvärdet</a>.</li>
+      <li><strong>Kalibreringsfunktionen ger samma tal oavsett insignal.</strong>
+        Lutningen räknades i heltal och blev 0. Konstanterna för storheten ska
+        vara <code>float</code>, med decimalpunkt.</li>
+      <li><strong>Medelvärdet blir negativt när du ökar antalet prov.</strong>
+        Summan är en <code>int</code> och har vikt runt. 64 · 1023 = 65 472 ryms
+        inte i en <code>int</code>. Byt till <code>long</code>.</li>
+      <li><strong>Visaren står i ändläget och surrar.</strong> Värdet ligger
+        utanför skalan och <code>constrain</code> saknas, eller så är
+        servovinklarna satta till 0 och 180 utan marginal.</li>
+      <li><strong>Kortet startar om när visaren rör sig.</strong> Brownout.
+        Servot drar mer än kortets matning orkar. Ta bort lasten från armen och
+        prova igen – försvinner felet var det aldrig i koden. Ge servot egen
+        matning med gemensam GND, se
+        <a href="../omrade-2-styrenheten/guide-servot.html#genomgang">servoguiden</a>.</li>
+      <li><strong>Displayen är svart, eller <code>analogRead</code> ger skräp
+        efter att den kopplats in.</strong> I²C ligger på A4 och A5. Kör en
+        I²C-avsökare för adressen och flytta givaren till A0 till A3.</li>
+      <li><strong>Uppladdningen misslyckas.</strong> Sitter något på pinne 0
+        eller 1? Är rätt port vald? Koppla ur allt utom USB-sladden och ladda upp
+        en tom sketch för att avgöra om felet sitter i kortet eller i
+        bygget.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Med bygge 3 redovisat är område 4 klart. Du har då byggt tre bedömda
+      mekatroniska system, och det tredje kan något de två första inte kunde:
+      mäta en storhet som glider, säga hur säkert den är mätt, och visa den för
+      någon annan.</p>
+    <p>Nästa område ger bygget kraft. Servot har hittills orkat med en spak, en
+      lucka och en visare. Det som ska dra, lyfta eller rulla behöver en motor –
+      och en motor får inte sitta på en pinne.</p>
+    <p>Tillbaka till <a href="index.html">område 4</a> eller till
+      <a href="../index.html">kursens material</a>.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 4</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

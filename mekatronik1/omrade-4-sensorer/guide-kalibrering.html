@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kalibrering – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o4-kalibrering">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Kalibrering</strong> · område 4</span>
+  <a href="index.html">Område 4</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 4 · lektion 20</p>
+    <h1>Kalibrering</h1>
+    <p class="inledning">Ett råvärde är ett tal mellan 0 och 1023. Det är inte
+      en temperatur, inte en ljusstyrka och inte ett avstånd – det är bara ett
+      tal. Den här guiden handlar om steget från talet till en storhet med enhet,
+      och om vad som kan gå fel på vägen. Tre nya saker i språket kommer in här,
+      och alla tre för att mätningen kräver dem: <strong>loopen</strong>,
+      <strong>arrayen</strong> och din <strong>första egna funktion</strong>.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan lägga en rät linje genom två uppmätta punkter och räkna om ett
+        råvärde till en storhet med enhet.</li>
+      <li>Du kan skriva en egen funktion med returtyp och parameter, och säga
+        varför omvandlingen ska ligga i en funktion och inte upprepas.</li>
+      <li>Du kan förklara vad <code>map()</code> gör med decimalerna och vad den
+        gör med värden utanför sitt område, och rätta båda felen.</li>
+      <li>Du kan skilja ett slumpmässigt fel från ett systematiskt, veta vilket
+        av dem ett medelvärde tar bort, och mäta bruset i ditt eget bygge.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Två punkter räcker</h3>
+    <p>En kalibrering är ett svar på frågan: <em>vilken storhet svarar det här
+      råvärdet mot?</em> Svaret får du genom att ställa din givare bredvid något
+      du litar på – en referens – läsa av båda samtidigt, och skriva ned paret.
+      Gör det två gånger vid två olika värden, så har du två punkter. Genom två
+      punkter går exakt en rät linje.</p>
+    <p>Linjen genom punkterna <code>(x1, y1)</code> och <code>(x2, y2)</code>
+      har lutningen</p>
+    <p><code>k = (y2 − y1) / (x2 − x1)</code></p>
+    <p>och skrivs</p>
+    <p><code>y = y1 + k · (x − x1)</code></p>
+    <p>Här är <code>x</code> råvärdet och <code>y</code> storheten. Ingen
+      matematik utöver det behövs.</p>
+    <p><strong>Räknat exempel.</strong> En NTC i en delare, avläst mot en
+      referenstermometer på två temperaturer:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Punkt</th><th>Referensen visade</th><th>Råvärdet var</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>20,0 °C</td><td>569</td></tr>
+          <tr><td>2</td><td>30,0 °C</td><td>456</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Lutningen blir</p>
+    <p><code>k = (30,0 − 20,0) / (456 − 569) = 10,0 / (−113) = −0,0885 °C per steg</code></p>
+    <p>Minustecknet är väntat: NTC:ns resistans faller när det blir varmare, så
+      råvärdet faller också. Linjen blir</p>
+    <p><code>T = 20,0 + (−0,0885) · (rå − 569)</code></p>
+    <p>Kontrollera den mot punkt 2 innan du går vidare:</p>
+    <p><code>T = 20,0 − 0,0885 · (456 − 569) = 20,0 − 0,0885 · (−113) = 20,0 + 10,0 = 30,0 °C</code></p>
+    <p>Och prova ett värde mitt emellan, rå = 512:</p>
+    <p><code>T = 20,0 − 0,0885 · (512 − 569) = 20,0 + 5,04 = 25,0 °C</code></p>
+
+    <h3>Hur långt utanför punkterna linjen håller</h3>
+    <p>NTC:ns verkliga samband är ingen rät linje – det såg du i
+      <a href="guide-motstandsgivare.html#genomgang">förra guiden</a>. Linjen är
+      alltså en approximation, och frågan är hur bra. Tabellen nedan jämför
+      tvåpunktslinjen med de råvärden en NTC på 10 kΩ i en 10 kΩ-delare faktiskt
+      ger, räknade ur databladet.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Verklig temperatur</th><th>Råvärde</th><th>Linjen säger</th><th>Fel</th></tr></thead>
+        <tbody>
+          <tr><td>0 °C</td><td>788</td><td>0,6 °C</td><td>+0,6</td></tr>
+          <tr><td>10 °C</td><td>684</td><td>9,8 °C</td><td>−0,2</td></tr>
+          <tr><td>15 °C</td><td>627</td><td>14,9 °C</td><td>−0,1</td></tr>
+          <tr><td><strong>20 °C</strong></td><td><strong>569</strong></td><td><strong>20,0 °C</strong></td><td>kalibreringspunkt</td></tr>
+          <tr><td>25 °C</td><td>512</td><td>25,0 °C</td><td>0,0</td></tr>
+          <tr><td><strong>30 °C</strong></td><td><strong>456</strong></td><td><strong>30,0 °C</strong></td><td>kalibreringspunkt</td></tr>
+          <tr><td>35 °C</td><td>403</td><td>34,7 °C</td><td>−0,3</td></tr>
+          <tr><td>40 °C</td><td>354</td><td>39,0 °C</td><td>−1,0</td></tr>
+          <tr><td>50 °C</td><td>270</td><td>46,5 °C</td><td>−3,5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Läs tabellen nedifrån och upp. <strong>Tjugo grader utanför
+      kalibreringsområdet är linjen 3,5 grader fel.</strong> Tio grader utanför
+      är den en grad fel. Inuti området, mellan 20 och 30, är felet mindre än en
+      tjugondels grad.</p>
+    <p><strong>Regeln som följer:</strong> lägg dina två punkter i vardera änden
+      av det område du faktiskt ska mäta i, inte där det är bekvämt att mäta.
+      Ska instrumentet visa rumstemperatur räcker kranvatten och kroppsvärme.
+      Ska det visa ugnstemperatur duger de inte alls.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 320 215" role="img" aria-labelledby="svg-kalibrering-titel"
+           style="width:100%;height:auto">
+        <title id="svg-kalibrering-titel">Ett diagram med råvärde på den vågräta
+          axeln, från 250 till vänster till 800 till höger, och temperatur på
+          den lodräta axeln, från 50 grader upptill till 0 grader nedtill. En
+          heldragen, svagt böjd kurva går från övre vänstra hörnet ned mot nedre
+          högra. En streckad rät linje ligger nästan ovanpå kurvan i mitten och
+          viker av från den mot båda ändarna. Två ifyllda punkter markerar där
+          kurvan och den streckade linjen skär varandra.</title>
+
+        <g stroke="currentColor" stroke-width="1.4" fill="none">
+          <line x1="40" y1="30" x2="40" y2="190"/>
+          <line x1="40" y1="190" x2="305" y2="190"/>
+        </g>
+
+        <polyline points="59,40 96,69 142,98 167,113 192,127 243,156 290,185"
+                  stroke="currentColor" stroke-width="2" fill="none"
+                  stroke-linejoin="round"/>
+
+        <line x1="55" y1="48" x2="295" y2="186" stroke="currentColor"
+              stroke-width="1.6" stroke-dasharray="6 5" fill="none"/>
+
+        <circle cx="142" cy="98" r="4.5" fill="currentColor"/>
+        <circle cx="192" cy="127" r="4.5" fill="currentColor"/>
+
+        <g fill="currentColor" font-size="14">
+          <text x="34" y="35" text-anchor="end">50</text>
+          <text x="34" y="194" text-anchor="end">0</text>
+          <text x="6" y="112">°C</text>
+          <text x="46" y="208">250</text>
+          <text x="300" y="208" text-anchor="end">800</text>
+          <text x="160" y="208">rå</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>Den heldragna kurvan</strong> är vad givaren faktiskt gör,
+        räknad ur databladets tabell.</li>
+      <li><strong>Den streckade linjen</strong> är din tvåpunktskalibrering.</li>
+      <li><strong>De två punkterna</strong> är där du mätte. Där stämmer linjen
+        per definition exakt.</li>
+      <li><strong>Avståndet mellan linjen och kurvan</strong> är felet, och det
+        växer åt båda hållen bort från punkterna. Det är samma tal som står i
+        tabellen ovan.</li>
+    </ul>
+
+    <h3>Din första egna funktion</h3>
+    <p>Omvandlingen från råvärde till grader behövs på mer än ett ställe. Redan i
+      nästa guide ska samma tal både skrivas ut på seriemonitorn och styra ett
+      servo, och att skriva samma formel två gånger är att skapa två ställen att
+      rätta när kalibreringen ändras. Det är precis det en funktion löser.</p>
+    <p>I Python skrev du <code>def ravarde_till_grader(ravarde):</code> och lät
+      tolken lista ut resten. C++ vill veta två saker till: vad funktionen
+      <em>lämnar tillbaka</em> och vad varje parameter är för sorts värde.</p>
+    <pre><code class="sprak-cpp">// Kalibreringen, uppmätt mot en referenstermometer. Byt mot dina egna tal.
+const int   RA_VID_20 = 569;    // ravardet da referensen visade 20,0 grader
+const int   RA_VID_30 = 456;    // ravardet da referensen visade 30,0 grader
+const float TEMP_20   = 20.0;
+const float TEMP_30   = 30.0;
+
+float ravardeTillGrader(int ravarde) {
+  float k = (TEMP_30 - TEMP_20) / (RA_VID_30 - RA_VID_20);
+  return TEMP_20 + k * (ravarde - RA_VID_20);
+}</code></pre>
+    <p>Rad för rad:</p>
+    <ul>
+      <li><code>float</code> allra först är <strong>returtypen</strong> – vad
+        anropet lämnar tillbaka. En temperatur har decimaler, alltså
+        <code>float</code>. Hade funktionen inte lämnat något alls hade det
+        stått <code>void</code>, som i <code>void setup()</code>.</li>
+      <li><code>ravardeTillGrader</code> är namnet. Döp funktioner efter vad de
+        gör, inte efter vad de innehåller.</li>
+      <li><code>(int ravarde)</code> är <strong>parametern</strong>, med sin typ.
+        Inuti funktionen är <code>ravarde</code> en helt vanlig variabel som
+        innehåller en <em>kopia</em> av det du skickade in. Ändrar du den händer
+        ingenting utanför.</li>
+      <li><code>return</code> skickar tillbaka värdet och avslutar funktionen på
+        stället. Allt efter en <code>return</code> som körs blir aldrig kört.</li>
+    </ul>
+    <p>Anropet ser ut som vilket annat anrop som helst:</p>
+    <pre><code class="sprak-cpp">int   ravarde = analogRead(A0);
+float grader  = ravardeTillGrader(ravarde);</code></pre>
+    <p>Kontrollera typerna en gång, för det är där nybörjarfelen sitter.
+      <code>TEMP_30 - TEMP_20</code> är <code>10.0</code>, ett flyttal.
+      <code>RA_VID_30 - RA_VID_20</code> är <code>-113</code>, ett heltal. När
+      ett flyttal delas med ett heltal räknar C++ i flyttal, så <code>k</code>
+      blir <code>-0.0885</code> och inte <code>0</code>. <strong>Hade båda talen
+      varit heltal hade svaret blivit 0</strong>, och funktionen hade lämnat
+      20,0 vad du än matade in. Det är områdets vanligaste tysta fel.</p>
+    <p class="notis"><span class="rubrik">Var funktionen ska stå</span>
+      Skriv dina egna funktioner <strong>ovanför <code>setup()</code></strong>.
+      Arduino-miljön är visserligen snäll och klarar oftast att du skriver dem
+      längst ned, men i vanlig C++ måste en funktion vara känd innan den
+      används. Att alltid lägga dem överst är en vana som fungerar i båda
+      världarna och kostar ingenting.</p>
+
+    <h3>map() och vad den gör med decimalerna</h3>
+    <p><code>map()</code> är Arduinos färdiga omskalning. Den räknar precis det
+      här:</p>
+    <p><code>ut = (x − in_min) · (ut_max − ut_min) / (in_max − in_min) + ut_min</code></p>
+    <p>Alltså exakt samma räta linje som ovan, uttryckt med två punkter i varje
+      ände i stället för med lutning. Bekvämt – med en enda hake, och den är
+      stor.</p>
+    <p><strong><code>map()</code> räknar i heltal.</strong> Alla fem talen är
+      heltal och divisionen är en heltalsdivision, som kapar decimalerna i
+      stället för att avrunda dem. Räkna igenom det klassiska exemplet:</p>
+    <p><code>map(512, 0, 1023, 0, 5)</code></p>
+    <p><code>= (512 − 0) · (5 − 0) / (1023 − 0) + 0 = 512 · 5 / 1023 = 2560 / 1023 = 2,50…</code></p>
+    <p>och heltalsdivisionen kapar det till</p>
+    <p><code>2</code></p>
+    <p>Inte 2,5. Utsignalen kan bara bli 0, 1, 2, 3, 4 eller 5 – sex möjliga
+      värden ur 1024 möjliga insignaler. Nästan hela din upplösning kastades
+      bort på en rad som såg rimlig ut.</p>
+    <p class="notis"><span class="rubrik">Ett annat kort kan svara 3</span>
+      På <strong>ditt Uno-kort blir svaret 2</strong>, varje gång –
+      Arduino-kärnan för AVR trunkerar. Kör raden själv och se det, det står som
+      första steg i Prova själv nedan. Byter du senare till ett ESP32-kort blir
+      samma rad <strong>3</strong>: den kärnan lägger till halva nämnaren före
+      divisionen och avrundar därmed i stället för att kapa. Poängen är
+      densamma i båda fallen: <strong>2,5 finns inte bland de möjliga
+      svaren</strong>, och ett svar som inte går jämnt ut kan skilja ett steg
+      mellan två kärnor. Räkningarna längre ned i guiden är valda så att de går
+      jämnt ut och därför ger samma svar på båda.</p>
+    <p><strong>Två utvägar finns, och båda används.</strong> Den första är att
+      skala till en finare enhet i stället för till en grov:</p>
+    <p><code>map(512, 0, 1023, 0, 5000) = 512 · 5000 / 1023 = 2 560 000 / 1023 = 2502</code></p>
+    <p>2502 millivolt, alltså 2,502 V. Nu ryms hela upplösningen, eftersom
+      utområdet har fler steg än inområdet. <strong>Regeln:
+      <code>map()</code> är bra så länge utområdet är minst lika stort som
+      inområdet.</strong></p>
+    <p>Den andra utvägen är att inte använda <code>map()</code> alls när svaret
+      ska ha decimaler, utan räkna med <code>float</code> som i funktionen ovan.
+      För en temperatur i grader är det nästan alltid rätt val. För en
+      servovinkel i hela grader är <code>map()</code> rätt val, eftersom svaret
+      ändå ska bli ett heltal.</p>
+
+    <h3>map() begränsar ingenting</h3>
+    <p>Den andra hälften av fällan är att <code>map()</code> inte bryr sig om
+      sina egna gränser. Ligger insignalen utanför <code>in_min … in_max</code>
+      räknar formeln glatt vidare och lämnar ett svar utanför
+      <code>ut_min … ut_max</code>.</p>
+    <p>Anta att du kalibrerat ditt instrument på råvärdena 200 till 800 och
+      mappar dem till en servovinkel 0 till 180 grader. En dag blir det varmare
+      än du någonsin mätte, och råvärdet blir 900:</p>
+    <p><code>map(900, 200, 800, 0, 180) = (900 − 200) · 180 / (800 − 200) = 700 · 180 / 600 = 126 000 / 600 = 210</code></p>
+    <p>Tvåhundratio grader. Åt andra hållet, med råvärdet 100:</p>
+    <p><code>map(100, 200, 800, 0, 180) = (100 − 200) · 180 / 600 = −18 000 / 600 = −30</code></p>
+    <p>Minus trettio grader. Vad som händer sedan beror på vad du matar talet
+      till, och inget av alternativen är bra:</p>
+    <ul>
+      <li><strong>Till ett servo:</strong> biblioteket klipper visserligen
+        vinkeln till 0–180, så servot går inte sönder. Men visaren står
+        blickstilla i sitt ändläge och visar 180 för <em>varje</em> värde över
+        området. Instrumentet ljuger tyst, och du kan inte se på visaren om det
+        är 35 grader eller 60.</li>
+      <li><strong>Till en display eller till <code>Serial</code>:</strong> talet
+        skrivs ut precis som det är. "Temperatur: 63 grader" i ett rum där det
+        är 24.</li>
+      <li><strong>Till ett villkor:</strong> ett larm som ska gå vid en gräns
+        kan slå till eller utebli helt fel, och felet syns bara i det ovanliga
+        fallet – alltså precis då det spelar roll.</li>
+    </ul>
+    <p><code>constrain()</code> är motmedlet. Den tar ett värde och två gränser
+      och lämnar värdet klippt till intervallet:</p>
+    <pre><code class="sprak-cpp">const int RA_MIN = 200;      // ravardet vid kalibreringens ena ande
+const int RA_MAX = 800;      // ravardet vid den andra
+
+int ravarde = analogRead(A0);
+int begransat = constrain(ravarde, RA_MIN, RA_MAX);
+int vinkel = map(begransat, RA_MIN, RA_MAX, 0, 180);</code></pre>
+    <p><code>constrain(900, 200, 800)</code> ger 800, och vinkeln blir då 180 –
+      samma slutresultat som servobiblioteket ändå hade gett, men nu
+      <strong>med ditt beslut i din kod</strong> i stället för i ett bibliotek
+      vars beteende du hade fått slå upp.</p>
+    <p>Bättre än att bara klippa är att klippa <em>och säga till</em>. Riktiga
+      instrument gör det: en multimeter visar <code>OL</code>, en våg blinkar.
+      Ditt bygge kan göra samma sak med en rad:</p>
+    <pre><code class="sprak-cpp">if (ravarde &gt; RA_MAX || ravarde &lt; RA_MIN) {
+  Serial.println("utanfor omradet");
+}</code></pre>
+
+    <h3>Brus: en enda avläsning darrar</h3>
+    <p>Läs samma stillastående givare sexton gånger i rad och du får sällan
+      sexton lika tal. Typiskt kan det se ut så här:</p>
+    <p><code>511  513  512  510  514  512  511  513</code></p>
+    <p>Det är <strong>brus</strong>: små slumpmässiga störningar från
+      omvandlaren själv, från matningen och från allt elektriskt i rummet. Det
+      går inte att koppla bort. Men det går att räkna bort, eftersom bruset lika
+      gärna drar uppåt som nedåt: lägger du ihop många avläsningar tar
+      avvikelserna delvis ut varandra.</p>
+    <p><strong>Regeln är att medelvärdet av N prov har ett slumpmässigt fel som
+      är √N gånger mindre än en enskild avläsnings.</strong> Med sexton prov:</p>
+    <p><code>√16 = 4, alltså en fjärdedel av bruset</code></p>
+    <p>Att komma ned ytterligare en fjärdedel kräver sexton gånger fler prov:</p>
+    <p><code>√256 = 16, och 256 · 104 µs = 26 600 µs = 27 ms</code></p>
+    <p>Sexton prov kostar däremot bara</p>
+    <p><code>16 · 104 µs = 1 664 µs = 1,7 ms</code></p>
+    <p>Det är därför sexton eller trettiotvå är de tal du ser överallt: de tar
+      bort merparten av bruset för nästan ingen tid alls, och steget därefter
+      kostar mycket och ger lite.</p>
+    <p>Att läsa sexton gånger kräver en <strong>loop</strong>. Så här ser en
+      <code>for</code>-loop ut i C++:</p>
+    <pre><code class="sprak-cpp">const int GIVARE_PIN = A0;
+const int ANTAL_PROV = 16;
+
+int medelvarde() {
+  long summa = 0;
+  for (int i = 0; i &lt; ANTAL_PROV; i++) {
+    summa = summa + analogRead(GIVARE_PIN);
+  }
+  return summa / ANTAL_PROV;
+}</code></pre>
+    <p>Parentesen efter <code>for</code> innehåller tre delar åtskilda av
+      semikolon: <strong>startvärde</strong> (<code>int i = 0</code>),
+      <strong>villkor att fortsätta</strong> (<code>i &lt; ANTAL_PROV</code>)
+      och <strong>vad som sker efter varje varv</strong> (<code>i++</code>, som
+      betyder <code>i = i + 1</code>). Loopen körs alltså med
+      <code>i</code> lika med 0, 1, 2 … 15 – sexton varv. Att räkna från 0 och
+      använda <code>&lt;</code> i stället för <code>&lt;=</code> är standard,
+      och det passar ihop med hur arrayer numreras, vilket är nästa stycke.</p>
+    <p><code>summa</code> är en <code>long</code> och inte en <code>int</code>,
+      och det är inte pedanteri. Sexton avläsningar på högst 1023 ger</p>
+    <p><code>16 · 1023 = 16 368</code></p>
+    <p>vilket ryms i en <code>int</code>, som slutar vid 32 767. Men sextiofyra
+      avläsningar ger</p>
+    <p><code>64 · 1023 = 65 472</code></p>
+    <p>och då har talet vikt runt till ett negativt värde utan ett ord om saken.
+      Skriv <code>long</code> från början så är frågan avklarad oavsett hur många
+      prov du väljer.</p>
+
+    <h3>Arrayen: att spara proven och mäta sitt eget brus</h3>
+    <p>Medelvärdet ovan behövde ingen array – summan räckte. Men medelvärdet
+      berättar inte <em>hur mycket</em> givaren darrar, och det är ett tal du
+      vill ha: det är gränsen för vad ditt instrument kan visa, och det är ett
+      mätvärde som hör hemma i dokumentationen. För att räkna på proven i
+      efterhand måste de sparas, och sexton tal som hör ihop sparas i en
+      <strong>array</strong>.</p>
+    <pre><code class="sprak-cpp">const int GIVARE_PIN = A0;
+const int ANTAL_PROV = 16;
+
+int prov[ANTAL_PROV];        // sexton platser for int, numrerade 0 till 15
+
+void fyllProv() {
+  for (int i = 0; i &lt; ANTAL_PROV; i++) {
+    prov[i] = analogRead(GIVARE_PIN);
+  }
+}
+
+int spridning() {
+  int minsta  = prov[0];
+  int storsta = prov[0];
+  for (int i = 1; i &lt; ANTAL_PROV; i++) {
+    if (prov[i] &lt; minsta)  { minsta  = prov[i]; }
+    if (prov[i] &gt; storsta) { storsta = prov[i]; }
+  }
+  return storsta - minsta;
+}</code></pre>
+    <p>Tre saker skiljer en C++-array från en Python-lista, och alla tre går att
+      läsa ut ur raden <code>int prov[ANTAL_PROV];</code>:</p>
+    <ul>
+      <li><strong>Längden är bestämd när arrayen skapas</strong> och kan aldrig
+        ändras. Det finns inget <code>append</code>. Antalet måste dessutom vara
+        känt vid kompileringen, vilket är skälet att <code>ANTAL_PROV</code> är
+        <code>const</code>.</li>
+      <li><strong>Alla platser har samma typ.</strong> En array av
+        <code>int</code> rymmer bara <code>int</code>.</li>
+      <li><strong>Numreringen börjar på 0.</strong> Sexton platser heter
+        <code>prov[0]</code> till <code>prov[15]</code>. Det finns inget
+        <code>prov[16]</code> – men C++ säger inte ifrån om du skriver det. Det
+        är arbetsminnet <em>bredvid</em> arrayen som läses eller skrivs över,
+        och symtomet blir en helt annan variabel som ändrar sig av sig själv.
+        Python hade kastat ett <code>IndexError</code>; C++ gör ingenting.</li>
+    </ul>
+    <p>Med de två funktionerna på plats kan bygget rapportera både sitt
+      mätvärde och sin egen osäkerhet:</p>
+    <pre><code class="sprak-cpp">fyllProv();
+
+long summa = 0;
+for (int i = 0; i &lt; ANTAL_PROV; i++) {
+  summa = summa + prov[i];
+}
+int medel = summa / ANTAL_PROV;
+
+Serial.print(medel);
+Serial.print("  spridning ");
+Serial.println(spridning());</code></pre>
+    <p>Är spridningen sex steg är det, med kalibreringen från början av
+      guiden,</p>
+    <p><code>6 · 0,0885 = 0,53 °C</code></p>
+    <p>mellan största och minsta enskilda avläsning. Efter medelvärdesbildning
+      över sexton prov är den slumpmässiga delen en fjärdedel av det:</p>
+    <p><code>0,53 / 4 = 0,13 °C</code></p>
+    <p>Det talet är svaret på frågan "hur många decimaler får jag skriva ut?"
+      Två decimaler vore att påstå mer än instrumentet vet. En decimal är
+      ärligt.</p>
+
+    <h3>Medelvärde tar bort brus, inte ett systematiskt fel</h3>
+    <p>Det här är områdets viktigaste begreppsskillnad, och den som blandas ihop
+      oftast.</p>
+    <ul>
+      <li>Ett <strong>slumpmässigt fel</strong> drar lika ofta åt ena hållet som
+        åt det andra. Det syns som ett tal som darrar. Ett medelvärde tar bort
+        det, med √N.</li>
+      <li>Ett <strong>systematiskt fel</strong> drar åt <em>samma</em> håll varje
+        gång. Det syns inte alls – talet står stadigt, det står bara fel. Ett
+        medelvärde av tusen felaktiga avläsningar är exakt lika fel som en enda.
+        Bara en kalibrering hjälper.</li>
+    </ul>
+    <p><strong>Exempel på ett systematiskt fel som kalibreringen fångar.</strong>
+      Ditt fasta motstånd är märkt 10 kΩ men är i verkligheten 10,4 kΩ, vilket
+      ryms väl inom en femprocentig tolerans. Vid 25 °C, med en NTC på 10,0 kΩ,
+      blir spänningen</p>
+    <p><code>Uut = 5 · 10 000 / (10 400 + 10 000) = 50 000 / 20 400 = 2,451 V</code></p>
+    <p>i stället för 2,500 V, alltså ett råvärde på</p>
+    <p><code>rå = 2,451 · 1023 / 5 = 501, i stället för 512</code></p>
+    <p>Elva steg fel, varje gång, åt samma håll. Översatt till temperatur:</p>
+    <p><code>11 · 0,0885 = 0,97 ≈ 1,0 °C</code></p>
+    <p>En hel grad. <strong>Och tvåpunktskalibreringen tar bort hela felet</strong>,
+      eftersom båda punkterna mättes upp med samma motstånd på plats. Det är
+      hela skälet att man kalibrerar den färdiga kedjan i stället för att räkna
+      på delarna var för sig.</p>
+    <p><strong>Exempel på ett systematiskt fel som kalibreringen inte fångar.</strong>
+      Referenstermometern du kalibrerade mot visar en halv grad för lite. Då blir
+      båda dina punkter en halv grad för låga, linjen genom dem likaså, och varje
+      avläsning ditt bygge gör är en halv grad för låg. Ingen mängd prov, ingen
+      bättre kod och ingen tredje kalibreringspunkt mot samma termometer hittar
+      det. Bara en bättre referens gör det. Det är därför industrins
+      kalibreringar går tillbaka till en normal som i sin tur är kalibrerad, och
+      det är därför du ska skriva i dokumentationen <em>vilken</em> referens du
+      använde.</p>
+    <p class="notis"><span class="rubrik">En trevlig egenskap: matningen räknar bort sig själv</span>
+      Omvandlarens referens är kortets 5 V, och din spänningsdelare matas från
+      samma 5 V. Sjunker matningen till 4,8 V sjunker <em>både</em> spänningen
+      på pinnen och det som ett steg är värt, i samma proportion – och råvärdet
+      blir oförändrat. Kalibrerar du direkt från råvärde till grader, som i den
+      här guiden, försvinner alltså matningens fel av sig självt. Går du
+      omvägen över volt och räknar med 5,00 V som om det vore sanning, får du
+      tillbaka felet som ett systematiskt fel på några procent. Den kortare
+      vägen är den bättre.</p>
+
+    <h3>Felkällorna, samlade</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Felkälla</th><th>Slag</th><th>Så syns den i mätvärdet</th><th>Botemedel</th></tr></thead>
+        <tbody>
+          <tr><td>Brus i omvandlare, matning och ledningar</td><td>slumpmässigt</td><td>talet darrar några steg fram och tillbaka</td><td>medelvärde av N prov, felet delas med √N</td></tr>
+          <tr><td>Glapp i kopplingsdäcket</td><td>slumpmässigt, hoppande</td><td>enstaka helt orimliga tal mellan normala</td><td>tryck ned benen, byt hål, sålla bort ytterlägen</td></tr>
+          <tr><td>Tolerans i det fasta motståndet</td><td>systematiskt</td><td>syns inte – alla värden lika mycket fel</td><td>tvåpunktskalibrering av hela kedjan</td></tr>
+          <tr><td>Referensen visar fel</td><td>systematiskt</td><td>syns inte alls</td><td>bättre referens. Inget annat hjälper</td></tr>
+          <tr><td>Mätning utanför kalibreringsområdet</td><td>systematiskt, växande</td><td>felet växer ju längre bort du kommer</td><td>kalibrera i det område du mäter i, och <code>constrain</code></td></tr>
+          <tr><td>Givarens tröghet</td><td>dynamiskt</td><td>värdet släpar efter vid snabba ändringar</td><td>vänta in värdet, och redovisa svarstiden</td></tr>
+          <tr><td>Egenuppvärmning i givaren</td><td>systematiskt</td><td>något för hög temperatur, stadigt</td><td>större motstånd i delaren, alltså mindre ström</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <p><strong>I industrin:</strong> en trycktransmitter i en processanläggning
+      kalibreras i exakt två punkter, och de har egna namn:
+      <strong>nollpunkt</strong> och <strong>spann</strong>. Nollpunkten ställs
+      med givaren öppen mot atmosfären, spannet mot en referens som lämnar ett
+      känt tryck. Båda talen skrivs in i ett kalibreringsprotokoll med datum,
+      instrumentets serienummer och referensens identitet – och referensen är i
+      sin tur kalibrerad mot en normal, som är kalibrerad mot en nationell
+      normal. Kedjan kallas <strong>spårbarhet</strong>, och den finns för att
+      lösa exakt det problem din referenstermometer hade.</p>
+    <p>Storleksordningen på vad som står på spel: en transmitter för 0–10 bar
+      vars nollpunkt glidit 0,1 bar ger ett fel på</p>
+    <p><code>0,1 / 10 = 1 % av mätområdet, i varje avläsning</code></p>
+    <p>Det låter lite. I en dosering som blandar två komponenter efter tryck
+      betyder en procent åt fel håll att varje sats blir fel, och det syns inte
+      i mätvärdet – det syns i produkten, veckor senare. Därför är
+      kalibreringsintervall inskrivna i underhållsplanen, inte något man gör när
+      man misstänker något.</p>
+
+    <p><strong>I vardagen:</strong> badrumsvågen kalibrerar sin nollpunkt varje
+      gång du använder den. Den nollställer sig själv medan den står tom – det
+      är kalibreringspunkt ett, och den sköts åt dig. Men den har ingen andra
+      punkt, och därför kan dess <em>spann</em> glida utan att någonting ser
+      konstigt ut. Vågen visar fortfarande noll när den är tom och ett rimligt
+      tal när du står på den.</p>
+    <p>Det går att testa på två minuter. Väg dig. Ta upp en hantel eller en
+      vattendunk du vet väger 10,0 kg och väg dig igen. Skillnaden ska bli
+      10,0 kg. Visar den 9,4 kg är spannet</p>
+    <p><code>(10,0 − 9,4) / 10,0 = 0,06 = 6 % fel</code></p>
+    <p>och på en person som väger 70 kg betyder det</p>
+    <p><code>70 · 0,06 = 4,2 kg</code></p>
+    <p>Fyra kilo, systematiskt, i varje vägning – utan att någonting darrar
+      eller ser trasigt ut. Det är samma sorts fel som trycktransmitterns
+      spann, mätt med samma sorts tvåpunktstanke, och det är därför en våg som
+      används i handeln måste kontrolleras med kända vikter och inte bara
+      nollställas.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li>Kör raden <code>Serial.println(map(512, 0, 1023, 0, 5));</code> i
+        <code>setup()</code>. Ditt Uno-kort ska svara <strong>2</strong>, och
+        att se det med egna ögon är hela poängen: trunkeringen är inget
+        påstående i en guide utan något du just mätt. Kör sedan
+        <code>Serial.println(map(512, 0, 1023, 0, 5000));</code> och jämför.
+        Skriv en mening om varför den andra raden är användbar och den första
+        inte är det.</li>
+      <li>Skriv <code>medelvarde()</code> ur guiden och skriv ut både en enskild
+        <code>analogRead</code> och medelvärdet på samma rad, fyra gånger i
+        sekunden. Titta i en halv minut på en stillastående givare. Vilken av
+        de två kolumnerna darrar mest?</li>
+      <li>Lägg till arrayen och <code>spridning()</code>. Anteckna spridningen i
+        två lägen: med kortet på USB från datorn, och med kortet på en
+        powerbank eller ett batteri. Skiljer det?</li>
+      <li>Kalibrera din NTC i två punkter. Punkt ett: ett glas kranvatten med en
+        vanlig termometer i. Punkt två: samma glas efter att du hällt i varmt
+        vatten. Vänta en minut vid varje punkt så att givaren hinner med, och
+        anteckna par av <em>referens</em> och <em>råvärde</em>.</li>
+      <li>Skriv <code>ravardeTillGrader()</code> med dina egna två punkter och
+        låt bygget skriva ut grader med en decimal. Kontrollera mot termometern
+        vid en <em>tredje</em> temperatur som ligger mellan dina två punkter.
+        Skriv ned skillnaden – det är din kalibrerings verkliga fel.</li>
+      <li>Ändra <code>TEMP_20</code> och <code>TEMP_30</code> från
+        <code>const float</code> till <code>const int</code>, och skriv
+        <code>20</code> och <code>30</code> utan decimal. Ladda upp och se vad
+        funktionen svarar nu, vid tre olika råvärden. Räkna ut varför innan du
+        ändrar tillbaka.</li>
+      <li>Mät en fjärde punkt långt utanför dina två, till exempel iskallt
+        vatten. Jämför vad linjen säger med vad termometern säger, och jämför
+        avvikelsen med tabellen i guiden.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Du mäter rå = 800 vid 5,0 °C och rå = 400 vid 45,0 °C. Vad blir
+        lutningen, och vad visar rå = 600?</summary>
+      <p><code>k = (45,0 − 5,0) / (400 − 800) = 40,0 / (−400) = −0,100 °C per steg</code>.
+        Linjen blir <code>T = 5,0 − 0,100 · (rå − 800)</code>, och vid rå = 600:
+        <code>T = 5,0 − 0,100 · (−200) = 5,0 + 20,0 = 25,0 °C</code>. Mitt
+        emellan, som sig bör när punkten ligger mitt emellan.</p>
+    </details>
+
+    <details>
+      <summary>Vad blir <code>map(1023, 0, 1023, 0, 180)</code>, och vad blir
+        <code>map(1100, 0, 1023, 0, 180)</code>?</summary>
+      <p>Den första blir <code>1023 · 180 / 1023 = 180</code>, alltså precis
+        toppen. Den andra blir <code>1100 · 180 / 1023 = 198 000 / 1023 =
+        193,5…</code>, alltså 193 – utanför det utområde du själv angav.
+        <code>map()</code> kontrollerar ingenting; det gör
+        <code>constrain()</code>.</p>
+    </details>
+
+    <details>
+      <summary>Din givare darrar sex steg. Du går från 16 till 64 prov. Hur
+        mycket bättre blir det, och vad kostar det?</summary>
+      <p><code>√64 / √16 = 8 / 4 = 2</code>, alltså hälften så stort
+        slumpmässigt fel. Kostnaden är <code>64 · 104 µs = 6,7 ms</code> i
+        stället för 1,7 ms. Dubbelt så bra för fyra gånger tiden – och nästa
+        halvering kostar fyra gånger till. Det är därför man sällan går över
+        några tiotal prov.</p>
+    </details>
+
+    <details>
+      <summary>Ditt bygge visar konsekvent 2 grader för mycket. Hjälper det att
+        läsa 256 prov i stället för 16?</summary>
+      <p>Nej, inte det minsta. Ett fel som är lika stort och åt samma håll varje
+        gång är systematiskt, och ett medelvärde av felaktiga tal är lika
+        felaktigt som talen. Kalibrera om, och kontrollera först att referensen
+        du kalibrerar mot är den du tror.</p>
+    </details>
+
+    <details>
+      <summary>Varför står det <code>long summa</code> och inte
+        <code>int summa</code>?</summary>
+      <p>Därför att summan växer med antalet prov. 16 · 1023 = 16 368 ryms i en
+        <code>int</code>, men 64 · 1023 = 65 472 gör det inte – en
+        <code>int</code> tar slut vid 32 767 och viker runt till ett negativt
+        tal utan varning. Symtomet är ett medelvärde som plötsligt blir negativt
+        när du ökade antalet prov.</p>
+    </details>
+
+    <details>
+      <summary>Vad händer om du skriver <code>prov[16]</code> i en array som
+        deklarerats <code>int prov[16];</code>?</summary>
+      <p>Platserna heter 0 till 15, så <code>prov[16]</code> ligger utanför.
+        C++ säger ingenting, varken vid kompilering eller vid körning – du läser
+        eller skriver i minnet bredvid arrayen. Symtomet är att en helt annan
+        variabel ändrar sig av sig själv, vilket är ett av de svåraste felen
+        att hitta. Låt loopens villkor vara <code>i &lt; ANTAL_PROV</code> och
+        problemet uppstår aldrig.</p>
+    </details>
+
+    <details>
+      <summary>Varför ska omvandlingen ligga i en funktion i stället för att
+        skrivas där den behövs?</summary>
+      <p>Därför att den behövs på mer än ett ställe – i nästa guide både på
+        seriemonitorn och på servot – och två kopior av samma formel betyder två
+        ställen att rätta när kalibreringen ändras. Det är också självdokumenterande:
+        <code>ravardeTillGrader(medel)</code> säger vad som händer, medan samma
+        formel utskriven mitt i <code>loop()</code> bara ser ut som räkning.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Kalibreringen räknas i heltal och blir 0.</strong>
+        <code>(30 - 20) / (456 - 569)</code> med bara heltal blir
+        <code>10 / -113</code>, som i heltalsdivision är 0. Funktionen lämnar då
+        samma tal oavsett insignal. Skriv <code>30.0</code> och
+        <code>20.0</code>, eller deklarera konstanterna som
+        <code>float</code>.</li>
+      <li><strong><code>map()</code> används på ett värde med decimaler.</strong>
+        Utområdet är mindre än inområdet, decimalerna kapas, och upplösningen
+        försvinner. Skala till en finare enhet eller räkna i
+        <code>float</code>.</li>
+      <li><strong><code>constrain()</code> saknas.</strong> Bygget fungerar hela
+        vintern och gör något orimligt första varma dagen, eller tvärtom. Ett
+        fel som bara dyker upp utanför kalibreringsområdet är det svåraste att
+        upptäcka genom att prova.</li>
+      <li><strong>Kalibreringspunkterna ligger för nära varandra.</strong> Två
+        punkter som skiljer sig med tre grader ger en lutning som mest består av
+        brus. Lägg punkterna i vardera änden av mätområdet.</li>
+      <li><strong>Kalibreringen görs om efter varje ändring i kopplingen.</strong>
+        Rätt – men den gäller kedjan som helhet. Byter du det fasta motståndet,
+        givaren, eller flyttar till en annan analog pinne, är kalibreringen inte
+        längre giltig. Skriv datum bredvid dina två punkter.</li>
+      <li><strong>Fler decimaler skrivs ut än mätningen bär.</strong> Är
+        spridningen en halv grad är den andra decimalen ren fantasi.
+        <code>Serial.print(grader, 1)</code> är rätt precision för det här
+        bygget.</li>
+      <li><strong>Medelvärdet används mot ett systematiskt fel.</strong> Symtomet
+        är att bygget blir tystare men lika fel. Fråga alltid först: darrar
+        talet, eller står det stilla på fel ställe?</li>
+      <li><strong>Arrayens längd står som ett tal på flera ställen.</strong>
+        <code>int prov[16];</code> på en rad och <code>i &lt; 20</code> i loopen
+        på en annan. Använd samma <code>const int</code> i båda, så kan de inte
+        komma isär.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Tre kapitel i språkreferensen öppnar med den här guiden:
+      <a href="../sprakreferens.html#loopar">Loopar</a>,
+      <a href="../sprakreferens.html#funktioner">Funktioner</a> och
+      <a href="../sprakreferens.html#arrayer">Arrayer</a>. De är guidens
+      uppslagsdel – här står de i den ordning mätproblemet krävde dem, där står
+      de i sin egen ordning med alla detaljer samlade.</p>
+    <p>Nästa guide är <a href="guide-datablad.html">Datablad</a>. Där byter vi
+      ut de givare du kan mäta upp själv med en multimeter mot sådana där talen
+      måste hämtas ur tillverkarens dokument – och där ett bibliotek för första
+      gången är rätt svar på en givare.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 4</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -35,8 +35,9 @@
     <p class="ledtext">Mekatronik 1 · alltid till hands</p>
     <h1>Språkreferens</h1>
     <p class="inledning">C++ i ordnad följd, för dig som kan Python från tidigare
-      kurser. Sidan byggs ut i takt med områdena – de avsnitt som ännu är tomma
-      skal fylls när området de hör till öppnar.</p>
+      kurser. Kapitlen står i språkets ordning, inte i den ordning kursen möter
+      dem – sidan byggs ut i takt med områdena och är tänkt att slås upp i, inte
+      läsas från början till slut.</p>
 
     <h2 id="python-cpp">Från Python till C++</h2>
     <p>Samma idéer, annan syntax. De fyra skillnader som stör flest i början,
@@ -206,21 +207,290 @@ void loop() {
       på det som står här.</p>
 
     <h2 id="loopar">Loopar</h2>
-    <p>Öppnas i takt med område 4: <code>for</code>- och <code>while</code>-loopar,
-      och var <code>loop()</code> passar in. Först där uppstår det egentliga
-      behovet – att läsa en givare flera gånger i rad och bilda ett medelvärde
-      av avläsningarna.</p>
+    <p>En loop upprepar ett block ett bestämt eller obestämt antal gånger. I den
+      här kursen dyker behovet upp i område 4, när en givare ska läsas flera
+      gånger i rad och avläsningarna vägas samman till ett medelvärde.</p>
+
+    <h3>for: när du vet hur många varv</h3>
+    <p>Samma tanke som Pythons <code>for i in range(16):</code>, men de tre
+      delarna skrivs ut i stället för att gömmas i <code>range</code>.</p>
+    <pre><code class="sprak-cpp">for (int i = 0; i &lt; 16; i++) {
+  Serial.println(i);        // skriver 0, 1, 2 … 15
+}</code></pre>
+    <p>Parentesen innehåller tre delar, åtskilda av semikolon:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>I exemplet</th><th>När den körs</th></tr></thead>
+        <tbody>
+          <tr><td>Startvärde</td><td><code>int i = 0</code></td><td>en gång, innan första varvet</td></tr>
+          <tr><td>Villkor att fortsätta</td><td><code>i &lt; 16</code></td><td>före varje varv. Är det falskt är loopen slut</td></tr>
+          <tr><td>Steg</td><td><code>i++</code></td><td>efter varje varv. Betyder <code>i = i + 1</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Räkna från 0 och använd <code>&lt;</code>, inte
+      <code>&lt;=</code>.</strong> Med <code>i &lt; 16</code> körs loopen exakt
+      sexton varv, med <code>i</code> mellan 0 och 15 – vilket är precis de namn
+      platserna i en array med sexton element har. Skriver du
+      <code>i &lt;= 16</code> får du sjutton varv och ett steg utanför
+      arrayen.</p>
+    <p><code>i</code> är deklarerad <em>inuti</em> parentesen och finns bara
+      inuti loopen. Behöver du värdet efteråt måste variabeln deklareras
+      utanför.</p>
+
+    <h3>Räknat exempel: medelvärde av sexton avläsningar</h3>
+    <pre><code class="sprak-cpp">const int GIVARE_PIN = A0;
+const int ANTAL_PROV = 16;
+
+int medelvarde() {
+  long summa = 0;
+  for (int i = 0; i &lt; ANTAL_PROV; i++) {
+    summa = summa + analogRead(GIVARE_PIN);
+  }
+  return summa / ANTAL_PROV;
+}</code></pre>
+    <p><code>summa</code> är en <code>long</code> och inte en <code>int</code>,
+      och det är inte pedanteri. Sexton avläsningar på högst 1023 ger</p>
+    <p><code>16 · 1023 = 16 368</code></p>
+    <p>som ryms i en <code>int</code>. Men sextiofyra ger</p>
+    <p><code>64 · 1023 = 65 472</code></p>
+    <p>och en <code>int</code> tar slut vid 32 767. Summan viker då runt till ett
+      negativt tal, tyst, och medelvärdet blir meningslöst. Skriv
+      <code>long</code> från början.</p>
+
+    <h3>while: när du inte vet hur många varv</h3>
+    <pre><code class="sprak-cpp">const int KNAPP_PIN = 2;
+
+int vantaPaTryck() {
+  int forsok = 0;
+  while (digitalRead(KNAPP_PIN) == HIGH &amp;&amp; forsok &lt; 1000) {
+    forsok = forsok + 1;
+  }
+  return forsok;
+}</code></pre>
+    <p><code>while</code> upprepar så länge villkoret är sant. Det är den
+      farliga loopen: blir villkoret aldrig falskt står bygget still för alltid,
+      utan felmeddelande. <strong>Ge alltid en <code>while</code>-loop en andra
+      väg ut</strong>, som räknaren ovan eller en tidsgräns med
+      <code>millis()</code>.</p>
+    <p class="notis"><span class="rubrik">loop() är ingen loop du skrivit</span>
+      <code>void loop()</code> är en <em>funktion</em> som Arduino-miljön anropar
+      om och om igen åt dig. Den är alltså en oändlig upprepning en våning
+      ovanför din kod. Det är därför en variabel som deklareras inuti
+      <code>loop()</code> börjar om varje varv, och det är därför en
+      <code>while</code>-loop inuti <code>loop()</code> som aldrig tar slut
+      stoppar allt annat i bygget.</p>
+
+    <h3>Vanliga fel</h3>
+    <ul>
+      <li><strong>Semikolon direkt efter parentesen.</strong>
+        <code>for (int i = 0; i &lt; 16; i++);</code> är en komplett loop med ett
+        tomt block. Raderna efter körs en enda gång. Kompilatorn säger
+        ingenting.</li>
+      <li><strong><code>&lt;=</code> där det ska stå <code>&lt;</code>.</strong>
+        Ett varv för mycket, och ett steg utanför arrayen.</li>
+      <li><strong>Räknaren ändras inuti loopen också.</strong> Står
+        <code>i = i + 1</code> både i steget och i blocket hoppar loopen över
+        varannan plats.</li>
+      <li><strong><code>while</code> utan väg ut.</strong> Bygget hänger sig och
+        ser ut att ha kraschat. Lägg till en räknare eller en tidsgräns.</li>
+    </ul>
 
     <h2 id="funktioner">Funktioner</h2>
-    <p>Öppnas i takt med område 4: att deklarera en egen funktion med returtyp
-      och parametertyper. Fram till dess räcker <code>setup()</code> och
-      <code>loop()</code>, som Arduino-miljön anropar åt dig.</p>
+    <p>Du har använt funktioner sedan område 2 – <code>digitalRead</code>,
+      <code>millis</code>, <code>analogRead</code> – och fyllt två av dem själv,
+      <code>setup()</code> och <code>loop()</code>. I område 4 skriver du dina
+      egna, med namn du valt, och skälet är konkret: omvandlingen från råvärde
+      till en storhet behövs på mer än ett ställe, och två kopior av samma formel
+      är två ställen att rätta.</p>
+
+    <h3>Formen</h3>
+    <p>I Python skrev du <code>def area(bas, hojd):</code> och lät tolken lista
+      ut resten. C++ vill veta två saker till: vad funktionen lämnar tillbaka och
+      vad varje parameter är för sorts värde.</p>
+    <pre><code class="sprak-cpp">float area(float bas, float hojd) {
+  return bas * hojd / 2.0;
+}</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>I exemplet</th><th>Vad den betyder</th></tr></thead>
+        <tbody>
+          <tr><td>Returtyp</td><td><code>float</code></td><td>vad anropet lämnar tillbaka. <code>void</code> om det inte lämnar något</td></tr>
+          <tr><td>Namn</td><td><code>area</code></td><td>döp efter vad funktionen gör</td></tr>
+          <tr><td>Parametrar</td><td><code>float bas, float hojd</code></td><td>varje parameter har sin egen typ utskriven</td></tr>
+          <tr><td>Kropp</td><td>mellan måsvingarna</td><td>koden som körs vid varje anrop</td></tr>
+          <tr><td><code>return</code></td><td><code>return bas * hojd / 2.0;</code></td><td>skickar tillbaka värdet och avslutar funktionen på stället</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Anropet ser ut som vilket annat anrop som helst, och resultatet tas emot
+      av en variabel av rätt typ:</p>
+    <pre><code class="sprak-cpp">float triangeln = area(4.0, 3.0);   // 6.0</code></pre>
+
+    <h3>void: en funktion som inte lämnar något</h3>
+    <pre><code class="sprak-cpp">const int LAMPA_PIN = 8;
+
+void blinkaEnGang(int tid) {
+  digitalWrite(LAMPA_PIN, HIGH);
+  delay(tid);
+  digitalWrite(LAMPA_PIN, LOW);
+}</code></pre>
+    <p><code>void</code> betyder "inget värde tillbaka". Funktionen gör något i
+      stället för att räkna ut något. <code>setup()</code> och
+      <code>loop()</code> är av samma sort – nu vet du varför det står
+      <code>void</code> framför dem.</p>
+
+    <h3>Parametern är en kopia</h3>
+    <pre><code class="sprak-cpp">void oka(int tal) {
+  tal = tal + 1;          // andrar bara kopian inuti funktionen
+}
+
+void provaOka() {
+  int mitt = 5;
+  oka(mitt);
+  Serial.println(mitt);   // skriver 5, inte 6
+}</code></pre>
+    <p>Det värde du skickar in kopieras till parametern. Ändringar inuti
+      funktionen syns inte utanför den. Vill du få ut ett värde använder du
+      <code>return</code>.</p>
+
+    <h3>Var funktionen ska stå</h3>
+    <p>Skriv dina egna funktioner <strong>ovanför <code>setup()</code></strong>.
+      Arduino-miljön är snäll och klarar oftast att de står längst ned, men i
+      vanlig C++ måste en funktion vara känd innan den används. Att alltid lägga
+      dem överst är en vana som fungerar i båda världarna och kostar
+      ingenting.</p>
+
+    <h3>Räknat exempel: kalibrering</h3>
+    <p>Områdets riktiga användning. Två uppmätta punkter blir en rät linje, och
+      linjen blir en funktion.</p>
+    <pre><code class="sprak-cpp">const int   RA_VID_20 = 569;    // ravardet da referensen visade 20,0 grader
+const int   RA_VID_30 = 456;    // ravardet da referensen visade 30,0 grader
+const float TEMP_20   = 20.0;
+const float TEMP_30   = 30.0;
+
+float ravardeTillGrader(int ravarde) {
+  float k = (TEMP_30 - TEMP_20) / (RA_VID_30 - RA_VID_20);
+  return TEMP_20 + k * (ravarde - RA_VID_20);
+}</code></pre>
+    <p>Kontrollera typerna, för det är där felet sitter.
+      <code>TEMP_30 - TEMP_20</code> är <code>10.0</code>, ett flyttal;
+      <code>RA_VID_30 - RA_VID_20</code> är <code>-113</code>, ett heltal. Ett
+      flyttal delat med ett heltal räknas i flyttal, så <code>k</code> blir</p>
+    <p><code>10,0 / (−113) = −0,0885</code></p>
+    <p><strong>Hade båda varit heltal hade heltalsdivisionen gett 0</strong>, och
+      funktionen hade lämnat 20,0 vad du än matade in.</p>
+
+    <h3>Vanliga fel</h3>
+    <ul>
+      <li><strong>Returtypen glöms.</strong> C++ kräver den, och
+        felmeddelandet pekar ofta på raden efter.</li>
+      <li><strong><code>return</code> saknas i en funktion som inte är
+        <code>void</code>.</strong> Vad som lämnas tillbaka blir då odefinierat,
+        och kompilatorn nöjer sig ibland med en varning.</li>
+      <li><strong>Heltalsdivision inuti funktionen.</strong> Ett svar som alltid
+        blir 0 eller alltid samma tal. Kontrollera att minst ett av talen i varje
+        division har decimalpunkt.</li>
+      <li><strong>Funktionen ändrar en parameter och väntar sig att det
+        märks.</strong> Parametern är en kopia. Använd <code>return</code>.</li>
+      <li><strong>Funktionen anropas innan den är deklarerad, i vanlig
+        C++.</strong> Arduino-miljön döljer det oftast, men vanan att lägga
+        funktionerna överst kostar ingenting och fungerar överallt.</li>
+    </ul>
 
     <h2 id="arrayer">Arrayer</h2>
-    <p>Öppnas i takt med område 4: fasta arrayer, och hur de skiljer sig från
-      Pythons dynamiska listor i praktiken. De hör ihop med loopkapitlet ovan –
-      det är när flera mätvärden ska sparas och vägas samman som en array blir
-      nödvändig i stället för bekväm.</p>
+    <p>En array är ett antal platser för värden av samma typ, i rad, under ett
+      gemensamt namn. Den kommer in i område 4, när sexton mätvärden ska sparas
+      så att det går att räkna på dem i efterhand.</p>
+
+    <h3>Deklaration och användning</h3>
+    <pre><code class="sprak-cpp">const int ANTAL_PROV = 16;
+
+int prov[ANTAL_PROV];      // sexton platser for int, numrerade 0 till 15
+
+void fyllOchSkriv() {
+  for (int i = 0; i &lt; ANTAL_PROV; i++) {
+    prov[i] = analogRead(A0);
+  }
+  Serial.println(prov[0]);       // forsta platsen
+  Serial.println(prov[15]);      // sista platsen
+}</code></pre>
+    <p>En array kan också fyllas när den skapas, och då räknar kompilatorn
+      längden åt dig:</p>
+    <pre><code class="sprak-cpp">int vinklar[] = {0, 45, 90, 135, 180};   // fem platser, 0 till 4</code></pre>
+
+    <h3>Tre skillnader mot Pythons listor</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Python</th><th>C++</th><th>Följden i praktiken</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>varden = []</code> och <code>append</code></td>
+            <td><code>int varden[16];</code></td>
+            <td>Längden bestäms när arrayen skapas och kan aldrig ändras. Det
+              finns inget <code>append</code>, och antalet måste vara känt redan
+              vid kompileringen – därför <code>const int</code>.</td>
+          </tr>
+          <tr>
+            <td>får blanda tal, text och listor</td>
+            <td>alla platser har samma typ</td>
+            <td>En <code>int</code>-array rymmer bara <code>int</code>.</td>
+          </tr>
+          <tr>
+            <td><code>varden[16]</code> ger <code>IndexError</code></td>
+            <td><code>prov[16]</code> ger ingenting alls</td>
+            <td>C++ kontrollerar inte gränsen, varken vid kompilering eller vid
+              körning. Du läser eller skriver i minnet <em>bredvid</em>
+              arrayen.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="notis viktig"><span class="rubrik">Steget utanför arrayen är det otäckaste felet i kapitlet</span>
+      Sexton platser heter <code>prov[0]</code> till <code>prov[15]</code>. Det
+      finns inget <code>prov[16]</code>, men C++ säger inte ifrån om du skriver
+      det – det är arbetsminnet bredvid arrayen som läses eller skrivs över.
+      Symtomet är att en helt annan variabel ändrar sig av sig själv, ofta långt
+      från raden som orsakade det. Låt loopens villkor vara
+      <code>i &lt; ANTAL_PROV</code>, med samma konstant som i deklarationen, så
+      kan felet inte uppstå.</p>
+
+    <h3>Räknat exempel: största och minsta</h3>
+    <p>Det medelvärdet inte kan berätta är hur mycket avläsningarna darrar. Det
+      kräver att proven finns kvar, och det är därför arrayen behövs.</p>
+    <pre><code class="sprak-cpp">const int ANTAL = 16;
+int matvarden[ANTAL];
+
+int spridning() {
+  int minsta  = matvarden[0];
+  int storsta = matvarden[0];
+  for (int i = 1; i &lt; ANTAL; i++) {
+    if (matvarden[i] &lt; minsta)  { minsta  = matvarden[i]; }
+    if (matvarden[i] &gt; storsta) { storsta = matvarden[i]; }
+  }
+  return storsta - minsta;
+}</code></pre>
+    <p>Loopen börjar på <code>1</code>, eftersom plats <code>0</code> redan
+      använts som utgångsvärde. Att i stället starta <code>minsta</code> på 0
+      vore ett fel: 0 är mindre än eller lika med varje möjligt råvärde, och
+      funktionen hade i praktiken alltid svarat med det största provet.</p>
+
+    <h3>Vanliga fel</h3>
+    <ul>
+      <li><strong>Längden står som ett tal på flera ställen.</strong>
+        <code>int prov[16];</code> på en rad och <code>i &lt; 20</code> i loopen
+        på en annan. Använd samma <code>const int</code> i båda.</li>
+      <li><strong>Ett steg utanför arrayen.</strong> Se notisen ovan. Inget
+        felmeddelande, och symtomet dyker upp någon helt annanstans.</li>
+      <li><strong>Arrayen deklareras inuti <code>loop()</code>.</strong> Den
+        skapas då på nytt varje varv. Ska värdena minnas mellan varven hör
+        deklarationen utanför funktionerna.</li>
+      <li><strong>Arrayen antas vara nollställd.</strong> En array som
+        deklareras inuti en funktion innehåller vad som råkade ligga i minnet.
+        Fyll den innan du räknar på den.</li>
+      <li><strong>Summan läggs i en <code>int</code>.</strong> Se loopkapitlet
+        ovan: 64 · 1023 ryms inte.</li>
+    </ul>
 
     <h2 id="tid">Tid och millis()</h2>
     <p>Att mäta tid i stället för att vänta ut den. Det är grunden för allt som

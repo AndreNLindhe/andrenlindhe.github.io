@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analogt och digitalt – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o4-analogt-och-digitalt">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Analogt och digitalt</strong> · område 4</span>
+  <a href="index.html">Område 4</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 4 · lektion 18</p>
+    <h1>Analogt och digitalt</h1>
+    <p class="inledning">Varje insignal du läst hittills har varit en etta eller
+      en nolla. Knappen är nere eller uppe, luckan är stängd eller öppen. Men
+      temperaturen i rummet är inte av eller på, och ljuset utanför fönstret är
+      det inte heller. Den här guiden handlar om vad som händer i det ögonblick
+      då kortet ska översätta en storhet som glider mjukt till ett tal med ett
+      bestämt antal steg – och om hur man räknar på vad ett sådant steg är värt.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan förklara skillnaden mellan en analog och en digital signal, och
+        säga vilken av de två din kod faktiskt får se.</li>
+      <li>Du kan räkna ut hur många steg <code>analogRead</code> ger, hur många
+        volt ett steg är värt, och hur lång tid en omvandling tar.</li>
+      <li>Du kan härleda spänningsdelarens formel ur att strömmen är densamma
+        genom båda motstånden, i stället för att slå upp den.</li>
+      <li>Du kan välja motståndsvärden till en delare så att både strömförbrukningen
+        och omvandlaren blir nöjda.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Världen är analog, kortet är det inte</h3>
+    <p>En <strong>analog</strong> storhet kan anta vilket värde som helst inom
+      sitt område, utan hopp. Temperaturen i rummet är 21,4 °C, och på vägen dit
+      från 21,3 passerade den 21,37 och 21,384 och varje tal däremellan. En
+      <strong>digital</strong> signal har ett bestämt antal tillåtna värden.
+      <code>digitalRead</code> ger två: <code>LOW</code> eller <code>HIGH</code>.
+      Inget däremellan finns.</p>
+    <p>Det gör <code>digitalRead</code> odugligt för allt som har en grad. Sätter
+      du en ljusgivare på en digital ingång får du veta att det är ljust eller
+      mörkt, med en gräns du inte valt och inte kan flytta. Du får inte veta hur
+      ljust.</p>
+    <p>Mellan de två världarna sitter en <strong>analog-digital-omvandlare</strong>,
+      förkortad <strong>ADC</strong>. Den finns inbyggd i mikrokontrollern och
+      den gör en enda sak: mäter en spänning och lämnar ett heltal. På Uno-kortet
+      är de sex pinnarna A0 till A5 kopplade till den.</p>
+    <p class="notis"><span class="rubrik">Omvandlingen kastar bort information, alltid</span>
+      Det finns oändligt många spänningar mellan 0 och 5 V och bara 1024 tal att
+      lägga dem i. Två spänningar som ligger tillräckligt nära varandra får
+      därför samma tal, och när talet är taget går skillnaden inte att få
+      tillbaka. Det är inte ett fel i kortet utan vad omvandling betyder. Frågan
+      är aldrig om information går förlorad utan om det som går förlorat är
+      mindre än det du bryr dig om.</p>
+
+    <h3>analogRead: tio bitar, 1024 steg</h3>
+    <p><code>analogRead(A0)</code> lämnar ett heltal. Omvandlaren i ATmega328P
+      har <strong>tio bitars</strong> upplösning, vilket betyder att talet byggs
+      av tio ettor och nollor. Antalet möjliga tal blir</p>
+    <p><code>2¹⁰ = 1024 olika värden, alltså 0 … 1023</code></p>
+    <p>Precis som med <code>millis()</code> i förra området är det översta värdet
+      ett mindre än antalet, eftersom räkningen börjar på noll. <strong>1023 är
+      taket, inte 1024.</strong></p>
+    <p>Vad de talen betyder i volt bestäms av omvandlarens
+      <strong>referensspänning</strong>. Som kortet levereras är referensen
+      kortets egen 5 V-matning, kallad AVcc. Talet 0 svarar mot 0 V och hela
+      skalan mot referensen. Ett steg är alltså värt</p>
+    <p><code>5,0 V / 1024 = 0,00488 V = 4,9 mV</code></p>
+    <p>Knappt fem millivolt. Det är omvandlarens finaste upplösning, och det är
+      en gräns du inte kan komma under hur mycket du än räknar i efterhand.</p>
+    <p>För att gå från ett råvärde till volt skriver Arduino-exemplen genomgående</p>
+    <p><code>U = rå · 5,0 / 1023</code></p>
+    <p>Räknat på ett råvärde mitt på skalan:</p>
+    <p><code>U = 512 · 5,0 / 1023 = 2560 / 1023 = 2,50 V</code></p>
+    <p class="notis"><span class="rubrik">1023 eller 1024 i nämnaren?</span>
+      Steget är <code>5/1024</code>, men omräkningen ovan delar med 1023. Båda
+      förekommer, och skillnaden är som mest ett enda steg – knappt 5 mV vid
+      toppen av skalan. Delar du med 1024 blir det största råvärdet 1023 lika
+      med 4,995 V; delar du med 1023 blir det jämnt 5,000 V. Använd <code>1023</code>
+      som resten av Arduino-världen gör, och lägg inte tid på skillnaden: den är
+      mindre än det fel din matningsspänning ändå har. Det senare tar vi hand om
+      i <a href="guide-kalibrering.html">guiden om kalibrering</a>.</p>
+
+    <h3>Hur lång tid en avläsning tar</h3>
+    <p>Omvandlaren har en egen klocka, som kortet delar ned från sina 16 MHz.
+      Som Arduino-miljön ställer in den blir den</p>
+    <p><code>16 000 000 Hz / 128 = 125 000 Hz</code></p>
+    <p>En omvandling tar 13 av den klockans cykler, alltså</p>
+    <p><code>13 / 125 000 = 0,000104 s = 104 µs</code></p>
+    <p>Drygt en tiondels millisekund. Det innebär ett tak på ungefär</p>
+    <p><code>1 s / 104 µs = 1 / 0,000104 = 9 615 avläsningar i sekunden</code></p>
+    <p>Knappt tiotusen i sekunden, alltså. Vi rundar av till 9 600 i det som
+      följer.</p>
+    <p>Två saker följer av det. <strong>Ett <code>analogRead</code> är inte
+      gratis</strong> – det tar ett par tiotal gånger längre tid än ett
+      <code>digitalRead</code>, som ligger på några få mikrosekunder, och sexton
+      avläsningar i rad kostar 16 · 104 µs ≈ 1,7 ms. Men <strong>det är inte heller dyrt</strong> jämfört med ett
+      <code>delay()</code>. En loop som gör en handfull avläsningar per varv går
+      fortfarande hundratals varv i sekunden.</p>
+
+    <h3>Spänningsdelaren, härledd</h3>
+    <p>Omvandlaren mäter <em>spänning</em>. En givare som ändrar sin
+      <em>resistans</em> lämnar ingen spänning alls – ett motstånd ensamt gör
+      ingenting. Konstruktionen som gör om det ena till det andra heter
+      spänningsdelare, och den är område 1:s seriekoppling en gång till.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 250 250" role="img" aria-labelledby="svg-delare-titel"
+           style="width:100%;height:auto">
+        <title id="svg-delare-titel">Kopplingsschema över en spänningsdelare.
+          Överst en anslutning märkt 5 V. Från den går en lodrät ledning ned
+          till ett stående motstånd märkt R1, vidare till en punkt märkt Uut
+          där en ledning grenar av åt höger till en anslutning märkt A0, och
+          därifrån ned genom ett andra stående motstånd märkt R2 till en
+          jordsymbol längst ned.</title>
+
+        <g stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round">
+          <line x1="80" y1="34" x2="80" y2="60"/>
+          <rect x="66" y="60" width="28" height="54" rx="3"/>
+          <line x1="80" y1="114" x2="80" y2="148"/>
+          <rect x="66" y="148" width="28" height="54" rx="3"/>
+          <line x1="80" y1="202" x2="80" y2="222"/>
+          <line x1="80" y1="131" x2="176" y2="131"/>
+
+          <line x1="62" y1="222" x2="98" y2="222" stroke-width="2.4"/>
+          <line x1="69" y1="229" x2="91" y2="229" stroke-width="2.4"/>
+          <line x1="76" y1="236" x2="84" y2="236" stroke-width="2.4"/>
+        </g>
+
+        <circle cx="80" cy="131" r="3.6" fill="currentColor"/>
+
+        <g fill="currentColor" font-size="16">
+          <text x="80" y="24" text-anchor="middle">5 V</text>
+          <text x="106" y="93">R1</text>
+          <text x="106" y="181">R2</text>
+          <text x="182" y="136">A0</text>
+          <text x="20" y="136">Uut</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>R1 och R2 sitter i serie</strong> mellan 5 V och jord. Det
+        finns bara en väg för strömmen, alltså går <em>samma</em> ström genom
+        båda.</li>
+      <li><strong>Uttaget sitter mellan dem.</strong> Spänningen där, räknad mot
+        jord, är spänningen över R2 – och det är den A0 mäter.</li>
+      <li><strong>A0 tar nästan ingen ström.</strong> Grenen åt höger stör
+        därför inte delningen nämnvärt. Villkoret för att det ska stämma står
+        längre ned.</li>
+    </ul>
+
+    <p>Nu härleder vi formeln i stället för att slå upp den. Kalla matningen
+      <code>Uin</code>. Två motstånd i serie har den sammanlagda resistansen</p>
+    <p><code>R = R1 + R2</code></p>
+    <p>Ohms lag ger strömmen genom slingan:</p>
+    <p><code>I = Uin / (R1 + R2)</code></p>
+    <p>Den strömmen går genom <em>båda</em> motstånden, eftersom det inte finns
+      någon annan väg. Spänningen över R2 blir därför, återigen med Ohms lag:</p>
+    <p><code>Uut = I · R2 = Uin · R2 / (R1 + R2)</code></p>
+    <p>Det är hela formeln, och den är ingenting annat än Ohms lag två gånger.
+      Läs den sista raden som ett bråk: <strong>R2:s andel av den totala
+      resistansen är också R2:s andel av spänningen.</strong> Sitter halva
+      resistansen i R2 hamnar halva spänningen där.</p>
+
+    <h3>Två räknade exempel</h3>
+    <p><strong>Exempel 1: två lika stora motstånd.</strong> R1 = R2 = 10 kΩ över
+      5,0 V.</p>
+    <p><code>Uut = 5,0 · 10 000 / (10 000 + 10 000) = 5,0 · 0,5 = 2,50 V</code></p>
+    <p>Vilket råvärde ger det? Vänd på omräkningen från förra avsnittet:</p>
+    <p><code>rå = 2,50 · 1023 / 5,0 = 511,5 ≈ 512</code></p>
+    <p>Mitt på skalan, som väntat.</p>
+    <p><strong>Exempel 2: en givare som just nu har 4,7 kΩ.</strong> R1 = 10 kΩ
+      fast, R2 = 4,7 kΩ.</p>
+    <p><code>Uut = 5,0 · 4 700 / (10 000 + 4 700) = 5,0 · 4 700 / 14 700 = 5,0 · 0,3197 = 1,60 V</code></p>
+    <p><code>rå = 1,60 · 1023 / 5,0 = 327</code></p>
+    <p>Kontrollera rimligheten innan du går vidare: R2 är mindre än R1, alltså
+      ska mindre än halva spänningen hamna över R2, alltså ska råvärdet ligga
+      under 512. Det gör 327. Den kontrollen tar två sekunder och fångar de
+      flesta räknefel.</p>
+
+    <h3>Att välja motståndsvärden</h3>
+    <p>Två krav drar åt olika håll, och det är därför valet inte är godtyckligt.</p>
+    <p><strong>För små motstånd slösar ström.</strong> Delaren i exempel 2 drar</p>
+    <p><code>I = 5,0 / 14 700 = 0,00034 A = 0,34 mA</code></p>
+    <p>och gör av med</p>
+    <p><code>P = U · I = 5,0 · 0,00034 = 0,0017 W = 1,7 mW</code></p>
+    <p>Det är försumbart mot ett kvarts watts motstånd, som klarar 250 mW. Hade
+      du valt 100 Ω i stället för 10 kΩ hade strömmen blivit hundra gånger
+      större och effekten likaså – fortfarande hanterbart på ett kort med
+      nätsladd, men slöseri på ett batteridrivet bygge.</p>
+    <p><strong>För stora motstånd stör omvandlaren.</strong> ADC:n mäter genom
+      att först ladda upp en liten kondensator inuti kortet till den spänning
+      som ligger på pinnen. Laddningen tar tid, och tiden växer med hur
+      trögflytande källan är – alltså med resistansen. Databladet för
+      ATmega328P rekommenderar därför att källan har en resistans på
+      <strong>högst 10 kΩ</strong>. Blir den större hinner kondensatorn inte
+      laddas färdigt, och råvärdet dras mot det du mätte förra gången.</p>
+    <p>Källans resistans, sedd från pinnen, är R1 och R2 parallellt:</p>
+    <p><code>10 000 · 4 700 / 14 700 = 47 000 000 / 14 700 = 3 200 Ω</code></p>
+    <p>3,2 kΩ, alltså med god marginal under gränsen. <strong>Motstånd i
+      storleksordningen några kΩ upp till 10 kΩ träffar båda kraven</strong>,
+      och det är därför nästan varje givarkoppling du ser på nätet använder just
+      10 kΩ. Nu vet du varför, i stället för att bara veta att den gör det.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <p><strong>I industrin:</strong> en frekvensomriktare som styr en motors
+      varvtal tar ofta sitt börvärde som en <strong>analog spänning 0–10 V</strong>
+      på en ingång. Är omriktaren inställd på 0–50 Hz motsvarar en volt</p>
+    <p><code>50 Hz / 10 V = 5 Hz per volt</code></p>
+    <p>Inuti omriktaren sitter samma sorts omvandlare som i ditt kort, men med
+      fler bitar. Med tolv bitar blir stegen</p>
+    <p><code>2¹² = 4096 steg, alltså 10 V / 4096 = 0,00244 V = 2,4 mV per steg</code></p>
+    <p>vilket i varvtal betyder</p>
+    <p><code>50 Hz / 4096 = 0,012 Hz per steg</code></p>
+    <p>Finare än någon process behöver, och det är själva poängen: upplösningen
+      väljs så att omvandlingens fel hamnar under allt annat fel i kedjan.
+      Signalen är dessutom bara en av två vanliga – den andra, strömslingan på
+      4–20 mA, mötte du i <a href="../omrade-1-ellara-och-matning/guide-spanning-strom-resistans.html#industri">område
+      1:s guide om spänning, ström och resistans</a>. Skillnaden mellan dem är
+      att en spänningssignal är billig men känslig för långa kablar, medan en
+      strömsignal kostar mer och tål dem.</p>
+
+    <p><strong>I vardagen:</strong> ljudet i dina hörlurar har gått genom exakt
+      den här omvandlingen två gånger. En mikrofon lämnar en analog spänning som
+      följer lufttrycket. Den mäts, på cd-skivans standard, med
+      <strong>16 bitars</strong> upplösning</p>
+    <p><code>2¹⁶ = 65 536 steg</code></p>
+    <p>vilket är</p>
+    <p><code>65 536 / 1024 = 64 gånger finare än ditt kort</code></p>
+    <p>och <strong>44 100 gånger i sekunden</strong>, alltså</p>
+    <p><code>44 100 / 9 600 = 4,6 gånger snabbare än ditt korts tak</code></p>
+    <p>Sedan går talen tillbaka till en spänning i en omvandlare åt andra hållet
+      innan de når högtalarelementet. Att skivan låter som musik och inte som
+      trappsteg beror på att stegen är mindre än örat kan höra – samma resonemang
+      som med frekvensomriktaren, med en annan sorts mottagare. Ditt korts 1024
+      steg är för grova för musik och gott och väl tillräckliga för att läsa av
+      ett rums temperatur.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li>Koppla en potentiometer som spänningsdelare: ytterbenen till 5 V och
+        GND, mittbenet till A0. Skriv ett program som gör
+        <code>Serial.println(analogRead(A0));</code> fyra gånger i sekunden med
+        tidsstämpelmönstret från förra området. Vrid långsamt och kontrollera att
+        du kommer åt både 0 och 1023.</li>
+      <li>Skriv ut både råvärdet och den omräknade spänningen på samma rad.
+        Ställ potentiometern så att seriemonitorn visar ungefär 2,50 V och mät
+        sedan med multimetern mellan A0 och GND. Anteckna båda talen.</li>
+      <li>Bygg exempel 2 ovan med två fasta motstånd, 10 kΩ och 4,7 kΩ. Räkna ut
+        det väntade råvärdet <em>innan</em> du laddar upp, skriv ned det, och
+        jämför sedan. Skiljer det mer än tio steg: mät motstånden med multimetern
+        och räkna om med de uppmätta värdena.</li>
+      <li>Byt plats på de två motstånden så att 4,7 kΩ hamnar överst. Förutsäg
+        det nya råvärdet först. Kontrollera sedan.</li>
+      <li>Låt A0 hänga löst, utan någonting inkopplat, och skriv ut råvärdet.
+        Håll handen nära pinnen. Notera vad som händer – det är inget fel, och
+        det förklaras i Vanliga fel nedan.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Hur många olika värden kan <code>analogRead</code> ge, och
+        varför är det största 1023?</summary>
+      <p>Tio bitar ger 2¹⁰ = 1024 olika värden. Räkningen börjar på 0, så
+        värdena är 0 till 1023 – precis som åtta bitar ger 0 till 255 och inte
+        1 till 256.</p>
+    </details>
+
+    <details>
+      <summary>Hur många millivolt är ett steg värt med standardreferensen, och
+        vad följer av det?</summary>
+      <p><code>5,0 / 1024 = 0,00488 V</code>, alltså 4,9 mV. Det följer att en
+        spänningsändring på två millivolt inte alltid syns i råvärdet, och att
+        det är meningslöst att skriva ut fler decimaler än det. En avläsning
+        som redovisas som 2,5024 V påstår en noggrannhet omvandlaren inte
+        har.</p>
+    </details>
+
+    <details>
+      <summary>R1 = 22 kΩ och R2 = 10 kΩ över 5,0 V. Vad blir
+        <code>Uut</code> och vilket råvärde väntar du dig?</summary>
+      <p><code>Uut = 5,0 · 10 000 / 32 000 = 5,0 · 0,3125 = 1,56 V</code> och
+        <code>rå = 1,5625 · 1023 / 5,0 = 319,7 ≈ 320</code>. Rimlighetskontrollen: R2 är
+        mindre än R1, alltså under halva spänningen och under 512. Stämmer.</p>
+    </details>
+
+    <details>
+      <summary>Varför spelar det roll om delarens motstånd är 1 MΩ i stället för
+        10 kΩ?</summary>
+      <p>Omvandlaren laddar en liten kondensator till pinnens spänning innan den
+        mäter. Ju större källans resistans är, desto långsammare går laddningen.
+        Databladet rekommenderar högst 10 kΩ. Med 1 MΩ hinner kondensatorn inte
+        laddas färdigt under de 104 mikrosekunderna, och råvärdet blir en
+        blandning av den här mätningen och den förra – ett fel som ser ut som
+        en tröghet i givaren.</p>
+    </details>
+
+    <details>
+      <summary>Du har en delare med R1 = R2. Hur ändras <code>Uut</code> om du
+        byter båda mot dubbelt så stora motstånd?</summary>
+      <p>Inte alls. Formeln innehåller bara förhållandet
+        <code>R2 / (R1 + R2)</code>, och det är oförändrat. Det som ändras är
+        strömmen, som halveras, och källans resistans sett från pinnen, som
+        fördubblas. Delningen är densamma, priset och tröghetsrisken är det
+        inte.</p>
+    </details>
+
+    <details>
+      <summary>Vad blir <code>analogRead</code> om du kopplar A0 direkt till
+        5 V-pinnen, och vad blir den om du kopplar den till GND?</summary>
+      <p>1023 respektive 0. Referensen <em>är</em> kortets 5 V, så hela skalan
+        motsvarar hela matningen. Det är också det billigaste sättet att
+        kontrollera att en analog ingång fungerar innan du misstänker
+        givaren.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Råvärdet ligger och hoppar fast ingenting är inkopplat.</strong>
+        En analog ingång utan något anslutet är ingen nolla utan en antenn. Den
+        plockar upp nätbrum och statisk elektricitet, och siffrorna vandrar när
+        du för handen närmare. Det är väntat. En analog ingång ska alltid ha
+        någonting kopplat till sig.</li>
+      <li><strong><code>pinMode</code> används på den analoga pinnen.</strong>
+        <code>analogRead</code> behöver ingen <code>pinMode</code>. Skriver du
+        <code>pinMode(A0, OUTPUT)</code> av gammal vana blir pinnen en utgång,
+        och avläsningen ger då bara det du själv skrev dit.</li>
+      <li><strong>Delaren är kopplad utan väg till jord.</strong> Ett motstånd
+        mellan 5 V och A0, utan R2, ger ingen delning. Pinnen dras mot 5 V och
+        råvärdet står nära 1023 oavsett vad givaren gör. Följ ledningen hela
+        vägen ned till GND innan du felsöker koden.</li>
+      <li><strong>Råvärdet står stilla på 0 eller 1023.</strong> Antingen är
+        givaren långt utanför det område delaren klarar, eller så är en av de
+        två grenarna avbruten. Mät spänningen på pinnen med multimetern – det
+        skiljer de två fallen åt på tio sekunder.</li>
+      <li><strong>Spänningen räknas om med 5,00 V fast matningen inte är det.</strong>
+        Ett kort som matas över USB ligger ofta på 4,7–4,9 V. Alla omräknade
+        volttal blir då några procent fel, systematiskt, åt samma håll. Måttet
+        i råvärden är rätt; det är översättningen som är fel. Det tar
+        <a href="guide-kalibrering.html">kalibreringsguiden</a> hand om.</li>
+      <li><strong>Motstånden är valda på känsla.</strong> Ett par hundra ohm
+        drar onödig ström, ett par megaohm gör omvandlaren trög. Ligger du inom
+        några kΩ upp till 10 kΩ har du inget av problemen.</li>
+      <li><strong>Fler decimaler skrivs ut än som finns.</strong>
+        <code>Serial.println(spanning, 4)</code> ser noggrant ut och är det
+        inte. Ett steg är 4,9 mV, så tre decimaler är redan mer än
+        omvandlaren kan lova.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Inget nytt i språket den här gången – <code>analogRead</code> är ett
+      anrop som ser ut som alla andra. Kapitlet
+      <a href="../sprakreferens.html#typer">Typer och variabler</a> i
+      språkreferensen är ändå värt en repetition innan nästa guide: råvärdet är
+      en <code>int</code>, den omräknade spänningen är en <code>float</code>,
+      och att blanda dem är områdets första riktiga fallgrop.</p>
+    <p>Nästa guide är <a href="guide-motstandsgivare.html">Motståndsgivare</a>.
+      Delaren du just härlett får då ett motstånd som ändrar sig av sig självt –
+      och först där blir den en givare i stället för ett räkneexempel.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 4</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

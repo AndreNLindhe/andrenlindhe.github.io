@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Datablad – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o4-datablad">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Datablad</strong> · område 4</span>
+  <a href="index.html">Område 4</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 4 · lektion 21</p>
+    <h1>Datablad</h1>
+    <p class="inledning">LDR:n och NTC:n gick att mäta upp med en multimeter. De
+      flesta givare gör inte det. En ultraljudsgivare svarar med en puls vars
+      längd betyder något, och en fuktgivare svarar med fyrtio bitar i ett eget
+      protokoll – och ingen av dem berättar det själv. Talen finns bara på ett
+      ställe: i tillverkarens datablad. Att kunna läsa ett är en av de förmågor
+      kursen faktiskt bedömer, och den här guiden handlar om vad man letar efter
+      först.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan slå upp de sex uppgifter som avgör om en givare passar ditt
+        bygge, och veta i vilken ordning du ska leta.</li>
+      <li>Du kan skilja ett <em>absolut gränsvärde</em> från ett
+        <em>rekommenderat arbetsområde</em>, och säga varför skillnaden är
+        viktig.</li>
+      <li>Du kan härleda HC-SR04:s omräkning från mikrosekunder till centimeter,
+        och säga varför siffran inte är en konstant.</li>
+      <li>Du kan avgöra när ett bibliotek är rätt svar på en givare och när det
+        döljer något du borde förstå.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Vad ett datablad är</h3>
+    <p>Ett datablad är tillverkarens beskrivning av vad en komponent gör och
+      under vilka villkor löftet gäller. Det är inte en handledning, det innehåller
+      sällan exempel, och det är inte skrivet för att läsas från början till
+      slut. Det är en <strong>uppslagsbok</strong>, och den som försöker läsa
+      den som en bok ger upp på sidan tre.</p>
+    <p>Sättet att läsa ett datablad är att ha en fråga med sig och leta efter
+      svaret. Frågorna nedan är de sex som avgör om komponenten över huvud taget
+      passar ditt bygge, och de ska besvaras <em>innan</em> du kopplar in
+      något.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fråga</th><th>Varför den kommer först</th><th>Exempel ur verkliga datablad</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Vilken <strong>matningsspänning</strong> vill den ha?</td>
+            <td>Fel spänning ger antingen rök eller, värre, tysta felaktiga värden.</td>
+            <td>HC-SR04: 5 V. DHT11: 3,0–5,5 V.</td>
+          </tr>
+          <tr>
+            <td>Vilka är de <strong>absoluta gränsvärdena</strong>?</td>
+            <td>Det är där komponenten går sönder. Aldrig ett arbetsvärde.</td>
+            <td>ATmega328P: högst 6,0 V på matningen, 40 mA ur en enskild pinne.</td>
+          </tr>
+          <tr>
+            <td>Vad är <strong>rekommenderat arbetsområde</strong>?</td>
+            <td>Det är där de utlovade egenskaperna faktiskt gäller.</td>
+            <td>ATmega328P: 1,8–5,5 V matning.</td>
+          </tr>
+          <tr>
+            <td>Hur ser <strong>utsignalen</strong> ut?</td>
+            <td>Avgör om du klarar dig med en pinne och lite kod, eller behöver
+              ett bibliotek.</td>
+            <td>HC-SR04: en puls vars <em>längd</em> är svaret. DHT: fyrtio
+              bitar i ett eget protokoll.</td>
+          </tr>
+          <tr>
+            <td>Vilket <strong>mätområde</strong> och vilken
+              <strong>noggrannhet</strong>?</td>
+            <td>Avgör om givaren kan mäta det du tänkt dig, och hur många
+              decimaler du får skriva ut.</td>
+            <td>DHT11: 0–50 °C, ±2 °C. HC-SR04: ungefär 2–400 cm.</td>
+          </tr>
+          <tr>
+            <td>Vilka <strong>tidskrav</strong> finns?</td>
+            <td>En givare som läses för ofta svarar fel eller inte alls.</td>
+            <td>DHT11: högst en avläsning per sekund. HC-SR04: minst 60 ms mellan
+              mätningarna.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Absolut gränsvärde är inte ett arbetsvärde</h3>
+    <p>Den här skillnaden finns i varje halvledardatablad och den missförstås
+      ofta. Ett datablad har två skilda tabeller:</p>
+    <ul>
+      <li><strong>Absolute Maximum Ratings.</strong> Detta är
+        förstörelsegränsen. Tillverkaren lovar bara en sak här: över dessa
+        värden kan komponenten gå sönder. Ingenting sägs om att den
+        <em>fungerar</em> upp till dem.</li>
+      <li><strong>Recommended Operating Conditions</strong>, ibland kallat
+        arbetsområde. Här gäller alla andra löften i databladet – noggrannhet,
+        hastighet, strömförbrukning.</li>
+    </ul>
+    <p>För ATmega328P, kretsen på ditt Uno-kort, står det 6,0 V som absolut
+      maxvärde för matningen och 1,8–5,5 V som rekommenderat arbetsområde. Kör
+      du på 5,8 V går kretsen troligen inte sönder – och ingenting i databladet
+      säger att den räknar rätt.</p>
+    <p>Samma sak gäller strömmen ur en pinne. Absolut maxvärde är 40 mA. Arduinos
+      egen rekommendation är <strong>20 mA</strong>, alltså halva. Att medvetet
+      arbeta en bit under gränsvärdet kallas <em>derating</em>, och det är ett
+      av yrkets grundhandgrepp – mer om det i avsnittet om industrin nedan.</p>
+
+    <h3>HC-SR04: tiden som mått på avstånd</h3>
+    <p>Ultraljudsgivaren har fyra ben: matning, jord, <code>Trig</code> och
+      <code>Echo</code>. Databladet beskriver hela användningen i tre steg:</p>
+    <ol>
+      <li>Lägg <code>Trig</code> hög i minst <strong>10 mikrosekunder</strong>
+        och sedan låg igen.</li>
+      <li>Modulen sänder ut åtta ultraljudspulser och lägger
+        <code>Echo</code> hög.</li>
+      <li><code>Echo</code> går låg igen när ekot kommit tillbaka.
+        <strong>Pulsens längd är tiden ljudet var på väg.</strong></li>
+    </ol>
+    <p>Det är alltså en tid du får, inte ett avstånd. Omräkningen är fysik du
+      redan kan, och den ska härledas – inte hämtas som en magisk 58:a från
+      internet.</p>
+    <p>Ljudets hastighet i luft beror på temperaturen, och en användbar
+      approximation är</p>
+    <p><code>v = 331 + 0,6 · T   (m/s, T i grader Celsius)</code></p>
+    <p>Vid 20 °C blir det</p>
+    <p><code>v = 331 + 0,6 · 20 = 331 + 12 = 343 m/s</code></p>
+    <p>Räkna om till centimeter per mikrosekund, som är de enheter du har:</p>
+    <p><code>343 m/s = 34 300 cm/s = 34 300 / 1 000 000 = 0,0343 cm/µs</code></p>
+    <p>Men tiden du mätte är <strong>tur och retur</strong> – ljudet gick fram
+      till föremålet och tillbaka. Avståndet dit är halva sträckan:</p>
+    <p><code>0,0343 / 2 = 0,01715 cm/µs</code></p>
+    <p>Alltså</p>
+    <p><code>avstånd i cm = tiden i µs · 0,01715</code></p>
+    <p>eller, om du hellre delar:</p>
+    <p><code>1 / 0,01715 = 58,3, alltså cm = µs / 58,3</code></p>
+    <p>Där kom 58:an ifrån. Räknat exempel: pulsen var 1500 µs lång.</p>
+    <p><code>1500 · 0,01715 = 25,7 cm</code></p>
+    <p class="notis"><span class="rubrik">58 eller 58,3 – och varför det inte är den stora frågan</span>
+      Många exempel skriver <code>varaktighet / 58</code> för att slippa
+      decimaler. Felet det ger är <code>58,3 / 58 = 1,005</code>, alltså en halv
+      procent, vilket på 25 cm blir 1,3 mm. Temperaturen gör mycket mer. Vid
+      0 °C är ljudhastigheten 331 m/s i stället för 343, alltså
+      <code>343 / 331 = 1,036</code> – <strong>3,6 % fel</strong>, och samma
+      1500 µs betyder då 24,8 cm och inte 25,7. Vid 30 °C blir det 349 m/s och
+      felet 1,7 % åt andra hållet. Mäter du utomhus på vintern och kalibrerade
+      inomhus är det den här siffran som förklarar avvikelsen.</p>
+
+    <h3>pulseIn, och en väntan du ska känna till</h3>
+    <p>Att mäta en pulslängd är precis vad <code>pulseIn()</code> gör. Den
+      väntar på att pinnen ska gå hög, tar tid tills den går låg igen, och
+      lämnar antalet mikrosekunder som en <code>unsigned long</code>.</p>
+    <pre><code class="sprak-cpp">const int TRIGG_PIN = 7;
+const int EKO_PIN   = 8;
+
+const unsigned long TIDSGRANS = 30000UL;   // us. Racker till drygt fem meter
+const float CM_PER_US = 0.01715;           // vid 20 grader, halva vagen
+
+float matAvstand() {
+  digitalWrite(TRIGG_PIN, HIGH);
+  delayMicroseconds(10);                   // databladets tio mikrosekunder
+  digitalWrite(TRIGG_PIN, LOW);
+
+  unsigned long varaktighet = pulseIn(EKO_PIN, HIGH, TIDSGRANS);
+  if (varaktighet == 0) {
+    return -1.0;                           // inget eko inom tidsgransen
+  }
+  return varaktighet * CM_PER_US;
+}
+
+void setup() {
+  pinMode(TRIGG_PIN, OUTPUT);
+  pinMode(EKO_PIN, INPUT);
+  digitalWrite(TRIGG_PIN, LOW);
+  Serial.begin(9600);
+}</code></pre>
+    <p>Tre saker i den koden förtjänar en förklaring var.</p>
+    <p><strong><code>delayMicroseconds(10)</code> bryter inte mot regeln från
+      område 3.</strong> Regeln var att <code>loop()</code> inte får blockera när
+      den har mer än en sak att göra. Tio mikrosekunder är kortare än ett
+      loopvarv och omätbart för allt annat i bygget. Det var precis det
+      undantaget guiden om tid pekade ut.</p>
+    <p><strong>Tidsgränsen är ett medvetet val.</strong> Utan tredje argumentet
+      väntar <code>pulseIn</code> i en hel sekund innan den ger upp, och står ett
+      föremål utanför räckvidden fryser bygget en sekund i taget.
+      30 000 µs räcker till</p>
+    <p><code>30 000 · 0,01715 = 515 cm</code></p>
+    <p>alltså drygt fem meter, vilket är mer än modulens 4 m. Räknat åt andra
+      hållet: modulens maxavstånd 400 cm motsvarar</p>
+    <p><code>400 / 0,01715 = 23 300 µs = 23 ms</code></p>
+    <p>som är den längsta äkta puls du kan få.</p>
+    <p><strong><code>pulseIn</code> blockerar ändå.</strong> Den räknar i en
+      slinga och gör ingenting annat under tiden. Den måste dessutom vänta både
+      på att en pågående puls ska ta slut och på att en ny ska börja, så väntan
+      kan bli upp emot <em>dubbla</em> tidsgränsen. Med 30 ms gräns blir värsta
+      fallet ungefär 60 ms, och läser du tio gånger i sekunden utan att få något
+      eko blir det</p>
+    <p><code>10 · 60 ms = 600 ms av varje sekund, alltså 60 % av tiden</code></p>
+    <p>Det finns sätt att mäta pulsen utan att blockera, med avbrott, men de
+      ligger utanför den här kursen. <strong>Det du ska göra är att veta om det
+      och skriva det i dokumentationen</strong>, inte att låtsas att det inte
+      finns.</p>
+    <p>Databladet säger också att modulen behöver minst 60 ms mellan mätningarna,
+      så att förra ekot hunnit dö ut. Med tidsstämpelmönstret från område 3 blir
+      det ett intervall på 100 ms – tio mätningar i sekunden, med marginal.</p>
+
+    <h3>DHT: när ett bibliotek är rätt svar</h3>
+    <p>DHT11 och DHT22 mäter temperatur och luftfuktighet i samma kapsel. De har
+      tre använda ben: matning, jord och en enda datapinne. Och det är på den
+      enda datapinnen som problemet sitter.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>DHT11</th><th>DHT22</th></tr></thead>
+        <tbody>
+          <tr><td>Temperatur, område</td><td>0 – 50 °C</td><td>−40 – 80 °C</td></tr>
+          <tr><td>Temperatur, noggrannhet</td><td>±2 °C</td><td>±0,5 °C</td></tr>
+          <tr><td>Fuktighet, område</td><td>20 – 90 % RH</td><td>0 – 100 % RH</td></tr>
+          <tr><td>Fuktighet, noggrannhet</td><td>±5 % RH</td><td>±2 – 5 % RH</td></tr>
+          <tr><td>Snabbast tillåtna avläsning</td><td>en per sekund</td><td>en varannan sekund</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Läs noggrannheten en gång till. <strong>±2 °C</strong> betyder att en
+      DHT11 som visar 22 °C kan mena allt mellan 20 och 24. Den duger utmärkt
+      till att se att ett rum är varmare än ett annat och inte alls till att
+      hitta en skillnad på en grad. En NTC med en ordentlig tvåpunktskalibrering
+      är faktiskt bättre inom sitt smala område – vilket är värt att veta innan
+      man väljer den dyrare givaren.</p>
+    <p>Så till datapinnen. Databladet beskriver ett eget protokoll som
+      tillverkaren hittat på:</p>
+    <ol>
+      <li>Kortet drar pinnen låg i minst 18 millisekunder och släpper den.</li>
+      <li>Givaren svarar med cirka 80 µs låg och 80 µs hög.</li>
+      <li>Sedan kommer <strong>40 bitar</strong>, en efter en. Varje bit inleds
+        med ungefär 50 µs låg. Sedan är pinnen hög i cirka 26 µs om biten är en
+        nolla, och i cirka 70 µs om den är en etta. <strong>Bitens värde ligger i
+        pulsens längd</strong>, inte i dess nivå.</li>
+      <li>De 40 bitarna är fem byte: fuktighet, temperatur och en
+        kontrollsumma, som är summan av de fyra första.</li>
+    </ol>
+    <p>Att skriva det själv är fullt möjligt. Du skulle mäta pulslängder med
+      <code>micros()</code>, jämföra mot en gräns mitt emellan 26 och 70 – säg
+      50 µs – bygga ihop bitarna till byte, och kontrollera summan. Det är ett
+      par kvällars arbete, och det <em>lär dig ingenting du inte redan kan</em>:
+      det är samma tidmätning som i förra området, bara pilligare.</p>
+    <p class="notis viktig"><span class="rubrik">När ett bibliotek är rätt svar</span>
+      <strong>Ta ett bibliotek när det du slipper är ett protokoll</strong> –
+      en överenskommelse om tider och bitordning som någon annan hittat på och
+      som du inte har någon anledning att kunna. <strong>Skriv själv när det du
+      skulle slippa är fysiken.</strong> HC-SR04:s division med 58,3 hör till
+      din förståelse av bygget och ska stå i din kod, med härledningen i din
+      dokumentation. Ett DHT-bibliotek döljer bara en byteström. Skillnaden är
+      inte hur svårt det är utan vad det är du inte längre förstår.</p>
+    <p>Biblioteket används enligt samma fyrastegsrecept som
+      <code>Servo.h</code> i <a href="../sprakreferens.html#bibliotek">språkreferensen</a>:</p>
+    <pre><code class="sprak-cpp">#include &lt;DHT.h&gt;
+
+const int DHT_PIN = 4;
+DHT givaren(DHT_PIN, DHT11);        // typen anges nar objektet skapas
+
+const unsigned long DHT_INTERVALL = 2000;   // ms, med marginal till databladets krav
+unsigned long forraDhtLasningen = 0;
+
+void setup() {
+  Serial.begin(9600);
+  givaren.begin();
+}
+
+void loop() {
+  unsigned long nu = millis();
+
+  if (nu - forraDhtLasningen &gt;= DHT_INTERVALL) {
+    forraDhtLasningen = nu;
+
+    float temperatur = givaren.readTemperature();
+    float fuktighet  = givaren.readHumidity();
+
+    if (isnan(temperatur) || isnan(fuktighet)) {
+      Serial.println("ingen avlasning");     // givaren svarade inte
+    } else {
+      Serial.print(temperatur, 1);
+      Serial.print(" C  ");
+      Serial.print(fuktighet, 0);
+      Serial.println(" %");
+    }
+  }
+}</code></pre>
+    <p><code>readTemperature()</code> lämnar <code>NAN</code> – "not a number" –
+      när avläsningen misslyckades, och <code>isnan()</code> är det enda sättet
+      att upptäcka det. Ett tal jämför man med <code>==</code>; ett
+      <code>NAN</code> är inte lika med någonting alls, inte ens med sig självt.
+      Utan den kontrollen får du emellanåt en utskrift som ser ut som
+      <code>nan</code> mitt i en annars fungerande logg, och i värsta fall ett
+      servo som skickas dit ett <code>NAN</code> pekar.</p>
+    <p>Lägg också märke till att avläsningen ligger inuti tidsstämpelmönstret.
+      Det är inte kosmetika: läser du en DHT11 varje loopvarv bryter du mot
+      databladets tidskrav, och givaren börjar svara med gamla eller uteblivna
+      värden.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <p><strong>I industrin:</strong> ingen konstruktör lägger en komponent på
+      dess gränsvärde. Vanan heter <strong>derating</strong> och innebär att man
+      medvetet arbetar en bit under det databladet tillåter – ofta halva värdet.
+      Skälen är tre: komponenter varierar mellan exemplar, egenskaper glider med
+      temperatur och ålder, och en komponent som blir varm åldras snabbare.</p>
+    <p>Räkna på lysdioden från <a href="../omrade-1-ellara-och-matning/bygge-0-lysdioden.html">bygge 0</a>.
+      Med 5,0 V, en lysdiod som tar 2,0 V och ett motstånd på 220 Ω blir
+      strömmen</p>
+    <p><code>I = (5,0 − 2,0) / 220 = 3,0 / 220 = 0,0136 A = 13,6 mA</code></p>
+    <p>alltså under Arduinos rekommenderade 20 mA, som i sin tur är hälften av
+      databladets absoluta 40 mA. Effekten i motståndet blir</p>
+    <p><code>P = I² · R = 0,0136² · 220 = 0,041 W = 41 mW</code></p>
+    <p>Ett kvarts watts motstånd tål 250 mW, så du ligger på</p>
+    <p><code>41 / 250 = 0,16 = 16 % av vad motståndet klarar</code></p>
+    <p>Det är inte överdrivet försiktigt utan normal praxis. En konstruktion där
+      varje komponent går på 90 % av sitt gränsvärde fungerar på bänken och
+      börjar gå sönder i fält, en efter en, under det andra året. Derating är
+      skillnaden mellan en produkt och en prototyp.</p>
+
+    <p><strong>I vardagen:</strong> förpackningen till en LED-lampa är ett
+      datablad, tryckt i miniatyr, och den lär ut samma sak som avsnittet ovan:
+      <em>vilket tal är det som betyder något?</em> På kartongen står typiskt
+      <strong>806 lm</strong>, <strong>8 W</strong>, <strong>2700 K</strong>,
+      <strong>E27</strong> och <strong>15 000 h</strong>. Talet folk letar efter
+      är watten, och det är fel tal – watt är vad lampan <em>kostar</em> i el,
+      inte vad den <em>ger</em>.</p>
+    <p>Det som ger ljus är lumen. 806 lm är just det tal som valdes för att
+      motsvara den gamla 60-wattsglödlampan. Jämför verkningsgraden:</p>
+    <p><code>806 lm / 8 W = 101 lm per watt</code></p>
+    <p><code>806 lm / 60 W = 13,4 lm per watt</code></p>
+    <p><code>101 / 13,4 = 7,5 gånger</code></p>
+    <p>2700 K är färgtemperaturen, alltså om ljuset är gulvarmt eller blåvitt –
+      och den siffran gör mer för hur ett rum upplevs än effekten gör. 15 000 h
+      räcker, med tre timmar om dagen, i</p>
+    <p><code>15 000 / 3 = 5 000 dygn = 5 000 / 365 = 13,7 år</code></p>
+    <p>Samma disciplin som med givaren: leta upp de tal som avgör om saken
+      passar din uppgift, och strunta i resten.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li>Sök upp databladet för HC-SR04 och skriv ned de sex uppgifterna ur
+        tabellen i guiden – matning, absoluta gränsvärden, arbetsområde,
+        utsignal, mätområde och noggrannhet, tidskrav. En rad var räcker.</li>
+      <li>Koppla in modulen och skriv ut den <em>råa</em> pulslängden i
+        mikrosekunder, tio gånger i sekunden, utan att räkna om till
+        centimeter. Håll handen på en meters avstånd och kontrollera att talet
+        ligger nära <code>100 / 0,01715 = 5 830 µs</code>.</li>
+      <li>Lägg till omräkningen och mät upp fem avstånd med en tumstock: 10, 20,
+        50, 100 och 200 cm. Skriv en tabell med uppmätt och verkligt värde.
+        Ligger felet åt samma håll överallt har du ett systematiskt fel.</li>
+      <li>Ställ ett föremål på 3 cm avstånd och sedan på 1 cm. Notera var
+        modulen slutar svara vettigt. Databladet kallar den zonen blind, och
+        gränsen ska stå i din dokumentation om du väljer den här givaren.</li>
+      <li>Mät mot en mjuk kudde och mot en hård bok på samma avstånd. Jämför.
+        Mät sedan mot en yta som lutar 45 grader. Skriv en mening om vad
+        ultraljud kräver av det den mäter mot.</li>
+      <li>Om du har en DHT: installera biblioteket med <strong>Verktyg → Hantera
+        bibliotek</strong>. <strong>Svara ja när miljön frågar om följdbiblioteket</strong> –
+        Adafruits <code>DHT.h</code> bygger på ett andra bibliotek som heter
+        Adafruit Unified Sensor, och svarar du nej stannar kompileringen på ett
+        felmeddelande om ett saknat <code>Adafruit_Sensor.h</code>. Kör sedan
+        exemplet ovan, och prova därefter att flytta avläsningen utanför
+        tidsstämpelblocket så att den sker varje varv. Notera vad som händer med
+        värdena.</li>
+      <li>Jämför DHT:ns temperatur med din kalibrerade NTC från förra guiden,
+        sida vid sida i samma rum, i tio minuter. Skiljer de mer än ±2 °C? Vilken
+        av dem har du skäl att lita mest på, och varför?</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Vad är skillnaden mellan absolut gränsvärde och rekommenderat
+        arbetsområde?</summary>
+      <p>Gränsvärdet är där komponenten kan gå sönder; det är det enda löftet
+        som ges där. Arbetsområdet är där alla andra löften i databladet gäller
+        – noggrannhet, hastighet, strömförbrukning. Mellan de två finns ett
+        område där komponenten oftast överlever men ingenting är garanterat, och
+        det är det farligaste stället att arbeta på, eftersom det ser ut att
+        fungera.</p>
+    </details>
+
+    <details>
+      <summary>Härled omräkningen från mikrosekunder till centimeter för
+        HC-SR04.</summary>
+      <p>Ljudhastigheten vid 20 °C är <code>331 + 0,6 · 20 = 343 m/s</code>, som
+        är <code>34 300 cm/s</code>, som är <code>0,0343 cm/µs</code>. Den mätta
+        tiden är tur och retur, så avståndet är halva: <code>0,01715
+        cm/µs</code>. Alltså <code>cm = µs · 0,01715</code>, eller
+        <code>µs / 58,3</code>.</p>
+    </details>
+
+    <details>
+      <summary>Din HC-SR04 svarar 1160 µs. Hur långt bort är föremålet, och hur
+        mycket fel blir det om luften är 0 °C i stället för 20?</summary>
+      <p><code>1160 · 0,01715 = 19,9 cm</code>. Vid 0 °C är ljudhastigheten
+        331 m/s, alltså <code>0,01655 cm/µs</code>, och samma tid betyder då
+        <code>1160 · 0,01655 = 19,2 cm</code>. Skillnaden är 0,7 cm, alltså
+        3,6 % – och den är systematisk, så den försvinner inte av att du mäter
+        fler gånger.</p>
+    </details>
+
+    <details>
+      <summary>En DHT11 visar 22 °C. Vad vet du?</summary>
+      <p>Att temperaturen med tillverkarens löfte ligger någonstans mellan 20
+        och 24 °C. Att skriva ut 22,0 med en decimal är därför att påstå mer än
+        givaren kan hålla. Vill du hitta skillnader på en grad har du valt fel
+        givare.</p>
+    </details>
+
+    <details>
+      <summary>När är ett bibliotek rätt svar, och när är det ett sätt att slippa
+        förstå?</summary>
+      <p>Rätt när det du slipper är ett protokoll – en godtycklig
+        överenskommelse om tider och bitordning, som med DHT. Fel när det du
+        slipper är fysiken i ditt eget bygge, som HC-SR04:s omräkning från tid
+        till avstånd. Frågan att ställa är inte hur svårt det är utan vad du
+        inte längre kan förklara i din redovisning.</p>
+    </details>
+
+    <details>
+      <summary>Varför står tidsgränsen som tredje argument till
+        <code>pulseIn</code>?</summary>
+      <p>Utan den väntar funktionen en hel sekund på ett eko som kanske aldrig
+        kommer, och bygget står stilla under tiden. 30 000 µs räcker till drygt
+        fem meter, alltså mer än modulens räckvidd, och gör att ett uteblivet
+        eko kostar upp emot 60 ms i stället för uppemot två sekunder.
+        Funktionen lämnar 0 när tiden gått ut, och det värdet ska koden
+        hantera.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Avståndet blir orimligt stort eller är alltid noll.</strong>
+        <code>Trig</code> och <code>Echo</code> är förväxlade, eller så saknas
+        gemensam jord mellan modulen och kortet. Kontrollera de två sakerna
+        innan koden.</li>
+      <li><strong>Avståndet hoppar mellan ett rimligt värde och noll.</strong>
+        Ekot uteblir ibland – mot en mjuk, lutande eller mycket liten yta. Sålla
+        bort nollorna i stället för att räkna med dem, annars drar de ned varje
+        medelvärde.</li>
+      <li><strong>Mätvärdet är systematiskt några procent fel.</strong>
+        Temperaturen i luften är inte 20 °C, eller så räknar koden med 58 i
+        stället för 58,3. Båda är systematiska fel och båda syns bara om du
+        mäter mot en tumstock.</li>
+      <li><strong>Modulen mäter samma sak flera gånger i rad.</strong> Du läser
+        oftare än var 60:e millisekund, och ekot från förra pulsen hinner in.
+        Sätt intervallet till 100 ms.</li>
+      <li><strong>Bygget hackar när ingenting är framför givaren.</strong>
+        <code>pulseIn</code> väntar ut sin tidsgräns. Sänk gränsen till vad din
+        räckvidd faktiskt kräver, och läs mer sällan.</li>
+      <li><strong>DHT:n svarar <code>nan</code> varje gång.</strong> Oftast fel
+        pinne, saknad <code>begin()</code>, eller fel typ angiven när objektet
+        skapades – <code>DHT11</code> där det skulle stått
+        <code>DHT22</code>.</li>
+      <li><strong>DHT:n svarar <code>nan</code> ibland.</strong> Den läses för
+        ofta. Databladet säger högst en avläsning per sekund för DHT11 och en
+        varannan för DHT22. Kontrollen med <code>isnan()</code> ska ändå finnas
+        kvar.</li>
+      <li><strong>Ett tal ur ett datablad förväxlas med ett uppmätt.</strong>
+        "Noggrannheten är ±2 °C" är tillverkarens löfte, inte din mätning. Ett
+        bedömt bygge behöver båda, och de ska hållas isär i
+        dokumentationen.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Kapitlet <a href="../sprakreferens.html#bibliotek">Bibliotek</a> i
+      språkreferensen är den här guidens uppslagsdel: fyrastegsreceptet och
+      varningen om att ett bibliotek kan ta hårdvara med sig. Det senare blir
+      konkret i nästa guide, där en LCD lägger beslag på två av de sex analoga
+      pinnarna.</p>
+    <p>Nästa guide är <a href="guide-visa-matvardet.html">Visa mätvärdet</a>.
+      Där ska talet du nu kan mäta och kalibrera bli något en människa kan
+      avläsa – och där kravställs bygge 3.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 4</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>
