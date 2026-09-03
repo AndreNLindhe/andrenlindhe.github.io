@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 5 – Drivning: motorer, kraft och ström – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o5-index">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Område 5</strong> · Drivning: motorer, kraft och ström</span>
+  <a href="../sprakreferens.html">Språkreferens</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Område 5 · 11 mars – 8 april</p>
+    <h1>Drivning: motorer, kraft och ström</h1>
+    <p class="inledning">Hittills har allt som rört sig varit ett servo, och
+      servot har haft sin egen elektronik inbyggd. Nu tar vi bort den. En naken
+      likströmsmotor drar tiotals gånger mer ström än en pinne får lämna, ger
+      ifrån sig en spänningsspik när den stängs av, och orkar nästan ingenting
+      utan en växel. Området handlar om de tre problemen och deras lösningar.</p>
+
+    <p class="notis"><span class="rubrik">Områdets kortaste, och det med minst nytt</span>
+      Fyra pass i stället för fem eller sju, och det är med flit.
+      <strong>Mekaniken — moment, utväxling och friktion — hade du i din
+      tidigare kurs</strong>, så den är repetition som ska sättas i arbete på
+      ditt eget bygge, inte ny teori. Det nya är den elektriska halvan: varför
+      motorn inte får sitta på en pinne, hur en transistor och en drivkrets löser
+      det, och vad PWM egentligen gör. Där ligger också djupet i guiderna.</p>
+
+    <h2 id="guider">Guiderna</h2>
+    <p>Läs dem i ordning. De tre bygger på varandra: den första visar varför
+      motorn behöver något mellan sig och kortet, den andra byter ut den enda
+      transistorn mot en färdig drivkrets med riktning och fart, och den tredje
+      lämnar elektroniken och räknar på kraften.</p>
+
+    <div class="rutnat">
+
+      <a class="kort" href="guide-motorn-och-pinnen.html">
+        <span class="sort">Lektion 25 · 11 mars</span>
+        <span class="rubrik">Varför motorn inte får sitta på en pinne</span>
+        <p>20 mA mot 600 mA. Transistorn som strömbrytare, med basmotståndet
+          räknat. Frihjulsdioden och spiken på tusen volt.</p>
+      </a>
+
+      <a class="kort" href="guide-motordrivare-och-pwm.html">
+        <span class="sort">Lektion 26 · 18 mars</span>
+        <span class="rubrik">Motordrivare och PWM</span>
+        <p>H-bryggan och dess fyra lägen. L298N mot TB6612 och vad två volt
+          kostar. analogWrite är ett medelvärde, inte en spänning.</p>
+      </a>
+
+      <a class="kort" href="guide-utvaxling-och-kraft.html">
+        <span class="sort">Lektion 27 · 1 april</span>
+        <span class="rubrik">Utväxling och kraft</span>
+        <p>Tandtal, varvtal och moment. Effekten som kontroll, och vad varje
+          kuggingrepp kostar. Här kravställs bygge 4.</p>
+      </a>
+
+      <a class="kort webb" href="bygge-4-motor.html">
+        <span class="sort">Lektion 28 · 8 april · bygge</span>
+        <span class="rubrik">Bygge 4 – motor med drivkrets och utväxling</span>
+        <p>En givare bestämmer, en drivkrets bär strömmen, en utväxling ger
+          kraften. Kursens fjärde bedömda system och den sista övningen före
+          slutprojektet.</p>
+      </a>
+
+    </div>
+
+    <h2 id="pasklov">Påsklovet ligger mitt i området</h2>
+    <p>Det här är områdets viktigaste praktiska detalj, och den är lätt att missa
+      i schemat. <strong>Lovet ligger inte mellan kravlistan och bygget, som det
+      gjorde i område 4 — det ligger före kravlistan.</strong> Torsdagen den 25
+      mars är påsklov, så mellan PWM-passet och utväxlingspasset ligger två
+      veckor, och sedan bara en vecka till bygget.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Vad som händer</th><th>Vad du ska ha med dig</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Lektion 25 · 11 mars</strong><br>genomgång</td>
+            <td>Ström, effekt och pinnens gräns. Transistorn. Frihjulsdioden.</td>
+            <td>Kitet och multimetern.</td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 26 · 18 mars</strong><br>genomgång</td>
+            <td>Drivkretsen, PWM och strömförsörjningen. Efter det här passet kan
+              du få motorn att gå åt två håll med reglerbar fart.</td>
+            <td>Kitet, och gärna din motor med uppmätta strömmar.</td>
+          </tr>
+          <tr>
+            <td colspan="3"><em>Påsklov. Två veckor med kitet hemma. Använd dem
+              till att koppla drivkretsen och leta fram kugghjul — inte till att
+              vänta på kravlistan.</em></td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 27 · 1 april</strong><br>genomgång</td>
+            <td>Kugghjul, moment och varvtal, med räknade exempel. Sista 25
+              minuterna kravställs bygge 4.</td>
+            <td>Dina uppmätta strömmar och de tandtal du har hemma.</td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 28 · 8 april</strong><br>bygge</td>
+            <td>15 min samråd, 55 min bygge parvis, 15 min dokumentation.</td>
+            <td>Ett halvbyggt system som rör sig, ett ritat schema och en konkret
+              fråga.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Bara ett pass till bygget, och 55 minuter av det.</strong> Det är
+      kursens kortaste byggtid, och den räcker till felsökning och
+      färdigställande men inte till att bygga från noll. Mekaniken ska vara
+      ihopskruvad innan du kommer. Fastnar du under lovet: skriv ned exakt var,
+      med de tal du mätte, och ta med anteckningen.</p>
+
+    <h2 id="tre">De tre delarna i bygge 4</h2>
+    <p>Ett mekatroniskt system sammanför <strong>mekanisk struktur,
+      elektroteknik och styrteknik</strong>. I bygge 4 är alla tre lika tunga, och
+      för första gången i kursen bär hela kedjan verklig kraft.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>I bygge 4</th><th>Guiden som lär ut den</th></tr></thead>
+        <tbody>
+          <tr><td>Mekanisk struktur</td><td>kugghjulen, axlarna, trumman och fästena</td><td><a href="guide-utvaxling-och-kraft.html">Utväxling och kraft</a></td></tr>
+          <tr><td>Elektroteknik</td><td>drivkretsen, matningen och den gemensamma nollan</td><td><a href="guide-motorn-och-pinnen.html">Varför motorn inte får sitta på en pinne</a> och <a href="guide-motordrivare-och-pwm.html">Motordrivare och PWM</a></td></tr>
+          <tr><td>Styrteknik</td><td>givaren, beslutsregeln och PWM-styrningen</td><td><a href="guide-motordrivare-och-pwm.html">Motordrivare och PWM</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="notis viktig"><span class="rubrik">Kedjan börjar fortfarande i en sensor</span>
+      Bygge 4 är inte "en motor som snurrar". Det centrala innehållet kräver ett
+      system <strong>från sensor, via styrenhet, till aktuator</strong>, och det
+      betyder att något ska mäta, något ska besluta och något ska röra sig. En
+      motor som går så länge en knapp hålls in är ett reglage, inte ett
+      mekatroniskt system. Givaren från område 4 följer alltså med hit.</p>
+
+    <h2 id="ci">Områdets centrala innehåll</h2>
+    <p>Fyra punkter ur ämnesplanen hävdas här. De två första är områdets kärna:</p>
+    <ul>
+      <li><strong>Tekniska lösningar i vardagen för omvandling av energi, materia
+        eller information.</strong> En motor gör elektrisk energi till rörelse,
+        och området handlar lika mycket om vad som <em>inte</em> blir rörelse:
+        värmen i en transistor som inte mättar, de två volten i en L298N, de fem
+        procenten i varje kuggingrepp.</li>
+      <li><strong>Grundläggande mekaniska begrepp.</strong> Moment, kraft,
+        varvtal, utväxling och friktion — repetition från din tidigare kurs, satt
+        i arbete på en mekanism du själv dimensionerar.</li>
+      <li><strong>Uppbyggnad av mekatroniska system från sensor, via styrenhet,
+        till aktuator.</strong> Samma kedja som i bygge 3, men med en aktuator som
+        orkar något.</li>
+      <li><strong>Elarbete, mekaniskt arbete och enklare programmering av
+        styrenheter.</strong> Alla tre samtidigt, i ett och samma bygge.</li>
+    </ul>
+
+    <h2 id="efterat">När området är klart</h2>
+    <p>Då kan du mäta vad en motor drar i drift och i stopp, välja en drivkrets
+      som klarar det, räkna ut ett basmotstånd och avgöra om transistorn du har
+      duger, koppla en frihjulsdiod åt rätt håll och säga varför, styra riktning
+      och fart från kod, räkna om ett PWM-värde till en medelspänning, och välja
+      en utväxling baklänges ur kravet på vad mekanismen ska orka. Du kan också
+      känna igen brownout och den gemensamma nollans frånvaro på symtomen, vilket
+      sparar fler timmar än något annat i det här området.</p>
+    <p>Nästa område är slutprojektet. Där finns ingen kravlista skriven av mig —
+      du kravställer själv, mot samma fem förmågor. Bygge 4 är den sista
+      generalrepetitionen.</p>
+
+    <h2 id="tillhands">Alltid till hands</h2>
+    <ul>
+      <li><a href="../sprakreferens.html">Språkreferens</a> – C++ i ordnad följd.
+        Inget nytt kapitel öppnar med det här området;
+        <a href="../sprakreferens.html#tid">Tid</a> och
+        <a href="../sprakreferens.html#villkor">Villkor</a> är de som används
+        mest.</li>
+      <li><a href="../dokumentationsmall.html">Dokumentationsmall</a> – vad som
+        krävs på E, C och A. Bygge 4 bedöms mot alla fem förmågorna.</li>
+      <li><a href="../samradsunderlag.html">Samrådsunderlag</a> – de tre frågorna
+        du fyller i innan du ber om handledning.</li>
+      <li><a href="../omrade-4-sensorer/index.html">Område 4</a> – givarna,
+        medelvärdet och kalibreringen. Bygge 4 börjar i en sensor, så
+        <a href="../omrade-4-sensorer/guide-kalibrering.html">kalibreringsguiden</a>
+        är fortfarande i bruk.</li>
+      <li><a href="../omrade-2-styrenheten/guide-servot.html">Servoguiden</a> i
+        område 2 – brownout och den gemensamma nollan står förklarade där, och
+        förklaringen gäller ordagrant här.</li>
+    </ul>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 5</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

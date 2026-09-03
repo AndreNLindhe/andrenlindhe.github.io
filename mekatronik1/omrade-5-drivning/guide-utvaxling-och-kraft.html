@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Utväxling och kraft – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o5-utvaxling-och-kraft">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Utväxling och kraft</strong> · område 5</span>
+  <a href="index.html">Område 5</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#kravstall">Kravställ ditt bygge 4</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 5 · lektion 27</p>
+    <h1>Utväxling och kraft</h1>
+    <p class="inledning">En liten motor snurrar fort och orkar nästan ingenting.
+      Det du vill ha är oftast tvärtom: något som går långsamt och orkar mycket.
+      Utväxlingen är bytet mellan de två, och den är ingen ny fysik — moment,
+      kraft och friktion hade du i din tidigare kurs. Den här guiden tar tillbaka
+      dem, sätter siffror på dem i just ditt bygge, och lägger till det som
+      alltid glöms: att bytet inte är gratis.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan räkna ut utväxlingen ur två kugghjuls tandtal, och därur både
+        utgående varvtal och utgående moment.</li>
+      <li>Du kan förklara varför moment upp betyder varvtal ned, med effekten som
+        argument, och räkna på hur mycket varje kuggingrepp kostar.</li>
+      <li>Du kan gå baklänges: från kravet på ditt bygge — vad det ska orka och
+        hur fort — till den utväxling du behöver.</li>
+      <li>Du kan räkna ut var två kugghjul ska sitta i förhållande till varandra
+        för att gå ihop.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Moment är kraft gånger avstånd</h3>
+    <p>Repetition från
+      <a href="../omrade-2-styrenheten/guide-servot.html#genomgang">servoguiden</a>,
+      för att alla tal nedan vilar på den:</p>
+    <p><code>M = F · r</code></p>
+    <p>Momentet <code>M</code> mäts i newtonmeter (N·m), kraften <code>F</code> i
+      newton och avståndet <code>r</code> i meter, räknat vinkelrätt från axeln
+      ut till där kraften verkar. Samma moment ger alltså liten kraft långt ut och
+      stor kraft nära axeln.</p>
+    <p>Kraften från en massa som hänger i jordens dragningskraft är</p>
+    <p><code>F = m · g, med g = 9,82 m/s²</code></p>
+    <p>Ett halvt kilo väger alltså</p>
+    <p><code>F = 0,500 · 9,82 = 4,91 N</code></p>
+    <p>och hänger det i en trumma med radien 20 mm behövs</p>
+    <p><code>M = 4,91 · 0,020 = 0,0982 N·m</code></p>
+    <p>Nästan en tiondels newtonmeter för ett halvt kilo. Det är storleksordningen
+      att ha i huvudet: <strong>en liten motoraxel utan växel lämnar
+      hundradelar av en newtonmeter.</strong> Vänd på räkningen och se vad det
+      räcker till på samma trumma. Med 0,01 N·m blir det</p>
+    <p><code>F = M / r = 0,01 / 0,020 = 0,50 N, alltså m = 0,50 / 9,82 = 0,051 kg</code></p>
+    <p>och med 0,05 N·m fem gånger mer, alltså ungefär 0,25 kg.
+      <strong>Några tiotal till ett par hundra gram</strong> — inte i närheten av
+      det halva kilot ovan. Mellanskillnaden är precis vad utväxlingen ska stå
+      för.</p>
+
+    <h3>Kugghjulsparet</h3>
+    <p>Två kugghjul som griper i varandra måste flytta lika många tänder per
+      sekund — annars skulle de bryta sönder varandra. Ur det enda villkoret
+      följer allt annat.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 340 210" role="img" aria-labelledby="svg-kugghjul-titel"
+           style="width:100%;height:auto">
+        <title id="svg-kugghjul-titel">Två kugghjul som griper i varandra. Det
+          vänstra är litet och märkt z1 och n1, det högra är dubbelt så stort och
+          märkt z2 och n2. Båda är ritade som cirklar med korta streck runtom som
+          tänder; det lilla har tolv tänder och det stora tjugofyra. Ovanför det
+          lilla hjulet går en böjd pil medurs, ovanför det stora en böjd pil
+          moturs.</title>
+
+        <g stroke="currentColor" stroke-width="1.6" fill="none">
+          <circle cx="95" cy="105" r="42"/>
+          <circle cx="221" cy="105" r="84"/>
+
+          <g stroke-width="2.6">
+            <line x1="137" y1="105" x2="144" y2="105"/>
+            <line x1="131.4" y1="126" x2="137.5" y2="129.5"/>
+            <line x1="116" y1="141.4" x2="119.5" y2="147.5"/>
+            <line x1="95" y1="147" x2="95" y2="154"/>
+            <line x1="74" y1="141.4" x2="70.5" y2="147.5"/>
+            <line x1="58.6" y1="126" x2="52.5" y2="129.5"/>
+            <line x1="53" y1="105" x2="46" y2="105"/>
+            <line x1="58.6" y1="84" x2="52.5" y2="80.5"/>
+            <line x1="74" y1="68.6" x2="70.5" y2="62.5"/>
+            <line x1="95" y1="63" x2="95" y2="56"/>
+            <line x1="116" y1="68.6" x2="119.5" y2="62.5"/>
+            <line x1="131.4" y1="84" x2="137.5" y2="80.5"/>
+          </g>
+
+          <g stroke-width="2.6">
+            <line x1="305" y1="105" x2="312" y2="105"/>
+            <line x1="302.1" y1="126.7" x2="308.9" y2="128.5"/>
+            <line x1="293.7" y1="147" x2="300.1" y2="150.5"/>
+            <line x1="280.4" y1="164.4" x2="285.9" y2="169.7"/>
+            <line x1="263.4" y1="177.4" x2="267.6" y2="183.8"/>
+            <line x1="243.7" y1="185.1" x2="246.2" y2="192.3"/>
+            <line x1="221" y1="189" x2="221" y2="196"/>
+            <line x1="198.3" y1="185.1" x2="195.8" y2="192.3"/>
+            <line x1="178.6" y1="177.4" x2="174.4" y2="183.8"/>
+            <line x1="161.6" y1="164.4" x2="156.1" y2="169.7"/>
+            <line x1="148.3" y1="147" x2="141.9" y2="150.5"/>
+            <line x1="139.9" y1="126.7" x2="133.1" y2="128.5"/>
+            <line x1="137" y1="105" x2="130" y2="105"/>
+            <line x1="139.9" y1="83.3" x2="133.1" y2="81.5"/>
+            <line x1="148.3" y1="63" x2="141.9" y2="59.5"/>
+            <line x1="161.6" y1="45.6" x2="156.1" y2="40.3"/>
+            <line x1="178.6" y1="32.6" x2="174.4" y2="26.2"/>
+            <line x1="198.3" y1="24.9" x2="195.8" y2="17.7"/>
+            <line x1="221" y1="21" x2="221" y2="14"/>
+            <line x1="243.7" y1="24.9" x2="246.2" y2="17.7"/>
+            <line x1="263.4" y1="32.6" x2="267.6" y2="26.2"/>
+            <line x1="280.4" y1="45.6" x2="285.9" y2="40.3"/>
+            <line x1="293.7" y1="63" x2="300.1" y2="59.5"/>
+            <line x1="302.1" y1="83.3" x2="308.9" y2="81.5"/>
+          </g>
+
+          <path d="M 72 72 A 40 40 0 0 1 118 72" stroke-width="2"/>
+          <path d="M 267 67 A 60 60 0 0 0 175 67" stroke-width="2"/>
+        </g>
+
+        <polygon points="118,80 111,70 122,68" fill="currentColor"/>
+        <polygon points="175,75 171,64 182,66" fill="currentColor"/>
+
+        <g fill="currentColor" font-size="17">
+          <text x="95" y="102" text-anchor="middle">z1</text>
+          <text x="95" y="126" text-anchor="middle">n1</text>
+          <text x="221" y="102" text-anchor="middle">z2</text>
+          <text x="221" y="126" text-anchor="middle">n2</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>z1 och z2 är tandtalen.</strong> Figuren visar 12 och 24 tänder,
+        alltså en utväxling på 2. Dina egna hjul har andra tal.</li>
+      <li><strong>n1 och n2 är varvtalen</strong>, i varv per minut.</li>
+      <li><strong>De två pilarna går åt olika håll.</strong> Två kugghjul som
+        griper direkt i varandra snurrar alltid åt motsatta håll. Det är ett fel
+        som upptäcks först när mekanismen går baklänges, och det rättas i koden
+        genom att kasta om riktningssignalerna.</li>
+      <li><strong>Hjulen måste ha samma modul</strong> för att gå ihop — se
+        räkningen om axelavstånd längre ned.</li>
+    </ul>
+
+    <p>Utväxlingen <code>i</code> definieras som förhållandet mellan tandtalen:</p>
+    <p><code>i = z2 / z1</code></p>
+    <p>och varvtalen förhåller sig omvänt mot tandtalen:</p>
+    <p><code>n1 / n2 = z2 / z1 = i, alltså n2 = n1 / i</code></p>
+    <p>Momentet går åt andra hållet. I den ideala växeln, utan förluster:</p>
+    <p><code>M2 = M1 · i</code></p>
+    <p><strong>Många tänder på det drivna hjulet betyder alltså lågt varvtal och
+      högt moment.</strong> Ett hjul med fler tänder är större, och det stämmer
+      med hävstångstanken: kraften i kuggingreppet är densamma på båda hjulen, men
+      det stora hjulet har längre arm ut till sin axel.</p>
+
+    <h3>Räknat exempel 1: ett kugghjulspar</h3>
+    <p>Din motor lämnar 200 varv per minut och 0,05 N·m på sin axel. Du sätter ett
+      hjul med 12 tänder på motoraxeln och låter det driva ett hjul med 36
+      tänder.</p>
+    <p><code>i = z2 / z1 = 36 / 12 = 3</code></p>
+    <p><code>n2 = n1 / i = 200 / 3 = 66,7 varv/min</code></p>
+    <p><code>M2 = M1 · i = 0,05 · 3 = 0,15 N·m i den ideala växeln</code></p>
+    <p>Verkligheten tar sitt. Ett kuggingrepp har en verkningsgrad kring 95 till
+      98 procent; räkna med 97 procent för raka kugghjul som är någorlunda rena
+      och rätt monterade:</p>
+    <p><code>M2 = 0,15 · 0,97 = 0,1455 N·m ≈ 0,15 N·m</code></p>
+    <p><strong>Kontrollera med effekten.</strong> Effekt i en roterande axel är
+      moment gånger vinkelhastighet, och vinkelhastigheten fås ur varvtalet:</p>
+    <p><code>ω = 2π · n / 60</code></p>
+    <p>På motoraxeln:</p>
+    <p><code>ω1 = 2π · 200 / 60 = 20,94 rad/s</code></p>
+    <p><code>P1 = M1 · ω1 = 0,05 · 20,94 = 1,047 W</code></p>
+    <p>På utgående axel:</p>
+    <p><code>ω2 = 2π · 66,7 / 60 = 6,98 rad/s</code></p>
+    <p><code>P2 = M2 · ω2 = 0,1455 · 6,98 = 1,016 W</code></p>
+    <p><code>1,016 / 1,047 = 0,970 = 97 %</code></p>
+    <p>Precis de 97 procent vi räknade med, vilket är själva kontrollen:
+      <strong>effekten in är effekten ut plus förlusterna, alltid.</strong> Går
+      dina tal inte ihop på det sättet har du räknat fel någonstans.</p>
+    <p><strong>Vad blir det i kraft?</strong> Sätt en trumma med radien 15 mm på
+      den utgående axeln och linda en tråd på den:</p>
+    <p><code>F = M2 / r = 0,1455 / 0,015 = 9,7 N</code></p>
+    <p>vilket i massa är</p>
+    <p><code>m = F / g = 9,7 / 9,82 = 0,99 kg</code></p>
+    <p>Knappt ett kilo. Samma motor utan växel, på samma trumma, hade orkat</p>
+    <p><code>F = M1 / r = 0,05 / 0,015 = 3,33 N, alltså m = 3,33 / 9,82 = 0,34 kg</code></p>
+    <p>alltså en tredjedel så mycket:</p>
+    <p><code>0,99 / 0,34 = 2,9 gånger</code></p>
+    <p>Priset är att trumman snurrar tre gånger långsammare. Att lyftet blev
+      knappt tre gånger större och inte precis tre är samma 97 procent som förut,
+      och det är värt att lägga märke till: <strong>kontrollen håller åt båda
+      hållen.</strong> Ett kugghjulspar som påstods ge tio gångers kraft vid tre
+      gångers nedväxling hade fällts av samma räkning på en rad.</p>
+
+    <h3>Räknat exempel 2: två steg, och vad de kostar</h3>
+    <p>En utväxling på 3 räcker sällan. Vill du ha mycket får du kedja ihop flera
+      steg, och då multipliceras utväxlingarna — men det gör förlusterna
+      också.</p>
+    <p>Motor: 3 000 varv per minut och 0,010 N·m. Steg ett har 10 tänder som
+      driver 40, steg två 12 tänder som driver 36.</p>
+    <p><code>i1 = 40 / 10 = 4</code></p>
+    <p><code>i2 = 36 / 12 = 3</code></p>
+    <p><code>i = i1 · i2 = 4 · 3 = 12</code></p>
+    <p><code>n_ut = 3 000 / 12 = 250 varv/min</code></p>
+    <p><code>M_ut = 0,010 · 12 = 0,120 N·m i den ideala växeln</code></p>
+    <p>Nu ligger det två kuggingrepp i vägen, och verkningsgraderna multipliceras:</p>
+    <p><code>0,97 · 0,97 = 0,9409, alltså 94,1 %</code></p>
+    <p><code>M_ut = 0,120 · 0,9409 = 0,113 N·m</code></p>
+    <p>Knappt sex procent borta. Är hjulen av plast, smutsiga eller lite fel
+      monterade är 95 procent per steg närmare sanningen:</p>
+    <p><code>0,95 · 0,95 = 0,9025</code></p>
+    <p><code>M_ut = 0,120 · 0,9025 = 0,108 N·m</code></p>
+    <p>Skillnaden mellan de två antagandena är knappt fyra procentenheter på ett
+      bygge med två steg. På fem steg blir den betydligt större:</p>
+    <p><code>0,97⁵ = 0,859, alltså 14 % borta</code></p>
+    <p><code>0,95⁵ = 0,774, alltså 23 % borta</code></p>
+    <p><strong>Slutsatsen är praktisk: färre steg med större hjul slår fler steg
+      med små, när det går.</strong> Och det som försvinner blir värme och ljud i
+      växeln — det är där du känner den om du tar på en växellåda som gått en
+      stund. En växel som blir varm är en växel som förlorar effekt, precis som en
+      L298N som blir varm.</p>
+
+    <h3>Räkna baklänges: från kravet till utväxlingen</h3>
+    <p>I ett bygge går räkningen sällan framlänges. Du vet vad mekanismen ska
+      göra, och frågan är vilken utväxling som behövs.</p>
+    <p><strong>Räknat exempel 3.</strong> En hiss ska lyfta 200 gram med 5
+      centimeter i sekunden. Trumman har radien 10 mm. Motorn lämnar 200 varv per
+      minut och 0,010 N·m.</p>
+    <p>Först kraften, och därur momentet trumman behöver:</p>
+    <p><code>F = m · g = 0,200 · 9,82 = 1,96 N</code></p>
+    <p><code>M = F · r = 1,96 · 0,010 = 0,0196 N·m</code></p>
+    <p>Sedan varvtalet. En punkt på trummans yta rör sig med hastigheten
+      <code>v = ω · r</code>, alltså</p>
+    <p><code>ω = v / r = 0,05 / 0,010 = 5,0 rad/s</code></p>
+    <p><code>n = ω · 60 / (2π) = 5,0 · 60 / 6,283 = 47,7 varv/min</code></p>
+    <p>Utväxlingen som ger det varvtalet:</p>
+    <p><code>i = 200 / 47,7 = 4,2</code></p>
+    <p>Välj ett par som ligger nära, till exempel 12 och 48 tänder, alltså
+      <code>i = 4</code>. Kontrollera båda kraven med det valet.</p>
+    <p><code>n_ut = 200 / 4 = 50 varv/min</code></p>
+    <p><code>ω_ut = 2π · 50 / 60 = 5,24 rad/s</code></p>
+    <p><code>v = ω · r = 5,24 · 0,010 = 0,052 m/s</code></p>
+    <p>Fem komma två centimeter i sekunden mot kravet fem — bra nog. Och
+      momentet:</p>
+    <p><code>M_ut = 0,010 · 4 · 0,97 = 0,0388 N·m</code></p>
+    <p><code>0,0388 / 0,0196 = 1,98</code></p>
+    <p><strong>Nästan dubbel marginal.</strong> Det är ungefär vad man vill ha,
+      och skälet är allt det räkningen inte tog med: friktion i lager, en lina som
+      inte är viktlös, en trumma som inte är helt rund, och framför allt att
+      lasten ska <em>komma i gång</em> och inte bara hållas i rörelse. En
+      marginal på under 1,5 gånger brukar betyda ett bygge som fungerar tomt och
+      står stilla med last.</p>
+
+    <h3>Var kugghjulen ska sitta</h3>
+    <p>Två kugghjul går ihop bara om de har samma <strong>modul</strong>, som är
+      måttet på hur stora tänderna är. Modulen betecknas <code>m</code> och mäts i
+      millimeter. Diametern på den tänkta cirkel där hjulen rullar mot varandra —
+      delningsdiametern — är</p>
+    <p><code>d = m · z</code></p>
+    <p>och avståndet mellan de två axlarna ska vara summan av de två radierna:</p>
+    <p><code>a = (d1 + d2) / 2 = m · (z1 + z2) / 2</code></p>
+    <p><strong>Räknat exempel.</strong> Modul 1 mm, 12 och 36 tänder:</p>
+    <p><code>d1 = 1 · 12 = 12 mm</code></p>
+    <p><code>d2 = 1 · 36 = 36 mm</code></p>
+    <p><code>a = (12 + 36) / 2 = 24 mm</code></p>
+    <p>Alltså 24 millimeter mellan axelcentrum, och det ska mätas och borras, inte
+      provas fram. <strong>Sitter hjulen för nära kärvar de och drar ström; sitter
+      de för långt isär hoppar de över tänder under last.</strong> Båda felen
+      låter, och båda syns som en drivkrets som blir varm utan att något
+      rör sig som det ska.</p>
+
+    <h3>Rem, kedja och snäckväxel</h3>
+    <p>Kugghjul är inte enda sättet, och tre alternativ är värda att känna igen.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Överföring</th><th>Utväxling</th><th>Rotationsriktning</th><th>Kommentar</th></tr></thead>
+        <tbody>
+          <tr><td>Kugghjulspar</td><td><code>z2 / z1</code></td><td>Motsatt</td><td>95–98 % per ingrepp. Kräver rätt axelavstånd</td></tr>
+          <tr><td>Rem eller kedja</td><td><code>d2 / d1</code> eller <code>z2 / z1</code></td><td>Samma</td><td>Tål slarv i avståndet. En slirande rem överför inget moment</td></tr>
+          <tr><td>Kuggrem</td><td><code>z2 / z1</code></td><td>Samma</td><td>Som rem, men kan inte slira. Vanlig i skrivare och 3D-skrivare</td></tr>
+          <tr><td>Snäckväxel</td><td>Ett varv på snäckan per tand på hjulet</td><td>90° vinkel mellan axlarna</td><td>Stor utväxling i ett steg, men bara 40–60 % verkningsgrad. Ofta självhämmande</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Självhämmande</strong> betyder att växeln går att driva åt ena
+      hållet men inte åt det andra: motorn kan vrida hjulet, men hjulet kan inte
+      vrida motorn tillbaka. En last hänger alltså kvar när strömmen bryts, utan
+      broms och utan att något behöver hålla emot. Det är en egenskap man betalar
+      för — halva effekten blir värme i växeln — och den återkommer i
+      industriexemplet nedan.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <p><strong>I industrin:</strong> ett transportband i en packlinje drivs av en
+      växelmotor med snäckväxel. Motorn är på 0,25 kW och går 1 400 varv per
+      minut; växeln har utväxlingen 40. Räkna igenom hela kedjan.</p>
+    <p><code>ω1 = 2π · 1 400 / 60 = 146,6 rad/s</code></p>
+    <p><code>M1 = P / ω1 = 250 / 146,6 = 1,71 N·m på motoraxeln</code></p>
+    <p><code>n2 = 1 400 / 40 = 35 varv/min</code></p>
+    <p><code>M2 = 1,71 · 40 · 0,55 = 37,6 N·m</code></p>
+    <p>Med en drivtrumma på 100 mm i diameter, alltså radien 0,05 m, blir
+      banddragkraften</p>
+    <p><code>F = M2 / r = 37,6 / 0,05 = 752 N</code></p>
+    <p>och bandhastigheten</p>
+    <p><code>ω2 = 2π · 35 / 60 = 3,67 rad/s</code></p>
+    <p><code>v = ω2 · r = 3,67 · 0,05 = 0,18 m/s = 11 m/min</code></p>
+    <p>Lägg märke till vad snäckväxeln kostar. Av motorns 250 W kommer</p>
+    <p><code>250 · 0,55 = 138 W</code></p>
+    <p>ut på trumman, och</p>
+    <p><code>250 − 138 = 112 W</code></p>
+    <p>blir värme i växelhuset. Nästan hälften. <strong>Varför väljer man ändå
+      den?</strong> För att bandet ofta lutar, och en självhämmande växel gör att
+      lasten står kvar när strömmen bryts — vid ett nödstopp, vid ett
+      strömavbrott, eller mitt i natten. Alternativet är en effektivare
+      kuggväxel plus en mekanisk broms som måste finnas, hålla och underhållas.
+      Ingenjörsvalet är alltså inte "vilken växel har bäst verkningsgrad" utan
+      "vad kostar det att lösa säkerhetsfrågan på det andra sättet".</p>
+
+    <p><strong>I vardagen:</strong> en cykel är en växellåda du kan räkna på
+      genom att titta. Främre drevet har 50 tänder och det minsta bakre 16:</p>
+    <p><code>i = 50 / 16 = 3,125 hjulvarv per trampvarv</code></p>
+    <p>Trampar du 80 varv i minuten snurrar hjulet</p>
+    <p><code>80 · 3,125 = 250 varv/min</code></p>
+    <p>och med ett hjul som rullar 2,10 m per varv blir farten</p>
+    <p><code>250 · 2,10 = 525 m/min = 31,5 km/h</code></p>
+    <p>Lägsta växeln, 34 tänder fram och 28 bak:</p>
+    <p><code>i = 34 / 28 = 1,21</code></p>
+    <p><code>80 · 1,21 = 97 varv/min</code></p>
+    <p><code>97 · 2,10 = 204 m/min = 12,2 km/h</code></p>
+    <p>Samma ben, samma trampfrekvens, knappt fyra tiondelar av farten. Och i
+      utbyte:</p>
+    <p><code>3,125 / 1,21 = 2,6 gånger så stort moment på hjulet</code></p>
+    <p>Det är precis samma byte som kugghjulsparet gör i ditt bygge, med den
+      skillnaden att kedjan bevarar rotationsriktningen medan ett kuggingrepp
+      vänder den. Cyklisten byter alltså inte kraft mot fart för att motorn
+      ändras — effekten från benen är ungefär densamma i båda växlarna — utan för
+      att backen kräver moment och plattmarken kräver varvtal. Precis det valet
+      gör du när du väljer tandtal till bygge 4.</p>
+
+    <h2 id="kravstall">Kravställ ditt bygge 4</h2>
+    <p>Bygge 4 bygger på hela året. Det är ett bedömt mekatroniskt system som ska
+      sammanföra <strong>mekanisk struktur, elektroteknik och styrteknik</strong>,
+      och det ska — precis som bygge 3 — börja i en <strong>sensor</strong>. Hela
+      kravlistan står på <a href="bygge-4-motor.html">bygge 4:s sida</a>. Det du
+      ska bestämma nu är vad du bygger.</p>
+
+    <h3>Sex frågor att svara på innan du bygger</h3>
+    <ol>
+      <li><strong>Vad ska mekanismen göra, i en mening med enhet?</strong> "Lyfta
+        200 gram tjugo centimeter på fyra sekunder" är en mening som går att
+        räkna på. "En hiss" är det inte.</li>
+      <li><strong>Vilken sensor bestämmer?</strong> Kedjan ska börja i en givare.
+        LDR, NTC, potentiometer, HC-SR04 eller en knapp med ändläge — allt du
+        använde i område 4 duger. Skriv ned vad givaren mäter och vilken regel
+        som gör om mätvärdet till ett beslut om riktning eller fart.</li>
+      <li><strong>Vilken motor, och vad drar den?</strong> Driftström och
+        stoppström, mätta med multimetern. Utan de talen går det inte att välja
+        drivkrets, och de är dessutom ett eget krav.</li>
+      <li><strong>Vilken drivkrets, och vilken matning?</strong> Räkna
+        drivkretsens spänningsfall och välj batteri därefter, som i
+        <a href="guide-motordrivare-och-pwm.html#genomgang">förra guiden</a>.</li>
+      <li><strong>Vilken utväxling, och varför just den?</strong> Räkna baklänges
+        som i exempel 3 ovan. Tandtal, utväxling, väntat varvtal och väntat
+        moment — innan du skruvar.</li>
+      <li><strong>Vad händer när något går fel?</strong> Vad gör bygget om
+        mekanismen kör i botten, om givaren ger ett omöjligt värde, eller om
+        strömmen bryts mitt i en rörelse? Ett bestämt beteende i de tre fallen är
+        skillnaden mellan ett bygge och en demonstration.</li>
+    </ol>
+
+    <p class="notis viktig"><span class="rubrik">En vecka mellan kravlistan och bygget</span>
+      Bygge 4 byggs på lektion 28, alltså veckan efter den här. Det är kursens
+      kortaste marginal, och de 55 minuterna på passet räcker till felsökning och
+      färdigställande — <strong>inte till att bygga från noll</strong>. Påsklovet
+      låg före det här passet, inte efter, så tiden hemma har du redan haft. Kom
+      med mekaniken ihopsatt och motorn snurrande, så blir passet det det ska
+      vara.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li><strong>Räkna tänderna</strong> på de kugghjul eller remskivor du har.
+        Skriv upp tandtalen och räkna ut alla utväxlingar som går att bygga med
+        dem. Det är fem minuter som sparar en timme senare.</li>
+      <li><strong>Mät modulen.</strong> Mät hjulets ytterdiameter och dela med
+        tandtalet plus två — det ger modulen med god noggrannhet. Räkna sedan ut
+        axelavståndet för det par du tänkt använda, och jämför med det du redan
+        borrat eller tänkt borra.</li>
+      <li><strong>Mät motorns varvtal.</strong> Sätt en tejpbit på axeln, filma
+        med telefonen i slow motion och räkna varv per sekund, eller räkna varv
+        under tio sekunder på den utgående axeln om den går långsamt nog. Räkna om
+        till varv per minut.</li>
+      <li><strong>Kontrollera utväxlingen genom att mäta.</strong> Kör motorn,
+        räkna varv på båda axlarna under samma tid, och jämför förhållandet med
+        <code>z2 / z1</code>. Ligger det uppmätta lägre är det slir eller
+        överhoppade tänder — inte matematik.</li>
+      <li><strong>Mät momentet du faktiskt får ut.</strong> Linda en tråd på
+        trumman, häng på en känd vikt, och öka tills motorn inte orkar lyfta.
+        Räkna <code>M = F · r</code> med den största vikt som gick, och jämför med
+        vad du räknade fram. Det här är byggets bästa enskilda mätvärde.</li>
+      <li><strong>Mät strömmen samtidigt.</strong> Läs av strömmen tomgående och
+        med den största lasten. Jämför med stoppströmmen du mätte i den första
+        guiden. Nu ser du med egna ögon varför den är det tal som styr
+        drivkretsen.</li>
+      <li><strong>Känn på växeln efter fem minuters drift.</strong> Är den ljummen
+        är det förlusterna du räknade på. Är den het sitter något fel — för nära
+        axelavstånd, snedställda axlar eller för mycket last.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>En motor på 300 varv/min och 0,02 N·m driver via 10 och 50 tänder.
+        Vad blir varvtal och moment ut, med 97 procents verkningsgrad?</summary>
+      <p><code>i = 50 / 10 = 5</code>. Varvtalet blir
+        <code>300 / 5 = 60 varv/min</code> och momentet
+        <code>0,02 · 5 · 0,97 = 0,097 N·m</code>. Kontroll med effekten:
+        <code>ω1 = 2π · 300 / 60 = 31,4 rad/s</code> ger
+        <code>P1 = 0,02 · 31,4 = 0,628 W</code>, och
+        <code>ω2 = 2π · 60 / 60 = 6,28 rad/s</code> ger
+        <code>P2 = 0,097 · 6,28 = 0,609 W</code>. Förhållandet
+        <code>0,609 / 0,628 = 0,97</code>, som väntat.</p>
+    </details>
+
+    <details>
+      <summary>Du behöver 0,08 N·m på utgående axel. Motorn lämnar 0,015 N·m.
+        Vilken utväxling behövs som minst, med 97 procent per steg?</summary>
+      <p>Ideellt <code>0,08 / 0,015 = 5,3</code>, men förlusten ska in:
+        <code>5,3 / 0,97 = 5,5</code>. Alltså minst 5,5, och då är det exakt på
+        gränsen — välj hellre 8 eller 10 så att bygget också orkar starta med
+        last. Ett par med 12 och 96 tänder ger 8, eller två steg på vardera 3
+        ger 9.</p>
+    </details>
+
+    <details>
+      <summary>Varför kan man inte få både högre varvtal och högre moment ur en
+        växel?</summary>
+      <p>Därför att effekten är moment gånger vinkelhastighet, och en växel kan
+        inte skapa effekt. Den kan bara byta den ena storheten mot den andra, och
+        förlorar dessutom några procent i varje ingrepp. Går båda upp i din
+        räkning har du räknat fel.</p>
+    </details>
+
+    <details>
+      <summary>Din mekanism går åt fel håll. Vad gör du?</summary>
+      <p>Kastar om de två riktningssignalerna i koden — en rad, ingen skruvmejsel.
+        Att det blev fel håll är för övrigt normalt: ett kugghjulspar vänder
+        rotationsriktningen, medan en rem eller kedja behåller den, så det beror
+        på hur många ingrepp mekanismen har.</p>
+    </details>
+
+    <details>
+      <summary>Modul 1,5 mm, 16 och 40 tänder. Var ska axlarna sitta?</summary>
+      <p><code>d1 = 1,5 · 16 = 24 mm</code> och
+        <code>d2 = 1,5 · 40 = 60 mm</code>, alltså
+        <code>a = (24 + 60) / 2 = 42 mm</code> mellan axelcentrum. Utväxlingen
+        blir <code>40 / 16 = 2,5</code>.</p>
+    </details>
+
+    <details>
+      <summary>Bygget lyfter lasten men bara om du hjälper det i gång med
+        fingret. Vad är fel?</summary>
+      <p>Momentmarginalen är för liten. Räkningen gällde att <em>hålla</em> lasten
+        i rörelse, men att sätta något i rörelse kräver mer: vilofriktionen är
+        större än rullfriktionen, och lasten ska dessutom accelereras. Öka
+        utväxlingen, eller minska trummans radie — båda ger mer moment på
+        bekostnad av fart.</p>
+    </details>
+
+    <details>
+      <summary>Varför använder man en snäckväxel som bara har 55 procents
+        verkningsgrad?</summary>
+      <p>För att den ofta är självhämmande. Lasten står kvar när strömmen bryts,
+        utan broms och utan hållmoment från motorn. Det man betalar med är värme i
+        växeln — nästan halva effekten — och det man slipper är en mekanisk broms
+        som ska finnas, fungera och underhållas.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Axelavståndet är provat fram i stället för räknat.</strong> För
+        nära ger kärvning och hög ström, för långt ger överhoppade tänder under
+        last. Räkna <code>a = m · (z1 + z2) / 2</code> och borra på det
+        måttet.</li>
+      <li><strong>Hjulen har olika modul.</strong> De ser ut att gå ihop och gör
+        det på tomgång, men de sliter på varandra och hoppar under last. Två hjul
+        ur olika satser är sällan kompatibla.</li>
+      <li><strong>Utväxlingen valdes efter fart och inte efter moment.</strong>
+        Mekanismen går fint tom och står stilla med last. Räkna momentet också, och
+        sikta på ungefär dubbel marginal.</li>
+      <li><strong>Förlusterna är inte medräknade.</strong> Ett bygge dimensionerat
+        exakt på ideala tal fungerar inte. Fem procent per ingrepp låter lite och
+        blir mycket i flera steg.</li>
+      <li><strong>Trumman gjordes stor för att det såg bra ut.</strong> Kraften är
+        momentet delat med radien, så en dubbelt så stor trumma halverar
+        lyftkraften. Radien är ett konstruktionsval, inte en detalj.</li>
+      <li><strong>Axlarna är inte parallella.</strong> Kugghjulen tar bara i
+        kanten, låter illa och slits fort. Kontrollera med ögat mot bordskanten
+        innan du drar åt.</li>
+      <li><strong>Motorn sitter i ett fäste som fjädrar.</strong> Kraften i
+        kuggingreppet trycker isär hjulen, avståndet växer under last, och tänder
+        hoppar över. Ett mjukt fäste ger ett fel som bara uppstår när det är
+        tungt.</li>
+      <li><strong>Rotationsriktningen räknades inte.</strong> Ett ingrepp vänder,
+        två vänder tillbaka. Rita pilarna i schemat innan du bygger, så slipper du
+        upptäcka det efteråt.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Den här guiden innehåller ingen ny kod och inget nytt i språket. Vill du
+      lägga omräkningen från tandtal till varvtal i en egen funktion — vilket är
+      en bra idé, eftersom talet behövs på mer än ett ställe — ligger mönstret i
+      <a href="../sprakreferens.html#funktioner">Funktioner</a>.</p>
+    <p>Nu är området genomgånget: motorn får inte sitta på en pinne, drivkretsen
+      löser det, PWM ger farten och utväxlingen ger kraften. Kvar är att sätta ihop
+      alltihop till ett system som börjar i en givare.</p>
+    <p>Nästa sida är <a href="bygge-4-motor.html">Bygge 4 – motor med drivkrets
+      och utväxling</a>. Det är kursens fjärde bedömda system och den sista
+      övningen innan slutprojektet, där du gör allt det här utan en kravlista
+      skriven av mig.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 5</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

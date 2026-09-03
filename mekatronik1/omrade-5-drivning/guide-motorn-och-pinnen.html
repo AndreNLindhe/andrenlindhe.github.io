@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Varför motorn inte får sitta på en pinne – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o5-motorn-och-pinnen">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Varför motorn inte får sitta på en pinne</strong> · område 5</span>
+  <a href="index.html">Område 5</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 5 · lektion 25</p>
+    <h1>Varför motorn inte får sitta på en pinne</h1>
+    <p class="inledning">Servot har hittills orkat med en spak, en lucka och en
+      visare, och det har tagit sin ström från en egen matning medan kortet bara
+      skickat pulser. En motor är samma problem, fast större och utan servots
+      inbyggda elektronik. Den här guiden handlar om två tal — motorns ström och
+      pinnens gräns — och om de två komponenter som får dem att gå ihop:
+      transistorn och frihjulsdioden.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan mäta din motors ström både när den går och när axeln hålls
+        fast, och säga hur många gånger pinnens gräns det är.</li>
+      <li>Du kan räkna ut ett basmotstånd till en transistor som ska mätta, och
+        avgöra om den transistor du har faktiskt klarar strömmen.</li>
+      <li>Du kan förklara varför en spole ger en spänningsspik när strömmen
+        bryts, räkna på spikens storlek, och koppla frihjulsdioden åt rätt
+        håll.</li>
+      <li>Du kan känna igen en skada som inte syns direkt, och veta varför det är
+        samma sorts problem som ESD-skadan i område 1.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Två tal som inte går ihop</h3>
+    <p>Från <a href="../omrade-2-styrenheten/guide-mikrokontrollern.html#genomgang">mikrokontrollerguiden</a>
+      har du tre gränser, och de handlar om olika saker:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Gräns</th><th>Värde</th><th>Vad den gäller</th></tr></thead>
+        <tbody>
+          <tr><td>Ström per pinne, rekommenderat</td><td>20 mA</td><td>Det tal du ska konstruera mot</td></tr>
+          <tr><td>Ström per pinne, absolut tak</td><td>40 mA</td><td>Databladets yttersta gräns. Konstruera aldrig mot den</td></tr>
+          <tr><td>Ström genom alla I/O-pinnar tillsammans</td><td>200 mA</td><td>En gräns i kislet. Att sprida lasten på fler pinnar hjälper inte förbi den</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Skillnaden mellan de två första är värd en mening. <strong>40 mA är vad
+      chippet tål innan något går sönder; 20 mA är vad det ska belastas med om
+      logiknivåerna ska vara de du tror.</strong> En konstruktion som ligger på
+      det absoluta taket har noll marginal mot komponentspridning, värme och
+      spänningsvariationer. Räkna med 20 mA.</p>
+    <p>Ställ nu de talen mot en motor. En liten likströmsmotor av den typ som
+      finns i ett skolkit — en enkel borstmotor, eller en gul växelmotor av
+      TT-typ — drar ungefär så här. <strong>Talen är storleksordningar, inte
+      facit: din motor är inte min motor, och du ska mäta din egen.</strong></p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Läge</th><th>Storleksordning vid 6 V</th></tr></thead>
+        <tbody>
+          <tr><td>Går fritt, utan last</td><td>50–150 mA</td></tr>
+          <tr><td>Drar en normal last</td><td>150–400 mA</td></tr>
+          <tr><td>Axeln hålls fast (stoppström)</td><td>500 mA till drygt 1 A</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Stoppströmmen är talet som styr konstruktionen</strong>, inte
+      strömmen när motorn går fritt. Skälet står längre ned, och det är att en
+      motor som står stilla saknar det som annars begränsar dess ström.</p>
+    <p>Anta att du mätt din motor till <strong>600 mA i stopp</strong>. Jämför
+      med de gränser du har:</p>
+    <p><code>600 mA / 20 mA = 30 gånger den rekommenderade pinnströmmen</code></p>
+    <p><code>600 mA / 40 mA = 15 gånger det absoluta taket per pinne</code></p>
+    <p><code>600 mA / 200 mA = 3 gånger vad hela chippet tål genom alla pinnar</code></p>
+    <p>Det sista talet är det som stänger dörren ordentligt. Även om du kunde
+      dela upp strömmen på alla fjorton digitala pinnar — vilket du inte kan —
+      skulle chippet ändå ligga tre gånger över sin gräns. Och kortets 5 V-stift
+      hjälper inte heller, för matas kortet över USB finns det bara 500 mA att
+      dela på:</p>
+    <p><code>600 mA &gt; 500 mA</code></p>
+    <p>Effekten säger samma sak med en annan enhet. Motorn vid 6 V och 0,6 A:</p>
+    <p><code>P = U · I = 6,0 V · 0,6 A = 3,6 W</code></p>
+    <p>Hela Uno-kortet drar ungefär 50 mA vid 5 V, alltså</p>
+    <p><code>P = 5,0 V · 0,050 A = 0,25 W</code></p>
+    <p><code>3,6 / 0,25 = 14 gånger så mycket effekt som hela kortet</code></p>
+    <p class="notis varna"><span class="rubrik">Skadan på en överbelastad pinne är permanent</span>
+      Kopplar du motorn direkt till en pinne händer inte alltid något dramatiskt.
+      Motorn rycker till eller går svagt, spänningen på pinnen sjunker, och
+      kislet i utgångssteget blir varmt. Ibland dör pinnen på en gång. Ibland
+      fungerar den vidare i veckor och blir sedan opålitlig — en enda pinne som
+      läser fel eller inte orkar driva något. <strong>Det är samma sorts
+      obehagliga fel som den latenta ESD-skadan i
+      <a href="../omrade-1-ellara-och-matning/guide-sakerhet-och-esd.html#genomgang">område 1</a>:
+      att det fungerade när du provade bevisar ingenting.</strong> Kortet är
+      dessutom det enda du har.</p>
+
+    <h3>Transistorn som strömbrytare</h3>
+    <p>Lösningen är att pinnen inte ska bära motorns ström utan bara
+      <em>bestämma</em> om den ska flyta. Det är precis vad en transistor gör: en
+      liten ström in på <strong>basen</strong> släpper fram en stor ström från
+      <strong>kollektor</strong> till <strong>emitter</strong>. Motorn tar sin
+      ström från matningen, inte från kortet.</p>
+    <p>Kopplingen kallas <strong>lågsideskoppling</strong>: transistorn sitter
+      mellan motorn och GND, inte mellan matningen och motorn. Det är den enklaste
+      varianten, och den som fungerar med en vanlig NPN-transistor.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 360 300" role="img" aria-labelledby="svg-transistor-titel"
+           style="width:100%;height:auto">
+        <title id="svg-transistor-titel">Kopplingsschema. Till vänster en
+          rektangel märkt Uno med två anslutningar, D5 och GND. Från D5 går en
+          ledning åt höger genom motståndet Rb till basen på transistorn Q1,
+          ritad som ett lodrätt streck med två sneda ledningar och en pil på den
+          nedre. Från transistorns kollektor går en ledning uppåt till motorn M1,
+          ritad som en cirkel med bokstaven M, och vidare upp till en vågrät
+          ledning märkt plus VM. Från transistorns emitter går en ledning nedåt
+          till en jordsymbol, dit även kortets GND är kopplad. Längst till höger
+          går en ledning från plusledningen ned genom dioden D1, vars streck
+          sitter uppåt mot plus, och vidare åt vänster till ledningen mellan
+          motorn och kollektorn.</title>
+
+        <g stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round">
+          <rect x="8" y="150" width="86" height="110" rx="5"/>
+
+          <line x1="94" y1="200" x2="130" y2="200"/>
+          <rect x="130" y="189" width="44" height="22" rx="3"/>
+          <line x1="174" y1="200" x2="218" y2="200"/>
+
+          <line x1="218" y1="178" x2="218" y2="222" stroke-width="3.4"/>
+          <line x1="218" y1="186" x2="250" y2="164"/>
+          <line x1="250" y1="164" x2="250" y2="116"/>
+          <line x1="218" y1="214" x2="250" y2="236"/>
+          <line x1="250" y1="236" x2="250" y2="270"/>
+          <circle cx="234" cy="200" r="34"/>
+
+          <circle cx="250" cy="90" r="26"/>
+          <line x1="250" y1="64" x2="250" y2="30"/>
+          <line x1="200" y1="30" x2="326" y2="30"/>
+
+          <line x1="326" y1="30" x2="326" y2="150"/>
+          <line x1="326" y1="150" x2="250" y2="150"/>
+          <line x1="314" y1="80" x2="338" y2="80" stroke-width="3.4"/>
+
+          <line x1="94" y1="240" x2="170" y2="240"/>
+          <line x1="170" y1="240" x2="170" y2="270"/>
+          <line x1="170" y1="270" x2="250" y2="270"/>
+          <line x1="232" y1="272" x2="268" y2="272" stroke-width="2.4"/>
+          <line x1="239" y1="279" x2="261" y2="279" stroke-width="2.4"/>
+          <line x1="246" y1="286" x2="254" y2="286" stroke-width="2.4"/>
+        </g>
+
+        <polygon points="316,100 336,100 326,82" fill="currentColor"/>
+        <polygon points="244,231 232,229 238,221" fill="currentColor"/>
+        <circle cx="250" cy="30" r="3.6" fill="currentColor"/>
+        <circle cx="250" cy="150" r="3.6" fill="currentColor"/>
+        <circle cx="250" cy="270" r="3.6" fill="currentColor"/>
+
+        <g fill="currentColor" font-size="17">
+          <text x="22" y="176">Uno</text>
+          <text x="88" y="196" text-anchor="end">D5</text>
+          <text x="88" y="236" text-anchor="end">GND</text>
+          <text x="152" y="182" text-anchor="middle">Rb</text>
+          <text x="278" y="206">Q1</text>
+          <text x="250" y="97" text-anchor="middle">M</text>
+          <text x="214" y="95" text-anchor="end">M1</text>
+          <text x="194" y="35" text-anchor="end">+VM</text>
+          <text x="352" y="98" text-anchor="end">D1</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>Q1 är transistorn</strong>, en NPN. Basen är det lodräta
+        strecket, kollektorn det övre snedstrecket och emittern det nedre, med
+        pilen. Pilen pekar ut ur transistorn på en NPN, och den visar åt vilket
+        håll strömmen går.</li>
+      <li><strong>Rb är basmotståndet.</strong> Utan det går pinnen rakt in i en
+        diod, och strömmen begränsas av ingenting. Värdet räknas ut nedan.</li>
+      <li><strong>M1 är motorn</strong>, kopplad mellan matningens plus och
+        kollektorn. Motorn sitter alltså <em>ovanför</em> transistorn.</li>
+      <li><strong>D1 är frihjulsdioden</strong>, parallellt med motorn. Strecket
+        — katoden — sitter mot plus. Den ligger alltså spärrande i normal drift
+        och gör ingenting förrän strömmen bryts.</li>
+      <li><strong>+VM är motorns matning</strong>, som inte är kortets 5 V.
+        Batteriets minuspol ska till samma jordsymbol som kortets GND. Utan
+        gemensam nolla har transistorns emitter ingen gemensam referens med
+        pinnen, och ingenting fungerar.</li>
+    </ul>
+
+    <h3>Räkna ut basmotståndet</h3>
+    <p>Två tal styr räkningen. Det första är <strong>basemitterspänningen</strong>:
+      när transistorn leder ligger ungefär 0,7 V mellan bas och emitter, precis
+      som över en ledande kiseldiod. Resten av pinnens 5 V hamnar därför över
+      basmotståndet:</p>
+    <p><code>Rb = (Upinne − Ube) / Ib = (5,0 V − 0,7 V) / Ib</code></p>
+    <p>Det andra är <strong>hur mycket basström som behövs</strong>. Transistorns
+      strömförstärkning heter <code>hFE</code>, och den säger hur många gånger
+      större kollektorströmmen kan bli än basströmmen:</p>
+    <p><code>Ib ≥ Ic / hFE</code></p>
+    <p>Men den gränsen räcker inte. Precis på gränsen sitter transistorn i sitt
+      <em>aktiva</em> område, där den beter sig som ett variabelt motstånd och
+      blir varm. Som strömbrytare vill vi ha den <strong>mättad</strong>, alltså
+      så hårt påslagen som den kan bli, med bara ett par tiondels volt kvar över
+      sig. Det kräver ett <strong>överskott</strong> på fem till tio gånger:</p>
+    <p><code>Ib = 5 till 10 · Ic / hFE</code></p>
+    <p>En tumregel som ger samma svar och är lättare att komma ihåg:
+      <strong>ge basen en tiondel av kollektorströmmen.</strong> Det är också
+      exakt det förhållande databladen själva använder när de mäter upp
+      transistorns mättningsspänning.</p>
+
+    <p><strong>Räknat exempel A: en last på 150 mA.</strong> Du har mätt en liten
+      fläkt eller en mycket liten motor till 150 mA i det värsta läget, och du har
+      en <strong>2N2222A</strong>. Ur dess datablad:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Storhet</th><th>2N2222A</th></tr></thead>
+        <tbody>
+          <tr><td>Största kollektorström</td><td>800 mA (metallkapsel). Plastvarianten PN2222A: 600 mA</td></tr>
+          <tr><td>hFE, minst, vid Ic = 150 mA</td><td>100</td></tr>
+          <tr><td>hFE, minst, vid Ic = 500 mA</td><td>40</td></tr>
+          <tr><td>Ucesat vid Ic = 150 mA och Ib = 15 mA</td><td>högst 0,3 V</td></tr>
+          <tr><td>Största spänning kollektor–emitter</td><td>40 V</td></tr>
+          <tr><td>Största effekt utan kylning</td><td>omkring 0,5 W vid rumstemperatur</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Basströmmen enligt tumregeln:</p>
+    <p><code>Ib = Ic / 10 = 150 mA / 10 = 15 mA</code></p>
+    <p>Kontrollera överskottet mot databladets hFE. Minsta basström för att
+      transistorn ska orka alls är</p>
+    <p><code>Ic / hFE = 150 mA / 100 = 1,5 mA</code></p>
+    <p>och vårt val ger</p>
+    <p><code>15 mA / 1,5 mA = 10 gångers överskott</code></p>
+    <p>vilket ligger i övre kanten av 5–10 och alltså är på säkra sidan.
+      Motståndet blir</p>
+    <p><code>Rb = (5,0 − 0,7) / 0,015 = 4,3 / 0,015 = 287 Ω</code></p>
+    <p>287 Ω finns inte att köpa. Närmaste standardvärden är 270 Ω och 330 Ω.
+      Välj <strong>270 Ω</strong> — det ger lite mer basström, alltså säkrare
+      mättning:</p>
+    <p><code>Ib = 4,3 / 270 = 0,0159 A = 15,9 mA</code></p>
+    <p>Tre kontroller innan du kopplar, och alla tre ska göras varje gång:</p>
+    <ul>
+      <li><strong>Håller pinnen?</strong> 15,9 mA är mindre än 20 mA. Ja, med
+        marginal. Hade du valt 220 Ω hade det blivit
+        <code>4,3 / 220 = 0,0195 A = 19,5 mA</code>, alltså precis på gränsen och
+        utan marginal.</li>
+      <li><strong>Håller transistorn?</strong> 150 mA av 800 mA tillåtna, och
+        effekten i transistorn blir
+        <code>P = 0,3 V · 0,150 A = 0,045 W</code> mot de 0,5 W den tål. Ja, med
+        god marginal.</li>
+      <li><strong>Håller motståndet?</strong> Effekten i Rb är
+        <code>P = I² · R = 0,0159² · 270 = 0,000253 · 270 = 0,068 W</code>. Ett
+        vanligt motstånd tål 0,25 W. Ja. Det är samma räkning som i
+        <a href="../omrade-1-ellara-och-matning/guide-effekt-och-komponentval.html#genomgang">effektguiden</a>,
+        och den ska sitta i ryggmärgen vid det här laget.</li>
+    </ul>
+
+    <p><strong>Räknat exempel B: samma transistor, en riktig motor på 600 mA.</strong>
+      Nu går det inte längre ihop, och det är värt att se exakt var det spricker.
+      Tumregeln vill ha</p>
+    <p><code>Ib = 600 mA / 10 = 60 mA</code></p>
+    <p>men pinnen får bara lämna 20 mA. Du är</p>
+    <p><code>60 / 20 = 3 gånger över vad pinnen kan ge</code></p>
+    <p>Vad händer om du ändå kopplar 270 Ω och kör? Transistorn slår på — men den
+      <em>mättar</em> inte. Den hamnar i mellanlandet där det ligger kanske 1,5 V
+      över kollektor och emitter i stället för 0,3 V, och då blir effekten i
+      transistorn</p>
+    <p><code>P = 1,5 V · 0,6 A = 0,9 W</code></p>
+    <p>mot de 0,5 W kapseln tål utan kylfläns. <strong>Transistorn blir för varm,
+      och motorn får dessutom bara 6,0 − 1,5 = 4,5 V av sina sex.</strong>
+      Symtomet är en motor som går trögt och en transistor du inte kan hålla
+      fingret på.</p>
+
+    <h3>Tre vägar vidare, och vilken som är rätt</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Lösning</th><th>Styrström från pinnen</th><th>Spänningsfall</th><th>Kommentar</th></tr></thead>
+        <tbody>
+          <tr><td>NPN, t.ex. 2N2222A</td><td>Ic / 10, alltså mycket</td><td>0,3 V vid mättning</td><td>Bra upp till ungefär 150–200 mA. Sedan tar pinnen slut</td></tr>
+          <tr><td>Darlington, t.ex. TIP120</td><td>Ungefär Ic / 1000</td><td>1–2 V. Blir värme</td><td>Klarar ampere, men slösar spänning. Har frihjulsdiod inbyggd</td></tr>
+          <tr><td>Logiknivå-MOSFET, t.ex. IRLZ44N</td><td>Ingen alls i stillastående läge</td><td>Storleksordningen 0,03 Ω gånger strömmen</td><td>Det moderna svaret. Måste vara av <em>logiknivåtyp</em>, annars leder den inte fullt vid 5 V på styret</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>MOSFET-raden är värd en räkning, för den visar varför den vunnit.
+      Spänningsfallet över en MOSFET är resistivt — ström gånger resistans — i
+      stället för en fast diodspänning:</p>
+    <p><code>U = R · I = 0,03 Ω · 0,6 A = 0,018 V</code></p>
+    <p><code>P = U · I = 0,018 V · 0,6 A = 0,011 W</code></p>
+    <p>Elva milliwatt, mot Darlingtonens <code>1,5 V · 0,6 A = 0,9 W</code>.
+      Ungefär åttio gånger mindre värme, och styret drar dessutom ingen ström när
+      det står stilla. Det är därför alla moderna motordrivare är byggda med
+      MOSFET:ar — vilket är precis vad nästa guide handlar om.</p>
+    <p class="notis viktig"><span class="rubrik">BC547 är fel transistor till en motor</span>
+      <strong>BC547 tål 100 mA kollektorström.</strong> Det är ett utmärkt val
+      till en lysdiod, till en liten summer eller till att koppla ett relä vars
+      spole drar under 100 mA — men det är mindre än vad din motor drar när den
+      går fritt, och en femtedel av vad den drar i stopp. Transistorn blir het och
+      dör, ofta utan att du hinner se varför. Läs alltid raden "största
+      kollektorström" innan du väljer, precis som du läste raden om största
+      effektförlust när du valde motstånd i område 1.</p>
+
+    <h3>Frihjulsdioden och spänningsspiken</h3>
+    <p>En motor är inte ett motstånd. Den är i första hand en
+      <strong>spole</strong> — koppartråd lindad kring järn — och en spole har en
+      egenskap som ett motstånd saknar: <strong>den vill behålla sin ström.</strong>
+      Bryter du kretsen försöker spolen driva strömmen vidare genom att höja
+      spänningen över sig själv, hur mycket som helst.</p>
+    <p>Sambandet är</p>
+    <p><code>U = L · di/dt</code></p>
+    <p>där <code>L</code> är induktansen i henry och <code>di/dt</code> är hur
+      snabbt strömmen ändras, i ampere per sekund. Räkna på det.</p>
+    <p><strong>Räknat exempel.</strong> Din motor har en induktans i
+      storleksordningen 2 mH, alltså 0,002 H. Den drar 0,5 A, och transistorn
+      stänger av på ungefär en mikrosekund, alltså 0,000001 s.</p>
+    <p><code>di/dt = 0,5 A / 0,000001 s = 500 000 A/s</code></p>
+    <p><code>U = 0,002 H · 500 000 A/s = 1 000 V</code></p>
+    <p>Tusen volt. I verkligheten blir det inte riktigt så mycket — ledningarnas
+      och motorns egen kapacitans dämpar toppen — men det behöver det inte bli.
+      <strong>Transistorn tål 40 V mellan kollektor och emitter.</strong>
+      Spänningen behöver alltså bara nå en tjugofemtedel av det räknade värdet
+      — <code>40 / 1 000 = 0,04</code> — för att transistorn ska vara den
+      svagaste punkten, och det är den som ger efter.</p>
+    <p><strong>Dioden är lösningen, och den är enkel.</strong> Lägg en diod
+      parallellt med motorn, med <strong>katoden — den ände som har ett streck —
+      mot plus</strong>. I normal drift ligger dioden spärrande och märks inte
+      alls. I det ögonblick transistorn stänger vänder spänningen över motorn,
+      dioden blir ledande, och spolens ström får en väg att cirkulera i tills den
+      dör ut av sig själv. Spänningen på kollektorn kommer då aldrig högre än
+      matningen plus diodens eget fall, alltså ungefär</p>
+    <p><code>6,0 V + 1,0 V = 7,0 V</code></p>
+    <p>i stället för hundratals volt.</p>
+    <p class="notis varna"><span class="rubrik">Åt fel håll är dioden en kortslutning</span>
+      Vänder du dioden blir den ledande hela tiden i stället för aldrig, och då
+      går matningen rakt genom den ned till transistorn. Symtomen är att motorn
+      inte går, att dioden blir brännhet på ett par sekunder, och att batteriet
+      tar slut. <strong>Kontrollera riktningen med multimeterns diodläge innan du
+      slår på strömmen</strong> — instrumentet visar ungefär 0,5–0,7 V åt ena
+      hållet och ingenting alls åt det andra, och du vet då vilket ben som är
+      katod utan att lita på hur du minns strecket.</p>
+
+    <h3>Vilken diod, och varför det spelar roll senare</h3>
+    <p><strong>1N4007</strong> är den diod som ligger i alla lådor: 1 A, 1 000 V
+      och några kronor styck. Till en motor som slås på och av är den ett bra
+      val, och det är den du ska använda i den här guiden.</p>
+    <p>Men den har en egenskap som blir viktig i nästa guide.
+      <strong>1N4007 är en likriktardiod, byggd för nätfrekvens, och den är
+      långsam.</strong> Den behöver storleksordningen mikrosekunder på sig för
+      att gå från ledande till spärrande — tiden kallas återhämtningstid, och den
+      anges ofta inte ens i databladet, eftersom dioden aldrig var tänkt att
+      användas snabbt. Slår du av och på motorn femhundra gånger i sekunden, som
+      PWM gör i nästa guide, hinner dioden inte med och blir varm i onödan.</p>
+    <p>Då är en <strong>Schottkydiod</strong> som 1N5819 rätt val: 40 V, 1 A,
+      återhämtningstid i nanosekundsklassen, och dessutom ett lägre spänningsfall
+      — omkring 0,4 till 0,6 V i stället för 1,0 V. Skillnaden i värme vid 0,5 A
+      blir</p>
+    <p><code>(1,0 − 0,5) V · 0,5 A = 0,25 W</code></p>
+    <p>Det är inte hela sanningen om skillnaden, men det är den del av den som
+      går att räkna på med det du kan nu.</p>
+    <p class="notis"><span class="rubrik">Skadan visar sig ofta senare</span>
+      En transistor som fått en spänningsspik dör sällan på fläcken. Den blir
+      <em>försvagad</em>: läckströmmen ökar, mättningsspänningen stiger, och
+      någon vecka senare slutar bygget fungera utan att du ändrat någonting. Det
+      är samma mönster som den latenta ESD-skadan i
+      <a href="../omrade-1-ellara-och-matning/guide-sakerhet-och-esd.html#genomgang">område 1</a>,
+      och slutsatsen är densamma: <strong>att det fungerade utan diod när du
+      provade betyder inte att det gick bra.</strong> Löd aldrig ihop en
+      motorkrets utan frihjulsdiod med motiveringen att den fungerade på
+      kopplingsdäcket.</p>
+
+    <h3>Varför stoppströmmen är det tal som gäller</h3>
+    <p>En motor som snurrar fungerar samtidigt som en generator. Rörelsen alstrar
+      en spänning som ligger <em>mot</em> matningen — den kallas
+      <strong>motriktad spänning</strong> — och det är den som håller nere
+      strömmen. Kvar över lindningen ligger bara skillnaden:</p>
+    <p><code>I = (Umatning − Umotriktad) / Rlindning</code></p>
+    <p><strong>Räknat exempel.</strong> Mät lindningens resistans med multimetern
+      rakt över motorns två anslutningar. Säg att den är 5 Ω, och att matningen
+      är 6 V. När motorn står stilla finns ingen rörelse och därmed ingen
+      motriktad spänning:</p>
+    <p><code>I = (6,0 − 0) / 5 = 1,2 A</code></p>
+    <p>När den kommit upp i varv och den motriktade spänningen är 4,5 V:</p>
+    <p><code>I = (6,0 − 4,5) / 5 = 1,5 / 5 = 0,30 A</code></p>
+    <p><code>1,2 / 0,30 = 4 gånger så mycket ström i stopp</code></p>
+    <p>Tre slutsatser följer, och alla tre kommer tillbaka i bygge 4:</p>
+    <ul>
+      <li><strong>Vid start är strömmen lika stor som i stopp.</strong> Motorn
+        står ju stilla i det ögonblick du slår på. Startrycket är alltså inte
+        något extra fenomen — det är stoppströmmen, i en tiondels sekund.</li>
+      <li><strong>Ett hinder ser ut som stopp.</strong> Fastnar mekanismen sjunker
+        varvtalet, den motriktade spänningen försvinner, och strömmen skjuter i
+        höjden. En motor som kärvar drar alltså mest, inte minst.</li>
+      <li><strong>Konstruera mot stoppströmmen.</strong> En drivkrets som klarar
+        driftströmmen men inte stoppströmmen fungerar utmärkt tills första gången
+        något tar emot.</li>
+    </ul>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <p><strong>I industrin:</strong> en magnetventil som släpper fram tryckluft
+      till en cylinder styrs från en PLC:s transistorutgång. Spolen är märkt 24 V
+      och 6 W, alltså</p>
+    <p><code>I = P / U = 6 W / 24 V = 0,25 A</code></p>
+    <p>vilket ligger väl under utgångens 0,5 A. Men spolen är en stor induktans,
+      storleksordningen en halv henry, och när utgången bryter strömmen på hundra
+      mikrosekunder blir spiken</p>
+    <p><code>U = 0,5 H · 0,25 A / 0,0001 s = 0,5 · 2 500 = 1 250 V</code></p>
+    <p>Därför står det i varje PLC-manual att induktiva laster ska förses med
+      avstörning, och därför har transistorutgångar en inbyggd klämdiod medan
+      reläutgångar kräver en yttre diod eller ett RC-nät. <strong>Databladet för
+      en PLC-utgång anger dessutom två olika strömvärden</strong> — ett för
+      resistiv last och ett lägre för induktiv — och den som bara läser det första
+      siffervärdet konstruerar en utgång som klarar ventilen ända tills den ska
+      stänga av den. Det är ett rent manualläsningsfel, alltså precis den sorts
+      fel område 1:s schemaguide handlade om.</p>
+
+    <p><strong>I vardagen:</strong> vibrationen i din telefon kommer från en motor
+      stor som en knapp. Den drar omkring 90 mA vid 3 V. Processorns utgångar i
+      samma telefon är byggda för att skicka signaler, inte kraft, och lämnar
+      storleksordningen några milliampere — säg 4 mA:</p>
+    <p><code>90 mA / 4 mA = drygt 20 gånger</code></p>
+    <p>Alltså sitter det en drivtransistor i telefonen också, av precis samma skäl
+      som i ditt bygge, och den syns om du någon gång ser en telefon isär: en
+      kapsel på ett par millimeter bredvid motorns lödöar. Skalan skiljer sig med
+      ungefär en faktor tusen från magnetventilens spole, men resonemanget är
+      ordagrant detsamma. <strong>Ingenting som rör sig sitter direkt på en
+      styrutgång, oavsett storlek.</strong></p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li><strong>Mät din motors ström.</strong> Multimetern i serie med motorn, i
+        <strong>10 A-uttaget</strong> och med vredet på 10 A. Mät tre lägen:
+        fritt, med ett lagom motstånd mot axeln, och med axeln fasthållen. Håll
+        fast axeln i högst ett par sekunder. Skriv ned alla tre talen med enhet —
+        de går rakt in i bygge 4:s dokumentation.</li>
+      <li><strong>Räkna om.</strong> Hur många gånger 20 mA är din stoppström? Hur
+        många gånger 200 mA? Räkningen ska stå i din dokumentation, inte bara i
+        huvudet.</li>
+      <li><strong>Mät lindningens resistans</strong> rakt över motorns
+        anslutningar, med motorn urkopplad. Räkna ut vad strömmen borde bli vid
+        stillastående motor med din matningsspänning, och jämför med det du mätte
+        i steg 1. Stämmer de inom några tiotal procent har du förstått båda
+        mätningarna.</li>
+      <li><strong>Bygg transistorkopplingen</strong> enligt figuren, med ett
+        basmotstånd du räknat fram själv. Kontrollera diodens riktning med
+        multimeterns diodläge <em>innan</em> du kopplar in matningen.</li>
+      <li><strong>Mät över transistorn.</strong> Sätt multimetern mellan kollektor
+        och emitter medan motorn går. Ett par tiondels volt betyder att
+        transistorn mättar. Ligger det över en volt gör den det inte, och du ska
+        titta på ditt basmotstånd igen.</li>
+      <li><strong>Provocera fram det som är fel.</strong> Byt ut basmotståndet mot
+        4,7 kΩ och mät om. Basströmmen blir då
+        <code>4,3 / 4700 = 0,00091 A = 0,91 mA</code>, alltså mindre än en
+        tjugondel av vad som behövs. Transistorn mättar inte längre utan
+        begränsar strömmen till ungefär
+        <code>hFE · Ib = 100 · 0,00091 = 0,091 A</code>. Motorn tar då bara
+        <code>5 Ω · 0,091 A = 0,45 V</code> av matningen, och resten ligger kvar
+        över transistorn:
+        <code>P = 5,5 V · 0,091 A = 0,50 W</code> — precis på kapselns gräns.
+        <strong>Slå på i högst fem sekunder, och rör den inte.</strong> Att den
+        blir för het att ta på är hela poängen — räknat exempel B ovan drog
+        samma slutsats vid en annan arbetspunkt. Koppla sedan tillbaka det
+        rätta motståndet.
+        <strong>Använd inte just den transistorn i bygge 4.</strong> Den kan vara
+        försvagad utan att det syns — det är samma latenta skada som notisen om
+        spänningsspiken beskriver, och att du nyss tillverkade en med flit är den
+        andra halvan av vad övningen lär ut.</li>
+      <li><strong>Skriv upp vad din transistor tål.</strong> Slå upp beteckningen
+        som står på kapseln och notera största kollektorström, största effekt och
+        hFE. Jämför med din uppmätta stoppström och skriv en mening om ifall den
+        räcker.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Din motor drar 800 mA i stopp. Du tänker sprida lasten över fyra
+        pinnar, 200 mA var. Fungerar det?</summary>
+      <p>Nej, och det finns två skäl. 200 mA per pinne är tio gånger det
+        rekommenderade och fem gånger över det absoluta taket på 40 mA — varje
+        enskild pinne är alltså redan sönderbelastad. Dessutom är 800 mA fyra
+        gånger de 200 mA som är chippets gräns genom alla pinnar tillsammans, så
+        gränsen finns kvar hur du än delar upp lasten. Motorns ström ska inte gå
+        genom chippet över huvud taget.</p>
+    </details>
+
+    <details>
+      <summary>Du ska koppla en last på 250 mA med en 2N2222A. Vilket
+        basmotstånd, och vad är problemet?</summary>
+      <p>Tumregeln ger <code>Ib = 250 / 10 = 25 mA</code>, och
+        <code>Rb = 4,3 / 0,025 = 172 Ω</code>, alltså 180 Ω som standardvärde.
+        Problemet är pinnen: 25 mA ligger över de 20 mA som är rekommenderat.
+        Antingen accepterar du ett mindre överskott — 220 Ω ger 19,5 mA och ett
+        förhållande på <code>250 / 19,5 = 13</code>, vilket fortfarande brukar
+        mätta — eller så byter du till en MOSFET eller en färdig drivkrets.
+        Gränsen för den här transistorn på en Arduino-pinne går alltså kring
+        150–200 mA.</p>
+    </details>
+
+    <details>
+      <summary>Varför blir en transistor som inte mättar varm, medan en som mättar
+        är kall?</summary>
+      <p>Effekten i transistorn är spänningen över den gånger strömmen genom den.
+        Mättad ligger 0,3 V över den, och vid 0,6 A blir det
+        <code>0,3 · 0,6 = 0,18 W</code>. Icke mättad kan det ligga 1,5 V över
+        den, och då blir det <code>1,5 · 0,6 = 0,9 W</code> — fem gånger mer, i
+        samma lilla kapsel. Strömmen är ungefär densamma i båda fallen; det är
+        spänningen som skiljer.</p>
+    </details>
+
+    <details>
+      <summary>Vad är det egentligen som går sönder när frihjulsdioden
+        saknas?</summary>
+      <p>Transistorn. Spolen driver upp spänningen på kollektorn tills något ger
+        efter, och transistorn tål bara 40 V mellan kollektor och emitter. Motorn
+        själv klarar sig — det är den som orsakar spiken, inte den som skadas av
+        den. Och skadan är ofta latent: transistorn försvagas i stället för att
+        dö, och slutar fungera senare.</p>
+    </details>
+
+    <details>
+      <summary>En spole på 0,1 H drar 0,2 A. Strömmen bryts på tio mikrosekunder.
+        Hur stor blir spänningen?</summary>
+      <p><code>di/dt = 0,2 / 0,00001 = 20 000 A/s</code> och
+        <code>U = 0,1 · 20 000 = 2 000 V</code>. Två tusen volt av en spole som
+        arbetade på några få volt. Det är hela skälet till att induktiva laster
+        alltid får en diod.</p>
+    </details>
+
+    <details>
+      <summary>Motorn drar 0,25 A när den går, men bygget stannar och kortet
+        startar om när mekanismen tar emot. Varför?</summary>
+      <p>När mekanismen tar emot sjunker varvtalet, och med varvtalet försvinner
+        den motriktade spänningen. Strömmen bestäms då bara av lindningens
+        resistans och kan bli flera gånger driftströmmen. Matningen orkar inte,
+        spänningen dyker, och kortet startar om. Det är stoppströmmen som ska
+        ligga till grund för valet av drivkrets och matning, inte
+        driftströmmen.</p>
+    </details>
+
+    <details>
+      <summary>Varför duger 1N4007 till på och av men inte till PWM?</summary>
+      <p>Den är en likriktardiod för nätfrekvens och behöver mikrosekunder på sig
+        för att sluta leda. Slår du på och av femhundra gånger i sekunden ligger
+        den och leder en bit in i varje ny period, blir varm och skyddar sämre. En
+        Schottkydiod som 1N5819 återhämtar sig på nanosekunder och har dessutom
+        lägre spänningsfall.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Motorn kopplad direkt till en pinne.</strong> Symtomet är en
+        motor som rycker eller går mycket svagt, och ett kort som beter sig
+        underligt efteråt. Skadan syns inte, och den går inte tillbaka.</li>
+      <li><strong>Basmotståndet saknas helt.</strong> Pinnen går då rakt in i
+        basemitterövergången, som är en diod, och ingenting begränsar strömmen.
+        Både pinnen och transistorn kan ta skada på en gång.</li>
+      <li><strong>Basmotståndet är för stort.</strong> Ett värde på några kΩ som
+        såg rimligt ut ger för lite basström, transistorn mättar inte, motorn går
+        trögt och transistorn blir varm. Räkna, välj inte på känsla.</li>
+      <li><strong>Fel transistor.</strong> BC547 tål 100 mA. En motor drar mer än
+        så redan när den går fritt. Läs raden om största kollektorström innan du
+        väljer, inte efteråt.</li>
+      <li><strong>Frihjulsdioden saknas.</strong> Fungerar utmärkt — tills det
+        inte gör det, vilket kan vara nästa vecka. Det här är områdets farligaste
+        fel just för att det inte ger något symtom.</li>
+      <li><strong>Frihjulsdioden vänd åt fel håll.</strong> Nu är den en
+        kortslutning i stället för ett skydd. Dioden blir brännhet, motorn går
+        inte, batteriet tar slut. Katoden, alltså den ände som har ett streck, ska
+        mot plus.</li>
+      <li><strong>GND är inte gemensam.</strong> Motorn har egen matning, men
+        batteriets minuspol sitter inte ihop med kortets GND. Transistorns emitter
+        har då ingen gemensam referens med pinnen, och ingenting fungerar
+        pålitligt. Det är det vanligaste kopplingsfelet i hela området.</li>
+      <li><strong>Konstruktionen är gjord mot driftströmmen.</strong> Allt fungerar
+        tills mekanismen tar emot första gången, och då är det för sent. Mät i
+        stopp och räkna på det talet.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Ingen ny språkkonstruktion öppnar med den här guiden — allt du behöver i kod
+      är <code>pinMode</code> och <code>digitalWrite</code> från område 2, plus
+      <code>const int</code> för pinnarna. Vill du repetera hur konstanter och
+      typer fungerar ligger de i
+      <a href="../sprakreferens.html#typer">Typer och variabler</a> i
+      språkreferensen.</p>
+    <p>Nästa guide är
+      <a href="guide-motordrivare-och-pwm.html">Motordrivare och PWM</a>. Där byts
+      den enda transistorn ut mot fyra i en H-brygga, så att motorn kan gå åt båda
+      hållen, och den enda frågan "på eller av" blir en fråga om <em>hur
+      mycket</em>. Frihjulsdioden kommer tillbaka där i en ny roll: inte som skydd
+      vid avstängning, utan som strömmens väg under varje paus i pulståget.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 5</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

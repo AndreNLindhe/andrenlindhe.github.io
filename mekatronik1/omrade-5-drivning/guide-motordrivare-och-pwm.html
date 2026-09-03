@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Motordrivare och PWM – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o5-motordrivare-och-pwm">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Motordrivare och PWM</strong> · område 5</span>
+  <a href="index.html">Område 5</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 5 · lektion 26</p>
+    <h1>Motordrivare och PWM</h1>
+    <p class="inledning">Med en transistor kan motorn gå eller stå still, åt ett
+      håll. Den här guiden lägger till de två saker som gör den användbar:
+      <strong>riktning</strong>, genom fyra transistorer kopplade som en
+      H-brygga, och <strong>hastighet</strong>, genom att slå på och av
+      matningen hundratals gånger i sekunden. Det andra är det som förvirrar
+      mest, för <code>analogWrite()</code> heter fel: den lämnar ingen analog
+      spänning.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan förklara vilka fyra lägen en H-brygga ger och vilken
+        insignalskombination som ger vilket, för just den drivkrets du har.</li>
+      <li>Du kan räkna ut hur mycket spänning din drivkrets tar av motorn, och
+        välja matningsspänning med det fallet inräknat.</li>
+      <li>Du kan räkna om ett <code>analogWrite</code>-värde till pulsförhållande
+        och medelspänning, och säga varför motorn ändå ser fulla pulser.</li>
+      <li>Du kan känna igen brownout i ett motorbygge och veta vad matningen och
+        den gemensamma nollan har med saken att göra.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>H-bryggan: fyra brytare kring en motor</h3>
+    <p>En likströmsmotor byter riktning när du byter polaritet på den. Det går
+      att göra med händerna genom att kasta om två sladdar, men det ska koden
+      kunna göra. Kopplingen som löser det heter <strong>H-brygga</strong>, efter
+      hur den ser ut på ett schema: fyra brytare kring motorn, som bildar
+      bokstaven H.</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 340 285" role="img" aria-labelledby="svg-hbrygga-titel"
+           style="width:100%;height:auto">
+        <title id="svg-hbrygga-titel">Schema över en H-brygga. En vågrät ledning
+          högst upp är märkt plus VM och en vågrät ledning längst ned går till en
+          jordsymbol. Mellan dem går två lodräta grenar. I den vänstra grenen
+          sitter brytaren S1 upptill och S3 nedtill, i den högra brytaren S2
+          upptill och S4 nedtill. Mitt emellan grenarna sitter motorn M1, ritad
+          som en cirkel med bokstaven M, kopplad vågrätt från en punkt mitt på
+          vänstra grenen till en punkt mitt på högra grenen.</title>
+
+        <g stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round">
+          <line x1="70" y1="30" x2="270" y2="30"/>
+          <line x1="70" y1="250" x2="270" y2="250"/>
+
+          <line x1="110" y1="30" x2="110" y2="52"/>
+          <line x1="110" y1="88" x2="110" y2="192"/>
+          <line x1="110" y1="228" x2="110" y2="250"/>
+          <line x1="110" y1="88" x2="126" y2="56"/>
+          <line x1="110" y1="228" x2="126" y2="196"/>
+
+          <line x1="230" y1="30" x2="230" y2="52"/>
+          <line x1="230" y1="88" x2="230" y2="192"/>
+          <line x1="230" y1="228" x2="230" y2="250"/>
+          <line x1="230" y1="88" x2="214" y2="56"/>
+          <line x1="230" y1="228" x2="214" y2="196"/>
+
+          <line x1="110" y1="140" x2="144" y2="140"/>
+          <line x1="196" y1="140" x2="230" y2="140"/>
+          <circle cx="170" cy="140" r="26"/>
+
+          <line x1="170" y1="250" x2="170" y2="262"/>
+          <line x1="152" y1="262" x2="188" y2="262" stroke-width="2.4"/>
+          <line x1="159" y1="269" x2="181" y2="269" stroke-width="2.4"/>
+          <line x1="166" y1="276" x2="174" y2="276" stroke-width="2.4"/>
+        </g>
+
+        <g fill="currentColor">
+          <circle cx="110" cy="52" r="3.6"/>
+          <circle cx="110" cy="88" r="3.6"/>
+          <circle cx="110" cy="192" r="3.6"/>
+          <circle cx="110" cy="228" r="3.6"/>
+          <circle cx="230" cy="52" r="3.6"/>
+          <circle cx="230" cy="88" r="3.6"/>
+          <circle cx="230" cy="192" r="3.6"/>
+          <circle cx="230" cy="228" r="3.6"/>
+          <circle cx="110" cy="140" r="3.6"/>
+          <circle cx="230" cy="140" r="3.6"/>
+          <circle cx="170" cy="250" r="3.6"/>
+        </g>
+
+        <g fill="currentColor" font-size="17">
+          <text x="64" y="35" text-anchor="end">+VM</text>
+          <text x="94" y="76" text-anchor="end">S1</text>
+          <text x="94" y="216" text-anchor="end">S3</text>
+          <text x="248" y="76">S2</text>
+          <text x="248" y="216">S4</text>
+          <text x="170" y="147" text-anchor="middle">M</text>
+          <text x="170" y="112" text-anchor="middle">M1</text>
+        </g>
+      </svg>
+    </figure>
+
+    <ul>
+      <li><strong>S1 och S2 sitter mot plus</strong>, S3 och S4 mot jord. Varje
+        brytare är i verkligheten en transistor, inte en mekanisk kontakt.</li>
+      <li><strong>Motorn hänger mellan de två grenarnas mittpunkter.</strong> Det
+        är därför den kan få spänning åt båda hållen utan att någon sladd
+        flyttas.</li>
+      <li><strong>Sluter du S1 och S4</strong> går strömmen från plus, genom
+        motorn från vänster till höger, ned till jord. Motorn går åt ett
+        håll.</li>
+      <li><strong>Sluter du S2 och S3</strong> går strömmen tvärtom genom motorn.
+        Motorn går åt andra hållet.</li>
+      <li><strong>Sluter du S3 och S4 samtidigt</strong> är motorns båda
+        anslutningar kopplade till jord. Ingen ström kommer utifrån, men motorns
+        egen rörelse alstrar en spänning som nu har en sluten krets att driva
+        ström i — och den strömmen bromsar. Det är <strong>elektrisk broms</strong>.</li>
+      <li><strong>Öppnar du alla fyra</strong> är motorn kopplad till ingenting
+        och rullar vidare av sin egen rörelse. Det kallas <strong>frihjul</strong>.</li>
+    </ul>
+    <p class="notis"><span class="rubrik">S1 och S3 får aldrig slutas samtidigt</span>
+      Då går det en rak väg från plus till jord, förbi motorn. Kortslutningen
+      förstör bryggan på bråkdelen av en sekund. Det är skälet till att en
+      färdig drivkrets inte har fyra separata insignaler utan två per motor:
+      elektroniken inuti chippet gör den kombinationen omöjlig åt dig. Bygger du
+      en H-brygga av lösa transistorer är det däremot ditt ansvar, och det är ett
+      av flera skäl att inte göra det i den här kursen.</p>
+
+    <h3>Broms eller frihjul — två olika sätt att stanna</h3>
+    <p>Det här är en skillnad som syns direkt i ett bygge och som förvånar första
+      gången. Ett tåg som ska stanna på ett streck och en kran som ska släppa ned
+      en last mjukt vill ha olika saker.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Läge</th><th>Vad som händer</th><th>Passar när</th></tr></thead>
+        <tbody>
+          <tr><td>Broms</td><td>Lindningen kortsluts, rörelsen bromsar sig själv. Motorn står nästan direkt</td><td>Mekanismen ska stanna där den är, eller inte glida tillbaka</td></tr>
+          <tr><td>Frihjul</td><td>Lindningen kopplas bort. Motorn rullar ut på sin egen rörelseenergi</td><td>Stoppet ska bli mjukt, eller mekanismen ska gå att vrida för hand</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Två drivkretsar, och vad de kostar i spänning</h3>
+    <p>De två moduler du med störst sannolikhet möter är
+      <strong>L298N</strong> och <strong>TB6612FNG</strong>. De gör samma sak och
+      kopplas nästan likadant, men de är byggda med olika sorters transistorer,
+      och det syns i ett enda tal: spänningsfallet över utgångssteget.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>L298N</th><th>TB6612FNG</th></tr></thead>
+        <tbody>
+          <tr><td>Utgångssteg</td><td>Bipolära darlingtontransistorer</td><td>MOSFET</td></tr>
+          <tr><td>Spänningsfall över bryggan</td><td>Typiskt 2–3 V vid 1 A, mer vid högre ström, och upp mot 5 V på ett dåligt exemplar</td><td>Omkring 0,5 Ω totalt, alltså 0,5 V vid 1 A</td></tr>
+          <tr><td>Ström per motor</td><td>Upp till 2 A</td><td>1,2 A kontinuerligt, 3,2 A kortvarigt</td></tr>
+          <tr><td>Matningsspänning till motorn</td><td>Upp till 46 V</td><td>2,5 till 13,5 V</td></tr>
+          <tr><td>Frihjulsdioder</td><td>Krävs externt. Modulkortet har dem monterade</td><td>Inbyggda i chippet</td></tr>
+          <tr><td>Kylning</td><td>Kylfläns behövs. Chippet blir varmt</td><td>Behövs normalt inte i vår storleksordning</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Talen ovan är hämtade ur databladen och ska kontrolleras mot ditt
+      eget.</strong> Modulerna säljs i många varianter, och särskilt L298N-kortens
+      spänningsfall varierar med ström och temperatur.</p>
+    <p><strong>Räknat exempel: vad motorn faktiskt får.</strong> Matning 6,0 V,
+      motorn drar 1 A. Med en L298N:</p>
+    <p><code>Umotor = 6,0 − 2,5 = 3,5 V</code></p>
+    <p><code>2,5 / 6,0 = 0,42 = 42 % av matningen försvinner i drivkretsen</code></p>
+    <p>Effekten som blir värme i chippet:</p>
+    <p><code>P = U · I = 2,5 V · 1 A = 2,5 W</code></p>
+    <p>Motorn får</p>
+    <p><code>P = 3,5 V · 1 A = 3,5 W</code></p>
+    <p>så drivsteget har verkningsgraden</p>
+    <p><code>3,5 / 6,0 = 0,58 = 58 %</code></p>
+    <p>Fyra tiondelar av batteriet går alltså åt att värma en kylfläns. Med en
+      TB6612FNG, där fallet är resistivt:</p>
+    <p><code>U = R · I = 0,5 Ω · 1 A = 0,5 V</code></p>
+    <p><code>Umotor = 6,0 − 0,5 = 5,5 V</code></p>
+    <p><code>P = I² · R = 1² · 0,5 = 0,5 W i chippet</code></p>
+    <p>Motorn får då</p>
+    <p><code>5,5 / 3,5 = 1,57, alltså över 50 % mer spänning</code></p>
+    <p>av exakt samma batteri, och drivkretsen värms med en femtedel så mycket.
+      <strong>Det är hela skälet till att den äldre L298N håller på att försvinna
+      ur nya konstruktioner.</strong></p>
+    <p class="notis viktig"><span class="rubrik">Räkna in fallet när du väljer batteri</span>
+      En motor märkt 6 V bakom en L298N behöver en matning på ungefär
+      <code>6 + 2,5 = 8,5 V</code> för att få sina sex volt — och marginal
+      uppåt, eftersom fallet varierar mellan exemplar. Sex alkaliska AA-celler i
+      serie ger <code>6 · 1,5 = 9,0 V</code>, alltså
+      <code>9,0 − 2,5 = 6,5 V</code> till motorn med ett typiskt fall men bara
+      <code>9,0 − 5,0 = 4,0 V</code> med ett dåligt. Bakom en TB6612 räcker
+      fyra celler: <code>4 · 1,5 = 6,0 V</code> och
+      <code>6,0 − 0,5 = 5,5 V</code> till motorn, och spridningen mellan
+      exemplar är dessutom mycket mindre. <strong>Två batterier mindre att bära,
+      och ett tal du kan lita på.</strong> Laddningsbara NiMH-celler
+      ger 1,2 V styck, alltså <code>4 · 1,2 = 4,8 V</code>, och då märks fallet
+      ännu mer.</p>
+
+    <h3>Sanningstabellen — läs din egen</h3>
+    <p>Båda kretsarna styrs med två riktningssignaler och en hastighetssignal per
+      motor. Namnen skiljer sig, och <strong>det gör beteendet också i ett av
+      lägena</strong>. Här är TB6612FNG, med STBY hög:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>AIN1</th><th>AIN2</th><th>PWMA</th><th>Motorn</th></tr></thead>
+        <tbody>
+          <tr><td>HIGH</td><td>LOW</td><td>puls</td><td>Går åt ena hållet, med farten som pulsen ger</td></tr>
+          <tr><td>LOW</td><td>HIGH</td><td>puls</td><td>Går åt andra hållet</td></tr>
+          <tr><td>HIGH</td><td>HIGH</td><td>vad som helst</td><td>Broms</td></tr>
+          <tr><td>HIGH eller LOW</td><td>tvärtom</td><td>LOW</td><td>Broms</td></tr>
+          <tr><td>LOW</td><td>LOW</td><td>HIGH</td><td>Frihjul</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Och här är en L298N-modul, där hastighetssignalen heter ENA:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>IN1</th><th>IN2</th><th>ENA</th><th>Motorn</th></tr></thead>
+        <tbody>
+          <tr><td>HIGH</td><td>LOW</td><td>puls</td><td>Går åt ena hållet</td></tr>
+          <tr><td>LOW</td><td>HIGH</td><td>puls</td><td>Går åt andra hållet</td></tr>
+          <tr><td>lika</td><td>lika</td><td>HIGH</td><td>Broms</td></tr>
+          <tr><td>vad som helst</td><td>vad som helst</td><td>LOW</td><td>Frihjul</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Jämför de två sista raderna i tabellerna.</strong> Kombinationen
+      "båda riktningssignalerna låga" ger frihjul på en TB6612 — så länge
+      PWM-signalen är hög, annars bromsar den — och broms på en L298N. Samma kod, två chip, två olika beteenden — och skillnaden syns bara
+      när mekanismen ska stanna. Det är precis den sortens detalj som
+      <strong>står i databladet och ingen annanstans</strong>, och att hitta den
+      där är ett belägg för F2. Skriv in din egen tabell i dokumentationen, med
+      chipets beteckning ovanför.</p>
+
+    <h3>PWM: analogWrite lämnar ingen analog spänning</h3>
+    <p>Funktionen ser ut som motsatsen till <code>analogRead</code>, och det är
+      den inte. <code>analogRead</code> mäter en verklig spänning.
+      <code>analogWrite</code> slår i stället pinnen på och av mycket snabbt, och
+      det du styr är <strong>hur stor andel av tiden den är på</strong>. Andelen
+      heter <strong>pulsförhållande</strong> eller pulskvot.</p>
+    <p><code>analogWrite(pin, varde)</code> där <code>varde</code> går från 0 till
+      255. Värdet 0 betyder alltid av, 255 alltid på, och däremellan är</p>
+    <p><code>pulsförhållande ≈ varde / 255</code></p>
+    <p>Medelspänningen över motorn blir pulsförhållandet gånger den spänning som
+      faktiskt ligger på — alltså matningen minus drivkretsens fall.</p>
+    <p><strong>Räknat exempel.</strong> En TB6612 på 6,0 V matning ger 5,5 V ut
+      när den är på. Med <code>analogWrite(PWM_PIN, 128)</code>:</p>
+    <p><code>128 / 255 = 0,502 = 50,2 %</code></p>
+    <p><code>Umedel = 0,502 · 5,5 V = 2,76 V</code></p>
+    <p>Med värdet 200:</p>
+    <p><code>200 / 255 = 0,784 = 78,4 %</code></p>
+    <p><code>Umedel = 0,784 · 5,5 V = 4,31 V</code></p>
+    <p>Och med värdet 64:</p>
+    <p><code>64 / 255 = 0,251 = 25,1 %</code></p>
+    <p><code>Umedel = 0,251 · 5,5 V = 1,38 V</code></p>
+    <p><strong>Men motorn ser aldrig 2,76 V.</strong> Den ser 5,5 V i lite drygt
+      halva tiden och 0 V i resten. Att medelvärdet blir 2,76 V är en räkning, och
+      den stämmer med vad en multimeter i likspänningsläge visar — instrumentet
+      medelvärdesbildar nämligen också. Det är två olika påståenden, och
+      skillnaden mellan dem är hela poängen med PWM: <strong>en transistor som är
+      antingen helt på eller helt av blir aldrig varm, medan ett motstånd som
+      sänker spänningen till hälften gör sig av med lika mycket effekt som
+      motorn får.</strong></p>
+
+    <h3>Var 490 och 980 hertz kommer ifrån</h3>
+    <p>Talen ser godtyckliga ut men går att räkna fram, och räkningen är värd att
+      göra en gång. Uno-kortets klocka går på 16 MHz, alltså 16 000 000 gånger i
+      sekunden. Kortets timrar delar ned den med 64 innan de räknar:</p>
+    <p><code>16 000 000 / 64 = 250 000 räknesteg i sekunden</code></p>
+    <p>Pinne 5 och 6 räknar 0 till 255 och börjar om, alltså 256 steg per
+      period:</p>
+    <p><code>250 000 / 256 = 976,6 Hz ≈ 980 Hz</code></p>
+    <p>De övriga PWM-pinnarna räknar upp <em>och</em> ned igen, alltså 510 steg
+      per period:</p>
+    <p><code>250 000 / 510 = 490,2 Hz ≈ 490 Hz</code></p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pinnar med PWM på Uno</th><th>Frekvens</th><th>Periodtid</th></tr></thead>
+        <tbody>
+          <tr><td>5 och 6</td><td>omkring 980 Hz</td><td><code>1 / 980 = 0,00102 s = 1,02 ms</code></td></tr>
+          <tr><td>3, 9, 10 och 11</td><td>omkring 490 Hz</td><td><code>1 / 490 = 0,00204 s = 2,04 ms</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Andra pinnar än de sex har ingen PWM alls. <code>analogWrite</code> på en
+      av dem ger bara <code>HIGH</code> över 127 och <code>LOW</code> under, och
+      det är ett tyst fel som ser ut som en trasig motor.</p>
+    <p class="notis viktig"><span class="rubrik">Servo och PWM slåss om pinne 9 och 10</span>
+      Det här stod redan i
+      <a href="../omrade-2-styrenheten/guide-servot.html#genomgang">servoguiden</a>
+      och blir konkret först nu. <code>Servo</code>-biblioteket tar kortets Timer1
+      i anspråk, och det är samma timer som ger PWM på pinne 9 och 10. Så länge
+      ett servo är anslutet — även om det sitter på en helt annan pinne —
+      fungerar inte <code>analogWrite()</code> på D9 och D10. Bygge 4 kan mycket
+      väl innehålla både ett servo och en motor. <strong>Lägg då motorns
+      PWM-signal på 3, 5, 6 eller 11.</strong> Symtomet annars är en motor som
+      bara går för fullt eller inte alls, med kod som ser helt riktig ut.</p>
+    <p>En sak till om pinne 5 och 6: de sköts av samma timer som
+      <code>millis()</code>. Att använda <code>analogWrite</code> på dem stör
+      <em>inte</em> tidmätningen — timern räknar vidare precis som förut, och det
+      är bara jämförelsevärdet som ändras. Påståendet att man inte får blanda dem
+      dyker upp ibland och stämmer inte.</p>
+
+    <h3>Varför motorn inte hackar, och varför den inte startar på låg puls</h3>
+    <p>Vid 490 Hz slås matningen av och på 490 gånger i sekunden. Att motorn
+      ändå går jämnt beror på två sorters tröghet.</p>
+    <ul>
+      <li><strong>Den elektriska trögheten</strong> ligger i lindningens
+        induktans, samma induktans som gav spänningsspiken i förra guiden. Med
+        <code>L = 2 mH</code> och <code>R = 5 Ω</code> hinner strömmen ändra sig
+        på en tid av storleksordningen
+        <code>L / R = 0,002 / 5 = 0,0004 s = 0,4 ms</code>, alltså en femtedel av
+        en 490-hertzperiod på 2,04 ms. Strömmen hinner därför krusa sig en del
+        inom varje period — den blir inte helt jämn, men den går heller aldrig
+        ned till noll.</li>
+      <li><strong>Den mekaniska trögheten</strong> ligger i rotorns massa och är
+        mycket större, storleksordningen tiotals millisekunder. Axeln hinner
+        alltså inte reagera på enskilda pulser alls. Det är den som gör rörelsen
+        jämn.</li>
+      <li><strong>Strömmen måste ha någonstans att ta vägen under pausen.</strong>
+        När transistorn stänger fortsätter lindningen driva ström, precis som i
+        förra guiden — men nu händer det 490 gånger i sekunden. Frihjulsdioderna
+        i bryggan är alltså inte bara ett skydd vid avstängning: de är strömmens
+        väg i varje paus. Det är därför en drivkrets alltid har dem inbyggda, och
+        varför den snabba Schottkydioden är rätt val i ett eget bygge.</li>
+    </ul>
+    <p><strong>Det finns ett lägsta pulsförhållande som gör något alls.</strong>
+      Under det står motorn still och surrar, eftersom medelmomentet inte räcker
+      för att bryta vilofriktionen i lager och växlar. Var gränsen ligger beror på
+      din motor och din mekanik — storleksordningen är 25 till 40 procent på en
+      liten växelmotor, och <strong>du ska mäta din egen.</strong> Är gränsen 90
+      av 255 är</p>
+    <p><code>90 / 255 = 0,353 = 35,3 %</code></p>
+    <p>ditt lägsta användbara värde, och allt under det är slöseri med rader i
+      koden. Ett vanligt knep är att låta koden hoppa direkt från 0 till det
+      värdet i stället för att kliva sig upp genom ett område där ingenting
+      händer.</p>
+
+    <h3>Strömförsörjning och brownout</h3>
+    <p><strong>Brownout förklarades i
+      <a href="../omrade-2-styrenheten/guide-servot.html#genomgang">servoguiden</a>,
+      och den förklaringen gäller ordagrant här.</strong> Symtomen är desamma:
+      seriemonitorn tappar förbindelsen och börjar om, lysdioder blinkar till i
+      takt med rörelsen, programmet ser ut att starta om. Det gör det också — men
+      inte för att koden är fel, utan för att matningen dyker. Testet är detsamma:
+      ta bort lasten. Försvinner felet var det aldrig i koden.</p>
+    <p>Tre saker är nya när det är en motor och inte ett servo.</p>
+    <ul>
+      <li><strong>Startrycket är lika stort som stoppströmmen.</strong> Motorn står
+        ju stilla i det ögonblick du slår på. Med de tal du räknade i förra
+        guiden — lindningen 5 Ω, matningen 6 V — blir det
+        <code>6 / 5 = 1,2 A</code> i den första tiondelen av en sekund, mot USB:s
+        hela budget på 500 mA. Kortet klarar det inte, och det gäller även om
+        motorn sedan bara drar 0,3 A.</li>
+      <li><strong>Motorn ska ha en egen matning.</strong> Batteriets plus till
+        drivkretsens motorspänning, aldrig till kortets 5 V. Kortet får sin ström
+        från USB eller från sitt eget uttag. De två matningarna hålls isär överallt
+        utom i en enda punkt.</li>
+      <li><strong>Den punkten är GND, och den är obligatorisk.</strong> Batteriets
+        minuspol, drivkretsens GND och kortets GND ska sitta ihop.</li>
+    </ul>
+    <p class="notis varna"><span class="rubrik">Gemensam nolla är det vanligaste felet i hela området</span>
+      Utan en gemensam GND har drivkretsens insignaler ingenting att mäta sina
+      5 V mot. Symtomet är ingenting alls, eller något som fungerar ryckigt och
+      slumpmässigt och blir bättre när du råkar hålla i sladden. Det ser ut som
+      ett glapp eller ett kodfel och är ingetdera. <strong>En sladd mellan
+      batteriets minuspol och kortets GND löser det, och den ska ritas ut i
+      schemat</strong> — annars finns den inte när någon annan bygger efter din
+      ritning.</p>
+    <p>Ett bra sätt att mäta problemet i stället för att gissa: <strong>sätt
+      multimetern över batteriet medan motorn startar.</strong> Sjunker
+      spänningen från 6,0 V till under 4,5 V i startögonblicket är batteriet, och
+      inte koden, det du ska arbeta med. Alkaliska AA-celler har relativt hög
+      inre resistans; laddningsbara NiMH-celler och ett litet blybatteri klarar
+      strömryck betydligt bättre.</p>
+
+    <h3>Koden, i sin minsta form</h3>
+    <p>Tre pinnar per motor: två riktningar och en fart. Här på en TB6612, med
+      STBY på en fjärde pinne.</p>
+    <pre><code class="sprak-cpp">const int IN1_PIN  = 7;    // riktning A
+const int IN2_PIN  = 8;    // riktning B
+const int PWM_PIN  = 5;    // fart. Pinne 5: 980 Hz, och inte upptagen av Servo
+const int STBY_PIN = 4;    // hog = drivkretsen vaken
+
+void setup() {
+  pinMode(IN1_PIN,  OUTPUT);
+  pinMode(IN2_PIN,  OUTPUT);
+  pinMode(PWM_PIN,  OUTPUT);
+  pinMode(STBY_PIN, OUTPUT);
+
+  digitalWrite(STBY_PIN, HIGH);
+  analogWrite(PWM_PIN, 0);          // sakert utgangslage: motorn star still
+}
+
+void loop() {
+  digitalWrite(IN1_PIN, HIGH);      // framat
+  digitalWrite(IN2_PIN, LOW);
+  analogWrite(PWM_PIN, 180);        // 180 / 255 = 70,6 procent
+}</code></pre>
+    <p>Två saker i den koden är viktigare än de ser ut. Den första är att
+      <code>setup()</code> sätter farten till 0 <em>innan</em> någonting annat
+      händer — ett bygge som rusar i väg i det ögonblick du sätter i strömmen är
+      farligt och svårt att felsöka. Den andra är att riktningen sätts med
+      <code>digitalWrite</code> och farten med <code>analogWrite</code>: det är två
+      skilda beslut, och de ska stå på skilda rader.</p>
+    <p>Byt riktning gör du genom att kasta om de två raderna. Men gör det aldrig
+      medan motorn snurrar för fullt — det är ungefär som att lägga i backen i
+      full fart. Stanna först, vänta en kort stund, och starta åt andra hållet.
+      Väntetiden ska mätas med <code>millis()</code> och en tidsstämpel, som i
+      <a href="../omrade-3-logik-och-tillstand/guide-tid-utan-delay.html#genomgang">område 3</a>,
+      inte med <code>delay()</code>.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <p><strong>I industrin:</strong> en eldriven lagertruck har körmotorer på
+      24 V som kan dra 100 A när den drar i väg med last. Bryggan som styr dem är
+      byggd av MOSFET:ar med en kanalresistans på storleksordningen 2 mΩ, alltså
+      0,002 Ω. Strömmen går genom två transistorer på vägen, så fallet över hela
+      bryggan blir</p>
+    <p><code>2 · 0,002 Ω · 100 A = 0,4 V</code></p>
+    <p><code>P = 0,4 V · 100 A = 40 W</code></p>
+    <p>Fyrtio watt värme, vilket redan kräver en rejäl kylplåt. Hade samma brygga
+      varit byggd med darlingtontransistorer och deras fasta fall på ungefär 2 V
+      hade det blivit</p>
+    <p><code>P = 2,0 V · 100 A = 200 W</code></p>
+    <p>alltså 160 W mer, som måste tas ur samma batteri:</p>
+    <p><code>160 W / 24 V = 6,7 A extra ur batteriet, hela tiden</code></p>
+    <p>Det är därför truckens drivsteg är byggt precis som din TB6612, fast större
+      — samma resonemang, tusen gånger strömmen. Switchfrekvensen väljs dessutom
+      medvetet till 16–20 kHz, i eller strax ovanför övre kanten av vad ett ungt
+      öra hör: en truck som visslar hela arbetsdagen är en arbetsmiljöfråga, och
+      högre frekvens än så kostar mer i switchförluster utan att ge något.</p>
+
+    <p><strong>I vardagen:</strong> fläkten över processorn i en dator har fyra
+      sladdar, och den fjärde är en PWM-signal. Standarden ligger på omkring
+      25 kHz, alltså en periodtid på</p>
+    <p><code>1 / 25 000 = 0,00004 s = 40 µs</code></p>
+    <p>Frekvensen är vald av exakt samma skäl som truckens: under ungefär 20 kHz
+      hörs pulsandet som ett tjut, och en dator på ett skrivbord får inte tjuta.
+      Två saker till är värda att notera. <strong>PWM-signalen går inte ut i
+      motorns lindning</strong> utan in i fläktens egen lilla styrelektronik, som
+      läser den som ett önskemål om varvtal — precis som servots pulser i område 2
+      är ett önskemål om vinkel, inte en matning. Och den <em>tredje</em> sladden
+      går åt andra hållet: den lämnar två pulser per varv tillbaka till datorn. En
+      fläkt som går 1 200 varv per minut ger alltså</p>
+    <p><code>1 200 / 60 · 2 = 20 · 2 = 40 pulser i sekunden</code></p>
+    <p>vilket datorn räknar och jämför med vad den bad om. Där sitter hela kedjan
+      sensor → styrenhet → aktuator i en pryl för hundra kronor, och den kan
+      dessutom larma när fläkten kärvar — eftersom varvtalet då sjunker medan
+      begäran är oförändrad.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li><strong>Koppla in drivkretsen utan mekanik.</strong> Motorn fri i luften,
+        egen matning till motorn, gemensam GND. Kör exempelkoden ovan och
+        kontrollera att motorn går åt det håll du väntade dig. Gör den inte det
+        byter du de två riktningsraderna — det är rätt sätt, inte att vända
+        sladdarna.</li>
+      <li><strong>Gå igenom alla fyra lägen.</strong> Framåt, bakåt, broms,
+        frihjul. Snurra axeln med fingrarna i bromsläget och i frihjulsläget och
+        känn skillnaden. Skriv ned vilken kombination som gav vad — det är din
+        egen sanningstabell, och den ska in i dokumentationen.</li>
+      <li><strong>Mät medelspänningen.</strong> Multimetern i likspänningsläge
+        rakt över motorn. Skriv ut ett värde i taget: 64, 128, 192, 255. Jämför
+        med <code>varde / 255</code> gånger den spänning du mätte vid 255. Gör en
+        tabell med fyra rader — beräknat mot uppmätt, precis som i bygge 0.</li>
+      <li><strong>Hitta ditt lägsta pulsförhållande.</strong> Kör från 0 uppåt i
+        steg om 10 tills axeln börjar röra sig, med den mekanik du tänker
+        använda. Anteckna värdet och räkna om det till procent. Gör om samma sak
+        efter att du monterat lasten — talet blir högre, och det är en av de
+        mätningar som gör dokumentationen bra.</li>
+      <li><strong>Lyssna på frekvensen.</strong> Kör motorn på ungefär halv fart
+        med PWM på pinne 9 och sedan på pinne 5. Hör du skillnad mellan 490 och
+        980 Hz? Tonen kommer från lindningen som rör sig i takt med pulserna.</li>
+      <li><strong>Mät matningen under start.</strong> Multimetern över batteriet,
+        motorn med last. Läs av precis när den drar i väg. Hur mycket sjunker
+        spänningen? Om kortet startar om har du nu ett mätvärde i stället för en
+        gissning.</li>
+      <li><strong>Prova felet med flit.</strong> <strong>Slå först av motorns
+        matning</strong>, lyft bort GND-sladden mellan batteriets minuspol och
+        kortet, och slå på igen. Se vad som händer, och sätt tillbaka sladden
+        inom någon sekund. Ordningen spelar roll: lyfter du nollan medan
+        motormatningen är på får styrsignalerna sin återväg genom drivkretsens
+        ingångsskydd, och det är inte den vägen de är byggda för. Nu känner du
+        igen symtomet nästa gång det uppstår av misstag klockan nio på
+        kvällen.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Din matning är 7,2 V och drivkretsen är en L298N. Vad får motorn,
+        och hur mycket effekt blir värme i chippet vid 0,8 A?</summary>
+      <p><code>Umotor = 7,2 − 2,5 = 4,7 V</code>. Värmen i chippet blir
+        <code>P = 2,5 V · 0,8 A = 2,0 W</code>, och motorn får
+        <code>4,7 · 0,8 = 3,76 W</code>. Drivsteget har alltså verkningsgraden
+        <code>4,7 / 7,2 = 0,65 = 65 %</code>. En kylfläns behövs.</p>
+    </details>
+
+    <details>
+      <summary>Vad blir medelspänningen över motorn vid
+        <code>analogWrite(PWM_PIN, 100)</code> om det ligger 5,5 V på när pulsen
+        är hög?</summary>
+      <p><code>100 / 255 = 0,392 = 39,2 %</code> och
+        <code>0,392 · 5,5 = 2,16 V</code>. Men motorn ser inte 2,16 V — den ser
+        5,5 V i knappt fyra tiondelar av tiden och 0 V i resten. 2,16 V är
+        medelvärdet, och det är också vad en multimeter i likspänningsläge
+        visar.</p>
+    </details>
+
+    <details>
+      <summary>Varför blir en transistor som pulsar mycket kallare än ett
+        motstånd som sänker spänningen lika mycket?</summary>
+      <p>Effekt är spänning gånger ström. En transistor som är helt på har nästan
+        ingen spänning över sig, och en som är helt av har ingen ström genom sig
+        — i båda lägena blir produkten nästan noll. Ett motstånd som halverar
+        spänningen har däremot halva spänningen över sig <em>och</em> hela
+        strömmen genom sig hela tiden, och gör sig alltså av med lika mycket
+        effekt som motorn får.</p>
+    </details>
+
+    <details>
+      <summary>Motorn på pinne 9 går bara för fullt eller inte alls, fast koden
+        skriver 120. Vad är fel?</summary>
+      <p>Ett servo är anslutet någonstans i bygget.
+        <code>Servo</code>-biblioteket tar Timer1, som är samma timer som ger PWM
+        på pinne 9 och 10, och då blir <code>analogWrite</code> där bara
+        <code>HIGH</code> eller <code>LOW</code>. Flytta motorns PWM till 3, 5, 6
+        eller 11.</p>
+    </details>
+
+    <details>
+      <summary>Varför skiljer sig frekvensen mellan pinne 5 och pinne 9?</summary>
+      <p>De sköts av olika timrar som räknar på olika sätt. Båda får 250 000
+        räknesteg i sekunden ur klockan, men pinne 5 räknar 256 steg per period
+        och ger <code>250 000 / 256 = 977 Hz</code>, medan pinne 9 räknar upp och
+        ned igen, alltså 510 steg, och ger
+        <code>250 000 / 510 = 490 Hz</code>.</p>
+    </details>
+
+    <details>
+      <summary>Bygget fungerar när kortet sitter i datorn men inte när det körs på
+        batteri, och tvärtom fungerar motorn ibland utan att koden ändrats. Vad
+        letar du efter först?</summary>
+      <p>Den gemensamma nollan. Så länge datorn är inkopplad kan det finnas en
+        oavsiktlig jordförbindelse via USB-kabeln som döljer att din egen
+        GND-sladd saknas. Dra en riktig sladd mellan batteriets minuspol,
+        drivkretsens GND och kortets GND, och rita in den i schemat.</p>
+    </details>
+
+    <details>
+      <summary>Vad är skillnaden på broms och frihjul, och när vill du ha
+        vilket?</summary>
+      <p>Broms kortsluter lindningen, så att motorns egen rörelse driver en ström
+        som motverkar rörelsen. Mekanismen stannar nästan direkt och står emot att
+        vridas. Frihjul kopplar bort lindningen, och mekanismen rullar ut. Broms
+        vill du ha när något ska stanna på ett bestämt ställe eller inte glida
+        tillbaka; frihjul när stoppet ska bli mjukt eller mekanismen ska gå att
+        flytta för hand.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>GND är inte gemensam.</strong> Ingenting, eller något
+        slumpmässigt som blir bättre när du håller i sladden. Det här är områdets
+        vanligaste fel och det första du ska utesluta.</li>
+      <li><strong>Motorns matning kopplad till kortets 5 V.</strong> Kortet
+        startar om vid varje start, eller kortets spänningsregulator blir
+        brännhet. Motorn ska ha en egen källa.</li>
+      <li><strong>PWM-signalen sitter på pinne 9 eller 10 med ett servo
+        inkopplat.</strong> Motorn går bara för fullt eller inte alls. Flytta till
+        3, 5, 6 eller 11.</li>
+      <li><strong>PWM-signalen sitter på en pinne som inte har PWM.</strong> Samma
+        symtom som ovan, av en annan orsak. Bara 3, 5, 6, 9, 10 och 11 kan
+        pulsa.</li>
+      <li><strong>ENA- eller ENB-byglingen sitter kvar på L298N-modulen.</strong>
+        Bygeln håller ingången fast hög, så motorn går alltid för fullt oavsett
+        vad <code>analogWrite</code> säger. Dra av bygeln och koppla en sladd
+        dit.</li>
+      <li><strong>Matningen är för låg för att drivkretsens fall ska rymmas.</strong>
+        Motorn går, men trögt, och du letar efter felet i koden. Mät spänningen
+        rakt över motorn medan den går och jämför med batteriet.</li>
+      <li><strong>Riktningen byts medan motorn går för fullt.</strong> Ett
+        strömryck som är värre än start, och som ofta fäller matningen. Stanna,
+        vänta, starta åt andra hållet — med en tidsstämpel, inte med
+        <code>delay()</code>.</li>
+      <li><strong>Pulsförhållandet ligger under motorns tröskel.</strong> Motorn
+        står still och surrar, och det låter som att den är trasig. Mät ditt
+        lägsta värde och låt koden aldrig lämna något däremellan.</li>
+      <li><strong>Kylflänsen på L298N saknas.</strong> Chippet blir brännhet och
+        stänger av sig själv efter en stund. Symtomet är ett bygge som fungerar i
+        två minuter och sedan slutar.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p><code>analogWrite()</code> är ett funktionsanrop, inte en ny
+      språkkonstruktion, så inget nytt kapitel i språkreferensen öppnar här. De
+      två som blir aktuella igen är
+      <a href="../sprakreferens.html#tid">Tid</a> — för väntan mellan
+      riktningsbyten och för mjukstart utan <code>delay()</code> — och
+      <a href="../sprakreferens.html#villkor">Villkor</a>, för de beslut som
+      avgör riktning och fart.</p>
+    <p>Nästa guide är
+      <a href="guide-utvaxling-och-kraft.html">Utväxling och kraft</a>. Där lämnar
+      vi elektroniken och tar tillbaka mekaniken från din tidigare kurs: kugghjul,
+      moment och varvtal, och hur du väljer en utväxling så att motorn orkar det
+      du tänkt. Där kravställs också bygge 4.</p>
+    <p class="notis"><span class="rubrik">Två veckor till nästa pass</span>
+      Mellan den här lektionen och nästa ligger påsklovet, alltså två veckor. Det
+      är gott om tid att koppla drivkretsen, mäta ditt lägsta pulsförhållande och
+      leta fram kugghjul eller remskivor — och kort om tid om du börjar veckan
+      innan bygget. Kravlistan för bygge 4 kommer först nästa pass, men de tre
+      mätningarna i Prova själv kan du göra nu.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 5</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>
