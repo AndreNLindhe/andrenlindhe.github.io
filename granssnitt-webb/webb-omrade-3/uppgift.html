@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uppgift – Projekt 2: Stilsatt webbplats</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-3-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Uppgift</strong> · Projekt 2</span>
+  <a href="guide-css.html">Guide: CSS</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>På sidan</p>
+    <ol>
+      <li><a href="#uppdraget">Uppdraget</a></li>
+      <li><a href="#utgar-fran">Vad du utgår från</a></li>
+      <li><a href="#kom-igang">Kom igång</a></li>
+      <li><a href="#ska">Ska-krav (E)</a></li>
+      <li><a href="#bor">Bör-krav (C)</a></li>
+      <li><a href="#utmaningar">Utmaningar (A)</a></li>
+      <li><a href="#tekniska">Tekniska krav</a></li>
+      <li><a href="#matris">Bedömningsmatris</a></li>
+      <li><a href="#lamna-in">Innan du lämnar in</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling · område 3</p>
+    <h1>Projekt 2 – Stilsatt webbplats</h1>
+    <p class="inledning">Sajten från Projekt 1, nu med form. Extern stilmall, och den ska
+      följa din egen stilguide från Gränssnittsdesign.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-12-01">
+        <span class="nar">1 dec</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Repolänk och Pages-adress i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="uppdraget">Uppdraget</h2>
+    <p>Du ska stilsätta sajten du byggde i Projekt 1, med en extern stilmall och enligt
+      <b>din egen stilguide</b> från Gränssnittsdesign. Ingen ny sajt, inget nytt ämne –
+      samma innehåll, nu med form.</p>
+    <p>Det är två kurser som möts i den här uppgiften. I Gränssnittsdesign bestämde du hur
+      det ska se ut och varför. Här bygger du det.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Uppgiften är inte att göra sajten snygg</span>
+      <p>Den är att göra den till <b>det du redan bestämt</b>. Skillnaden märks i
+        bedömningen: den som gissar sig fram till något fint ligger på E, den som kan peka
+        från en rad CSS till en rad i stilguiden ligger på C.</p>
+    </div>
+
+    <p>Sajten du lämnar in går vidare till Gränssnittsdesign den 10 december och granskas
+      heuristiskt där – av en klasskamrat, inte av dig. Det är värt att veta medan du
+      bygger.</p>
+
+    <h2 id="utgar-fran">Vad du utgår från</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det här har du redan</th><th>Var det kommer ifrån</th></tr></thead>
+        <tbody>
+          <tr><td>Sajten, minst fyra sidor med semantisk HTML</td>
+            <td>Projekt 1, inlämnad 13 oktober</td></tr>
+          <tr><td>Stilguiden: färger, typsnitt, avstånd, komponenter</td>
+            <td>Uppgift 3 i Gränssnittsdesign, 5 november</td></tr>
+          <tr><td>Mockupen av startsidan</td><td>Samma uppgift</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Stilguiden är <b>ditt eget arbete</b>, och du har haft den sedan överlämningen den 22
+      oktober. Att den fortfarande ändras när du börjar skriva CSS är inte ett problem – det
+      är själva skälet till att värdena ska ligga som variabler. Ändras en färg i guiden ska
+      du byta den på <b>ett</b> ställe.</p>
+
+    <h2 id="kom-igang">Kom igång</h2>
+    <ol>
+      <li><b>Koppla en tom <code>stil.css</code> till alla sidor först.</b> Skriv en enda
+        regel i den – gör bakgrunden knallrosa – och kontrollera att varje sida ändrar färg.
+        Då vet du att sökvägarna är rätt innan du skrivit en rad riktig CSS. Ta bort rosan
+        sedan.</li>
+      <li><b>Skriv in stilguidens värden som variabler i <code>:root</code> innan något
+        annat.</b> Färgerna, typsnitten, avståndsskalan. Det är tråkigt i tjugo minuter och
+        sparar dig timmar när guiden ändras i november.</li>
+      <li><b>Ta typografin före layouten.</b> En sida med rätt teckenstorlek och radavstånd
+        ser halvfärdig ut på ett bra sätt. En sida med perfekt rutnät och förvald typografi
+        ser trasig ut.</li>
+    </ol>
+
+    <p>Kryssen nedan sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span><b>En extern stilmall</b>,
+          <code>stil.css</code>, kopplad med <code>&lt;link&gt;</code> i
+          <code>&lt;head&gt;</code> på varje sida</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span><b>Ingen
+          <code>&lt;style&gt;</code>-tagg och inget <code>style</code>-attribut</b> kvar
+          någonstans</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span><code>box-sizing: border-box</code>
+          satt för alla element</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span><b>Färg och typografi enligt din
+          stilguide</b>: bakgrund, textfärg och minst en accentfärg</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span><b>Typsnittsstackar med minst tre
+          led</b>, där sista ledet är en generisk familj</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Rubriker och brödtext har
+          <b>skilda storlekar i <code>rem</code></b>, och <code>line-height</code> är
+          satt</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Minst <b>åtta värden ur stilguiden
+          ligger som CSS-variabler</b> i <code>:root</code> och används med
+          <code>var()</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span><b>Navigeringen är byggd med
+          flexbox</b> och radbryter utan att spräcka sidan</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span><b>Minst en yta är byggd med
+          grid</b> – galleri, kortlista eller sidlayout</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>Länkar och knappar har <b>synligt
+          <code>:hover</code> och <code>:focus-visible</code></b></span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span><b>HTML och CSS validerar utan
+          fel</b> hos W3C, samtliga sidor</span></label></li>
+        <li><label><input type="checkbox" id="ska-12"><span>Publicerad med GitHub Pages, och
+          adressen fungerar</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Du kan <b>peka från en
+          CSS-variabel till raden i stilguiden</b> den kommer ifrån</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span><b>Inga hårdkodade färger eller
+          avstånd</b> utanför <code>:root</code> – allt går genom
+          <code>var()</code></span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Avstånden följer <b>en skala</b>,
+          inte lösryckta tal. 8, 16, 24, 40 – inte 7, 15, 23</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Layouten tål bredder från <b>320
+          till 1600 pixlar</b> utan horisontell rullning</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span><b>Formulärfälten har
+          <code>font: inherit</code></b> och egna tillstånd för fokus</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span><b>Tabellen går att läsa på
+          telefon</b> utan att sidan blir bredare än skärmen</span></label></li>
+        <li><label><input type="checkbox" id="bor-7"><span>Du kan <b>motivera var du valde
+          flexbox och var du valde grid</b>, och varför</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaningar">Utmaningar <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>En sidlayout byggd med
+          <b><code>grid-template-areas</code></b>, och du kan förklara varför just där och
+          inte överallt</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span><b>Komponentklasser som
+          återanvänds</b> på minst tre olika ställen i sajten</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Du har byggt startsidan mot
+          mockupen och kan <b>namnge tre saker som saknades i överlämningen</b> och vad du
+          gjorde åt dem</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>Sajten är fortfarande <b>läsbar
+          med stilmallen avstängd</b> – markeringen bär innehållet, CSS ligger
+          ovanpå</span></label></li>
+        <li><label><input type="checkbox" id="utm-5"><span>Du har <b>kontrollerat
+          kontrasten</b> mellan text och bakgrund och kan säga vilka värden du
+          fick</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="tekniska">Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Vad som gäller</th></tr></thead>
+        <tbody>
+          <tr><td>Filstruktur</td><td><code>stil.css</code> i roten, bredvid
+            <code>index.html</code>. Bilder kvar i <code>bilder/</code></td></tr>
+          <tr><td>Antal stilmallar</td><td>En. Flera filer hör till senare kurser</td></tr>
+          <tr><td>Filnamn</td><td>Gemener, bindestreck i stället för mellanslag, inga å ä ö</td></tr>
+          <tr><td>Sökvägar</td><td>Relativa. <code>href="stil.css"</code>, aldrig
+            <code>/stil.css</code></td></tr>
+          <tr><td>HTML-ändringar</td><td>Tillåtna <b>bara</b> där markeringen behöver en
+            klass. Lägg aldrig till element enbart för att få layout</td></tr>
+          <tr><td>Enheter</td><td><code>rem</code> för text, valfritt för annat. Inte
+            <code>px</code> på teckenstorlek</td></tr>
+          <tr><td>Validering</td><td>W3C för både HTML och CSS, noll fel</td></tr>
+          <tr><td>Webbläsartest</td><td>Två olika webbläsare, plus telefon</td></tr>
+          <tr><td>Var det lämnas</td><td>Repolänk <b>och</b> Pages-adress i itslearning</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Raden om HTML-ändringar är den som brukar missförstås. Att lägga till
+      <code>class="kortlista"</code> på en lista är rätt. Att lägga in tre <code>div</code>
+      för att få tre spalter är fel – det är vad grid är till för, och sajten slutar fungera
+      utan CSS.</p>
+
+    <h2 id="matris">Bedömningsmatris</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><b>Stilmall och struktur</b></td>
+            <td>En extern stilmall är kopplad och gäller alla sidor</td>
+            <td>CSS:en är ordnad i avsnitt och går att hitta i</td>
+            <td>En annan person kan ändra i den utan att fråga dig var något står</td></tr>
+          <tr><td><b>Stilguiden i kod</b></td>
+            <td>Färg och typografi följer guiden</td>
+            <td>Guidens värden ligger som variabler och används konsekvent</td>
+            <td>Ett byte i guiden slår igenom med en enda ändring, och du kan visa det</td></tr>
+          <tr><td><b>Layout</b></td>
+            <td>Navigering med flexbox och minst en yta med grid</td>
+            <td>Valet mellan flexbox och grid är motiverat, layouten tål olika bredder</td>
+            <td>Layouten håller i bredder du inte testat, utan lappar för specialfall</td></tr>
+          <tr><td><b>Komponenter och tillstånd</b></td>
+            <td>Länkar och knappar syns vid hover och fokus</td>
+            <td>Fälten och komponenterna har genomtänkta tillstånd, också för fel</td>
+            <td>Komponenterna är återanvändbara och fungerar i sammanhang de inte byggdes för</td></tr>
+          <tr><td><b>Kvalitetssäkring</b></td>
+            <td>HTML och CSS validerar, sajten är publicerad</td>
+            <td>Testad i två webbläsare och på telefon, skillnaderna kända</td>
+            <td>Sajten fungerar även med stilmallen avstängd, och kontrasten är kontrollerad</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="lamna-in">Innan du lämnar in</h2>
+    <p>Sista passet, 1 december, är till för det här. Gå igenom i tur och ordning:</p>
+    <ol>
+      <li><b>Validera HTML och CSS på varje sida.</b> Två validatorer,
+        <code>validator.w3.org</code> och <code>jigsaw.w3.org/css-validator</code>. Laga det
+        översta felet först och validera om.</li>
+      <li><b>Öppna den publicerade adressen</b>, inte filen i VS Code. Det är där sökvägen
+        till <code>stil.css</code> visar sig om den är fel.</li>
+      <li><b>Dra i fönstret från smalt till brett.</b> Någonstans mellan 320 och 1600 pixlar
+        ska ingenting sticka ut och ingen vågrät rullningslist dyka upp.</li>
+      <li><b>Tabba igenom sajten utan att röra musen.</b> Ser du hela tiden var du är? Det tar
+        två minuter och det är det test flest hoppar över.</li>
+      <li><b>Ta bort <code>link</code>-elementet tillfälligt</b> och ladda om. Går sidan
+        fortfarande att läsa? Då ligger CSS:en ovanpå markeringen, som den ska. Sätt tillbaka
+        det.</li>
+      <li><b>Lämna båda adresserna</b> i itslearning: repot och den publicerade sidan.</li>
+    </ol>
+    <p>Punkt 5 är den som skiljer. En sajt som blir obegriplig utan stilmallen har fått sin
+      struktur från CSS i stället för från HTML, och det är samma fel som område 2 handlade
+      om – det syns bara inte förrän någon stänger av formgivningen.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Provet dagen efter</span>
+      <p>Prov 2 är 2 december, skriftligt utan dator, och utgår från referensprojektet
+        <i>Fyrar längs Bohuskusten</i>. Guidens
+        <a href="guide-css.html#snabbreferens">snabbreferens</a> är det du repeterar på.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vad prov 3 prövar</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o4-provet">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Prov 3</strong> · Vad provet prövar</span>
+  <a href="#repetition">Repetition</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#formen">1. Formen</a></li>
+      <li><a href="#innehallet">2. Vad som kommer</a></li>
+      <li><a href="#typ-1">3. Frågetyp 1 – placera koden</a></li>
+      <li><a href="#typ-2">4. Frågetyp 2 – välj livstid</a></li>
+      <li><a href="#typ-3">5. Frågetyp 3 – vad hände här?</a></li>
+      <li><a href="#typ-4">6. Frågetyp 4 – motivera valet</a></li>
+      <li><a href="#repetition">7. Fjorton repetitionsfrågor</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 4 · lektion 29–30</p>
+    <h1>Vad prov 3 prövar</h1>
+    <p class="inledning">Osäkerhet inför ett prov kostar mer än innehållet. Den här
+      sidan säger vad som kommer, vad som inte kommer, och hur frågorna ser ut. Tre av
+      de fyra frågetyperna har kod i sig – de finns nedan, körda och klara.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-12-07">
+        <span class="nar">7 dec</span>
+        <span class="vad">Inlämning 4, kl 23:59
+          <small>Att göra klart uppgiften är den bästa provförberedelsen som finns.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-12-08">
+        <span class="nar">8 dec</span>
+        <span class="vad">Prov 3 – arkitektur och tjänster
+          <small>80 minuter, utan dator.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="formen">1. Formen</h2>
+    <ul>
+      <li><b>Åttio minuter.</b> Sluttiden skrivs på tavlan.</li>
+      <li>Ingen dator, ingen telefon, inga anteckningar. Papper och penna.</li>
+      <li><b>Sexton frågor.</b> Poängen står vid varje fråga.</li>
+      <li>Läs hela provet innan du börjar svara.</li>
+      <li>Kod som är nästan rätt ger poäng. Ett gränssnitt med rätt metoder men fel
+        placerat semikolon är värt mer än ett tomt svar.</li>
+    </ul>
+
+    <h2 id="innehallet">2. Vad som kommer</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Område</th><th>Ungefär</th><th>Typiskt innehåll</th></tr></thead>
+        <tbody>
+          <tr><td>Lager och ansvar</td><td>3 frågor</td><td>Placera given kod, motivera gränsdragningen</td></tr>
+          <tr><td>Gränssnitt och implementation</td><td>3 frågor</td><td>Varför ett gränssnitt, <code>CS0535</code>, byte av implementation</td></tr>
+          <tr><td>Registrering och injektion</td><td>3 frågor</td><td><code>Program.cs</code>, <code>@inject</code>, felet när registreringen saknas</td></tr>
+          <tr><td>Livstider</td><td>4 frågor</td><td>De tre, demot, och vad som går fel vid singleton</td></tr>
+          <tr><td>Tillstånd</td><td>2 frågor</td><td>Cookie mot session mot singleton</td></tr>
+          <tr><td>Async, loggning, fel</td><td>1 fråga</td><td><code>Task</code>, <code>await</code>, eller <code>try</code>/<code>catch</code> på rätt nivå</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Det här kommer säkert:</b> vad ett gränssnitt lovar. Vad registreringsraden
+      gör. Vad transient, scoped och singleton betyder – och vad <em>scoped</em>
+      faktiskt omfattar vid statisk serverrendering. Var gränsen går mellan komponent
+      och tjänst i given kod.</p>
+
+    <p><b>Det här kommer inte:</b> ingen CSS, inga databaser, ingen Entity Framework,
+      inga metodnamn ur ramverket som inte använts i kursen. Inte heller exakta
+      felmeddelanden ord för ord – men du ska kunna säga <b>när</b> ett fel kommer.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Minst fyra frågor kräver att du motiverar något</span>
+      <p>Det är områdets kärna. Ett prov som bara frågar efter definitioner missar
+        precis det som skiljer E från C och A, och därför är minst fyra frågor av typen
+        <em>placera koden</em> eller <em>motivera valet</em>.</p>
+      <p>På de frågorna räcker det aldrig att skriva vad ett ord betyder. Svaret ska
+        innehålla ett <b>för att</b> och gärna ett <b>annars</b>.</p>
+    </div>
+
+    <h2 id="typ-1">3. Frågetyp 1 – placera koden</h2>
+    <p>Du får en komponent och ska säga vad som hör hemma i tjänsten och vad som ska
+      stanna. Så här kan den se ut:</p>
+
+    <!-- kod: exempel/provtraning/Provfraga1.razor -->
+    <pre><code class="sprak-razor">@page "/provtraning/o4/1"
+@inject IFilmService Arkivet
+
+&lt;h1&gt;Provträning 1&lt;/h1&gt;
+
+&lt;p&gt;Snittbetyg: @snitt.ToString("0.0")&lt;/p&gt;
+
+&lt;ul&gt;
+    @foreach (var film in tillgangliga)
+    {
+        &lt;li&gt;@film.Titel (@film.Ar)&lt;/li&gt;
+    }
+&lt;/ul&gt;
+
+@code {
+    private List&lt;Film&gt; tillgangliga = new();
+    private double snitt;
+
+    protected override async Task OnInitializedAsync()
+    {
+        List&lt;Film&gt; alla = await Arkivet.HamtaAllaAsync();
+
+        int summa = 0;
+
+        foreach (var film in alla)
+        {
+            summa = summa + film.Betyg;
+
+            if (film.Tillganglig)
+            {
+                tillgangliga.Add(film);
+            }
+        }
+
+        snitt = (double)summa / alla.Count;
+    }
+}</code></pre>
+
+    <p><b>Frågan:</b> vilka rader ska flytta till tjänsten, och vilka ska stanna i
+      komponenten? Motivera gränsen med en mening.</p>
+
+    <div class="notis">
+      <span class="rubrik">Vad som ger poäng</span>
+      <p>Att <code>foreach</code>-loopen, summeringen och urvalet
+        (<code>if (film.Tillganglig)</code>) ska flytta. Att
+        <code>.ToString("0.0")</code> och den renderade listan ska stanna.</p>
+      <p>Full poäng kräver motiveringen: uträkningen och urvalet svarar på
+        <b>vilka</b> och är lika för alla som frågar; antalet decimaler är
+        <b>hur</b> och kan skilja mellan två sidor.</p>
+      <p>Ett vanligt halvsvar är att flytta allt, inklusive formateringen. Det ger
+        poäng men inte full – tjänsten ska inte bestämma hur något ser ut.</p>
+    </div>
+
+    <h2 id="typ-2">4. Frågetyp 2 – välj livstid</h2>
+    <p>Du får en tjänst och ska välja livstid åt den, med motivering. Klassen:</p>
+
+    <!-- kod: exempel/provtraning/Sokhistorik.cs -->
+    <pre><code class="sprak-csharp">namespace Filmarkivet.Services.Prov;
+
+// Håller de sökord besökaren har skrivit under sitt besök. Listan ska följa
+// besökaren genom hela besöket, och försvinna när besöket är slut.
+public class Sokhistorik
+{
+    private readonly List&lt;string&gt; _sokord = new();
+
+    public IReadOnlyList&lt;string&gt; Alla =&gt; _sokord;
+
+    public void LaggTill(string sokord)
+    {
+        if (!string.IsNullOrWhiteSpace(sokord))
+        {
+            _sokord.Add(sokord);
+        }
+    }
+}</code></pre>
+
+    <p>Och sidan som använder den:</p>
+
+    <!-- kod: exempel/provtraning/Provfraga2.razor -->
+    <pre><code class="sprak-razor">@page "/provtraning/o4/2"
+@inject Filmarkivet.Services.Prov.Sokhistorik Historiken
+
+&lt;h1&gt;Provträning 2&lt;/h1&gt;
+
+&lt;p&gt;Du har sökt på:&lt;/p&gt;
+
+&lt;ul&gt;
+    @foreach (var ord in Historiken.Alla)
+    {
+        &lt;li&gt;@ord&lt;/li&gt;
+    }
+&lt;/ul&gt;
+
+&lt;form method="get"&gt;
+    &lt;input name="sok" value="@Sok" /&gt;
+    &lt;button type="submit"&gt;Sök&lt;/button&gt;
+&lt;/form&gt;
+
+@code {
+    [SupplyParameterFromQuery(Name = "sok")]
+    public string? Sok { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Historiken.LaggTill(Sok ?? "");
+    }
+}</code></pre>
+
+    <p><b>Frågan:</b> vilken livstid ska <code>Sokhistorik</code> registreras med om
+      listan ska följa besökaren genom hela besöket? Och vad händer om du väljer fel?</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det här är frågan flest svarar fel på</span>
+      <p>Det närliggande svaret är <em>scoped, för det betyder per besökare</em>. Det
+        är fel på andra ledet, och därför fel på det första.</p>
+      <p>Vid statisk serverrendering är ett scope <b>en förfrågan</b>. Registrerar du
+        <code>Sokhistorik</code> som scoped får du ett nytt, tomt objekt vid varje
+        sidladdning – listan visar bara det senaste sökordet. Registrerar du den som
+        singleton följer listan inte besökaren utan <b>alla besökare</b>: du ser vad
+        andra har sökt på.</p>
+      <p>Rätt svar är att ingen livstid räcker: värdet måste lagras i <b>session</b>,
+        med tjänsten registrerad som scoped. Det är precis vad
+        <code>Visningslista</code> gör i <a href="guide.html#steg-13">guidens steg
+        13</a>, och vad din egen samling ska göra i inlämningen.</p>
+    </div>
+
+    <h2 id="typ-3">5. Frågetyp 3 – vad hände här?</h2>
+    <p>Du får en sida och en beskrivning av vad som står på skärmen, och ska säga
+      varför. Sidan:</p>
+
+    <!-- kod: exempel/provtraning/Provfraga3.razor -->
+    <pre><code class="sprak-razor">@page "/provtraning/o4/3"
+@inject IFilmService Arkivet
+
+&lt;h1&gt;Provträning 3&lt;/h1&gt;
+
+&lt;p&gt;Antal filmer i arkivet: @Arkivet.HamtaStatistikAsync()&lt;/p&gt;</code></pre>
+
+    <p>På skärmen står:</p>
+
+    <pre><code>Antal filmer i arkivet: System.Threading.Tasks.Task`1[Filmarkivet.Models.Arkivstatistik]</code></pre>
+
+    <p><b>Frågan:</b> vad har hänt, och hur rättar du det?</p>
+
+    <div class="notis">
+      <span class="rubrik">Vad som ger poäng</span>
+      <p>Att <code>await</code> saknas: sidan renderade <b>löftet</b> i stället för
+        svaret. Rättningen är att hämta värdet i
+        <code>protected override async Task OnInitializedAsync()</code> med
+        <code>await</code>, spara det i ett fält, och visa fältet.</p>
+      <p>Lägg märke till att ingenting kraschade. Bygget gav noll varningar, servern
+        startade, sidan svarade 200. Det är ett fel av den fjärde sorten – och det
+        enda spåret är texten på skärmen.</p>
+    </div>
+
+    <h2 id="typ-4">6. Frågetyp 4 – motivera valet</h2>
+    <p>Några meningar om varför något är som det är. Den här typen har ingen kod, och
+      den går inte att plugga in kvällen före – den kräver att du byggt något och tänkt
+      på varför.</p>
+
+    <p>Exempel på hur de kan låta:</p>
+    <ul>
+      <li>Varför ska komponenten injicera gränssnittet och inte klassen, när båda hade
+        fungerat?</li>
+      <li>Varför ligger det här området <em>före</em> databasen och inte efter?</li>
+      <li>Varför är det ett fel att injicera en scoped tjänst i en singleton? Vad hade
+        gått sönder om ramverket tillåtit det?</li>
+      <li>Varför svarar tjänsten med <code>int?</code> och inte <code>0</code> när
+        registret inte går att nå?</li>
+      <li>Var ska <code>try</code>/<code>catch</code> ligga, och varför inte i
+        komponenten?</li>
+      <li>Vad ligger i cookien när du använder session, och vad ligger det inte?</li>
+    </ul>
+
+    <h2 id="repetition">7. Fjorton repetitionsfrågor</h2>
+    <p>Svara högt för dig själv innan du klickar på raden. Att känna igen ett svar är
+      inte samma sak som att kunna det.</p>
+
+    <div class="tabellsvep">
+      <table class="facit" data-dolj="1">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Vad är ett gränssnitt?</td><td>Ett löfte om vilka metoder som finns, utan att säga hur de utförs. Klassen som står med <code>: IDittService</code> har lovat att hålla det.</td></tr>
+          <tr><td>Vilka tre saker behöver varje tjänst?</td><td>Gränssnittet, implementationen och registreringsraden i <code>Program.cs</code>. Den tredje är den som glöms.</td></tr>
+          <tr><td>Vad gör raden <code>AddScoped&lt;IDittService, DittService&gt;()</code>?</td><td>Säger: ber någon om <code>IDittService</code>, ge dem en <code>DittService</code>, och skapa en ny per förfrågan.</td></tr>
+          <tr><td>Varför ska komponenten injicera gränssnittet och inte klassen?</td><td>För att implementationen ska gå att byta utan att komponenten ändras. I område 5 byts hela tjänsten mot en som läser ur en databas.</td></tr>
+          <tr><td>Vad betyder <code>CS0535</code>?</td><td>Klassen har lovat att uppfylla ett gränssnitt men saknar en av metoderna. Kommer vid bygget.</td></tr>
+          <tr><td>När kommer felet "There is no registered service"?</td><td>När sidan öppnas. Bygget går igenom, servern startar – bara den sidan svarar 500.</td></tr>
+          <tr><td>Vad är skillnaden mellan transient, scoped och singleton?</td><td>Ett nytt objekt varje gång någon frågar; ett objekt per förfrågan; ett enda objekt för hela servern.</td></tr>
+          <tr><td>Vad omfattar ett <em>scope</em> vid statisk serverrendering?</td><td>En förfrågan. Laddar du om sidan är det ett nytt scope och ett nytt objekt – <b>inte</b> ett per besökare.</td></tr>
+          <tr><td>Varför går det inte att injicera en scoped tjänst i en singleton?</td><td>Singletonen lever tills servern startas om. Den scoped tjänsten upphör efter förfrågan, och singletonen hade hållit kvar en död referens för alltid. Servern startar inte.</td></tr>
+          <tr><td>Vad betyder att HTTP är tillståndslöst?</td><td>Servern minns ingenting mellan två förfrågningar. Varje förfrågan är den första den hört av besökaren.</td></tr>
+          <tr><td>Vad ligger i cookien när du använder session?</td><td>Bara nyckeln. Innehållet ligger på servern. Det är därför sessionen försvinner när servern startas om, men cookien finns kvar.</td></tr>
+          <tr><td>Vad händer om en samling registreras som singleton?</td><td>Alla besökare delar samma lista. Ingen krasch, inget felmeddelande – det syns bara i ett privat fönster eller när två personer använder sajten samtidigt.</td></tr>
+          <tr><td>Varför svarar tjänsten med <code>Task&lt;T&gt;</code> när den inte väntar på något?</td><td>För att databasen i område 5 kommer att kräva det. Skrivs metoderna synkrona nu måste varje anropande komponent skrivas om senare.</td></tr>
+          <tr><td>Var ska <code>try</code>/<code>catch</code> ligga, och varför?</td><td>I tjänsten. Komponenten vet inte vad ett register är och kan inte avgöra vad som är ett rimligt svar när det fattas. Låg det i komponenten måste varje sida upprepa samma felhantering.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Den bästa förberedelsen</span>
+      <p>Gör klart <a href="uppgift.html">inlämningen</a>. Provet frågar om exakt det du
+        bygger där – och den som skrivit sin egen livstidsmotivering behöver inte
+        plugga på den frågan.</p>
+      <p>Har du tid över: kör
+        <a href="ovningar-livstider.html#ov-65">övning 65</a> en gång till och titta på
+        siffrorna. Fyra av sexton frågor handlar om livstider.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Till uppgiften</a> ·
+        <a href="felsokning.html">Sex fel som flyttar sig</a> ·
+        <a href="guide.html">Till guiden</a> ·
+        <a href="index.html">Tillbaka till område 4</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

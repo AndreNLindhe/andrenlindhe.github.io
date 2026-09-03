@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Övning 51–56: gränssnitt och injektion</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o4-ovn-granssnitt">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Övning 51–56</strong> · Gränssnitt och injektion</span>
+  <a href="#avprickning">Avprickning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#tre-saker">Varje tjänst behöver tre saker</a></li>
+      <li><a href="#ov-51">51. Det första gränssnittet</a></li>
+      <li><a href="#ov-52">52. Felet när löftet inte hålls</a></li>
+      <li><a href="#ov-53">53. Tjänsten som svarar med Task</a></li>
+      <li><a href="#ov-54">54. En lista genom ett gränssnitt</a></li>
+      <li><a href="#ov-55">55. Byt implementation, ändra en rad</a></li>
+      <li><a href="#ov-56">56. När det inte finns något svar</a></li>
+      <li><a href="#avprickning">Avprickning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 4 · lektion 24</p>
+    <h1>Gränssnitt, implementation och injektion</h1>
+    <p class="inledning">Sex övningar om kedjan från löfte till renderad sida. Det är
+      samma sex steg varje gång, och när de sitter i fingrarna är resten av området
+      variationer på dem.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du passet?</span>
+      <p>Lektion 24 var områdets tyngsta genomgång. Så här tar du igen den, räkna med
+        drygt tre timmar:</p>
+      <ol>
+        <li>Läs <a href="guide.html#steg-1">guidens steg 1</a> först. Det innehåller
+          ingen ny kod och går ändå inte att hoppa över – det är där området får sitt
+          skäl.</li>
+        <li>Läs <a href="guide.html#steg-2">steg 2 till 7</a> och skriv av koden. Det
+          är genomgången i sin helhet: gränssnittet, implementationen, registreringen
+          och <code>@inject</code> i tre komponenter.</li>
+        <li>Gör samma sak i ditt eget projekt innan du går vidare. Övningarna nedan
+          tränar delarna, men det är din egen tjänst som lämnas in.</li>
+        <li>Lös övning 51 till 56, i ordning.</li>
+      </ol>
+      <p>Ha terminalen där <code>dotnet run</code> körs synlig bredvid webbläsaren.
+        Halva det här området syns bara där.</p>
+    </div>
+
+    <h2 id="tre-saker">Varje tjänst behöver tre saker</h2>
+    <p>Tjänsterna lägger du i <code>Services/Ovningar/</code>, sidorna i
+      <code>Components/Pages/Ovningar/</code>.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Var</th><th>Vad som händer om den glöms</th></tr></thead>
+        <tbody>
+          <tr><td><b>Gränssnittet</b></td><td><code>Services/Ovningar/IOvning51.cs</code></td><td>Bygget går igenom, men du har ingen abstraktion – bara en klass</td></tr>
+          <tr><td><b>Implementationen</b></td><td><code>Services/Ovningar/Ovning51.cs</code></td><td><code>CS0535</code> vid bygget om den inte håller löftet</td></tr>
+          <tr><td><b>Registreringen</b></td><td>En rad i <code>Program.cs</code></td><td>Bygget går igenom. Sidan svarar 500 när den öppnas</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Det tredje är det som glöms, och felet ser ut så här. Läs det en gång ordentligt
+      nu – du kommer att se det igen:</p>
+
+    <pre><code>InvalidOperationException: Cannot provide a value for property 'Tjanst'
+on type '...'. There is no registered service of type 'IOvning51'.</code></pre>
+
+    <p>Meddelandet är ovanligt hjälpsamt: det säger vilket <b>gränssnitt</b> som saknar
+      registrering, och vilken <b>egenskap</b> på vilken sida som frågade.</p>
+
+    <h2 id="ov-51">51. Det första gränssnittet</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: hela kedjan från gränssnitt till renderad sida</p>
+    <p>Gör tre saker:</p>
+    <ol>
+      <li><code>Services/Ovningar/IOvning51.cs</code> med en metod
+        <code>string Halsa(string namn)</code>.</li>
+      <li><code>Services/Ovningar/Ovning51.cs</code> som uppfyller gränssnittet och
+        svarar <code>"Hej, Anna!"</code> för <code>"Anna"</code>.</li>
+      <li>En rad i <code>Program.cs</code> som registrerar den som
+        <code>AddScoped</code>.</li>
+    </ol>
+    <p>Injicera den i en sida och visa resultatet.</p>
+    <p><b>Klart när:</b> sidan visar hälsningen, och sidan nämner <b>inte</b>
+      klassnamnet <code>Ovning51</code> – bara <code>IOvning51</code>.</p>
+
+    <h2 id="ov-52">52. Felet när löftet inte hålls</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>CS0535</code> och vad ett gränssnitt kräver</p>
+    <p>Lägg till en metod <code>int Antal()</code> i gränssnittet från övning 51.
+      <b>Implementera den inte.</b> Bygg.</p>
+    <p>Skriv av felmeddelandet. Implementera sedan metoden.</p>
+    <p><b>Klart när:</b> du kan säga vad <code>CS0535</code> betyder, och vad som
+      skiljer det från områdets andra fel.</p>
+
+    <div class="notis">
+      <span class="rubrik">Ett gränssnitt är ett löfte, inte ett förslag</span>
+      <p>Skriver du <code>: IOvning51</code> efter klassnamnet har du lovat att alla
+        metoder i gränssnittet finns. Kompilatorn kontrollerar löftet, och det är
+        därför just det här felet kommer redan vid bygget medan de flesta andra i
+        området kommer senare.</p>
+    </div>
+
+    <h2 id="ov-53">53. Tjänsten som svarar med <code>Task</code></h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>Task&lt;T&gt;</code>, <code>await</code>, <code>async Task</code></p>
+    <p>Gör <code>IOvning53</code> med <code>Task&lt;string&gt; HamtaAsync()</code>.
+      Implementationen svarar med <code>Task.FromResult("klart")</code>.</p>
+    <p>Anropa den från en sida med <code>await</code> i
+      <code>OnInitializedAsync</code>.</p>
+    <p><b>Klart när:</b> texten visas. Ta sedan bort <code>async</code> från
+      livscykelmetoden och läs felet innan du sätter tillbaka det.</p>
+
+    <h2 id="ov-54">54. En lista genom ett gränssnitt</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>Task&lt;List&lt;T&gt;&gt;</code> och rendering av svaret</p>
+    <p>Gör <code>IOvning54</code> med
+      <code>Task&lt;List&lt;string&gt;&gt; HamtaNamnAsync()</code>. Implementationen
+      har en hårdkodad lista med fyra namn.</p>
+    <p>Sidan hämtar listan och renderar den som en <code>&lt;ul&gt;</code>.</p>
+    <p><b>Klart när:</b> fyra punkter syns, och sidan innehåller ingen lista med namn
+      i sig.</p>
+
+    <h2 id="ov-55">55. Byt implementation, ändra en rad</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: varför beroendet ska gå mot gränssnittet</p>
+    <p>Gör en <b>andra</b> klass som uppfyller <code>IOvning54</code> – till exempel en
+      som svarar med namnen baklänges, eller med helt andra namn.</p>
+    <p>Byt implementation genom att ändra <b>en enda rad</b> i
+      <code>Program.cs</code>.</p>
+    <p><b>Klart när:</b> sidan visar den andra listan, och du inte rört sidan över
+      huvud taget.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det här är hela områdets poäng, på fem minuter</span>
+      <p>Övning 55 är den övning som är värd att göra även om du hoppar över alla
+        andra. Den ena raden du ändrade är exakt vad som händer i område 5, när
+        <code>DittService</code> byts mot <code>DittDatabasService</code> och läser ur
+        SQLite i stället.</p>
+      <p>Kom du på dig själv med att också behöva ändra i sidan? Då pekade sidan mot
+        klassen och inte mot gränssnittet. Det är övning 62.</p>
+    </div>
+
+    <h2 id="ov-56">56. När det inte finns något svar</h2>
+    <p class="ledtext"><b>Svår</b> · tränar: nullbar returtyp genom ett gränssnitt</p>
+    <p>Gör <code>IOvning56</code> med
+      <code>Task&lt;string?&gt; HamtaAsync(int id)</code> som svarar med ett namn för
+      id 1–3 och <code>null</code> för allt annat.</p>
+    <p>Sidan ska visa namnet om det finns och något vettigt om det inte gör det – utan
+      att krascha.</p>
+    <p><b>Klart när:</b> <code>/ovningar/56/2</code> visar ett namn och
+      <code>/ovningar/56/99</code> visar ditt meddelande. Ingen av dem svarar 500.</p>
+
+    <div class="notis">
+      <span class="rubrik">Frågetecknet är en del av löftet</span>
+      <p><code>Task&lt;string?&gt;</code> och <code>Task&lt;string&gt;</code> är två
+        olika löften. Det första säger till den som anropar: <em>det kan komma tillbaka
+        tomt, hantera det</em>. Det andra säger att det alltid finns ett svar.</p>
+      <p>Samma tanke återkommer i <a href="ovningar-async.html#ov-72">övning 72</a>,
+        där <code>int?</code> används för att säga <em>vet inte</em> i stället för att
+        ljuga med en nolla.</p>
+    </div>
+
+    <h2 id="avprickning">Avprickning</h2>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Lösta övningar i det här temat</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="gra-51"><span>51. Det första gränssnittet</span></label></li>
+        <li><label><input type="checkbox" id="gra-52"><span>52. Felet när löftet inte hålls</span></label></li>
+        <li><label><input type="checkbox" id="gra-53"><span>53. Tjänsten som svarar med <code>Task</code></span></label></li>
+        <li><label><input type="checkbox" id="gra-54"><span>54. En lista genom ett gränssnitt</span></label></li>
+        <li><label><input type="checkbox" id="gra-55"><span>55. Byt implementation, ändra en rad</span></label></li>
+        <li><label><input type="checkbox" id="gra-56"><span>56. När det inte finns något svar</span></label></li>
+      </ul>
+    </section>
+
+    <p>Övning 51, 55 och 56 är de tre som återkommer direkt i
+      <a href="uppgift.html">inlämningen</a>: kedjan, bytet och det tomma svaret. Gör
+      du bara tre, gör de tre.</p>
+
+    <footer class="fot">
+      <p><a href="ovningar-logik.html">Nästa tema: logiken lämnar komponenten</a> ·
+        <a href="guide.html">Till guiden</a> ·
+        <a href="index.html">Tillbaka till område 4</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

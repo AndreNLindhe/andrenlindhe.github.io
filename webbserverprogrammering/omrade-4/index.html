@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 4: tjänster, dependency injection och tillstånd</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o4-start">
+
+<header class="topp">
+  <a href="../index.html">← Webbserverprogrammering 1</a>
+  <span class="harifran"><strong>Område 4</strong> · Tjänster, dependency injection och tillstånd</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#lektioner">1. Åtta lektioner</a></li>
+      <li><a href="#kunna">2. Det här ska sitta</a></li>
+      <li><a href="#tidpunkter">3. Felen har fyra tidpunkter</a></li>
+      <li><a href="#igang">4. Kom igång</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+      <li><a href="#orden">6. Orden</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 4 · v.46–50</p>
+    <h1>Tjänster, dependency injection och tillstånd</h1>
+    <p class="inledning">Applikationen ser likadan ut när området är slut. Det är
+      avsikten. Skillnaden ligger i koden: ingen komponent vet längre var data kommer
+      ifrån, uträkningarna har flyttat, och den hårdkodade listan gömmer sig bakom ett
+      gränssnitt. Belöningen kommer i område 5, när databasen byts in bakom samma
+      gränssnitt utan att en enda komponent ändras.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-12-07">
+        <span class="nar">7 dec</span>
+        <span class="vad">Inlämning 4 – Tjänstelager och tillstånd, kl 23:59
+          <small>Repots adress lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-12-08">
+        <span class="nar">8 dec</span>
+        <span class="vad">Prov 3 – arkitektur och tjänster
+          <small>80 minuter, utan dator. Papper och penna.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="rutnat">
+      <a class="kort webb" href="guide.html">
+        <span class="sort">Guide · hela området</span>
+        <span class="rubrik">Filmarkivet, steg för steg</span>
+        <p>Sjutton steg med all kod, från problemet till felhanteringen. Följ den här
+          om du missat ett pass.</p>
+      </a>
+      <a class="kort webb" href="uppgift.html">
+        <span class="sort">Inlämning 4</span>
+        <span class="rubrik">Tjänstelager och tillstånd</span>
+        <p>Krav för E, C och A, med kryssrutor som sparas i din webbläsare.</p>
+      </a>
+      <a class="kort gran" href="ovningar-granssnitt.html">
+        <span class="sort">Övning 51–56 · lektion 24</span>
+        <span class="rubrik">Gränssnitt och injektion</span>
+        <p>Hela kedjan: gränssnittet, implementationen, raden i
+          <code>Program.cs</code> och <code>@inject</code>.</p>
+      </a>
+      <a class="kort gran" href="ovningar-logik.html">
+        <span class="sort">Övning 57–62 · lektion 25</span>
+        <span class="rubrik">Logiken lämnar komponenten</span>
+        <p>Konstruktorinjektion, tjänster som använder tjänster, och var gränsen mellan
+          <em>vilka</em> och <em>hur</em> går.</p>
+      </a>
+      <a class="kort gran" href="ovningar-livstider.html">
+        <span class="sort">Övning 63–69 · lektion 26–27</span>
+        <span class="rubrik">Livstider och tillstånd</span>
+        <p>Transient, scoped och singleton med egna siffror. Sedan session, och vad som
+          händer med en lista i en singleton.</p>
+      </a>
+      <a class="kort gran" href="ovningar-async.html">
+        <span class="sort">Övning 70–72 · lektion 28</span>
+        <span class="rubrik">Async, loggning och fel</span>
+        <p><code>Task</code> hela vägen, strukturerad loggning, och
+          <code>try</code>/<code>catch</code> på rätt nivå.</p>
+      </a>
+      <a class="kort gran" href="felsokning.html">
+        <span class="sort">Lektion 29 · självstudier</span>
+        <span class="rubrik">Sex fel som flyttar sig</span>
+        <p>Två stoppar bygget, två stoppar sidan, ett stoppar servern och ett säger
+          ingenting alls. Gissa innan du läser rättningen.</p>
+      </a>
+      <a class="kort webb" href="provet.html">
+        <span class="sort">Lektion 29–30</span>
+        <span class="rubrik">Vad provet prövar</span>
+        <p>Fördelningen över sexton frågor, tre provfrågor med kod, och fjorton
+          repetitionsfrågor att svara på innan du vänder på svaret.</p>
+      </a>
+    </div>
+
+    <h2 id="lektioner">1. Åtta lektioner</h2>
+    <p>Tisdagarna bär det nya, onsdagarna befäster. Kolumnen längst till höger säger
+      vad du gör om du var borta.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>#</th><th>Datum</th><th>Längd</th><th>Vad vi gör</th><th>Missade du passet?</th></tr></thead>
+        <tbody>
+          <tr><td>23</td><td>ons 11 nov</td><td>45 min</td>
+            <td>Varför data inte ska ligga i komponenten. Vad som händer när tre sidor
+              behöver samma lista, och orden för lagren.</td>
+            <td><a href="guide.html#steg-1">Guiden steg 1</a> och
+              <a href="guide.html#begrepp">begreppen</a></td></tr>
+          <tr><td>24</td><td>tis 17 nov</td><td>85 min</td>
+            <td>Tjänsteklasser och dependency injection. Gränssnitt, implementation,
+              registrering och <code>@inject</code>. Områdets tyngsta pass.</td>
+            <td><a href="guide.html#steg-2">Guiden steg 2–7</a>, sedan
+              <a href="ovningar-granssnitt.html">övning 51–56</a></td></tr>
+          <tr><td>25</td><td>ons 18 nov</td><td>45 min</td>
+            <td>Övningspass. Bryt ut en tjänst ur ditt eget projekt, med handledning.</td>
+            <td><a href="ovningar-logik.html">Övning 57–62</a></td></tr>
+          <tr><td>26</td><td>tis 24 nov</td><td>85 min</td>
+            <td>Livstider. Samma klass registrerad på tre sätt, sida vid sida på
+              <code>/livstider</code>.</td>
+            <td><a href="guide.html#steg-8">Guiden steg 8–10</a>, sedan
+              <a href="ovningar-livstider.html">övning 63–66</a></td></tr>
+          <tr><td>27</td><td>ons 25 nov</td><td>45 min</td>
+            <td>Tillstånd som överlever sidvisningar. HTTP minns ingenting, cookies,
+              session, och formuläret som lägger till.</td>
+            <td><a href="guide.html#steg-11">Guiden steg 11–14</a> och
+              <a href="ovningar-livstider.html#ov-67">övning 67–69</a></td></tr>
+          <tr><td>28</td><td>tis 1 dec</td><td>85 min</td>
+            <td>Asynkron kod, felhantering och loggning. <code>Task</code>,
+              <code>ILogger</code> och <code>try</code>/<code>catch</code> på rätt
+              nivå.</td>
+            <td><a href="guide.html#steg-15">Guiden steg 15–17</a>, sedan
+              <a href="ovningar-async.html">övning 70–72</a></td></tr>
+          <tr><td>29</td><td>ons 2 dec</td><td>45 min</td>
+            <td>Arbetspass och sista finputs. Gränssnitten granskas,
+              livstidsmotiveringen skrivs.</td>
+            <td><a href="uppgift.html">Kravlistan</a>,
+              <a href="guide.html#checklista">checklistan</a> och
+              <a href="felsokning.html">de sex felen</a></td></tr>
+          <tr><td>30</td><td>tis 8 dec</td><td>85 min</td>
+            <td>Prov 3. Skriftligt, 80 minuter, utan dator.</td>
+            <td>Går inte att ta igen på egen hand – anmäl frånvaron och gör
+              uppsamlingsprovet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kunna">2. Det här ska sitta</h2>
+    <ul>
+      <li>Du kan säga vad ett gränssnitt är och vad det lovar, utan att nämna någon
+        klass.</li>
+      <li>Du kan skriva ett gränssnitt, en implementation och registreringsraden – och
+        veta vilken av de tre som glömts när felmeddelandet kommer.</li>
+      <li>Du kan förklara varför <code>@inject IDittService</code> är rätt och
+        <code>@inject DittService</code> fel, även om båda hade fungerat.</li>
+      <li>Du kan dra gränsen mellan komponent och tjänst i given kod: väljer koden
+        <em>vilka</em> poster som visas hör den till tjänsten, bestämmer den
+        <em>hur</em> de ser ut hör den till komponenten.</li>
+      <li>Du kan säga vad transient, scoped och singleton betyder, och vad
+        <em>scoped</em> faktiskt omfattar vid statisk serverrendering.</li>
+      <li>Du kan välja livstid åt en given tjänst och motivera valet med vad som gått
+        fel om du valt något annat.</li>
+      <li>Du kan förklara varför HTTP är tillståndslöst, och vad en cookie innehåller
+        respektive inte innehåller.</li>
+      <li>Du kan säga varför ett <code>Task</code> finns i signaturen redan innan något
+        faktiskt väntar på något.</li>
+      <li>Du kan säga var <code>try</code>/<code>catch</code> hör hemma, och vad
+        skillnaden är mellan ett meddelande till användaren och en loggpost till
+        utvecklaren.</li>
+    </ul>
+
+    <h2 id="tidpunkter">3. Felen har fyra tidpunkter</h2>
+    <p>Det här är den enskilt viktigaste skillnaden mot område 3, och det är värt att
+      läsa två gånger.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Nu kan servern vägra starta</span>
+      <p>I område 3 lärde du dig att ett bygge som går igenom inte bevisar något –
+        felen kom när sidan öppnades. Här tillkommer <b>en tidpunkt till</b>:
+        registreringarna i <code>Program.cs</code> kontrolleras när servern startar. En
+        scoped tjänst i en singleton avbryter <code>dotnet run</code> innan servern
+        hunnit lyssna på en enda förfrågan.</p>
+      <p>Och en fjärde sort som är värre: felet som inte säger något alls.</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>När</th><th>Ser ut som</th><th>Exempel</th></tr></thead>
+        <tbody>
+          <tr><td><b>Bygget</b></td><td>Röd text i editorn, <code>dotnet build</code> misslyckas</td><td><code>CS0535</code>, <code>CS0542</code></td></tr>
+          <tr><td><b>Serverstarten</b></td><td>Bygget gick igenom. <code>dotnet run</code> avbryts</td><td>Scoped i singleton, <code>AddSession</code> utan cache</td></tr>
+          <tr><td><b>Sidvisningen</b></td><td>Servern kör. Just den sidan svarar 500</td><td>Oregistrerad tjänst, <code>UseSession</code> glömd</td></tr>
+          <tr><td><b>Aldrig</b></td><td>Allt fungerar. Beteendet är ändå fel</td><td>Samlingen i en singleton – alla besökare delar den</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Tre vanor som gör hela skillnaden i det här området:</p>
+
+    <ul>
+      <li><b>Starta servern efter varje ändring i <code>Program.cs</code>.</b> Bygget
+        säger ingenting om registreringar.</li>
+      <li><b>Läs terminalen där <code>dotnet run</code> körs.</b> Både startfelen och
+        loggraderna hamnar där, inte på skärmen.</li>
+      <li><b>Öppna ett privat fönster.</b> Det är den enda kontroll som avslöjar den
+        fjärde sorten, och den tar tio sekunder.</li>
+    </ul>
+
+    <p>De sex felen på <a href="felsokning.html">egen sida</a> tar ett av varje slag,
+      med rätt meddelande till varje.</p>
+
+    <h2 id="igang">4. Kom igång</h2>
+    <p>Du börjar inte om. Området bygger vidare på projektet från område 3.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Det du gör</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Öppna ditt projekt från område 3 och kontrollera att listsidan och detaljsidan fungerar med <code>dotnet run</code>.</td></tr>
+          <tr><td>2</td><td>Skapa mappen <code>Services/</code> bredvid <code>Components/</code> och <code>Models/</code>.</td></tr>
+          <tr><td>3</td><td>Fyll i högerkolumnen i <a href="guide.html#sjalv">guidens översättningstabell</a>. Vad heter ditt gränssnitt, dina metoder, din samling?</td></tr>
+          <tr><td>4</td><td>Bestäm vilken samling som ska överleva sidvisningar: önskelista, veckomeny, spellista. Den valde du redan när du valde domän.</td></tr>
+          <tr><td>5</td><td>Lämna den gamla datafilen kvar tills tjänsten fungerar. Radera den sedan – bygget blir din kontroll på att ingen sida smyger tillbaka.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Mappstrukturen du är på väg mot:</p>
+
+    <pre><code>DittProjekt/
+├── Components/
+│   ├── Pages/          sidorna – visar, beräknar inte
+│   └── Delade/         komponenterna från område 3
+├── Models/             dina klasser. Datafilen är borta här
+├── Services/
+│   ├── IDittService.cs     löftet
+│   ├── DittService.cs      klassen som håller det
+│   ├── IDinSamling.cs
+│   └── DinSamling.cs
+└── Program.cs          registreringarna</code></pre>
+
+    <p>Committa efter varje pass. Deadline är måndag 7 december, och den som committar
+      allt sista kvällen har en historik som inte visar något arbete.</p>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <p>Sök på felmeddelandet du fick, eller på ett ord ur det. Kolumnen <em>när</em>
+      säger om felet kommer vid bygget, vid serverstarten eller vid sidvisningen –
+      leta på rätt ställe.</p>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: registered service, scoped, session, CS0535" autocomplete="off">
+      <p class="traffar" id="traffar-fel">17 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>När</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td><code>CS0535: does not implement interface member</code></td><td>bygget</td><td>Klassen saknar en metod ur gränssnittet</td><td>Kopiera signaturen exakt, inklusive <code>Task&lt;&gt;</code>.</td></tr>
+          <tr><td><code>CS0542: member names cannot be the same as their enclosing type</code></td><td>bygget</td><td>Injektionsnamnet är samma som filnamnet</td><td>Döp om injektionen: <code>Arkivet</code>, inte <code>Filmer</code>, i <code>Filmer.razor</code>.</td></tr>
+          <tr><td><code>CS4032</code> eller <code>CS1061</code> kring <code>await</code></td><td>bygget</td><td>Metoden är inte <code>async</code>, eller returtypen är inte <code>Task</code></td><td><code>async Task</code> på metoden, <code>Task&lt;T&gt;</code> på tjänstens.</td></tr>
+          <tr><td><code>CS0246: The type or namespace name 'IDittService' could not be found</code></td><td>bygget</td><td><code>@using</code> saknas, eller namnrymden i filen stämmer inte med mappen</td><td>Lägg <code>@using DittProjekt.Services</code> i <code>_Imports.razor</code>.</td></tr>
+          <tr><td><code>Unable to resolve service for type 'IDistributedCache'</code></td><td>serverstart</td><td><code>AddSession()</code> utan cache</td><td>Lägg <code>builder.Services.AddDistributedMemoryCache();</code> före.</td></tr>
+          <tr><td><code>Cannot consume scoped service 'X' from singleton 'Y'</code></td><td>serverstart</td><td>En scoped tjänst injicerad i en singleton</td><td>Singletonen lever längre än scopet. Gör den scoped, eller be om tjänsten när den behövs.</td></tr>
+          <tr><td><code>Some services are not able to be constructed</code></td><td>serverstart</td><td>Samlingsfelet ovanför – läs det inre undantaget</td><td>Meddelandet du behöver står längst ned i högen, inte överst.</td></tr>
+          <tr><td><code>There is no registered service of type 'IDittService'</code></td><td>sidvisning</td><td>Tjänsten är inte registrerad</td><td>En <code>AddScoped</code>-rad saknas i <code>Program.cs</code>, eller ligger efter <code>builder.Build()</code>.</td></tr>
+          <tr><td><code>There is no registered service of type 'DittService'</code></td><td>sidvisning</td><td><code>@inject</code> mot <b>klassen</b> när registreringen gäller gränssnittet</td><td><code>@inject IDittService</code>. Klassnamnet ska bara stå i sin egen fil och på registreringsraden.</td></tr>
+          <tr><td><code>Session has not been configured for this application or request</code></td><td>sidvisning</td><td><code>app.UseSession()</code> saknas</td><td>Lägg till raden bland de övriga <code>app.Use</code>-raderna.</td></tr>
+          <tr><td><code>NullReferenceException</code> i tjänsten</td><td>sidvisning</td><td><code>HttpContext</code> är null utanför en förfrågan</td><td><code>_http.HttpContext?.Session</code> med frågetecken.</td></tr>
+          <tr><td>Sidan svarar <b>400</b> på formuläret</td><td>sidvisning</td><td><code>&lt;AntiforgeryToken /&gt;</code> saknas</td><td>Lägg den innanför <code>&lt;form&gt;</code>.</td></tr>
+          <tr><td>Formuläret gör ingenting</td><td>sidvisning</td><td><code>@formname</code> eller <code>@onsubmit</code> saknas</td><td>Båda behövs. Sidan visas om utan att metoden körts.</td></tr>
+          <tr><td><code>@onclick</code> på knappen</td><td>aldrig</td><td>Vanan från interaktiva ramverk</td><td>Ingenting händer, inget felmeddelande. Använd <code>&lt;form method="post"&gt;</code>.</td></tr>
+          <tr><td>Alla besökare ser samma lista</td><td>aldrig</td><td>Tjänsten är registrerad som singleton</td><td><code>AddScoped</code> plus session. Kontrollera i ett privat fönster.</td></tr>
+          <tr><td>Listan nollställs vid varje sidladdning</td><td>aldrig</td><td>Scoped, men värdet ligger i ett fält i stället för i session</td><td>Vid statisk serverrendering är ett scope <b>en förfrågan</b>. Lägg värdet i session.</td></tr>
+          <tr><td>Sidan skriver <code>System.Threading.Tasks.Task`1[…]</code></td><td>aldrig</td><td><code>await</code> saknas</td><td>Du renderade löftet i stället för svaret. <code>await</code> i en <code>async</code>-metod.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="orden">6. Orden</h2>
+    <p>Orden nedan används från och med nu utan förklaring. Träna tills du kan dem –
+      provet frågar efter flera av dem i klartext.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>lager</b></td><td>En nivå i applikationen med ett eget ansvar: visa, beräkna, lagra.</td></tr>
+          <tr><td><b>presentationslager</b></td><td>Komponenterna. Visar och tar emot – beräknar inte.</td></tr>
+          <tr><td><b>tjänst</b></td><td>En klass som gör arbetet: hämtar, räknar, sparar.</td></tr>
+          <tr><td><b>gränssnitt</b></td><td>Ett löfte om vilka metoder som finns, utan att säga hur de gör. <em>Interface</em>.</td></tr>
+          <tr><td><b>implementation</b></td><td>Klassen som uppfyller löftet.</td></tr>
+          <tr><td><b>dependency injection</b></td><td>Att be ramverket om en tjänst i stället för att skapa den själv med <code>new</code>.</td></tr>
+          <tr><td><b>registrering</b></td><td>Raden i <code>Program.cs</code> som säger vilken klass som svarar på ett gränssnitt.</td></tr>
+          <tr><td><b>konstruktorinjektion</b></td><td>Att ta emot sina beroenden som parametrar till konstruktorn.</td></tr>
+          <tr><td><b>@inject</b></td><td>Samma sak i en komponent. Pekar alltid mot gränssnittet, aldrig mot klassen.</td></tr>
+          <tr><td><b>livstid</b></td><td>Hur länge ett tjänsteobjekt lever. <em>Lifetime</em>.</td></tr>
+          <tr><td><b>transient</b></td><td>Nytt objekt varje gång någon ber om tjänsten.</td></tr>
+          <tr><td><b>scoped</b></td><td>Ett objekt per scope. Vid statisk serverrendering är ett scope <b>en förfrågan</b>.</td></tr>
+          <tr><td><b>singleton</b></td><td>Ett enda objekt för hela servern, delat av alla besökare tills servern startas om.</td></tr>
+          <tr><td><b>tillstånd</b></td><td>Data som ska finnas kvar mellan två sidvisningar. <em>State</em>.</td></tr>
+          <tr><td><b>tillståndslös</b></td><td>Att HTTP inte minns något mellan två förfrågningar. Varje förfrågan är den första.</td></tr>
+          <tr><td><b>cookie</b></td><td>En liten text webbläsaren skickar med varje förfrågan till samma sajt.</td></tr>
+          <tr><td><b>session</b></td><td>Serverns minne per besökare. Nyckeln till det ligger i en cookie.</td></tr>
+          <tr><td><b>antiforgery</b></td><td>Skydd mot att en annan sajt skickar ett formulär i besökarens namn.</td></tr>
+          <tr><td><b>Task&lt;T&gt;</b></td><td>Ett svar som kanske inte är färdigt än. Ett löfte, inte ett värde.</td></tr>
+          <tr><td><b>await</b></td><td>Vänta tills löftet är infriat, och ge mig innehållet. Kräver <code>async</code>.</td></tr>
+          <tr><td><b>ILogger</b></td><td>Tjänsten som skriver vad som hände, för utvecklaren – inte för användaren.</td></tr>
+          <tr><td><b>strukturerad loggning</b></td><td>Att skriva <code>{Id}</code> som parameter i stället för att baka in värdet i strängen. Gör loggen sökbar.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="guide.html">Till guiden</a> ·
+        <a href="uppgift.html">Till uppgiften</a> ·
+        <a href="felsokning.html">Sex fel som flyttar sig</a> ·
+        <a href="../index.html">Tillbaka till kursstarten</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

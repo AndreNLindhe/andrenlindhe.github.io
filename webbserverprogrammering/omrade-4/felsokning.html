@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sex fel som flyttar sig</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o4-felsokning">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Lektion 29</strong> · Sex fel som flyttar sig</span>
+  <a href="#poangen">Poängen</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#meddelandena">1. De sex meddelandena</a></li>
+      <li><a href="#fel-1">2. Fel 1 – tjänsten som aldrig registrerades</a></li>
+      <li><a href="#fel-2">3. Fel 2 – injektion mot klassen</a></li>
+      <li><a href="#fel-3">4. Fel 3 – namnet som krockar</a></li>
+      <li><a href="#fel-4">5. Fel 4 – löftet som inte hålls</a></li>
+      <li><a href="#fel-5">6. Fel 5 – scoped inuti en singleton</a></li>
+      <li><a href="#fel-6">7. Fel 6 – felet utan felmeddelande</a></li>
+      <li><a href="#poangen">8. Poängen</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 4 · lektion 29</p>
+    <h1>Sex fel som flyttar sig</h1>
+    <p class="inledning">Sex fel, tolv filer. Det som är nytt i det här området är
+      inte felen i sig – det är <b>när</b> de kommer. Två stoppar bygget, ett stoppar
+      servern innan den hunnit lyssna, två stoppar bara den sida du öppnade, och ett
+      stoppar ingenting alls. Det sista är det farligaste.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Svara innan du läser vidare</span>
+      <p>Orsakerna i tabellen nedan ligger dolda tills du klickar på raden. De är inte
+        värda mycket förrän du har ett eget svar att jämföra med – ge dig själv tre
+        minuter först.</p>
+      <p>Vill du köra koden: lägg <code>.cs</code>-filerna i
+        <code>Services/Fel/</code> och <code>.razor</code>-filerna i
+        <code>Components/Pages/</code>. Läs rutan vid varje fel om vad som ska
+        registreras. <b>Fel 3, 4 och 5 kan inte ligga i projektet samtidigt som de
+        andra</b> – de stoppar bygget eller servern, vilket är hela deras poäng.</p>
+    </div>
+
+    <h2 id="meddelandena">1. De sex meddelandena</h2>
+    <p>Klicka på en rad för att se orsaken. Meddelandena är avskrivna ur terminalen,
+      inte ur minnet.</p>
+
+    <div class="tabellsvep">
+      <table class="facit" data-dolj="1">
+        <thead><tr><th>Felmeddelandet</th><th>Orsaken</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>There is no registered service of type '…IReservation'.</code></td>
+            <td>Gränssnittet finns, klassen finns, men <code>Program.cs</code> har aldrig fått veta hur de hänger ihop. Det tredje steget glömdes.</td>
+          </tr>
+          <tr>
+            <td><code>There is no registered service of type '…Utlaning'.</code></td>
+            <td>Samma meddelande, men lägg märke till att <code>I</code> saknas i namnet. Sidan ber om <b>klassen</b>, och registreringen gäller gränssnittet.</td>
+          </tr>
+          <tr>
+            <td><code>CS0542: 'Fel3': member names cannot be the same as their enclosing type</code></td>
+            <td>Injektionsnamnet är samma som filnamnet. <code>Fel3.razor</code> blir klassen <code>Fel3</code>, och en klass får inte ha en medlem som heter som den själv.</td>
+          </tr>
+          <tr>
+            <td><code>CS0535: 'Fel4Utlaning' does not implement interface member 'IUtlaning.AntalUtlanade()'</code></td>
+            <td>Klassen har lovat att uppfylla gränssnittet men saknar en av metoderna. Ofta ett stavfel, eller en signatur som skiljer sig på returtypen.</td>
+          </tr>
+          <tr>
+            <td><code>Cannot consume scoped service '…IUtlaning' from singleton '…Fel5Tjanst'.</code></td>
+            <td>En singleton lever tills servern startas om. Den scoped tjänst den fick vid starten hade försvunnit direkt efter första förfrågan – och singletonen hade hållit kvar en död referens för alltid.</td>
+          </tr>
+          <tr>
+            <td><em>Inget meddelande alls.</em></td>
+            <td>Samlingen ligger i en singleton. Alla besökare delar samma lista, och det syns bara om två personer använder sajten samtidigt.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="fel-1">2. Fel 1 – tjänsten som aldrig registrerades</h2>
+    <p>Gränssnittet är skrivet:</p>
+
+    <!-- kod: exempel/felsokning/IReservation.cs -->
+    <pre><code class="sprak-csharp">namespace Filmarkivet.Services.Fel;
+
+// Gränssnittet finns, klassen finns – men ingen har registrerat dem i
+// Program.cs. Det är hela felet i Fel1.razor.
+public interface IReservation
+{
+    int AntalReserverade();
+}</code></pre>
+
+    <p>Klassen är skriven:</p>
+
+    <!-- kod: exempel/felsokning/Reservation.cs -->
+    <pre><code class="sprak-csharp">namespace Filmarkivet.Services.Fel;
+
+public class Reservation : IReservation
+{
+    public int AntalReserverade()
+    {
+        return 2;
+    }
+}</code></pre>
+
+    <p>Och sidan på <code>/fel-di/1</code> ber om den:</p>
+
+    <!-- kod: exempel/felsokning/Fel1.razor -->
+    <pre><code class="sprak-razor">@page "/fel-di/1"
+@inject Filmarkivet.Services.Fel.IReservation Reservationer
+
+&lt;h1&gt;Fel 1&lt;/h1&gt;
+
+&lt;p&gt;Antal reserverade: @Reservationer.AntalReserverade()&lt;/p&gt;</code></pre>
+
+    <p>Bygget ger noll fel och noll varningar. Servern startar. Sidan svarar
+      <b>500</b>, och terminalen säger:</p>
+
+    <pre><code>System.InvalidOperationException: Cannot provide a value for property
+'Reservationer' on type 'Filmarkivet.Components.Pages.Fel1'. There is no
+registered service of type 'Filmarkivet.Services.Fel.IReservation'.</code></pre>
+
+    <p><b>Rättningen:</b> en rad i <code>Program.cs</code>, före
+      <code>builder.Build()</code>:</p>
+
+    <pre><code class="sprak-csharp">builder.Services.AddScoped&lt;IReservation, Reservation&gt;();</code></pre>
+
+    <p>Meddelandet är ovanligt hjälpsamt. Det säger vilken <b>egenskap</b> på vilken
+      <b>sida</b> som frågade, och vilket <b>gränssnitt</b> som saknar svar. Tre
+      uppgifter, och alla tre behövs för att hitta raden som fattas.</p>
+
+    <h2 id="fel-2">3. Fel 2 – injektion mot klassen</h2>
+    <p>Här <em>finns</em> registreringen. Den ser ut så här:</p>
+
+    <pre><code class="sprak-csharp">builder.Services.AddScoped&lt;IUtlaning, Utlaning&gt;();</code></pre>
+
+    <p>Gränssnittet och klassen:</p>
+
+    <!-- kod: exempel/felsokning/IUtlaning.cs -->
+    <pre><code class="sprak-csharp">namespace Filmarkivet.Services.Fel;
+
+// Gränssnittet de sex felen kretsar kring. Håller sig med en enda metod, så
+// att felmeddelandena inte drunknar i kod som inte hör till saken.
+public interface IUtlaning
+{
+    int AntalUtlanade();
+}</code></pre>
+
+    <p>Och sidan på <code>/fel-di/2</code>:</p>
+
+    <!-- kod: exempel/felsokning/Fel2.razor -->
+    <pre><code class="sprak-razor">@page "/fel-di/2"
+@inject Filmarkivet.Services.Fel.Utlaning Tjanst
+
+&lt;h1&gt;Fel 2&lt;/h1&gt;
+
+&lt;p&gt;Antal utlånade: @Tjanst.AntalUtlanade()&lt;/p&gt;</code></pre>
+
+    <p>Terminalen säger nästan samma sak som förra gången:</p>
+
+    <pre><code>System.InvalidOperationException: Cannot provide a value for property
+'Tjanst' on type 'Filmarkivet.Components.Pages.Fel2'. There is no registered
+service of type 'Filmarkivet.Services.Fel.Utlaning'.</code></pre>
+
+    <p><b>Rättningen:</b> <code>@inject …IUtlaning Tjanst</code>. Ett tecken.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Läs sista ordet i meddelandet</span>
+      <p>Skillnaden mellan fel 1 och fel 2 är ett enda <code>I</code> långt inne i en
+        lång rad, och det är där hela informationen sitter. Saknas <code>I</code> är
+        det <b>inte</b> registreringen som fattas – det är sidan som frågar efter fel
+        sak.</p>
+      <p>Registreringen säger: <em>ber någon om <code>IUtlaning</code>, ge dem en
+        <code>Utlaning</code>.</em> Den säger ingenting om vad som händer om någon ber
+        om <code>Utlaning</code> direkt. Och det ska den inte heller – hela poängen är
+        att komponenterna inte ska känna till klassen.</p>
+    </div>
+
+    <h2 id="fel-3">4. Fel 3 – namnet som krockar</h2>
+    <p>Den här filen bygger inte. Lägg in den ensam, läs meddelandet, ta bort den
+      igen:</p>
+
+    <!-- kod: exempel/felsokning/Fel3.razor -->
+    <pre><code class="sprak-razor">@page "/fel-di/3"
+@inject Filmarkivet.Services.Fel.IUtlaning Fel3
+
+&lt;h1&gt;Fel 3&lt;/h1&gt;
+
+&lt;p&gt;Antal utlånade: @Fel3.AntalUtlanade()&lt;/p&gt;</code></pre>
+
+    <p><code>dotnet build</code> säger:</p>
+
+    <pre><code>Fel3.razor(2,44): error CS0542: 'Fel3': member names cannot be the
+same as their enclosing type</code></pre>
+
+    <p><b>Rättningen:</b> döp om injektionen. <code>Utlaningen</code>,
+      <code>Registret</code>, vad som helst utom <code>Fel3</code>.</p>
+
+    <p>Felet låter konstigt tills man vet att <code>Fel3.razor</code> blir en klass som
+      heter <code>Fel3</code>, och att <code>@inject … Fel3</code> gör en egenskap som
+      också heter <code>Fel3</code>. En klass får inte ha en medlem med sitt eget namn.
+      Det blir aktuellt i det här området eftersom du plötsligt namnger saker inuti
+      sidor – i område 3 gjorde du inte det.</p>
+
+    <div class="notis">
+      <span class="rubrik">Det här händer på riktigt</span>
+      <p>Den vanligaste varianten är en sida som heter <code>Filmer.razor</code> med
+        <code>@inject IFilmService Filmer</code>. Namnet ligger nära till hands just
+        för att sidan handlar om filmer.</p>
+      <p>Vanan som löser det: namnge injektionen efter <b>vad tjänsten är</b>, inte
+        efter vad sidan visar. <code>Arkivet</code>, inte <code>Filmer</code>.</p>
+    </div>
+
+    <h2 id="fel-4">5. Fel 4 – löftet som inte hålls</h2>
+    <p>Klassen säger sig uppfylla <code>IUtlaning</code>:</p>
+
+    <!-- kod: exempel/felsokning/Fel4.cs -->
+    <pre><code class="sprak-csharp">namespace Filmarkivet.Services.Fel;
+
+// Säger sig uppfylla gränssnittet, men metoden heter något annat.
+public class Fel4Utlaning : IUtlaning
+{
+    public int Antal()
+    {
+        return 3;
+    }
+}</code></pre>
+
+    <p><code>dotnet build</code> säger:</p>
+
+    <pre><code>Fel4.cs(4,29): error CS0535: 'Fel4Utlaning' does not implement
+interface member 'IUtlaning.AntalUtlanade()'</code></pre>
+
+    <p><b>Rättningen:</b> döp om <code>Antal</code> till <code>AntalUtlanade</code>, så
+      att signaturen stämmer exakt.</p>
+
+    <p>Meddelandet säger vilken metod som saknas, med full signatur. Det räcker nästan
+      alltid för att se vad som är fel – och de gånger det inte gör det är returtypen
+      inblandad: <code>int</code> och <code>Task&lt;int&gt;</code> är två olika
+      metoder, hur lika namnen än ser ut.</p>
+
+    <h2 id="fel-5">6. Fel 5 – scoped inuti en singleton</h2>
+    <p>Tjänsten i sig är oklanderlig:</p>
+
+    <!-- kod: exempel/felsokning/Fel5Tjanst.cs -->
+    <pre><code class="sprak-csharp">namespace Filmarkivet.Services.Fel;
+
+// Registreras som singleton och ber om en scoped tjänst i konstruktorn:
+// builder.Services.AddSingleton&lt;Fel5Tjanst&gt;();
+public class Fel5Tjanst
+{
+    private readonly IUtlaning _utlaning;
+
+    public Fel5Tjanst(IUtlaning utlaning)
+    {
+        _utlaning = utlaning;
+    }
+
+    public int Antal()
+    {
+        return _utlaning.AntalUtlanade();
+    }
+}</code></pre>
+
+    <p>Felet ligger inte i filen utan i <b>kombinationen av två rader</b> i
+      <code>Program.cs</code>:</p>
+
+    <pre><code class="sprak-csharp">builder.Services.AddScoped&lt;IUtlaning, Utlaning&gt;();
+builder.Services.AddSingleton&lt;Fel5Tjanst&gt;();</code></pre>
+
+    <p>Bygget ger noll fel. <code>dotnet run</code> avbryts innan servern hunnit lyssna
+      på en enda förfrågan:</p>
+
+    <pre><code>Unhandled exception. System.AggregateException: Some services are not
+able to be constructed (Error while validating the service descriptor
+'ServiceType: Filmarkivet.Services.Fel.Fel5Tjanst Lifetime: Singleton
+ImplementationType: Filmarkivet.Services.Fel.Fel5Tjanst': Cannot consume
+scoped service 'Filmarkivet.Services.Fel.IUtlaning' from singleton
+'Filmarkivet.Services.Fel.Fel5Tjanst'.)</code></pre>
+
+    <p><b>Rättningen:</b> gör <code>Fel5Tjanst</code> scoped, eller be om
+      <code>IUtlaning</code> när den behövs i stället för i konstruktorn.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Meddelandet du behöver står längst ned</span>
+      <p>Utskriften är lång och överst står <code>AggregateException</code>, som inte
+        säger något. Raden som betyder något är den <b>innersta</b>:
+        <em>Cannot consume scoped service X from singleton Y.</em> Leta efter den, inte
+        efter det första du ser.</p>
+      <p>Och lägg märke till varför det över huvud taget är ett fel: en singleton lever
+        tills servern startas om. Den scoped tjänst den fick vid starten hade upphört
+        att gälla efter första förfrågan – och singletonen hade hållit kvar den för
+        alltid. Ramverket stoppar dig innan det hinner bli en bugg.</p>
+    </div>
+
+    <h2 id="fel-6">7. Fel 6 – felet utan felmeddelande</h2>
+    <p>Registret:</p>
+
+    <!-- kod: exempel/felsokning/DelatRegister.cs -->
+    <pre><code class="sprak-csharp">namespace Filmarkivet.Services.Fel;
+
+// Registreras som singleton:
+// builder.Services.AddSingleton&lt;DelatRegister&gt;();
+//
+// Ett enda objekt för hela servern, och därför en enda lista för alla
+// besökare samtidigt. Koden är riktig. Livstiden är fel.
+public class DelatRegister
+{
+    private readonly List&lt;string&gt; _titlar = new();
+
+    public IReadOnlyList&lt;string&gt; Alla =&gt; _titlar;
+
+    public void LaggTill()
+    {
+        _titlar.Add($"Film nr {_titlar.Count + 1}");
+    }
+}</code></pre>
+
+    <p>Och sidan:</p>
+
+    <!-- kod: exempel/felsokning/Fel6.razor -->
+    <pre><code class="sprak-razor">@page "/fel-di/6"
+@inject Filmarkivet.Services.Fel.DelatRegister Registret
+
+&lt;h1&gt;Fel 6&lt;/h1&gt;
+
+&lt;p&gt;Din lista:&lt;/p&gt;
+
+&lt;ul&gt;
+    @foreach (var titel in Registret.Alla)
+    {
+        &lt;li&gt;@titel&lt;/li&gt;
+    }
+&lt;/ul&gt;
+
+&lt;form method="post" @formname="lagg-till" @onsubmit="LaggTill"&gt;
+    &lt;AntiforgeryToken /&gt;
+    &lt;button type="submit"&gt;Lägg till en film&lt;/button&gt;
+&lt;/form&gt;
+
+@code {
+    private void LaggTill()
+    {
+        Registret.LaggTill();
+    }
+}</code></pre>
+
+    <p>Bygget går igenom. Servern startar. Sidan fungerar. Terminalen är tyst.</p>
+
+    <p>Gör så här:</p>
+    <ol>
+      <li>Öppna <code>/fel-di/6</code> och tryck på knappen två gånger. Två rader.</li>
+      <li>Öppna samma adress i ett <b>privat fönster</b>.</li>
+    </ol>
+
+    <p>Båda raderna står där. Du ser någon annans lista, och de ser din.</p>
+
+    <p><b>Rättningen:</b> <code>AddScoped</code> i stället för
+      <code>AddSingleton</code> – och eftersom ett scope är en enda förfrågan behöver
+      listan dessutom lagras i <b>session</b> för att överleva till nästa sidvisning.
+      Det är precis vad <code>Visningslista</code> gör i
+      <a href="guide.html#steg-13">guidens steg 13</a>.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Det här är det enda av de sex du kan lämna in av misstag</span>
+      <p>De fem andra tvingar dig att göra något. Det här gör ingenting förrän någon
+        annan än du använder sajten – och det gör aldrig någon medan du utvecklar
+        ensam på din egen dator.</p>
+      <p>Kontrollen är tio sekunder i ett privat fönster, och den står som ett eget
+        krav i <a href="uppgift.html#bor">inlämningen</a> just därför.</p>
+    </div>
+
+    <h2 id="poangen">8. Poängen</h2>
+    <p>Ordningen är inte slumpmässig. Läs den nedifrån och upp:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fel</th><th>Upptäcks av</th><th>Kostar dig</th></tr></thead>
+        <tbody>
+          <tr><td>3 och 4</td><td>Kompilatorn</td><td>En minut. Meddelandet säger vad som är fel</td></tr>
+          <tr><td>5</td><td>Serverstarten</td><td>Några minuter. Meddelandet är långt men det står där</td></tr>
+          <tr><td>1 och 2</td><td>Sidan du öppnade</td><td>Så lång tid det tar innan du öppnar just den sidan</td></tr>
+          <tr><td>6</td><td>En annan människa</td><td>Kan vara i produktion</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Frågan att landa i:</p>
+
+    <blockquote>
+      <p>Vilket av de sex felen är farligast? Och varför är det inte det som ser
+        värst ut?</p>
+    </blockquote>
+
+    <p>Fel 5 ser mest dramatiskt ut – servern startar inte, utskriften är en vägg av
+      text. Men det stoppar dig direkt och kostar ingenting. Fel 6 ser inte ut som
+      något alls, och är det enda som kan gå obemärkt hela vägen ut till riktiga
+      besökare.</p>
+
+    <p>Det är därför två vanor är värda mer än resten i det här området:</p>
+
+    <blockquote>
+      <p>Ändrat något i <code>Program.cs</code>? <b>Starta om servern.</b><br>
+        Byggt något som håller data? <b>Öppna ett privat fönster.</b></p>
+    </blockquote>
+
+    <footer class="fot">
+      <p><a href="provet.html">Vad provet prövar</a> ·
+        <a href="index.html#felsokning">Hela felsökningstabellen</a> ·
+        <a href="guide.html#fel">Guidens felavsnitt</a> ·
+        <a href="index.html">Tillbaka till område 4</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

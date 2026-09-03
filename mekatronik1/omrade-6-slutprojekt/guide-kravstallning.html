@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kravställning och planering – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o6-kravstallning">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Kravställning och planering</strong> · område 6</span>
+  <a href="index.html">Område 6</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 6 · lektion 29</p>
+    <h1>Kravställning och planering</h1>
+    <p class="inledning">I bygge 1 till 4 skrev jag vad systemet skulle göra, och
+      du byggde det. Nu skriver du den meningen själv, och den är svårare än den
+      ser ut. Ett krav som inte går att pricka av är inget krav, och ett projekt
+      som inte får plats på sju pass blir inte klart hur bra idén än var. Den här
+      guiden handlar om båda felen.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan skriva ett krav som går att pricka av — med en storhet, ett tal
+        och en enhet — och se skillnaden mot en avsiktsförklaring.</li>
+      <li>Du kan avgöra om en idé håller som mekatroniskt system, genom att pröva
+        den mot de tre delarna och mot kedjan sensor–styrenhet–aktuator.</li>
+      <li>Du kan förklara vad "komplext system" betyder i betygskriterierna, och
+        varför det handlar om din beskrivning av systemet.</li>
+      <li>Du kan lägga en tidsplan över områdets sju arbetspass som har marginal
+        för att något går sönder.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Ett krav är något du kan bli underkänd på</h3>
+    <p>Det är hela testet. Ett krav som du omöjligt kan misslyckas med är en
+      önskan, och en önskan hjälper dig inte att veta när du är klar. Jämför de
+      två raderna:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Inte ett krav</th><th>Ett krav</th><th>Vad skillnaden är</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Luckan ska öppnas snabbt.</td>
+            <td>Luckan ska nå fullt öppet läge inom 2 sekunder från att givaren
+              löst ut.</td>
+            <td>Ett tal och en enhet, och en tydlig start- och slutpunkt att mäta
+              mellan.</td>
+          </tr>
+          <tr>
+            <td>Hissen ska orka lyfta en last.</td>
+            <td>Hissen ska lyfta 300 g 20 cm utan att varvtalet sjunker mer än
+              hälften.</td>
+            <td>Lasten är angiven, sträckan är angiven, och det finns ett villkor
+              som säger vad "orka" betyder.</td>
+          </tr>
+          <tr>
+            <td>Systemet ska vara pålitligt.</td>
+            <td>Systemet ska klara 20 cykler i rad utan att fastna eller behöva
+              startas om.</td>
+            <td>Går att prova på tio minuter, och du vet efteråt om det gick.</td>
+          </tr>
+          <tr>
+            <td>Temperaturmätningen ska vara noggrann.</td>
+            <td>Visad temperatur ska ligga inom ±2 °C mot en referenstermometer i
+              intervallet 15–35 °C.</td>
+            <td>Både felet och intervallet är angivna — annars är noggrannheten
+              ett påstående.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Högerkolumnen har en egenskap till som är värd att lägga märke till:
+      <strong>varje krav pekar ut en mätning</strong>. Det är ingen slump. Kraven
+      du skriver nu är samma lista du bockar av i din dokumentation i slutet av
+      maj, och samma lista jag går igenom på redovisningen.</p>
+
+    <h3 id="komplext">Vad "komplext system" betyder i kriteriernas mening</h3>
+    <p>Ordet står på ett enda ställe i betygskriterierna, i förmåga F4: på E ska
+      du översiktligt beskriva uppbyggnaden av <em>ett enkelt</em> mekatroniskt
+      system, på A utförligt och nyanserat beskriva uppbyggnaden av <em>ett
+      komplext</em>. Två saker följer av det, och båda missas ofta:</p>
+    <p class="notis"><span class="rubrik">Komplext handlar om beskrivningen, inte om byggtiden</span>
+      F4 är förmågan att <strong>beskriva</strong>. Ett system kan vara jobbigt att
+      bygga — trettio lödningar, en trasslig mekanik — utan att det finns särskilt
+      mycket att beskriva. Och tvärtom: ett system med få delar kan vara komplext
+      om delarna påverkar varandra. Det är samspelet som är komplexiteten, inte
+      antalet timmar.</p>
+    <p>Det som gör ett system komplext att beskriva är i praktiken fyra saker:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad som ökar komplexiteten</th><th>Enkelt system</th><th>Komplext system</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Antalet storheter som samverkar i ett beslut</strong></td>
+            <td>Ljusnivån ensam bestämmer om motorn går.</td>
+            <td>Ljusnivån och tiden sedan förra rörelsen och ändläget bestämmer
+              tillsammans.</td>
+          </tr>
+          <tr>
+            <td><strong>Om systemet minns något</strong></td>
+            <td>Utsignalen följer insignalen. Systemet har inget tillstånd.</td>
+            <td>Systemet har lägen — vilande, öppnar, öppet, stänger — och samma
+              insignal betyder olika saker i olika lägen.</td>
+          </tr>
+          <tr>
+            <td><strong>Energiomvandlingen</strong></td>
+            <td>En lysdiod eller ett servo som rör sig obelastat.</td>
+            <td>En motor som ska orka en last, med en utväxling som är räknad och
+              en strömbudget som håller.</td>
+          </tr>
+          <tr>
+            <td><strong>Vad som händer när något går fel</strong></td>
+            <td>Inget särskilt. Det som händer, händer.</td>
+            <td>Systemet upptäcker att rörelsen inte blev av, går till ett säkert
+              läge och säger ifrån.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Den fjärde raden är den som oftast saknas, och den är billigast att lägga
+      till: en tidsgräns som säger "om ändläget inte nåtts inom 4 sekunder, stanna
+      motorn och tänd en lampa" är tio rader kod och lyfter både systemet och det
+      du har att skriva om det. Mönstret är samma tillståndsmaskin som i
+      <a href="../omrade-3-logik-och-tillstand/guide-tillstand.html">tillståndsguiden</a>,
+      med ett läge till.</p>
+
+    <h3>Kravställ baklänges</h3>
+    <p>Nybörjarordningen är att välja komponenter först och se efteråt vad de
+      klarar. Den ordningen ger ett system som gör ungefär något. Rätt ordning går
+      åt andra hållet, precis som utväxlingsräkningen i
+      <a href="../omrade-5-drivning/guide-utvaxling-och-kraft.html#genomgang">område 5</a>:</p>
+    <ol>
+      <li><strong>Vad ska hända i världen?</strong> "En lucka på 15 × 20 cm ska
+        öppnas när det blir mörkt."</li>
+      <li><strong>Vilka tal följer av det?</strong> Luckan väger 40 g, gångjärnet
+        sitter 8 cm från tyngdpunkten, alltså behövs ungefär
+        <code>0,040 · 9,82 · 0,08 ≈ 0,031 N·m</code> plus marginal för friktion.</li>
+      <li><strong>Vilken aktuator klarar talet?</strong> Ett standardservo lämnar
+        omkring 0,15 N·m, alltså räcker det med marginal. En liten likströmsmotor
+        utan växel gör det inte.</li>
+      <li><strong>Vad krävs runt aktuatorn?</strong> Servot drar mer än en pinne
+        får lämna under rörelsen, så matningen ska räknas — se
+        <a href="../omrade-2-styrenheten/guide-servot.html">servoguiden</a>.</li>
+      <li><strong>Vilken givare avgör?</strong> En LDR i spänningsdelare, med en
+        tröskel du kalibrerar och ett mellanrum mellan att öppna och att stänga så
+        att luckan inte darrar i skymningen.</li>
+    </ol>
+    <p>Fem steg, och du har både en materiallista och halva dokumentationen skriven
+      innan du rört en enda komponent. Det är därför lektion 30 är ett ritpass och
+      inte ett byggpass.</p>
+
+    <h3>Tidsplanen: sju pass och två veckor hemma</h3>
+    <p>Det här är den plan jag räknar med, och den du ska ha en egen version av
+      efter lektion 29. Passen är 85 minuter, varav de första 15 går till
+      samråd — alltså 70 minuter effektivt.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Vad som ska vara klart när passet slutar</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Lektion 29</strong> · 15 april</td><td>Godkänd idé, en mening om vad systemet ska göra, och de första fem kraven.</td></tr>
+          <tr><td><strong>Lektion 30</strong> · 22 april</td><td>Blockschema, kopplingsschema, materiallista och pinnbudget. Inget byggt.</td></tr>
+          <tr><td><strong>Lektion 31</strong> · 29 april</td><td>Varje delsystem provat <em>för sig</em>: givaren läser, aktuatorn rör sig, mekaniken går runt för hand.</td></tr>
+          <tr><td colspan="2"><em>Två veckor hemma. Kristi himmelsfärd den 6 maj. Här ska delarna bli ett system.</em></td></tr>
+          <tr><td><strong>Lektion 32</strong> · 13 maj</td><td>Hela kedjan hänger ihop och gör något — även om det gör fel saker.</td></tr>
+          <tr><td><strong>Lektion 33</strong> · 20 maj</td><td>Kraven prickade av ett i taget, med mätvärden. De som inte går igenom är kända.</td></tr>
+          <tr><td><strong>Lektion 34</strong> · 27 maj</td><td>Dokumentationen skriven så långt det går. Bara resultatdelen kvar.</td></tr>
+          <tr><td><strong>Lektion 35</strong> · 3 juni</td><td>Redovisning. Dokumentationen inlämnad.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="notis varna"><span class="rubrik">Planera för att något går sönder</span>
+      Något kommer att gå sönder, kärva eller inte fungera som det ska. Det är
+      inte otur, det är hur konstruktion fungerar, och det är en av sakerna som
+      bedöms. <strong>Lägg din egen sluttid en vecka före min</strong> — sikta på
+      att vara klar den 20 maj, inte den 3 juni. Den veckans marginal är skillnaden
+      mellan ett system du hinner mäta på och ett du hinner klistra ihop.</p>
+
+    <h3>Hur stort får projektet vara?</h3>
+    <p>Sju arbetspass låter mycket och är det inte. Räkna 70 effektiva minuter per
+      pass, alltså drygt åtta timmar lärarledd tid, plus det du gör hemma. En
+      rimlig storlek är <strong>ungefär som bygge 4, plus ett tillstånd och ett
+      felfall</strong>. Det räcker gott för A — komplexitet kommer av samspel, inte
+      av omfång.</p>
+    <p>Två tecken på att en idé är för stor: den kräver en komponent du inte har
+      och måste beställa, eller den innehåller ordet "och" mellan två system som
+      båda är hela projekt. Två tecken på att den är för liten: alla tre delarna
+      finns inte, eller du kan beskriva hela systemet i en enda mening utan att
+      nämna ett tillstånd.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <h3>Industrin: kravspecifikationen är kontraktet</h3>
+    <p>När ett företag beställer en monteringscell av en maskinleverantör är
+      kravspecifikationen det juridiskt bindande dokumentet. Där står tal som
+      <em>cykeltid högst 4,0 sekunder per detalj</em>, <em>positionsnoggrannhet
+      ±0,05 mm</em>, <em>tillgänglighet minst 98 procent över en åttatimmarsvecka</em>
+      och <em>nödstopp ska ha fört alla rörelser till stillestånd inom 0,5
+      sekunder</em>. Vid leveransen görs ett acceptanstest där varje sådan rad
+      provas i tur och ordning, och maskinen betalas inte förrän raderna går
+      igenom. Ingen diskuterar då vad "snabb nog" betyder — det bestämdes när
+      kravet skrevs, ofta ett år tidigare.</p>
+
+    <h3>Vardagen: den som köper en robotgräsklippare kravställer också</h3>
+    <p>Samma tänkande, tusen gånger mindre pengar. Tomten är 800 m², den brantaste
+      slänten lutar 25 procent, och det finns en passage mellan huset och häcken
+      som är 60 cm bred. De tre talen avgör vilken maskin som duger, och de kan
+      läsas rakt av mot databladen i butiken. Den som i stället går in och säger
+      "jag vill ha en bra gräsklippare" får den som säljaren tjänar mest på, och
+      upptäcker i juli att den inte klarar slänten. Skillnaden mot industrifallet
+      är beloppet och att ingen skriver under något — men felet är exakt detsamma
+      som i ett slutprojekt utan tal i kravlistan: du märker att kravet saknades
+      först när det inte är uppfyllt.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li><strong>Skriv tre idéer, inte en.</strong> En mening var. Den första
+        idén är sällan den bästa, och du behöver något att jämföra med när jag
+        frågar varför du valde som du gjorde.</li>
+      <li><strong>Pröva var och en mot de tre delarna.</strong> Peka på den
+        mekaniska strukturen, elektrotekniken och styrtekniken i idén. Faller
+        någon del bort är idén inte klar — den är inte nödvändigtvis dålig.</li>
+      <li><strong>Pröva mot kedjan.</strong> Vad mäter systemet? Vilken storhet, med
+        vilken givare? Kan du inte svara är din insignal en knapp, och då är det
+        ett reglage.</li>
+      <li><strong>Skriv den enda meningen.</strong> "Systemet ska …" på en rad,
+        utan "och sedan". Klarar du inte det är projektet två projekt.</li>
+      <li><strong>Bryt ned meningen i fem till åtta krav med tal och enhet.</strong>
+        Skriv efter varje krav hur du tänker mäta att det är uppfyllt. Kan du inte
+        skriva mätningen är kravet fortfarande en önskan.</li>
+      <li><strong>Räkna baklänges på det tyngsta talet.</strong> Vad ska
+        aktuatorn orka, hur fort, mot vilken last? Kontrollera att den aktuator du
+        tänkt använda klarar det med marginal, innan du bestämmer dig.</li>
+      <li><strong>Lägg din tidsplan</strong> i tabellen ovan, med din egen sluttid
+        en vecka före min. Skriv ut vad som ska vara klart efter varje pass.</li>
+      <li><strong>Fyll i <a href="../samradsunderlag.html">samrådsunderlaget</a></strong>
+        med den idé du valt och den fråga du är mest osäker på. Den frågan är vad
+        vi använder de sista 25 minuterna på lektion 29 till.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>"Fläkten ska starta när det blir för varmt." Varför är det inte
+        ett krav, och hur gör du om det?</summary>
+      <p>Det saknas tal och det saknas mätning: <em>för varmt</em> är inte en
+        temperatur, och <em>starta</em> säger inget om hur fort eller hur länge.
+        En användbar version: "Fläkten ska gå på full effekt inom 3 sekunder efter
+        att den uppmätta temperaturen passerat 28 °C, och stanna först när den
+        sjunkit under 25 °C." Nu finns två trösklar — vilket dessutom löser
+        darrandet vid gränsen — en tidsgräns, och en mätning som visar om kravet
+        är uppfyllt.</p>
+    </details>
+
+    <details>
+      <summary>Två elever har samma idé: en lucka som öppnas när det blir mörkt.
+        Den ena får A på F4 och den andra E. Vad kan skilja dem åt?</summary>
+      <p>Inte idén — beskrivningen och det som finns att beskriva. E-versionen
+        läser en LDR och skriver till ett servo: en insignal, en utsignal, inget
+        tillstånd, ingen felhantering. A-versionen har lägen (stängd, öppnar,
+        öppen, stänger), en tröskel med mellanrum så att skymningen inte får luckan
+        att fladdra, en tidsgräns som stannar servot om ändläget inte nåtts, och en
+        räknad strömbudget för matningen. Sedan beskriver den eleven <em>varför</em>
+        varje sådant val gjordes och vad alternativet hade kostat. Det är
+        skillnaden mellan att berätta vad systemet gör och att förklara hur det är
+        uppbyggt.</p>
+    </details>
+
+    <details>
+      <summary>Din idé kräver en komponent du inte har hemma. Vad gör du?</summary>
+      <p>Byter idé, eller byter komponent. En beställning som inte kommit fram den
+        29 april tar två av sju pass ifrån dig, och det finns ingen tid att ta
+        igen. Fråga i stället vad du kan lösa med det som finns i kitet: nästan
+        varje idé har en variant som går att bygga med en LDR, en NTC, en
+        potentiometer, en HC-SR04, ett servo eller en likströmsmotor med drivkrets.
+        Att välja bort en lösning på grund av en verklig begränsning, och kunna
+        motivera bytet, är något som räknas i F1 och F5 — inte något som drar
+        ned.</p>
+    </details>
+
+    <details>
+      <summary>Varför lägger jag ritpasset (lektion 30) före byggpassen, när alla
+        hellre vill börja bygga?</summary>
+      <p>Därför att felen som kostar mest är konstruktionsfel, och de blir dyrare
+        ju senare de upptäcks. Ett hål borrat på fel ställe är fem minuters
+        ritande som blev en halv kväll med en ny platta. Schemat är dessutom ett
+        av de bedömda underlagen — F2 handlar om att använda ritningar, och en
+        ritning som gjordes i efterhand som en beskrivning av det du redan byggt
+        är inte en ritning, utan en teckning.</p>
+    </details>
+
+    <details>
+      <summary>Räcker det med att systemet uppfyller kraven för att få A?</summary>
+      <p>Nej, och det är den vanligaste missuppfattningen om kursen. F1 är bara en
+        av fem förmågor. F3 handlar om dokumentationens grad, F4 om hur du
+        beskriver uppbyggnaden, F2 om ritningar och samarbete, F5 om hur du bedömer
+        din egen förmåga vid samråd. Ett system som gör allt du lovat, beskrivet på
+        en halv sida, ligger på E i F3 och F4 oavsett hur väl det fungerar. Det
+        omvända går inte heller: du kan inte skriva dig till en mekanism som
+        orkar.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Kravlistan skrevs efter bygget.</strong> Den syns direkt: alla
+        krav är uppfyllda, ingen är på gränsen, och inget står som "uppfylldes
+        inte". En kravlista som du inte kunde misslyckas med har inte styrt något
+        arbete.</li>
+      <li><strong>Idén är två projekt med ett "och" emellan.</strong> "En
+        väderstation och en bevattning." Var för sig hinns de med, tillsammans blir
+        ingetdera klart. Välj det ena och gör det ordentligt.</li>
+      <li><strong>Insignalen är en knapp.</strong> Då saknas sensorn, och därmed
+        kedjan som det centrala innehållet kräver. En knapp får finnas — som start,
+        stopp eller kvittering — men något annat ska mäta.</li>
+      <li><strong>Mekaniken är en tanke, inte en konstruktion.</strong> "Servot
+        sitter fast i lådan" är inte mekanisk struktur förrän du vet vad som håller
+        det fast och vilken kraft fästet ska ta.</li>
+      <li><strong>Komponenter valdes före tal.</strong> Motorn låg i lådan, alltså
+        används den, och sedan visar det sig att den inte orkar. Räkna först, välj
+        sedan.</li>
+      <li><strong>Tidsplanen har ingen marginal.</strong> Den som planerat att bli
+        klar sista passet blir inte klar. Fel uppstår alltid, och de uppstår sent.</li>
+      <li><strong>Projektet valdes för att det verkade svårt.</strong> Svårighet är
+        inte komplexitet. Ett trassligt bygge du inte hinner beskriva ger sämre
+        belägg än ett lagom bygge du kan förklara varje val i.</li>
+      <li><strong>Ingen frågade vad som händer när det går fel.</strong> Vad gör
+        systemet om givaren är lös, om rörelsen hindras, om strömmen tar slut mitt
+        i? Ett svar på den frågan lyfter både bygget och dokumentationen, och
+        kostar nästan ingenting.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Guiden innehåller ingen ny kod. Behöver du frisk upp tillståndsmaskinen som
+      nämns under komplexitet ligger den i
+      <a href="../omrade-3-logik-och-tillstand/guide-tillstand.html">Tillstånd</a>,
+      och mönstret för att göra något efter en viss tid utan att blockera loopen i
+      <a href="../sprakreferens.html#tid">språkreferensens kapitel om tid</a>.</p>
+    <p>Nästa sida är <a href="bygge-5-eget-system.html">Bygge 5 – eget
+      mekatroniskt system</a>, där ramen och kraven på tre nivåer står. Läs den
+      innan du bestämmer dig för idé. När idén är godkänd fortsätter du med
+      <a href="guide-konstruktion-och-schema.html">Konstruktion och schema</a>,
+      som är lektion 30.</p>
+    <p>Tillbaka till <a href="index.html">område 6</a> eller till
+      <a href="../index.html">kursens material</a>.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 6</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

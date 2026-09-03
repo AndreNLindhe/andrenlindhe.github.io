@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide: Filmarkivet – tjänster, dependency injection och tillstånd</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o4-guide">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Guide</strong> · Filmarkivet</span>
+  <a href="#fel">När något går fel</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#bygger">Vad du bygger här</a></li>
+      <li><a href="#sjalv">Vad du ska göra själv efteråt</a></li>
+      <li><a href="#innan">Innan du börjar</a></li>
+      <li><a href="#begrepp">Begreppen i det här momentet</a></li>
+      <li><a href="#steg-1">Steg 1 – Problemet</a></li>
+      <li><a href="#steg-2">Steg 2 – Gränssnittet</a></li>
+      <li><a href="#steg-3">Steg 3 – Implementationen</a></li>
+      <li><a href="#steg-4">Steg 4 – Registreringen</a></li>
+      <li><a href="#steg-5">Steg 5 – Injektionen</a></li>
+      <li><a href="#steg-6">Steg 6 – Resten av komponenterna, och `Filmdata` försvinner</a></li>
+      <li><a href="#steg-7">Steg 7 – Statistiken flyttar in i tjänsten</a></li>
+      <li><a href="#steg-8">Steg 8 – Tre livstider</a></li>
+      <li><a href="#steg-9">Steg 9 – Vad tabellen visar</a></li>
+      <li><a href="#steg-10">Steg 10 – Att välja livstid</a></li>
+      <li><a href="#steg-11">Steg 11 – HTTP minns ingenting</a></li>
+      <li><a href="#steg-12">Steg 12 – Session och cookien</a></li>
+      <li><a href="#steg-13">Steg 13 – Samlingen som tjänst</a></li>
+      <li><a href="#steg-14">Steg 14 – Formuläret som lägger till</a></li>
+      <li><a href="#steg-15">Steg 15 – Varför tjänsten svarar med `Task`</a></li>
+      <li><a href="#steg-16">Steg 16 – Loggning</a></li>
+      <li><a href="#steg-17">Steg 17 – Felhantering på rätt nivå</a></li>
+      <li><a href="#fel">När något går fel</a></li>
+      <li><a href="#missa">Det som är lätt att missa när du gör det själv</a></li>
+      <li><a href="#checklista">Checklista</a></li>
+      <li><a href="#mer">Vill du mer</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 4 · guide</p>
+    <h1>Filmarkivet – tjänster, dependency injection och tillstånd</h1>
+    <p class="inledning">Sjutton steg som flyttar all logik ut ur komponenterna.
+      Applikationen ser likadan ut när du är klar – det är avsikten. Skillnaden syns
+      bara i koden: ingen komponent vet längre var filmerna kommer ifrån. De ber om
+      dem, och något annat svarar. Två sidor är nya:
+      <code>/visningslistan</code> och <code>/livstider</code>.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du en lektion?</span>
+      <p>Guiden går att följa på egen hand. Så här hänger stegen ihop med passen:</p>
+      <ul>
+        <li><b>Lektion 23</b> (ons 11 nov) – <a href="#steg-1">steg 1</a>. Problemet:
+          tre sidor som behöver samma lista. Läs också
+          <a href="#begrepp">begreppen</a>, de används utan förklaring efter det här
+          passet.</li>
+        <li><b>Lektion 24</b> (tis 17 nov) – <a href="#steg-2">steg 2</a> till
+          <a href="#steg-7">steg 7</a>. Områdets tyngsta pass: gränssnittet,
+          implementationen, registreringen i <code>Program.cs</code> och
+          <code>@inject</code>. Öva sedan i
+          <a href="ovningar-granssnitt.html">övning 51–56</a>.</li>
+        <li><b>Lektion 25</b> (ons 18 nov) – inget nytt. Eget arbete med
+          <a href="ovningar-logik.html">övning 57–62</a>.</li>
+        <li><b>Lektion 26</b> (tis 24 nov) – <a href="#steg-8">steg 8</a> till
+          <a href="#steg-10">steg 10</a>. Tre livstider, demot på
+          <code>/livstider</code> och hur man väljer. Öva i
+          <a href="ovningar-livstider.html">övning 63–69</a>.</li>
+        <li><b>Lektion 27</b> (ons 25 nov) – <a href="#steg-11">steg 11</a> till
+          <a href="#steg-14">steg 14</a>. HTTP minns ingenting, session, cookien och
+          formuläret som lägger till.</li>
+        <li><b>Lektion 28</b> (tis 1 dec) – <a href="#steg-15">steg 15</a> till
+          <a href="#steg-17">steg 17</a>. <code>Task</code>, loggning och
+          <code>try</code>/<code>catch</code> på rätt nivå. Öva i
+          <a href="ovningar-async.html">övning 70–72</a>.</li>
+        <li><b>Lektion 29</b> (ons 2 dec) – inget nytt.
+          <a href="#checklista">Checklistan</a>,
+          <a href="uppgift.html">uppgiften</a> och
+          <a href="felsokning.html">sex fel som flyttar sig</a>. Inlämning mån 7 dec.</li>
+      </ul>
+      <p>Stegen bygger på varandra hela vägen. Hoppa inte över
+        <a href="#steg-1">steg 1</a> för att det inte innehåller någon ny kod – det är
+        där hela området får sitt skäl.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Nu kan felen komma innan servern ens startar</span>
+      <p>I område 3 kom felen när sidan öppnades. Här tillkommer en tidpunkt till:
+        registreringarna i <code>Program.cs</code> kontrolleras när servern startar.
+        En scoped tjänst i en singleton, eller <code>AddSession</code> utan cache, gör
+        att <code>dotnet run</code> avbryts – med ett bygge som gick igenom utan en
+        enda varning.</p>
+      <p>Fyra tidpunkter gäller från och med nu: <b>bygget</b>, <b>serverstarten</b>,
+        <b>sidvisningen</b> – och det fjärde, som inte säger något alls.
+        <a href="felsokning.html">Sex fel som flyttar sig</a> tar ett av varje.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Koden går inte att kopiera</span>
+      <p>Kodblocken på den här sidan går inte att markera, och det är med flit. Att
+        skriva av koden för hand är där en stor del av inlärningen sker: du läser
+        raden, håller den i huvudet och upptäcker vid tangentbordet vad du inte
+        förstod. Klistrar du in den hoppar du över precis det steget.</p>
+    </div>
+
+    <p><em>Guide · Område 4 · Webbserverprogrammering 1</em></p>
+    <h2 id="bygger">Vad du bygger här</h2>
+    <p>Applikationen ser likadan ut när du är klar. Det är avsikten.</p>
+    <p>Skillnaden syns bara i koden: <strong>ingen komponent vet längre var filmerna kommer ifrån.</strong> De ber om dem, och något annat svarar. Uträkningarna som låg i <code>Filmstatistik</code> har flyttat. Den statiska <code>Filmdata</code> från område 3 är borta – den lovade att försvinna här, och den gör det.</p>
+    <p>Två saker är nya på skärmen:</p>
+    <pre><code>Filmarkivet
+    ├── /visningslistan       Filmer du lagt undan. Överlever sidbyten
+    └── /livstider            Demo: transient, scoped och singleton bredvid varandra</code></pre>
+    <p>Det färdiga projektet ligger i <code>referensprojekt/Filmarkivet</code>.</p>
+    <p><strong>Det här är områdets svåraste sak att se poängen med</strong>, eftersom belöningen kommer först i område 5. Då byter du ut hela <code>FilmService</code> mot en som läser ur en databas – och rör inte en enda komponent. Håll den bilden framför dig medan du flyttar kod som redan fungerade.</p>
+    <h2 id="sjalv">Vad du ska göra själv efteråt</h2>
+    <p>Samma sak i ditt projekt:</p>
+    <ul><li>Ett <strong>gränssnitt</strong> och en <strong>implementation</strong> för din huvudentitet</li><li>Registrering i <code>Program.cs</code> och <code>@inject</code> i komponenterna</li><li><strong>All</strong> datalogik ur komponenterna. Ingen komponent hämtar sin egen data</li><li>En <strong>samling</strong> som överlever sidvisningar – din motsvarighet till visningslistan</li><li>En skriftlig <strong>motivering</strong> av vald livstid</li><li>En kort text om skillnaden mellan <em>scoped</em>, <em>singleton</em> och <em>cookie</em></li></ul>
+    <h3>Översättningstabellen</h3>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Filmarkivet</th><th>Ditt projekt</th></tr></thead>
+    <tbody>
+    <tr><td><code>IFilmService</code></td><td><code>IDittService</code> – gränssnittet</td></tr>
+    <tr><td><code>FilmService</code></td><td>implementationen med din hårdkodade lista</td></tr>
+    <tr><td><code>HamtaAllaAsync</code></td><td>din metod som hämtar allt</td></tr>
+    <tr><td><code>HamtaAsync(int id)</code></td><td>din uppslagning på id</td></tr>
+    <tr><td><code>SokAsync(string? sok)</code></td><td>din sökning</td></tr>
+    <tr><td><code>Arkivstatistik</code></td><td>ditt svar som håller ihop flera uträknade värden</td></tr>
+    <tr><td><code>IVisningslista</code> / <code>Visningslista</code></td><td>din samling: önskelista, veckomeny, spellista</td></tr>
+    <tr><td><code>/visningslistan</code></td><td>din sida för samlingen</td></tr>
+    <tr><td><code>Arkivet</code> (injektionsnamnet)</td><td>ditt namn – <strong>inte</strong> samma som sidans filnamn</td></tr>
+    </tbody></table></div>
+    <p>Samlingen valde du redan i område 3, när du bockade av domänkraven. Nu byggs den.</p>
+    <h2 id="innan">Innan du börjar</h2>
+    <p>Ditt projekt från område 3: komponenter med parametrar, en listsida och en detaljsida som hänger ihop, och en hårdkodad lista i en egen fil.</p>
+    <p>Kontrollen tar tio sekunder:</p>
+    <pre><code class="sprak-bash">dotnet run</code></pre>
+    <p>Gå till din detaljsida och klicka dig dit från listan. Fungerar det är du redo.</p>
+    <h2 id="begrepp">Begreppen i det här momentet</h2>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Begrepp</th><th>Vad det är</th></tr></thead>
+    <tbody>
+    <tr><td>Lager</td><td>En nivå i applikationen med ett eget ansvar: visa, beräkna, lagra</td></tr>
+    <tr><td>Presentationslager</td><td>Komponenterna. Visar och tar emot – beräknar inte</td></tr>
+    <tr><td>Tjänst</td><td>En klass som gör arbetet: hämtar, räknar, sparar</td></tr>
+    <tr><td>Gränssnitt (<em>interface</em>)</td><td>Ett löfte om vilka metoder som finns, utan att säga hur de gör</td></tr>
+    <tr><td>Implementation</td><td>Klassen som uppfyller löftet</td></tr>
+    <tr><td><em>Dependency injection</em></td><td>Att be ramverket om en tjänst i stället för att skapa den själv</td></tr>
+    <tr><td>Registrering</td><td>Raden i <code>Program.cs</code> som säger vilken klass som svarar på ett gränssnitt</td></tr>
+    <tr><td>Konstruktorinjektion</td><td>Att ta emot sina beroenden som parametrar till konstruktorn</td></tr>
+    <tr><td>Livstid (<em>lifetime</em>)</td><td>Hur länge ett tjänsteobjekt lever: <em>transient</em>, <em>scoped</em>, <em>singleton</em></td></tr>
+    <tr><td>Tillstånd (<em>state</em>)</td><td>Data som ska finnas kvar mellan två sidvisningar</td></tr>
+    <tr><td>Session</td><td>Serverns minne per besökare. Nyckeln ligger i en cookie</td></tr>
+    <tr><td>Cookie</td><td>En liten text webbläsaren skickar med varje förfrågan till samma sajt</td></tr>
+    <tr><td><em>Antiforgery</em></td><td>Skydd mot att en annan sajt skickar ett formulär i besökarens namn</td></tr>
+    <tr><td><code>Task&lt;T&gt;</code></td><td>Ett svar som kanske inte är färdigt än</td></tr>
+    <tr><td><em>Logging</em></td><td>Att skriva vad som hände, för utvecklaren – inte för användaren</td></tr>
+    </tbody></table></div>
+    <h2 id="steg-1">Steg 1 – Problemet</h2>
+    <p><strong>Vad vi gör.</strong> Ingenting. Vi tittar på vad som redan är fel.</p>
+    <p>Öppna ditt projekt från område 3 och leta efter namnet på din datafil – <code>Filmdata</code> i Filmarkivet. Räkna ställena.</p>
+    <p>I Filmarkivet är de fyra:</p>
+    <pre><code>Components/Pages/Home.razor          Filmdata.Alla   (tre gånger)
+    Components/Pages/Filmer.razor        Filmdata.Alla
+    Components/Pages/Filmdetalj.razor    Filmdata.Hamta, Filmdata.Alla
+    Components/Filmer/Filmstatistik.razor   räknar själv på listan den fick</code></pre>
+    <p><strong>Varför det är ett problem.</strong> Inte för att det är fult. För att varje sådant ställe är ett ställe som måste ändras den dag datan kommer någon annanstans ifrån – och den dagen är område 5.</p>
+    <p>Ställ tre frågor till din egen kod:</p>
+    <ol><li>Om listan i morgon läses ur en databas, hur många filer ändras?</li><li>Om sökningen ska bli okänslig för å, ä och ö, var ändrar du?</li><li>Om två sidor räknar snittbetyg, var ligger uträkningen?</li></ol>
+    <p>Svaren i område 3 är: fyra, på två ställen, och i komponenten. Efter det här området är svaren: en, på ett ställe, och i tjänsten.</p>
+    <p><strong>Ansvarsfördelningen</strong> som resten av kursen vilar på:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Lager</th><th>Vad det gör</th><th>I ditt projekt</th></tr></thead>
+    <tbody>
+    <tr><td>Presentation</td><td>Visar, tar emot klick och adresser</td><td><code>Components/</code></td></tr>
+    <tr><td>Applikationslogik</td><td>Räknar, väljer, avgör</td><td><code>Services/</code></td></tr>
+    <tr><td>Data</td><td>Hämtar och sparar</td><td><code>Services/</code>, sedan databasen i område 5</td></tr>
+    </tbody></table></div>
+    <p><strong>I ditt projekt.</strong> Skriv upp dina egna ställen på papper innan du börjar flytta. Listan är din checklista genom hela området.</p>
+    <h2 id="steg-2">Steg 2 – Gränssnittet</h2>
+    <p><strong>Vad vi gör.</strong> Skriver löftet, innan vi skriver något som uppfyller det.</p>
+    <p><strong>Filen.</strong> <code>Services/IFilmService.cs</code> – ny mapp, ny fil:</p>
+    <pre><code class="sprak-csharp">using Filmarkivet.Models;
+
+    namespace Filmarkivet.Services;
+
+    public interface IFilmService
+    {
+        Task&lt;List&lt;Film&gt;&gt; HamtaAllaAsync();
+
+        Task&lt;Film?&gt; HamtaAsync(int id);
+
+        Task&lt;List&lt;Film&gt;&gt; SokAsync(string? sok);
+
+        Task&lt;Arkivstatistik&gt; HamtaStatistikAsync();
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Ett <code>interface</code> innehåller metodernas <strong>namn, parametrar och returtyper</strong> – ingen kod. Det säger vad man kan be om, inte hur svaret tas fram.</p>
+    <p><code>I</code> först i namnet är C#-praxis för gränssnitt. Det är inte ett krav i språket, men alla gör det, och kodningsstandard är eget centralt innehåll i kursen.</p>
+    <p>Metoderna slutar på <code>Async</code> och svarar med <code>Task&lt;T&gt;</code>. Just nu finns ingenting att vänta på – listan ligger i minnet. Men databasen i område 5 kommer att kräva det, och <strong>signaturen ska inte behöva ändras då.</strong> Steg 15 går igenom vad <code>Task</code> betyder.</p>
+    <p>Skriv gränssnittet först, före implementationen. Det tvingar dig att bestämma vad tjänsten ska kunna innan du börjar tänka på hur.</p>
+    <p><strong>Filen.</strong> <code>Models/Arkivstatistik.cs</code>, för svaret som håller ihop fyra värden:</p>
+    <pre><code class="sprak-csharp">namespace Filmarkivet.Models;
+
+    public class Arkivstatistik
+    {
+        public int Antal { get; set; }
+        public double Snittbetyg { get; set; }
+        public string LangstaTitel { get; set; } = "";
+        public int LangstaMinuter { get; set; }
+        public int AntalTillgangliga { get; set; }
+    }</code></pre>
+    <p><strong>Kontrollera.</strong> Projektet bygger. Ingenting har hänt på skärmen.</p>
+    <p><strong>I ditt projekt.</strong> Fyra till sex metoder räcker. Ta med det dina sidor faktiskt gör i dag – inte det du tror att du kommer att behöva.</p>
+    <h2 id="steg-3">Steg 3 – Implementationen</h2>
+    <p><strong>Vad vi gör.</strong> Flyttar listan och uppslagningen ur <code>Models/Filmdata.cs</code> in i en klass som uppfyller löftet.</p>
+    <p><strong>Filen.</strong> <code>Services/FilmService.cs</code>:</p>
+    <pre><code class="sprak-csharp">using Filmarkivet.Models;
+
+    namespace Filmarkivet.Services;
+
+    public class FilmService : IFilmService
+    {
+        private static readonly List&lt;Film&gt; Alla = new()
+        {
+            new Film { Id = 1, Titel = "Nyckeln till frihet", Ar = 1994, LangdMinuter = 142, Betyg = 5, Beskrivning = "…", Tillganglig = true },
+            // … resten av filmerna, flyttade ur Filmdata
+        };
+
+        public Task&lt;List&lt;Film&gt;&gt; HamtaAllaAsync()
+        {
+            return Task.FromResult(new List&lt;Film&gt;(Alla));
+        }
+
+        public Task&lt;Film?&gt; HamtaAsync(int id)
+        {
+            foreach (var film in Alla)
+            {
+                if (film.Id == id)
+                {
+                    return Task.FromResult&lt;Film?&gt;(film);
+                }
+            }
+
+            return Task.FromResult&lt;Film?&gt;(null);
+        }
+    }</code></pre>
+    <p>Hela filen med alla fyra metoderna ligger i referensprojektet.</p>
+    <p><strong>Varför det ser ut så.</strong> <code>: IFilmService</code> efter klassnamnet är löftet. Kompilatorn kontrollerar att varje metod i gränssnittet finns här, med exakt rätt signatur. Glömmer du en får du <code>CS0535</code> – och det är ett <strong>kompileringsfel</strong>, till skillnad från nästan allt i område 3.</p>
+    <p><code>new List&lt;Film&gt;(Alla)</code> och inte <code>Alla</code> rakt av: den som får listan får en <strong>kopia</strong>, och kan inte råka ändra i arkivet. Det kostar nästan ingenting och tar bort en hel sorts bugg.</p>
+    <p><code>Task.FromResult(...)</code> gör ett färdigt värde till ett <code>Task</code>. Steg 15 förklarar det.</p>
+    <p><strong>Kontrollera.</strong> Projektet bygger fortfarande. Ta <strong>inte</strong> bort <code>Filmdata</code> ännu – komponenterna använder den.</p>
+    <p><strong>I ditt projekt.</strong> Klipp ut, klistra in, byt namn. Det är flyttarbete, inte nyskrivning. Motstå frestelsen att förbättra logiken samtidigt – flytta först, förbättra sedan.</p>
+    <h2 id="steg-4">Steg 4 – Registreringen</h2>
+    <p><strong>Vad vi gör.</strong> Talar om för ramverket vem som svarar på <code>IFilmService</code>.</p>
+    <p><strong>Filen.</strong> <code>Program.cs</code>, före <code>var app = builder.Build();</code>:</p>
+    <pre><code class="sprak-csharp">using Filmarkivet.Services;
+
+    builder.Services.AddScoped&lt;IFilmService, FilmService&gt;();</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Raden läses: *ber någon om <code>IFilmService</code>, ge dem en <code>FilmService</code>.* Vinkelparenteserna har två typer, och ordningen spelar roll – gränssnittet först, klassen sedan.</p>
+    <p><code>AddScoped</code> är livstiden. Ett objekt per förfrågan. Steg 8 till 10 går igenom vad alternativen betyder och varför just den här är rätt här.</p>
+    <p>**Det här är den enda raden i hela projektet som nämner <code>FilmService</code>.** Sök gärna på klassnamnet när du är klar med området: det ska finnas på två ställen, i sin egen fil och här.</p>
+    <p><strong>Kontrollera.</strong> Projektet startar. Fortfarande ingen synlig skillnad.</p>
+    <p><strong>I ditt projekt.</strong> En rad per tjänst. De ligger tillsammans, i toppen av <code>Program.cs</code>, inte utspridda.</p>
+    <h2 id="steg-5">Steg 5 – Injektionen</h2>
+    <p><strong>Vad vi gör.</strong> Låter en komponent be om tjänsten i stället för att gå till listan.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/Filmer.razor</code>:</p>
+    <pre><code class="sprak-razor">@page "/filmer"
+    @inject IFilmService Arkivet
+
+    @code {
+        [SupplyParameterFromQuery]
+        public string? Sok { get; set; }
+
+        private List&lt;Film&gt; traffar = new();
+
+        protected override async Task OnParametersSetAsync()
+        {
+            traffar = await Arkivet.SokAsync(Sok);
+        }
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>@inject</code> är samma sak som <code>@inject NavigationManager</code> i område 3 – du har redan använt dependency injection utan att det hette något. Skillnaden är att tjänsten nu är din egen.</p>
+    <p>Komponenten nämner <strong>bara gränssnittet</strong>. Den vet inte att <code>FilmService</code> finns, och ska inte veta det.</p>
+    <p><code>OnParametersSetAsync</code> i stället för <code>OnParametersSet</code>, och <code>await</code> framför anropet. Metoden svarar med <code>Task</code>, och <code>await</code> betyder "vänta tills svaret är klart, och ge mig innehållet".</p>
+    <p><strong>Namnet efter typen är ditt val, och det finns en fälla.</strong> Sidan heter <code>Filmer.razor</code>, alltså blir klassen <code>Filmer</code>. Skriver du <code>@inject IFilmService Filmer</code> får du:</p>
+    <pre><code>CS0542: 'Filmer': member names cannot be the same as their enclosing type</code></pre>
+    <p>Därför heter injektionen <code>Arkivet</code>. Samma fälla väntar dig om din sida heter samma sak som det den visar – vilket den ofta gör.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/filmer</code>. Allt ser likadant ut. Sök på något – sökningen fungerar, men den utförs inte längre här.</p>
+    <p><strong>I ditt projekt.</strong> Börja med <strong>en</strong> sida. Få den att fungera. Ta nästa sedan.</p>
+    <h2 id="steg-6">Steg 6 – Resten av komponenterna, och `Filmdata` försvinner</h2>
+    <p><strong>Vad vi gör.</strong> Gör om samma sak på de andra sidorna, och tar bort den gamla filen.</p>
+    <p><code>Components/Pages/Home.razor</code>:</p>
+    <pre><code class="sprak-razor">@page "/"
+    @inject IFilmService Arkivet
+
+    @code {
+        private List&lt;Film&gt; topplistan = new();
+        private Film veckansFilm = new();
+        private Arkivstatistik statistik = new();
+
+        protected override async Task OnInitializedAsync()
+        {
+            List&lt;Film&gt; alla = await Arkivet.HamtaAllaAsync();
+
+            veckansFilm = alla[0];
+
+            foreach (var film in alla)
+            {
+                if (film.Betyg == 5)
+                {
+                    topplistan.Add(film);
+                }
+
+                if (film.LangdMinuter &lt; veckansFilm.LangdMinuter)
+                {
+                    veckansFilm = film;
+                }
+            }
+
+            statistik = await Arkivet.HamtaStatistikAsync();
+        }
+    }</code></pre>
+    <p><code>Components/Pages/Filmdetalj.razor</code> byter <code>Filmdata.Hamta(Id)</code> mot <code>await Arkivet.HamtaAsync(Id)</code> och <code>OnParametersSet</code> mot <code>OnParametersSetAsync</code>.</p>
+    <p>**Radera sedan <code>Models/Filmdata.cs</code>.**</p>
+    <p><strong>Varför det ser ut så.</strong> Att ta bort filen är inte städning – det är kontrollen. Så länge den finns kvar kan en sida smyga tillbaka till den. Bygger projektet efter att den är borta vet du att ingen gör det.</p>
+    <p>Lägg märke till att <code>OnInitializedAsync</code> fortfarande gör ett urval – topplistan och veckans film räknas fram i komponenten. Det är <strong>medvetet kvar</strong> så länge, och steg 7 tar hand om statistiken. Var gränsen går är en av områdets svåraste frågor, och uppgiften ställer den.</p>
+    <p><strong>Kontrollera.</strong> Projektet bygger, och <code>Filmdata</code> finns inte kvar någonstans. Alla sidor svarar som förut.</p>
+    <p><strong>I ditt projekt.</strong> Samma sak, och radera din datafil. Om något går sönder pekar felmeddelandet på exakt den sida du missat.</p>
+    <h2 id="steg-7">Steg 7 – Statistiken flyttar in i tjänsten</h2>
+    <p><strong>Vad vi gör.</strong> Låter komponenten som heter <code>Filmstatistik</code> sluta räkna.</p>
+    <p><strong>Filen.</strong> <code>Services/FilmService.cs</code>, den fjärde metoden:</p>
+    <pre><code class="sprak-csharp">public Task&lt;Arkivstatistik&gt; HamtaStatistikAsync()
+    {
+        int summa = 0;
+        int tillgangliga = 0;
+        Film langst = Alla[0];
+
+        foreach (var film in Alla)
+        {
+            summa = summa + film.Betyg;
+
+            if (film.Tillganglig)
+            {
+                tillgangliga++;
+            }
+
+            if (film.LangdMinuter &gt; langst.LangdMinuter)
+            {
+                langst = film;
+            }
+        }
+
+        Arkivstatistik svar = new()
+        {
+            Antal = Alla.Count,
+            Snittbetyg = (double)summa / Alla.Count,
+            LangstaTitel = langst.Titel,
+            LangstaMinuter = langst.LangdMinuter,
+            AntalTillgangliga = tillgangliga
+        };
+
+        return Task.FromResult(svar);
+    }</code></pre>
+    <p><strong>Filen.</strong> <code>Components/Filmer/Filmstatistik.razor</code> – hela filen, efteråt:</p>
+    <pre><code class="sprak-razor">&lt;ul class="statistik"&gt;
+        &lt;li&gt;Antal filmer: @Statistik.Antal&lt;/li&gt;
+        &lt;li&gt;Snittbetyg: @Statistik.Snittbetyg.ToString("0.0")&lt;/li&gt;
+        &lt;li&gt;Längsta filmen: @Statistik.LangstaTitel, @Statistik.LangstaMinuter minuter&lt;/li&gt;
+        &lt;li&gt;Tillgängliga just nu: @Statistik.AntalTillgangliga av @Statistik.Antal&lt;/li&gt;
+    &lt;/ul&gt;
+
+    @code {
+        [Parameter]
+        [EditorRequired]
+        public Arkivstatistik Statistik { get; set; } = new();
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Jämför med samma fil i område 3: den innehöll tre metoder och trettio rader logik. Nu innehåller den noll. <strong>Komponenten visar, tjänsten vet.</strong></p>
+    <p>Fyra loopar blev en. Det är en bonus, inte poängen – men det är typiskt för vad som händer när uträkningar samlas där de hör hemma.</p>
+    <p><code>Arkivstatistik</code> är ett litet objekt vars enda uppgift är att bära ett svar. Det behöver inga metoder.</p>
+    <p><strong>Kontrollera.</strong> Startsidan visar samma fyra rader som förut. Snittet ska stå som <code>4,5</code> – blir det <code>4</code> har <code>(double)</code> fallit bort i flytten.</p>
+    <p><strong>I ditt projekt.</strong> Har du en komponent som räknar? Flytta uträkningen och låt komponenten ta emot svaret. Det är C-kravet, formulerat som kod.</p>
+    <h2 id="steg-8">Steg 8 – Tre livstider</h2>
+    <p><strong>Vad vi gör.</strong> Bygger demot som gör livstiderna synliga.</p>
+    <p><strong>Filen.</strong> <code>Services/Raknare.cs</code>:</p>
+    <pre><code class="sprak-csharp">namespace Filmarkivet.Services;
+
+    public interface ITransientRaknare
+    {
+        int Nummer { get; }
+    }
+
+    public interface IScopedRaknare
+    {
+        int Nummer { get; }
+    }
+
+    public interface ISingletonRaknare
+    {
+        int Nummer { get; }
+    }
+
+    public class Raknare : ITransientRaknare, IScopedRaknare, ISingletonRaknare
+    {
+        private static int _nasta = 0;
+
+        public int Nummer { get; }
+
+        public Raknare()
+        {
+            Nummer = System.Threading.Interlocked.Increment(ref _nasta);
+        }
+    }</code></pre>
+    <p><strong>Filen.</strong> <code>Program.cs</code>:</p>
+    <pre><code class="sprak-csharp">builder.Services.AddTransient&lt;ITransientRaknare, Raknare&gt;();
+    builder.Services.AddScoped&lt;IScopedRaknare, Raknare&gt;();
+    builder.Services.AddSingleton&lt;ISingletonRaknare, Raknare&gt;();</code></pre>
+    <p><strong>Filen.</strong> <code>Components/Delade/Raknarrad.razor</code>:</p>
+    <pre><code class="sprak-razor">@inject ITransientRaknare Transient
+    @inject IScopedRaknare Scoped
+    @inject ISingletonRaknare Singleton
+
+    &lt;tr&gt;
+        &lt;th scope="row"&gt;@Var&lt;/th&gt;
+        &lt;td&gt;@Transient.Nummer&lt;/td&gt;
+        &lt;td&gt;@Scoped.Nummer&lt;/td&gt;
+        &lt;td&gt;@Singleton.Nummer&lt;/td&gt;
+    &lt;/tr&gt;
+
+    @code {
+        [Parameter]
+        [EditorRequired]
+        public string Var { get; set; } = "";
+    }</code></pre>
+    <p>Sidan <code>Components/Pages/Livstider.razor</code> renderar tre <code>&lt;Raknarrad&gt;</code> i en tabell. Hela filen ligger i referensprojektet.</p>
+    <p><strong>Varför det ser ut så.</strong> <strong>En enda klass</strong> bakom alla tre gränssnitten. Koden är identisk. Allt som skiljer är vilket <code>Add</code>-anrop som användes. Det är hela lektionen, och den går inte att se på klassen – bara på registreringen.</p>
+    <p><code>Interlocked.Increment</code> i stället för <code>_nasta++</code>: två besökare kan komma samtidigt, och då skulle en vanlig ökning kunna tappa bort ett nummer. Du behöver inte kunna det – men materialet ska inte innehålla en bugg med flit.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/livstider</code>.</p>
+    <p><strong>I ditt projekt.</strong> Lägg in demot som det är. Det är inget du behöver hitta på själv – det är en mätare, inte en funktion.</p>
+    <h2 id="steg-9">Steg 9 – Vad tabellen visar</h2>
+    <p><strong>Vad vi gör.</strong> Läser av mätaren.</p>
+    <p>Så här såg det ut vid två laddningar i rad i referensprojektet:</p>
+    <pre><code>Laddning A          Transient   Scoped   Singleton
+      Komponent 1          23         22         1
+      Komponent 2          24         22         1
+      Komponent 3          25         22         1
+
+    Laddning B          Transient   Scoped   Singleton
+      Komponent 1          27         26         1
+      Komponent 2          28         26         1
+      Komponent 3          29         26         1</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Läs tabellen i två riktningar.</p>
+    <p><strong>Nedåt, inom en laddning:</strong> transient ger tre olika nummer – tre objekt, ett per fråga. Scoped ger samma nummer tre gånger – ett objekt, delat av alla som frågar under den förfrågan. Singleton likaså.</p>
+    <p><strong>Mellan laddningarna:</strong> transient och scoped får nya nummer. <strong>Singleton står still.</strong> Den siffran, en etta som vägrar röra sig, är områdets tydligaste bild.</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th></th><th>Inom en förfrågan</th><th>Vid omladdning</th><th>För en annan besökare</th></tr></thead>
+    <tbody>
+    <tr><td><code>AddTransient</code></td><td>nytt objekt varje gång</td><td>nya</td><td>nya</td></tr>
+    <tr><td><code>AddScoped</code></td><td><strong>ett</strong> objekt</td><td>nytt</td><td>eget</td></tr>
+    <tr><td><code>AddSingleton</code></td><td>ett objekt</td><td><strong>samma</strong></td><td><strong>samma</strong></td></tr>
+    </tbody></table></div>
+    <p><strong>Kontrollera.</strong> Ladda om fem gånger och följ singletonkolumnen. Öppna sedan sidan i ett privat fönster: singleton står kvar på samma nummer, för en helt annan besökare.</p>
+    <blockquote><p>Vad betyder det att två besökare delar ett objekt?</p></blockquote>
+    <p>Det är frågan steg 10 svarar på, och den är viktigare än siffrorna.</p>
+    <p><strong>I ditt projekt.</strong> Kör demot, och skriv ned de tre raderna du ser. Du kommer att behöva dem till motiveringen i uppgiften.</p>
+    <h2 id="steg-10">Steg 10 – Att välja livstid</h2>
+    <p><strong>Vad vi gör.</strong> Bestämmer, och skriver ned varför.</p>
+    <p><strong>Regeln, i den ordning du ska pröva den:</strong></p>
+    <ol><li>**<code>AddScoped</code> som förval.** En förfrågan, ett objekt. Det är rätt för nästan allt</li></ol>
+    <p>som rör en besökare, och det är vad <code>FilmService</code> och <code>Visningslista</code> använder.</p>
+    <ol><li>**<code>AddSingleton</code> bara för sådant som <em>ska</em> delas av alla** och som inte innehåller</li></ol>
+    <p>någons personliga data: en cache, ett konfigurationsvärde, en räknare över hela sajten.</p>
+    <ol><li>**<code>AddTransient</code> när objektet är litet, billigt och inte ska minnas något.**</li></ol>
+    <p>Behövs sällan i den här kursen.</p>
+    <p><strong>Varför det är farligt att välja fel.</strong> Lägg besökarens visningslista i en singleton, och alla besökare delar samma lista. Din lärare lägger till en film, och den syns hos hela klassen. Det är inte en teoretisk risk – det är den vanligaste allvarliga buggen i det här området, och den syns inte när man testar ensam.</p>
+    <p>Åt andra hållet: en singleton som håller något dyrt att skapa – en anslutning, en inläst fil – är precis rätt, och att göra den scoped kostar prestanda i onödan.</p>
+    <p>**Vad <em>scoped</em> faktiskt betyder här.** Vid statisk serverrendering är en <em>scope</em> samma sak som <strong>en HTTP-förfrågan</strong>. Varje klick är en ny förfrågan, alltså ett nytt objekt. I ett interaktivt renderingsläge är en scope i stället hela den uppkoppling besökaren håller öppen, och då lever ett scopat objekt mycket längre. Kursen håller sig på serversidan, så räkna med förfrågan – men vet att det finns ett till svar.</p>
+    <p><strong>Kontrollera.</strong> Öppna din <code>Program.cs</code> och läs varje registrering högt med motiveringen. Kan du inte motivera en av dem är det den du ska tänka om.</p>
+    <p><strong>I ditt projekt.</strong> Skriv motiveringen <strong>nu</strong>, i <code>README.md</code>, medan du minns varför. Den är ett krav i uppgiften och tar två minuter i dag och tjugo i december.</p>
+    <h2 id="steg-11">Steg 11 – HTTP minns ingenting</h2>
+    <p><strong>Vad vi gör.</strong> Ingenting. Vi konstaterar problemet innan vi löser det.</p>
+    <p>Prova i ditt projekt: lägg ett vanligt fält i en komponent, öka det, ladda om.</p>
+    <p>Det är noll igen. Varje förfrågan bygger ett nytt objekt av komponenten – det såg du redan på <code>/livscykel</code> i område 3, där räknaren bara steg för att den var <code>static</code>.</p>
+    <p><strong>Varför det ser ut så.</strong> HTTP är <strong>tillståndslöst</strong>. Servern får en förfrågan, svarar, och glömmer. Nästa förfrågan från samma besökare ser likadan ut som en förfrågan från någon helt annan.</p>
+    <p>Så hur vet en sajt att du är inloggad?</p>
+    <p>Tre svar, och de är olika saker:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Var det ligger</th><th>Vad det är</th><th>Vem ser det</th></tr></thead>
+    <tbody>
+    <tr><td><strong>Cookie</strong></td><td>En liten text som webbläsaren skickar med varje förfrågan</td><td>Besökaren, och alla som ser trafiken</td></tr>
+    <tr><td><strong>Session</strong></td><td>Data på <strong>servern</strong>. Cookien innehåller bara nyckeln till den</td><td>Bara servern</td></tr>
+    <tr><td><strong>Singleton</strong></td><td>Data på servern, <strong>delad av alla besökare</strong></td><td>Alla, samtidigt</td></tr>
+    </tbody></table></div>
+    <p><strong>Kontrollera.</strong> Öppna DevTools på en sajt du känner till, fliken <em>Application</em> och <em>Cookies</em>. Titta på namn, värde och <code>Expires</code>. De flesta värden är obegripliga – det är meningen, det är nycklar och inte innehåll.</p>
+    <p><strong>I ditt projekt.</strong> Ingenting ännu. Nästa steg bygger.</p>
+    <h2 id="steg-12">Steg 12 – Session och cookien</h2>
+    <p><strong>Vad vi gör.</strong> Slår på serverns minne per besökare.</p>
+    <p><strong>Filen.</strong> <code>Program.cs</code>:</p>
+    <pre><code class="sprak-csharp">builder.Services.AddHttpContextAccessor();
+
+    builder.Services.AddDistributedMemoryCache();
+
+    builder.Services.AddSession(alternativ =&gt;
+    {
+        alternativ.IdleTimeout = TimeSpan.FromMinutes(30);
+        alternativ.Cookie.HttpOnly = true;
+        alternativ.Cookie.IsEssential = true;
+    });</code></pre>
+    <p>och, bland <code>app</code>-raderna, <strong>före</strong> <code>app.MapRazorComponents&lt;App&gt;()</code>:</p>
+    <pre><code class="sprak-csharp">app.UseSession();</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Fyra rader, och tre av dem är fällor.</p>
+    <p><code>AddDistributedMemoryCache()</code> – session lagrar sina data i en cache men <strong>drar inte in någon själv</strong>. Utan raden startar programmet inte alls:</p>
+    <pre><code>Unable to resolve service for type 'IDistributedCache'</code></pre>
+    <p>Felet kommer när servern startar, inte när projektet byggs. Bygget går igenom.</p>
+    <p><code>AddHttpContextAccessor()</code> behövs för att en <strong>tjänst</strong> ska nå den aktuella förfrågan. En komponent kan få <code>HttpContext</code> på andra sätt, men <code>Visningslista</code> är ingen komponent.</p>
+    <p><code>app.UseSession()</code> <strong>måste finnas</strong>. Saknas raden svarar sidan 500 med <code>Session has not been configured for this application or request.</code> Placeringen relativt <code>MapRazorComponents</code> spelar däremot ingen roll: den middleware som kör själva sidan läggs alltid till sist, så <code>UseSession</code> hinner före oavsett var raden står. Skriv den ändå bland de övriga <code>app.Use</code>-raderna – det är där en läsare letar.</p>
+    <p><code>HttpOnly = true</code> betyder att JavaScript inte kommer åt cookien. <code>IsEssential = true</code> säger att den behövs för att sajten ska fungera, och därför inte kräver samtycke.</p>
+    <p><strong>Kontrollera.</strong> Starta. Startar servern över huvud taget har du klarat den vanligaste fällan.</p>
+    <p><strong>I ditt projekt.</strong> Samma fyra rader, i samma ordning.</p>
+    <h2 id="steg-13">Steg 13 – Samlingen som tjänst</h2>
+    <p><strong>Vad vi gör.</strong> Bygger visningslistan bakom ett gränssnitt, precis som filmerna.</p>
+    <p><strong>Filen.</strong> <code>Services/IVisningslista.cs</code>:</p>
+    <pre><code class="sprak-csharp">using Filmarkivet.Models;
+
+    namespace Filmarkivet.Services;
+
+    public interface IVisningslista
+    {
+        Task&lt;List&lt;Film&gt;&gt; HamtaAsync();
+
+        int Antal { get; }
+
+        void LaggTill(int filmId);
+
+        void TaBort(int filmId);
+
+        void Rensa();
+    }</code></pre>
+    <p><strong>Filen.</strong> <code>Services/Visningslista.cs</code> – kärnan:</p>
+    <pre><code class="sprak-csharp">public class Visningslista : IVisningslista
+    {
+        private const string Nyckel = "visningslista";
+
+        private readonly IHttpContextAccessor _http;
+        private readonly IFilmService _filmer;
+
+        public Visningslista(IHttpContextAccessor http, IFilmService filmer)
+        {
+            _http = http;
+            _filmer = filmer;
+        }
+
+        private ISession? Session =&gt; _http.HttpContext?.Session;
+
+        private List&lt;int&gt; Idn()
+        {
+            List&lt;int&gt; idn = new();
+            string? text = Session?.GetString(Nyckel);
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return idn;
+            }
+
+            foreach (var del in text.Split(','))
+            {
+                if (int.TryParse(del, out int id))
+                {
+                    idn.Add(id);
+                }
+            }
+
+            return idn;
+        }
+
+        private void Spara(List&lt;int&gt; idn)
+        {
+            Session?.SetString(Nyckel, string.Join(",", idn));
+        }
+    }</code></pre>
+    <p>Hela filen ligger i referensprojektet. Registrera den:</p>
+    <pre><code class="sprak-csharp">builder.Services.AddScoped&lt;IVisningslista, Visningslista&gt;();</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <strong>Konstruktorinjektion</strong>: klassen tar emot sina två beroenden som parametrar och sparar dem i <code>readonly</code>-fält. Den skapar ingenting själv – exakt samma princip som <code>@inject</code> i en komponent, fast i vanlig C#.</p>
+    <p>Att <code>IFilmService</code> injiceras i <code>Visningslista</code> visar att tjänster får använda varandra. Beroendet går mot gränssnittet även här.</p>
+    <p><strong>Session lagrar text, inte objekt.</strong> Därför sparas id:na som <code>"1,4,6"</code> och tolkas tillbaka med <code>int.TryParse</code> – samma metod som i område 2, och av samma skäl: värdet kommer utifrån och kan vara skräp.</p>
+    <p>Bara <strong>id:n</strong> sparas, inte hela filmer. Sessionen ska vara liten, och filmen kan alltid hämtas på nytt. <code>HamtaAsync</code> slår upp dem via <code>IFilmService</code>.</p>
+    <p><strong>Kontrollera.</strong> Projektet bygger. Ingen sida använder tjänsten ännu.</p>
+    <p><strong>I ditt projekt.</strong> Din samling, ditt gränssnitt. Spara id:n, inte objekt.</p>
+    <h2 id="steg-14">Steg 14 – Formuläret som lägger till</h2>
+    <p><strong>Vad vi gör.</strong> Ger detaljsidan en knapp som faktiskt gör något.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/Filmdetalj.razor</code>:</p>
+    <pre><code class="sprak-razor">@inject IVisningslista Listan
+
+    &lt;form method="post" @formname="visningslistan" @onsubmit="LaggTill" class="sokruta"&gt;
+        &lt;AntiforgeryToken /&gt;
+        &lt;button type="submit"&gt;Lägg till i visningslistan&lt;/button&gt;
+        &lt;a href="visningslistan"&gt;Visa listan (@Listan.Antal)&lt;/a&gt;
+    &lt;/form&gt;
+
+    @if (tillagd)
+    {
+        &lt;p class="tomt"&gt;@film.Titel ligger nu i din visningslista.&lt;/p&gt;
+    }
+
+    @code {
+        private bool tillagd;
+
+        private void LaggTill()
+        {
+            Listan.LaggTill(Id);
+            tillagd = true;
+        }
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> I område 3 gjorde du sökningen med <code>&lt;form method="get"&gt;</code>, och en <code>get</code> ändrar ingenting – den bara frågar. Att lägga till i en lista <strong>ändrar</strong> något, och då är <code>post</code> rätt metod. Det är samma skillnad som du lärde dig i område 1, nu använd på riktigt.</p>
+    <p><code>@formname</code> säger vilket formulär på sidan som skickades. Har sidan två formulär behöver servern veta vilket – och <code>Visningslistan.razor</code> har ett till, för att rensa.</p>
+    <p><code>@onsubmit</code> pekar ut metoden som körs. <strong>Det här är inget klick.</strong> Webbläsaren skickar en helt vanlig POST, servern kör metoden och renderar om sidan. Ett <code>@onclick</code> hade fortfarande inte gjort någonting alls.</p>
+    <p><code>&lt;AntiforgeryToken /&gt;</code> lägger in ett dolt fält med en engångsnyckel. Utan det svarar servern <strong>400</strong>. Skyddet finns för att en annan sajt annars skulle kunna få din webbläsare att skicka formuläret i ditt namn, med dina cookies – <em>cross-site request forgery</em>. Servern satte en cookie med samma nyckel när sidan hämtades, och jämför de två.</p>
+    <p>Det här är <strong>inte</strong> <code>EditForm</code>. Den kommer i område 5, tillsammans med validering. Här är det ren HTML plus två Razor-attribut.</p>
+    <p><strong>Kontrollera.</strong> Fyra saker, i ordning:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Steg</th><th>Ska ge</th></tr></thead>
+    <tbody>
+    <tr><td>Öppna en film och tryck på knappen</td><td>"…ligger nu i din visningslista" och räknaren blir 1</td></tr>
+    <tr><td>Gå till <code>/visningslistan</code></td><td>Filmen står där</td></tr>
+    <tr><td>Lägg till en till, gå tillbaka</td><td>Två filmer</td></tr>
+    <tr><td>Öppna sajten i ett <strong>privat fönster</strong></td><td>Tom lista</td></tr>
+    </tbody></table></div>
+    <p>Det sista är beviset för att sessionen hör till besökaren och inte till servern som helhet. Är listan full även där har du lagt den i en singleton.</p>
+    <p><strong>I ditt projekt.</strong> Din knapp, din samling. Och gör den sista kontrollen – den tar tio sekunder och är skillnaden mellan att tro och att veta.</p>
+    <h2 id="steg-15">Steg 15 – Varför tjänsten svarar med `Task`</h2>
+    <p><strong>Vad vi gör.</strong> Förstår <code>async</code> och <code>await</code> innan vi behöver dem på riktigt.</p>
+    <p>Titta på en av metoderna igen:</p>
+    <pre><code class="sprak-csharp">public Task&lt;List&lt;Film&gt;&gt; HamtaAllaAsync()
+    {
+        return Task.FromResult(new List&lt;Film&gt;(Alla));
+    }</code></pre>
+    <p>och på anropet:</p>
+    <pre><code class="sprak-csharp">protected override async Task OnInitializedAsync()
+    {
+        List&lt;Film&gt; alla = await Arkivet.HamtaAllaAsync();
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>Task&lt;T&gt;</code> är <strong>ett löfte om ett svar som kanske inte är färdigt än</strong>. <code>await</code> betyder: vänta tills det är klart, och ge mig innehållet. En metod som innehåller <code>await</code> måste själv vara <code>async</code>.</p>
+    <p><strong>Just nu väntar ingenting på någonting.</strong> Listan ligger i minnet, svaret är klart direkt, och <code>Task.FromResult</code> gör om ett färdigt värde till ett <code>Task</code> för att signaturen kräver det. Det ser onödigt ut, och är det – i dag.</p>
+    <p>Skälet står i område 5. Att läsa ur en databas tar tid, och under den tiden får servern inte stå still: den ska hinna svara andra besökare. Därför är <strong>all I/O asynkron</strong> i ASP.NET Core – databas, filer, nätverk.</p>
+    <p>Och skulle du skriva metoderna synkrona nu, måste <strong>varje anropande komponent</strong> skrivas om när databasen kommer. Det är precis den sortens ändring hela området handlar om att slippa.</p>
+    <p><strong>En metod som verkligen väntar</strong> finns redan: <code>Visningslista.HamtaAsync</code> gör <code>await</code> inuti en loop, mot <code>IFilmService</code>. Där är <code>async</code> inte kosmetika.</p>
+    <p><strong>Kontrollera.</strong> Ta bort ett <code>await</code> någonstans och läs felmeddelandet. Kompilatorn förklarar oftast exakt vad som saknas.</p>
+    <p><strong>I ditt projekt.</strong> Async hela vägen: <code>Task&lt;T&gt;</code> i gränssnittet, <code>async Task</code> i komponentens livscykelmetod. Blanda inte – en synkron metod som anropar en asynkron med <code>.Result</code> låser sig, och den buggen är svår att hitta.</p>
+    <h2 id="steg-16">Steg 16 – Loggning</h2>
+    <p><strong>Vad vi gör.</strong> Låter tjänsten berätta vad som hände, för utvecklaren.</p>
+    <p><strong>Filen.</strong> <code>Services/FilmService.cs</code>:</p>
+    <pre><code class="sprak-csharp">public class FilmService : IFilmService
+    {
+        private readonly ILogger&lt;FilmService&gt; _logg;
+
+        public FilmService(ILogger&lt;FilmService&gt; logg)
+        {
+            _logg = logg;
+        }
+
+        public Task&lt;Film?&gt; HamtaAsync(int id)
+        {
+            foreach (var film in Alla)
+            {
+                if (film.Id == id)
+                {
+                    return Task.FromResult&lt;Film?&gt;(film);
+                }
+            }
+
+            _logg.LogWarning("Ingen film med id {Id}", id);
+            return Task.FromResult&lt;Film?&gt;(null);
+        }
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>ILogger&lt;FilmService&gt;</code> injiceras i konstruktorn. Du registrerar den inte – ramverket har den, precis som <code>NavigationManager</code>.</p>
+    <p>Typparametern blir loggpostens kategori, så du ser i terminalen <strong>vilken klass</strong> som skrev raden.</p>
+    <p><code>"Ingen film med id {Id}", id</code> och <strong>inte</strong> <code>$"Ingen film med id {id}"</code>. Klammern är en platshållare, och värdet skickas separat. Det gör att loggen går att söka i på "alla poster där Id var 99" i stället för att bara vara text. Vänj dig vid det nu.</p>
+    <p>Nivåerna, från lugnast:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Nivå</th><th>När</th></tr></thead>
+    <tbody>
+    <tr><td><code>LogInformation</code></td><td>Det som hände och som är normalt</td></tr>
+    <tr><td><code>LogWarning</code></td><td>Något oväntat, men applikationen klarar sig</td></tr>
+    <tr><td><code>LogError</code></td><td>Något gick fel och någon behöver titta på det</td></tr>
+    </tbody></table></div>
+    <p><strong>Kontrollera.</strong> Gå till <code>/filmer/99</code> och titta i terminalen där <code>dotnet run</code> körs. Där ska stå <code>warn:</code> med klassnamnet och id:t.</p>
+    <p><strong>I ditt projekt.</strong> Minst en loggrad någonstans där något kan gå snett. Loggen är till för dig, inte för besökaren.</p>
+    <h2 id="steg-17">Steg 17 – Felhantering på rätt nivå</h2>
+    <p><strong>Vad vi gör.</strong> Bestämmer vem som tar hand om ett fel, och vad besökaren får se.</p>
+    <p>Två tjänster som gör samma anrop mot samma opålitliga källa. Filerna ligger i <code>exempel/felhantering/</code>.</p>
+    <p><strong>Utan felhantering:</strong></p>
+    <pre><code class="sprak-csharp">public class FelNivaService
+    {
+        private readonly Utlaningskalla _kalla = new();
+
+        public int Antal()
+        {
+            return _kalla.AntalUtlanade();
+        }
+    }</code></pre>
+    <p><code>/fel-niva</code> svarar <strong>500</strong>. Hela sidan är borta för att en siffra saknades.</p>
+    <p><strong>Med felhantering i tjänsten:</strong></p>
+    <pre><code class="sprak-csharp">public class RattNivaService
+    {
+        private readonly Utlaningskalla _kalla = new();
+        private readonly ILogger&lt;RattNivaService&gt; _logg;
+
+        public RattNivaService(ILogger&lt;RattNivaService&gt; logg)
+        {
+            _logg = logg;
+        }
+
+        public int? Antal()
+        {
+            try
+            {
+                return _kalla.AntalUtlanade();
+            }
+            catch (Exception fel)
+            {
+                _logg.LogError(fel, "Kunde inte läsa utlåningsregistret");
+                return null;
+            }
+        }
+    }</code></pre>
+    <p><code>/ratt-niva</code> svarar <strong>200</strong>, visar "Utlåningssiffran är inte tillgänglig just nu", och resten av sidan fungerar. I terminalen ligger hela undantaget.</p>
+    <p><strong>Varför det ser ut så.</strong> Tre saker att ta med sig.</p>
+    <p><strong>Undantaget är till för utvecklaren, meddelandet för användaren.</strong> Logga hela felet – <code>_logg.LogError(fel, ...)</code> med undantaget som första argument tar med stackspåret. Visa något som går att förstå.</p>
+    <p><strong>Returtypen bär informationen.</strong> <code>int?</code> och inte <code>int</code>. Hade metoden svarat <code>0</code> när registret var nere hade sidan påstått att noll filmer är utlånade – ett faktapåstående som råkar vara falskt. <code>null</code> betyder "vet inte", och det är sant. Det här är exemplets viktigaste rad och den lättaste att gå förbi.</p>
+    <p>**<code>try</code>/<code>catch</code> hör hemma i tjänsten.** Komponenten vet inte vad ett utlåningsregister är och kan därför inte avgöra vad ett rimligt svar är när det fattas. Låg felhanteringen i komponenten skulle varje sida som använder tjänsten behöva upprepa den – samma argument som hela området vilar på.</p>
+    <p><strong>Kontrollera.</strong> Kör båda adresserna med terminalen synlig bredvid webbläsaren. Det är loggen som är poängen, och den syns inte på sidan.</p>
+    <p><strong>I ditt projekt.</strong> Minst ett ställe där något kan gå fel, hanterat i tjänsten, med en loggpost och ett begripligt meddelande.</p>
+    <h2 id="fel">När något går fel</h2>
+    <p>Slå upp felmeddelandet här innan du fastnar. Skriv en bit av det du ser.</p>
+
+        <div class="sok">
+          <label for="sok-fel">Sök bland felen</label>
+          <input type="search" id="sok-fel" data-sok="tabell-fel" data-traffar="traffar-fel"
+                 placeholder="till exempel: 404, namespace, Ã¥Ã¤Ã¶" autocomplete="off">
+          <p class="traffar" id="traffar-fel">11 rader</p>
+        </div>
+
+        <div class="tabellsvep">
+          <table id="tabell-fel">
+    <thead><tr><th>Felmeddelande</th><th>Vad det betyder</th><th>Gör så här</th></tr></thead>
+    <tbody>
+    <tr><td><code>Unable to resolve service for type 'IDistributedCache'</code></td><td><code>AddSession()</code> utan cache. Servern <strong>startar inte</strong></td><td>Lägg till <code>builder.Services.AddDistributedMemoryCache();</code> före</td></tr>
+    <tr><td><code>Unable to resolve service for type 'IFilmService'</code></td><td>Tjänsten är inte registrerad</td><td>En <code>AddScoped</code>-rad i <code>Program.cs</code> saknas, eller ligger efter <code>builder.Build()</code></td></tr>
+    <tr><td><code>CS0535: does not implement interface member</code></td><td>Klassen saknar en metod ur gränssnittet</td><td>Kopiera signaturen exakt, inklusive <code>Task&lt;&gt;</code></td></tr>
+    <tr><td><code>CS0542: member names cannot be the same as their enclosing type</code></td><td>Injektionsnamnet är samma som filnamnet</td><td>Döp om injektionen: <code>Arkivet</code>, inte <code>Filmer</code></td></tr>
+    <tr><td><code>CS4032</code>/<code>CS1061</code> kring <code>await</code></td><td>Metoden är inte <code>async</code>, eller returtypen är inte <code>Task</code></td><td><code>async Task</code> på metoden, <code>Task&lt;T&gt;</code> på tjänstens</td></tr>
+    <tr><td><code>InvalidOperationException: Cannot resolve scoped service from root provider</code></td><td>En scoped tjänst injicerad i en singleton</td><td>Singletonen lever längre än scopet. Gör den scoped, eller be om tjänsten när den behövs</td></tr>
+    <tr><td>Sidan svarar <strong>400</strong> på formuläret</td><td><code>&lt;AntiforgeryToken /&gt;</code> saknas</td><td>Lägg in den innanför <code>&lt;form&gt;</code></td></tr>
+    <tr><td>Formuläret gör ingenting</td><td><code>@formname</code> eller <code>@onsubmit</code> saknas</td><td>Båda behövs. Sidan visas om utan att metoden körts</td></tr>
+    <tr><td><code>InvalidOperationException: Session has not been configured</code></td><td><code>app.UseSession()</code> saknas</td><td>Lägg till raden bland <code>app.Use</code>-raderna</td></tr>
+    <tr><td>Alla besökare ser samma lista</td><td>Tjänsten är registrerad som singleton</td><td><code>AddScoped</code>. Kontrollera i ett privat fönster</td></tr>
+    <tr><td><code>NullReferenceException</code> i tjänsten</td><td><code>HttpContext</code> är null utanför en förfrågan</td><td><code>_http.HttpContext?.Session</code> med frågetecken</td></tr>
+    </tbody></table></div>
+    <h2 id="missa">Det som är lätt att missa när du gör det själv</h2>
+    <p><strong>Gränssnittet är inte en formalitet.</strong> En tjänst utan gränssnitt fungerar, och missar hela poängen: område 5 ska kunna byta implementation utan att röra komponenterna. Kravet är <code>IDittService</code>, inte bara <code>DittService</code>.</p>
+    <p><strong>"Ingen datalogik i komponenten" gäller på riktigt.</strong> Ett <code>foreach</code> som filtrerar en lista i <code>OnInitializedAsync</code> <strong>är</strong> datalogik. Gränsen går ungefär så här: väljer koden ut <em>vilka</em> poster som ska visas hör den till tjänsten; bestämmer den <em>hur</em> de ska se ut hör den till komponenten.</p>
+    <p><strong>Livstiden ska motiveras skriftligt.</strong> Det är ett eget krav, inte en bisats. Två meningar per tjänst räcker, men de ska säga varför just den livstiden – inte vad livstiden heter.</p>
+    <p><strong>Kontrollera i ett privat fönster.</strong> Det är den enda kontrollen som avslöjar en samling som råkat bli delad mellan alla besökare, och den tar tio sekunder.</p>
+    <p><strong>Sessionen är inte en databas.</strong> Den försvinner efter trettio minuters inaktivitet och när webbläsaren stängs. Det är rätt för en visningslista och fel för allt som ska finnas kvar i morgon. Det kommer i område 5.</p>
+    <p>**<code>Filmdata</code> ska bort.** Så länge den gamla datafilen finns kvar kan en sida smyga tillbaka till den. Radera filen – bygget blir din kontroll.</p>
+    <h2 id="checklista">Checklista</h2>
+    <p>Guidens egen checklista. Den är inte betygskraven – de står i
+          <a href="uppgift.html">uppgiften</a> och är uppdelade på E, C och A. Den här listan
+          säger bara om du gjort klart det guiden går igenom.</p>
+
+        <section class="kravblock" data-niva="ska">
+          <div class="huvud">
+            <h3>Klart när allt är ikryssat</h3>
+            <span class="antal"></span>
+          </div>
+          <div class="stapel"><span></span></div>
+          <ul class="krav">
+            <li><label><input type="checkbox" id="guide-1"><span><code>Services/</code> innehåller minst ett gränssnitt och en implementation</span></label></li>
+            <li><label><input type="checkbox" id="guide-2"><span>Gränssnittets namn börjar med <code>I</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-3"><span>Klassen står med <code>: IDittService</code> efter namnet</span></label></li>
+            <li><label><input type="checkbox" id="guide-4"><span>Tjänsten är registrerad i <code>Program.cs</code> med vald livstid</span></label></li>
+            <li><label><input type="checkbox" id="guide-5"><span>Klassnamnet nämns **bara** i sin egen fil och på registreringsraden</span></label></li>
+            <li><label><input type="checkbox" id="guide-6"><span>Varje komponent som behöver data använder <code>@inject</code> mot **gränssnittet**</span></label></li>
+            <li><label><input type="checkbox" id="guide-7"><span>Den gamla datafilen är **raderad**</span></label></li>
+            <li><label><input type="checkbox" id="guide-8"><span>Ingen komponent innehåller uträkningar på hela listan</span></label></li>
+            <li><label><input type="checkbox" id="guide-9"><span>Minst en tjänst tar emot ett beroende via konstruktorn</span></label></li>
+            <li><label><input type="checkbox" id="guide-10"><span>En samling överlever sidvisningar och är kontrollerad i privat fönster</span></label></li>
+            <li><label><input type="checkbox" id="guide-11"><span><code>AddDistributedMemoryCache</code>, <code>AddSession</code> och <code>UseSession</code> ligger rätt</span></label></li>
+            <li><label><input type="checkbox" id="guide-12"><span>Formuläret har <code>@formname</code>, <code>@onsubmit</code> och <code>&lt;AntiforgeryToken /&gt;</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-13"><span>Metoderna är <code>Task</code>-baserade och anropas med <code>await</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-14"><span>Minst en loggrad, och minst ett <code>try</code>/<code>catch</code> i en tjänst</span></label></li>
+            <li><label><input type="checkbox" id="guide-15"><span>Livstidsmotiveringen står i <code>README.md</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-16"><span><code>dotnet build</code> ger noll varningar</span></label></li>
+          </ul>
+        </section>
+
+        <p>Kryssen sparas i din webbläsare.
+          <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+    <h2 id="mer">Vill du mer</h2>
+    <ul><li><a href="https://learn.microsoft.com/aspnet/core/fundamentals/dependency-injection">Dependency injection in ASP.NET Core</a> – vad behållaren gör, och varför man inte skapar sina egna tjänster med <code>new</code>.</li><li><a href="https://learn.microsoft.com/aspnet/core/fundamentals/dependency-injection#service-lifetimes">Service lifetimes</a> – transient, scoped och singleton, med de fällor som uppstår när de blandas.</li><li><a href="https://learn.microsoft.com/aspnet/core/blazor/fundamentals/dependency-injection">Blazor dependency injection</a> – <code>@inject</code>, och vad en <em>scope</em> omfattar i olika renderingslägen.</li><li><a href="https://learn.microsoft.com/aspnet/core/fundamentals/app-state">Session and state management</a> – session, cookies, och vad man inte ska lägga i dem.</li><li><a href="https://learn.microsoft.com/aspnet/core/blazor/forms/">Static SSR form handling</a> – <code>@formname</code>, <code>@onsubmit</code> och antiforgery utan <code>EditForm</code>.</li><li><a href="https://learn.microsoft.com/aspnet/core/fundamentals/logging/">Logging in .NET</a> – <code>ILogger</code>, nivåerna, och varför man skriver <code>{Id}</code> i stället för <code>$"{id}"</code>.</li><li><a href="https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/">Asynchronous programming with async and await</a> – <code>Task</code>, <code>await</code> och varför I/O ska vara asynkron.</li></ul>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Till uppgiften</a> ·
+        <a href="felsokning.html">Sex fel som flyttar sig</a> ·
+        <a href="provet.html">Vad provet prövar</a> ·
+        <a href="index.html">Tillbaka till område 4</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

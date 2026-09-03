@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide – CSS: form och layout</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-3-guide-css">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Guide</strong> · CSS: form och layout</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>På sidan</p>
+    <ol>
+      <li><a href="#stilmallen">Stilmallen</a></li>
+      <li><a href="#selektorer">Selektorer</a></li>
+      <li><a href="#kaskaden">Kaskaden och specificitet</a></li>
+      <li><a href="#boxmodellen">Boxmodellen</a></li>
+      <li><a href="#farg">Färg</a></li>
+      <li><a href="#typografi">Typografi</a></li>
+      <li><a href="#variabler">Variabler</a></li>
+      <li><a href="#flexbox">Flexbox</a></li>
+      <li><a href="#grid">Grid</a></li>
+      <li><a href="#komponenter">Komponenter och tillstånd</a></li>
+      <li><a href="#mockup">Efter en mockup</a></li>
+      <li><a href="#ta-det-langre">Ta det längre</a></li>
+      <li><a href="#felsokning">Felsökning</a></li>
+      <li><a href="#snabbreferens">Snabbreferens</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling · område 3</p>
+    <h1>Guide – CSS: form och layout</h1>
+    <p class="inledning">Här står allt som prov 2 kan fråga om, och allt du behöver för
+      Projekt 2. Guiden fungerar utan att du varit på lektionen.</p>
+
+    <p>Exemplen är hämtade ur referensprojektet <b>Fyrar längs Bohuskusten</b> – samma sajt
+      som i område 2, nu stilsatt. Öppna <code>stil.css</code> i den mappen bredvid guiden:
+      den är indelad i tio numrerade avsnitt och kommenterad.</p>
+
+    <h2>Vad du kan efter guiden</h2>
+    <ul>
+      <li>Koppla en extern stilmall och förstå varför den ska vara extern</li>
+      <li>Välja rätt selektor, och räkna ut vilken regel som vinner när två krockar</li>
+      <li>Räkna ut ett elements faktiska bredd, och veta varför <code>border-box</code> gör
+        det enkelt</li>
+      <li>Skriva färg på tre sätt och veta när <code>hsl</code> är enklast att arbeta med</li>
+      <li>Sätta typografi som följer besökarens egen textstorlek</li>
+      <li>Lägga stilguidens värden som variabler så att en ändring räcker</li>
+      <li>Bygga en rad med flexbox och ett rutnät med grid, och veta vilket som passar var</li>
+      <li>Ge en komponent alla dess tillstånd, inte bara viloläget</li>
+      <li>Läsa av mått ur en mockup i stället för att gissa</li>
+    </ul>
+
+    <h2 id="stilmallen">1. Stilmallen och hur den kopplas</h2>
+    <p>CSS står för <i>Cascading Style Sheets</i>. HTML säger vad något <b>är</b>, CSS säger
+      hur det ska <b>se ut</b>. Att de är åtskilda är hela poängen: samma markering kan se ut
+      hur som helst, och en sida utan CSS ska fortfarande gå att läsa.</p>
+
+    <h3>link-elementet</h3>
+    <p>Stilmallen är en egen fil, och den kopplas i <code>head</code> på varje sida:</p>
+<pre><code class="sprak-html">&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;Fyrar längs Bohuskusten&lt;/title&gt;
+  &lt;link rel="stylesheet" href="stil.css"&gt;
+&lt;/head&gt;</code></pre>
+    <p><code>rel="stylesheet"</code> säger vad filen är, <code>href</code> var den ligger.
+      Sökvägen är relativ, precis som i område 2.</p>
+
+    <h3>Tre sätt att skriva CSS, varav ett är rätt</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Var</th><th>Hur det ser ut</th><th>När</th></tr></thead>
+        <tbody>
+          <tr><td><b>Extern fil</b></td><td><code>&lt;link rel="stylesheet"&gt;</code></td>
+            <td>Alltid. En fil, alla sidor</td></tr>
+          <tr><td>Inbäddad</td><td><code>&lt;style&gt;</code> i <code>head</code></td>
+            <td>Aldrig i den här kursen</td></tr>
+          <tr><td>Inline</td><td><code>style="color: red"</code> på elementet</td>
+            <td>Aldrig i den här kursen</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Skälet till att den externa filen vinner: <b>en ändring på ett ställe når alla
+      sidor</b>. Har du färgen inskriven på tjugo element ska den ändras tjugo gånger, och du
+      kommer att missa ett. Inline-stilar är dessutom nästan omöjliga att skriva över – mer om
+      det i avsnitt 3.</p>
+
+    <h3>Syntaxen</h3>
+<pre><code class="sprak-css">h1 {
+  font-size: 2.25rem;
+  color: #1c2733;
+}</code></pre>
+    <ul>
+      <li><b>Selektorn</b> står först: <code>h1</code>. Den bestämmer vilka element regeln
+        träffar.</li>
+      <li><b>Deklarationerna</b> står inom klamrarna: egenskap, kolon, värde, semikolon.</li>
+      <li>Semikolon efter <b>varje</b> deklaration. Glömmer du ett slutar resten av regeln
+        fungera.</li>
+    </ul>
+    <p>Kommentarer skrivs <code>/* så här */</code>. CSS har ingen radkommentar –
+      <code>//</code> fungerar inte.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Koppla en tom <code>stil.css</code> till alla dina sidor och skriv en enda regel:
+        <code>body { background: hotpink; }</code>. Öppna varje sida. Blir någon inte rosa är
+        sökvägen fel på just den sidan, och det är bättre att veta nu än i november.</p>
+    </div>
+
+    <h2 id="selektorer">2. Selektorer</h2>
+    <p>Selektorn avgör vilka element regeln träffar. Fyra sorter räcker långt.</p>
+
+    <h3>Elementselektor</h3>
+<pre><code class="sprak-css">p { margin: 0 0 1rem; }</code></pre>
+    <p>Alla stycken på hela sajten. Bra för grundvärden, trubbig när du vill åt något
+      särskilt.</p>
+
+    <h3>Klasselektor</h3>
+    <p>Punkt före namnet. Träffar alla element med den klassen:</p>
+<pre><code class="sprak-css">.tillbaka { font-size: 0.9rem; }</code></pre>
+<pre><code class="sprak-html">&lt;a href="#toppen" class="tillbaka"&gt;Tillbaka till toppen&lt;/a&gt;</code></pre>
+    <p><b>Klassen är den selektor du ska använda mest.</b> Den går att sätta på flera element,
+      på olika sorters element, och att återanvända på nästa sida. Ett element kan ha flera
+      klasser, åtskilda med mellanslag: <code>class="knapp knapp-stor"</code>.</p>
+
+    <h3>Id-selektor</h3>
+<pre><code class="sprak-css">#toppen { font-size: 1.15rem; }</code></pre>
+    <div class="notis viktig">
+      <span class="rubrik">Undvik id som krok för CSS</span>
+      <p>Ett <code>id</code> är unikt per sida, så regeln går aldrig att återanvända, och den
+        är obehagligt svår att skriva över. Id hör hemma som mål för ankarlänkar och som
+        koppling mellan <code>label</code> och fält – det du lärde dig i område 2.</p>
+    </div>
+
+    <h3>Pseudoklasser</h3>
+    <p>Ett kolon och ett tillstånd. Träffar elementet <b>när något gäller</b>:</p>
+<pre><code class="sprak-css">a:hover { text-decoration-thickness: 2px; }</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pseudoklass</th><th>Gäller när</th></tr></thead>
+        <tbody>
+          <tr><td><code>:hover</code></td><td>Muspekaren är över elementet</td></tr>
+          <tr><td><code>:focus-visible</code></td><td>Elementet har fokus <b>och</b>
+            markeringen behövs, alltså vid tangentbord</td></tr>
+          <tr><td><code>:disabled</code></td><td>Ett formulärfält eller en knapp är avstängd</td></tr>
+          <tr><td><code>:invalid</code></td><td>Ett fält inte uppfyller sina regler</td></tr>
+          <tr><td><code>:first-child</code>, <code>:last-child</code></td><td>Elementet är
+            först respektive sist bland sina syskon</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Selektorer som kombineras</h3>
+<pre><code class="sprak-css">nav a { text-decoration: none; }     /* a någonstans inuti nav */
+nav &gt; ul { display: flex; }          /* ul direkt inuti nav, inte djupare */
+h1, h2, h3 { line-height: 1.25; }    /* alla tre, samma regel */</code></pre>
+    <p>Mellanslag betyder <i>inuti</i>. Större-än betyder <i>direkt barn till</i>. Komma
+      betyder <i>och</i>. Kommat är det som brukar glömmas: <code>h1 h2</code> betyder en
+      <code>h2</code> inuti en <code>h1</code>, vilket aldrig finns.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Öppna referensprojektet och hitta de fyra sorterna i <code>stil.css</code> avsnitt 4.
+        Byt sedan färg på <code>a</code>-regeln och ladda om. Länkarna i navigeringen ändras
+        inte – nästa avsnitt förklarar varför.</p>
+    </div>
+
+    <h2 id="kaskaden">3. Kaskaden och specificitet</h2>
+    <p>Två regler kan träffa samma element och säga olika saker. Något måste avgöra. Det som
+      avgör är, i ordning:</p>
+    <ol>
+      <li><b>Specificitet</b> – hur exakt selektorn är.</li>
+      <li><b>Ordning i filen</b> – står det lika vinner den som kommer sist.</li>
+    </ol>
+    <p>Ordningen är alltså den <b>sista</b> utslagsgivaren, inte den första. Det är den
+      vanligaste missuppfattningen i hela området.</p>
+
+    <h3>Räkna specificitet</h3>
+    <p>Räkna tre tal: id, klasser, element.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Selektor</th><th>id</th><th>klass</th><th>element</th><th>Läses</th></tr></thead>
+        <tbody>
+          <tr><td><code>a</code></td><td>0</td><td>0</td><td>1</td><td>0-0-1</td></tr>
+          <tr><td><code>nav a</code></td><td>0</td><td>0</td><td>2</td><td>0-0-2</td></tr>
+          <tr><td><code>.tillbaka</code></td><td>0</td><td>1</td><td>0</td><td>0-1-0</td></tr>
+          <tr><td><code>nav a.tillbaka</code></td><td>0</td><td>1</td><td>2</td><td>0-1-2</td></tr>
+          <tr><td><code>#toppen</code></td><td>1</td><td>0</td><td>0</td><td>1-0-0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Jämför från vänster. <b>En enda klass slår hur många element som helst</b>: 0-1-0
+      vinner över 0-0-9. Och ett id slår alla klasser tillsammans.</p>
+    <p>Det är därför länkarna i navigeringen inte ändrades i förra avsnittets övning.
+      <code>nav a</code> är 0-0-2 och <code>a</code> är 0-0-1, så <code>nav a</code> vinner
+      oavsett vilken som står sist.</p>
+
+    <h3>Ärvning</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ärvs</th><th>Ärvs inte</th></tr></thead>
+        <tbody>
+          <tr><td><code>color</code>, <code>font-family</code>, <code>font-size</code>,
+            <code>line-height</code></td>
+            <td><code>margin</code>, <code>padding</code>, <code>border</code></td></tr>
+          <tr><td><code>text-align</code>, <code>letter-spacing</code></td>
+            <td><code>background</code>, <code>width</code>, <code>height</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Därför räcker det att sätta typsnittet en gång på <code>body</code> – hela sidan får
+      det. Men marginaler måste sättas där de ska gälla.</p>
+    <p>Ett undantag som biter: <b>formulärfält ärver inte typsnitt</b>. <code>input</code>,
+      <code>select</code>, <code>textarea</code> och <code>button</code> får webbläsarens
+      eget. Lösningen står i avsnitt 10.</p>
+
+    <h3>!important</h3>
+    <div class="notis viktig">
+      <span class="rubrik">Använd den inte</span>
+      <p>Den som skriver <code>!important</code> har oftast ett specificitetsproblem och löser
+        det med våld. Nästa gång något ska ändras behövs ett <code>!important</code> till.
+        Sedan ett till. Behöver du den betyder det nästan alltid att du har en id-selektor
+        eller en inline-stil i vägen – ta bort dem i stället.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Skriv två regler som båda träffar samma stycke, en med en klass och en med två
+        element. Gissa vilken som vinner innan du laddar om. Byt sedan plats på dem i filen och
+        se att det inte gjorde någon skillnad.</p>
+    </div>
+
+    <h2 id="boxmodellen">4. Boxmodellen</h2>
+    <p>Varje element är en låda, och lådan har fyra lager. Inifrån och ut:</p>
+<pre><code>┌─────────────────────────────┐
+│  margin                     │
+│  ┌───────────────────────┐  │
+│  │  border               │  │
+│  │  ┌─────────────────┐  │  │
+│  │  │  padding        │  │  │
+│  │  │  ┌───────────┐  │  │  │
+│  │  │  │  content  │  │  │  │
+│  │  │  └───────────┘  │  │  │
+│  │  └─────────────────┘  │  │
+│  └───────────────────────┘  │
+└─────────────────────────────┘</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Lager</th><th>Vad det är</th></tr></thead>
+        <tbody>
+          <tr><td><code>content</code></td><td>Innehållet självt</td></tr>
+          <tr><td><code>padding</code></td><td>Luft <b>innanför</b> kanten. Bakgrunden når
+            hit</td></tr>
+          <tr><td><code>border</code></td><td>Kanten</td></tr>
+          <tr><td><code>margin</code></td><td>Luft <b>utanför</b> kanten. Bakgrunden når inte
+            hit</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Tumregeln: vill du ha mer luft <b>inuti</b> en ruta med bakgrundsfärg, är det
+      <code>padding</code>. Vill du ha avstånd <b>mellan</b> två rutor, är det
+      <code>margin</code>.</p>
+
+    <h3>box-sizing</h3>
+<pre><code class="sprak-css">*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}</code></pre>
+    <p>Utan den räknar <code>width</code> bara innehållet. Ett element med
+      <code>width: 300px</code>, <code>padding: 20px</code> och <code>border: 1px</code> blir
+      då <b>342 px</b> brett – 300 + 20 + 20 + 1 + 1. All layout blir en räkneövning.</p>
+    <p>Med <code>border-box</code> räknar <code>width</code> in padding och border. 300 px
+      betyder 300 px.</p>
+    <div class="notis viktig">
+      <span class="rubrik">Skriv den överst i varje stilmall du gör</span>
+      <p>Det är inget knep – det är bara ett bättre förval än det webben råkade få 1996.</p>
+    </div>
+
+    <h3>Kortformer</h3>
+<pre><code class="sprak-css">margin: 1rem;                 /* alla fyra sidor */
+margin: 1rem 2rem;            /* över/under, höger/vänster */
+margin: 1rem 2rem 3rem;       /* över, höger/vänster, under */
+margin: 1rem 2rem 3rem 4rem;  /* över, höger, under, vänster */</code></pre>
+    <p>Fyra värden går medurs från toppen. Minns du inte ordningen, skriv
+      <code>margin-top</code>, <code>margin-right</code> och så vidare – det är längre men
+      aldrig fel.</p>
+
+    <h3>Marginalkollaps</h3>
+    <p>Två marginaler som möts lodrätt smälter ihop till en, och den <b>större</b> vinner. Har
+      ett stycke 20 px under sig och nästa 30 px över sig blir avståndet 30, inte 50.</p>
+    <p>Det är inte ett fel, men det överraskar. Enklaste sättet att slippa tänka på det: sätt
+      marginal <b>bara nedåt</b> på löpande text.</p>
+<pre><code class="sprak-css">p { margin: 0 0 1rem; }</code></pre>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Sätt <code>background: yellow</code> på ett stycke och ge det <code>padding: 1rem</code>
+        och <code>margin: 1rem</code>. Titta på var det gula slutar. Det är gränsen mellan
+        padding och margin, och nu ser du den.</p>
+    </div>
+
+    <h2 id="farg">5. Färg</h2>
+    <p>Tre skrivsätt, samma färger.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Skrivsätt</th><th>Exempel</th><th>Vad talen betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Hex</b></td><td><code>#17607a</code></td><td>Rött, grönt, blått – två
+            tecken var, 00 till ff</td></tr>
+          <tr><td><b>rgb</b></td><td><code>rgb(23 96 122)</code></td><td>Samma tre kanaler,
+            0 till 255</td></tr>
+          <tr><td><b>hsl</b></td><td><code>hsl(196 68% 28%)</code></td><td>Kulör 0–360,
+            mättnad, ljushet</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Alla tre ger identiskt resultat. Skillnaden är hur lätta de är att <b>ändra</b>.</p>
+
+    <h3>Varför hsl är värt att kunna</h3>
+    <p>I hex är det omöjligt att se vad som händer om du vill ha samma färg lite mörkare. I hsl
+      sänker du sista talet:</p>
+<pre><code class="sprak-css">--accent:         hsl(196 68% 28%);
+--accent-morkare: hsl(196 68% 20%);
+--accent-ljus:    hsl(196 55% 94%);</code></pre>
+    <p>Samma kulör, olika ljushet. En hel färgskala ur ett enda tal. <b>Välj ett skrivsätt och
+      håll dig till det</b> – referensprojektet blandar alla tre bara för att visa dem.</p>
+
+    <h3>Kontrast</h3>
+    <p>Text måste ha tillräcklig kontrast mot sin bakgrund. Kravet i WCAG är <b>4,5:1 för
+      brödtext</b> och 3:1 för stor text.</p>
+    <p>Ljusgrå text på vit bakgrund är den vanligaste överträdelsen, och den ser stilren ut på
+      en ny skärm i ett upplyst rum. Den är oläsbar på en telefon i solsken.</p>
+    <p>Kontrastkraven och hur de mäts hör till Gränssnittsdesign. Här gäller att <b>din CSS ska
+      hålla de värden stilguiden satte</b> – och att du kan kontrollera dem.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Ta din accentfärg och skriv den i alla tre skrivsätten. Gör sedan en ljusare och en
+        mörkare variant genom att bara ändra ljusheten i hsl.</p>
+    </div>
+
+    <h2 id="typografi">6. Typografi</h2>
+    <p>Typografi avgör om en sida går att läsa. Det är också det billigaste att göra rätt.</p>
+
+    <h3>Typsnittsstackar</h3>
+<pre><code class="sprak-css">font-family: "Segoe UI", system-ui, -apple-system, sans-serif;</code></pre>
+    <p>En lista, inte ett typsnitt. Webbläsaren tar det första som finns på besökarens dator.
+      <b>Sista ledet ska alltid vara en generisk familj</b> – <code>sans-serif</code>,
+      <code>serif</code> eller <code>monospace</code> – för den finns alltid.</p>
+
+    <h3 id="webbtypsnitt">Webbtypsnitt</h3>
+    <p>Stacken ovan använder typsnitt som redan finns på besökarens dator. Vill du ha ett som
+      inte gör det måste det <b>hämtas</b>, och då finns två vägar.</p>
+    <p><b>Hämta från en tjänst.</b> Ett <code>link</code>-element i <code>head</code>, före din
+      egen stilmall:</p>
+<pre><code class="sprak-html">&lt;link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter&amp;display=swap"&gt;</code></pre>
+    <p><b>Lägg filen i projektet.</b> Du laddar ned typsnittet, lägger det i en mapp och
+      beskriver det själv:</p>
+<pre><code class="sprak-css">@font-face {
+  font-family: "Inter";
+  src: url("typsnitt/inter.woff2") format("woff2");
+  font-display: swap;
+}</code></pre>
+    <p>Sedan används det som vanligt, och <b>stacken behövs fortfarande</b>:</p>
+<pre><code class="sprak-css">body { font-family: "Inter", system-ui, sans-serif; }</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Väg</th><th>Fördel</th><th>Nackdel</th></tr></thead>
+        <tbody>
+          <tr><td>Tjänst</td><td>En rad, inget att ladda ned</td>
+            <td>Sidan blir beroende av någon annans server</td></tr>
+          <tr><td>Egen fil</td><td>Fungerar även om tjänsten ligger nere</td>
+            <td>Du måste hålla ordning på filerna själv</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Tre saker som gäller båda vägarna:</p>
+    <ul>
+      <li><b>Kontrollera licensen.</b> Alla typsnitt får inte användas på webben. Det togs upp
+        i Gränssnittsdesignens typografipass.</li>
+      <li><b>Håll nere antalet.</b> Varje vikt och stil är en egen fil som ska hämtas. Två
+        typsnitt i två vikter räcker nästan alltid.</li>
+      <li><b><code>display=swap</code> respektive <code>font-display: swap</code></b> gör att
+        texten visas i ett reservtypsnitt medan det riktiga hämtas, i stället för att sidan
+        står tom. Utan det kan texten vara osynlig i upp till tre sekunder.</li>
+    </ul>
+    <div class="notis">
+      <span class="rubrik">Inget krav i Projekt 2</span>
+      <p>Stacken räcker för alla betyg. Behöver din stilguide ett särskilt typsnitt är det
+        här du hämtar det.</p>
+    </div>
+
+    <h3>Enheter</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Enhet</th><th>Räknar mot</th><th>Använd till</th></tr></thead>
+        <tbody>
+          <tr><td><code>rem</code></td><td>Rotens teckenstorlek</td><td><b>Teckenstorlek.</b>
+            Alltid</td></tr>
+          <tr><td><code>em</code></td><td>Elementets egen teckenstorlek</td><td>Avstånd som ska
+            följa texten</td></tr>
+          <tr><td><code>px</code></td><td>Bildpunkter</td><td>Kanter och små radier. Inte
+            text</td></tr>
+          <tr><td><code>%</code></td><td>Elementet omkring</td><td>Bredder</td></tr>
+          <tr><td><code>ch</code></td><td>Bredden på tecknet <code>0</code></td><td>Radlängd</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="notis viktig">
+      <span class="rubrik">Sätt aldrig teckenstorlek i px</span>
+      <p>Ändrar besökaren sin webbläsares textstorlek – och många gör det – följer
+        <code>rem</code> med, medan <code>px</code> står still. För den som behöver större text
+        är det skillnaden mellan en läsbar sajt och en oanvändbar.</p>
+    </div>
+
+    <h3>line-height utan enhet</h3>
+<pre><code class="sprak-css">body { line-height: 1.6; }</code></pre>
+    <p>Ingen enhet. Det betyder 1,6 gånger <b>elementets egen</b> teckenstorlek. Skriver du
+      <code>1.6rem</code> räknas det i stället mot rotens storlek och ärvs som ett fast tal –
+      rubriker med stor text får då för trånga rader.</p>
+    <p><b>Vilka värden du ska ha står i din stilguide.</b> Radavstånd som typografisk fråga
+      hör till Gränssnittsdesign – här handlar det bara om hur du skriver in det. Har guiden
+      inga värden ännu fungerar 1,6 för brödtext och 1,25 för rubriker som platshållare tills
+      den har det.</p>
+
+    <h3>Radlängd</h3>
+<pre><code class="sprak-css">p { max-width: 68ch; }</code></pre>
+    <p><code>ch</code> är bredden på tecknet <code>0</code>, så <code>68ch</code> blir
+      ungefär 68 tecken. <b>Vilken radlängd din sajt ska ha bestämde du i stilguiden</b> –
+      varför ögat tappar raden när den blir för lång är Gränssnittsdesignens typografipass,
+      inte det här.</p>
+    <p>Det som hör hit är att raden ovan är den som genomför beslutet, och att en sida utan
+      den låter brödtexten bli lika bred som fönstret.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Sätt <code>max-width</code> på dina stycken och dra fönstret brett. Läs samma stycke
+        med och utan begränsningen.</p>
+    </div>
+
+    <h2 id="variabler">7. Variabler</h2>
+    <p>En variabel är ett värde med ett namn. Ändras värdet ändras det överallt.</p>
+<pre><code class="sprak-css">:root {
+  --accent: #17607a;
+  --steg-2: 1rem;
+}
+
+.knapp {
+  background: var(--accent);
+  padding: var(--steg-2);
+}</code></pre>
+    <ul>
+      <li>Namnet börjar med <b>två bindestreck</b>. Det är inte ett stavfel, det är
+        syntaxen.</li>
+      <li>Värdet hämtas med <code>var(--namnet)</code>.</li>
+      <li><code>:root</code> är dokumentets rot, alltså <code>html</code>. Variabler som
+        deklareras där ärvs ned till allt annat.</li>
+    </ul>
+    <p>CSS-variabler heter formellt <i>egna egenskaper</i>, <span lang="en">custom
+      properties</span>. Båda namnen används.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Varför det här är områdets viktigaste avsnitt</span>
+      <p>Din stilguide kommer att ändras efter att du skrivit CSS:en. Ligger färgen på fyrtio
+        ställen är en ändring en halvdags arbete och tre missade förekomster. Ligger den i
+        <code>:root</code> är den en rad.</p>
+    </div>
+
+    <h3>Namngivning</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Bra</th><th>Dåligt</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td><code>--accent</code></td><td><code>--morkbla</code></td><td>Byts färgen till
+            grön blir namnet en lögn</td></tr>
+          <tr><td><code>--text-dov</code></td><td><code>--gra</code></td><td>Samma sak</td></tr>
+          <tr><td><code>--steg-2</code></td><td><code>--sexton-px</code></td><td>Talet kan
+            ändras, rollen består</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>En skala för avstånd</h3>
+<pre><code class="sprak-css">:root {
+  --steg-1: 0.5rem;
+  --steg-2: 1rem;
+  --steg-3: 1.5rem;
+  --steg-4: 2.5rem;
+  --steg-5: 4rem;
+}</code></pre>
+    <p>Fem värden räcker till en hel sajt. Att avstånden är släkt med varandra är det som gör
+      att sidan ser sammanhållen ut – svårt att uppnå med lösryckta tal som 7, 15 och 23.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Flytta varje hårdkodad färg i din CSS till <code>:root</code>. Byt sedan ut en enda
+        variabel mot en helt annan färg och ladda om. Ändrades allt som skulle ändras? Om inte
+        har du hittat det du missade.</p>
+    </div>
+
+    <h2 id="flexbox">8. Flexbox</h2>
+    <p>Flexbox lägger saker på <b>en rad</b> eller i <b>en kolumn</b>, och fördelar utrymmet
+      mellan dem.</p>
+<pre><code class="sprak-css">nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}</code></pre>
+    <p><code>display: flex</code> på <b>behållaren</b>. Barnen blir flexbarn och lägger sig på
+      rad.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Egenskap</th><th>Gör</th><th>Vanliga värden</th></tr></thead>
+        <tbody>
+          <tr><td><code>flex-direction</code></td><td>Åt vilket håll</td>
+            <td><code>row</code> (förval), <code>column</code></td></tr>
+          <tr><td><code>justify-content</code></td><td>Fördelning <b>längs</b> raden</td>
+            <td><code>flex-start</code>, <code>center</code>, <code>space-between</code></td></tr>
+          <tr><td><code>align-items</code></td><td>Placering <b>tvärs</b> raden</td>
+            <td><code>stretch</code> (förval), <code>center</code></td></tr>
+          <tr><td><code>flex-wrap</code></td><td>Får barnen bryta till ny rad</td>
+            <td><code>nowrap</code> (förval), <code>wrap</code></td></tr>
+          <tr><td><code>gap</code></td><td>Avstånd mellan barnen</td>
+            <td><code>1rem</code>, eller <code>rad kolumn</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>De två som förväxlas är <code>justify-content</code> och <code>align-items</code>.
+      Minnesregeln: <b>justify följer riktningen, align går tvärs över</b>. Byter du
+      <code>flex-direction</code> till <code>column</code> byter de två också håll.</p>
+
+    <h3>flex-wrap är inte valfritt</h3>
+    <p>Utan den klämmer flexbox ihop barnen tills de inte går att läsa, eller låter dem sticka
+      ut ur sidan. <b>Sätt den på varenda rad som kan innehålla mer än två saker.</b>
+      Navigeringen är det självklara fallet.</p>
+
+    <h3>gap i stället för marginaler</h3>
+    <p><code>gap</code> sätter avstånd <b>mellan</b> barnen, inte utanför de yttersta. Med
+      marginaler får du alltid ett överskott i ena kanten. <code>gap</code> fungerar i både
+      flexbox och grid.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Gör din navigering till en flexrad med <code>gap</code>. Dra ihop fönstret tills
+        punkterna inte får plats. Lägg till <code>flex-wrap: wrap</code> och gör om samma
+        sak.</p>
+    </div>
+
+    <h2 id="grid">9. Grid</h2>
+    <p>Grid lägger saker i ett <b>rutnät</b> – rader och kolumner samtidigt.</p>
+<pre><code class="sprak-css">.kortlista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+}</code></pre>
+
+    <h3>fr-enheten</h3>
+<pre><code class="sprak-css">grid-template-columns: 1fr 1fr 1fr;   /* tre lika breda */
+grid-template-columns: 3fr 1fr;       /* den första tre gånger så bred */
+grid-template-columns: 200px 1fr;     /* fast första, resten till den andra */</code></pre>
+    <p><code>fr</code> betyder <i>fraction</i>, en andel av det lediga utrymmet. Den finns bara
+      i grid, och gör procenträkning onödig: <code>1fr 1fr</code> är alltid exakt halva var,
+      oavsett <code>gap</code>.</p>
+
+    <h3>repeat, auto-fit och minmax</h3>
+    <p>Läs raden inifrån och ut:</p>
+    <ul>
+      <li><code>minmax(16rem, 1fr)</code> – varje kolumn är <b>minst</b> 16rem och <b>högst</b>
+        en andel av det lediga.</li>
+      <li><code>auto-fit</code> – lägg så många sådana kolumner som får plats.</li>
+      <li><code>repeat(...)</code> – upprepa.</li>
+    </ul>
+    <p>Resultatet är ett galleri som räknar ut antalet kolumner själv. Tre kort på en bred
+      skärm, två på en surfplatta, ett på en telefon – <b>utan en enda media query</b>. Lär dig
+      raden utantill.</p>
+
+    <h3>grid-template-areas</h3>
+<pre><code class="sprak-css">.sida {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-areas:
+    "rubrik   rubrik"
+    "innehall sido";
+}
+
+.sida &gt; h1      { grid-area: rubrik; }
+.sida &gt; article { grid-area: innehall; }
+.sida &gt; aside   { grid-area: sido; }</code></pre>
+    <p>Layouten går att läsa direkt i CSS:en. <b>Men den låser antalet kolumner:</b> varje rad i
+      namnrutnätet måste ha lika många kolumner, och därför går <code>grid-template-areas</code>
+      <b>inte</b> att kombinera med <code>auto-fit</code>. Vill du ha båda behöver du en media
+      query.</p>
+
+    <h3>grid-column</h3>
+<pre><code class="sprak-css">.sidlayout &gt; h1 { grid-column: 1 / -1; }</code></pre>
+    <p>Från första linjen till den sista, alltså hela raden oavsett hur många kolumner det
+      blev.</p>
+
+    <h3>När grid och när flexbox</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Situation</th><th>Verktyg</th></tr></thead>
+        <tbody>
+          <tr><td>Upprepning av <b>lika</b> saker: kort, galleri, produktlista</td>
+            <td>Grid med <code>auto-fit</code></td></tr>
+          <tr><td>En rad som ska tåla att brytas: navigering, knapprad</td>
+            <td>Flexbox med <code>wrap</code></td></tr>
+          <tr><td>Sidlayout med huvudinnehåll och sidospalt – <b>olika</b> saker</td>
+            <td>Grid med bestämda kolumner</td></tr>
+          <tr><td>Två saker bredvid varandra, ingen exakt placering</td><td>Flexbox</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="notis viktig">
+      <span class="rubrik">Gränsen som brukar gissas fel</span>
+      <p><code>auto-fit</code> löser upprepning av <b>lika stora</b> saker. En artikel med
+        sidospalt är inte det. Där måste du bestämma kolumnerna själv, och då behövs en
+        brytpunkt.</p>
+    </div>
+
+    <h3>Media query</h3>
+<pre><code class="sprak-css">@media (min-width: 56rem) {
+  .sidlayout {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  }
+}</code></pre>
+    <p>Läs den som: <i>är fönstret minst 56rem brett, gör kolumnerna så här</i>. Under den
+      bredden gäller regeln inte, och layouten faller tillbaka på en kolumn.</p>
+    <p>Bygg alltid i den ordningen – <b>smalt först, bredd som tillägg</b>. Det är principen
+      från Gränssnittsdesign, och den är enklare att koda också: en kolumn är förvalet i grid,
+      så det smala fallet behöver oftast ingen kod alls.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Bygg ett galleri med <code>repeat(auto-fit, minmax(16rem, 1fr))</code> och dra fönstret
+        från smalt till brett. Räkna kolumnerna. Du skrev aldrig något om antalet.</p>
+    </div>
+
+    <h2 id="komponenter">10. Komponenter och tillstånd</h2>
+    <p>En komponent är en del som återanvänds: en knapp, ett kort, ett formulärfält. Den är
+      inte klar när den ser rätt ut i vila.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Tillstånd</th><th>Väljs med</th><th>Måste synas</th></tr></thead>
+        <tbody>
+          <tr><td>Vila</td><td>selektorn själv</td><td>–</td></tr>
+          <tr><td>Muspekaren över</td><td><code>:hover</code></td><td>Ja</td></tr>
+          <tr><td>Tangentbordsfokus</td><td><code>:focus-visible</code></td><td><b>Alltid</b></td></tr>
+          <tr><td>Avstängd</td><td><code>:disabled</code></td><td>Ja</td></tr>
+          <tr><td>Felaktigt ifylld</td><td><code>:invalid</code></td><td>Ja</td></tr>
+        </tbody>
+      </table>
+    </div>
+<pre><code class="sprak-css">.knapp {
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+}
+
+.knapp:hover    { background: hsl(196 65% 24%); }
+.knapp:disabled { background: var(--linje); cursor: not-allowed; }</code></pre>
+
+    <h3>focus-visible är inte valfri</h3>
+<pre><code class="sprak-css">a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}</code></pre>
+    <div class="notis viktig">
+      <span class="rubrik">Ta aldrig bort fokusmarkeringen utan att sätta en egen</span>
+      <p>Den som navigerar med tangentbord ser annars inte var hen är, och sajten blir omöjlig
+        att använda. Det är inte en detalj – det är skillnaden mellan användbar och obrukbar
+        för den som inte kan använda mus.</p>
+    </div>
+    <p><code>:focus-visible</code> är den moderna varianten: den slår till vid tangentbord men
+      inte när du klickar med musen, vilket var invändningen mot den gamla
+      <code>:focus</code>.</p>
+
+    <h3>Formulärfält ärver inte typsnitt</h3>
+<pre><code class="sprak-css">input,
+select,
+textarea,
+button {
+  font: inherit;
+}</code></pre>
+    <p>Utan den raden får fälten webbläsarens eget typsnitt, oftast mindre än resten av sidan.
+      Det ser trasigt ut och det är inget du gjort fel – det är ett arv från tidiga
+      webbläsare.</p>
+
+    <h3>Klasser som går att återanvända</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Bra</th><th>Dåligt</th></tr></thead>
+        <tbody>
+          <tr><td><code>.knapp</code></td><td><code>.knapp-i-formularet</code></td></tr>
+          <tr><td><code>.faktaruta</code></td><td><code>.hoger-ruta</code></td></tr>
+          <tr><td><code>.kortlista</code></td><td><code>.tre-kolumner</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Flyttas rutan till vänster blir <code>.hoger-ruta</code> en lögn. Blir korten fyra i
+      stället för tre blir <code>.tre-kolumner</code> det.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Tabba dig genom din sajt utan att röra musen. Ser du hela tiden var du är? Kommer du åt
+        varje länk och varje fält? Det tar två minuter och det är områdets viktigaste test.</p>
+    </div>
+
+    <h2 id="mockup">11. Att bygga efter en mockup</h2>
+    <p>En mockup är en bild. Din uppgift är att läsa av den, inte att gissa.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ur mockupen</th><th>Hur</th></tr></thead>
+        <tbody>
+          <tr><td>Färger</td><td>Färgkod ur stilguiden, inte pipetten på en skärmdump</td></tr>
+          <tr><td>Teckenstorlekar</td><td>Ur stilguidens skala</td></tr>
+          <tr><td>Avstånd</td><td>Mät, och avrunda till närmaste steg i din skala</td></tr>
+          <tr><td>Radlängd</td><td>Ungefär hur många tecken en rad rymmer</td></tr>
+          <tr><td>Tillstånd</td><td>Finns hover och fokus ritade? Ofta inte</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Avrundningen är viktig. Mäter du 23 px och din skala har 24, <b>använd 24</b>. Mockupen
+      är en skiss av en avsikt, inte en ritning med toleranser.</p>
+
+    <h3>Vad du frågar om i stället för att gissa</h3>
+    <ul>
+      <li>Hur ser det ut på en <b>telefon</b>?</li>
+      <li>Vad händer med en <b>rubrik som är dubbelt så lång</b>?</li>
+      <li>Hur ser knappen ut vid <b>hover</b> och <b>fokus</b>?</li>
+      <li>Vad händer när listan har <b>ett</b> objekt? Eller <b>femtio</b>?</li>
+      <li>Vilken färg har en <b>länk inuti brödtexten</b>?</li>
+    </ul>
+    <p>I det här projektet är designern du själv, vilket gör det enklare – men skriv ändå ned
+      svaren. Det är precis de här frågorna en frontendutvecklare ställer till en designer varje
+      vecka.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Pixelperfekt är fel mål</span>
+      <p>Sidan ska bli <b>det bilden ville</b>, i ett medium som har rörliga bredder och
+        användare som zoomar. En sida som stämmer på pixeln vid 1440 px och går sönder vid 1200
+        är sämre byggd än en som är några pixlar bredvid överallt men håller ihop.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Lägg mockupen bredvid din sida i webbläsaren. Skriv ned tre skillnader. Avgör för var
+        och en om det är ett fel i CSS:en eller något mockupen inte hade svar på.</p>
+    </div>
+
+    <h2 id="ta-det-langre">12. Ta det längre</h2>
+    <p>För dig som siktar mot C och A.</p>
+    <ul>
+      <li><b>Ordna CSS:en i avsnitt.</b> Numrerade kommentarer, samma ordning som du bygger:
+        variabler, grund, typografi, layout, komponenter. En annan person ska hitta i din fil
+        utan att fråga.</li>
+      <li><b>Skriv aldrig samma värde två gånger.</b> Står <code>1.5rem</code> på sex ställen
+        ska det vara en variabel.</li>
+      <li><b>Kontrollera med stilmallen avstängd.</b> Ta bort <code>link</code>-elementet
+        tillfälligt. Går sidan fortfarande att läsa och navigera? Då ligger CSS:en ovanpå
+        markeringen, som den ska.</li>
+      <li><b>Lär dig <code>:is()</code> och <code>:has()</code>.</b> De hör inte till området,
+        men de finns i alla webbläsare nu.</li>
+      <li><b>Läs andras CSS.</b> Öppna utvecklarverktygen på en sajt du tycker om och titta på
+        en knapp.</li>
+    </ul>
+
+    <h2 id="felsokning">13. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: bredd, fokus, variabel" autocomplete="off">
+      <p class="traffar" id="traffar-fel">14 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Ingenting händer när jag ändrar CSS</td><td>Filen är inte kopplad, eller
+            sökvägen är fel</td><td>Titta i utvecklarverktygens nätverksflik – laddas
+            <code>stil.css</code>?</td></tr>
+          <tr><td>Ingenting händer, men filen laddas</td><td>En annan regel med högre
+            specificitet vinner</td><td>Högerklicka, välj Inspektera. Överstruken rad =
+            överskriven</td></tr>
+          <tr><td>Ändringen syns inte fastän allt ser rätt ut</td><td>Webbläsaren har filen i
+            cacheminnet</td><td>Ladda om med Ctrl+F5</td></tr>
+          <tr><td>Regeln under den trasiga fungerar inte heller</td><td>Semikolon saknas</td>
+            <td>Leta uppåt från den första regel som inte fungerar</td></tr>
+          <tr><td>Elementet blir bredare än jag skrev</td><td><code>box-sizing</code>
+            saknas</td><td>Lägg <code>border-box</code> överst i filen</td></tr>
+          <tr><td>Avståndet blev mindre än summan</td><td>Marginalkollaps</td><td>Sätt marginal
+            bara åt ett håll</td></tr>
+          <tr><td>Sidan har vågrät rullningslist</td><td>Något är bredare än skärmen</td>
+            <td><code>max-width: 100%</code> på bilder, <code>overflow-x: auto</code> på
+            tabeller</td></tr>
+          <tr><td>Flexbarnen sticker ut ur sidan</td><td><code>flex-wrap</code> saknas</td>
+            <td>Lägg till <code>flex-wrap: wrap</code></td></tr>
+          <tr><td>Galleriet har en tom kolumn</td><td><code>auto-fit</code> fyller ut med tomma
+            spår</td><td>Normalt, inte ett fel</td></tr>
+          <tr><td>Formulärfälten har fel typsnitt</td><td>Fält ärver inte typsnitt</td>
+            <td><code>font: inherit</code> på fälten</td></tr>
+          <tr><td>Jag ser inte var jag är när jag tabbar</td><td>Fokusmarkeringen är
+            borttagen</td><td>Ta bort <code>outline: none</code>, sätt en egen
+            <code>:focus-visible</code></td></tr>
+          <tr><td>Färgen ändras inte fast jag bytte variabeln</td><td>Värdet står hårdkodat
+            någon annanstans också</td><td>Sök i filen på det gamla värdet</td></tr>
+          <tr><td>Bilden är utdragen</td><td>Bara ena måttet är satt</td><td>Sätt
+            <code>height: auto</code> när du satt <code>width</code></td></tr>
+          <tr><td><code>//</code> fungerar inte som kommentar</td><td>CSS har ingen
+            radkommentar</td><td>Skriv <code>/* så här */</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="snabbreferens">14. Snabbreferens: egenskaperna</h2>
+    <p>Använd den inför prov 2. Ordträningen nedan drar slumpvis ur tabellen.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-egenskaper">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="sok">
+      <label for="sok-egenskap">Sök bland egenskaperna</label>
+      <input type="search" id="sok-egenskap" data-sok="tabell-egenskaper"
+             data-traffar="traffar-egenskap" placeholder="till exempel: gap, rem, grid"
+             autocomplete="off">
+      <p class="traffar" id="traffar-egenskap">30 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-egenskaper">
+        <thead><tr><th>Egenskap eller begrepp</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>link rel="stylesheet"</b></td><td>Kopplar en extern stilmall i head</td></tr>
+          <tr><td><b>box-sizing: border-box</b></td><td>width räknar in padding och border</td></tr>
+          <tr><td><b>margin</b></td><td>Luft utanför kanten. Bakgrunden når inte hit</td></tr>
+          <tr><td><b>padding</b></td><td>Luft innanför kanten. Bakgrunden når hit</td></tr>
+          <tr><td><b>border</b></td><td>Kanten runt elementet</td></tr>
+          <tr><td><b>border-radius</b></td><td>Rundade hörn</td></tr>
+          <tr><td><b>max-width</b></td><td>Största bredd elementet får ta</td></tr>
+          <tr><td><b>marginalkollaps</b></td><td>Två lodräta marginaler smälter ihop, den större
+            vinner</td></tr>
+          <tr><td><b>specificitet</b></td><td>Hur exakt en selektor är. Avgör före ordning i
+            filen</td></tr>
+          <tr><td><b>klasselektor</b></td><td>Punkt före namnet. Den du ska använda mest</td></tr>
+          <tr><td><b>id-selektor</b></td><td>Brädgård före namnet. Undvik som krok för CSS</td></tr>
+          <tr><td><b>:hover</b></td><td>Gäller när muspekaren är över elementet</td></tr>
+          <tr><td><b>:focus-visible</b></td><td>Gäller vid tangentbordsfokus. Får aldrig
+            saknas</td></tr>
+          <tr><td><b>:disabled</b></td><td>Gäller för avstängda fält och knappar</td></tr>
+          <tr><td><b>:invalid</b></td><td>Gäller för fält som inte uppfyller sina regler</td></tr>
+          <tr><td><b>!important</b></td><td>Slår all specificitet. Använd den inte</td></tr>
+          <tr><td><b>font-family</b></td><td>Typsnittsstack, generisk familj sist</td></tr>
+          <tr><td><b>rem</b></td><td>Räknar mot rotens teckenstorlek. Använd till text</td></tr>
+          <tr><td><b>em</b></td><td>Räknar mot elementets egen teckenstorlek</td></tr>
+          <tr><td><b>ch</b></td><td>Bredden på tecknet 0. Används till radlängd</td></tr>
+          <tr><td><b>line-height</b></td><td>Radavstånd. Skrivs utan enhet</td></tr>
+          <tr><td><b>hsl</b></td><td>Kulör, mättnad, ljushet. Lättast att göra varianter ur</td></tr>
+          <tr><td><b>:root</b></td><td>Dokumentets rot. Där variablerna deklareras</td></tr>
+          <tr><td><b>var()</b></td><td>Hämtar värdet ur en variabel</td></tr>
+          <tr><td><b>display: flex</b></td><td>Gör behållaren till en flexbehållare</td></tr>
+          <tr><td><b>flex-wrap: wrap</b></td><td>Låter flexbarnen bryta till ny rad</td></tr>
+          <tr><td><b>gap</b></td><td>Avstånd mellan barnen i flexbox och grid</td></tr>
+          <tr><td><b>fr</b></td><td>Andel av ledigt utrymme. Finns bara i grid</td></tr>
+          <tr><td><b>repeat(auto-fit, minmax())</b></td><td>Galleri som räknar kolumner
+            själv</td></tr>
+          <tr><td><b>grid-template-areas</b></td><td>Layout ritad med namn. Låser antalet
+            kolumner</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

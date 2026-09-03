@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Övning 63–69: livstider och tillstånd</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o4-ovn-livstider">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Övning 63–69</strong> · Livstider och tillstånd</span>
+  <a href="#avprickning">Avprickning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#tre">De tre livstiderna</a></li>
+      <li><a href="#ov-63">63. Transient</a></li>
+      <li><a href="#ov-64">64. Scoped</a></li>
+      <li><a href="#ov-65">65. Singleton</a></li>
+      <li><a href="#ov-66">66. Fel livstid</a></li>
+      <li><a href="#tillstand">Tillstånd: fyra ställen att lägga data</a></li>
+      <li><a href="#ov-67">67. Ett värde i session</a></li>
+      <li><a href="#ov-68">68. En lista i session</a></li>
+      <li><a href="#ov-69">69. Vad hade hänt med singleton?</a></li>
+      <li><a href="#avprickning">Avprickning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 4 · lektion 26–27</p>
+    <h1>Livstider och tillstånd</h1>
+    <p class="inledning">Sju övningar om hur länge ett objekt lever och var data
+      hamnar. Fyra om livstiderna, tre om tillstånd. De hör ihop: valet av livstid
+      <em>är</em> ett beslut om vem som ser vilken data.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du passen?</span>
+      <p>Två genomgångar ligger bakom den här sidan. Räkna med tre timmar för båda:</p>
+      <ol>
+        <li><b>Lektion 26</b> – läs <a href="guide.html#steg-8">guidens steg 8 till
+          10</a> och bygg livstidsdemot. Kör det på riktigt: <b>ladda om flera gånger
+          och öppna ett privat fönster.</b> Tabellen betyder ingenting förrän du sett
+          siffrorna röra sig.</li>
+        <li>Lös övning 63 till 66.</li>
+        <li><b>Lektion 27</b> – läs <a href="guide.html#steg-11">steg 11 till 14</a>.
+          HTTP som tillståndslöst, cookien, sessionen och formuläret.</li>
+        <li>Lös övning 67 till 69.</li>
+      </ol>
+      <p>Öppna webbläsarens utvecklarverktyg (F12) och leta upp fliken där cookies
+        listas innan du börjar. Sessionen syns bara där.</p>
+    </div>
+
+    <h2 id="tre">De tre livstiderna</h2>
+    <p>Tre rader i <code>Program.cs</code>, tre helt olika beteenden:</p>
+
+    <pre><code class="sprak-csharp">builder.Services.AddTransient&lt;ITransientRaknare, Raknare&gt;();
+builder.Services.AddScoped&lt;IScopedRaknare, Raknare&gt;();
+builder.Services.AddSingleton&lt;ISingletonRaknare, Raknare&gt;();</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Livstid</th><th>Ett objekt per…</th><th>Lever tills</th><th>Används till</th></tr></thead>
+        <tbody>
+          <tr><td><b>transient</b></td><td>varje gång någon frågar</td><td>direkt efter användningen</td><td>Små, tillståndslösa hjälpare</td></tr>
+          <tr><td><b>scoped</b></td><td>förfrågan</td><td>svaret är skickat</td><td>Nästan allt. Förvalet</td></tr>
+          <tr><td><b>singleton</b></td><td>server</td><td>servern startas om</td><td>Sådant som är lika för alla: inställningar, cachning</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">"Scoped" betyder inte "per besökare"</span>
+      <p>Det är den vanligaste missuppfattningen i hela området, och den är lätt att få
+        eftersom ordet låter som något större än det är.</p>
+      <p>Vid <b>statisk serverrendering</b> är ett scope <b>en förfrågan</b>. Laddar du
+        om sidan är det ett nytt scope och ett nytt objekt. En lista i ett fält i en
+        scoped tjänst är alltså tom igen vid nästa sidvisning – inte för att något är
+        trasigt, utan för att objektet är ett annat.</p>
+      <p>Vill du att något ska följa besökaren mellan sidvisningar räcker inte
+        livstiden. Då behövs <b>session</b>, och det är övning 67 och 68.</p>
+    </div>
+
+    <h2 id="ov-63">63. Transient</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>AddTransient</code></p>
+    <p>Gör en tjänst <code>IOvning63</code> med en egenskap <code>int Nummer</code> som
+      sätts i konstruktorn ur en statisk räknare. Registrera den som
+      <code>AddTransient</code>.</p>
+    <p>Injicera den <b>två gånger</b> på samma sida, med olika namn, och visa båda
+      numren.</p>
+    <p><b>Klart när:</b> de två numren är olika.</p>
+
+    <h2 id="ov-64">64. Scoped</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>AddScoped</code> och vad en förfrågan omfattar</p>
+    <p>Registrera samma klass som <code>AddScoped</code> under ett andra gränssnitt.
+      Visa båda numren på sidan.</p>
+    <p>Ladda om tre gånger och skriv ned siffrorna.</p>
+    <p><b>Klart när:</b> de två numren är <b>lika</b> på sidan, och <b>båda</b> ändras
+      vid varje omladdning.</p>
+
+    <h2 id="ov-65">65. Singleton</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>AddSingleton</code> och vad "delad" betyder</p>
+    <p>Registrera samma klass en tredje gång som <code>AddSingleton</code>. Ladda om
+      fem gånger. Öppna sedan sidan i ett <b>privat fönster</b>.</p>
+    <p><b>Klart när:</b> numret är detsamma alla gånger, också i det privata fönstret,
+      och du kan säga vad det betyder att två besökare fick samma objekt.</p>
+
+    <h2 id="ov-66">66. Fel livstid</h2>
+    <p class="ledtext"><b>Svår</b> · tränar: felet som uppstår när livstider blandas</p>
+    <p>Gör en tjänst registrerad som <code>AddSingleton</code> som injicerar en tjänst
+      registrerad som <code>AddScoped</code> i sin konstruktor. Starta servern.</p>
+    <p><b>Klart när:</b> du kan skriva av felmeddelandet och förklara varför det är ett
+      fel – alltså vad som hade gått sönder om ramverket tillåtit det.</p>
+
+    <div class="notis">
+      <span class="rubrik">Lägg märke till <em>när</em> felet kommer</span>
+      <p>Bygget går igenom utan en varning. Servern startar inte. Det är en tidpunkt du
+        inte mött förut, och den är hela poängen med övningen –
+        <a href="felsokning.html#fel-5">fel 5</a> på felsökningssidan är samma sak med
+        meddelandet utskrivet.</p>
+    </div>
+
+    <h2 id="tillstand">Tillstånd: fyra ställen att lägga data</h2>
+    <p>HTTP minns ingenting. Varje förfrågan är den första servern hört av besökaren,
+      och allt som ska överleva måste lagras någonstans med avsikt.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Var</th><th>Vem ser det</th><th>Hur länge</th><th>Passar för</th></tr></thead>
+        <tbody>
+          <tr><td>Ett fält i en <b>scoped</b> tjänst</td><td>ingen efter svaret</td><td>en förfrågan</td><td>Mellanresultat under renderingen</td></tr>
+          <tr><td>Ett fält i en <b>singleton</b></td><td><b>alla besökare</b></td><td>tills servern startas om</td><td>Sådant som ska vara lika för alla</td></tr>
+          <tr><td><b>Session</b></td><td>en besökare</td><td>30 min inaktivitet, eller tills webbläsaren stängs</td><td>Varukorg, visningslista, flerstegsblankett</td></tr>
+          <tr><td><b>Cookie</b></td><td>en webbläsare</td><td>det du bestämmer</td><td>Små val: språk, mörkt läge. Nyckeln till sessionen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Sessionen ligger på <b>servern</b>. Cookien innehåller bara nyckeln till den –
+      inte innehållet. Det är skillnaden som frågan om <em>scoped, singleton och
+      cookie</em> i <a href="uppgift.html#bor">bör-kraven</a> handlar om.</p>
+
+    <p>Fyra rader slår på sessionen, och tre av dem är fällor:</p>
+
+    <pre><code class="sprak-csharp">builder.Services.AddHttpContextAccessor();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
+
+app.UseSession();</code></pre>
+
+    <p>Glöms cachen startar inte servern. Glöms
+      <code>AddHttpContextAccessor</code> når tjänsten inte förfrågan. Glöms
+      <code>app.UseSession()</code> svarar sidan 500 med
+      <em>Session has not been configured for this application or request</em>.</p>
+
+    <h2 id="ov-67">67. Ett värde i session</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>ISession</code>, <code>SetString</code>, <code>GetString</code></p>
+    <p>Gör en sida som räknar hur många gånger <b>du</b> har besökt den, med värdet i
+      session.</p>
+    <p>Du behöver <code>AddDistributedMemoryCache</code>, <code>AddSession</code>,
+      <code>AddHttpContextAccessor</code> och <code>app.UseSession()</code>.</p>
+    <p><b>Klart när:</b> siffran ökar när du laddar om, och börjar om på 1 i ett privat
+      fönster.</p>
+
+    <h2 id="ov-68">68. En lista i session</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: att lagra flera värden i text</p>
+    <p>Gör en tjänst som håller en lista med heltal i session. Lagra dem som
+      <code>"1,4,6"</code> och tolka tillbaka med <code>int.TryParse</code>.</p>
+    <p>Sidan ska kunna lägga till ett tal med ett
+      <code>&lt;form method="post"&gt;</code> och visa listan.</p>
+    <p><b>Klart när:</b> listan växer över flera sidvisningar och är tom i ett privat
+      fönster.</p>
+
+    <div class="notis">
+      <span class="rubrik">Session lagrar text, inte objekt</span>
+      <p>Därför blir listan strängen <code>"1,4,6"</code> och inte en
+        <code>List&lt;int&gt;</code>. Samma sak i Filmarkivet: bara id:n sparas, aldrig
+        hela filmer. Sessionen ska vara liten, och posten kan alltid hämtas ur tjänsten
+        på nytt när den ska visas.</p>
+      <p>Knappen ska sitta i ett <code>&lt;form method="post"&gt;</code> med
+        <code>@formname</code>, <code>@onsubmit</code> och
+        <code>&lt;AntiforgeryToken /&gt;</code>. Ett <code>@onclick</code> gör
+        ingenting alls här, precis som i område 3.</p>
+    </div>
+
+    <h2 id="ov-69">69. Vad hade hänt med singleton?</h2>
+    <p class="ledtext"><b>Svår</b> · tränar: att resonera om delat tillstånd</p>
+    <p>Registrera tjänsten från övning 68 som <code>AddSingleton</code> i stället, och
+      håll listan i ett vanligt fält – inte i session.</p>
+    <p>Öppna sidan i två olika webbläsare, eller ett vanligt och ett privat fönster.
+      Lägg till ett tal i den ena.</p>
+    <p><b>Klart när:</b> du kan beskriva vad du såg och varför det är allvarligt. Ändra
+      sedan tillbaka.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Den här övningen har inget felmeddelande</span>
+      <p>Koden bygger. Servern startar. Sidan fungerar. Ändå är det ett av de värsta
+        fel du kan göra i det här området, för det syns bara när <b>två personer
+        använder sajten samtidigt</b> – vilket aldrig händer när du testar ensam på din
+        egen dator.</p>
+      <p>Det är därför kontrollen i privat fönster står som ett eget krav i
+        <a href="uppgift.html#bor">inlämningen</a>. Tio sekunder, och skillnaden mellan
+        att tro och att veta.</p>
+    </div>
+
+    <h2 id="avprickning">Avprickning</h2>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Lösta övningar i det här temat</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="liv-63"><span>63. Transient</span></label></li>
+        <li><label><input type="checkbox" id="liv-64"><span>64. Scoped</span></label></li>
+        <li><label><input type="checkbox" id="liv-65"><span>65. Singleton</span></label></li>
+        <li><label><input type="checkbox" id="liv-66"><span>66. Fel livstid</span></label></li>
+        <li><label><input type="checkbox" id="liv-67"><span>67. Ett värde i session</span></label></li>
+        <li><label><input type="checkbox" id="liv-68"><span>68. En lista i session</span></label></li>
+        <li><label><input type="checkbox" id="liv-69"><span>69. Vad hade hänt med singleton?</span></label></li>
+      </ul>
+    </section>
+
+    <p>Övning 68 är den som återkommer direkt i
+      <a href="uppgift.html">inlämningen</a> – din samling är samma sak med en annan
+      datatyp. Övning 65 och 69 är de två som provet frågar om.</p>
+
+    <footer class="fot">
+      <p><a href="ovningar-async.html">Nästa tema: async, loggning och fel</a> ·
+        <a href="guide.html">Till guiden</a> ·
+        <a href="index.html">Tillbaka till område 4</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

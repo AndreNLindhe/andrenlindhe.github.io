@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Systematisk felsökning – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o6-systematisk-felsokning">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Systematisk felsökning</strong> · område 6</span>
+  <a href="index.html">Område 6</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#symtom">Symtomtabellen</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 6 · lektion 33</p>
+    <h1>Systematisk felsökning</h1>
+    <p class="inledning">Den första meningen i den här kursen var att den som
+      aldrig mätt en spänning felsöker genom att byta komponenter. Nu står du med
+      ett eget system som inte gör vad du tänkt, och det är där skillnaden märks.
+      Att byta delar är att gissa snabbt. Att mäta är att veta långsamt — och den
+      som mäter är oftast klar först.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan formulera ett fel som tre påståenden: vad som skulle hända, vad
+        som händer, och vad som skiljer.</li>
+      <li>Du kan halvera en signalkedja i stället för att gå igenom den från
+        början, och veta varför det går fortare.</li>
+      <li>Du kan skriva en minsta testskiss som provar en enda del av systemet.</li>
+      <li>Du kan känna igen kursens vanligaste felbilder på symtomet.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Byt inte. Mät.</h3>
+    <p>Att byta en komponent tar två minuter och ger ett av två svar: felet fanns
+      där, eller så vet du fortfarande ingenting. Att mäta i en punkt tar också två
+      minuter, men <strong>halverar antalet möjliga fel oavsett vad mätaren
+      visar</strong>. Ett bytesförsök som inte hjälper är bortkastat; en mätning som
+      visar rätt värde är lika värdefull som en som visar fel.</p>
+    <p class="notis viktig"><span class="rubrik">Att byta har dessutom en baksida</span>
+      Varje byte lägger till en möjlig ny felkälla: en tråd som hamnade i fel hål,
+      en komponent som vändes fel, en lödning som lossnade. Efter fem byten
+      felsöker du ett annat system än det du började med. Det är därför
+      <strong>en ändring i taget</strong>, med resultatet nedskrivet, är den enda
+      metod som håller när felet inte hittas på fem minuter.</p>
+
+    <h3>Tre påståenden innan du rör någonting</h3>
+    <p>Skriv dem. På papper, inte i huvudet. De tar en minut och de flyttar
+      arbetet från "det fungerar inte" till en fråga som går att undersöka:</p>
+    <ol>
+      <li><strong>Vad skulle hända?</strong> "Servot ska gå till 90 grader när
+        råvärdet passerar 400."</li>
+      <li><strong>Vad händer i stället?</strong> "Servot rycker till och går
+        tillbaka. Varje gång, inte ibland."</li>
+      <li><strong>Vad är skillnaden?</strong> "Rörelsen påbörjas, alltså är
+        beslutet rätt och signalen kommer fram. Den avbryts, alltså faller något
+        bort under rörelsen."</li>
+    </ol>
+    <p>Det tredje påståendet är det som gör jobbet. I exemplet har du redan uteslutit
+      givaren, tröskeln och koden fram till beslutet — och pekat ut matningen, som
+      är det som brukar falla bort just när ett servo börjar dra ström. Tio
+      sekunders tänkande som ersatte en halvtimmes byten.</p>
+
+    <h3>Halvera kedjan i stället för att gå igenom den</h3>
+    <p>Ditt system är en kedja med sex länkar: givaren, råvärdet, beslutet,
+      styrsignalen, drivsteget och aktuatorn. Går du från början och kontrollerar
+      en länk i taget behöver du i värsta fall sex mätningar. Mäter du i mitten
+      först behöver du tre — och tre räcker även i värsta fall.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Mätning</th><th>Var</th><th>Utfall</th><th>Vad du vet efteråt</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Mitt i kedjan: skriv ut styrsignalen på <code>Serial</code></td>
+            <td>Rätt värde</td>
+            <td>Hela första halvan fungerar. Felet ligger i drivsteg eller
+              aktuator</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Samma punkt</td>
+            <td>Fel värde</td>
+            <td>Felet ligger i givare, råvärde eller beslut. Andra halvan är
+              oskyldig</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Mitt i den halva som var fel</td>
+            <td>—</td>
+            <td>Nu återstår två länkar</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Mellan de två</td>
+            <td>—</td>
+            <td>Felet är lokaliserat</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Sex länkar, tre mätningar. Tolv länkar hade krävt fyra. Det är samma
+      halvering som gör att man hittar ett ord i en ordbok utan att bläddra från
+      sida ett, och den är kraftfullast precis när systemet är stort — alltså nu, i
+      slutprojektet.</p>
+
+    <h3>Mätpunkterna, i den ordning de lönar sig</h3>
+    <p>Innan du mäter något finstilt: gå igenom de fyra grova punkterna. De tar en
+      minut tillsammans och förklarar de flesta fel i den här kursen.</p>
+    <ol>
+      <li><strong>Matningen.</strong> Mät spänningen där komponenten sitter, inte
+        vid batteriet. Ett batteri som visar 6,0 V i vila kan visa 4,1 V där servot
+        sitter under rörelse, och det är den senare siffran som gäller.</li>
+      <li><strong>Den gemensamma nollan.</strong> Mät resistansen mellan kortets
+        GND och den andra matningens minuspol. Ska vara nära noll ohm. Är den inte
+        det behöver du inte leta vidare — du har hittat felet.</li>
+      <li><strong>Signalen där den lämnar kortet.</strong> Mät på pinnen. Rätt
+        nivå där och fel funktion i andra änden betyder att felet ligger efter
+        kortet.</li>
+      <li><strong>Mekaniken för hand, med strömmen av.</strong> Går det runt? Ett
+        stumt lager, en skruv i vägen eller ett kugghjul som kärvar ger en
+        elektrisk symtombild — hög ström, kortet startar om — som lurar dig att
+        felsöka i fel halva.</li>
+    </ol>
+
+    <h3>Minsta testskiss</h3>
+    <p>Den starkaste metoden i hela guiden, och den som används minst: ta bort
+      allt utom en enda del och prova den för sig. Skriv av skissen nedan och byt
+      ut pinnen mot din egen. Den gör ingenting annat än att visa vad givaren
+      levererar.</p>
+
+    <pre><code class="sprak-cpp">// Minsta testskiss – provar EN sak i taget.
+// Ligger i en egen fil, inte i projektskissen. Den ska förbli kort.
+
+const int GIVARE_PIN = A0;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int ravarde = analogRead(GIVARE_PIN);
+  Serial.println(ravarde);
+  delay(200);                  // här är delay rätt: skissen gör inget annat
+}</code></pre>
+
+    <p>Visar den ett värde som ändras när du täcker för givaren är givaren,
+      spänningsdelaren, ledningarna och den analoga ingången friska — fyra länkar
+      uteslutna på två minuter. Visar den 0 eller 1023 oavsett vad du gör sitter
+      felet i någon av de fyra, och du behöver aldrig titta på resten av systemet.
+      Gör samma sak åt andra hållet med aktuatorn: en skiss som bara svänger servot
+      mellan två lägen, utan givare och utan beslut.</p>
+    <p class="notis"><span class="rubrik">Att delay är tillåtet här är själva poängen</span>
+      I projektskissen blockerar <code>delay()</code> allt annat, precis som
+      <a href="../omrade-3-logik-och-tillstand/guide-tid-utan-delay.html">guiden om tid</a>
+      säger. I en testskiss finns inget annat att blockera. Att testskissen får
+      vara enkel är hela skälet till att den är användbar — den innehåller för lite
+      för att kunna vara fel.</p>
+
+    <h3>Serial som mätinstrument</h3>
+    <p>Multimetern mäter volt. <code>Serial</code> mäter vad programmet tror. De
+      två tillsammans avgör om felet sitter i verkligheten eller i din bild av
+      den. Skriv av mönstret och lägg det i din egen loop:</p>
+
+    <pre><code class="sprak-cpp">// Felsökningsutskrift: råvärde, tillstånd och tid, en rad per varv.
+// Läggs in tillfälligt, tas bort eller kommenteras ut när felet är hittat.
+
+void skriv_lage(int ravarde, int lage) {
+  Serial.print(millis());        // tidsstämpel – visar OM koden går runt
+  Serial.print("  ravarde=");
+  Serial.print(ravarde);
+  Serial.print("  lage=");
+  Serial.print(lage);
+  Serial.print("  troskel=");
+  Serial.println(TROSKEL_MORKT);
+}</code></pre>
+
+    <p>Tre saker syns i den utskriften som inte syns någon annanstans.
+      <strong>Tidsstämpeln</strong> visar om loopen går runt alls, och hur fort —
+      står talet stilla har något blockerat. <strong>Råvärdet bredvid tröskeln</strong>
+      visar om beslutet borde ha fattats, vilket är en annan fråga än om det
+      fattades. <strong>Läget</strong> visar vad systemet minns, och ett system som
+      hoppar mellan två lägen varje varv är den vanligaste orsaken till att en
+      mekanism darrar i stället för att röra sig.</p>
+
+    <h3>En ändring i taget, nedskriven</h3>
+    <p>När felet inte hittas på fem minuter går metoden över i den enda som håller:
+      en ändring, ett prov, en rad i anteckningen. Raden behöver tre kolumner —
+      vad du ändrade, vad du trodde skulle hända, vad som hände. Det är tråkigt och
+      det är snabbast, och det ger dessutom rakt av det avsnitt i dokumentationen
+      som heter "vad som gick fel på vägen" och som annars skrivs på minnet i
+      slutet av maj.</p>
+
+    <h2 id="symtom">Symtomtabellen</h2>
+    <p>Kursens felbilder samlade. Leta upp symtomet, inte orsaken — det är
+      symtomet du har.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Symtom</th><th>Trolig orsak</th><th>Kontrollera så här</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Slumpmässigt beteende, blir bättre när du håller i sladden</td>
+            <td>Gemensam nolla saknas, eller glapp</td>
+            <td>Mät resistansen mellan de två matningarnas minuspoler. Nära noll
+              ohm krävs</td>
+          </tr>
+          <tr>
+            <td>Kortet startar om när något börjar röra sig</td>
+            <td>Brownout: matningen orkar inte startrycket</td>
+            <td>Mät spänningen vid aktuatorn <em>under</em> rörelse, inte i vila</td>
+          </tr>
+          <tr>
+            <td>Ingenting händer, uppladdningen misslyckas</td>
+            <td>Något sitter på pinne 0 eller 1, eller fel port vald</td>
+            <td>Koppla ur allt utom USB och ladda upp en tom skiss</td>
+          </tr>
+          <tr>
+            <td>Motorn går bara för fullt eller inte alls</td>
+            <td>PWM på en pinne utan PWM, eller på 9/10 med servobiblioteket</td>
+            <td>Flytta till pinne 3, 5, 6 eller 11. Se
+              <a href="guide-konstruktion-och-schema.html#genomgang">pinnbudgeten</a></td>
+          </tr>
+          <tr>
+            <td>Mekanismen rycker fram och tillbaka vid gränsen</td>
+            <td>Råvärdet darrar över och under en enda tröskel</td>
+            <td>Två trösklar med mellanrum, och medelvärde av flera prov som i
+              <a href="../omrade-4-sensorer/guide-kalibrering.html">kalibreringsguiden</a></td>
+          </tr>
+          <tr>
+            <td>Systemet reagerar en gång och sedan aldrig mer</td>
+            <td>Tillståndet fastnade i ett läge det inte kan lämna</td>
+            <td>Skriv ut läget varje varv. Saknas övergången tillbaka?</td>
+          </tr>
+          <tr>
+            <td>Knappen räknar flera tryck på ett</td>
+            <td>Kontaktstuds</td>
+            <td>Se
+              <a href="../omrade-2-styrenheten/guide-digital-ingang.html">guiden om digital ingång</a></td>
+          </tr>
+          <tr>
+            <td>Råvärdet ligger på 0 eller 1023 hela tiden</td>
+            <td>Spänningsdelaren är bruten, eller givaren är kortsluten</td>
+            <td>Mät spänningen på den analoga ingången med multimeter</td>
+          </tr>
+          <tr>
+            <td>Mekanismen går tom men står stilla med last</td>
+            <td>För liten momentmarginal</td>
+            <td>Räkna om utväxlingen, eller minska trummans radie</td>
+          </tr>
+          <tr>
+            <td>Något blir varmt</td>
+            <td>Ström där det inte ska vara ström, eller mekanik som kärvar</td>
+            <td>Stäng av. Känn efter var. Mät strömmen innan du sätter på igen</td>
+          </tr>
+          <tr>
+            <td>Serial visar ingenting</td>
+            <td>Fel hastighet i monitorn, eller <code>Serial.begin</code> saknas</td>
+            <td>9600 i både koden och monitorns lista</td>
+          </tr>
+          <tr>
+            <td>Koden kompilerar inte efter en liten ändring</td>
+            <td>Ett tecken, oftast en klammer eller ett semikolon</td>
+            <td>Läs <em>första</em> felmeddelandet, inte det sista. Se
+              <a href="../omrade-2-styrenheten/guide-cpp-efter-python.html">C++ efter Python</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <h3>Industrin: felsökning mot klockan</h3>
+    <p>En stillastående produktionslina kostar pengar per minut — i en biltillverkning
+      räknas det i tiotusentals kronor i timmen. Därför felsöker underhållspersonal
+      aldrig genom att byta delar. De går till styrsystemets larmlogg, läser vilken
+      givare som senast bytte läge och när, och jämför med det förlopp som skulle ha
+      skett. Loggen är precis den tidsstämplade utskriften du gör med
+      <code>Serial</code>, fast permanent inbyggd. Ett vanligt utfall är att larmet
+      säger "cylinder 4 nådde inte ändläge inom 1,2 s" — och då är felsökningen redan
+      halverad innan någon rört maskinen, eftersom både förväntan och utfallet står
+      skrivna.</p>
+
+    <h3>Vardagen: proppen som gick</h3>
+    <p>Strömmen försvann i halva lägenheten. Den som gissar går och köper en ny
+      säkring. Den som halverar slår ifrån allt, slår på jordfelsbrytaren, och
+      kopplar sedan in apparaterna en och en tills den slår ifrån igen — och vet
+      efter fem försök vilken av tjugo apparater som är trasig, i stället för att
+      efter fem byten ha en låda nya säkringar och samma fel. Det är exakt samma
+      metod som de tre mätningarna i en kedja med sex länkar, och den fungerar av
+      samma skäl: varje prov utesluter hälften, oavsett hur det går.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li><strong>Skriv de tre påståendena</strong> om det fel du har just nu.
+        Vad skulle hända, vad händer, vad skiljer. Har du inget fel för tillfället:
+        ta det senaste du löste och skriv dem i efterhand, för att se hur de ser
+        ut.</li>
+      <li><strong>Rita din signalkedja</strong> som sex rutor och sätt ett kryss
+        mitt i. Det är där du mäter först. Skriv ned vilken halva som blir
+        oskyldig i vartdera utfallet, innan du mäter.</li>
+      <li><strong>Gör de fyra grova mätningarna</strong> i tur och ordning:
+        matning under drift, gemensam nolla, signalen på pinnen, mekaniken för
+        hand.</li>
+      <li><strong>Skriv en minsta testskiss för din givare.</strong> Egen fil.
+        Kontrollera att råvärdet ändras när du påverkar givaren.</li>
+      <li><strong>Skriv en minsta testskiss för din aktuator.</strong> Bara två
+        lägen, inget beslut. Nu vet du om ändarna av kedjan fungerar.</li>
+      <li><strong>Lägg in tidsstämplad utskrift</strong> av råvärde, tröskel och
+        läge i projektskissen. Titta särskilt på om tiden mellan raderna är jämn.</li>
+      <li><strong>För felsökningslogg</strong> med tre kolumner under resten av
+        projektet: vad du ändrade, vad du trodde, vad som hände. Den blir ett
+        avsnitt i dokumentationen.</li>
+      <li><strong>Prova att provocera fram felet.</strong> Ett fel som inte går
+        att återskapa går inte att laga. Kan du få det att inträffa varje gång vet
+        du något om orsaken redan där.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Varför är en mätning som visar rätt värde lika mycket värd som en
+        som visar fel?</summary>
+      <p>Därför att båda utesluter lika många möjligheter. En mätning mitt i kedjan
+        som visar rätt värde friar hela första halvan; en som visar fel friar hela
+        andra. Det är bara byten som är asymmetriska — ett byte som inte hjälper har
+        inte uteslutit något alls, det har bara visat att just den komponenten
+        troligen var hel. Därför lönar sig mätning även när du är säker på var felet
+        sitter.</p>
+    </details>
+
+    <details>
+      <summary>Ditt servo rycker till och går tillbaka varje gång tröskeln passeras.
+        Vilken halva av kedjan är oskyldig, och varför?</summary>
+      <p>Första halvan. Att rörelsen påbörjas betyder att givaren läser, att
+        beslutet fattas och att styrsignalen kommer fram — annars hade ingenting
+        hänt alls. Felet ligger alltså i det som händer när strömmen börjar dras:
+        matningen faller ihop, kortet startar om eller går tillbaka till
+        utgångsläget. Mät spänningen vid servot under rörelsen. Symtomet "det börjar
+        men fullföljs inte" är nästan alltid ett effektproblem, inte ett
+        logikproblem.</p>
+    </details>
+
+    <details>
+      <summary>Tidsstämpeln i din utskrift hoppar från 4 210 till 6 480. Vad har
+        hänt?</summary>
+      <p>Något tog 2,3 sekunder. Det är inte en normal loop. Antingen ligger det ett
+        <code>delay()</code> i vägen, eller så väntar koden på något — en
+        <code>while</code>-slinga, eller en <code>pulseIn</code> mot en HC-SR04 som
+        inte får något eko och går till sin tidsgräns. Under de 2,3 sekunderna läser
+        systemet ingen knapp och fattar inga beslut, vilket förklarar varför det
+        känns "trögt" eller "missar tryck". Se
+        <a href="../omrade-3-logik-och-tillstand/guide-tid-utan-delay.html">Tid utan delay</a>.</p>
+    </details>
+
+    <details>
+      <summary>Varför ska testskissen ligga i en egen fil i stället för att du
+        kommenterar bort halva projektskissen?</summary>
+      <p>Därför att bortkommenterad kod fortfarande är en del av filen: klamrar kan
+        hamna fel, en variabel som fanns försvinner, och du felsöker plötsligt ett
+        tredje system som varken är projektet eller testet. En egen fil på femton
+        rader kan inte innehålla det fel du letar efter, och det är just den
+        egenskapen som gör svaret entydigt. Den ska dessutom finnas kvar — du kommer
+        att vilja prova givaren igen.</p>
+    </details>
+
+    <details>
+      <summary>Du har ändrat tre saker och nu fungerar det. Vad är problemet?</summary>
+      <p>Att du inte vet vad som var fel, alltså inte heller om det är lagat. Två av
+        ändringarna kan ha varit onödiga och den tredje kan ha dolt felet i stället
+        för att lösa det — och då kommer det tillbaka, gärna under redovisningen.
+        Ta bort ändringarna en i taget tills felet återkommer. Det tar fem minuter
+        och ger dig både orsaken och en rad i dokumentationen som är värd mer än
+        "det löste sig".</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Flera ändringar mellan två prov.</strong> Då vet du inte vilken
+        som gjorde skillnad, och du kan inte gå tillbaka. En i taget.</li>
+      <li><strong>Byte i stället för mätning.</strong> Särskilt frestande när
+        reservdelen ligger i lådan. Ett byte som inte hjälper har uteslutit nästan
+        ingenting och kan ha lagt till ett nytt fel.</li>
+      <li><strong>Mätning på fel ställe.</strong> Spänning vid batteriet i stället
+        för vid komponenten, i vila i stället för under drift. Det är där
+        skillnaden finns.</li>
+      <li><strong>Felsökning i koden när symtomet är elektriskt.</strong> Kortet
+        startar om, alltså läser man koden en gång till. Symtomet pekar på
+        matningen, och koden är oskyldig.</li>
+      <li><strong>Mekaniken kontrolleras aldrig.</strong> Ett kärvande lager ger
+        hög ström och brownout, vilket ser ut som ett elfel. Vrid runt för hand med
+        strömmen av — det tar tio sekunder.</li>
+      <li><strong>Inget skrivs ned.</strong> Efter fyrtio minuter minns du inte
+        vilka kombinationer du provat, och börjar om.</li>
+      <li><strong>Felet går inte att återskapa och lämnas därhän.</strong> Ett
+        sporadiskt fel är nästan alltid ett glapp, en gemensam nolla på gränsen
+        eller en matning som ligger precis för lågt. Det försvinner inte av sig
+        självt.</li>
+      <li><strong>Det sista felmeddelandet läses först.</strong> Kompilatorns
+        första fel är oftast det äkta; resten är följdfel av samma tecken.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Utskrifterna bygger på <code>Serial</code> och <code>millis()</code>, som
+      står i <a href="../sprakreferens.html#tid">språkreferensens kapitel om tid</a>.
+      Tillståndet som skrivs ut har sitt mönster i
+      <a href="../omrade-3-logik-och-tillstand/guide-tillstand.html">Tillstånd</a>,
+      och funktionen <code>skriv_lage</code> följer mönstret i
+      <a href="../sprakreferens.html#funktioner">Funktioner</a>.</p>
+    <p>Felsökningsloggen du för nu är råmaterial till nästa pass. Vad som gör en
+      dokumentation noggrann i stället för enkel står i
+      <a href="guide-dokumentationens-grad.html">Dokumentationens grad</a>, som är
+      lektion 34. Kraven du ska pricka av står kvar på
+      <a href="bygge-5-eget-system.html">bygge 5:s sida</a>.</p>
+    <p>Tillbaka till <a href="index.html">område 6</a> eller till
+      <a href="../index.html">kursens material</a>.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 6</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

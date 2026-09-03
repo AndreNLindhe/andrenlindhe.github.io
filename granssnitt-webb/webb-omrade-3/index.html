@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS – form och layout – Webbutveckling område 3</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-3-start">
+
+<header class="topp">
+  <a href="../index.html">← Elevpaket</a>
+  <span class="harifran"><strong>Webbutveckling · område 3</strong></span>
+  <a href="../datum.html">Viktiga datum</a>
+</header>
+
+<div class="ram">
+
+  <p class="ledtext">Webbutveckling · område 3</p>
+  <h1>CSS – form och layout</h1>
+  <p class="inledning">Här stilsätter du sajten du byggde i område 2 – enligt din egen
+    stilguide från Gränssnittsdesign. Ingen ny sajt, inget nytt ämne. Samma innehåll, nu
+    med form.</p>
+
+  <ul class="datum">
+    <li data-datum="2026-12-01">
+      <span class="nar">1 dec</span>
+      <span class="vad">Inlämning: Projekt 2 – Stilsatt webbplats
+        <small>Kl 23:59. Sajten granskas sedan i Gränssnittsdesign.</small></span>
+      <span class="kvar"></span>
+    </li>
+    <li data-datum="2026-12-02">
+      <span class="nar">2 dec</span>
+      <span class="vad">Prov 2 – kodprov CSS
+        <small>Skriftligt, utan dator. Utgår från referensprojektet.</small></span>
+      <span class="kvar"></span>
+    </li>
+  </ul>
+
+  <h2>Börja här</h2>
+  <ul class="rutnat">
+    <li><a class="kort webb" href="uppgift.html">
+      <span class="sort">Uppgift</span>
+      <span class="rubrik">Projekt 2 – stilsatt webbplats</span>
+      <p>Kraven att bocka av medan du arbetar. Deadline 1 december.</p>
+    </a></li>
+    <li><a class="kort webb" href="guide-css.html">
+      <span class="sort">Guide</span>
+      <span class="rubrik">CSS – form och layout</span>
+      <p>Uppslagsboken. Fjorton avsnitt, felsökning och en snabbreferens med ordträning.</p>
+    </a></li>
+    <li><a class="kort webb" href="guide-css.html#felsokning">
+      <span class="sort">Felsökning</span>
+      <span class="rubrik">När CSS:en inte gör som du tror</span>
+      <p>Sökbar tabell: symptom, trolig orsak och vad du gör åt det.</p>
+    </a></li>
+    <li><a class="kort webb" href="guide-css.html#snabbreferens">
+      <span class="sort">Snabbreferens</span>
+      <span class="rubrik">Alla egenskaper i området</span>
+      <p>Trettio begrepp med ordträning. Använd den inför prov 2.</p>
+    </a></li>
+    <li><a class="kort webb" href="infor-prov-2.html">
+      <span class="sort">Prov</span>
+      <span class="rubrik">Inför prov 2</span>
+      <p>Vad provet är, vad som kommer och hur du pluggar. Med plugglista att bocka av.</p>
+    </a></li>
+  </ul>
+
+  <h2>Vad du ska kunna när området är slut</h2>
+  <ul>
+    <li>Koppla en extern stilmall och veta varför den ska vara extern</li>
+    <li>Välja rätt selektor, och räkna ut vilken regel som vinner när två krockar</li>
+    <li>Räkna ut ett elements faktiska bredd med boxmodellen</li>
+    <li>Sätta färg och typografi som följer din stilguide</li>
+    <li>Lägga stilguidens värden som variabler så att en ändring räcker</li>
+    <li>Bygga en rad med flexbox och ett rutnät med grid – och veta vilket som passar var</li>
+    <li>Ge en komponent alla dess tillstånd, inte bara viloläget</li>
+    <li>Läsa av mått ur en mockup i stället för att gissa</li>
+  </ul>
+
+  <h2>Lektionerna i området</h2>
+  <p>Missade du ett pass? Sista kolumnen säger var innehållet står.</p>
+  <div class="tabellsvep">
+    <table>
+      <thead>
+        <tr><th>Datum</th><th>Vad vi gör</th><th>Missade du passet?</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>20 okt</td><td>Stilmallar och selektorer</td>
+          <td><a href="guide-css.html#stilmallen">Guide, avsnitt 1–3</a></td></tr>
+        <tr><td>21 okt</td><td>Boxmodellen</td>
+          <td><a href="guide-css.html#boxmodellen">Guide, avsnitt 4</a></td></tr>
+        <tr><td>3 nov</td><td>Färg och typografi i CSS</td>
+          <td><a href="guide-css.html#farg">Guide, avsnitt 5–6</a></td></tr>
+        <tr><td>4 nov</td><td>CSS-variabler</td>
+          <td><a href="guide-css.html#variabler">Guide, avsnitt 7</a></td></tr>
+        <tr><td>10 nov</td><td>Flexbox</td>
+          <td><a href="guide-css.html#flexbox">Guide, avsnitt 8</a></td></tr>
+        <tr><td>11 nov</td><td>Grid</td>
+          <td><a href="guide-css.html#grid">Guide, avsnitt 9</a></td></tr>
+        <tr><td>17 nov</td><td>Komponenter i CSS</td>
+          <td><a href="guide-css.html#komponenter">Guide, avsnitt 10</a></td></tr>
+        <tr><td>18 nov</td><td>Att bygga efter en mockup</td>
+          <td><a href="guide-css.html#mockup">Guide, avsnitt 11</a></td></tr>
+        <tr><td>24 nov</td><td>Arbetspass med handledning</td>
+          <td><a href="uppgift.html#ska">Uppgift: ska-kraven</a></td></tr>
+        <tr><td>25 nov</td><td>Arbetspass med handledning</td>
+          <td><a href="uppgift.html#bor">Uppgift: bör-kraven</a></td></tr>
+        <tr><td>1 dec</td><td>Sista finputs. <b>Inlämning</b> kl 23:59</td>
+          <td><a href="uppgift.html#lamna-in">Uppgift: innan du lämnar in</a></td></tr>
+        <tr><td>2 dec</td><td><b>Prov 2</b> – kodprov CSS</td>
+          <td><a href="infor-prov-2.html">Inför prov 2</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="notis viktig">
+    <span class="rubrik">Det viktigaste</span>
+    <p>Uppgiften är inte att göra sajten snygg. Den är att göra den till <b>det du redan
+      bestämt</b> i din stilguide. Den som gissar sig fram till något fint ligger på E, den
+      som kan peka från en rad CSS till en rad i stilguiden ligger på C.</p>
+  </div>
+
+  <div class="notis">
+    <span class="rubrik">Din stilguide ändras – och det är meningen</span>
+    <p>Du kommer att justera guiden efter att CSS:en är skriven. Det är inte ett
+      misslyckande, det är vad som händer när något byggs på riktigt. Det är också hela
+      skälet till att värdena ska ligga som variabler: en ändring ska vara en rad.</p>
+  </div>
+
+  <footer class="fot">
+    <p><a href="../index.html">Tillbaka till elevpaketet</a></p>
+  </footer>
+
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

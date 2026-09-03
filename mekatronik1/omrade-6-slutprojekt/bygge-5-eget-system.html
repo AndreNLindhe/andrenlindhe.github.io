@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bygge 5 – eget mekatroniskt system – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o6-bygge5">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Bygge 5 – eget mekatroniskt system</strong> · område 6</span>
+  <a href="index.html">Område 6</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Område 6 · lektion 29–36 · 15 april – 10 juni</p>
+    <h1>Bygge 5 – eget mekatroniskt system</h1>
+    <p class="inledning">Kursens femte och sista bedömda system, och det enda där
+      kravlistan är din. Du väljer vad systemet ska göra, skriver kraven, ritar
+      det, bygger det, mäter på det och dokumenterar det. Sidan är områdets fasta
+      punkt: sju av åtta pass arbetar mot den här listan.</p>
+
+    <p class="notis viktig"><span class="rubrik">Det här är ett bedömt mekatroniskt system</span>
+      <strong>Bygge 5 ska sammanföra alla tre delarna</strong> — mekanisk struktur,
+      elektroteknik och styrteknik — precis som bygge 1 till 4, med skillnaden att
+      det är du som ser till att de finns med. Det ger belägg för <strong>alla fem
+      förmågorna</strong>: <strong>F1</strong> planera och bygga,
+      <strong>F2</strong> använda ritningar och manualer samt samarbeta,
+      <strong>F3</strong> dokumentera, <strong>F4</strong> beskriva systemuppbyggnad
+      och fysikaliska principer, och <strong>F5</strong> bedöma din egen förmåga vid
+      samråd. Det nya jämfört med bygge 4 är att <strong>ingen har talat om vad
+      systemet ska göra</strong>. Det är därför kravlistan du skriver är det första
+      som bedöms.</p>
+
+    <h2 id="uppgiften">Uppgiften</h2>
+    <p>Bygg ett <strong>mekatroniskt system som du själv har kravställt</strong>.
+      Vad det gör bestämmer du. Ramen är fem punkter, och de är inte
+      förhandlingsbara — de kommer ur kursens centrala innehåll och ur
+      betygskriteriernas krav på vad ett system är:</p>
+    <ol>
+      <li><strong>Kedjan ska börja i en mätning.</strong> En givare som mäter en
+        storhet i världen — ljus, temperatur, avstånd, vinkel, läge, kraft. En
+        knapp får finnas som start eller stopp, men den är inte systemets
+        insignal.</li>
+      <li><strong>Något ska besluta.</strong> Kod som jämför mätvärdet med ett
+        eller flera villkor du satt, och som avgör vad som ska hända.</li>
+      <li><strong>Något ska röra sig.</strong> Servo, likströmsmotor eller annan
+        aktuator, med en mekanisk struktur runt sig som håller ihop och som du
+        dimensionerat.</li>
+      <li><strong>Systemet ska gå att bygga med det du har.</strong> Kitet, verkstan
+        och det som finns i lådorna. Ingenting som måste beställas.</li>
+      <li><strong>Det ska rymmas på sju pass.</strong> Ungefär som bygge 4 i
+        omfång, plus ett tillstånd och ett felfall.</li>
+    </ol>
+    <p>Några förslag som alla uppfyller ramen. De är exempel, inte alternativ att
+      välja mellan — din egen idé är bättre om den är din:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Idé</th><th>Givaren</th><th>Rörelsen</th><th>Vad som gör den komplex</th></tr></thead>
+        <tbody>
+          <tr><td>Växthusventil som öppnar vid värme</td><td>NTC</td><td>Servo med spak, eller motor med utväxling</td><td>Två trösklar, ändlägen, tidsgräns om luckan kärvar</td></tr>
+          <tr><td>Sorteringslucka som skiljer ljust från mörkt</td><td>LDR över bandet</td><td>Band med motor, lucka med servo</td><td>Tidssamband: luckan ska slå när föremålet hunnit fram</td></tr>
+          <tr><td>Automatisk bom eller grind</td><td>HC-SR04</td><td>Motor med utväxling, eller servo</td><td>Får inte stänga med något under. Fyra lägen</td></tr>
+          <tr><td>Solföljare i en axel</td><td>Två LDR som jämförs</td><td>Servo eller stegvis motor</td><td>Beslut ur skillnaden mellan två mätvärden, inte ur ett</td></tr>
+          <tr><td>Matare som doserar en portion</td><td>Tid plus ändlägesgivare</td><td>Skruv eller trumma med motor</td><td>Kvittering: portionen räknas först när givaren sett den</td></tr>
+          <tr><td>Fuktvakt som vattnar</td><td>Två elektroder som mäter resistans</td><td>Pump eller ventil med motor</td><td>Får inte vattna igen förrän mätvärdet svarat</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Sista kolumnen är den som är värd att läsa två gånger. Alla sex idéerna går
+      att bygga som enkla system, och alla sex går att bygga som komplexa. Det är
+      inte idén som avgör vilket, utan vad du lägger in i den — se
+      <a href="guide-kravstallning.html#komplext">kravställningsguiden</a>.</p>
+
+    <h2 id="passen">Sju pass att arbeta, två att redovisa</h2>
+    <p>Området är kursens längsta och det enda där du håller i tidsplanen själv.
+      Passen är 85 minuter, varav de första 15 går till samråd.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Vad passet är till för</th><th>Vad som ska vara klart efteråt</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Lektion 29</strong> · 15 april</td>
+            <td>Genomgång om kravställning. Idégodkännande sista 25 minuterna.</td>
+            <td>Godkänd idé, en mening om vad systemet ska göra, fem krav.</td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 30</strong> · 22 april</td>
+            <td>Ritpass. Ingen bygger.</td>
+            <td>Blockschema, kopplingsschema, materiallista, pinn- och strömbudget.</td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 31</strong> · 29 april</td>
+            <td>Bygge med handledning.</td>
+            <td>Varje delsystem provat <em>för sig</em>. Givaren läser, aktuatorn rör sig.</td>
+          </tr>
+          <tr>
+            <td colspan="3"><em>Två veckor hemma. Torsdagen den 6 maj är Kristi
+              himmelsfärds dag och det blir inget pass. Här ska delarna bli ett
+              system.</em></td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 32</strong> · 13 maj</td>
+            <td>Bygge med handledning.</td>
+            <td>Hela kedjan hänger ihop och gör något, om än fel saker.</td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 33</strong> · 20 maj</td>
+            <td>Felsökning och mätning.</td>
+            <td>Kraven prickade av ett i taget, med mätvärden. Kvarstående fel kända.</td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 34</strong> · 27 maj</td>
+            <td>Dokumentation. 50 minuter ren skrivtid.</td>
+            <td>Dokumentationen skriven så långt det går.</td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 35</strong> · 3 juni</td>
+            <td>Redovisningar, ungefär halva klassen.</td>
+            <td>Dokumentationen inlämnad.</td>
+          </tr>
+          <tr>
+            <td><strong>Lektion 36</strong> · 10 juni</td>
+            <td>Sista redovisningarna, återkoppling och betyg, kursutvärdering.</td>
+            <td>Kursen är slut.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="notis varna"><span class="rubrik">Sätt din sluttid en vecka före min</span>
+      Sikta på att vara klar den 20 maj. Något kommer att gå sönder, kärva eller
+      inte fungera — det är inte otur utan hur konstruktion fungerar — och den
+      veckans marginal är skillnaden mellan ett system du hinner mäta på och ett du
+      hinner klistra ihop. De som blir klara i tid är nästan alltid de som planerade
+      för att något skulle gå fel.</p>
+
+    <h2 id="parvis">Ensam eller i par, men dokumentationen är din</h2>
+    <p>Du får bygga ensam eller tillsammans med en annan. Bygger ni i par gäller
+      tre saker: <strong>ni skriver var sin dokumentation</strong>,
+      <strong>ni redovisar båda två</strong>, och <strong>ni ska kunna säga vem som
+      gjorde vad</strong>. Det sista är inte kontroll utan kriterium — F2 handlar
+      bland annat om att samarbeta, och ett samarbete som inte går att beskriva går
+      inte att bedöma.</p>
+    <p>Två identiska dokumentationer belägger ingens förmåga. Bygget får vara
+      gemensamt; texten är individuell, och den ska vara skriven av dig även när
+      systemet är byggt av er två.</p>
+
+    <h2 id="innan">Innan varje pass</h2>
+    <p>Sju av områdets åtta pass inleds med 15 minuters samråd. Det gör
+      <a href="../samradsunderlag.html">samrådsunderlaget</a> till den sida du
+      använder mest under hela våren. Fyll i det <em>före</em> passet, inte under
+      det.</p>
+    <p class="notis"><span class="rubrik">Samrådet är bedömt, inte hjälp på nåder</span>
+      <strong>F5 handlar om att bedöma din egen förmåga och situationens krav vid
+      samråd</strong>, och skillnaden mellan E och A ligger i <em>med viss säkerhet</em>
+      mot <em>med säkerhet</em>. I praktiken: den som kommer med "det fungerar inte"
+      visar mindre än den som kommer med "råvärdet ligger på 390 när det borde
+      passera 400, jag har mätt spänningen över delaren och den stämmer, så jag tror
+      att felet är kalibreringen och inte kopplingen — har jag rätt?" Den andra
+      frågan tar dessutom två minuter att svara på i stället för tjugo.</p>
+    <p>Skillnaden mellan E och C i F1 ligger i samma område: <em>i samråd</em> mot
+      <em>efter samråd</em>. Att arbeta <em>i</em> samråd är att göra det vi kom
+      överens om medan vi pratade. Att arbeta <em>efter</em> samråd är att ta med
+      dig ett besked och sedan själv avgöra vad som följer av det. Ta med en fråga
+      till varje pass, och ta med vad du gjorde med förra passets svar.</p>
+
+    <h2 id="steg">Arbetsgång</h2>
+    <ol>
+      <li><strong>Kravställ (lektion 29).</strong> Tre idéer, pröva mot ramen,
+        välj en. Skriv den enda meningen och bryt ned den i fem till åtta krav med
+        tal och enhet. Metoden står i
+        <a href="guide-kravstallning.html">Kravställning och planering</a>.</li>
+      <li><strong>Rita och räkna (lektion 30).</strong> Blockschema först,
+        kopplingsschema sedan. Pinnbudget, strömbudget, materiallista med skäl.
+        Metoden står i
+        <a href="guide-konstruktion-och-schema.html">Konstruktion och schema</a>.
+        Skriv konstantblocket i koden ur ditt eget schema och kontrollera att det
+        kompilerar.</li>
+      <li><strong>Bygg delarna var för sig (lektion 31 och veckan efter).</strong>
+        Givaren med en minsta testskiss, tills råvärdet ändras som det ska.
+        Aktuatorn med en egen skiss, tills den rör sig som den ska. Mekaniken
+        ihopskruvad och provad för hand, med strömmen av. <strong>Inget av det här
+        kräver att resten fungerar</strong>, och det är hela poängen: fyra saker som
+        var för sig fungerar är en betydligt bättre utgångspunkt än en helhet som
+        gör något oklart.</li>
+      <li><strong>Koppla ihop (de två veckorna och lektion 32).</strong> Givare,
+        beslut och aktuator i en skiss. Först nu ska systemet göra något som liknar
+        det du beskrivit. Räkna med att det fungerar delvis — det är normalt läge
+        vid det här datumet.</li>
+      <li><strong>Lägg till tillståndet.</strong> Systemet ska minnas vilket läge
+        det är i, och samma insignal ska kunna betyda olika saker i olika lägen.
+        Rita tillståndsdiagrammet innan du skriver koden. Mönstret ligger i
+        <a href="../omrade-3-logik-och-tillstand/guide-tillstand.html">Tillstånd</a>
+        och som skelett längre ned på den här sidan.</li>
+      <li><strong>Lägg till felfallet.</strong> Vad händer om rörelsen inte blir
+        av? En tidsgräns som stannar aktuatorn och tänder en lampa är tio rader kod
+        och är det billigaste sättet att lyfta både systemet och det du har att
+        skriva om det.</li>
+      <li><strong>Felsök och mät (lektion 33).</strong> Pricka av kraven ett i
+        taget, med mätvärden. De som inte går igenom ska vara kända och beskrivna —
+        ett krav som inte uppfylldes är inte ett underkännande, ett krav som tyst
+        försvann är det. Metoden står i
+        <a href="guide-systematisk-felsokning.html">Systematisk felsökning</a>.</li>
+      <li><strong>Dokumentera (lektion 34).</strong> 50 minuters skrivtid, med
+        upplägget i
+        <a href="guide-dokumentationens-grad.html#genomgang">Dokumentationens grad</a>.</li>
+      <li><strong>Redovisa (lektion 35 eller 36).</strong> Åtta minuter. Vad som
+        ska sägas står i <a href="redovisningen.html">Redovisningen</a>.</li>
+    </ol>
+
+    <h3>Systemskelettet</h3>
+    <p>Nästan varje slutprojekt har samma stomme: läs givaren, avgör läge, styr
+      aktuatorn, och ge upp om rörelsen inte blev av. Skriv av skelettet och byt ut
+      lägena, tiderna och villkoren mot dina egna. Det ersätter inte
+      konstantblocket från ritpasset — det läggs till efter det.</p>
+
+    <pre><code class="sprak-cpp">// Systemskelett – fyra lägen och en tidsgräns.
+// T-prefixet betyder tillstånd, precis som i område 3.
+
+const int T_VILAR   = 0;   // väntar på att mätvärdet ska passera tröskeln
+const int T_ARBETAR = 1;   // aktuatorn är i rörelse
+const int T_KLAR    = 2;   // rörelsen är fullbordad, håller läget
+const int T_FEL     = 3;   // rörelsen blev inte av i tid
+
+const unsigned long TIDSGRANS = 4000;   // ms innan rörelsen ges upp
+
+int tillstand = T_VILAR;
+unsigned long bytteVid = 0;             // när tillståndet senast byttes
+
+void loop() {
+  unsigned long nu = millis();
+  int ravarde = analogRead(GIVARE_PIN);
+  bool framme = (digitalRead(ANDLAGE_PIN) == LOW);   // LOW = brytaren sluten
+
+  if (tillstand == T_VILAR) {
+    if (ravarde &lt; TROSKEL_START) {
+      starta_rorelsen();
+      bytteVid = nu;
+      tillstand = T_ARBETAR;
+    }
+
+  } else if (tillstand == T_ARBETAR) {
+    if (framme) {                          // rörelsen lyckades
+      stanna_rorelsen();
+      tillstand = T_KLAR;
+    } else if (nu - bytteVid &gt;= TIDSGRANS) {   // rörelsen blev inte av
+      stanna_rorelsen();
+      digitalWrite(LARM_PIN, HIGH);
+      tillstand = T_FEL;
+    }
+
+  } else if (tillstand == T_KLAR) {
+    if (ravarde &gt; TROSKEL_ATER) {          // mellanrum mot TROSKEL_START
+      tillstand = T_VILAR;
+    }
+
+  } else if (tillstand == T_FEL) {
+    // Stannar här tills någon kvitterar. Ett säkert läge är ett läge
+    // systemet inte lämnar av sig självt.
+  }
+}</code></pre>
+
+    <p>Fyra saker i skelettet är värda att lägga märke till, för de är precis det
+      som skiljer ett enkelt system från ett komplext.
+      <strong>Ingen <code>delay()</code></strong> — loopen går runt hela tiden och
+      kan reagera på flera saker. <strong>Två trösklar</strong> —
+      <code>TROSKEL_START</code> och <code>TROSKEL_ATER</code> med ett mellanrum
+      emellan, så att systemet inte fladdrar vid gränsen.
+      <strong>En tidsgräns</strong> — rörelsen ges upp i stället för att pågå för
+      evigt. <strong>Ett säkert läge</strong> — <code>T_FEL</code> lämnas inte av
+      sig självt. Ingen av de fyra kostar mer än några rader, och alla fyra går att
+      skriva ett stycke om i dokumentationen.</p>
+
+    <h2 id="matningen">Mätningarna</h2>
+    <p>Varje krav du skrev ska prickas av med en mätning. Utöver dem finns fyra
+      mätningar som gäller nästan alla system, och som du behöver till
+      dokumentationen oavsett vad du byggt:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Mätning</th><th>Hur</th><th>Varför den behövs</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Givarens ytterlägen</strong></td>
+            <td>Råvärdet i de två extremfall systemet ska skilja mellan, avläst med
+              en testskiss</td>
+            <td>Trösklarna ska ligga inuti det intervall givaren faktiskt levererar,
+              inte i ett du gissat</td>
+          </tr>
+          <tr>
+            <td><strong>Matningen under drift</strong></td>
+            <td>Spänningen mätt vid aktuatorn medan den rör sig, inte i vila</td>
+            <td>Skillnaden mellan vila och drift är det som avslöjar om matningen
+              orkar</td>
+          </tr>
+          <tr>
+            <td><strong>Strömmen i det som rör sig</strong></td>
+            <td>Multimetern i serie, i 10 A-uttaget om det är en motor</td>
+            <td>Bekräftar strömbudgeten från ritpasset, eller visar att den var
+              fel</td>
+          </tr>
+          <tr>
+            <td><strong>Tiden för rörelsen</strong></td>
+            <td>Tidtagning, eller <code>millis()</code> vid start och framme</td>
+            <td>Ger dig tidsgränsen i koden, och ett tal till kravlistan</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Skriv upp varje mätvärde med <strong>datum och vilken version av kopplingen
+      det gällde</strong>. Du kommer att ändra systemet två eller tre gånger under
+      maj, och ett mätvärde utan koppling till en version är en siffra du inte kan
+      använda i juni.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="krav">Kraven — det här ska finnas</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <p>Ramen varje slutprojekt ska rymmas i, oavsett vad det gör. Kryssen sparas i
+        din egen webbläsare. De är en checklista för dig, inte en inlämning.</p>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bygge5-ska-mening"><span><strong>En
+          mening om vad systemet ska göra, skriven före bygget.</strong> Utan "och
+          sedan". Daterad, och inte ändrad i efterhand för att passa
+          resultatet.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-ska-kravlista"><span><strong>Minst
+          fem krav med storhet, tal och enhet.</strong> Var och ett med en mätning
+          som visar om det är uppfyllt. Ett krav du inte kan misslyckas med är en
+          önskan.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-ska-treDelar"><span><strong>Alla
+          tre delarna, utpekade av dig.</strong> Mekanisk struktur, elektroteknik
+          och styrteknik — säg vilken del av ditt bygge som är vilken. Saknas någon
+          är det inte ett mekatroniskt system i kriteriernas mening.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-ska-sensor"><span><strong>Kedjan
+          börjar i en mätning.</strong> En givare som mäter en storhet, inte en
+          knapp som betyder "kör". Vilken storhet, och med vilken
+          givare.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-ska-schema"><span><strong>Eget
+          kopplingsschema, ritat före bygget.</strong> Alla pinnummer i båda ändar,
+          alla motståndsvärden, alla spänningsnivåer, och den gemensamma nollan som
+          en utritad ledning. Med datum och revisionsbeteckning.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-ska-strombudget"><span><strong>Strömbudget
+          för hela systemet.</strong> Vad varje del drar i vila och i drift, summan
+          mot kortets 200 mA, och egen matning till allt som rör
+          sig.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-ska-mekanik"><span><strong>En
+          mekanisk struktur som är dimensionerad, inte hoptejpad.</strong> Vad som
+          rör sig, vad som håller det, och räkningen som visar att aktuatorn orkar
+          med marginal.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-ska-kod"><span><strong>Kod som
+          läser givaren, beslutar och styr aktuatorn.</strong> Utan
+          <code>delay()</code> i huvudflödet, och med kommentarer som säger varför,
+          inte vad.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-ska-matningar"><span><strong>De
+          fyra mätningarna gjorda och nedskrivna.</strong> Givarens ytterlägen,
+          matningen under drift, strömmen, och tiden för rörelsen — med datum och
+          vilken version av kopplingen som gällde.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-ska-dokumentation"><span><strong>Dokumentation
+          enligt mallen, inlämnad före redovisningen.</strong> Minst de fyra
+          E-punkterna i
+          <a href="../dokumentationsmall.html">dokumentationsmallen</a>. Skriven av
+          dig, även om bygget gjordes i par.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-ska-redovisning"><span><strong>Redovisning
+          på lektion 35 eller 36.</strong> Åtta minuter, med systemet på bordet om
+          det går att bära.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">Det här bör du lägga till</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <p>Punkterna som gör systemet och texten <em>noggranna</em> i stället för
+        bara kompletta. Det är i praktiken här C-nivån ligger.</p>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bygge5-bor-tillstand"><span><strong>Minst
+          ett tillstånd som systemet minns, med tillståndsdiagram.</strong> Ritat
+          före koden, och med samma lägen i båda. Skelettet ovan är
+          utgångspunkten.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-bor-troskel"><span><strong>Två
+          trösklar med mellanrum, eller medelvärde av flera prov.</strong> Med en
+          mening om vilket du valde och varför just det passar din
+          insignal.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-bor-kalibrering"><span><strong>Råvärdet
+          omräknat till en storhet.</strong> Grader, centimeter, procent — inte
+          bara 0–1023. Med de två punkter omräkningen vilar på.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-bor-avprickning"><span><strong>Varje
+          krav avprickat med sitt mätvärde.</strong> Även de som inte gick igenom.
+          Ett krav som inte uppfylldes och står beskrivet är belägg; ett som tyst
+          försvann är det inte.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-bor-materiallista"><span><strong>Materiallista
+          med kolumnen "vad som avgjorde valet".</strong> Den skiljer en
+          komponent du valde från en du hittade i lådan.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-bor-logg"><span><strong>Felsökningslogg
+          med tre kolumner.</strong> Vad du ändrade, vad du trodde skulle hända, vad
+          som hände. Den blir ett färdigt avsnitt i
+          dokumentationen.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-bor-noggrann"><span><strong>Noggrann
+          dokumentation: tal och enheter genomgående.</strong> Inga "lagom",
+          "ganska" eller "tillräckligt". Testet är om någon kan bygga om systemet
+          efter texten utan att fråga dig.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">Utmaningar</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <p>Det som gör systemet komplext och beskrivningen nyanserad. Inget av det
+        kräver mer byggtid — det kräver att du bestämmer dig tidigt.</p>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bygge5-utm-felfall"><span><strong>Ett
+          felfall med säkert läge.</strong> Systemet upptäcker att rörelsen inte
+          blev av inom en tidsgräns, stannar aktuatorn, säger ifrån och stannar där
+          tills någon kvitterar.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-utm-tvaStorheter"><span><strong>Ett
+          beslut som beror på mer än en storhet.</strong> Mätvärdet och tiden,
+          mätvärdet och ett ändläge, eller skillnaden mellan två givare. Med
+          sanningstabell eller villkorsuttryck utskrivet.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-utm-bortvalt"><span><strong>Minst
+          ett bortvalt alternativ, dokumenterat.</strong> Vad du övervägde, varför
+          det inte blev så, och när det hade varit rätt val i stället. Det
+          tydligaste tecknet på att ett val var ett val.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-utm-granser"><span><strong>Konstruktionens
+          gränser mätta, inte gissade.</strong> Den last där mekanismen slutar
+          orka, det ljus där givaren inte längre skiljer, den hastighet systemet
+          missar. Med talet du mätte fram.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-utm-energi"><span><strong>Ett
+          resonemang om vad som går förlorat.</strong> Värmen i drivsteget, procenten
+          i varje kuggingrepp, strömmen som går åt utan att bli rörelse. Vad
+          systemet omvandlar, och vad omvandlingen kostar.</span></label></li>
+        <li><label><input type="checkbox" id="bygge5-utm-redovisning"><span><strong>Redovisning
+          utan manus, med svar på följdfrågor.</strong> Att kunna förklara varje val
+          i sitt eget system utan att läsa innantill är vad "utförligt och nyanserat"
+          låter som muntligt.</span></label></li>
+      </ul>
+      <p><button type="button" class="knapp tom" id="nollstall">Nollställ kryssen</button></p>
+    </section>
+
+    <h2 id="redovisning">Redovisningen</h2>
+    <p>Åtta minuter den 3 eller 10 juni, med systemet på bordet. Vad som ska sägas,
+      i vilken ordning, och vilka följdfrågor jag ställer står på
+      <a href="redovisningen.html">Redovisningen</a>. Läs den sidan innan den 3
+      juni och inte samma morgon — två av de fyra sakerna som ska sägas är sådant du
+      behöver ha mätt i förväg.</p>
+
+    <h2 id="dokumentation">Dokumentationen</h2>
+    <p>Använd <a href="../dokumentationsmall.html">dokumentationsmallen</a>. De
+      fyra E-punkterna är golvet: vad systemet gör, kopplingsschemat, koden, och vad
+      som gick fel på vägen.</p>
+    <p class="notis"><span class="rubrik">Dokumentationen bär E/C-gränsen — sista gången</span>
+      <strong>F3 skiljer E från C på ett enda ord: <em>enkel</em> mot
+      <em>noggrann</em>.</strong> Ett system som gör allt du lovat, beskrivet på en
+      halv sida, ligger på E. Det omvända går inte — du kan inte skriva dig till en
+      mekanism som orkar. Skillnaden i text, med exempel, står i
+      <a href="guide-dokumentationens-grad.html#exempel">Dokumentationens grad</a>.</p>
+    <h3>Fem saker som hör särskilt till det här bygget</h3>
+    <ul>
+      <li><strong>Kravlistan som ett eget avsnitt, med utfall.</strong> Varje krav,
+        mätvärdet, och om det gick igenom. Det är slutprojektets viktigaste
+        avsnitt, och det finns inte i något tidigare bygge.</li>
+      <li><strong>Varför just den här idén.</strong> Du hade tre. Vad de andra två
+        var och varför den här valdes säger något om ditt omdöme som ingen kravlista
+        kan säga.</li>
+      <li><strong>Tillståndsdiagrammet bredvid koden.</strong> Ritningen och
+        <code>if</code>-kedjan ska gå att jämföra rad för läge.</li>
+      <li><strong>Felsökningsvägen, inte bara felen.</strong> Hur du kom fram till
+        orsaken, inklusive återvändsgränden. Det är det som skiljer ett A-avsnitt
+        från ett C-avsnitt.</li>
+      <li><strong>Vad systemet inte klarar.</strong> Med tal. En mening räcker, och
+        den är den mest lönsamma meningen i hela texten.</li>
+    </ul>
+
+    <h2 id="fastnar">Om det inte fungerar</h2>
+    <p>Hela metoden står i
+      <a href="guide-systematisk-felsokning.html">Systematisk felsökning</a>, med
+      symtomtabellen för hela kursen. De fem som slår hårdast just i slutprojekt:</p>
+    <ul>
+      <li><strong>Slumpmässigt beteende som blir bättre när du håller i
+        sladden.</strong> Gemensam nolla saknas eller glappar. Kontrollera den först,
+        varje gång, före allt annat.</li>
+      <li><strong>Kortet startar om när något börjar röra sig.</strong> Brownout.
+        Mät spänningen vid aktuatorn <em>under</em> rörelse. I vila ser allt
+        normalt ut, och det är därför felet så ofta tolkas som ett programfel.</li>
+      <li><strong>Systemet reagerar en gång och sedan aldrig mer.</strong>
+        Tillståndet fastnade i ett läge som saknar väg tillbaka. Skriv ut läget varje
+        varv och leta efter övergången som inte finns.</li>
+      <li><strong>Mekanismen darrar vid gränsen.</strong> En enda tröskel och ett
+        råvärde som skakar över och under den. Två trösklar med mellanrum, eller
+        medelvärde av flera prov.</li>
+      <li><strong>Bygget hann inte bli klart.</strong> Sluta bygga och börja skriva.
+        Ett halvfärdigt system med noggrann dokumentation, en tydlig beskrivning av
+        var det stannade och vad som hade krävts för att komma vidare, ger belägg
+        för fyra av fem förmågor. Ett färdigt system utan text ger belägg för en.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Med bygge 5 inlämnat har du planerat och byggt fem mekatroniska system, och
+      det är de fem tillsammans som är "flera system" i F1:s mening på A-nivå. Det
+      betyder att bygge 1 till 4 och deras dokumentation fortfarande räknas i juni —
+      slutprojektet är kronan, inte hela byggnaden.</p>
+    <p>Guiderna till området: <a href="guide-kravstallning.html">Kravställning och
+      planering</a>, <a href="guide-konstruktion-och-schema.html">Konstruktion och
+      schema</a>, <a href="guide-systematisk-felsokning.html">Systematisk
+      felsökning</a> och <a href="guide-dokumentationens-grad.html">Dokumentationens
+      grad</a>. De följer projektets gång, ett pass i taget.</p>
+    <p>Tillbaka till <a href="index.html">område 6</a> eller till
+      <a href="../index.html">kursens material</a>.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 6</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

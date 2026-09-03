@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redovisningen – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o6-redovisningen">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Redovisningen</strong> · område 6</span>
+  <a href="index.html">Område 6</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#ramen">Ramen</a></li>
+      <li><a href="#fyra">Fyra saker som ska sägas</a></li>
+      <li><a href="#foljdfragor">Följdfrågorna</a></li>
+      <li><a href="#visa">Att visa systemet</a></li>
+      <li><a href="#trasigt">Om det inte fungerar på dagen</a></li>
+      <li><a href="#bedoms">Vad som bedöms</a></li>
+      <li><a href="#betygssamtalet">Betygssamtalet</a></li>
+      <li><a href="#utvardering">Kursutvärderingen</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 6 · lektion 35 och 36 · 3 och 10 juni</p>
+    <h1>Redovisningen</h1>
+    <p class="inledning">Åtta minuter, systemet på bordet, och fyra saker som ska
+      sägas. Redovisningen är inte en föreställning utan ett tillfälle att belägga
+      F4 muntligt — att beskriva hur ditt system är uppbyggt och varför det ser ut
+      som det gör. Den som har mätt och skrivit under maj behöver inte förbereda
+      särskilt mycket. Den som inte har det märks på den första följdfrågan.</p>
+
+    <h2 id="ramen">Ramen</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Vad som gäller</th></tr></thead>
+        <tbody>
+          <tr><td>När</td><td>Lektion 35 (3 juni) eller lektion 36 (10 juni). Ungefär halva klassen vid vardera tillfället, turordningen lottas på lektion 34</td></tr>
+          <tr><td>Hur länge</td><td>Åtta minuter, plus ett par minuters frågor</td></tr>
+          <tr><td>Var</td><td>I salen, med systemet på bordet om det går att bära hit</td></tr>
+          <tr><td>Vad du får ha</td><td>Ditt schema, dina mätvärden och stödord. Inte ett manus att läsa innantill</td></tr>
+          <tr><td>Inför</td><td>Dokumentationen ska vara inlämnad före ditt redovisningstillfälle</td></tr>
+          <tr><td>I par</td><td>Ni redovisar båda två, och båda ska kunna svara på frågor om hela systemet</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="notis"><span class="rubrik">Åtta minuter är kort</span>
+      Det räcker till ungefär 800 ord i lugnt tempo. Räkna med att du hinner säga
+      de fyra sakerna nedan och visa systemet en gång — inte att du hinner berätta
+      projektets historia från april och framåt. Den som börjar med "jag tänkte
+      först göra något helt annat" har bränt två av åtta minuter innan systemet
+      nämnts.</p>
+
+    <h2 id="fyra">Fyra saker som ska sägas</h2>
+    <p>I den här ordningen. Den är inte godtycklig — den följer samma väg som
+      signalen går genom ditt system, och den gör det lätt för den som lyssnar att
+      hänga med.</p>
+    <ol>
+      <li><strong>Vad systemet gör, i en mening, och för vem.</strong> Samma mening
+        som du skrev den 15 april. Om den ändrats under vägen: säg det och säg
+        varför — det är ett bra svar, inte ett dåligt.</li>
+      <li><strong>Hur det är uppbyggt, block för block.</strong> Givaren, beslutet,
+        drivsteget, aktuatorn, matningen. Peka på ditt blockschema eller på
+        systemet. <strong>Namnge de tre delarna</strong> — mekanisk struktur,
+        elektroteknik, styrteknik — och säg vilken del av bygget som är vilken.
+        Det här är kärnan i F4 och det som bedöms hårdast.</li>
+      <li><strong>Ett val du gjorde och varför.</strong> Välj det du är mest säker
+        på: utväxlingen, tröskeln, komponenten, tillstånden. Ta med talet, skälet,
+        och vad alternativet hade kostat. Ett enda val förklarat på djupet är värt
+        mer än fem uppräknade.</li>
+      <li><strong>Vad som inte fungerade, och vad du gjorde åt det.</strong>
+        Felsökningsvägen, inklusive den återvändsgränd du gick in i. Avsluta med
+        vad systemet <em>inte</em> klarar, med ett tal. Det är den mening som
+        oftast avgör om beskrivningen låter nyanserad.</li>
+    </ol>
+    <p>Fyra punkter, två minuter var. Har du systemet med dig går punkt två fortare
+      och punkt fyra får mer plats — det är en bra fördelning.</p>
+
+    <h2 id="foljdfragor">Följdfrågorna jag ställer</h2>
+    <p>De är inte hemliga. De är samma frågor varje år, för de är de frågor som
+      skiljer nivåerna åt i F4, och du kan förbereda svaren under lektion 34:</p>
+    <ul>
+      <li><strong>"Vad händer om givaren lossnar medan systemet arbetar?"</strong>
+        Prövar om du tänkt på felfall, eller om systemet bara har en lycklig väg
+        genom loopen.</li>
+      <li><strong>"Varför just det värdet?"</strong> Pekar på en tröskel, ett
+        motstånd, en tid eller en utväxling. Prövar om talet är valt eller
+        hittat.</li>
+      <li><strong>"Vad skulle du göra annorlunda om du började om?"</strong>
+        Prövar om du kan värdera din egen konstruktion. Ett svar som "ingenting"
+        är nästan alltid ett sämre svar än ett konkret.</li>
+      <li><strong>"Var slutar det här fungera?"</strong> Den tyngsta lasten, det
+        svagaste ljuset, den snabbaste rörelsen. Prövar om du mätt gränsen eller
+        gissat den.</li>
+      <li><strong>"Vad drar systemet för ström när allt är i gång?"</strong>
+        Prövar om strömbudgeten från ritpasset följdes upp med en mätning.</li>
+      <li><strong>"Vem gjorde vad?"</strong> Bara vid parbyggen. Prövar F2:s del om
+        samarbete, och ett svar som "vi gjorde allt tillsammans" är inte en
+        beskrivning av ett samarbete.</li>
+    </ul>
+
+    <h2 id="visa">Att visa systemet</h2>
+    <p>En demonstration som fungerar är övertygande och en som inte gör det tar tid
+      från det du skulle säga. Tre saker som gör skillnad:</p>
+    <ul>
+      <li><strong>Prova på plats innan din tur.</strong> Salen har annat ljus än
+        ditt kök, och en LDR-tröskel som stämde hemma stämmer inte här. Har du
+        kalibrerat ordentligt vet du redan vilket tal som behöver justeras.</li>
+      <li><strong>Ha ett sätt att utlösa systemet.</strong> En ficklampa, en hand
+        att skymma med, en vikt att hänga på. Att vänta på att det ska bli mörkt i
+        salen är ingen demonstration.</li>
+      <li><strong>Visa felfallet också.</strong> Håll fast mekanismen så att
+        rörelsen inte blir av och låt tidsgränsen slå till. Det tar tio sekunder
+        och visar något som annars bara står i texten.</li>
+    </ul>
+
+    <h2 id="trasigt">Om det inte fungerar på dagen</h2>
+    <p>Det händer, och det är inte slutet på redovisningen. Ett system som gick
+      sönder på bussen bedöms inte som ett system som aldrig byggdes — det är
+      dokumentationen, mätvärdena och din beskrivning som bär bedömningen.</p>
+    <p class="notis viktig"><span class="rubrik">Gör så här i stället</span>
+      Säg vad som skulle ha hänt, visa mätvärdena som bevisar att det hände i maj,
+      och säg vad du tror är fel just nu och hur du skulle ta reda på det. En
+      systematisk felsökningsplan som redovisas på tre minuter är starkare belägg
+      för F4 än en lyckad demonstration utan förklaring. <strong>Ta med
+      dokumentationen, ett foto och en kort film av systemet i drift</strong> — det
+      är den billigaste försäkringen i hela kursen, och den tar två minuter att
+      skaffa i förväg.</p>
+
+    <h2 id="bedoms">Vad som bedöms</h2>
+    <p>Redovisningen är i första hand belägg för F4 — att beskriva systemets
+      uppbyggnad och de fysikaliska principerna — och i andra hand för F5, genom
+      hur du bedömer din egen lösning.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nivå</th><th>Låter ungefär så här</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Översiktligt</strong> (E)</td>
+            <td>"En LDR mäter ljuset. När det blir mörkt öppnar servot luckan. Det
+              fungerar."</td>
+          </tr>
+          <tr>
+            <td><strong>Utförligt</strong> (C)</td>
+            <td>"En LDR sitter i en spänningsdelare mot 10 kΩ på A0. Råvärdet går
+              från 180 i mörker till 870 i dagsljus. Vid 400 öppnar servot till 90
+              grader, vilket tar 1,8 sekunder. Delaren är kopplad så att värdet
+              sjunker när det blir mörkare, eftersom LDR:ns resistans stiger."</td>
+          </tr>
+          <tr>
+            <td><strong>Utförligt och nyanserat</strong> (A)</td>
+            <td>Som ovan, plus: "10 kΩ valdes för att lägga känsligheten mitt i
+              skymningsområdet — med 1 kΩ hade hela skymningen tryckts ihop i
+              nedersta femtedelen av mätområdet. Först hade jag en enda tröskel och
+              luckan fladdrade; nu är det två, med 80 enheters mellanrum. Priset är
+              att den öppnar något senare än den stänger. Gränsen är att givaren
+              mäter rumsljus — tänds taklampan öppnar den sig inte, och det hade
+              krävt att givaren satt utanför fönstret."</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Skillnaden är densamma som i skriven text, och exemplen är avsiktligt samma
+      som i <a href="guide-dokumentationens-grad.html#exempel">Dokumentationens
+      grad</a>. Har du skrivit din dokumentation på C- eller A-nivå har du redan
+      formulerat det du ska säga — läs igenom din egen text kvällen innan, så
+      behöver du inget manus.</p>
+
+    <h2 id="betygssamtalet">Betygssamtalet</h2>
+    <p>På lektion 36, efter de sista redovisningarna, avsätts 30 minuter till
+      återkoppling och betyg. Du får ett kort enskilt samtal där vi går igenom de
+      fem förmågorna en i taget och vad kursen som helhet visar.</p>
+    <p class="notis"><span class="rubrik">Hela året vägs, inte bara slutprojektet</span>
+      Betyget sätts på <strong>alla fem byggena och all dokumentation</strong>, inte
+      på det sista. Det är särskilt tydligt i F1 på A-nivå, som kräver <em>flera</em>
+      system — bygge 1 till 5 tillsammans. Ett starkt slutprojekt lyfter helheten men
+      ersätter inte tre tunna dokumentationer från hösten, och ett slutprojekt som
+      inte blev klart raderar inte fyra fungerande system bakom det.</p>
+    <p>Tre saker är bra att ha tänkt igenom före samtalet, för de är vad jag
+      frågar om:</p>
+    <ul>
+      <li><strong>Vilken av de fem förmågorna tycker du att du visat starkast?</strong>
+        Och på vilket bygge?</li>
+      <li><strong>Vilken är svagast, och vad hade krävts?</strong> Ett konkret svar
+        här är i sig belägg för F5 — att kunna bedöma sin egen förmåga.</li>
+      <li><strong>Vad skulle du bygga härnäst?</strong> Inte ett provfrågesvar; det
+        säger något om vad kursen faktiskt lämnade kvar.</li>
+    </ul>
+
+    <h2 id="utvardering">Kursutvärderingen</h2>
+    <p>De sista 15 minuterna på lektion 36. Den är anonym och den används på
+      riktigt — flera saker i den här kursen ser ut som de gör på grund av tidigare
+      elevers svar. Det som är mest värt att skriva om är var materialet inte räckte
+      när du satt hemma på egen hand, eftersom halva kursen ligger där och jag inte
+      ser den delen.</p>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Projektets historia berättas i stället för systemet.</strong>
+        "Först tänkte jag, sen ändrade jag mig, sen gick det sönder." Åtta minuter
+        räcker inte till både historien och uppbyggnaden, och det är uppbyggnaden
+        som bedöms.</li>
+      <li><strong>Manus som läses innantill.</strong> Går ofta fortare och visar
+        mindre. Stödord räcker om du kan ditt system — och kan du det inte hjälper
+        inte manuset vid första följdfrågan.</li>
+      <li><strong>Koden visas rad för rad.</strong> Ingen kan följa det muntligt.
+        Visa tillståndsdiagrammet i stället och säg vad varje läge gör.</li>
+      <li><strong>Demonstrationen provas inte i salen först.</strong> Annat ljus,
+        annat underlag, urladdade batterier. Kom fem minuter tidigare.</li>
+      <li><strong>Bara det som lyckades nämns.</strong> Punkt fyra saknas, och med
+        den det starkaste belägget du har för att du förstått ditt eget system.</li>
+      <li><strong>"Vi gjorde allt tillsammans."</strong> Vid parbyggen är det inte
+        ett svar på vem som gjorde vad, och F2 kräver att arbetsdelningen går att
+        beskriva.</li>
+      <li><strong>Dokumentationen lämnas in efteråt.</strong> Den ska vara inne
+        före redovisningen — det är den som ligger till grund för de frågor jag
+        ställer.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Kraven du redovisar mot står på
+      <a href="bygge-5-eget-system.html#krav">bygge 5:s sida</a>, och nivåerna i
+      det du säger är samma som i
+      <a href="guide-dokumentationens-grad.html">Dokumentationens grad</a>. Behöver
+      du en sista genomgång av systemets uppbyggnad är
+      <a href="guide-konstruktion-och-schema.html#genomgang">blockschemat</a> det
+      snabbaste sättet att strukturera punkt två.</p>
+    <p>Efter lektion 36 är kursen slut. Kitet lämnas tillbaka, dokumentationen
+      behåller du — den är det enda beviset som följer med dig ut ur kursen på vad du
+      faktiskt byggt.</p>
+    <p>Tillbaka till <a href="index.html">område 6</a> eller till
+      <a href="../index.html">kursens material</a>.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 6</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

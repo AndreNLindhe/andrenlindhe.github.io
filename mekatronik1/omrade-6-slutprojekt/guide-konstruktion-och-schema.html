@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Konstruktion och schema – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o6-konstruktion-och-schema">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Konstruktion och schema</strong> · område 6</span>
+  <a href="index.html">Område 6</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 6 · lektion 30</p>
+    <h1>Konstruktion och schema</h1>
+    <p class="inledning">Ett helt pass utan att bygga något. Det känns fel och är
+      det inte: felen som kostar mest tid i ett projekt är konstruktionsfel, och
+      de blir dyrare för varje timme de får ligga. Under det här passet ritar du
+      systemet två gånger — först grovt, sedan i detalj — räknar strömmen och
+      skriver materiallistan. Efteråt vet du om projektet går att bygga.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan rita ett blockschema som visar signalvägen genom systemet, och
+        skilja det från ett kopplingsschema.</li>
+      <li>Du kan göra en pinnbudget för Unon som tar hänsyn till att vissa pinnar
+        redan är upptagna eller inte kan användas till allt.</li>
+      <li>Du kan räkna en strömbudget för hela systemet och avgöra vad som ska ha
+        egen matning.</li>
+      <li>Du kan rita ett kopplingsschema som någon annan kan bygga efter utan att
+        du står bredvid.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Två ritningar, i den här ordningen</h3>
+    <p>Blockschemat svarar på <em>vad som pratar med vad</em>. Kopplingsschemat
+      svarar på <em>vilken tråd som går var</em>. Att rita dem i fel ordning är
+      det vanligaste sättet att bygga fel system snyggt.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Blockschema</th><th>Kopplingsschema</th></tr></thead>
+        <tbody>
+          <tr><td>Visar</td><td>funktioner och signalvägar</td><td>komponenter, pinnar och ledningar</td></tr>
+          <tr><td>Rutorna är</td><td>"avståndsgivare", "beslut", "lucka"</td><td>HC-SR04, ATmega328P, servo</td></tr>
+          <tr><td>Ritas</td><td>först, på fem minuter</td><td>sedan, på en halvtimme</td></tr>
+          <tr><td>Svarar på frågan</td><td>Är det här ett mekatroniskt system?</td><td>Går det att koppla ihop?</td></tr>
+          <tr><td>Ändras</td><td>när idén ändras</td><td>när komponentvalet ändras</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Blockschemat</h3>
+    <p>Fyra till sex rutor och pilar emellan. Signalen går vänster till höger,
+      matningen ritas separat, och återkopplingar — ändlägen, lägesgivare — ritas
+      som en pil tillbaka. Så här ser stommen ut i nästan varje slutprojekt:</p>
+
+    <figure style="margin:1.6rem 0;max-width:var(--las)">
+      <svg viewBox="0 0 470 236" role="img" aria-labelledby="svg-block-titel"
+           style="width:100%;height:auto">
+        <title id="svg-block-titel">Ett blockschema med fyra rutor på rad från
+          vänster till höger: Givare, Styrenhet, Drivsteg och Aktuator. Heldragna
+          pilar går åt höger mellan rutorna och är märkta mätvärde, styrsignal och
+          effekt. Under raden ligger en bredare ruta märkt Matning, med streckade
+          linjer upp till styrenheten, drivsteget och aktuatorn. En heldragen linje
+          går från aktuatorn nedåt, vänsterut och upp i styrenheten med en pilspets,
+          märkt återkoppling. Under matningsrutan står gemensam nolla för
+          allt.</title>
+
+        <g stroke="currentColor" stroke-width="1.6" fill="none">
+          <rect x="8" y="30" width="94" height="46" rx="4"/>
+          <rect x="128" y="30" width="94" height="46" rx="4"/>
+          <rect x="248" y="30" width="86" height="46" rx="4"/>
+          <rect x="360" y="30" width="92" height="46" rx="4"/>
+          <rect x="128" y="166" width="206" height="40" rx="4"/>
+
+          <path d="M102 53 h20"/>
+          <path d="M222 53 h20"/>
+          <path d="M334 53 h20"/>
+
+          <path d="M380 76 v42 h-238 v-34"/>
+
+          <g stroke-dasharray="4 3">
+            <path d="M175 166 v-90"/>
+            <path d="M291 166 v-90"/>
+            <path d="M334 186 h106 v-110"/>
+          </g>
+        </g>
+
+        <g fill="currentColor" stroke="none">
+          <path d="M116 53 l-8 -4 v8 z"/>
+          <path d="M236 53 l-8 -4 v8 z"/>
+          <path d="M348 53 l-8 -4 v8 z"/>
+          <path d="M142 76 l-4 8 h8 z"/>
+        </g>
+
+        <g fill="currentColor" font-size="12" text-anchor="middle">
+          <text x="55" y="58">Givare</text>
+          <text x="175" y="58">Styrenhet</text>
+          <text x="291" y="58">Drivsteg</text>
+          <text x="406" y="58">Aktuator</text>
+          <text x="231" y="191">Matning</text>
+        </g>
+        <g fill="currentColor" font-size="10.5" text-anchor="middle" opacity="0.75">
+          <text x="112" y="24">mätvärde</text>
+          <text x="232" y="24">styrsignal</text>
+          <text x="344" y="24">effekt</text>
+          <text x="233" y="136">återkoppling</text>
+          <text x="231" y="222">gemensam nolla för allt</text>
+        </g>
+      </svg>
+      <figcaption style="font-size:0.9rem;color:var(--dov);margin-top:0.6rem">
+        Stommen. Heldraget är signal, streckat är matning, och återkopplingen är
+        det ändläge eller lägesgivare som talar om att rörelsen blev av. Din version
+        namnger rutorna: "LDR i spänningsdelare", "tröskel med hysteres", "servo",
+        och tar bort drivsteget om aktuatorn är ett servo som har sitt eget
+        inbyggt.
+      </figcaption>
+    </figure>
+
+    <p>Det här schemat är också ditt kvitto på att systemet är mekatroniskt.
+      Saknas rutan längst till vänster har du ett reglage. Saknas pilen
+      tillbaka har du ett system utan återkoppling, vilket är tillåtet men
+      enklare — och det är precis en sådan sak som skiljer ett enkelt system från
+      ett komplext i
+      <a href="guide-kravstallning.html#komplext">F4:s mening</a>.</p>
+
+    <h3>Pinnbudgeten: Unon har färre pinnar än du tror</h3>
+    <p>En Uno har 14 digitala och 6 analoga anslutningar, men flera av dem är
+      upptagna eller kan inte allt. Gör den här tabellen <em>innan</em> du ritar
+      kopplingsschemat, så slipper du rita om det.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pinnar</th><th>Vad som gäller</th><th>Följd för dig</th></tr></thead>
+        <tbody>
+          <tr><td>D0, D1</td><td>Används av USB-porten och <code>Serial</code></td><td>Använd dem inte. Sitter något där misslyckas uppladdningen</td></tr>
+          <tr><td>D2, D3</td><td>Klarar avbrott</td><td>Spara dem till knappar och pulsgivare om du behöver reagera snabbt</td></tr>
+          <tr><td>D3, D5, D6, D9, D10, D11</td><td>Klarar <code>analogWrite</code>, alltså PWM</td><td>Övriga digitala pinnar kan bara ge på eller av</td></tr>
+          <tr><td>D9, D10</td><td><code>Servo.h</code> tar över tidkretsen för de här två</td><td>Ett anslutet servobibliotek stänger av PWM på 9 och 10, även för andra saker</td></tr>
+          <tr><td>D13</td><td>Sitter ihop med lysdioden på kortet</td><td>Går att använda, men blinkar med. Undvik för ingångar</td></tr>
+          <tr><td>A0–A5</td><td>Analoga ingångar, och användbara som digitala</td><td>Din reserv när de digitala tagit slut</td></tr>
+          <tr><td>A4, A5</td><td>Är också I2C, alltså SDA och SCL</td><td>Använder du en I2C-display är de två upptagna</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="notis"><span class="rubrik">Den fällan som kostar mest</span>
+      Servo på pinne 9 och PWM till en motordrivare på pinne 10, i samma skiss.
+      Motorn går för fullt eller inte alls, koden ser korrekt ut, och felet syns
+      inte i något schema. <strong>Har du både servo och PWM: lägg PWM på 3, 5, 6
+      eller 11.</strong> Det står också i
+      <a href="../omrade-5-drivning/guide-motordrivare-och-pwm.html#fel">motordrivarguidens vanliga fel</a>.</p>
+
+    <h3>Strömbudgeten för hela systemet</h3>
+    <p>I område 5 räknade du på en motor. Nu räknar du på allt samtidigt, och det
+      är summan som avgör om systemet står stabilt eller startar om ibland. Två
+      gränser gäller på Unon: <strong>20 mA per pinne</strong> och
+      <strong>200 mA totalt genom chippet</strong>. En budget kan se ut så
+      här:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vila</th><th>Under drift</th><th>Matas från</th></tr></thead>
+        <tbody>
+          <tr><td>Uno-kortet självt</td><td>45 mA</td><td>45 mA</td><td>USB eller 7–12 V på jacket</td></tr>
+          <tr><td>LDR i spänningsdelare, 10 kΩ</td><td>0,5 mA</td><td>0,5 mA</td><td>Kortets 5 V</td></tr>
+          <tr><td>HC-SR04</td><td>2 mA</td><td>15 mA</td><td>Kortets 5 V</td></tr>
+          <tr><td>Lysdiod med förresistor</td><td>0</td><td>15 mA</td><td>En pinne</td></tr>
+          <tr><td>Litet servo</td><td>10 mA</td><td>250 mA, upp mot 700 mA om det hindras</td><td><strong>Egen matning</strong></td></tr>
+          <tr><td><strong>Summa utan servot</strong></td><td><strong>48 mA</strong></td><td><strong>76 mA</strong></td><td>ryms i de 200 mA</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Slutsatsen står i sista kolumnen och är alltid densamma: <strong>allt som
+      rör sig får egen matning</strong>, och den matningens minuspol kopplas ihop
+      med kortets GND. Ett servo som verkar fungera på kortets 5 V fungerar tills
+      det möter motstånd, och då startar Unon om mitt i rörelsen. Det felet ser ut
+      som ett programfel och är det aldrig — se
+      <a href="../omrade-2-styrenheten/guide-servot.html">servoguiden</a>.</p>
+
+    <h3>Kopplingsschemat</h3>
+    <p>Nu, och först nu, ritar du ledningarna. Kravet är enkelt att formulera och
+      svårt att uppfylla: <strong>någon annan ska kunna bygga ditt system efter
+      ritningen utan att fråga dig något.</strong> Det betyder att sju saker ska
+      framgå:</p>
+    <ol>
+      <li>Varje komponent med sitt namn, inte bara sin form.</li>
+      <li>Varje pinnummer utskrivet, på båda sidor av varje ledning.</li>
+      <li>Alla motståndsvärden, med enhet.</li>
+      <li>Varje spänningsnivå: var 5 V kommer ifrån, var 9 V kommer ifrån.</li>
+      <li><strong>Den gemensamma nollan som en utritad ledning</strong>, inte som
+        något underförstått.</li>
+      <li>Polariteten på det som har en: dioder, elektrolytkondensatorer,
+        motorns matning.</li>
+      <li>Datum och en versionsbeteckning, så att du vet vilken ritning som gällde
+        när mätvärdet togs.</li>
+    </ol>
+    <p>Symbolerna och läsriktningen står i
+      <a href="../omrade-1-ellara-och-matning/guide-kopplingsschema.html">kopplingsschemaguiden</a>
+      från område 1. Den gäller ordagrant här — skillnaden är bara att schemat nu
+      är ditt eget och att ingen rättar det åt dig.</p>
+
+    <h3>Materiallistan</h3>
+    <p>En rad per komponent, med antal och den uppgift ur databladet som avgjorde
+      valet. Sista kolumnen är den som skiljer en materiallista från en
+      inköpslista, och den är dessutom halva svaret på en fråga jag ställer på
+      redovisningen:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Antal</th><th>Komponent</th><th>Vad som avgjorde valet</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Servo SG90</td><td>Behöver 0,031 N·m, servot lämnar cirka 0,15 N·m</td></tr>
+          <tr><td>1</td><td>LDR</td><td>Ska skilja dagsljus från skymning, inte mäta lux exakt</td></tr>
+          <tr><td>1</td><td>Motstånd 10 kΩ</td><td>Ger halva spänningen vid den ljusnivå tröskeln ligger på</td></tr>
+          <tr><td>1</td><td>Batterihållare 4 × AA</td><td>6 V till servot, skilt från kortets 5 V</td></tr>
+          <tr><td>2</td><td>Mikrobrytare</td><td>Ändlägen, så att servot kan stoppas om luckan kärvar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Koden börjar i schemat</h3>
+    <p>Det sista du gör under ritpasset är att skriva av pinnummeren ur ditt eget
+      schema, som konstanter. Då finns pinnbudgeten på ett andra ställe, i kod, och
+      du upptäcker en krock innan du kopplat något. Skriv av mönstret och byt ut
+      namnen mot dina:</p>
+
+    <pre><code class="sprak-cpp">// Slutprojekt – pinnar enligt kopplingsschema rev. B, 2027-04-22
+// Alla nummer hämtade ur ritningen, inga gissningar.
+
+#include &lt;Servo.h&gt;              // tar över PWM på pinne 9 och 10
+
+const int LDR_PIN      = A0;   // spänningsdelare med 10 kohm mot GND
+const int ANDLAGE_PIN  = 2;    // mikrobrytare, INPUT_PULLUP, sluter mot GND
+const int LARM_PIN     = 5;    // lysdiod med 220 ohm. PWM-pinne, kan dimras
+const int SERVO_PIN    = 9;    // servo, egen 6 V-matning, gemensam nolla
+
+const int TROSKEL_MORKT = 400; // råvärde. Kalibreras, se område 4
+const int TROSKEL_LJUST = 480; // mellanrum mot ovanstående, mot fladder
+
+Servo lucka;
+
+void setup() {
+  pinMode(ANDLAGE_PIN, INPUT_PULLUP);
+  pinMode(LARM_PIN, OUTPUT);
+  lucka.attach(SERVO_PIN);
+  Serial.begin(9600);
+}</code></pre>
+
+    <p>Fyra saker i den koden kommer direkt ur ritningen och ingen annanstans
+      ifrån: pinnumren, motståndsvärdena i kommentarerna, noteringen om egen
+      matning, och revisionsbeteckningen på första raden. Ändrar du schemat ändrar
+      du de här raderna samma dag — annars har du två sanningar, och det är den i
+      koden som gäller medan den i pärmen är den du visar upp.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <h3>Industrin: ritningen ska hålla i tjugo år</h3>
+    <p>En produktionsmaskin levereras med en elpärm där varje ledning har ett
+      nummer, varje plint en beteckning som <em>X2:14</em>, och varje ritning ett
+      ritningsnummer med revisionsbokstav. När en underhållstekniker står vid
+      maskinen klockan tre på natten 2041 och något inte fungerar, är det den
+      pärmen som avgör om felet tar tjugo minuter eller ett skift. Därför är
+      revisionshanteringen inte byråkrati: ändras en ledning under driftsättningen
+      ska ritningen ändras samma dag, med ny revisionsbokstav, annars felsöker
+      någon efter en ritning som beskriver en maskin som inte längre finns.</p>
+
+    <h3>Vardagen: monteringsanvisningen som inte innehåller ett enda ord</h3>
+    <p>En hyllas monteringsanvisning har inga meningar alls — bara numrerade steg,
+      en lista med 14 skruvar av tre sorter ritade i naturlig storlek, och bilder
+      på vad som ska sitta var. Den fungerar i trettio länder just för att den
+      säger allt med numrering och mått. Kravet på ritningen är exakt detsamma som
+      i elpärmen och i ditt kopplingsschema: den som följer den ska komma rätt utan
+      att fråga den som ritade. Skillnaden är att hyllan har ett steg som heter
+      "vänd hyllan rätt" — ett fel som kostar fem minuter, mot elpärmens fel som
+      kostar ett skift.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li><strong>Rita blockschemat på fem minuter</strong>, för hand. Fyra till
+        sex rutor, pilar med vad som skickas, matningen separat. Blir det fler än
+        sju rutor är projektet troligen för stort.</li>
+      <li><strong>Peka ut de tre delarna i ditt eget blockschema.</strong>
+        Mekanisk struktur, elektroteknik och styrteknik. Saknas någon är det nu du
+        vill veta det, inte den 20 maj.</li>
+      <li><strong>Gör pinnbudgeten som en tabell.</strong> En rad per pinne du
+        tänkt använda, med vad som sitter där. Kontrollera mot tabellen ovan att
+        ingen pinne krockar med sig själv.</li>
+      <li><strong>Räkna strömbudgeten.</strong> Summera allt som matas från kortet,
+        i vila och under drift. Ligger driftsumman över 200 mA, eller något
+        enskilt över 20 mA, ska den delen ha egen matning.</li>
+      <li><strong>Rita kopplingsschemat i detalj</strong>, med de sju punkterna i
+        listan ovan. Sätt datum och revisionsbokstav på det.</li>
+      <li><strong>Låt någon annan läsa det.</strong> Byt schema med den du sitter
+        bredvid och fråga: kan du bygga det här? Varje fråga den andra behöver
+        ställa är en sak som saknas på ritningen.</li>
+      <li><strong>Skriv materiallistan</strong> med kolumnen "vad som avgjorde
+        valet". Har du inget att skriva i den kolumnen har du inte valt
+        komponenten, du har hittat den.</li>
+      <li><strong>Skriv konstantblocket i koden</strong> efter ditt schema, ladda
+        upp den tomma skissen och kontrollera att den kompilerar. Det är ditt
+        första bevis på att pinnbudgeten går ihop.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Varför räcker det inte att rita kopplingsschemat, om det ändå
+        innehåller mer information än blockschemat?</summary>
+      <p>Därför att de svarar på olika frågor. Kopplingsschemat visar att det går
+        att koppla ihop, men det säger inte om det du kopplat ihop är ett
+        mekatroniskt system, eller var beslutet fattas. En felaktig konstruktion
+        kan ritas till ett perfekt kopplingsschema. Blockschemat tar fem minuter
+        och fångar just den sortens fel — det är den billigaste kontrollen i hela
+        projektet.</p>
+    </details>
+
+    <details>
+      <summary>Du har ett servo på pinne 9, en motordrivare som behöver PWM, och
+        en I2C-display. Vilka pinnar är kvar till en knapp och två lysdioder?</summary>
+      <p>Servot tar 9 och stänger samtidigt av PWM på 10. Displayen tar A4 och A5.
+        PWM till drivaren måste alltså ligga på 3, 5, 6 eller 11 — säg 3, plus en
+        eller två riktningspinnar, säg 4 och 7. Kvar till knapp och lysdioder finns
+        2, 8, 11, 12, 13 och A0–A3. Gott om plats, men bara för att du räknade
+        först: hade PWM hamnat på 10 hade motorn inte gått, och felet hade inte
+        synts någonstans i schemat.</p>
+    </details>
+
+    <details>
+      <summary>Ditt system drar 48 mA i vila och 76 mA under drift, allt från
+        kortets 5 V. Servot ligger utanför den summan. Varför står det ändå med i
+        strömbudgeten?</summary>
+      <p>Därför att budgeten ska visa hela systemet, inte bara det kortet orkar.
+        Servots 250 mA under rörelse och närmare 700 mA i stopp avgör vilket
+        batteri du behöver, hur länge det räcker och hur grov ledningen till det
+        ska vara. Att posten står med och är hänvisad till egen matning är just det
+        som visar att du räknat — en budget där servot saknas ser identisk ut med
+        en budget där någon glömt det.</p>
+    </details>
+
+    <details>
+      <summary>Varför ska den gemensamma nollan ritas ut som en ledning, när den
+        är självklar?</summary>
+      <p>Därför att den är den vanligaste felkällan i system med två matningar, och
+        just för att den känns självklar är den den som glöms. Ett system utan
+        gemensam nolla beter sig slumpmässigt, blir bättre när du håller i sladden,
+        och ger ett fel som ser ut som brus, glappkontakt eller programfel om
+        vartannat. På ritningen är den en linje som tar tio sekunder att dra. I
+        felsökningen är den en halv kväll.</p>
+    </details>
+
+    <details>
+      <summary>Vad är revisionsbeteckningen på ett skolschema bra för?</summary>
+      <p>Att koppla ihop ett mätvärde med den koppling det mättes på. Du kommer att
+        ändra schemat två eller tre gånger under maj. Står det "rev. B, 20 maj" i
+        både anteckningen och koden vet du efteråt vilken version som gav 4,1 V
+        och vilken som gav 3,2. Utan beteckningen har du en siffra utan koppling
+        till någon verklighet, och den kan du inte använda i dokumentationen.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Schemat ritades efter bygget.</strong> Det syns på att det
+        stämmer perfekt med den trassliga kopplingen, inklusive omvägarna. Ett
+        schema som beskriver en byggd koppling är en teckning, inte en ritning, och
+        det har inte styrt något arbete.</li>
+      <li><strong>Pinnummer saknas i ena änden.</strong> "Från servot till kortet"
+        är inte en ledning. Numret ska stå på båda sidor, annars gissar den som
+        bygger.</li>
+      <li><strong>Servot eller motorn matas från kortets 5 V.</strong> Fungerar
+        obelastat, faller ihop under last. Egen matning och gemensam nolla, varje
+        gång.</li>
+      <li><strong>PWM lagd på 9 eller 10 med servobiblioteket inkopplat.</strong>
+        Full fart eller ingen fart, oavsett vad koden säger.</li>
+      <li><strong>Motståndsvärden står inte i schemat.</strong> Du minns dem i
+        april och inte i juni, och den som läser dokumentationen kan inte bygga om
+        systemet.</li>
+      <li><strong>Materiallistan är en inköpslista.</strong> Utan kolumnen som
+        säger varför komponenten valdes går det inte att skilja ett val från ett
+        fynd i lådan.</li>
+      <li><strong>Blockschemat har tolv rutor.</strong> Då är det inget
+        blockschema, utan ett kopplingsschema med kvadrater. Slå ihop till
+        funktioner: en ruta är en uppgift, inte en komponent.</li>
+      <li><strong>Ritningen ändrades inte när kopplingen ändrades.</strong> Efter
+        två sådana gånger vet ingen vad som gäller, och felsökningen sker mot en
+        karta över ett system som inte finns.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Konstantblocket ovan använder <code>const int</code> och
+      <code>INPUT_PULLUP</code>, som båda står i
+      <a href="../sprakreferens.html#typer">språkreferensens kapitel om typer</a>
+      respektive i
+      <a href="../omrade-2-styrenheten/guide-digital-ingang.html">guiden om digital ingång</a>.
+      Ska ditt system minnas lägen är
+      <a href="../omrade-3-logik-och-tillstand/guide-tillstand.html">Tillstånd</a>
+      nästa sida att läsa, och tidsgränsen som stoppar en rörelse som inte blev av
+      bygger på <a href="../sprakreferens.html#tid">Tid</a>.</p>
+    <p>Nästa två pass är bygge. Kraven och arbetsgången står på
+      <a href="bygge-5-eget-system.html">bygge 5:s sida</a>. Går något sönder på
+      vägen — och det gör det — är
+      <a href="guide-systematisk-felsokning.html">Systematisk felsökning</a>
+      guiden till lektion 33.</p>
+    <p>Tillbaka till <a href="index.html">område 6</a> eller till
+      <a href="../index.html">kursens material</a>.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 6</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,21 +1,21 @@
 {
   "granssnitt-webb": {
-    "commit": "4c1109c",
+    "commit": "008322b",
     "kalla": "C:\\Skola\\Grägrä\\planering\\elevpaket",
     "namn": "Gränssnittsdesign och Webbutveckling",
-    "publicerad": "2026-08-31"
+    "publicerad": "2026-09-03"
   },
   "mekatronik1": {
-    "commit": "0712959",
+    "commit": "634c88b",
     "kalla": "C:\\Skola\\Mekatronik1\\elevpaket",
     "namn": "Mekatronik 1",
     "publicerad": "2026-09-03"
   },
   "webbserverprogrammering": {
-    "commit": "dc2f678",
+    "commit": "b24dfd6",
     "kalla": "C:\\Skola\\Webserverprogrammering 1\\elevpaket",
     "namn": "Webbserverprogrammering 1",
-    "publicerad": "2026-08-31"
+    "publicerad": "2026-09-03"
   },
   "webbutveckling1": {
     "commit": "6b5f838",

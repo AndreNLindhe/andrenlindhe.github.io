@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Övning 57–62: logiken lämnar komponenten</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o4-ovn-logik">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Övning 57–62</strong> · Logiken lämnar komponenten</span>
+  <a href="#avprickning">Avprickning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#gransen">Var går gränsen?</a></li>
+      <li><a href="#ov-57">57. Konstruktorinjektion</a></li>
+      <li><a href="#ov-58">58. En tjänst som använder en annan</a></li>
+      <li><a href="#ov-59">59. Uträkningen lämnar komponenten</a></li>
+      <li><a href="#ov-60">60. Ett svar som håller ihop flera värden</a></li>
+      <li><a href="#ov-61">61. Vem väljer ut posterna?</a></li>
+      <li><a href="#ov-62">62. Två träffar, inte fler</a></li>
+      <li><a href="#avprickning">Avprickning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 4 · lektion 25</p>
+    <h1>Att flytta logiken</h1>
+    <p class="inledning">Sex övningar om det som faktiskt bedöms i inlämningen: var
+      koden ligger. De fyra första flyttar kod, den femte drar gränsen och den sjätte
+      kontrollerar att flytten blev av på riktigt.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du passet?</span>
+      <p>Lektion 25 var ett övningspass – ingen genomgång, inget nytt. Du missade
+        handledningen, inte innehållet. Så här arbetar du ikapp, räkna med två
+        timmar:</p>
+      <ol>
+        <li>Har du inte gjort <a href="ovningar-granssnitt.html">övning 51–56</a>, gör
+          dem först. De här bygger på dem.</li>
+        <li>Läs <a href="guide.html#steg-7">guidens steg 7</a>, där statistiken flyttar
+          in i tjänsten. Det är samma flytt som övning 59 och 60.</li>
+        <li>Lös övning 57 till 62 nedan, i ordning. Övning 62 sist – den kontrollerar
+          de andra.</li>
+      </ol>
+    </div>
+
+    <h2 id="gransen">Var går gränsen?</h2>
+    <p>Frågan återkommer i varje övning på den här sidan, och på provet. Formuleringen
+      att hålla i huvudet:</p>
+
+    <blockquote>
+      <p>Väljer koden <b>vilka</b> poster som ska visas hör den till tjänsten.
+        Bestämmer den <b>hur</b> de ska se ut hör den till komponenten.</p>
+    </blockquote>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Koden gör…</th><th>Hör hemma i</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td>Filtrerar en lista på ett villkor</td><td>tjänsten</td><td>Väljer <em>vilka</em>. Nästa sida som behöver samma urval ska slippa upprepa det</td></tr>
+          <tr><td>Räknar ut ett snitt eller en summa</td><td>tjänsten</td><td>Är applikationslogik. Svaret är detsamma oavsett vem som frågar</td></tr>
+          <tr><td>Sorterar</td><td>tjänsten</td><td>Väljer ordningen på <em>vilka</em></td></tr>
+          <tr><td>Avrundar till en decimal vid utskrift</td><td>komponenten</td><td>Är <em>hur</em>. Ett annat ställe kanske vill ha två decimaler</td></tr>
+          <tr><td>Väljer mellan "1 film" och "2 filmer"</td><td>komponenten</td><td>Är språk, inte data</td></tr>
+          <tr><td>Sätter en CSS-klass beroende på ett värde</td><td>komponenten</td><td>Är utseende</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ov-57">57. Konstruktorinjektion</h2>
+    <p class="ledtext"><b>Lätt</b> · tränar: att ta emot ett beroende i konstruktorn</p>
+    <p>Ge tjänsten från <a href="ovningar-granssnitt.html#ov-54">övning 54</a> en
+      konstruktor som tar emot en <code>ILogger&lt;Ovning54&gt;</code> och sparar den i
+      ett <code>readonly</code>-fält. Skriv en loggrad i
+      <code>HamtaNamnAsync</code>.</p>
+    <p>Du registrerar <b>inte</b> loggaren – ramverket har den.</p>
+    <p><b>Klart när:</b> raden syns i terminalen där <code>dotnet run</code> körs, med
+      klassnamnet framför.</p>
+
+    <div class="notis">
+      <span class="rubrik">Samma sak som <code>@inject</code>, på ett annat ställe</span>
+      <p>En komponent ber om sina tjänster med <code>@inject</code>. En vanlig klass
+        kan inte det – den ber i stället genom sin konstruktor. Det är samma mekanism:
+        du säger vad du behöver, och ramverket skickar in det när objektet skapas.</p>
+      <p>Ingen av dem skapar något med <code>new</code>. Det är hela idén med
+        <em>dependency injection</em>: den som behöver något ber om det, och någon
+        annan bestämmer vad som levereras.</p>
+    </div>
+
+    <h2 id="ov-58">58. En tjänst som använder en annan</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: att beroenden går mot gränssnitt även mellan tjänster</p>
+    <p>Gör <code>IOvning58</code> med <code>Task&lt;int&gt; AntalNamnAsync()</code>.
+      Implementationen ska <b>inte</b> ha någon egen lista – den ska injicera
+      <code>IOvning54</code> i konstruktorn och räkna det den får.</p>
+    <p><b>Klart när:</b> sidan visar 4, och <code>Ovning58</code> inte innehåller ett
+      enda namn.</p>
+
+    <h2 id="ov-59">59. Uträkningen lämnar komponenten</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: gränsen mellan presentation och logik</p>
+    <p>Given kod, en komponent som räknar själv:</p>
+
+    <pre><code class="sprak-razor">&lt;p&gt;Snitt: @Snitt().ToString("0.0")&lt;/p&gt;
+
+@code {
+    private List&lt;int&gt; tal = new() { 4, 8, 15, 16, 23 };
+
+    private double Snitt()
+    {
+        int summa = 0;
+
+        foreach (var t in tal)
+        {
+            summa = summa + t;
+        }
+
+        return (double)summa / tal.Count;
+    }
+}</code></pre>
+
+    <p>Flytta både listan och uträkningen till en tjänst bakom ett gränssnitt.</p>
+    <p><b>Klart när:</b> komponenten innehåller ingen <code>foreach</code> och ingen
+      lista, och visar samma siffra som förut.</p>
+
+    <p>Lägg märke till vad som <b>inte</b> ska flytta: <code>.ToString("0.0")</code>
+      stannar i komponenten. Antalet decimaler är utseende.</p>
+
+    <h2 id="ov-60">60. Ett svar som håller ihop flera värden</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: ett litet objekt som returtyp</p>
+    <p>Bygg vidare på övning 59. Låt tjänsten svara med <b>ett</b> objekt som innehåller
+      antal, summa och snitt – i stället för tre metoder.</p>
+    <p><b>Klart när:</b> komponenten anropar tjänsten <b>en</b> gång och visar tre
+      värden.</p>
+
+    <p>Filmarkivets motsvarighet heter <code>Arkivstatistik</code> och byggs i
+      <a href="guide.html#steg-7">guidens steg 7</a>. Tre metoder hade betytt att
+      listan gås igenom tre gånger för att visa en enda rad.</p>
+
+    <h2 id="ov-61">61. Vem väljer ut posterna?</h2>
+    <p class="ledtext"><b>Svår</b> · tränar: att skilja <em>vilka</em> från <em>hur</em></p>
+    <p>Given kod, en sida som filtrerar:</p>
+
+    <pre><code class="sprak-razor">@code {
+    private List&lt;Film&gt; visade = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        List&lt;Film&gt; alla = await Arkivet.HamtaAllaAsync();
+
+        foreach (var film in alla)
+        {
+            if (film.Betyg &gt;= 4)
+            {
+                visade.Add(film);
+            }
+        }
+    }
+}</code></pre>
+
+    <p>Urvalet hör inte hemma i komponenten. Flytta det.</p>
+    <p><b>Klart när:</b> sidan har ingen <code>foreach</code> och inget
+      <code>if</code>, och tjänsten har en metod vars namn säger vad urvalet är.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Det här är exakt det som sänker uppgiften på C</span>
+      <p>Koden ovan ser oskyldig ut. Den bygger, den fungerar, och den kräver ingen
+        ansträngning att skriva. Men den betyder att <b>komponenten bestämmer vad ett
+        bra betyg är</b> – och nästa sida som vill visa samma urval måste upprepa
+        villkoret.</p>
+      <p>Metodnamnet är halva övningen. <code>HamtaAsync</code> säger ingenting.
+        <code>HamtaHogtBetygsattaAsync</code> säger vad urvalet är, och gör det
+        möjligt att ändra villkoret på ett enda ställe.</p>
+    </div>
+
+    <h2 id="ov-62">62. Två träffar, inte fler</h2>
+    <p class="ledtext"><b>Svår</b> · tränar: att kontrollera att lagren faktiskt är separerade</p>
+    <p>Sök i hela projektet på din implementations <b>klassnamn</b> – inte
+      gränssnittet.</p>
+    <p><b>Klart när:</b> det finns exakt två träffar: klassens egen fil, och
+      registreringsraden i <code>Program.cs</code>. Hittar du fler, rätta dem.</p>
+
+    <p>Det här är samma kontroll som jag gör när jag rättar
+      <a href="uppgift.html">inlämningen</a>, och den tar tio sekunder. Gör den innan
+      du lämnar in, inte efter.</p>
+
+    <h2 id="avprickning">Avprickning</h2>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Lösta övningar i det här temat</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="log-57"><span>57. Konstruktorinjektion</span></label></li>
+        <li><label><input type="checkbox" id="log-58"><span>58. En tjänst som använder en annan</span></label></li>
+        <li><label><input type="checkbox" id="log-59"><span>59. Uträkningen lämnar komponenten</span></label></li>
+        <li><label><input type="checkbox" id="log-60"><span>60. Ett svar som håller ihop flera värden</span></label></li>
+        <li><label><input type="checkbox" id="log-61"><span>61. Vem väljer ut posterna?</span></label></li>
+        <li><label><input type="checkbox" id="log-62"><span>62. Två träffar, inte fler</span></label></li>
+      </ul>
+    </section>
+
+    <p>Övning 61 och 62 är de två som avgör om du når C. Den första flyttar urvalet,
+      den andra bevisar att flytten blev av.</p>
+
+    <footer class="fot">
+      <p><a href="ovningar-livstider.html">Nästa tema: livstider och tillstånd</a> ·
+        <a href="guide.html">Till guiden</a> ·
+        <a href="index.html">Tillbaka till område 4</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

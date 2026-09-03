@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Övning 70–72: async, loggning och fel</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o4-ovn-async">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Övning 70–72</strong> · Async, loggning och fel</span>
+  <a href="#avprickning">Avprickning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#tva-lasare">Två läsare, två sorters text</a></li>
+      <li><a href="#ov-70">70. Async hela vägen</a></li>
+      <li><a href="#ov-71">71. Loggning som går att söka i</a></li>
+      <li><a href="#ov-72">72. Felet som inte får ta ner sidan</a></li>
+      <li><a href="#avprickning">Avprickning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 4 · lektion 28</p>
+    <h1>Async, loggning och felhantering</h1>
+    <p class="inledning">Tre övningar, en per tema. De är få men inte små: övning 72 är
+      den som skiljer ett A-arbete från ett C-arbete i den här inlämningen, och den
+      går att göra på en kvart.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du passet?</span>
+      <p>Lektion 28 var genomgången. Så här tar du igen den, räkna med två timmar:</p>
+      <ol>
+        <li>Läs <a href="guide.html#steg-15">guidens steg 15</a>. Varför tjänsten
+          svarar med <code>Task</code> redan innan något faktiskt väntar på något.</li>
+        <li>Läs <a href="guide.html#steg-16">steg 16</a> om loggning och
+          <a href="guide.html#steg-17">steg 17</a> om felhantering, och skriv av
+          koden.</li>
+        <li>Kör felhanteringsexemplet från lektionen:
+          <code>/fel-niva</code> och <code>/ratt-niva</code>, med
+          <b>terminalen synlig bredvid webbläsaren</b>. Skillnaden mellan de två
+          sidorna är hela momentet, och den syns till hälften i terminalen.</li>
+        <li>Lös övning 70 till 72.</li>
+      </ol>
+    </div>
+
+    <h2 id="tva-lasare">Två läsare, två sorters text</h2>
+    <p>Det här området har en enda huvudtanke, och allt annat följer av den:</p>
+
+    <blockquote>
+      <p>Undantaget är information till <b>utvecklaren</b>. Det ska loggas i sin
+        helhet. Meddelandet på skärmen är information till <b>användaren</b>. Det ska
+        säga vad som inte gick och vad som fortfarande fungerar.</p>
+    </blockquote>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Loggposten</th><th>Meddelandet på skärmen</th></tr></thead>
+        <tbody>
+          <tr><td><b>Läses av</b></td><td>Dig, kanske månader senare</td><td>Besökaren, nu</td></tr>
+          <tr><td><b>Innehåller</b></td><td>Hela undantaget, med id och stacktrace</td><td>Vad som saknas och vad som fungerar</td></tr>
+          <tr><td><b>Hamnar</b></td><td>I terminalen där <code>dotnet run</code> körs</td><td>På sidan</td></tr>
+          <tr><td><b>Får innehålla</b></td><td>Tekniska detaljer</td><td>Inga klassnamn, inga radnummer</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ov-70">70. Async hela vägen</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>Task&lt;T&gt;</code> från gränssnitt till komponent</p>
+    <p>Ta en av dina synkrona tjänster och gör hela kedjan asynkron:
+      <code>Task&lt;T&gt;</code> i gränssnittet, <code>Task.FromResult</code> i
+      implementationen, <code>async Task</code> och <code>await</code> i
+      komponenten.</p>
+    <p><b>Klart när:</b> projektet bygger utan varningar och sidan visar samma sak som
+      förut.</p>
+
+    <div class="notis">
+      <span class="rubrik">Det ser onödigt ut, och är det – i dag</span>
+      <p>Listan ligger i minnet. Svaret är klart direkt. <code>Task.FromResult</code>
+        gör om ett färdigt värde till ett löfte bara för att signaturen kräver det.</p>
+      <p>Skälet står i område 5: att läsa ur en databas tar tid, och under den tiden
+        ska servern hinna svara andra besökare. Skriver du metoderna synkrona nu måste
+        <b>varje anropande komponent</b> skrivas om när databasen kommer – precis den
+        sortens ändring hela området handlar om att slippa.</p>
+    </div>
+
+    <p>Glömmer du ett <code>await</code> kraschar ingenting. Sidan skriver ut löftet i
+      stället för svaret, ungefär så här:</p>
+
+    <pre><code>System.Threading.Tasks.Task`1[DittProjekt.Models.DinKlass]</code></pre>
+
+    <p>Ser du den raden på en sida vet du precis vad som saknas.</p>
+
+    <h2 id="ov-71">71. Loggning som går att söka i</h2>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>ILogger</code> och strukturerade parametrar</p>
+    <p>Skriv två loggrader i en tjänst:</p>
+
+    <pre><code class="sprak-csharp">_logg.LogWarning($"Hittade inte {id}");
+_logg.LogWarning("Hittade inte {Id}", id);</code></pre>
+
+    <p>Kör och titta i terminalen. <b>De ser exakt likadana ut</b> – båda skriver
+      <code>Hittade inte 99</code>. Skillnaden finns, men syns inte i den vanliga
+      utskriften.</p>
+
+    <p>Byt därför loggaren, tillfälligt, högst upp i <code>Program.cs</code>:</p>
+
+    <pre><code class="sprak-csharp">builder.Logging.ClearProviders();
+builder.Logging.AddJsonConsole();</code></pre>
+
+    <p>Kör om och läs de två raderna igen. Nu ser de ut så här:</p>
+
+    <pre><code>{"LogLevel":"Warning","Message":"Hittade inte 99",
+ "State":{"{OriginalFormat}":"Hittade inte 99"}}
+
+{"LogLevel":"Warning","Message":"Hittade inte 99",
+ "State":{"Id":99,"{OriginalFormat}":"Hittade inte {Id}"}}</code></pre>
+
+    <p><b>Klart när:</b> du kan peka på vad som skiljer dem åt i JSON-utskriften, och
+      säga vad den skillnaden är värd den dag loggen innehåller en miljon rader.</p>
+
+    <p>Ta bort de två raderna igen när du är klar – den vanliga utskriften är trevligare
+      att läsa under utveckling.</p>
+
+    <div class="notis">
+      <span class="rubrik">Varför det spelar roll</span>
+      <p>I den första raden är <code>99</code> en del av texten. I den andra är den ett
+        <b>eget fält</b> med ett namn. Skillnaden är att den andra går att fråga:
+        <em>visa alla varningar där <code>Id</code> är 99</em>. Den första går bara att
+        söka i som text, och en textsökning på <code>99</code> träffar allt från
+        radnummer till årtal.</p>
+      <p>Det är därför alla loggexempel i kursen skriver <code>{Id}</code> som
+        parameter och aldrig bakar in värdet i strängen.</p>
+    </div>
+
+    <h2 id="ov-72">72. Felet som inte får ta ner sidan</h2>
+    <p class="ledtext"><b>Svår</b> · tränar: <code>try</code>/<code>catch</code> i tjänstelagret och returtypen som bär informationen</p>
+    <p>Gör en tjänst med en metod som <b>alltid kastar</b> ett undantag, och en andra
+      tjänst som anropar den.</p>
+    <p>Den andra tjänsten ska fånga felet, logga det med <code>LogError</code>, och
+      svara med <code>int?</code>. Sidan ska visa siffran om den finns och ett
+      begripligt meddelande om den inte gör det – utan att svara 500.</p>
+    <p><b>Klart när:</b> sidan svarar 200, resten av sidan syns, och hela undantaget
+      står i terminalen.</p>
+
+    <p>Fundera sedan på: varför <code>int?</code> och inte <code>0</code>?</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Svaret är den viktigaste raden i hela momentet</span>
+      <p>Hade metoden lämnat <code>0</code> när registret inte svarar hade sidan
+        påstått att <b>noll poster</b> finns – ett faktapåstående som råkar vara
+        falskt. <code>null</code> betyder <em>vet inte</em>, och det är sant.</p>
+      <p>Och <code>try</code>/<code>catch</code> hör inte hemma i komponenten.
+        Komponenten vet inte vad ett register är och kan därför inte avgöra vad som är
+        ett rimligt svar när det fattas. Tjänsten vet båda delarna – och skulle
+        felhanteringen ligga i komponenten måste <b>varje</b> sida som använder
+        tjänsten upprepa den.</p>
+      <p>Det är samma argument som hela område 4 vilar på.</p>
+    </div>
+
+    <h2 id="avprickning">Avprickning</h2>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Lösta övningar i det här temat</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="asy-70"><span>70. Async hela vägen</span></label></li>
+        <li><label><input type="checkbox" id="asy-71"><span>71. Loggning som går att söka i</span></label></li>
+        <li><label><input type="checkbox" id="asy-72"><span>72. Felet som inte får ta ner sidan</span></label></li>
+      </ul>
+    </section>
+
+    <p>Övning 72 är ett A-krav i <a href="uppgift.html#utmaning">inlämningen</a>, nästan
+      ord för ord. Gör den, och skriv sedan samma sak i ditt eget projekt.</p>
+
+    <footer class="fot">
+      <p><a href="felsokning.html">Sex fel som flyttar sig</a> ·
+        <a href="provet.html">Vad provet prövar</a> ·
+        <a href="index.html">Tillbaka till område 4</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

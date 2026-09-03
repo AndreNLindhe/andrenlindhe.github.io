@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dokumentationens grad – Mekatronik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="Mekatronik1-o6-dokumentationens-grad">
+
+<header class="topp">
+  <a href="../index.html">← Kursens material</a>
+  <span class="harifran"><strong>Dokumentationens grad</strong> · område 6</span>
+  <a href="index.html">Område 6</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mal">Mål</a></li>
+      <li><a href="#genomgang">Genomgång</a></li>
+      <li><a href="#exempel">Samma stycke på tre nivåer</a></li>
+      <li><a href="#industri">I industrin och i vardagen</a></li>
+      <li><a href="#prova">Prova själv</a></li>
+      <li><a href="#fragor">Kontrollfrågor</a></li>
+      <li><a href="#fel">Vanliga fel</a></li>
+      <li><a href="#vidare">Vidare</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Område 6 · lektion 34</p>
+    <h1>Dokumentationens grad</h1>
+    <p class="inledning">Genom hela kursen har det stått att dokumentationen bär
+      gränsen mellan E och C. Det är sant och det är otillräckligt: ingen blir
+      hjälpt av att veta att <em>noggrann</em> är bättre än <em>enkel</em> utan att
+      se vad skillnaden är i text. Den här guiden visar det. Samma innehåll,
+      skrivet tre gånger, om ett verkligt val i ett verkligt bygge.</p>
+
+    <h2 id="mal">Mål</h2>
+    <ul>
+      <li>Du kan säga vad orden <em>enkel</em>, <em>noggrann</em>, <em>utförlig</em>
+        och <em>nyanserad</em> betyder i den här kursens betygskriterier.</li>
+      <li>Du kan känna igen vilken nivå ett stycke ligger på, i din egen text och
+        i någon annans.</li>
+      <li>Du kan lyfta ett eget stycke en nivå genom att lägga till det som
+        faktiskt fattas, inte genom att skriva mer.</li>
+      <li>Du kan planera 50 minuters skrivande så att det blir en dokumentation
+        och inte en början på en.</li>
+    </ul>
+
+    <h2 id="genomgang">Genomgång</h2>
+
+    <h3>Vad kriterierna säger, ordagrant</h3>
+    <p>Två av de fem förmågorna handlar om text. De är de enda ställena i kursen
+      där E, C och A skiljs åt av vad du skriver:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Förmåga</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>F3</strong> dokumentera sitt arbete</td>
+            <td>enkel</td>
+            <td>noggrann</td>
+            <td>noggrann och utförlig</td>
+          </tr>
+          <tr>
+            <td><strong>F4</strong> beskriva systemuppbyggnad och fysikaliska
+              principer</td>
+            <td>översiktligt, enkelt system</td>
+            <td>utförligt</td>
+            <td>utförligt och nyanserat, komplext system</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Lägg märke till att nivåerna <em>bygger på varandra</em>. A är inte en annan
+      sorts text än C, utan C:s text plus något. Det betyder att vägen uppåt aldrig
+      går genom att skriva om från början — den går genom att lägga till det som
+      saknas.</p>
+
+    <h3>Tre ord, en betydelse var</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ordet</th><th>Betyder i praktiken</th><th>Testet du kan göra själv</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Enkel</strong> (E)</td>
+            <td>Delen finns med. Det går att förstå vad du gjort.</td>
+            <td>Kan en klasskamrat säga vad systemet gör efter att ha läst?</td>
+          </tr>
+          <tr>
+            <td><strong>Noggrann</strong> (C)</td>
+            <td>Med tal, enheter och mätvärden. Det går att kontrollera, och att
+              bygga om systemet efter texten.</td>
+            <td>Kan någon bygga om det utan att fråga dig något?</td>
+          </tr>
+          <tr>
+            <td><strong>Utförlig</strong> (C i F4, A i F3)</td>
+            <td>Med <em>varför</em>. Sambanden förklarade, valen motiverade.</td>
+            <td>Står det någonstans varför du valde som du gjorde?</td>
+          </tr>
+          <tr>
+            <td><strong>Nyanserad</strong> (A)</td>
+            <td>Med alternativ, avvägningar och gränser. Vad du valde bort, och
+              var din lösning slutar hålla.</td>
+            <td>Finns det en mening som säger något negativt om din egen
+              konstruktion, och som ändå är sann?</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="notis viktig"><span class="rubrik">Längd är inte grad</span>
+      Det är fullt möjligt att skriva tre sidor som ligger kvar på E, och en halv
+      sida som är noggrann. Det som lyfter texten är <strong>tal, mätvärden,
+      motiveringar och avgränsningar</strong> — inte fler ord om samma sak. Den
+      vanligaste C-texten är en E-text med adjektiv tillagda.</p>
+
+    <h2 id="exempel">Samma stycke på tre nivåer</h2>
+    <p>Exemplet är ett verkligt val ur ett verkligt bygge: en lucka som ska öppnas
+      när det blir mörkt, och tröskeln som avgör när. Samma händelse, samma bygge,
+      tre texter.</p>
+
+    <p class="notis"><span class="rubrik">Enkel — nivå E</span>
+      Jag använde en LDR för att mäta ljuset. När det blev mörkt öppnade servot
+      luckan. Jag fick prova mig fram till rätt värde för när den skulle öppna.
+      Det fungerade bra till slut.</p>
+
+    <p>Det här är en godkänd E-text, och det ska sägas rakt ut: den är inte dålig.
+      Den säger vad som gjordes och den går att förstå. Men den innehåller inte ett
+      enda tal, och därför kan ingen kontrollera den eller bygga om systemet efter
+      den. "Rätt värde" är inte ett värde.</p>
+
+    <p class="notis"><span class="rubrik">Noggrann — nivå C</span>
+      Ljuset mäts med en LDR i spänningsdelare mot ett motstånd på 10 kΩ, inkopplad
+      på A0. Råvärdet varierade mellan 180 i mörkt rum och 870 i dagsljus vid
+      fönstret, uppmätt den 13 maj. Tröskeln för att öppna sattes till 400 och
+      tröskeln för att stänga till 480. Servot går då till 90 grader, vilket ger
+      full öppning på 1,8 sekunder mätt med tidtagning. Med ett enda gränsvärde
+      på 400 fladdrade luckan i skymningen — den öppnade och stängde upprepade
+      gånger under cirka en halv minut.</p>
+
+    <p>Nu finns talen. Motståndsvärdet, pinnen, de uppmätta ytterlägena, datumet,
+      båda trösklarna, tiden. Någon annan kan bygga om systemet och komma till
+      samma resultat, och kan kontrollera om påståendena stämmer. Det är precis vad
+      <em>noggrann</em> betyder. Vad texten fortfarande inte säger är
+      <strong>varför</strong> talen ser ut som de gör.</p>
+
+    <p class="notis"><span class="rubrik">Noggrann och utförlig, med nyans — nivå A</span>
+      Ljuset mäts med en LDR i spänningsdelare mot 10 kΩ på A0. Värdet 10 kΩ valdes
+      för att ge ungefär halva matningsspänningen vid den ljusnivå där luckan ska
+      röra sig, eftersom delaren är känsligast där — med 1 kΩ hade hela skymningen
+      pressats ihop i den nedersta femtedelen av mätområdet. Råvärdet varierade
+      mellan 180 (mörkt rum) och 870 (dagsljus vid fönstret), uppmätt den 13 maj.
+      <br><br>
+      Först användes ett enda gränsvärde, 400. Luckan fladdrade då i skymningen:
+      råvärdet darrade några enheter kring tröskeln och systemet bytte läge flera
+      gånger i minuten, vilket både lät illa och drog ström i onödan. Lösningen blev
+      två trösklar med ett mellanrum på 80 enheter — öppna vid 400, stäng vid 480 —
+      så att systemet måste passera ett tydligt avstånd för att byta läge. Priset
+      är att luckan öppnar något senare på kvällen än den stänger på morgonen, vilket
+      för den här användningen är oviktigt men skulle vara ett problem i en tillämpning
+      där tröskeln ska vara exakt.
+      <br><br>
+      Ett alternativ hade varit att ta medelvärdet av tio mätningar i stället, vilket
+      hade dämpat darret utan att förskjuta tröskeln. Jag valde bort det eftersom
+      medelvärdesbildning dämpar men inte tar bort fladdret när råvärdet ligger still
+      precis på gränsen, vilket det gör i just skymningsljus. I ett system där
+      insignalen är brusig men inte stillastående — till exempel avståndsmätning mot
+      ett rörligt föremål — hade jag gjort tvärtom.
+      <br><br>
+      Konstruktionens gräns: LDR:n mäter ljus i rummet, inte ljus utomhus. Tänds
+      taklampan öppnar sig luckan inte fastän det är natt. Det hade krävt att givaren
+      placerades utanför fönstret, vilket bygget inte gör.</p>
+
+    <p>Tre saker skiljer A-texten från C-texten, och inget av dem är att den är
+      längre:</p>
+    <ol>
+      <li><strong>Varje tal har ett skäl.</strong> 10 kΩ valdes, det hamnade inte
+        där. Motiveringen innehåller dessutom vad alternativet hade kostat.</li>
+      <li><strong>Ett bortvalt alternativ finns med.</strong>
+        Medelvärdesbildningen — med skälet till att den inte valdes, och när den
+        hade varit rätt. Det är det tydligaste beviset på att valet var ett val.</li>
+      <li><strong>Konstruktionens gräns står utskriven.</strong> Taklampan.
+        Att kunna säga var din egen lösning slutar hålla är precis vad
+        <em>nyanserat</em> betyder, och det är den enskilt vanligaste saken som
+        saknas i annars starka texter.</li>
+    </ol>
+
+    <h3>Samma sak, kortare: ett fel som uppstod</h3>
+    <p>Avsnittet "vad som gick fel på vägen" är obligatoriskt redan på E. Så här ser
+      de tre nivåerna ut där:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nivå</th><th>Texten</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>E</strong></td>
+            <td>Arduinon startade om ibland när servot rörde sig. Vi löste det med
+              ett eget batteri till servot.</td>
+          </tr>
+          <tr>
+            <td><strong>C</strong></td>
+            <td>Arduinon startade om när servot började röra sig. Vi mätte
+              spänningen på 5 V-skenan under rörelse och den föll från 4,9 V till
+              3,4 V, alltså under kortets undre gräns. Servot fick därefter en egen
+              matning på 6 V från fyra AA-batterier, med minuspolen kopplad till
+              kortets GND. Efter ändringen låg skenan kvar på 4,8 V under rörelse
+              och omstarterna upphörde.</td>
+          </tr>
+          <tr>
+            <td><strong>A</strong></td>
+            <td>Som C-texten, plus: <em>Vi trodde först att felet låg i koden,
+              eftersom omstarten alltid inträffade i samma rad i loopen — det är
+              den vanligaste feltolkningen av brownout och kostade oss ungefär en
+              timme. Det som ledde rätt var att mäta under drift i stället för i
+              vila; i vila såg allt normalt ut. Alternativet till eget batteri hade
+              varit en större kondensator över matningen, vilket hade dämpat dippen
+              men inte tagit bort den, eftersom servots kontinuerliga strömbehov
+              under rörelse ligger över vad kortets regulator lämnar. Kvarstående
+              begränsning: systemet är nu beroende av att batteriets spänning
+              stannar över 4,8 V, och vi har inte mätt hur länge det gör det.</em></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Lägg märke till att A-texten innehåller ett erkänt misstag som kostade en
+      timme. Det drar inte ned — det är belägg. Att kunna beskriva sin egen
+      felsökningsväg, inklusive den återvändsgränd man gick in i, är svårare än att
+      beskriva den raka vägen, och det är därför det räknas.</p>
+
+    <h3>De 50 minuterna</h3>
+    <p>Passets skrivtid räcker om du inte börjar med första meningen. Gör så
+      här:</p>
+    <ol>
+      <li><strong>10 min:</strong> lägg ut rubrikerna ur
+        <a href="../dokumentationsmall.html">dokumentationsmallen</a> som tomma
+        avsnitt. Nu vet du hur mycket som fattas.</li>
+      <li><strong>10 min:</strong> fyll i alla tal du redan har — mätvärden,
+        motståndsvärden, pinnummer, tider — rakt in under rätt rubrik, utan
+        meningar. Det här lyfter texten från E till C, och det är den snabbaste
+        halvtimmen i hela projektet.</li>
+      <li><strong>15 min:</strong> skriv en motivering per val. Varje gång ett tal
+        står ensamt, lägg till varför det är just det talet.</li>
+      <li><strong>10 min:</strong> skriv felsökningsavsnittet ur din
+        <a href="guide-systematisk-felsokning.html#genomgang">felsökningslogg</a>.
+        Det är redan skrivet i punktform, det ska bara bli meningar.</li>
+      <li><strong>5 min:</strong> skriv gränserna. Vad systemet inte klarar, och
+        vad du valde bort. Det är den kortaste och mest lönsamma delen.</li>
+    </ol>
+    <p class="notis"><span class="rubrik">Om du inte har talen</span>
+      Då är det inte skrivandet som är problemet, utan att mätvärdena aldrig
+      antecknades. Det går att ta igen — ett par mätningar på plats under passet
+      räcker långt — men det tar tid från skrivandet. Det är därför
+      <a href="guide-systematisk-felsokning.html">felsökningsloggen</a> börjar
+      redan den 20 maj och inte den 27:e.</p>
+
+    <h2 id="industri">I industrin och i vardagen</h2>
+
+    <h3>Industrin: utan dokumentation får maskinen inte säljas</h3>
+    <p>En maskin som sätts på marknaden inom EU ska CE-märkas, och till märkningen
+      hör en teknisk dokumentation: riskbedömning, ritningar, provningsresultat och
+      en bruksanvisning på språket i det land där maskinen ska användas. Saknas
+      dokumentationen är maskinen inte färdig i juridisk mening, hur väl den än
+      fungerar — den får inte levereras. En tillverkare som glömmer det bygger alltså
+      inte en maskin utan dokumentation, utan ingen maskin alls. Här är
+      dokumentationen inte en beskrivning av produkten; den är en del av den.</p>
+
+    <h3>Vardagen: serviceboken är värd pengar</h3>
+    <p>Två likadana bilar, samma årsmodell och samma mätarställning. Den ena har
+      kvitton och stämplar på varje service, den andra har ingenting. Prisskillnaden
+      vid försäljning är regelmässigt tusenlappar, ibland mer än tio procent av
+      priset. Bilarna kan vara i exakt samma skick — skillnaden är att den ena går
+      att kontrollera och den andra måste tas på ord. Det är samma sak som skiljer
+      din C-text från din E-text: inte att mer arbete utförts, utan att arbetet går
+      att följa i efterhand.</p>
+
+    <h2 id="prova">Prova själv</h2>
+    <ol>
+      <li><strong>Ta ett stycke ur din egen dokumentation</strong> och avgör vilken
+        nivå det ligger på, med hjälp av testfrågorna i tabellen ovan. Var ärlig —
+        de flesta stycken ligger på E första gången.</li>
+      <li><strong>Räkna talen i stycket.</strong> Noll tal betyder nästan alltid
+        E-nivå. Skriv in de tal du har i anteckningarna och läs om stycket.</li>
+      <li><strong>Lägg till ett "därför att" per val.</strong> Ta det första talet
+        i stycket och skriv en mening om varför det är just det.</li>
+      <li><strong>Skriv en mening om något du valde bort.</strong> En annan givare,
+        en annan mekanism, en annan lösning på samma problem — och varför den inte
+        blev av.</li>
+      <li><strong>Skriv en mening om var din konstruktion slutar hålla.</strong>
+        Den lasten den inte orkar, det ljus den inte klarar, den hastighet den
+        missar. En mening räcker.</li>
+      <li><strong>Byt text med den du sitter bredvid</strong> och ställ den enda
+        frågan som betyder något: <em>kan du bygga om det här utan att fråga
+        mig?</em> Varje fråga läsaren måste ställa är ett tal som saknas.</li>
+      <li><strong>Läs ditt felsökningsavsnitt.</strong> Står det bara vad som var
+        fel, eller står det också hur du kom fram till det? Det senare är
+        skillnaden mellan C och A i just det avsnittet.</li>
+    </ol>
+
+    <h2 id="fragor">Kontrollfrågor</h2>
+
+    <details>
+      <summary>Din text är tre sidor lång och innehåller inga mätvärden. Vilken
+        nivå ligger den på?</summary>
+      <p>E. Längd är inte grad. Utan tal går texten inte att kontrollera och
+        systemet går inte att bygga om efter den, vilket är precis vad
+        <em>noggrann</em> kräver. Den goda nyheten är att avståndet upp är kort:
+        talen finns i dina anteckningar, och att föra in dem tar tio minuter. Den
+        dåliga är att det inte hjälper att skriva en sida till.</p>
+    </details>
+
+    <details>
+      <summary>Vad är skillnaden mellan "utförlig" och "nyanserad"?</summary>
+      <p>Utförlig svarar på <em>varför</em>: varför den här komponenten, varför det
+        här talet, varför den här lösningen. Nyanserad lägger till <em>å andra
+        sidan</em>: vad alternativet hade gett, vad ditt val kostar, var lösningen
+        slutar fungera. En utförlig text försvarar konstruktionen; en nyanserad text
+        värderar den, och kan därför säga något negativt om den utan att texten blir
+        sämre.</p>
+    </details>
+
+    <details>
+      <summary>Är det verkligen bra att skriva om ett misstag som kostade en timme?</summary>
+      <p>Ja, och det är inte en artighet. F4 handlar om att beskriva systemets
+        uppbyggnad och de fysikaliska principerna. En felsökning som gick fel först
+        och rätt sedan visar att du förstår <em>varför</em> den första tolkningen var
+        rimlig men fel — det är svårare och säger mer än en rak väg. Det som drar ned
+        är inte misstaget, utan att beskriva det utan att förklara vad som ledde
+        rätt till slut.</p>
+    </details>
+
+    <details>
+      <summary>Bygget blev aldrig färdigt. Kan dokumentationen ändå bli noggrann?</summary>
+      <p>Ja. F3 bedömer dokumentationen av <em>ditt arbete</em>, inte av en färdig
+        produkt. Ett halvfärdigt system med mätvärden, motiverade val, en tydlig
+        beskrivning av var det stannade och varför, plus vad som hade krävts för att
+        komma vidare, är en fullgod noggrann dokumentation. Ett färdigt system
+        beskrivet i tre meningar är det inte. Se till att skriva klart även om du
+        inte bygger klart — det är den ordningen som lönar sig.</p>
+    </details>
+
+    <details>
+      <summary>Kan man få A i F3 men E i F1?</summary>
+      <p>Ja, förmågorna bedöms var för sig och betyget sätts sedan på helheten. Det
+        vanliga är dock det omvända: ett starkt bygge med tunn text. Att dokumentera
+        noggrant är billigare i tid än att bygga bättre, och det är den enskilt mest
+        lönsamma timme du kan lägga i den här kursen — vilket är precis varför den
+        här guiden finns och varför ett helt pass går åt till att skriva.</p>
+    </details>
+
+    <h2 id="fel">Vanliga fel</h2>
+    <ul>
+      <li><strong>Adjektiv i stället för tal.</strong> "Ett lagom stort motstånd",
+        "ganska snabbt", "tillräckligt starkt". Varje sådant ord är ett tal som
+        saknas.</li>
+      <li><strong>Beskrivning i stället för motivering.</strong> "Jag använde en
+        LDR" säger vad. Det som saknas är varför just en LDR och inte något
+        annat.</li>
+      <li><strong>Dokumentationen skrevs sist, på minnet.</strong> Då försvinner
+        mätvärdena, felsökningsvägen och alternativen du övervägde i april — alltså
+        precis det som skiljer nivåerna åt.</li>
+      <li><strong>Bara det som fungerade står med.</strong> En text utan motgångar
+        beskriver inte ett konstruktionsarbete, och den läser sig dessutom som
+        osann, för alla vet att något gick fel.</li>
+      <li><strong>Ritningen saknas eller är ett foto av kopplingen.</strong> Ett
+        fotografi är inte ett schema — det går inte att bygga efter och det visar
+        inga värden.</li>
+      <li><strong>Koden klistrades in utan kommentarer.</strong> Femtio rader utan
+        förklaring visar att koden finns, inte att du förstår den.</li>
+      <li><strong>Inga gränser anges.</strong> Ett system som beskrivs som om det
+        klarar allt är beskrivet av någon som inte provat var det slutar
+        fungera.</li>
+      <li><strong>Samma text som kompisen.</strong> Ni får bygga i par, men
+        dokumentationen är individuell, och två identiska texter belägger ingens
+        förmåga. Skriv var för sig även om bygget är gemensamt.</li>
+    </ul>
+
+    <h2 id="vidare">Vidare</h2>
+    <p>Checklistan över vilka delar som ska finnas står i
+      <a href="../dokumentationsmall.html">dokumentationsmallen</a> — den här guiden
+      handlar om hur delarna ska skrivas, mallen om vilka de är. Använd båda:
+      mallen först, den här sedan.</p>
+    <p>Talen du behöver kommer ur
+      <a href="guide-systematisk-felsokning.html">felsökningsloggen</a> och ur
+      mätningarna på <a href="bygge-5-eget-system.html#matningen">bygge 5:s sida</a>.
+      Sista passen är redovisning, och vad som ska sägas där står i
+      <a href="redovisningen.html">Redovisningen</a> — en muntlig redovisning
+      bedöms mot samma F4, med samma skillnad mellan översiktligt och utförligt.</p>
+    <p>Tillbaka till <a href="index.html">område 6</a> eller till
+      <a href="../index.html">kursens material</a>.</p>
+
+  </main>
+</div>
+
+<footer class="fot">
+  <p>Mekatronik 1 · MEKMEK01 · område 6</p>
+</footer>
+
+<script src="../paket.js"></script>
+</body>
+</html>

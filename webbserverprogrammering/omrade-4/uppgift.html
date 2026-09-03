@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inlämning 4: Tjänstelager och tillstånd</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o4-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Inlämning 4</strong> · Tjänstelager och tillstånd</span>
+  <a href="#misstag">Vanliga misstag</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#samlingen">2. Steg 0 – välj din samling</a></li>
+      <li><a href="#ska">3. Ska-krav – E</a></li>
+      <li><a href="#bor">4. Bör-krav – C</a></li>
+      <li><a href="#utmaning">5. Utmaning – A</a></li>
+      <li><a href="#bedomning">6. Så bedöms den</a></li>
+      <li><a href="#inlamning">7. Inlämning</a></li>
+      <li><a href="#misstag">8. Vanliga misstag</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 4</p>
+    <h1>Inlämning 4 – Tjänstelager och tillstånd</h1>
+    <p class="inledning">All data- och applikationslogik ska lämna komponenterna och
+      flytta in bakom ett gränssnitt. Ingen komponent ska längre veta var datan kommer
+      ifrån. Dessutom bygger du en funktion som håller data över flera sidvisningar,
+      och skriver ned varför du valt de livstider du valt.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-12-07">
+        <span class="nar">7 dec</span>
+        <span class="vad">Deadline kl 23:59
+          <small>Repots adress lämnas i itslearning. Prov dagen efter.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Applikationen ska se likadan ut när du är klar</span>
+      <p>Det är avsikten, inte ett misslyckande. Det som bedöms är <b>var koden
+        ligger</b>, inte vad den producerar. Sidorna ska visa samma saker som förut –
+        skillnaden ska bara synas när någon öppnar filerna.</p>
+      <p>Det gör uppgiften ovanligt otacksam att arbeta med, och det är värt att veta
+        i förväg. Belöningen kommer i område 5: då byter du ut hela din tjänst mot en
+        som läser ur en databas, och rör inte en enda komponent.</p>
+    </div>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+    <p>Du börjar inte om. Projektet från område 3 är utgångsläget och växer.</p>
+
+    <p>Du får med dig sex saker:</p>
+    <ul>
+      <li><b><a href="guide.html">Guiden</a></b>, som bygger Filmarkivets tjänstelager
+        i sjutton steg med all kod.</li>
+      <li><b>Referensprojektet Filmarkivet</b>, färdigt att köra och läsa.</li>
+      <li><b>Övningsbanken</b> med 22 övningar:
+        <a href="ovningar-granssnitt.html">51–56</a>,
+        <a href="ovningar-logik.html">57–62</a>,
+        <a href="ovningar-livstider.html">63–69</a> och
+        <a href="ovningar-async.html">70–72</a>.</li>
+      <li><b><a href="felsokning.html">Sex fel som flyttar sig</a></b>, med de
+        felmeddelanden du kommer att få och vid vilken tidpunkt de kommer.</li>
+      <li><b>Felhanteringsexemplet</b> från lektion 28: två tjänster som gör samma
+        anrop på olika sätt.</li>
+      <li><b>Lektionerna 23–29.</b> Genomgångarna ligger på 23, 24, 26, 27 och 28.</li>
+    </ul>
+
+    <p>Facit till övningarna delas ut efter övningspasset, inte före.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Din domän, inte guidens</span>
+      <p>Guiden bygger Filmarkivet med komplett kod. Din applikation ska ha
+        <b>samma struktur</b> och <b>annat innehåll</b>. Fyll i högerkolumnen i
+        <a href="guide.html#sjalv">guidens översättningstabell</a> innan du börjar
+        koda – det är där du bestämmer vad ditt gränssnitt och dina metoder heter.</p>
+    </div>
+
+    <h2 id="samlingen">2. Steg 0 – välj din samling</h2>
+    <p>En av kraven är en samling som överlever sidvisningar. Filmarkivet har en
+      visningslista. Din motsvarighet ska passa din domän:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Om din domän är…</th><th>…kan samlingen vara</th></tr></thead>
+        <tbody>
+          <tr><td>Recept</td><td>Veckans meny, eller inköpslistan</td></tr>
+          <tr><td>Brädspel</td><td>Kvällens spelkväll</td></tr>
+          <tr><td>Växter</td><td>Att plantera i vår</td></tr>
+          <tr><td>Vandringsleder</td><td>Leder att gå i sommar</td></tr>
+          <tr><td>Låtar eller album</td><td>Spellistan</td></tr>
+          <tr><td>Böcker</td><td>Att läsa härnäst</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kravet är att den <b>växer över flera sidvisningar</b> och är <b>tom för en
+      annan besökare</b>. Två saker som låter enkla och som är själva examinationen:
+      det första kräver att du lagrar den någonstans, det andra att du lagrar den på
+      rätt ställe.</p>
+
+    <p>Kryssen nedan sparas i din webbläsare, så du kan bocka av allteftersom.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">3. Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Projektet startar med <code>dotnet run</code> utan fel</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Minst ett <b>gränssnitt</b> i <code>Services/</code>, med namn som börjar på <code>I</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>En <b>implementation</b> som står med <code>: IDittService</code> efter klassnamnet</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Tjänsten är <b>registrerad</b> i <code>Program.cs</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Minst <b>tre komponenter</b> använder tjänsten via <code>@inject</code> mot gränssnittet</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Den gamla datafilen från område 3 är <b>raderad</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Ingen komponent hämtar sin egen data</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>En <b>samling</b> som överlever minst en sidvisning</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>En sida som visar samlingen</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>Ett formulär som lägger till i samlingen, med <code>&lt;AntiforgeryToken /&gt;</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span>Tjänstens metoder är <code>Task</code>-baserade och anropas med <code>await</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-12"><span>En kort <b>motivering av vald livstid</b> i <code>README.md</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-13"><span>Minst fem commits med begripliga meddelanden</span></label></li>
+        <li><label><input type="checkbox" id="ska-14"><span><code>bin/</code> och <code>obj/</code> är <b>inte</b> med i repot</span></label></li>
+      </ul>
+    </section>
+
+    <p>Skillnaden mot C är inte fler tjänster. Den är att <b>lagren är rena</b>: det
+      går att säga om en rad kod hör hemma i komponenten eller i tjänsten, och den
+      ligger rätt.</p>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">4. Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C, utöver E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Klassnamnet på implementationen finns <b>bara</b> i sin egen fil och på registreringsraden. Sök i projektet och kontrollera</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Ingen komponent innehåller <b>uträkningar på hela listan</b> – de ligger i tjänsten</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Minst en tjänst tar emot ett beroende via <b>konstruktorn</b></span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Livstidsmotiveringen säger <b>varför</b>, inte vad livstiden heter, och nämner vad som hade gått fel med ett annat val</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>En kort text om skillnaden mellan <b>scoped, singleton och cookie</b> – var datan ligger, vem som ser den, hur länge den lever</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Samlingen är kontrollerad i ett <b>privat fönster</b> och är tom där</span></label></li>
+        <li><label><input type="checkbox" id="bor-7"><span>Minst en <b>loggrad</b> på ett ställe där något kan gå snett</span></label></li>
+        <li><label><input type="checkbox" id="bor-8"><span><code>dotnet build</code> ger <b>noll varningar</b></span></label></li>
+        <li><label><input type="checkbox" id="bor-9"><span>Kommentarer där koden inte är självförklarande, och bara där</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">5. Utmaning <span style="color:var(--dov);font-weight:400">— nivå A, utöver C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span><b>Två gränssnitt</b> med var sin implementation, där det ena använder det andra</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Minst ett <code>try</code>/<code>catch</code> i <b>tjänstelagret</b>, med loggpost till utvecklaren och ett begripligt meddelande till användaren</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Returtypen bär informationen: metoden kan skilja på <em>"inget hittades"</em> och <em>"kunde inte hämtas"</em></span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>Du har <b>kört livstidsdemot</b> och skriver ned de tre raderna du såg, med en mening om vad de betyder</span></label></li>
+        <li><label><input type="checkbox" id="utm-5"><span>En kort text om vad som hade hänt om din samling registrerats som <b>singleton</b></span></label></li>
+        <li><label><input type="checkbox" id="utm-6"><span>Du föreslår själv <b>en tjänst till</b> som du inte hann bygga, och beskriver vilket gränssnitt den skulle ha och vad den skulle lyfta ur komponenterna</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bedomning">6. Så bedöms den</h2>
+    <p>Den här uppgiften prövar kursens tyngsta betygskriterium:</p>
+
+    <blockquote>
+      <p><em>eleven separerar presentationslagret från övrig logik</em></p>
+    </blockquote>
+
+    <p>På E ska det vara gjort "i någon utsträckning", på C "tydligt", på A "väl". Det
+      är precis vad ett tjänstelager är, och det är därför området ligger
+      <b>före</b> databasen och inte efter.</p>
+
+    <p>Jag läser koden och kör projektet. Tre saker väger tyngst:</p>
+
+    <ul>
+      <li><b>Att beroendet går mot gränssnittet.</b> Jag söker på din implementations
+        klassnamn. Dyker det upp i en komponent är lagren inte separerade, hur snyggt
+        det än ser ut.</li>
+      <li><b>Att komponenterna slutat räkna.</b> Jag öppnar de komponenter som visade
+        uträkningar i område 3. Ligger uträkningen kvar är kravet inte uppfyllt.</li>
+      <li><b>Att du kan motivera livstiden.</b> Texten i <code>README.md</code> är inte
+        en formalitet – den är det enda stället där jag ser om valet var ett val eller
+        en gissning.</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Vad som skiljer en motivering från en definition</span>
+      <p><em>"Jag valde scoped, vilket betyder ett objekt per förfrågan."</em> Det är en
+        definition. Den säger vad ordet betyder, inte varför du valde det.</p>
+      <p><em>"Jag valde scoped för att tjänsten läser besökarens session. En singleton
+        hade delats av alla besökare samtidigt, och då hade min inköpslista visat
+        allas varor på en gång."</em> Det är en motivering. Två meningar räcker, men de
+        ska innehålla ett <b>för att</b> och ett <b>annars</b>.</p>
+    </div>
+
+    <h2 id="inlamning">7. Inlämning</h2>
+    <ol>
+      <li>Kontrollera att projektet startar och att alla sidor svarar.</li>
+      <li>Sök i projektet på din implementations klassnamn. <b>Två träffar är rätt</b>:
+        klassens egen fil och registreringsraden.</li>
+      <li>Öppna sajten i ett <b>privat fönster</b> och kontrollera att samlingen är
+        tom.</li>
+      <li>Skriv livstidsmotiveringen och texten om tillstånd i <code>README.md</code>.</li>
+      <li>Gå igenom kravlistan för den nivå du siktar på.</li>
+      <li><code>git add .</code>, <code>git commit -m "…"</code>, <code>git push</code></li>
+      <li>Öppna ditt repo på github.com och se att filerna finns där.</li>
+      <li>Klistra in repots adress i inlämningsrutan i itslearning.</li>
+    </ol>
+
+    <p>Deadline är måndag 7 december kl 23:59. <b>Provet är tisdag 8 december</b> och
+      prövar samma innehåll – att göra klart uppgiften är den bästa provförberedelsen
+      som finns.</p>
+
+    <h2 id="misstag">8. Vanliga misstag</h2>
+    <p>Det här är det som gör att uppgiften underkänns i onödan.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Misstag</th><th>Vad som händer</th><th>Undvik det så här</th></tr></thead>
+        <tbody>
+          <tr><td>Tjänst utan gränssnitt</td><td>Fungerar, men missar hela poängen. Underkänt krav</td><td><code>IDittService</code> först, klassen sedan</td></tr>
+          <tr><td>Komponenten injicerar klassen i stället för gränssnittet</td><td>Lagren är inte separerade</td><td><code>@inject IDittService</code>, aldrig <code>@inject DittService</code></td></tr>
+          <tr><td>Gamla datafilen ligger kvar</td><td>En sida smyger tillbaka till den</td><td>Radera filen. Bygget blir kontrollen</td></tr>
+          <tr><td><code>foreach</code> som filtrerar i <code>OnInitializedAsync</code></td><td>Datalogik i komponenten. Sänker på C</td><td>Flytta urvalet till tjänsten</td></tr>
+          <tr><td>Samlingen registrerad som singleton</td><td><b>Alla besökare delar samma lista</b></td><td><code>AddScoped</code>. Kontrollera i privat fönster</td></tr>
+          <tr><td><code>AddSession</code> utan <code>AddDistributedMemoryCache</code></td><td>Servern startar inte alls</td><td>Lägg till raden före</td></tr>
+          <tr><td><code>app.UseSession()</code> glömd</td><td>Sidan svarar 500: <em>Session has not been configured</em></td><td>Lägg till raden bland <code>app.Use</code>-raderna</td></tr>
+          <tr><td><code>&lt;AntiforgeryToken /&gt;</code> glömd</td><td>Formuläret svarar 400</td><td>Lägg den innanför <code>&lt;form&gt;</code></td></tr>
+          <tr><td><code>@onclick</code> på knappen</td><td>Ingenting händer, inget felmeddelande</td><td><code>&lt;form method="post"&gt;</code> med <code>@onsubmit</code></td></tr>
+          <tr><td>Injektionsnamnet samma som filnamnet</td><td><code>CS0542</code></td><td>Döp om injektionen</td></tr>
+          <tr><td>Livstidsmotivering som säger vad <code>scoped</code> betyder</td><td>Är en definition, inte en motivering</td><td>Skriv varför just den, och vad som gått fel annars</td></tr>
+          <tr><td>Allt committat sista kvällen</td><td>Historiken visar inte arbetet</td><td>Committa efter varje pass</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="guide.html">Till guiden</a> ·
+        <a href="felsokning.html">Sex fel som flyttar sig</a> ·
+        <a href="provet.html">Vad provet prövar</a> ·
+        <a href="index.html">Tillbaka till område 4</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

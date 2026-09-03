@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Justerings- och fyllningslager – Gränssnittsdesign område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="gran-1-justeringslager">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Uppslagsverk</strong> · Justerings- och fyllningslager</span>
+  <a href="#vad-vill-du-gora">Vad vill du göra</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#alla">1. Det som gäller alla nitton</a></li>
+      <li><a href="#vad-vill-du-gora">2. Vad vill du göra</a></li>
+      <li><a href="#ordningen">3. Arbetsordningen</a></li>
+      <li><a href="#fyllning">4. Fyllningslager</a></li>
+      <li><a href="#ton">5. Ton och ljus</a></li>
+      <li><a href="#farg">6. Färg</a></li>
+      <li><a href="#omtolkning">7. Omtolkning</a></li>
+      <li><a href="#kombinationer">8. Kombinationer</a></li>
+      <li><a href="#vanliga-fel">9. Vanliga fel</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Gränssnittsdesign · område 1</p>
+    <h1>Justerings- och fyllningslager</h1>
+    <p class="inledning">Nitton verktyg ligger i menyn <b>Nytt justeringslager</b>. Här står
+      vad var och en är till för, när du tar den och hur du använder den. Läs inte
+      framifrån – slå upp det du står inför.</p>
+
+    <div class="notis">
+      <span class="rubrik">Grunderna står i den andra guiden</span>
+      <p>Histogrammet, de tre reglagen i Nivåer och varför man aldrig justerar direkt på
+        bildlagret: <a href="guide-photoshop.html#nivaer">Photoshop för webb, avsnitt 6</a>.
+        Den här sidan går djupare och tar de arton andra verktygen.</p>
+    </div>
+
+    <p>Menyerna heter samma sak i svensk Photoshop som här. Kör du engelsk version står det
+      engelska namnet inom parentes vid varje verktyg.</p>
+
+    <h2 id="alla">1. Det som gäller alla nitton</h2>
+    <p>Fem saker fungerar likadant oavsett vilket lager du väljer. Kan du dem är halva
+      jobbet gjort innan du öppnat något verktyg.</p>
+
+    <h3>Lagret ligger ovanpå, originalet är orört</h3>
+    <p>Ett justeringslager ändrar ingenting i bilden. Det lägger sig ovanpå som ett färgat
+      glas och påverkar <b>allt som ligger under det</b> i lagerpanelen. Släng lagret och
+      bilden är tillbaka som den var.</p>
+
+    <h3>Masken följer med</h3>
+    <p>Varje justeringslager får en vit ruta bredvid sig – en <b>mask</b>. Den bestämmer var
+      justeringen syns.</p>
+    <ul>
+      <li><b>Vitt</b> – justeringen syns</li>
+      <li><b>Svart</b> – justeringen syns inte</li>
+      <li><b>Grått</b> – justeringen syns delvis</li>
+    </ul>
+    <p>Klicka på masken, ta en pensel och måla med svart där effekten inte ska gälla. Det är
+      så du gör en justering lokal i stället för global: mörka ner himlen utan att mörka
+      ansiktet.</p>
+    <p>Vill du börja tvärtom – dölj allt och måla fram effekten – markera masken och tryck
+      <b>Ctrl+I</b> för att invertera den. Då är den svart, och du målar med vitt.</p>
+
+    <h3>Urklippsmask begränsar till ett enda lager</h3>
+    <p>Ligger flera bilder i dokumentet påverkar justeringen alla under sig. Vill du att den
+      bara ska gälla lagret precis under: håll <b>Alt</b> och klicka på linjen mellan de två
+      lagren i panelen. En liten pil visar att lagret är fastklippt.</p>
+
+    <h3>Opacitet doserar</h3>
+    <p>Blev effekten för stark? Sänk lagrets opacitet i stället för att dra tillbaka
+      reglagen. 50 % opacitet är en halv effekt, och det går att ändra i efterhand.</p>
+
+    <h3>Blandningsläge styr vad som påverkas</h3>
+    <ul>
+      <li><b>Färg</b> – lagret ändrar bara färgen, inte ljusheten</li>
+      <li><b>Luminans</b> – lagret ändrar bara ljusheten, inte färgen</li>
+    </ul>
+    <p>Ett Kurvor-lager i läget Luminans höjer kontrasten utan att färgerna blir starkare på
+      köpet. Det är skillnaden mellan en bild som ser justerad ut och en som ser bra ut.</p>
+
+    <h2 id="vad-vill-du-gora">2. Vad vill du göra</h2>
+    <p>Slå upp problemet, få verktyget.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Du vill</th><th>Ta</th></tr></thead>
+        <tbody>
+          <tr><td>Rädda en platt, grådaskig bild</td><td><a href="#nivaer">Nivåer</a></td></tr>
+          <tr><td>Lyfta mellantonerna utan att röra svärtan</td><td><a href="#kurvor">Kurvor</a></td></tr>
+          <tr><td>Snabbt knuffa en bild som nästan är rätt</td><td><a href="#ljusstyrka">Ljusstyrka/kontrast</a></td></tr>
+          <tr><td>Ta bort ett färgstick</td><td><a href="#nivaer">Nivåer</a> med gråpipett, sedan <a href="#fargbalans">Färgbalans</a></td></tr>
+          <tr><td>Ge bilden en varmare eller kallare känsla</td><td><a href="#fotofilter">Fotofilter</a></td></tr>
+          <tr><td>Få mer färg utan att hudtoner blir orange</td><td><a href="#lyster">Lyster</a></td></tr>
+          <tr><td>Byta färg på ett enskilt föremål</td><td><a href="#nyans">Nyans/mättnad</a></td></tr>
+          <tr><td>Dämpa en enda färg som skriker</td><td><a href="#nyans">Nyans/mättnad</a> eller <a href="#selektiv">Selektiv färg</a></td></tr>
+          <tr><td>Göra bilden svartvit på riktigt</td><td><a href="#svartvitt">Svartvitt</a></td></tr>
+          <tr><td>Lägga en färdig look på en färdig bild</td><td><a href="#fargsokning">Färgsökning</a></td></tr>
+          <tr><td>Färga en bild i varumärkets färger</td><td><a href="#toningskarta">Toningskarta</a></td></tr>
+          <tr><td>Mörka underkanten så vit text går att läsa</td><td><a href="#toning">Toning</a></td></tr>
+          <tr><td>Lägga en färgplatta bakom text</td><td><a href="#heltackande">Heltäckande färg</a></td></tr>
+          <tr><td>Se hur få färger en bild klarar</td><td><a href="#posterisera">Posterisera</a></td></tr>
+          <tr><td>Hitta bildens ljusaste och mörkaste punkt</td><td><a href="#troskelvarde">Tröskelvärde</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordningen">3. Arbetsordningen</h2>
+    <p>Verktygen är inte utbytbara mot varandra, och ordningen spelar roll. Justera i den här
+      följden så motarbetar inte stegen varandra.</p>
+    <ol class="steg">
+      <li><b>Beskär och räta upp.</b> Innan något annat – det ändrar vad histogrammet visar.</li>
+      <li><b>Ton.</b> Nivåer eller Kurvor. Sätt svart, vitt och mellantoner.</li>
+      <li><b>Färgstick.</b> Gråpipetten i Nivåer, annars Färgbalans.</li>
+      <li><b>Färgstyrka.</b> Lyster, sparsamt.</li>
+      <li><b>Lokala justeringar.</b> Samma verktyg igen, men med mask.</li>
+      <li><b>Look, om du vill ha en.</b> Toningskarta eller Färgsökning, sist av allt.</li>
+    </ol>
+    <p>Skälet till att looken kommer sist: den förutsätter att bilden redan är korrekt.
+      Lägger du en look på en gulstucken bild får du en gulstucken look.</p>
+
+    <h2 id="fyllning">4. Fyllningslager</h2>
+    <p>Tre av de nitton fyller en yta i stället för att justera det som finns.</p>
+
+    <h3 id="heltackande">Heltäckande färg <i>(Solid Color)</i></h3>
+    <p><b>När du tar den.</b> Du behöver en färgplatta: bakom en textrubrik, som tonplatta i
+      ett gränssnitt, som bakgrund i en mockup. Också när du snabbt vill prova tre olika
+      bakgrundsfärger mot samma layout utan att måla om något.</p>
+    <p><b>Så gör du.</b> Lagerpanelen → <b>Nytt fyllningslager</b> → <b>Heltäckande färg</b>.
+      Välj färgen; dubbelklicka på lagret för att byta den senare. Måla på masken med svart
+      där färgen inte ska synas.</p>
+    <p><b>Tricket värt att kunna.</b> Sätt blandningsläget till <b>Färg</b> och lägg lagret
+      över en bild, så färgas bilden om i din färg men behåller alla sina detaljer. Sänk
+      opaciteten till 20–30 % för en tonad variant.</p>
+
+    <h3 id="toning">Toning <i>(Gradient)</i></h3>
+    <p><b>När du tar den.</b> Den vanligaste webbanvändningen av alla nitton: <b>mörka ner
+      underkanten på en bild så att vit text går att läsa ovanpå.</b> Också mjuka övergångar
+      bakom en hjältebild, och vinjetter.</p>
+    <p><b>Så gör du.</b></p>
+    <ol class="steg">
+      <li><b>Nytt fyllningslager</b> → <b>Toning</b>.</li>
+      <li>Välj en toning som går från svart till genomskinlig.</li>
+      <li>Sätt <b>Typ</b> till Linjär och <b>Vinkel</b> till 90°.</li>
+      <li>Medan rutan är öppen: dra i bilden för att flytta var övergången ligger.</li>
+    </ol>
+    <p><b>Varför det är rätt lösning.</b> Alternativet är att mörka hela bilden, och då
+      tappar du motivet. En toning mörkar bara där texten står. Kontrast mellan text och
+      bakgrund är ett krav senare i kursen, och det här är sättet att klara det utan att
+      förstöra bilden.</p>
+
+    <h3 id="monster">Mönster <i>(Pattern)</i></h3>
+    <p><b>När du tar den.</b> Sällan. En textur på en yta, ett papperskorn bakom en layout,
+      en platshållare för något du inte ritat än.</p>
+    <p><b>Så gör du.</b> <b>Nytt fyllningslager</b> → <b>Mönster</b>, välj ur listan, ställ
+      <b>Skala</b>.</p>
+    <p><b>Var ärlig mot dig själv här.</b> Mönster på webben görs nästan alltid som en liten
+      upprepad bildfil eller i CSS, inte som ett inbränt lager. Använd den för att skissa,
+      inte för att leverera.</p>
+
+    <h2 id="ton">5. Ton och ljus</h2>
+    <p>Fyra verktyg som styr hur ljus bilden är och hur stor skillnaden är mellan mörkt och
+      ljust. De gör delvis samma sak, med olika precision.</p>
+
+    <h3 id="ljusstyrka">Ljusstyrka/kontrast <i>(Brightness/Contrast)</i></h3>
+    <p><b>När du tar den.</b> Bilden är nästan rätt och behöver en knuff. Du har bråttom. Två
+      reglage, inget att lära sig.</p>
+    <p><b>Varför den ändå inte är förstahandsvalet.</b> Den är trubbig. Den flyttar hela
+      bilden på en gång, och drar du för långt klipps de ljusaste och mörkaste partierna bort
+      – detaljerna i himlen eller i skuggan blir ren vit och ren svart, och de går inte att
+      få tillbaka.</p>
+    <p>Ta den när bilden ska bli lite ljusare. Ta Nivåer när den ska bli bra.</p>
+
+    <h3 id="nivaer">Nivåer <i>(Levels)</i></h3>
+    <p><b>När du tar den.</b> Nästan alltid, som första justering. En bild som ser grådaskig,
+      platt eller livlös ut har nästan alltid ett histogram som inte når ut till kanterna.</p>
+    <p><b>Så gör du.</b> Se
+      <a href="guide-photoshop.html#nivaer">Photoshop för webb, avsnitt 6</a> – där står
+      histogrammet och de tre reglagen.</p>
+    <p><b>Det som ofta missas: pipetterna.</b> Tre stycken, till vänster i rutan.
+      Mittenpipetten sätter gråpunkten – klicka på något i bilden som <i>ska</i> vara
+      neutralgrått och färgsticket försvinner. En betongvägg, en asfaltsyta, en vit skjorta i
+      skugga.</p>
+    <p><b>Nivåer per kanal.</b> I menyn överst kan du byta från RGB till Röd, Grön eller Blå
+      och sätta svart- och vitpunkt för en färg i taget. Det är den exakta metoden mot
+      färgstick när pipetten inte hittar något grått.</p>
+
+    <h3 id="kurvor">Kurvor <i>(Curves)</i></h3>
+    <p><b>När du tar den.</b> När Nivåer inte räcker. Nivåer ger dig tre handtag; Kurvor ger
+      dig så många du vill, och du kan flytta mellantonerna utan att röra svärtan.</p>
+    <p><b>Så gör du.</b> Klicka på linjen för att sätta en punkt. Dra upp för ljusare, ned
+      för mörkare. Den vågräta axeln är hur ljus pixeln är nu, den lodräta hur ljus den
+      blir.</p>
+    <p><b>De två formerna du behöver kunna.</b></p>
+    <ul>
+      <li><b>S-kurva</b> – en punkt som dras ned i den mörka fjärdedelen, en som dras upp i
+        den ljusa. Ger kontrast utan att klippa någonting. Den vanligaste kurvan som finns</li>
+      <li><b>Lyft mellantonerna</b> – en enda punkt mitt på kurvan, dragen uppåt. Ljusar upp
+        bilden utan att svärtan blir grå</li>
+    </ul>
+    <p><b>Kurvor per kanal.</b> Precis som Nivåer har Kurvor en kanalmeny. En kurva på
+      Blå-kanalen som dras ned i skuggorna gör skuggorna varmare. Det är så en filmisk
+      färgsättning byggs.</p>
+    <p><b>Tips.</b> Sätt blandningsläget till <b>Luminans</b> så höjer kurvan kontrasten utan
+      att mättnaden ökar på köpet.</p>
+
+    <h3 id="exponering">Exponering <i>(Exposure)</i></h3>
+    <p><b>När du tar den.</b> Egentligen bara på HDR-material i 32 bitar. På ett vanligt foto
+      gör den mer skada än nytta.</p>
+    <p><b>Rådet.</b> Hoppa över den. Nivåer och Kurvor gör allt den gör, med bättre kontroll
+      och utan att klippa högdagrarna. Den står här för att du ska veta vad den är när du ser
+      den i menyn, inte för att du ska använda den.</p>
+
+    <h2 id="farg">6. Färg</h2>
+    <p>Sju verktyg som styr vilken färg bilden har. Skillnaden mellan dem är <b>hur mycket de
+      träffar</b>: allt på en gång, en färgfamilj, eller ett tonområde.</p>
+
+    <h3 id="lyster">Lyster <i>(Vibrance)</i></h3>
+    <p><b>När du tar den.</b> Bilden känns blek och du vill ha mer färg – särskilt om det
+      finns människor i den.</p>
+    <p><b>Så gör du.</b> Två reglage: <b>Lyster</b> höjer bara de färger som redan är svaga
+      och skonar hudtoner. <b>Mättnad</b> höjer allt lika mycket, trubbigt. Dra i det övre.
+      Låt det undre vara.</p>
+    <p><b>Regeln.</b> Vill du ha mer färg: ta Lyster först. Nyans/mättnad är nästa steg, inte
+      det första. Lyster är svår att förstöra med; Mättnad är lätt.</p>
+
+    <h3 id="nyans">Nyans/mättnad <i>(Hue/Saturation)</i></h3>
+    <p><b>När du tar den.</b> Tre helt olika jobb: byta färg på ett föremål, dämpa en enskild
+      färg som drar all uppmärksamhet, eller göra bilden enfärgad.</p>
+    <p><b>Så gör du.</b></p>
+    <ol class="steg">
+      <li><b>För allt på en gång:</b> dra i reglagen direkt.</li>
+      <li><b>För en enda färg:</b> byt från <b>Standard</b> i menyn till exempelvis
+        <b>Röda</b>. Nu gäller reglagen bara det färgområdet. Använd pipetten för att peka ut
+        exakt vilken färg i bilden du menar.</li>
+      <li><b>För enfärgat:</b> kryssa i <b>Färglägg</b>, ställ sedan Nyans och Mättnad.</li>
+    </ol>
+    <div class="notis viktig">
+      <span class="rubrik">Det vanligaste felet i hela området</span>
+      <p>Att dra Mättnad globalt till +40. Titta på hudtoner och himmel efteråt – det ser ut
+        som en skärm i en elektronikaffär, inte som ett foto. Håll dig under +15 om du rör
+        reglaget alls, och ta Lyster i stället.</p>
+    </div>
+
+    <h3 id="fargbalans">Färgbalans <i>(Color Balance)</i></h3>
+    <p><b>När du tar den.</b> Det finns ett färgstick kvar som gråpipetten inte tog. Eller du
+      vill medvetet ge bilden en temperatur.</p>
+    <p><b>Så gör du.</b> Välj <b>Skuggor</b>, <b>Mellantoner</b> eller <b>Högdagrar</b> i
+      menyn – reglagen gäller bara det tonområdet. Tre reglage: Cyan–Röd, Magenta–Grön,
+      Gul–Blå. Dra bort från sticket. Låt <b>Behåll ljushet</b> vara ikryssat.</p>
+    <p><b>Det som gör den värd att kunna.</b> Att kunna justera skuggor och högdagrar var för
+      sig. Kalla skuggor och varma högdagrar är hela den look folk kallar filmisk, och det är
+      två reglage.</p>
+
+    <h3 id="svartvitt">Svartvitt <i>(Black &amp; White)</i></h3>
+    <p><b>När du tar den.</b> Bilden ska bli gråskala.</p>
+    <p><b>Så gör du.</b> Sex reglage, ett per färgfamilj. Varje reglage bestämmer hur ljust
+      <i>den</i> färgen blir i gråskala. Höj <b>Röda</b> för ljusare hudtoner. Sänk
+      <b>Blå</b> för en dramatisk, mörk himmel.</p>
+    <p><b>Varför inte bara dra ner mättnaden.</b> Mättnad −100 ger en platt grå soppa där en
+      röd och en grön yta med samma ljushet blir exakt samma grå – och all skillnad mellan dem
+      försvinner. Svartvitt låter dig bestämma översättningen färg för färg. Det är
+      skillnaden mellan en avfärgad bild och en svartvit bild.</p>
+    <p><b>Bonus.</b> Kryssa i <b>Nyans</b> längst ned för en tonad svartvit – sepia eller
+      kylig blå.</p>
+
+    <h3 id="fotofilter">Fotofilter <i>(Photo Filter)</i></h3>
+    <p><b>När du tar den.</b> Bilden ska bli ett snäpp varmare eller kallare, och du vill inte
+      hålla på med tre reglage.</p>
+    <p><b>Så gör du.</b> Välj <b>Värmefilter (85)</b> för varmare, <b>Kylfilter (80)</b> för
+      kallare. Ställ <b>Täthet</b> – 20–25 % räcker nästan alltid. Låt <b>Behåll ljushet</b>
+      vara ikryssat.</p>
+    <p><b>Skillnaden mot Färgbalans.</b> Fotofilter lägger samma ton över hela bilden.
+      Färgbalans låter dig skilja på skuggor och högdagrar. Fotofilter är enklare och räcker
+      oftare än man tror.</p>
+
+    <h3 id="kanalblandare">Kanalblandare <i>(Channel Mixer)</i></h3>
+    <p><b>När du tar den.</b> Avancerad svartvit-konvertering, eller för att rädda en bild där
+      en av färgkanalerna är brusig.</p>
+    <p><b>Rådet.</b> Ligger utanför vad den här kursen behöver. Svartvitt gör samma jobb med
+      begrepp som går att resonera om. Ta den om du blir nyfiken, inte för att lösa en
+      uppgift.</p>
+
+    <h3 id="fargsokning">Färgsökning <i>(Color Lookup)</i></h3>
+    <p><b>När du tar den.</b> Bilden är färdigjusterad och du vill lägga en färdig look över
+      den. En <b>LUT</b> (Look-Up Table) är en färdig översättningstabell: varje färg i bilden
+      byts mot en annan enligt en fil som någon annan gjort.</p>
+    <p><b>Så gör du.</b> Välj en fil i listan <b>3DLUT-fil</b>. <b>Sänk opaciteten till
+      30–50 %</b> – full styrka är nästan alltid för mycket.</p>
+    <p><b>Varningen.</b> Det här är ett filter, inte en korrigering. Korrigera bilden med
+      Nivåer först. En LUT på en dålig bild ger en dålig bild med en look.</p>
+
+    <h2 id="omtolkning">7. Omtolkning</h2>
+    <p>Fem verktyg som inte justerar bilden utan <b>översätter</b> den till något annat. De
+      flesta används sällan som effekt, men två av dem är verktyg du kommer att behöva.</p>
+
+    <h3 id="invertera">Invertera <i>(Invert)</i></h3>
+    <p><b>När du tar den.</b> Som effekt: nästan aldrig. Nyttan ligger i <b>masker</b> –
+      markera en mask och invertera den för att vända på vad som döljs och vad som syns.</p>
+    <p><b>Så gör du.</b> Det finns inga inställningar. Lagret vänder alla värden: svart blir
+      vitt, gult blir blått.</p>
+
+    <h3 id="posterisera">Posterisera <i>(Posterize)</i></h3>
+    <p><b>När du tar den.</b> Två skäl. <b>Grafisk effekt</b> – ett foto blir en affisch med
+      få, platta toner. Och <b>kontroll före export</b> – du vill se hur bilden klarar sig med
+      få färger. Det är exakt vad som händer i en PNG-8 eller GIF.</p>
+    <p><b>Så gör du.</b> Ett enda reglage: antal nivåer. 4–8 ger tydlig grafisk effekt, 16 och
+      uppåt syns knappt.</p>
+
+    <h3 id="troskelvarde">Tröskelvärde <i>(Threshold)</i></h3>
+    <p><b>När du tar den.</b> Två användningar, och den andra är den viktiga.</p>
+    <ol class="steg">
+      <li><b>Som effekt.</b> Bilden blir ren svartvit utan gråtoner – ett stencilklipp.</li>
+      <li><b>Som mätverktyg.</b> För att hitta bildens ljusaste och mörkaste punkt innan du
+        sätter svart- och vitpunkt i Nivåer.</li>
+    </ol>
+    <p><b>Så gör du – som mätverktyg.</b> Lägg ett Tröskelvärde överst. Dra reglaget hela
+      vägen åt höger så allt blir svart, backa sedan tills bara några få vita fläckar syns.
+      Där ligger bildens ljusaste punkt. Gör tvärtom för den mörkaste. Släng lagret och sätt
+      punkterna i Nivåer där du nu vet att de hör hemma.</p>
+    <p>Det är en av få saker i Photoshop som gör gissning till mätning.</p>
+
+    <h3 id="selektiv">Selektiv färg <i>(Selective Color)</i></h3>
+    <p><b>När du tar den.</b> Du vill finjustera en enda färgfamilj utan att röra resten – ta
+      bort ett gulstick i gröna växter, rensa upp hudtoner, justera en himmel.</p>
+    <p><b>Så gör du.</b> Välj färgfamilj i menyn: Röda, Gula, Gröna, Cyan, Blå, Magenta, Vita,
+      Neutrala, Svarta. Fyra reglage – Cyan, Magenta, Gult, Svart – styr hur mycket av varje
+      som ska ingå i just den färgen. <b>Relativ</b> ändrar försiktigt i förhållande till vad
+      som finns; <b>Absolut</b> ändrar med fasta steg och tar i mer.</p>
+    <p><b>Rådet.</b> Kraftfull men fipplig, och den tänker i tryckfärger snarare än
+      skärmfärger. Nyans/mättnad med en vald färgfamilj löser samma problem enklare i nio fall
+      av tio.</p>
+
+    <h3 id="toningskarta">Toningskarta <i>(Gradient Map)</i></h3>
+    <p><b>När du tar den.</b> Det här är det verktyg i listan som har mest med webbdesign att
+      göra.</p>
+    <p>Toningskarta översätter bildens <b>ljushet</b> till en färgskala: det mörkaste i bilden
+      får toningens första färg, det ljusaste får den sista. Resultatet är en duotone – en
+      bild i två färger. Använd den när en bild ska bära ett varumärkes färger.</p>
+    <p><b>Så gör du.</b></p>
+    <ol class="steg">
+      <li><b>Nytt justeringslager</b> → <b>Toningskarta</b>.</li>
+      <li>Klicka på toningen för att redigera den.</li>
+      <li>Sätt vänstra färgstoppet till din <b>mörka</b> varumärkesfärg, det högra till din
+        <b>ljusa</b>. Ordningen spelar roll – mörkt till vänster.</li>
+      <li>Vill du behålla mer av originalet: sänk opaciteten, eller sätt blandningsläget till
+        <b>Färg</b>.</li>
+    </ol>
+    <p><b>Kopplingen framåt.</b> Färgerna du sätter här är samma färger som blir CSS-variabler
+      i Webbutveckling i november. Det är samma stilguide, i två olika verktyg.</p>
+
+    <h2 id="kombinationer">8. Kombinationer</h2>
+    <p>Enskilda verktyg löser sällan ett helt problem. Fyra recept som gör det.</p>
+
+    <h3>En platt bild med färgstick</h3>
+    <ol class="steg">
+      <li><b>Nivåer</b> – svartpunkt och vitpunkt indragna</li>
+      <li><b>Nivåer</b>, gråpipetten – klicka på något som ska vara grått</li>
+      <li><b>Lyster</b> – +10 till +20</li>
+    </ol>
+
+    <h3>Vit text som ska ligga på en bild</h3>
+    <ol class="steg">
+      <li><b>Toning</b> – svart till genomskinlig, 90°, dragen från underkanten</li>
+      <li>Sänk opaciteten tills texten är läsbar men bilden inte är död</li>
+      <li>Kontrollera att texten <i>går</i> att läsa, inte att den ser läsbar ut</li>
+    </ol>
+
+    <h3>Bilden ska bära varumärkets färger</h3>
+    <ol class="steg">
+      <li><b>Nivåer</b> – korrigera först</li>
+      <li><b>Svartvitt</b> – bestäm hur färgerna översätts till grått</li>
+      <li><b>Toningskarta</b> – mörk varumärkesfärg till ljus</li>
+    </ol>
+    <p>Steg 2 är det som skiljer ett bra resultat från ett grötigt: du bestämmer bildens
+      ljushetsstruktur innan du färgar om den.</p>
+
+    <h3>En enda färg i bilden ska dämpas</h3>
+    <ol class="steg">
+      <li><b>Nyans/mättnad</b></li>
+      <li>Byt från Standard till färgfamiljen, eller peka ut färgen med pipetten</li>
+      <li>Dra <b>Mättnad</b> ned, inte Nyans</li>
+      <li>Behöver det bli exakt: <b>Selektiv färg</b> i stället</li>
+    </ol>
+
+    <h2 id="vanliga-fel">9. Vanliga fel</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Felet</th><th>Vad som gäller</th></tr></thead>
+        <tbody>
+          <tr><td>Justering direkt på bildlagret</td><td>Menyn Bild → Justeringar skriver om
+            pixlarna. Originalet finns inte kvar. Det kontrolleras i inlämningen</td></tr>
+          <tr><td>För mycket mättnad</td><td>Titta på hudtoner och himmel innan du bestämmer
+            dig, inte på färgen du ville förstärka</td></tr>
+          <tr><td>Look före korrigering</td><td>En Färgsökning eller Toningskarta ovanpå en
+            osjusterad bild ärver alla dess problem. Korrigera först</td></tr>
+          <tr><td>Reglagen i stället för opaciteten</td><td>Är effekten för stark: sänk
+            lagrets opacitet. Då kan du ändra dig i morgon</td></tr>
+          <tr><td>Femton justeringslager</td><td>Behöver du fler än tre eller fyra på en bild
+            är det oftast fel bild, inte för få lager</td></tr>
+          <tr><td>Glömd mask</td><td>En justering som ska gälla himlen och gäller hela bilden
+            syns inte som ett fel förrän någon annan tittar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Vad som räcker för vilket betyg</span>
+      <p><b>E</b> – du använder justeringslager i stället för menyn, och Nivåer sitter.
+        <b>C</b> – du väljer verktyg efter vad bilden behöver och kan motivera valet.
+        <b>A</b> – du arbetar lokalt med masker och kan hålla en bildserie enhetlig, så att
+        någon annan ser att bilderna hör ihop.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a> ·
+        <a href="guide-photoshop.html">Photoshop för webb</a> ·
+        <a href="uppgift.html">Uppgift 1 – Bildpaket</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
