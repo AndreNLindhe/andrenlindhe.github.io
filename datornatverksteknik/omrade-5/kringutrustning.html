@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drivrutiner och portar – Dator- och nätverksteknik område 5</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-5-kringutrustning">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Uppslag</strong> · Drivrutiner och portar</span>
+  <a href="#portarna">Portarna</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#kringutrustning">1. Vad kringutrustning är</a></li>
+      <li><a href="#drivrutin">2. Vad en drivrutin gör</a></li>
+      <li><a href="#firmware">3. Drivrutin eller firmware?</a></li>
+      <li><a href="#enhetshanteraren">4. Enhetshanteraren</a></li>
+      <li><a href="#uppgradera">5. Att uppgradera en drivrutin</a></li>
+      <li><a href="#portarna">6. Portarna på baksidan</a></li>
+      <li><a href="#cpu-gpu">7. CPU och GPU</a></li>
+      <li><a href="#felsokning">8. Felsökning</a></li>
+      <li><a href="#ordlista">9. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 5 · lektion 19</p>
+    <h1>Drivrutiner och portar</h1>
+    <p class="inledning">Datorn fungerar — men än så länge kan den ingenting utom sig själv. Den här sidan handlar om vad som händer när du kopplar något till den, och varför en del enheter fungerar direkt medan andra inte gör det.</p>
+
+    <h2 id="kringutrustning">1. Vad kringutrustning är</h2>
+
+    <p><b>Kringutrustning är allt som kopplas till datorn utifrån:</b> mus, tangentbord, skrivare, extern lagring, headset, kamera. Gränsen går vid chassit — det som sitter inuti är datorns delar, det som kopplas in utanpå är kringutrustning.</p>
+
+    <p><b>Plug and play</b> — anslut och använd — betyder att operativsystemet redan har en drivrutin som passar. Möss och tangentbord följer en gemensam standard som Windows känner till sedan tidigare, så systemet känner igen enheten, hämtar en drivrutin ur sitt eget lager och startar den. Ingen installation syns, för den sköttes åt dig.</p>
+
+    <p>Det som <b>inte</b> är plug and play är enheter där tillverkaren gör något eget: en skrivare med sina funktioner, ett grafikkort med sin panel, ett ljudkort med sina inställningar. Där finns ingen gemensam standard som täcker allt enheten kan — och då krävs tillverkarens egen drivrutin.</p>
+
+    <h2 id="drivrutin">2. Vad en drivrutin gör</h2>
+
+    <blockquote><p>En <b>drivrutin</b> är ett program som låter operativsystemet prata med en bestämd sorts maskinvara.</p></blockquote>
+
+    <p>Operativsystemet vet hur man skriver ut. Det vet <b>inte</b> hur just den här skrivarmodellen vill bli tillsagd. Drivrutinen är översättningen däremellan.</p>
+
+    <h2 id="firmware">3. Drivrutin eller firmware?</h2>
+
+    <p>De blandas ihop varje år, och det är begripligt — båda är "mjukvara på hårdvaran". Skillnaden är var de ligger och när de kör:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Firmware</th><th>Drivrutin</th></tr></thead>
+        <tbody>
+          <tr><td><b>Var den ligger</b></td><td>I ett chip på kortet självt</td><td>Som filer i operativsystemet</td></tr>
+          <tr><td><b>När den kör</b></td><td>Innan operativsystemet startat</td><td>När operativsystemet kör</td></tr>
+          <tr><td><b>Vem den tillhör</b></td><td>Maskinvaran</td><td>Operativsystemet</td></tr>
+          <tr><td><b>I den här kursen</b></td><td>Område 4, lektion 15 och 16</td><td>Område 5, lektion 19</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Att uppgradera en drivrutin är inte att uppgradera BIOS</span>
+      <p>Firmware-uppdatering gicks igenom i område 4, och regeln därifrån gäller fortfarande: <b>uppdatera firmware bara när du har ett skäl.</b> Ett avbrott mitt i kan göra kortet obrukbart. Drivrutiner är en helt annan sak — de är filer i systemet, och en misslyckad installation går att göra om.</p>
+    </div>
+
+    <h2 id="enhetshanteraren">4. Enhetshanteraren</h2>
+
+    <p>Enhetshanteraren är där Windows visar sin bild av maskinvaran. Högerklick på Start → <i>Enhetshanteraren</i>, eller:</p>
+
+    <pre><code>devmgmt.msc</code></pre>
+
+    <p>Enheterna ligger grupperade efter typ. Det du framför allt ska leta efter är <b>det gula utropstecknet</b>: enheten finns, men fungerar inte — oftast för att drivrutinen saknas.</p>
+
+    <p>Drivrutinerna går också att lista utifrån, i en terminal:</p>
+
+    <pre><code>pnputil /enum-drivers</code></pre>
+
+    <p>Det behöver du inte kunna utantill. Poängen är att drivrutiner är <b>filer på disken</b> — de går att räkna, lista och byta.</p>
+
+    <h2 id="uppgradera">5. Att uppgradera en drivrutin</h2>
+
+    <p>Att uppgradera betyder att <b>ersätta en installerad version med en nyare</b>. Två vägar, och de ger inte alltid samma resultat:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Väg</th><th>Hur</th><th>Vad du får</th></tr></thead>
+        <tbody>
+          <tr><td><b>Enhetshanteraren</b></td><td>Högerklick på enheten → <i>Uppdatera drivrutin</i> → <i>Sök automatiskt</i></td><td>Den version Microsoft har godkänt och lagt i Windows Update. Alltid signerad, ofta <b>äldre</b> än tillverkarens</td></tr>
+          <tr><td><b>Tillverkarens webbplats</b></td><td>Ladda ner filen för <b>rätt modell</b>, kör installationsprogrammet</td><td>Den nyaste versionen, och tillverkarens egna inställningsprogram på köpet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det svar som lurar flest</span>
+      <p>"Sök automatiskt" svarar ofta att <b>den bästa drivrutinen redan är installerad</b>. Det betyder att den bästa <i>Windows känner till</i> är installerad. Det är inte samma sak som den senaste.</p>
+      <p>Grafikkort är tydligast: NVIDIA — som sitter i salens maskiner — släpper nya drivrutiner betydligt oftare än de hamnar i Windows Update. Vilken väg som ger senaste versionen skiljer sig mellan tillverkare, så du kan inte veta i förväg. Du får titta.</p>
+    </div>
+
+    <p><b>Läs av versionen före och efter.</b> Högerklick på enheten → <i>Egenskaper</i> → fliken <i>Drivrutin</i>. Skriv upp versionsnummer och datum <b>innan</b> du uppgraderar — en uppgradering utan ett före går inte att dokumentera, och labb 5 kräver båda.</p>
+
+    <p>Blev det ingen nyare version — det händer, kortet var redan aktuellt — är det också ett resultat. Skriv att versionen redan var den senaste, med versionsnumret och var du kontrollerade det.</p>
+
+    <div class="notis">
+      <span class="rubrik">Tillverkarens sida är på engelska</span>
+      <p>Det är avsiktligt. Betygskriterierna för C kräver att du använder manualer och instruktioner på engelska <b>utan handledning</b>, och labb 5 kräver att språket för varje källa skrivs ut. Skriv upp adressen medan fliken är öppen.</p>
+    </div>
+
+    <h2 id="portarna">6. Portarna på baksidan</h2>
+
+    <p>Portarna namngavs översiktligt i område 1, när delarna fortfarande låg löst på bänken. Nu sitter de i en maskin du själv byggt — och det är skillnaden: samma portar, men nu går de att peka på.</p>
+
+    <div class="sok">
+      <label for="sok-port">Sök bland portarna</label>
+      <input type="search" id="sok-port" data-sok="tabell-portar" data-traffar="traffar-port"
+             placeholder="till exempel: usb, nätverk, ljud, skärm" autocomplete="off">
+      <p class="traffar" id="traffar-port">9 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-portar">
+        <thead><tr><th>Port</th><th>Känns igen på</th><th>Vad den är till för</th></tr></thead>
+        <tbody>
+          <tr><td><b>PS/2</b></td><td>Rund, sex hål. Lila eller grön, ibland delad i två färger</td><td>Tangentbord (lila) och mus (grön). Äldre standard som sitter kvar på många kort</td></tr>
+          <tr><td><b>USB 2.0</b></td><td>Rektangulär, <b>svart</b> insats</td><td>Allt möjligt. Långsammare, men fullt användbar till mus och tangentbord</td></tr>
+          <tr><td><b>USB 3.x</b></td><td>Rektangulär, <b>blå</b> insats</td><td>Samma kontakt, snabbare. Färgen är det enda som skiljer dem åt utifrån</td></tr>
+          <tr><td><b>USB-C</b></td><td>Liten, oval, vänds åt båda hållen</td><td>Nyare standard. Finns inte på alla kort</td></tr>
+          <tr><td><b>RJ45</b></td><td>Fyrkantig med en spärrhake, lysdioder i kanten</td><td>Nätverk med kabel. Lysdioderna säger om länken är uppe</td></tr>
+          <tr><td><b>HDMI</b></td><td>Bred, avsmalnande nedåt</td><td>Bild och ljud till skärm eller tv</td></tr>
+          <tr><td><b>DisplayPort</b></td><td>Liknar HDMI men med ett avfasat hörn</td><td>Bild till skärm. Vanligast på grafikkort</td></tr>
+          <tr><td><b>DVI</b></td><td>Bred, vit eller vitgrå, många små hål</td><td>Äldre skärmutgång. Finns på en del kort, saknas på andra</td></tr>
+          <tr><td><b>Ljud</b></td><td>Tre eller fler runda 3,5 mm-uttag</td><td><b>Grön</b> = ut till högtalare, <b>blå</b> = in från annan källa, <b>rosa</b> = mikrofon</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Två saker som fäller flest</span>
+      <p><b>Vilka portar som finns skiljer sig mellan moderkort.</b> Har din maskin ingen PS/2 är det inte ett fel — det kortet har inte det. Titta på <i>din</i> baksida, inte på bilden.</p>
+      <p><b>Har maskinen ett grafikkort sitter dess utgångar för sig</b>, längre ner i ett expansionsläge — och moderkortets egna bildutgångar är då oftast avstängda. Det var precis felet som gjorde att bilden uteblev på flera bänkar i område 4.</p>
+    </div>
+
+    <h2 id="cpu-gpu">7. CPU och GPU</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Förkortning</th><th>Står för</th><th>Var den sitter</th></tr></thead>
+        <tbody>
+          <tr><td><b>CPU</b></td><td>Central Processing Unit</td><td>Processorn, i sockeln du monterade på lektion 13</td></tr>
+          <tr><td><b>GPU</b></td><td>Graphics Processing Unit</td><td>Grafikprocessorn — på grafikkortet, eller inbyggd i processorn</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Grafikkortets utgång är <b>en av portarna i tabellen ovan</b>. Det är därför skärmkabeln ska sitta där och inte i moderkortet.</p>
+
+    <h2 id="felsokning">8. Felsökning</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: drivrutin, version, modell, gult" autocomplete="off">
+      <p class="traffar" id="traffar-fel">7 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Gult utropstecken på en enhet i enhetshanteraren</td><td>Drivrutinen saknas eller fungerar inte</td><td>Högerklick → Uppdatera drivrutin. Hjälper inte det: hämta från tillverkarens webbplats</td></tr>
+          <tr><td>"Den bästa drivrutinen är redan installerad"</td><td>Windows känner bara till sin egen version</td><td>Gå till tillverkarens sida och jämför versionsnumret. Svaret är inte samma sak som "den senaste"</td></tr>
+          <tr><td>Den nedladdade drivrutinen vägrar installeras</td><td>Fel modells drivrutin — modellnamnen liknar varandra</td><td>Läs modellen i enhetshanteraren, inte ur minnet. En siffras skillnad är ett annat kort</td></tr>
+          <tr><td>Enheten dök aldrig upp i enhetshanteraren</td><td>Kabeln, porten eller enheten</td><td>Prova en annan USB-port, gärna en av de andra färgerna. Prova enheten i en annan maskin</td></tr>
+          <tr><td>Versionsnumret finns bara efter uppgraderingen</td><td>Du läste av först när du var klar</td><td>Läs av före nästa gång. Utan ett före syns ingen uppgradering i rapporten</td></tr>
+          <tr><td>Ingen bild, trots att maskinen kör</td><td>Skärmkabeln sitter i moderkortets utgång trots grafikkort</td><td>Flytta kabeln till grafikkortet</td></tr>
+          <tr><td>Nedladdningen går inte att slutföra</td><td>Ingen nätverksåtkomst på bänken</td><td>Kontrollera nätverkskabeln och lysdioderna vid RJ45-porten. Säg till läraren</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">9. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Kringutrustning</b></td><td>Allt som kopplas till datorn utifrån: mus, tangentbord, skrivare, extern lagring</td></tr>
+          <tr><td><b>Drivrutin</b></td><td>Ett program som låter operativsystemet prata med en bestämd sorts maskinvara</td></tr>
+          <tr><td><b>Plug and play</b></td><td>Anslut och använd. Systemet känner igen enheten och hämtar en drivrutin ur sitt eget lager</td></tr>
+          <tr><td><b>Enhetshanteraren</b></td><td>Windows vy över maskinvaran, grupperad efter typ. Öppnas med <code>devmgmt.msc</code></td></tr>
+          <tr><td><b>Uppgradera</b></td><td>Ersätta en installerad version med en nyare</td></tr>
+          <tr><td><b>Signerad drivrutin</b></td><td>En drivrutin som är kontrollerad och godkänd, så att systemet vet varifrån den kommer</td></tr>
+          <tr><td><b>PS/2</b></td><td>Äldre rund port för tangentbord (lila) och mus (grön)</td></tr>
+          <tr><td><b>RJ45</b></td><td>Nätverksporten för kabel. Fyrkantig, med spärrhake och lysdioder</td></tr>
+          <tr><td><b>DisplayPort</b></td><td>Skärmutgång, vanligast på grafikkort. Känns igen på det avfasade hörnet</td></tr>
+          <tr><td><b>CPU</b></td><td>Central Processing Unit — processorn</td></tr>
+          <tr><td><b>GPU</b></td><td>Graphics Processing Unit — grafikprocessorn, på kortet eller inbyggd i processorn</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 5</a> · <a href="skrivare.html">Skrivaren och grafikkortet</a> · <a href="labb.html">Labb 5</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

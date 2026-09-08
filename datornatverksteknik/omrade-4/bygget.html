@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bygget: ordning, kablar och första start – Dator- och nätverksteknik område 4</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-4-bygget">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Uppslag</strong> · Bygget, steg för steg</span>
+  <a href="#startar-inte">Startar den inte</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#esd">1. Innan du rör något</a></li>
+      <li><a href="#ordningen">2. Monteringsordningen</a></li>
+      <li><a href="#distanserna">3. Distanserna</a></li>
+      <li><a href="#formfaktorn">4. Formfaktorn</a></li>
+      <li><a href="#kablarna">5. Kablarna</a></li>
+      <li><a href="#frontpanelen">6. Frontpanelen</a></li>
+      <li><a href="#post">7. POST</a></li>
+      <li><a href="#startar-inte">8. Startar den inte</a></li>
+      <li><a href="#noderna">9. Noderna</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 4 · lektion 13 och 14</p>
+    <h1>Bygget, steg för steg</h1>
+    <p class="inledning">Allt du namngett sedan augusti ligger nu framför dig som lösa delar. Den här sidan är ordningen de sätts ihop i, och skälet till varje steg — skälet är det som ska sitta, ordningen kan du slå upp.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Innan skruvmejseln rörs — varje pass</span>
+      <p><b>ESD-armbandet fastklämt i chassit</b>, inte i fickan och inte löst runt handleden. <b>Strömkabeln urdragen.</b> Läraren kontrollerar båda vid din bänk innan du börjar.</p>
+    </div>
+
+    <h2 id="esd">1. Innan du rör något</h2>
+
+    <p>Statisk elektricitet förstör kretsar <b>utan att det syns</b>. En komponent som tar skada fungerar ofta halvt, eller fungerar i dag och inte nästa vecka.</p>
+
+    <p>Det är den värsta sortens fel — en komponent som är helt död går åtminstone att hitta. Därför är rutinen ett krav i det här området, inte en rekommendation.</p>
+
+    <p>Armbandet fungerar bara om det har <b>någonstans att leda laddningen</b>. Sitter det runt handleden men inte fastklämt i chassit gör det ingenting alls.</p>
+
+    <h2 id="ordningen">2. Monteringsordningen</h2>
+
+    <pre><code>1. Distanserna i chassit
+2. Nätaggregatet i chassit
+3. Processorn        på det lösa kortet
+4. Kylaren           på det lösa kortet
+5. Kortet ner i chassit och skruvas fast
+6. Minnet
+7. Lagringen</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Varför just då</th></tr></thead>
+        <tbody>
+          <tr><td><b>1. Distanserna</b></td><td>De bestämmer var kortet hamnar, och går inte att sätta i efteråt</td></tr>
+          <tr><td><b>2. Nätaggregatet</b></td><td>Stort och skrymmande. Går lättare in innan kortet är på plats</td></tr>
+          <tr><td><b>3. Processorn</b></td><td>Sockeln kräver utrymme runt om. Enklast när kortet ligger löst på bordet</td></tr>
+          <tr><td><b>4. Kylaren</b></td><td><b>Fästet sitter på kortets baksida.</b> Efter fastskruvning når du det inte</td></tr>
+          <tr><td><b>5. Kortet</b></td><td>Nu är det tunga och fingerkänsliga gjort</td></tr>
+          <tr><td><b>6. Minnet</b></td><td>Kräver kraft rakt nedåt. Enklare när kortet sitter fast och inte böjs</td></tr>
+          <tr><td><b>7. Lagringen</b></td><td>Tar minst plats och minst tid. Sitter ofta i vägen om den monteras tidigt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Steg 4 är det som oftast går fel</span>
+      <p>Kylarens fästplatta sitter <b>under</b> moderkortet. Skruvar du fast kortet först måste allt ut igen.</p>
+    </div>
+
+    <h2 id="distanserna">3. Distanserna</h2>
+
+    <p>Det här är den enskilt viktigaste detaljen i hela bygget.</p>
+
+    <ul>
+      <li><b>En distans per hål i moderkortet.</b> Inte fler.</li>
+      <li><b>Ingen distans där kortet saknar hål.</b> En sådan trycker mot kretsarna på kortets undersida och <b>kortsluter kortet mot chassit</b>.</li>
+      <li><b>Håll kortet över chassit</b> och märk ut vilka hål som ska ha distanser — innan någon distans sitter i.</li>
+    </ul>
+
+    <p>Ett kort som kortsluter mot chassit ger inget livstecken alls. Felet ser ut som ett dött moderkort, och det är svårt att felsöka i efterhand — men lätt att undvika nu.</p>
+
+    <h2 id="formfaktorn">4. Formfaktorn</h2>
+
+    <p><b>ATX</b> är den vanligaste formfaktorn. Den namngavs i område 2; här används den till en verklig kontroll.</p>
+
+    <p>Formfaktorn avgör två saker:</p>
+
+    <ul>
+      <li>Om kortet <b>över huvud taget går att montera</b> i chassit — hålmönstret måste stämma</li>
+      <li>Hur många <b>expansionsplatser och minnesplatser</b> som får plats</li>
+    </ul>
+
+    <p>Ett mindre kort passar i ett mindre chassi, men varje centimeter du sparar kostar platser. Kontrollen görs <b>innan första skruven sätts i</b>.</p>
+
+    <h2 id="kablarna">5. Kablarna</h2>
+
+    <p>Två strömkontakter måste sitta för att kortet ska ge livstecken över huvud taget:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kontakt</th><th>Går till</th><th>Glöms den?</th></tr></thead>
+        <tbody>
+          <tr><td><b>24-pin</b></td><td>Moderkortet</td><td>Sällan — den är stor och uppenbar</td></tr>
+          <tr><td><b>4- eller 8-pin</b></td><td>Processorn, ofta högst upp i vänstra hörnet</td><td><b>Ofta.</b> Detta är byggets vanligaste fel</td></tr>
+          <tr><td>SATA-ström, platt</td><td>Lagringen</td><td>Ibland — disken syns då inte i firmware</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Glöms processorns kontakt ser maskinen ut att vara <b>helt död</b>. Fläktarna kan snurra ett ögonblick och sedan stanna.</p>
+
+    <h2 id="frontpanelen">6. Frontpanelen</h2>
+
+    <p>Chassits knappar och lysdioder kopplas till en rad tunna stift på moderkortets nederkant:</p>
+
+    <pre><code>PWR SW    RESET SW    PWR LED    HDD LED
+ knapp      knapp      lysdiod    lysdiod</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kabel</th><th>Vad den gör</th><th>Spelar riktningen roll?</th></tr></thead>
+        <tbody>
+          <tr><td><code>POWER SW</code></td><td>Strömknappen</td><td><b>Nej</b></td></tr>
+          <tr><td><code>RESET SW</code></td><td>Återställningsknappen</td><td><b>Nej</b></td></tr>
+          <tr><td><code>POWER LED</code></td><td>Lysdiod, visar att maskinen är på</td><td><b>Ja</b></td></tr>
+          <tr><td><code>HDD LED</code></td><td>Lysdiod, blinkar vid diskaktivitet</td><td><b>Ja</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Regeln att minnas</span>
+      <p>En <b>knapp</b> sluter bara en krets — det spelar ingen roll åt vilket håll den sitter. En <b>lysdiod</b> släpper bara igenom ström åt ett håll — vänds den lyser den inte, men den går inte sönder.</p>
+      <p>Startar maskinen men strömlampan är släckt har du nästan alltid en vänd lysdiodkontakt. Det ser allvarligt ut men är kosmetiskt.</p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Facit står i ditt korts manual — inte på kortet</span>
+      <p>Stiftraden ser likadan ut på alla kort, men <b>ordningen skiljer sig mellan tillverkare</b>. Texten på kretskortet är tryckt i millimeterstorlek. Ta ficklampan.</p>
+    </div>
+
+    <h2 id="post">7. POST</h2>
+
+    <p><b>POST — Power-On Self-Test</b> — är det självtest moderkortets firmware kör när strömmen slås på, <b>innan</b> den lämnar över till en startenhet. Den kontrollerar att grundläggande delar svarar: processorn, minnet, och att kortet självt fått ren ström.</p>
+
+    <p>Ordningen på kortet, de första hundra millisekunderna:</p>
+
+    <ol>
+      <li><b>Ren ström</b> anländer, i rätt ordning</li>
+      <li><b>En klocka</b> startar</li>
+      <li><b>Processorns första instruktionshämtning</b> — läst från BIOS-chippet</li>
+      <li><b>Minnet</b> initieras</li>
+    </ol>
+
+    <p>Poängen: en dator kan inte bara "slås på". Strömmen måste komma fram ren och i ordning innan en enda instruktion kan köras. Det är därför en glömd processorkabel ger en maskin som ser helt död ut — sekvensen kommer aldrig igång.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Pipkoder är tillverkarspecifika</span>
+      <p>Tre pip betyder <b>inte</b> samma sak på två olika kort. En pipkodstabell du hittar på nätet gäller ett annat kort än ditt. Facit står i <b>ditt korts manual</b>, och att slå upp det där är en del av uppgiften.</p>
+    </div>
+
+    <h2 id="startar-inte">8. Startar den inte</h2>
+
+    <p>Räkna med det. I ett bygge går nästan alltid något fel första gången, och labb 4 kräver att du dokumenterar ett verkligt fel — så det som händer nu är labbens material.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Metodregeln</span>
+      <p><b>Ändra en sak i taget.</b> Byt mot något du <i>vet</i> fungerar. Starta. Anteckna. Den som ändrar tre saker och får bild har en maskin som fungerar men ingenting att skriva om.</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Kontrollera</th><th>Varför i den ordningen</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td>Strömkontakterna — 24-pin och processorns 4/8-pin</td><td>Utan dem händer ingenting alls. Billigast att utesluta</td></tr>
+          <tr><td><b>2</b></td><td>Minnet — ta ur och sätt i tills båda spärrarna knäpper</td><td>Vanligaste felet. Prova en sticka i taget om ni har två</td></tr>
+          <tr><td><b>3</b></td><td>Grafikkortet — sitter det i helt, och sitter skärmkabeln i <i>det</i></td><td>Ett kort som sitter halvvägs ger ingen bild trots att maskinen kör</td></tr>
+          <tr><td><b>4</b></td><td>Pip- eller lysdiodsmönstret mot <b>ditt korts</b> manual</td><td>Nu, när det enkla är uteslutet, säger mönstret var felet sitter</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Har maskinen ett grafikkort?</span>
+      <p>Då ska bildskärmen kopplas <b>dit</b>, inte till moderkortets utgång. Moderkortets bildutgång är oftast avstängd när ett grafikkort sitter i — bilden uteblir trots att maskinen startar helt korrekt.</p>
+    </div>
+
+    <h2 id="noderna">9. Noderna att öva i</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vägen dit</th><th>Heter</th><th>Vad du ska se</th></tr></thead>
+        <tbody>
+          <tr><td>ComputerExplorer → motherboard → build-a-pc</td><td>BYGG EN DATOR</td><td>Vilka delar som passar ihop — och vilka som inte gör det</td></tr>
+          <tr><td>ComputerExplorer → motherboard → form-factors</td><td>FORMFAKTORER</td><td>ATX, mATX och ITX med antal platser för var och en</td></tr>
+          <tr><td>ComputerExplorer → motherboard → psu-cables</td><td>KOPPLA IN STRÖMMEN</td><td>Varje nätaggregatskabel mot rätt uttag, på nära håll</td></tr>
+          <tr><td>ComputerExplorer → motherboard → post-power-on</td><td>POST &amp; PÅSLAG</td><td>De första hundra millisekunderna, steg för steg</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Vill du gå djupare?</span>
+      <p><b>ComputerExplorer → motherboard → power-delivery</b> visar hur kortet gör om nätaggregatets 12 V till den knappa volt processorn körs på — vid över hundra ampere. Det svarar på varför moderkortet är fullt av spolar och kondensatorer runt sockeln. Ingår inte i området.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 4</a> · <a href="firmware.html">Firmware och bootordning</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

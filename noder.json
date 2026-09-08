@@ -14,5 +14,9 @@
   "mekatronik1": {
     "namn": "Mekatronik 1",
     "kalla": "C:/Skola/Mekatronik1/elevpaket"
+  },
+  "datornatverksteknik": {
+    "namn": "Dator- och nätverksteknik",
+    "kalla": "C:/Skola/DatNät/elevpaket"
   }
 }

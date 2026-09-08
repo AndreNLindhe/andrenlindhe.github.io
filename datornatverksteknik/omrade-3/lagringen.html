@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lagringen: hårddisk, SSD och optiskt – Dator- och nätverksteknik område 3</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-3-lagringen">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Uppslag</strong> · Lagringen, del för del</span>
+  <a href="#missuppfattningar">Missuppfattningar</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#harddisken">1. Hårddisken</a></li>
+      <li><a href="#ssd">2. SSD:n</a></li>
+      <li><a href="#taket">3. Bussens tak</a></li>
+      <li><a href="#optisk">4. Optisk lagring</a></li>
+      <li><a href="#missuppfattningar">5. Två missuppfattningar</a></li>
+      <li><a href="#noderna">6. Noderna att öva i</a></li>
+      <li><a href="#ordlista">7. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 3 · lektion 11 och 12</p>
+    <h1>Lagringen, del för del</h1>
+    <p class="inledning">RAM-minnet glömmer allt när strömmen bryts. Hårddisken och SSD:n gör inte det — men av två helt olika skäl. Den här sidan förklarar båda, och varför den ena är snabb på just det den andra är långsam på.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du lektion 11 eller 12?</span>
+      <p>Avsnitt 1 till 4 är lektion 11. Avsnitt 5 är genomgången på lektion 12. Fråga 7 och 8 i övningshäftet besvaras helt av avsnitt 1, 2 och 4.</p>
+    </div>
+
+    <h2 id="harddisken">1. Hårddisken</h2>
+
+    <p>En mekanisk hårddisk — <b>HDD</b>, hard disk drive — lagrar data som <b>magnetisering på roterande skivor</b>. Ett rörligt <b>läshuvud</b> svävar strax ovanför ytan och läser av riktningen på magnetiseringen.</p>
+
+    <p>Magnetiseringen ändrar sig inte av sig själv utan ström. Det är därför disken minns sitt innehåll även avstängd — den är <b>icke-flyktig</b>. Jämför med RAM-minnet, där laddningen läcker ur sig så fort ingen laddar om den.</p>
+
+    <p>Skivans yta delas in i <b>spår</b>, koncentriska cirklar som ringarna på en trädstam, och <b>sektorer</b>, tårtbitar som delar in varje spår i mindre stycken.</p>
+
+    <p>För att hämta en bit data måste två saker hända, i tur och ordning:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Vad som händer</th><th>Ungefär hur länge</th></tr></thead>
+        <tbody>
+          <tr><td><b>Sökning</b> <i>(seek time)</i></td><td>Armen flyttar huvudet till rätt spår</td><td>1–15 ms</td></tr>
+          <tr><td><b>Rotationsfördröjning</b></td><td>Disken snurrar tills rätt sektor kommer fram under huvudet</td><td>0–8 ms vid 7200 varv/min</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Båda är mekanik, och mekanik är långsam. Det ger hårddisken en egenhet som är hela poängen med den:</p>
+
+    <ul>
+      <li><b>En enda stor fil</b> ligger i stort sett sammanhängande. Huvudet ställer sig en gång och läser i ett svep — hårddisken är <b>snabb</b>.</li>
+      <li><b>Tusen små filer</b> ligger utspridda. Varje fil kostar en ny sökning och en ny rotationsfördröjning — hårddisken är <b>långsam</b>, och det är sökningarna som tar tiden, inte datamängden.</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Därför mäter du med en stor fil i labb 3</span>
+      <p>Med en mapp full av små filer mäter du sökningar och filsystem i stället för överföring. Välj en enskild fil på minst 2 GB.</p>
+    </div>
+
+    <h2 id="ssd">2. SSD:n</h2>
+
+    <p>En <b>SSD</b> — solid state drive — har <b>inga rörliga delar alls</b>. Ingen arm, ingen skiva, ingen sökning, ingen rotationsfördröjning. Vilken plats som helst nås på ungefär samma tid.</p>
+
+    <p>Data lagras i <b>NAND-flashceller</b>. Varje cell har en <b>flytande grind</b> (floating gate) — en liten ledande ö som är helt omsluten av isolerande material. När cellen programmeras tvingas elektroner genom den mycket tunna <b>tunneloxiden</b> och blir instängda på ön.</p>
+
+    <p>Där stannar de, <b>utan ström</b>. Isolatorn släpper inte ut dem. Det är därför SSD:n också är icke-flyktig — av ett helt annat skäl än hårddisken, men med samma resultat.</p>
+
+    <p>Flash har däremot en egenhet som mekanik saknar:</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Nyckelregeln</span>
+      <p>Du kan skriva till en <b>sida</b>. Du kan bara radera ett helt <b>block</b>.</p>
+    </div>
+
+    <p>Cellerna grupperas i sidor, sidorna i block. En tom sida kan skrivas direkt. En sida som redan innehåller något kan <b>inte</b> skrivas över — för att återanvända den måste hela blocket raderas, och blocket innehåller många andra sidor som kanske fortfarande används.</p>
+
+    <p>Lösningen: den gamla sidan märks som <b>inaktuell</b>, den nya versionen skrivs någon annanstans, och senare kommer <b>skräpinsamlingen</b> och städar — flyttar undan det som fortfarande gäller och raderar blocket i sin helhet.</p>
+
+    <p>Varje block räknar sina <b>P/E-cykler</b>, programmerings- och raderingscykler. Räknaren har ett tak. Flash slits, till skillnad från magnetisering.</p>
+
+    <div class="notis">
+      <span class="rubrik">Det som känns bakvänt</span>
+      <p>En <b>raderad</b> cell läses som <b>1</b>, en <b>programmerad</b> som <b>0</b>. Det är en konvention i hur flash är byggt, inte något du missförstått.</p>
+    </div>
+
+    <h2 id="taket">3. Bussens tak mot verkligheten</h2>
+
+    <p><b>SATA III</b>, bussen som namngavs i område 2, klarar 6 Gbit/s — ungefär <b>600 MB/s</b>. Det är ett tak för <b>bussen</b>, inte ett löfte om enheten.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Ungefär</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td>SATA III, bussens tak</td><td>600 MB/s</td><td>Vad ledningen klarar</td></tr>
+          <tr><td>Mekanisk hårddisk</td><td>80–160 MB/s</td><td>Mekaniken sätter gränsen, inte bussen</td></tr>
+          <tr><td>SATA-SSD</td><td>500–550 MB/s</td><td>Nära taket — därför börjar taket kännas</td></tr>
+          <tr><td>USB 2.0</td><td>480 Mbit/s ≈ 60 MB/s</td><td>Portens tak. Gäller även ett snabbt USB 3-minne som sitter i den</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Det är därför de snabbaste SSD-varianterna inte sitter på SATA alls, utan kopplas till <b>PCIe</b> — samma buss som annars går till grafikkortet.</p>
+
+    <h2 id="optisk">4. Optisk lagring</h2>
+
+    <p>Optisk lagring läser och skriver med en <b>laser</b> mot en roterande skiva. De två vanligaste exemplen är <b>cd</b> och <b>dvd</b>; blu-ray är ett tredje.</p>
+
+    <p>Optiska medier är långsammare än både hårddisk och SSD, och tas upp här som jämförelsepunkt snarare än som något du kommer att arbeta med.</p>
+
+    <h2 id="missuppfattningar">5. Två missuppfattningar</h2>
+
+    <p>Båda dyker upp i labbrapporter varje år.</p>
+
+    <h3>Bussens toppfart är inte enhetens hastighet</h3>
+    <p>SATA III klarar cirka 600 MB/s. Ingen enhet blir snabbare av att sitta i porten. Får du en siffra runt 50–60 MB/s på ett USB-minne: <b>kontrollera porten innan du skyller på minnet</b>. Det är felsökning, och det hör hemma i rapportens felsökningsavsnitt.</p>
+
+    <h3>En SSD saknar rörliga delar, men inte begränsningar</h3>
+    <p>Ingen mekanik betyder ingen sökning och ingen rotationsfördröjning. Men en använd sida kan fortfarande inte skrivas över utan att blocket raderas, cellerna slits, och skräpinsamlingen kostar arbete i bakgrunden.</p>
+
+    <h2 id="noderna">6. Noderna att öva i</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vägen dit</th><th>Heter</th><th>Vad du ska se</th></tr></thead>
+        <tbody>
+          <tr><td>ComputerExplorer → storage → hdd-seek</td><td>Hårddisksökning</td><td>Klicka på sektorer och läs av söktid och rotationslatens i ms</td></tr>
+          <tr><td>ComputerExplorer → storage → ssd-blocks</td><td>SSD-skrivcykel</td><td>Uppdatera en fil och se den gamla sidan bli inaktuell, inte överskriven</td></tr>
+          <tr><td>ComputerExplorer → storage → nand-cell</td><td>NAND-flashcell</td><td>Elektronerna som stängs in bakom den flytande grinden</td></tr>
+          <tr><td>ComputerExplorer → storage → wear-levelling</td><td>Slitageutjämning</td><td>Varför skrivningarna sprids i stället för att hamna på samma plats</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Repetera inför prov 1</span>
+      <p>Gå till <b>ComputerExplorer → quiz</b> och välj ämnet <code>storage</code> eller <code>ram</code>. Frågorna ligger nära dem i övningshäftet.</p>
+    </div>
+
+    <h2 id="ordlista">7. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>HDD</b></td><td>Hard disk drive. Mekanisk hårddisk som lagrar data som magnetisering på roterande skivor</td></tr>
+          <tr><td><b>SSD</b></td><td>Solid state drive. Lagrar data i NAND-flashceller, helt utan rörliga delar</td></tr>
+          <tr><td><b>Icke-flyktig</b></td><td>Behåller sitt innehåll utan ström</td></tr>
+          <tr><td><b>Spår</b></td><td>En av de koncentriska cirklarna på en hårddiskskiva</td></tr>
+          <tr><td><b>Sektor</b></td><td>En bit av ett spår. Den minsta enhet disken läser eller skriver</td></tr>
+          <tr><td><b>Sökning</b></td><td>Seek time. Tiden det tar att flytta läshuvudet till rätt spår</td></tr>
+          <tr><td><b>Rotationsfördröjning</b></td><td>Tiden det tar för rätt sektor att rotera fram under huvudet</td></tr>
+          <tr><td><b>NAND-flash</b></td><td>Minnestypen i en SSD, där data lagras som instängd laddning</td></tr>
+          <tr><td><b>Flytande grind</b></td><td>Floating gate. Den isolerade ön i en flashcell där elektronerna stängs in</td></tr>
+          <tr><td><b>Sida</b></td><td>Den minsta enhet som kan skrivas i en SSD</td></tr>
+          <tr><td><b>Block</b></td><td>En grupp sidor. Den minsta enhet som kan raderas</td></tr>
+          <tr><td><b>Skräpinsamling</b></td><td>Städningen som flyttar undan giltiga sidor och raderar hela block</td></tr>
+          <tr><td><b>P/E-cykel</b></td><td>En programmering plus en radering. Varje block klarar ett begränsat antal</td></tr>
+          <tr><td><b>SATA</b></td><td>Bussen som binder lagringsenheter till moderkortet. SATA III klarar cirka 600 MB/s</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 3</a> · <a href="labb.html">Labb 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skrivaren och grafikkortet – Dator- och nätverksteknik område 5</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-5-skrivare">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Uppslag</strong> · Skrivaren och grafikkortet</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#lokal">1. Vad en lokal skrivare är</a></li>
+      <li><a href="#lagga-till">2. Lägga till skrivaren</a></li>
+      <li><a href="#kon">3. Utskriftskön</a></li>
+      <li><a href="#fastnat">4. När ett jobb fastnar</a></li>
+      <li><a href="#forbrukning">5. Förbrukningsvaran</a></li>
+      <li><a href="#panelen">6. Grafikkortets panel</a></li>
+      <li><a href="#sli">7. SLI och Crossfire</a></li>
+      <li><a href="#budget">8. Välja med begränsad budget</a></li>
+      <li><a href="#felsokning">9. Felsökning</a></li>
+      <li><a href="#ordlista">10. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 5 · lektion 20</p>
+    <h1>Skrivaren och grafikkortet</h1>
+    <p class="inledning">Områdets sista arbetspass. Två saker ska bli klara: en skrivare som går att skriva ut på och underhålla, och grafikkortets inställningar som annars ligger kvar på fabriksvärden. Allt du gör i dag ska in i labb 5.</p>
+
+    <h2 id="lokal">1. Vad en lokal skrivare är</h2>
+
+    <p>En <b>lokal skrivare</b> är en skrivare som den här datorn skriver till direkt — via USB-kabel eller över det lokala nätverket. Skillnaden mot en molntjänst är att inget lämnar skolan: jobbet går från maskinen till skrivaren.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Trådlöst är inte samma sak som moln</span>
+      <p>Skrivaren i salen sitter på <b>WiFi</b> — och den är fortfarande en <b>lokal</b> skrivare. Utskriften går från din maskin till skrivaren på skolans eget nät och lämnar aldrig byggnaden.</p>
+      <p>Det som avgör är alltså <b>vart utskriften går</b>, inte om det finns en kabel. Hade jobbet gått via en tjänst på internet hade det varit något annat.</p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Att det går att skriva ut betyder inte att skrivaren är rätt installerad</span>
+      <p>Det betyder att den <b>enklaste vägen</b> fungerade. Windows generiska drivrutin räcker för att få ut ett papper. Dubbelsidig utskrift, val av pappersfack och nivån i förbrukningsvaran sitter i <b>tillverkarens</b> drivrutin.</p>
+      <p>Brother delar upp det på sin supportsida: ett <b>fullständigt drivrutins- och programpaket</b>, och en enklare drivrutin. Det är paketet som ger statusövervakningen där tonernivån syns.</p>
+      <p>Det är drivrutinen som avgör vilka funktioner som blir tillgängliga — inte att kabeln sitter i.</p>
+    </div>
+
+    <h2 id="lagga-till">2. Lägga till skrivaren</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Anslutning</th><th>Så läggs den till</th><th>Vad som brukar strula</th></tr></thead>
+        <tbody>
+          <tr><td><b>Nätverk (WiFi)</b><br><small>salens huvudväg</small></td><td><i>Inställningar</i> → <i>Bluetooth och enheter</i> → <i>Skrivare och skannrar</i> → <i>Lägg till enhet</i>. Hittas den inte: <i>Lägg till manuellt</i> och ange skrivarens IP-adress</td><td>Skrivaren hittas inte automatiskt. Då behövs IP-adressen — den står i skrivarens egen nätverksrapport</td></tr>
+          <tr><td><b>USB</b><br><small>jämförelsen</small></td><td>Koppla in kabeln. Windows hittar den oftast själv och hämtar en drivrutin</td><td>Den generiska drivrutinen ger utskrift men inte tillverkarens funktioner</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">IP-adressen läser du ur skrivaren själv</span>
+      <p>Brother-skrivare kan skriva ut en <b>nätverkskonfigurationsrapport</b> från sin egen panel. Där står adressen. Utskriften ligger vid skrivaren — hämta adressen där i stället för att fråga.</p>
+    </div>
+
+    <p>Den klassiska vyn, som ofta är lättare att arbeta i, nås med:</p>
+
+    <pre><code>control printers</code></pre>
+
+    <div class="notis viktig">
+      <span class="rubrik">Samma skrivare, två vägar in</span>
+      <p>Salens skrivare klarar <b>båda</b> anslutningarna. Blir ni klara med dagens fyra moment: lägg till den över USB också, och skriv ner vad som skilde. Dök den upp av sig själv? Blev det en till post i skrivarlistan? Ser utskriftsinställningarna likadana ut?</p>
+      <p>Samma skrivare, samma drivrutin, samma kö — men två olika vägar dit. Den jämförelsen är material på A-nivå, och den kostar fem minuter.</p>
+    </div>
+
+    <h2 id="kon">3. Utskriftskön</h2>
+
+    <p><b>Utskriftskön</b> är där jobben ligger på väg till skrivaren. Dubbelklicka på skrivaren för att öppna den, och skicka sedan ett jobb <b>medan kön är synlig</b>. Jobbet dyker upp, byter status, och försvinner.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Skärmdumpen måste tas medan jobbet är där</span>
+      <p>Labb 5 kräver att utskriftskön dokumenteras. <b>Kön syns bara medan jobbet ligger i den.</b> Gick jobbet igenom direkt: skicka ett till och ta bilden då. En tom kö bevisar ingenting.</p>
+    </div>
+
+    <h2 id="fastnat">4. När ett jobb fastnar</h2>
+
+    <p>Ett jobb som fastnat blockerar kön: allt som skickas efteråt lägger sig bakom och ingenting kommer ut. Tre steg, i den här ordningen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Gör</th><th>När det räcker</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td>Markera jobbet i kön, högerklick, <i>Avbryt</i></td><td>Oftast. Prova alltid detta först</td></tr>
+          <tr><td><b>2</b></td><td>Starta om tjänsten <b>Utskriftshanteraren</b> (<i>Print Spooler</i>): <code>services.msc</code> → hitta tjänsten → <i>Starta om</i></td><td>När jobbet står kvar som "Tar bort" och inte försvinner</td></tr>
+          <tr><td><b>3</b></td><td>Med tjänsten stoppad: töm mappen nedan, starta tjänsten igen</td><td>När steg 2 inte hjälper</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <pre><code>C:\Windows\System32\spool\PRINTERS</code></pre>
+
+    <div class="notis viktig">
+      <span class="rubrik">Varför tre steg och inte ett</span>
+      <p>Kön är <b>filer i en mapp och en tjänst som betar av dem.</b> Slutar tjänsten fungera hjälper det inte att trycka avbryt i ett fönster — knappen ber tjänsten göra något, och tjänsten svarar inte.</p>
+      <p>Det är också svaret på frågan "varför räckte det inte att avbryta?", som hör hemma i labbrapportens felsökningsavsnitt.</p>
+    </div>
+
+    <p>Och när utskriften strular utan att kön säger något: <b>uppdatera skrivarens drivrutin.</b> Samma metod som på lektion 19, samma två vägar.</p>
+
+    <h2 id="forbrukning">5. Förbrukningsvaran</h2>
+
+    <p><b>Förbrukningsvara</b> är det som tar slut och behöver fyllas på: toner i en laserskrivare, bläck i en bläckstråleskrivare, och papper i båda. Nivån syns i skrivarens egen display eller i tillverkarens program på datorn.</p>
+
+    <p>Att kontrollera nivån är en del av underhållet och ett krav i labb 5. Skriv upp vad du läste av.</p>
+
+    <h2 id="panelen">6. Grafikkortets panel</h2>
+
+    <p>Salens maskiner har <b>NVIDIA</b>-kort, så panelen heter <b>NVIDIA Kontrollpanel</b>. Andra fabrikat har sina egna — AMD Software: Adrenalin Edition och Intel Graphics Command Center — men de gör samma sak.</p>
+
+    <div class="notis">
+      <span class="rubrik">Vägen in är inte självklar i Windows 11</span>
+      <p>Högerklicka på skrivbordet. Ligger inte <i>NVIDIA Kontrollpanel</i> i menyn som visas, klicka <b>Visa fler alternativ</b> — Windows 11 kortar ner högerklicksmenyn och lägger äldre poster där. Den går också att söka fram från Start.</p>
+    </div>
+
+    <p>Fem steg:</p>
+
+    <ol>
+      <li>Öppna NVIDIA Kontrollpanel</li>
+      <li>Gå till <b>Bildskärm → Ändra upplösning</b>. Både upplösning och uppdateringsfrekvens ligger i den vyn</li>
+      <li>Läs av vad som är inställt nu, och vad listan erbjuder — det senare är vad skärmen och kabeln klarar</li>
+      <li><b>Ändra en inställning</b>, se vad som händer, och ta en skärmdump</li>
+      <li>Ställ tillbaka om ändringen gör skärmen svår att använda</li>
+    </ol>
+
+    <p><b>Panelen följer med drivrutinen.</b> Hittar du den inte alls har maskinen sannolikt bara Windows egen grafikdrivrutin installerad — och det är i sig ett resultat värt att skriva upp, kopplat till skillnaden mellan generiska drivrutiner och tillverkarens.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Uppdateringsfrekvensen är den intressanta</span>
+      <p><b>Uppdateringsfrekvens</b> är hur många gånger per sekund skärmen ritas om, mätt i hertz (Hz). En skärm som klarar 120 eller 144 Hz körs ofta i 60 Hz — för att ingen har ändrat det.</p>
+      <p>Fabriksvärdet är inte alltid det bästa värdet. Det är det värde som är <b>säkert att alla skärmar klarar</b>. Det är skillnaden, och den är värd att skriva i rapporten.</p>
+    </div>
+
+    <p>Går panelen inte att öppna finns samma två inställningar i Windows egen väg: <i>Inställningar</i> → <i>System</i> → <i>Bildskärm</i> → <i>Avancerad bildskärm</i>. Det är ett giltigt resultat att dokumentera, med noteringen att panelen saknades och varför.</p>
+
+    <h2 id="sli">7. SLI och Crossfire</h2>
+
+    <p><b>SLI</b> (Nvidia) och <b>CrossFire</b> (AMD) är tekniker för att koppla samman två eller flera grafikkort i samma dator så att de delar på arbetet.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Tekniken prövades under 2010-talet och övergavs sedan</span>
+      <p>Nvidia har successivt fasat ut stödet för SLI, och AMD har slopat varumärket CrossFire. <b>I nya persondatorer förekommer det inte.</b></p>
+      <p>Varför det inte höll: dubbla kort gav långt ifrån dubbel prestanda, bilden kunde bli ojämn även när antalet bildrutor ökade, och varje spel behövde stödja tekniken särskilt — vilket allt färre gjorde. Två kort kostade dubbelt, drog dubbelt så mycket ström och krävde ett nätaggregat och ett moderkort som klarade dem.</p>
+    </div>
+
+    <p>Ett fullständigt svar på frågan säger alltså <b>både vad tekniken var och varför den inte används längre</b>. Många källor på nätet är äldre och beskriver tekniken i presens — det är den vanligaste fällan här.</p>
+
+    <h2 id="budget">8. Välja med begränsad budget</h2>
+
+    <p>Att välja processor och grafikkort med en begränsad budget knyter ihop tre områden. Ett fullständigt svar nämner alla tre:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kontroll</th><th>Varifrån</th><th>Vad som händer annars</th></tr></thead>
+        <tbody>
+          <tr><td><b>Processorn mot moderkortets sockel</b></td><td>Område 2</td><td>Den passar inte fysiskt. Pengarna är slösade</td></tr>
+          <tr><td><b>Grafikkortets effektbehov mot nätaggregatet</b></td><td>Område 4</td><td>Maskinen startar inte, eller stänger av sig under belastning</td></tr>
+          <tr><td><b>Balansen mellan delarna</b></td><td>Område 5</td><td>En mycket dyr processor med ett svagt grafikkort ger inte mer i spel. Den ena får vänta på den andra</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="felsokning">9. Felsökning</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: kö, skrivare, panel, upplösning" autocomplete="off">
+      <p class="traffar" id="traffar-fel">10 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Jobbet står kvar som "Tar bort" och försvinner inte</td><td>Utskriftshanteraren har hängt sig</td><td>Steg 2: starta om tjänsten i <code>services.msc</code>. Hjälper inte det, töm spool-mappen med tjänsten stoppad</td></tr>
+          <tr><td>Ingenting skrivs ut, men kön ser tom ut</td><td>Skrivaren är avstängd, urkopplad eller offline</td><td>Kontrollera ström och kabel. Högerklick på skrivaren → ta bort bocken vid "Använd skrivaren offline"</td></tr>
+          <tr><td>Skrivaren hittas inte vid <i>Lägg till enhet</i></td><td>Den automatiska sökningen når inte alltid över nätet</td><td>Lägg till manuellt med IP-adressen. Den står i skrivarens egen nätverkskonfigurationsrapport, som ligger utskriven vid skrivaren</td></tr>
+          <tr><td>IP-adressen på tavlan fungerar inte</td><td>Skrivaren har fått en ny adress av nätet</td><td>Skriv ut nätverkskonfigurationsrapporten från skrivarens panel igen och läs av den aktuella adressen</td></tr>
+          <tr><td>Utskriften kommer ut men saknar funktioner du väntade dig</td><td>Windows generiska drivrutin används</td><td>Hämta Brothers fullständiga drivrutins- och programpaket. Det är det som ger dubbelsidigt, pappersfack och nivån i förbrukningsvaran</td></tr>
+          <tr><td>NVIDIA Kontrollpanel syns inte när du högerklickar</td><td>Windows 11 kortar ner högerklicksmenyn</td><td>Klicka <i>Visa fler alternativ</i>. Ligger den inte där heller: sök fram den från Start</td></tr>
+          <tr><td>Ingen skärmdump på utskriftskön i rapporten</td><td>Jobbet gick igenom och kön tömdes</td><td>Skicka ett jobb till och ta bilden medan det ligger där</td></tr>
+          <tr><td>NVIDIA Kontrollpanel finns inte alls på maskinen</td><td>Bara Windows egen grafikdrivrutin är installerad</td><td>Det är ett giltigt resultat. Använd Inställningar → System → Bildskärm → Avancerad bildskärm, och skriv att panelen saknades och varför</td></tr>
+          <tr><td>Skärmen blir svart eller oläslig efter ändrad upplösning</td><td>Ett värde skärmen inte klarar</td><td>Rör ingenting. Windows ställer tillbaka av sig själv efter cirka femton sekunder om du inte bekräftar</td></tr>
+          <tr><td>Uppdateringsfrekvensen går inte att höja</td><td>Kabeln eller porten begränsar, eller skärmen klarar inte mer</td><td>Kontrollera vad skärmen klarar. DisplayPort klarar oftare höga frekvenser än en äldre HDMI-kabel</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">10. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Lokal skrivare</b></td><td>En skrivare datorn skriver till direkt, via USB eller det lokala nätverket. Trådlöst räknas som lokalt — det som avgör är att utskriften stannar på skolans nät</td></tr>
+          <tr><td><b>Nätverkskonfigurationsrapport</b></td><td>En sida skrivaren skriver ut om sig själv, med bland annat sin IP-adress</td></tr>
+          <tr><td><b>Utskriftskö</b></td><td>Där utskriftsjobben ligger på väg till skrivaren</td></tr>
+          <tr><td><b>Utskriftshanteraren</b></td><td>Print Spooler. Tjänsten som tar emot jobben och skickar dem vidare till skrivaren</td></tr>
+          <tr><td><b>Förbrukningsvara</b></td><td>Det som tar slut och behöver fyllas på: toner, bläck, papper</td></tr>
+          <tr><td><b>Toner</b></td><td>Det färgpulver en laserskrivare skriver med</td></tr>
+          <tr><td><b>Upplösning</b></td><td>Hur många bildpunkter skärmen visar, till exempel 1920×1080</td></tr>
+          <tr><td><b>Uppdateringsfrekvens</b></td><td>Hur många gånger per sekund skärmen ritas om, mätt i hertz (Hz)</td></tr>
+          <tr><td><b>SLI</b></td><td>Nvidias teknik för att koppla samman flera grafikkort. Utfasad</td></tr>
+          <tr><td><b>CrossFire</b></td><td>AMD:s motsvarighet till SLI. Varumärket är slopat</td></tr>
+          <tr><td><b>Flaskhals</b></td><td>Den del som begränsar helheten — den de andra får vänta på</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 5</a> · <a href="labb.html">Labb 5</a> · <a href="kringutrustning.html">Drivrutiner och portar</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

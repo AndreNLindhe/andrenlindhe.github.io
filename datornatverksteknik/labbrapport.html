@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Labbrapportmall – Dator- och nätverksteknik</title>
+  <link rel="stylesheet" href="stil.css">
+<style>
+  /* ---------- Rapportens egna delar ----------
+     Sidan ska fungera på två sätt: utskriven tom och ifylld för hand, eller
+     ifylld på skärm och utskriven sedan. Skrivfälten är därför contenteditable
+     med en min-höjd som räcker till en handskriven text, och linjer i
+     bakgrunden. Linjerna ritas med print-color-adjust: exact så att de följer
+     med i utskriften - men ramen runt fältet är en riktig border, så att
+     utrymmet syns även om webbläsaren struntar i bakgrundsgrafik. */
+
+  .huvud {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem 1.6rem;
+    margin: 1.5rem 0 2rem;
+  }
+  .huvud .falt { display: flex; align-items: baseline; gap: 0.6rem; }
+  .huvud .etikett {
+    flex: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--dov);
+    letter-spacing: 0.02em;
+  }
+  .huvud .rad {
+    flex: 1;
+    min-height: 1.6em;
+    border-bottom: 1px solid var(--linje-stark);
+    padding: 0 0.3em;
+  }
+
+  .del {
+    margin: 0 0 1.8rem;
+    break-inside: avoid;
+  }
+  .del > h2 {
+    margin: 0 0 0.3rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+  .del > h2 .nr {
+    flex: none;
+    font-variant-numeric: tabular-nums;
+    color: var(--webb);
+  }
+  .del .ledning {
+    margin: 0 0 0.7rem;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: var(--dov);
+    max-width: var(--las);
+  }
+  .del .ledning b { color: var(--text); }
+
+  .skrivfalt {
+    border: 1px solid var(--linje-stark);
+    border-radius: 4px;
+    padding: 0.5rem 0.7rem;
+    line-height: 1.9rem;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 1.9rem,
+      var(--linje) 1.9rem,
+      var(--linje) calc(1.9rem + 1px)
+    );
+    background-position: 0 0.45rem;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .skrivfalt:focus { outline: 2px solid var(--webb); outline-offset: 1px; }
+  .skrivfalt.stor { min-height: 11.4rem; }   /* 6 rader */
+  .skrivfalt.medel { min-height: 7.6rem; }   /* 4 rader */
+
+  /* ---------- Källtabellen ---------- */
+
+  table.kallor { width: 100%; border-collapse: collapse; margin-top: 0.3rem; }
+  table.kallor th, table.kallor td {
+    border: 1px solid var(--linje-stark);
+    padding: 0.45rem 0.6rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  table.kallor th {
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--dov);
+    font-weight: 640;
+  }
+  table.kallor td { min-height: 1.8em; line-height: 1.7; }
+  table.kallor col.sprak { width: 9rem; }
+  table.kallor td:focus { outline: 2px solid var(--webb); outline-offset: -2px; }
+
+  /* ---------- Knapparna ---------- */
+
+  .verktyg {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+    margin: 1.2rem 0 0;
+  }
+  .verktyg .sparat {
+    font-size: 0.85rem;
+    color: var(--dov);
+  }
+
+  /* ---------- Utskrift ----------
+     stil.css döljer redan topp, innehållsmeny, sök och träning i print.
+     Här läggs det som är den här sidans eget. */
+
+  @media print {
+    @page { size: A4; margin: 14mm 15mm; }
+
+    .verktyg, .skarmnot { display: none; }
+
+    /* Fälten ska ha kvar sin ram och sina linjer på papper. */
+    .skrivfalt {
+      border: 1px solid #999;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 1.9rem,
+        #ddd 1.9rem,
+        #ddd calc(1.9rem + 1px)
+      );
+    }
+    .huvud .rad { border-bottom: 1px solid #999; }
+    table.kallor th, table.kallor td { border: 1px solid #999; }
+
+    .del { break-inside: avoid; }
+    h1 { margin-top: 0; }
+
+    /* .tabellsvep har overflow-x: auto. Källtabellen är smal nog att aldrig
+       svämma över, men overflow kan klippa i utskrift - nollställ det. */
+    .tabellsvep { overflow: visible; }
+
+    /* Checklistan hör till sista sidan, inte mitt i en del. */
+    .checklista { break-before: page; }
+  }
+</style>
+</head>
+<body data-nyckel="datnat-labbrapport">
+
+<header class="topp">
+  <a href="index.html">← Kursen</a>
+  <span class="harifran"><strong>Mall</strong> · Labbrapport</span>
+  <a href="#checklista">Checklistan</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · mall för alla labbrapporter</p>
+    <h1>Labbrapport</h1>
+    <p class="inledning">Rapporten har samma fem delar i alla nio labbar. Fyll i den här sidan på skärmen och skriv ut den, eller skriv ut den tom och fyll i för hand — den är gjord för båda.</p>
+
+    <div class="notis skarmnot">
+      <span class="rubrik">Det du skriver sparas bara i din egen webbläsare</span>
+      <p>Texten ligger kvar om du stänger fliken och kommer tillbaka på samma dator. Men den <b>skickas ingenstans och är inte inlämnad</b> — och den försvinner om du byter dator eller rensar webbläsaren. <b>Skriv ut eller kopiera över texten när du är klar.</b></p>
+    </div>
+
+    <div class="huvud">
+      <div class="falt"><span class="etikett">Labb nr</span><span class="rad" contenteditable="true" data-f="labbnr"></span></div>
+      <div class="falt"><span class="etikett">Område</span><span class="rad" contenteditable="true" data-f="omrade"></span></div>
+      <div class="falt"><span class="etikett">Labbens namn</span><span class="rad" contenteditable="true" data-f="labbnamn"></span></div>
+      <div class="falt"><span class="etikett">Datum</span><span class="rad" contenteditable="true" data-f="datum"></span></div>
+      <div class="falt"><span class="etikett">Namn</span><span class="rad" contenteditable="true" data-f="namn"></span></div>
+      <div class="falt"><span class="etikett">Labbpartner</span><span class="rad" contenteditable="true" data-f="partner"></span></div>
+    </div>
+
+    <section class="del">
+      <h2><span class="nr">1.</span> Planering</h2>
+      <p class="ledning">Vad ska göras, vilken utrustning behövs och vilka risker finns — och hur hanteras de. <b>Skrivs innan arbetet börjar.</b></p>
+      <div class="skrivfalt stor" contenteditable="true" data-f="planering"></div>
+    </section>
+
+    <section class="del">
+      <h2><span class="nr">2.</span> Utförande</h2>
+      <p class="ledning">Vad du faktiskt gjorde, steg för steg, i den ordning det hände. <b>Någon som inte var där ska kunna följa stegen och komma till samma resultat.</b> Skriv i dåtid.</p>
+      <div class="skrivfalt stor" contenteditable="true" data-f="utforande"></div>
+    </section>
+
+    <section class="del">
+      <h2><span class="nr">3.</span> Resultat</h2>
+      <p class="ledning">Fungerar det, och hur vet du det? Mätvärden, skärmbilder eller verifieringskommandon — <b>ett bevis, inte ett påstående</b>. Resultatet ska gå att kontrollera av någon som inte var i rummet.</p>
+      <div class="skrivfalt stor" contenteditable="true" data-f="resultat"></div>
+    </section>
+
+    <section class="del">
+      <h2><span class="nr">4.</span> Felsökning</h2>
+      <p class="ledning">Vad gick fel och hur löste du det — <b>orsak och åtgärd, inte bara symtomet</b>. Gick inget fel: skriv vad du kontrollerade för att vara säker på det. Avsnittet lämnas aldrig tomt.</p>
+      <div class="skrivfalt medel" contenteditable="true" data-f="felsokning"></div>
+    </section>
+
+    <section class="del">
+      <h2><span class="nr">5.</span> Källor</h2>
+      <p class="ledning">Varje manual, instruktion och sida du använt — <b>med språket angivet</b>. Kursen kräver att du kan använda dokumentation på både svenska och engelska, och det syns bara om du skriver ut det. <b>Har du ingen engelskspråkig källa har du sannolikt inte varit på tillverkarens sida.</b></p>
+      <div class="tabellsvep">
+      <table class="kallor">
+        <colgroup><col><col class="sprak"></colgroup>
+        <thead><tr><th>Källa</th><th>Språk</th></tr></thead>
+        <tbody>
+          <tr><td contenteditable="true" data-f="k1"></td><td contenteditable="true" data-f="k1s"></td></tr>
+          <tr><td contenteditable="true" data-f="k2"></td><td contenteditable="true" data-f="k2s"></td></tr>
+          <tr><td contenteditable="true" data-f="k3"></td><td contenteditable="true" data-f="k3s"></td></tr>
+          <tr><td contenteditable="true" data-f="k4"></td><td contenteditable="true" data-f="k4s"></td></tr>
+          <tr><td contenteditable="true" data-f="k5"></td><td contenteditable="true" data-f="k5s"></td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <section class="kravblock checklista" data-niva="ska" id="checklista">
+      <div class="huvud" style="display:block;margin:0">
+        <h2 style="margin:0 0 0.6rem">Innan du lämnar in</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ut-1"><span>Alla fem delar är ifyllda, i ordningen ovan</span></label></li>
+        <li><label><input type="checkbox" id="ut-2"><span>Labbpartnerns namn står överst</span></label></li>
+        <li><label><input type="checkbox" id="ut-3"><span>Planeringen skrevs <b>innan</b> arbetet började</span></label></li>
+        <li><label><input type="checkbox" id="ut-4"><span>Resultatdelen innehåller ett <b>verifierbart bevis</b>, inte bara ett påstående</span></label></li>
+        <li><label><input type="checkbox" id="ut-5"><span>Felsökningen säger vad som gick fel <b>eller</b> vad som kontrollerades</span></label></li>
+        <li><label><input type="checkbox" id="ut-6"><span>Varje källa har <b>sitt språk angivet</b></span></label></li>
+        <li><label><input type="checkbox" id="ut-7"><span>Minst en källa är på engelska</span></label></li>
+        <li><label><input type="checkbox" id="ut-8"><span>Rapporten är min egen text, inte partnerns</span></label></li>
+        <li><label><input type="checkbox" id="ut-9"><span>Inlämnad senast angiven deadline — vanligen onsdag 23:59</span></label></li>
+      </ul>
+    </section>
+
+    <div class="verktyg">
+      <button type="button" class="knapp" id="skriv-ut">Skriv ut</button>
+      <button type="button" class="knapp tom" id="tomma">Töm mallen</button>
+      <span class="sparat" id="sparat-nu"></span>
+    </div>
+
+    <div class="notis skarmnot">
+      <span class="rubrik">Kraven skiljer sig mellan labbarna</span>
+      <p>De fem delarna är samma varje gång, men <b>vad som ska stå i dem</b> står på labbens egen sida. Där finns också ska-, bör- och utmaningskraven för E, C och A.</p>
+      <p><a href="omrade-2/labb.html">Labb 2</a> · <a href="omrade-3/labb.html">Labb 3</a> · <a href="omrade-4/labb.html">Labb 4</a> · <a href="omrade-5/labb.html">Labb 5</a></p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till kursens startsida</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="paket.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  /* Fälten sparas under sidans egen nyckel, skild från kryssrutornas som
+     paket.js sköter. localStorage kan vara avstängt - allt går i try/catch. */
+  var NYCKEL = "elevpaket:datnat-labbrapport-text";
+  var falt = document.querySelectorAll("[data-f]");
+  var status = document.getElementById("sparat-nu");
+  var sparat = {};
+
+  try { sparat = JSON.parse(localStorage.getItem(NYCKEL) || "{}"); } catch (e) { sparat = {}; }
+
+  Array.prototype.forEach.call(falt, function (f) {
+    var n = f.dataset.f;
+    if (sparat[n]) { f.textContent = sparat[n]; }
+    f.addEventListener("input", function () {
+      sparat[n] = f.textContent;
+      try {
+        localStorage.setItem(NYCKEL, JSON.stringify(sparat));
+        visa("Sparat i din webbläsare");
+      } catch (e) {
+        visa("Kunde inte spara — skriv ut innan du stänger");
+      }
+    });
+    /* Klistra in som ren text. Annars följer formatering med från Word och
+       spräcker utskriften. */
+    f.addEventListener("paste", function (e) {
+      e.preventDefault();
+      var text = (e.clipboardData || window.clipboardData).getData("text");
+      document.execCommand("insertText", false, text);
+    });
+  });
+
+  var timer = null;
+  function visa(text) {
+    if (!status) { return; }
+    status.textContent = text;
+    clearTimeout(timer);
+    timer = setTimeout(function () { status.textContent = ""; }, 2500);
+  }
+
+  var ut = document.getElementById("skriv-ut");
+  if (ut) { ut.addEventListener("click", function () { window.print(); }); }
+
+  var tom = document.getElementById("tomma");
+  if (tom) {
+    tom.addEventListener("click", function () {
+      if (!window.confirm("Tömma alla fält? Det du skrivit försvinner.")) { return; }
+      Array.prototype.forEach.call(falt, function (f) { f.textContent = ""; });
+      sparat = {};
+      try { localStorage.removeItem(NYCKEL); } catch (e) {}
+      visa("Mallen är tömd");
+    });
+  }
+})();
+</script>
+</body>
+</html>

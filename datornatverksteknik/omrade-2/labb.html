@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Labb 2: Moderkortet kartlagt – Dator- och nätverksteknik område 2</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-2-labb">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Labb 2</strong> · Moderkortet kartlagt</span>
+  <a href="#checklista">Checklista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppgiften">1. Uppgiften</a></li>
+      <li><a href="#par">2. Ni delar kort, inte rapport</a></li>
+      <li><a href="#vaxer">3. Så växer rapporten fram</a></li>
+      <li><a href="#delarna">4. De fem delarna</a></li>
+      <li><a href="#bedomning">5. Bedömning</a></li>
+      <li><a href="#krav">6. Kryssa av</a></li>
+      <li><a href="#misstag">7. Vanliga misstag</a></li>
+      <li><a href="#checklista">8. Innan du lämnar in</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 2 · kursens första labbrapport</p>
+    <h1>Labb 2: Moderkortet kartlagt</h1>
+    <p class="inledning">Du kartlägger ett riktigt moderkort — namnger delarna, fotograferar dem, och beskriver vilken buss som förbinder vad och hur snabb den är. Det är den första av kursens nio labbrapporter, och den form du lär dig här följer med genom hela året.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Deadline: onsdag 16 september kl 23:59</span>
+      <p>Rapporten skrivs inte kvällen innan. Den byggs under alla fyra passen i området — se avsnitt 3.</p>
+    </div>
+
+    <h2 id="uppgiften">1. Uppgiften</h2>
+    <p>På kortet ska du hitta och namnge:</p>
+    <ul>
+      <li><b>sockeln</b> som håller processorn</li>
+      <li><b>minnesplatserna</b> för RAM-minnet</li>
+      <li><b>expansionsplatserna</b> — PCIe x16 och M.2</li>
+      <li><b>kontakterna</b> — 24-pin och processorns strömkontakt, SATA, frontpanel, USB och fläktkontakter</li>
+      <li><b>kretsarna</b> — chipsetet, CMOS-batteriet och BIOS-kretsen</li>
+    </ul>
+
+    <p>Sedan beskriver du <b>vilken buss som förbinder vad, och med vilken prestanda</b>: vilken buss som går till grafikkortet, vilken till lagringen, vilken ut genom bakpanelen.</p>
+
+    <p>Allt dokumenteras med <b>egna fotografier</b> av kortet, där varje del är namngiven i bildtext.</p>
+
+    <p>Behöver du repetera vad delarna heter: <a href="moderkortet.html">Moderkortet, del för del</a>. Bussarna och deras hastigheter: <a href="bussarna.html">Bussarna och processorerna</a>.</p>
+
+    <h2 id="par">2. Ni delar kort, inte rapport</h2>
+    <p>Ett moderkort per par. Ni fotograferar samma kort och får använda samma bilder. <b>Men var och en skriver sin egen rapport.</b></p>
+
+    <p>Det är inte en formalitet: dokumentationen bedöms individuellt i alla tre betygsstegen, och en rapport som två personer skrivit tillsammans går inte att sätta ett betyg på.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Får delas</th><th>Ska vara ditt eget</th></tr></thead>
+        <tbody>
+          <tr><td>Moderkortet</td><td>Bildtexterna</td></tr>
+          <tr><td>Fotografierna</td><td>Alla fem delarna i rapporten</td></tr>
+          <tr><td>Vad ni mätte och läste er till</td><td>Formuleringarna, källförteckningen och felsökningsavsnittet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Skriv din labbpartners namn i fältet överst i mallen. Det gör delningen synlig i stället för underförstådd.</p>
+
+    <h2 id="vaxer">3. Så växer rapporten fram</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Datum</th><th>Vad du fyller i</th></tr></thead>
+        <tbody>
+          <tr><td><b>5</b></td><td>mån 7/9</td><td><b>Planeringen.</b> Vilket kort, vilka delar som ska synas i varje bild, i vilken ordning. Kortet delas ut och fotograferas första gången</td></tr>
+          <tr><td><b>6</b></td><td>tis 8/9</td><td><b>Utförandet.</b> Fotograferingen görs klar, bilderna klistras in med varje del namngiven i bildtext</td></tr>
+          <tr><td><b>7</b></td><td>mån 14/9</td><td><b>Resultatet.</b> Bussarna märks ut på kortet och deras bandbredd skrivs in</td></tr>
+          <tr><td><b>8</b></td><td>tis 15/9</td><td><b>Felsökningen och källorna.</b> Rapporten görs klar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Halkar du efter?</span>
+      <p><b>Planeringen från pass 5 är den enda delen som verkligen måste vara klar i tid</b>, eftersom resten bygger på den. Moderkorten samlas in efter pass 8 — allt som kräver att du ser kortet måste alltså vara gjort då.</p>
+    </div>
+
+    <h2 id="delarna">4. De fem delarna</h2>
+
+    <h3>1. Planering</h3>
+    <p>Skrivs <b>innan</b> du plockar fram kameran.</p>
+    <ul>
+      <li>Vilket moderkort ni fick. <b>Modellnamnet står tryckt på kortet</b>, oftast mellan sockeln och minnesplatserna. Skriv av det exakt — du behöver det i källdelen</li>
+      <li>Vilka delar som ska synas i vilken bild, och i vilken ordning ni fotograferar</li>
+      <li>Vilken utrustning ni behöver</li>
+      <li><b>Vilken säkerhetsåtgärd som gäller.</b> Kortet är ett löst kretskort utanför sitt chassi — ESD-armbandet och kantregeln gäller fullt ut, och det ska stå i planeringen, inte bara göras</li>
+    </ul>
+
+    <h3>2. Utförande</h3>
+    <p>Vad ni faktiskt gjorde, i den ordning det hände. Skrivs i dåtid.</p>
+    <p>Bilderna hör hemma här, <b>med varje del namngiven i bildtext</b>. En bild utan bildtext visar bara att någon höll i en kamera — bildtexten är det som visar att du vet vad du fotograferat.</p>
+    <p>Blev ordningen en annan än planeringen sa? Skriv den ordning det faktiskt blev. Det är hela skillnaden mellan del 1 och del 2.</p>
+
+    <h3>3. Resultat</h3>
+    <p>Här bor bussarna. För varje buss:</p>
+    <ul>
+      <li><b>vad den förbinder</b> — sockeln med expansionsplatsen, kortet med lagringen, kortet med omvärlden</li>
+      <li><b>vilken prestanda den har</b>, med enhet</li>
+    </ul>
+    <p>Minst tre rader: PCIe till grafikkortsplatsen, SATA till lagringen, och USB eller Ethernet ut genom bakpanelen. En tabell är rätt form.</p>
+
+    <h3>4. Felsökning</h3>
+    <p>Ingenting går sönder i den här labben, och det är just därför avsnittet är svårast den här gången.</p>
+    <p>Gick inget fel: <b>skriv vad du kontrollerade för att vara säker på det.</b> Frågor som alltid ger ett svar:</p>
+    <ul>
+      <li>Var det svårt att avgöra vilken plats som var x16 och vilken som var x1? Hur avgjorde ni?</li>
+      <li>Hittade ni SATA-kontakterna direkt, eller förväxlade ni dem med frontpanelen först?</li>
+      <li>Var modellnamnet svårläst? Hur kontrollerade ni att ni läst rätt?</li>
+      <li>Vad slog ni upp i manualen just för att ni var osäkra?</li>
+    </ul>
+    <p>Att kontrollera något innan man skriver ner det <b>är</b> felsökning — bara tidigare. <i>"Inget gick fel"</i> utan motivering är inte ett godkänt svar.</p>
+
+    <h3>5. Källor</h3>
+    <p>Varje källa <b>med språk angivet</b>.</p>
+    <p>Den här labben har en självklar engelskspråkig källa: <b>moderkortets egen manual</b>. Sök på modellnamnet du skrev av i planeringen, på tillverkarens webbplats. Den finns nästan alltid som PDF och nästan aldrig på svenska.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Den vanligaste bristen i den här rapporten</span>
+      <p>Bara svenska källor. Har du inte hittat manualen har du med största sannolikhet inte letat efter den. Kursens betygskriterier kräver att du kan använda manualer på både svenska och engelska — och det syns bara om du skriver ut vilket språk varje källa är på.</p>
+    </div>
+
+    <h2 id="bedomning">5. Bedömning</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nivå</th><th>Vad som krävs</th></tr></thead>
+        <tbody>
+          <tr><td><b>E</b></td><td>Rapporten namnger sockel, minnesplatser, expansionsplatser, kontakter och kretsar på ert eget kort, och säger <b>översiktligt</b> vilken buss som förbinder vad. Du stämmer av med läraren <b>under arbetets gång</b>. Dokumentationen är enkel, men tillräcklig för att någon annan ska förstå vad ni gjort</td></tr>
+          <tr><td><b>C</b></td><td>Rapporten beskriver <b>utförligt</b> vad varje del gör, inte bara vad den heter, och anger bussarnas prestanda <b>med enhet</b>. Planeringsdelen är godkänd <b>innan</b> fotograferingen börjar, och du genomför den sedan självständigt. Moderkortets manual på engelska används utan handledning. Utförandet går att följa steg för steg</td></tr>
+          <tr><td><b>A</b></td><td>Utöver C: beskrivningen är <b>nyanserad</b> — den säger vad som gäller <i>ibland</i> och inte alltid. Dokumentationen är noggrann och utförlig, med <b>egna förbättringsförslag</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Skillnaden mellan E och C är inte hur mycket hjälp du får, utan <b>vem som äger planeringen</b>. På E stämmer du av medan du arbetar. På C planerar du färdigt först, får planen godkänd, och genomför den sedan.</p>
+
+    <h3>Vad "nyanserat" betyder på just det här kortet</h3>
+    <p>A-nivåns nyansering är inte mer text. Det är att skriva ut förbehållen. Tre som finns på nästan varje modernt moderkort:</p>
+    <ul>
+      <li>Den <b>andra</b> PCIe x16-platsen ser likadan ut som den första, men får ofta färre lanes — kontakten säger x16, kopplingen bakom kan vara x4</li>
+      <li>En <b>M.2-plats kan dela bandbredd med SATA-portar</b>: sätter du in en disk i den ena slutar den andra fungera. Vilka som delar står i manualen, inte på kortet</li>
+      <li><b>Chipsetets kylfläns liknar processorns</b>, men kyler något helt annat</li>
+    </ul>
+    <p>Skriver du ut ett av de tre, med källa, har du visat A-nivåns kvalitet.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Om betyget A i det här området</span>
+      <p><b>Ett fullständigt A går inte att nå genom hårdvarublocket.</b> A-kriteriet har en mening varken E eller C har — du ska redogöra för <i>sambandet mellan de olika delarna som ingår i nätverkets uppbyggnad</i> — och nätverket börjar först i område 8. Kriteriet prövas första gången i labb 10 och en sista gång i slutuppdraget.</p>
+      <p>Det du övar här är A-nivåns <b>kvaliteter</b>: nyansering och egna förbättringsförslag. Sitter de när kriteriet väl prövas är den delen redan avklarad. Du gör alltså inte något fel — det är så kursen är byggd.</p>
+    </div>
+
+    <h2 id="krav">6. Kryssa av</h2>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Alla fem delarna är ifyllda</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Sockel, minnesplatser, expansionsplatser, kontakter och kretsar är namngivna</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Varje bild har en bildtext</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Jag har sagt vilken buss som går till grafikkortet, lagringen och bakpanelen</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Jag skriver vad varje del <i>gör</i>, inte bara vad den heter</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Varje bandbredd har en enhet</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Jag fick planeringsdelen godkänd innan jag började fotografera</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Jag har använt moderkortets manual på engelska</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Jag har skrivit ut minst ett förbehåll — något som gäller ibland men inte alltid — med källa</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Jag har med ett eget förbättringsförslag</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="misstag">7. Vanliga misstag</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Misstaget</th><th>Vad du gör i stället</th></tr></thead>
+        <tbody>
+          <tr><td>Bildtexter saknas</td><td>Skriv dem samma pass som du tar bilden. Kortet lämnas kvar — minnet gör det inte</td></tr>
+          <tr><td>Bandbredd utan enhet</td><td>"PCIe är snabbast" är ett påstående. En siffra med enhet är ett resultat</td></tr>
+          <tr><td>Felsökningsavsnittet lämnas tomt</td><td>Svara på en av frågorna i avsnitt 4. De ger alltid något</td></tr>
+          <tr><td>Bara svenska källor</td><td>Sök på modellnamnet du skrev av. Manualen är på engelska</td></tr>
+          <tr><td>Modellnamnet avskrivet "på ett ungefär"</td><td>Det är söksträngen till manualen. Fel avskrift, ingen manual</td></tr>
+          <tr><td>Du och din partner lämnar in samma text</td><td>Två identiska rapporter är inte två godkända rapporter</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="checklista">8. Innan du lämnar in</h2>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="innan">Sista kontrollen</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="in-1"><span>Alla fem delar ifyllda, i ordningen ovan</span></label></li>
+        <li><label><input type="checkbox" id="in-2"><span>Labbpartnerns namn står överst</span></label></li>
+        <li><label><input type="checkbox" id="in-3"><span>Varje bild har en bildtext med delen namngiven</span></label></li>
+        <li><label><input type="checkbox" id="in-4"><span>Resultatdelen anger buss <b>och</b> prestanda med enhet</span></label></li>
+        <li><label><input type="checkbox" id="in-5"><span>Felsökningsavsnittet säger vad som gick fel <b>eller</b> vad som kontrollerades</span></label></li>
+        <li><label><input type="checkbox" id="in-6"><span>Minst en källa är moderkortets manual, och språket är angivet</span></label></li>
+        <li><label><input type="checkbox" id="in-7"><span>Rapporten är min egen text, inte partnerns</span></label></li>
+      </ul>
+    </section>
+
+    <footer class="fot">
+      <p><a href="../labbrapport.html">Labbrapportmall</a> · <a href="index.html">Tillbaka till område 2</a> · <a href="moderkortet.html">Moderkortet, del för del</a> · <a href="bussarna.html">Bussarna och processorerna</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

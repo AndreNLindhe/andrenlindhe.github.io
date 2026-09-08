@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Labb 5: Kringutrustning och drivrutiner – Dator- och nätverksteknik område 5</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-5-labb">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Uppgift</strong> · Labb 5: Kringutrustning och drivrutiner</span>
+  <a href="#kallorna">Källorna</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppgiften">1. Uppgiften</a></li>
+      <li><a href="#vaxer">2. Så växer rapporten</a></li>
+      <li><a href="#delarna">3. De fem delarna</a></li>
+      <li><a href="#bevisen">4. Bevis, inte påståenden</a></li>
+      <li><a href="#kallorna">5. Källorna — labbens tyngdpunkt</a></li>
+      <li><a href="#ska">6. Ska-krav</a></li>
+      <li><a href="#bor">7. Bör-krav</a></li>
+      <li><a href="#utmaning">8. Utmaning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 5 · kursens fjärde labbrapport</p>
+    <h1>Labb 5: Kringutrustning och drivrutiner</h1>
+    <p class="inledning">Du arbetar vidare på maskinen som fick sitt operativsystem på lektion 18. En skrivare installeras och underhålls, en kringenhet kopplas in, en drivrutin uppgraderas och grafikkortets inställningar öppnas. Och genom allt detta: varje källa du använt skrivs upp med sitt språk.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-11-04">
+        <span class="nar">4 nov</span>
+        <span class="vad">Labb 5 lämnas in kl 23:59
+          <small>Sista lektionstiden är tisdag 3/11. Det som återstår gör du på egen hand.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det som är nytt den här gången</span>
+      <p>Det ligger inte i det praktiska — att koppla in en enhet och installera en drivrutin är enklare än att bygga en dator. <b>Det nya ligger i källorna.</b> Varje manual och instruktion du använt ska stå i rapporten <b>med språket angivet</b>.</p>
+      <p>Det är ingen formalitet. Betygskriterierna kräver att du använder instruktioner och manualer på både svenska och engelska, och drivrutins- och skrivardokumentation är nästan alltid enbart på engelska. Den här labben är tillfället där det kravet prövas på riktigt.</p>
+    </div>
+
+    <h2 id="uppgiften">1. Uppgiften</h2>
+
+    <p>Fyra saker ska göras och dokumenteras:</p>
+
+    <ol>
+      <li><b>En lokal skrivare</b> installeras, används och underhålls</li>
+      <li><b>Minst en kringenhet till</b> kopplas in — mus, tangentbord, extern hårddisk, headset eller kamera — och dess drivrutin installeras, eller konstateras vara installerad automatiskt</li>
+      <li><b>En drivrutin uppgraderas</b>, med version antecknad <b>före och efter</b></li>
+      <li><b>Grafikkortets inställningar</b> öppnas och minst en inställning ändras och dokumenteras</li>
+    </ol>
+
+    <div class="notis">
+      <span class="rubrik">Par vid bänken, egen rapport</span>
+      <p>Ni arbetar <b>två och två</b> vid samma maskin och delar maskin, skrivare och fel. <b>Rapporten skriver var och en själv</b> — dokumentationen bedöms individuellt. Att ni gjorde samma sak är självklart; det är beskrivningen av vad ni gjorde och varför som ska vara din egen. Labbpartnerns namn står överst.</p>
+    </div>
+
+    <h2 id="vaxer">2. Så växer rapporten</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Vad som görs</th><th>Vad som förs in</th></tr></thead>
+        <tbody>
+          <tr><td><b>19</b> · mån 2/11</td><td>Kringenheten kopplas in. En drivrutin uppgraderas</td><td>Planeringen, och utförandet så långt. <b>Versionsnumren före och efter</b></td></tr>
+          <tr><td><b>20</b> · tis 3/11</td><td>Skrivaren installeras, används och underhålls. Grafikkortets panel öppnas</td><td>Resten av utförandet, resultatet, felsökningen och källorna</td></tr>
+          <tr><td><b>onsdag 4/11</b></td><td>—</td><td>Rapporten lämnas in senast 23:59</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Anteckna medan du arbetar, inte efteråt</span>
+      <p>Två saker går inte att rekonstruera på kvällen: <b>versionsnumret före uppgraderingen</b>, och <b>adressen till sidan du hämtade drivrutinen från</b>. Skriv upp båda medan fliken är öppen.</p>
+    </div>
+
+    <h2 id="delarna">3. De fem delarna</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad som ska stå där</th></tr></thead>
+        <tbody>
+          <tr><td><b>1. Planering</b></td><td>Vilken maskin, vilken kringenhet, vilket kort du tänker uppgradera. <b>Var du tänker hämta drivrutinen</b> — enhetshanteraren eller tillverkarens webbplats — och varför. Risker: en drivrutinsinstallation som misslyckas kan göra att en enhet slutar fungera tills den installeras om. Skrivs <i>innan</i> arbetet börjar</td></tr>
+          <tr><td><b>2. Utförande</b></td><td>Vad du faktiskt gjorde, steg för steg, i den ordning det hände. Kringenheten och vad som hände i enhetshanteraren. Uppgraderingen med versionsnumren. Skrivaren och hur den lades till. Grafikkortet och vad du ändrade</td></tr>
+          <tr><td><b>3. Resultat</b></td><td>Fyra bevis, inte fyra påståenden. Se nedan</td></tr>
+          <tr><td><b>4. Felsökning</b></td><td>Vad som gick fel och hur du löste det, med <b>orsak och åtgärd</b> — inte bara symtomet. Gick inget fel: vad du kontrollerade för att vara säker</td></tr>
+          <tr><td><b>5. Källor</b></td><td>Varje manual, instruktion och nedladdningssida, <b>med språket angivet</b>. Se avsnitt 5</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="bevisen">4. Bevis, inte påståenden</h2>
+
+    <p>Resultatdelen ska gå att kontrollera av någon som inte var i salen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Tunt</th><th>Håller</th></tr></thead>
+        <tbody>
+          <tr><td><b>Skrivaren</b></td><td>"Skrivaren fungerar"</td><td>Testutskriften, och en skärmdump av <b>utskriftskön med jobbet i</b>, tagen medan det låg där</td></tr>
+          <tr><td><b>Kringenheten</b></td><td>"Den installerades"</td><td>Enheten i enhetshanteraren, under sin rubrik, utan gult utropstecken</td></tr>
+          <tr><td><b>Drivrutinen</b></td><td>"Vi uppgraderade den"</td><td>Versionsnummer och datum <b>före och efter</b>, avlästa på samma ställe båda gångerna</td></tr>
+          <tr><td><b>Grafikkortet</b></td><td>"Vi ändrade en inställning"</td><td>Skärmdump av panelen med inställningen som ändrades, och vad den var innan</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Det fastnade jobbet räknas som ett fel</span>
+      <p>Läraren lägger ett jobb i kön som inte går igenom, just för att underhållsmomentet ska finnas att skriva om. Beskriv <b>vilket av de tre stegen som löste det</b>, och varför de tidigare inte räckte. Det är ett fullgott innehåll i felsökningsavsnittet.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Att drivrutinen installerades automatiskt är inte ett misslyckande</span>
+      <p>Plug and play är ett fullgott resultat. Skriv att den installerades automatiskt, och vad det innebär — att systemet redan hade en drivrutin som passade. Labben frågar vad som hände, inte om du fick kämpa.</p>
+    </div>
+
+    <h2 id="kallorna">5. Källorna — labbens tyngdpunkt</h2>
+
+    <p>Varje manual, instruktion, hjälpsida och nedladdningssida du använt, <b>med språket angivet</b>. Till exempel:</p>
+
+    <ul>
+      <li>Skrivarens användarmanual (engelska)</li>
+      <li>Tillverkarens nedladdningssida för nätverkskortets drivrutin (engelska)</li>
+      <li>Grafikkortspanelens hjälpavsnitt om uppdateringsfrekvens (engelska)</li>
+      <li>Lärarens genomgång (svenska)</li>
+    </ul>
+
+    <div class="notis varna">
+      <span class="rubrik">Har du ingen engelskspråkig källa?</span>
+      <p>Då har du sannolikt inte varit på tillverkarens sida. Gå tillbaka och titta innan du lämnar in — inte för att fylla en kvot, utan för att det är <b>där drivrutinen och manualen faktiskt finns</b>.</p>
+    </div>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">6. Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Alla fem delarna är ifyllda</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Labbpartnerns namn står överst</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Skrivaren är installerad och en testutskrift har gått igenom</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Utskriftskön är dokumenterad med ett jobb i, som skärmdump</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Ett fastnat jobb är rensat, och förbrukningsvaran kontrollerad</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Kringenheten fungerar, och vad som hände är beskrivet</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>En drivrutin är uppgraderad, med version <b>före och efter</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>En grafikinställning är ändrad och dokumenterad med skärmdump</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>Varje källa har sitt <b>språk angivet</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>Jag har stämt av med läraren under arbetets gång</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">7. Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Jag beskriver <i>varför</i> jag valde den väg jag valde för drivrutinen</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Jag förklarar skillnaden mellan tillverkarens drivrutin och Windows generiska</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Jag förklarar vad de tre stegen för att rensa utskriftskön faktiskt gör</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Felsökningen redogör för orsaken <b>och</b> hur jag kom fram till den</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Planeringen var godkänd av läraren <b>innan</b> arbetet påbörjades</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Jag har använt den engelskspråkiga dokumentationen <b>utan handledning</b></span></label></li>
+        <li><label><input type="checkbox" id="bor-7"><span>Utförandet går att följa steg för steg</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">8. Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utmaning-1"><span>Jag skiljer på vad som gäller generellt och vad som gäller just den här maskinen, skrivaren eller kortet</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-2"><span>Felsökningen visar ett resonemang som <b>uteslöt alternativ</b></span></label></li>
+        <li><label><input type="checkbox" id="utmaning-3"><span>Jag anger vilken version och vilken modell mina påståenden gäller</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-4"><span>Jag ger ett eget förslag på hur arbetet kunde gjorts bättre</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <div class="notis">
+      <span class="rubrik">Fyra förbehåll att välja bland till utmaningen</span>
+      <p><b>Att det går att skriva ut betyder inte att skrivaren är rätt installerad.</b> Det betyder att den enklaste vägen fungerade. Funktionerna sitter i tillverkarens drivrutin.<br>
+      <b>"Den bästa drivrutinen är redan installerad" betyder att den bästa Windows känner till är installerad.</b> Det är inte samma sak som den senaste.<br>
+      <b>Kön är filer i en mapp och en tjänst som betar av dem.</b> Därför räcker det ibland inte att trycka avbryt.<br>
+      <b>Fabriksinställd uppdateringsfrekvens är det värde alla skärmar klarar</b>, inte det bästa för din skärm. En 144 Hz-skärm som kör 60 Hz är fabriksinställd, inte trasig.</p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Om betyget A i det här området</span>
+      <p>Ett fullständigt A går inte att nå genom hårdvarublocket. A-kriteriet kräver att du redogör för <i>sambandet mellan de olika delarna som ingår i nätverkets uppbyggnad</i> — och nätverket börjar först i område 8. Kriteriet prövas första gången i labb 10.</p>
+      <p>Det du övar här är A-nivåns <b>kvaliteter</b>: nyansering, ett felsökningsresonemang som håller, och egna förbättringsförslag.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="../labbrapport.html">Labbrapportmall</a> · <a href="index.html">Tillbaka till område 5</a> · <a href="kringutrustning.html">Drivrutiner och portar</a> · <a href="skrivare.html">Skrivaren och grafikkortet</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

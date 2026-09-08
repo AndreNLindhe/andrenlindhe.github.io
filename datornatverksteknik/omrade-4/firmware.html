@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Firmware, bootordning och startprocessen – Dator- och nätverksteknik område 4</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-4-firmware">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Uppslag</strong> · Firmware och bootordning</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#vagen-in">1. Vägen in</a></li>
+      <li><a href="#bios-uefi">2. BIOS och UEFI</a></li>
+      <li><a href="#bootordningen">3. Bootordningen</a></li>
+      <li><a href="#klockan">4. Klockan och CMOS-batteriet</a></li>
+      <li><a href="#uppdatering">5. Firmware-uppdatering</a></li>
+      <li><a href="#startprocessen">6. Startprocessen</a></li>
+      <li><a href="#dokumentera">7. Dokumentera POST</a></li>
+      <li><a href="#felsokning">8. Felsökning</a></li>
+      <li><a href="#ordlista">9. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 4 · lektion 15 och 16</p>
+    <h1>Firmware och bootordning</h1>
+    <p class="inledning">Maskinen startar. Men den vet inte vad den ska starta. Den här sidan handlar om gränssnittet där grundinställningarna görs — den enda plats som finns innan ett operativsystem gör det.</p>
+
+    <h2 id="vagen-in">1. Vägen in</h2>
+
+    <p>Firmware-inställningarna nås med <b>en tangent som trycks direkt vid start</b>, innan något annat hinner ta över.</p>
+
+    <pre><code>Del        F2        F10</code></pre>
+
+    <p>Vilken det är <b>varierar mellan tillverkare</b>. Det står i moderkortets manual, och ofta i en textrad längst ner på skärmen under de första sekunderna.</p>
+
+    <ul>
+      <li><b>Tryck upprepade gånger</b> direkt när du slår på — inte en gång och vänta. Fönstret är någon sekund långt.</li>
+      <li><b>Hann du inte</b> — starta om och försök igen. Ingen skada sker.</li>
+    </ul>
+
+    <h2 id="bios-uefi">2. BIOS och UEFI</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Namn</th><th>Står för</th><th>Vad som utmärker det</th></tr></thead>
+        <tbody>
+          <tr><td><b>BIOS</b></td><td>Basic Input/Output System</td><td>Det äldre gränssnittet</td></tr>
+          <tr><td><b>UEFI</b></td><td>Unified Extensible Firmware Interface</td><td>Modernare: grafiskt gränssnitt, musstöd, stöd för större diskar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>I praktiken används orden om vartannat. De flesta kort i dag kör UEFI även när menyn kallas "BIOS Setup" — du har alltså inte fel sorts kort om det står BIOS.</p>
+
+    <p>Det viktiga är vad gränssnittet är till för: <b>här görs maskinens grundinställningar innan något operativsystem finns installerat.</b></p>
+
+    <h2 id="bootordningen">3. Bootordningen</h2>
+
+    <p>Bootordningen är <b>i vilken ordning moderkortet söker igenom sina anslutna enheter efter något startbart</b>. Hittar den ingenting på den första enheten går den vidare till nästa.</p>
+
+    <p>Ställs den fel kan maskinen fastna med att leta efter en startenhet som saknas — den söker på ett USB-minne eller ett nätverk som inte svarar. <b>Det ser ut som en hängd maskin men är en inställning.</b></p>
+
+    <div class="notis viktig">
+      <span class="rubrik">I den här kursen</span>
+      <p>Den <b>interna disken ska ligga överst</b>. Ställ in det, spara, starta om — och gå in igen för att kontrollera att det satt kvar. En inställning som inte sparades är inte en inställning.</p>
+    </div>
+
+    <h2 id="klockan">4. Klockan och CMOS-batteriet</h2>
+
+    <p>Datum och tid ställs också in i firmware. Frågan värd att stanna vid:</p>
+
+    <blockquote><p>Maskinen har stått strömlös hela helgen. Varför vet den vad klockan är?</p></blockquote>
+
+    <p>Svaret är <b>CMOS-batteriet</b> från område 2 — myntbatteriet på moderkortet. Det håller klockan och grundinställningarna vid liv när strömmen är bruten.</p>
+
+    <p>Är batteriet slut nollställs tiden vid varje strömfrånkoppling. Maskinen tror att den startar 2009 varje gång, och det är ett klassiskt symptom på ett gammalt kort — värt att skriva i rapporten om du ser det.</p>
+
+    <h2 id="uppdatering">5. Firmware-uppdatering</h2>
+
+    <p>En uppdatering görs vanligen genom att ladda en fil till ett USB-minne och köra uppdateringen från firmware-gränssnittet.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Varför man gör det</th><th>Varför man inte gör det i onödan</th></tr></thead>
+        <tbody>
+          <tr><td>Stöd för nyare processorer på samma kort</td><td rowspan="3"><b>Ett avbrott mitt i uppdateringen kan göra kortet obrukbart.</b> Strömavbrott eller en avstängning mitt i skrivningen kan lämna kortet utan fungerande firmware — då startar det inte alls, inte ens till en meny där du kan försöka igen</td></tr>
+          <tr><td>Täpper till kända säkerhetshål</td></tr>
+          <tr><td>Löser buggar tillverkaren hittat</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Regeln</span>
+      <p>Uppdatera när du har ett <b>skäl</b> — en processor som kräver det, ett säkerhetshål, en bugg som drabbar dig. Inte för att det finns en nyare version.</p>
+      <p><b>I den här kursen läser du bara av vilken version ditt kort har.</b> Ingen uppdaterar någonting.</p>
+    </div>
+
+    <h2 id="startprocessen">6. Startprocessen</h2>
+
+    <p>En dator kan inte köra ett operativsystem i samma stund den får ström. Den måste <b>dra sig upp i steg, där varje steg laddar nästa</b>.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Vad som ligger i RAM</th></tr></thead>
+        <tbody>
+          <tr><td>Firmware kör, POST körs</td><td><b>Firmware</b></td></tr>
+          <tr><td>Startenhet vald, starthanteraren läses in</td><td><b>Starthanteraren</b></td></tr>
+          <tr><td>Operativsystemet laddas</td><td><b>Kärnan</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>De tre passen hänger ihop så här: <b>POST</b> kontrollerar att delarna svarar. <b>Bootordningen</b> bestämmer var firmware letar. <b>Starthanteraren</b> tar sedan över och laddar ett operativsystem — som din maskin får på lektion 18, i område 5.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Gå till <b>ComputerExplorer → operating-systems → boot-process</b>. Slå på, och använd <b>Stega</b> för att gå ett steg i taget. Håll ögonen på rutan <i>Vad som finns i RAM</i> — den är hela poängen.</p>
+    </div>
+
+    <h2 id="dokumentera">7. Dokumentera POST</h2>
+
+    <p>Fyra saker ska stå i labbrapporten, och de ska komma från <b>din</b> maskin — inte från en allmän beskrivning:</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Det här ska stå i rapporten</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="post-1"><span>Vilken tillverkarlogotyp eller textrad som syns, och ungefär hur länge</span></label></li>
+        <li><label><input type="checkbox" id="post-2"><span>Om en pipsignal hörs — och i så fall hur många pip, och i vilket mönster</span></label></li>
+        <li><label><input type="checkbox" id="post-3"><span>Om diagnoslysdioder tänds, och vilka</span></label></li>
+        <li><label><input type="checkbox" id="post-4"><span>Ungefär hur lång tid från strömpåslag till att firmware lämnar över</span></label></li>
+      </ul>
+    </section>
+
+    <p>Anteckna <b>medan den körs</b>, inte i efterhand. Starta om flera gånger och skriv mellan varje start.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Facit står i ditt korts manual</span>
+      <p>Hur ett fel signaleras skiljer sig mellan tillverkare. En pipkodstabell från nätet gäller ett annat kort. Att slå upp rätt tabell är en del av uppgiften — och att slå upp fel är en av de vanligaste källkritiska missarna i det här området.</p>
+    </div>
+
+    <h2 id="felsokning">8. Felsökning</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: bild, pip, klocka, tangent" autocomplete="off">
+      <p class="traffar" id="traffar-fel">7 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Helt dött — inga fläktar, ingen lampa</td><td>Processorns 4/8-pin glömd, eller strömkabeln ur väggen</td><td>Kontrollera båda strömkontakterna innan du misstänker kortet</td></tr>
+          <tr><td>Fläktarna snurrar men ingen bild, pip eller lysdiod</td><td>Minnet inte helt nedtryckt</td><td>Ta ur och sätt i tills båda spärrarna knäpper igen av sig själva</td></tr>
+          <tr><td>Ingenting händer när du trycker på strömknappen</td><td><code>POWER SW</code> sitter på fel stift</td><td>Slå upp frontpanelraden i manualen och flytta kontakten</td></tr>
+          <tr><td>Maskinen startar men strömlampan lyser inte</td><td>Lysdiodens kontakt är vänd</td><td>Vänd den. Lysdioder har polaritet, knappar har det inte. Den går inte sönder</td></tr>
+          <tr><td>Ingen bild trots att maskinen tydligt kör</td><td>Bildskärmen sitter i moderkortets utgång trots att maskinen har grafikkort</td><td>Flytta kabeln till grafikkortet</td></tr>
+          <tr><td>Kommer inte in i firmware</td><td>Tangenten trycks för sent, eller det är fel tangent</td><td>Tryck upprepade gånger direkt vid påslag. Slå upp rätt tangent i manualen</td></tr>
+          <tr><td>Klockan nollställs varje gång strömmen bryts</td><td>CMOS-batteriet är slut</td><td>Byt myntbatteriet. Skriv observationen i rapporten — det är ett riktigt fynd</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">9. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>BIOS</b></td><td>Basic Input/Output System. Moderkortets egen programvara, som kör innan något operativsystem finns</td></tr>
+          <tr><td><b>UEFI</b></td><td>Unified Extensible Firmware Interface. Den modernare varianten av samma sak</td></tr>
+          <tr><td><b>Firmware</b></td><td>Programvara som ligger i ett chip på kortet självt, inte på en disk</td></tr>
+          <tr><td><b>POST</b></td><td>Power-On Self-Test. Självtestet som kontrollerar att processor och minne svarar vid start</td></tr>
+          <tr><td><b>Bootordning</b></td><td>Ordningen kortet söker igenom sina enheter efter något startbart</td></tr>
+          <tr><td><b>Startenhet</b></td><td>Den enhet som visade sig innehålla något startbart</td></tr>
+          <tr><td><b>Starthanterare</b></td><td>Programmet som läses in från startenheten och laddar operativsystemets kärna</td></tr>
+          <tr><td><b>Kärna</b></td><td>Operativsystemets innersta del, det som laddas sist i startsekvensen</td></tr>
+          <tr><td><b>CMOS-batteri</b></td><td>Myntbatteriet på moderkortet som håller klocka och inställningar vid liv utan ström</td></tr>
+          <tr><td><b>Diagnoslysdiod</b></td><td>Lysdiod på kortet som visar var i starten det stannade — ofta märkt CPU, DRAM, VGA eller BOOT</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 4</a> · <a href="labb.html">Labb 4</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

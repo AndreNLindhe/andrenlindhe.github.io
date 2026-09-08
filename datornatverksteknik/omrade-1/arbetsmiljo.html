@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arbetsmiljö och säker hantering – Dator- och nätverksteknik område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-1-arbetsmiljo">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Rutin</strong> · Arbetsmiljö och säker hantering</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#esd">1. Vad ESD är</a></li>
+      <li><a href="#jordning">2. Jordning</a></li>
+      <li><a href="#strom">3. Strömfrånkoppling</a></li>
+      <li><a href="#kort">4. Hur kort hanteras</a></li>
+      <li><a href="#nivaer">5. E, C och A</a></li>
+      <li><a href="#felsokning">6. Felsökning</a></li>
+      <li><a href="#ordlista">7. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 1 · lektion 2</p>
+    <h1>Arbetsmiljö och säker hantering</h1>
+    <p class="inledning">Den här sidan är inte ett referat av passet. Den är rutinen du slår upp när du behöver den — och du kommer att behöva den från och med lektion 13, då du första gången monterar riktig hårdvara.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Varför en rutin och inte ett omdöme</span>
+      <p>Du kan inte kontrollera efteråt om du gjorde rätt. En krets kan skadas av en urladdning du inte kände, fortsätta fungera, och haverera först veckor senare. Därför görs samma sak varje gång, oavsett hur det känns.</p>
+    </div>
+
+    <h2 id="esd">1. Vad ESD är</h2>
+    <p>ESD står för <b>elektrostatisk urladdning</b>, på engelska <i>electrostatic discharge</i>. Du laddas upp av att gå på ett golv, resa dig ur en stol eller dra av dig en tröja. Laddningen sitter kvar tills den får någonstans att ta vägen, och när fingret närmar sig något ledande hoppar den över.</p>
+
+    <p>Det som gör den farlig i en datorsal är avståndet mellan två gränser:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Gräns</th><th>Ungefär</th><th>Vad det betyder</th></tr></thead>
+        <tbody>
+          <tr><td>Du känner en stöt</td><td>3 000 V</td><td>Under den gränsen märker du ingenting alls</td></tr>
+          <tr><td>Du ser en gnista</td><td>Mer än så</td><td>Har du sett den var laddningen stor</td></tr>
+          <tr><td>En krets kan ta skada</td><td>Några hundra volt, ibland mindre</td><td>Långt under det du kan känna. Exakt hur lite skiljer sig mellan komponenter</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Latent skada</b> är begreppet som gör det här allvarligt. En urladdning kan skada en krets utan att den slutar fungera. Maskinen startar, allt ser bra ut, och tre veckor senare börjar den låsa sig. Ingen kopplar ihop det med att någon skruvade i den.</p>
+
+    <h2 id="jordning">2. Jordning</h2>
+    <p>Det som skyddar är inte jord i sig, utan att du och komponenten har <b>samma potential</b> — att ni är elektriskt samma sak, så att det inte finns någon skillnad som kan jämna ut sig genom kretsen.</p>
+
+    <ul>
+      <li><b>ESD-armbandet</b> mot huden på handleden, inte utanpå ärmen.</li>
+      <li><b>Klämman på omålad metall</b> inne i chassit. Målade ytor leder inte.</li>
+      <li><b>Att hålla i chassit</b> gör samma jobb, men bara så länge du faktiskt håller i det.</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Sätt på armbandet och dra lätt i sladden. Sitter klämman på en skruvfläns eller en blank kant släpper den inte. Sitter den på lack glider den.</p>
+    </div>
+
+    <h2 id="strom">3. Strömfrånkoppling i tre steg</h2>
+    <p>Samma tre steg, i samma ordning, varje gång du ska öppna en maskin.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Vad du gör</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Stäng av datorn</td><td>Operativsystemet får avsluta ordentligt</td></tr>
+          <tr><td>2</td><td>Dra ur nätsladden</td><td>Delar av moderkortet har spänning även när maskinen ser avstängd ut</td></tr>
+          <tr><td>3</td><td>Håll strömknappen inne fem sekunder</td><td>Kondensatorerna töms genom kretsen i stället för genom dig</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Steg tre är det som hoppas över, eftersom det inte syns att något händer. Det är precis därför det finns.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Nätaggregatet öppnas aldrig</span>
+      <p>Kondensatorerna inuti kan hålla laddning länge efter att sladden dragits ur, och spänningen där är av en helt annan storleksordning än allt annat i lådan. Ett trasigt aggregat byts — det lagas inte, och det öppnas inte för att titta.</p>
+    </div>
+
+    <h2 id="kort">4. Hur kort hanteras</h2>
+    <ul>
+      <li><b>Kanterna, aldrig kontaktytorna.</b> Guldfingrarna tar upp fett och smuts från huden, och det är också där kretsarna sitter närmast.</li>
+      <li><b>Kort som ligger löst ligger i antistatpåsen.</b> Inte på bänken, inte i knät.</li>
+      <li><b>Antistatpåsen leder svagt</b> och avleder laddning runt innehållet. En vanlig plastpåse gör tvärtom — den laddas upp av friktion.</li>
+    </ul>
+
+    <h2 id="nivaer">5. E, C och A</h2>
+    <p>Arbetsmiljö bedöms inte på ett prov. Den bedöms när du arbetar, och skillnaden mellan nivåerna är inte hur mycket du kan rabbla utan hur självständigt du gör det rätt.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Jag kan sätta på ESD-armbandet så att det sitter rätt</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Jag kan de tre stegen i strömfrånkopplingen och gör dem i ordning</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Jag håller kort i kanterna utan att bli påmind</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Jag frågar läraren när jag är osäker, medan jag arbetar</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Jag gör rutinen utan att någon säger till</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Jag kan säga vad steg tre är till för, inte bara att det finns</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Jag stämmer av vad jag ska göra <i>innan</i> jag börjar, inte under tiden</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Jag kan förklara varför latent skada gör rutinen till en regel i stället för ett omdöme</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Jag ser när någon annan hoppar över ett steg, och kan säga vilket</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Jag kan förklara varför potentialutjämning skyddar, inte jord i sig</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="felsokning">6. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: armband, klämma, avstängd" autocomplete="off">
+      <p class="traffar" id="traffar-fel">6 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Armbandet sitter men känns inte fast</td><td>Bandet ligger utanpå ärmen</td><td>Direkt mot huden på handleden</td></tr>
+          <tr><td>Klämman glider av hela tiden</td><td>Fastsatt på målad yta eller på en tunn kant</td><td>Blank metall inne i chassit, gärna en skruvfläns</td></tr>
+          <tr><td>Lysdiod lyser på moderkortet fast datorn är avstängd</td><td>Nätsladden sitter i, kortet har standby-spänning</td><td>Dra ur sladden — det är steg 2 och det här är beviset på varför</td></tr>
+          <tr><td>Skruven ramlade ner bakom moderkortet</td><td>Skruv som lagts på bänken i stället för i skålen</td><td>Pincett. Låt den inte ligga kvar — den kortsluter</td></tr>
+          <tr><td>Skruvhuvudet är runt och mejseln glider</td><td>För liten mejsel har använts</td><td>PH2 till moderkortsskruvar. Ett förstört huvud går sällan att rädda</td></tr>
+          <tr><td>Kortet har fingeravtryck på guldfingrarna</td><td>Kortet har hållits över kontaktytan</td><td>Håll i kanterna. Torka inte av med fingrarna — det gör det värre</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">7. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>ESD</b></td><td>Elektrostatisk urladdning. Laddning som byggts upp i kroppen hoppar över till något ledande</td></tr>
+          <tr><td><b>Latent skada</b></td><td>Skada som inte syns direkt. Kretsen fungerar vidare, försämrad, och havererar långt senare</td></tr>
+          <tr><td><b>Potentialutjämning</b></td><td>Att två saker får samma elektriska potential, så att ingen laddning kan jämna ut sig mellan dem</td></tr>
+          <tr><td><b>Antistatpåse</b></td><td>Svagt ledande påse som avleder laddning runt innehållet i stället för genom det</td></tr>
+          <tr><td><b>Kondensator</b></td><td>Komponent som lagrar laddning. Kan hålla den kvar långt efter att strömmen brutits</td></tr>
+          <tr><td><b>Standby-spänning</b></td><td>Spänningen som ligger kvar på delar av moderkortet när maskinen är avstängd men inkopplad</td></tr>
+          <tr><td><b>Guldfingrar</b></td><td>Kontaktytorna längs kortets nederkant, där det möter kortplatsen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

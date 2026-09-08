@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 4 – Dator- och nätverksteknik</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-4-start">
+
+<header class="topp">
+  <a href="../index.html">← Kursen</a>
+  <span class="harifran"><strong>Område 4</strong> · Bygget: montering, BIOS och bootsekvens</span>
+  <a href="#lektioner">Lektioner</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · v.41–43 · 5 lektioner</p>
+    <h1>Bygget: montering, BIOS och bootsekvens</h1>
+    <p class="inledning">Fem pass där allt du namngett sedan augusti blir en maskin. Du monterar en dator från lösa delar, får den att starta, ställer in den — och lär dig resonera dig fram till varför en nybyggd maskin inte startar i stället för att gissa. För i ett bygge går nästan alltid något fel första gången.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Säkerheten är ett krav från lektion 13</span>
+      <p><b>ESD-armbandet fastklämt i chassit</b> och <b>strömkabeln urdragen</b> innan skruvmejseln rörs. Rutinen är inte ny — den kom i område 1 — men från och med nu kontrolleras den vid varje bänk, varje pass. Statisk elektricitet förstör kretsar utan att det syns.</p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Labb 4 – Bygg en dator och få den att starta · deadline onsdag 21/10 kl 23:59</span>
+      <p>Kursens <b>hittills största labb</b>, byggd under alla fem passen. Det som är nytt är att <b>felsökningsavsnittet ska beskriva ett fel som faktiskt inträffade</b> — inte vad ni kontrollerade. Hela uppgiften står på <a href="labb.html">labbsidan</a>.</p>
+    </div>
+
+    <h2 id="lektioner">Lektionerna</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Datum</th><th>Vad passet handlar om</th><th>Missade du passet?</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>13</td>
+            <td>mån 5 okt</td>
+            <td>Monteringsordning, ESD och byggstart</td>
+            <td><a href="bygget.html#ordningen">Monteringsordningen</a></td>
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>tis 6 okt</td>
+            <td>Kablar, frontpanel och första start</td>
+            <td><a href="bygget.html#frontpanelen">Frontpanelen och POST</a></td>
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>mån 12 okt</td>
+            <td>Firmware, bootordning och klocka</td>
+            <td><a href="firmware.html">Firmware och bootordning</a></td>
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>tis 13 okt</td>
+            <td>Bootordning, klocka och dokumentation</td>
+            <td><a href="firmware.html#dokumentera">Dokumentera POST</a></td>
+          </tr>
+          <tr>
+            <td>17</td>
+            <td>mån 19 okt</td>
+            <td>Sista felsökningen före deadline</td>
+            <td><a href="bygget.html#startar-inte">Startar den inte</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Maskinen står kvar mellan passen</span>
+      <p>Ingen skruvar isär och ingen städar undan. Hela poängen med schemat är att bygget <b>inte behöver bli klart på ett enda pass</b> — en halvfärdig maskin får stå över natten och fortsätta dagen efter. Och den plockas aldrig isär: det är den här maskinen kursen fortsätter arbeta på.</p>
+    </div>
+
+    <h2>Sidor i det här området</h2>
+
+    <ul class="rutnat">
+      <li>
+        <a class="kort webb" href="bygget.html">
+          <span class="sort">Uppslag · lektion 13 och 14</span>
+          <span class="rubrik">Bygget, steg för steg</span>
+          <p>Monteringsordningen och skälet till varje steg. Distanserna, kablarna, frontpanelens polaritet och POST — och vad du gör när den inte startar.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort webb" href="firmware.html">
+          <span class="sort">Uppslag · lektion 15 och 16</span>
+          <span class="rubrik">Firmware och bootordning</span>
+          <p>Vägen in i BIOS eller UEFI, bootordningen, klockan och CMOS-batteriet, startprocessens steg — och felsökningstabellen.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort gran" href="labb.html">
+          <span class="sort">Uppgift · deadline 21/10</span>
+          <span class="rubrik">Labb 4: Bygg en dator</span>
+          <p>Uppgiften, de fem delarna, felet i tre led, och kraven i E, C och A.</p>
+        </a>
+      </li>
+    </ul>
+
+    <h2>Det centrala innehåll området täcker</h2>
+    <p>Ur Skolverkets ämnesplan för kursen Dator- och nätverksteknik:</p>
+    <ul>
+      <li>Hård- och mjukvaruinstallation, uppbyggnad, konfigurering och uppgradering av datorer och datorsystem.</li>
+      <li>Datorns start- och bootsekvenser samt inställning och uppgradering av dess BIOS (Basic Input/Output System) eller firmware.</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Deadline ligger två dagar efter sista lektionen</span>
+      <p>Sista lektionstiden är <b>måndag 19/10</b>. Tisdagen den 20:e tillhör redan område 5 — då installerar du ett operativsystem på maskinen du byggt. Det som återstår av rapporten slutför du på egen hand fram till onsdag kväll.</p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det här området pekar framåt mot lektion 18</span>
+      <p>Rapporten slutar där maskinen har hittat sin startenhet och <b>skulle ha laddat ett operativsystem om ett fanns</b>. Redan nästa pass får den ett. Bygget är inte en övning som plockas isär — det är maskinen som bär resten av höstterminen.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="../index.html">Tillbaka till kursens startsida</a> · <a href="../omrade-3/index.html">Område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

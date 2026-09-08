@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Labb 4: Bygg en dator – Dator- och nätverksteknik område 4</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-4-labb">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Uppgift</strong> · Labb 4: Bygg en dator</span>
+  <a href="#felet">Felet</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppgiften">1. Uppgiften</a></li>
+      <li><a href="#vaxer">2. Så växer rapporten</a></li>
+      <li><a href="#delarna">3. De fem delarna</a></li>
+      <li><a href="#felet">4. Felet — labbens tyngdpunkt</a></li>
+      <li><a href="#ska">5. Ska-krav</a></li>
+      <li><a href="#bor">6. Bör-krav</a></li>
+      <li><a href="#utmaning">7. Utmaning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 4 · kursens hittills största labb</p>
+    <h1>Labb 4: Bygg en dator och få den att starta</h1>
+    <p class="inledning">Du monterar en fungerande dator från lösa delar, får den att starta, ställer in den i firmware och dokumenterar hela vägen. Rapporten byggs under fem pass — inte kvällen innan.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-10-21">
+        <span class="nar">21 okt</span>
+        <span class="vad">Labb 4 lämnas in kl 23:59
+          <small>Sista lektionstiden är måndag 19/10. Tisdagen den 20:e tillhör redan område 5.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det som är nytt den här gången</span>
+      <p>I labb 2 och 3 fylldes felsökningsavsnittet ofta i med vad ni <i>kontrollerade</i>, eftersom ingenting gick sönder. I ett bygge går nästan alltid något fel första gången. <b>Den här gången ska avsnittet beskriva ett fel som faktiskt inträffade</b> — och det är labbens mest värdefulla material.</p>
+    </div>
+
+    <h2 id="uppgiften">1. Uppgiften</h2>
+
+    <p>Fyra saker ska finnas i rapporten:</p>
+
+    <ol>
+      <li><b>Den byggda maskinen</b> — monterad i rätt ordning, med ström, minne, lagring och frontpanel inkopplade</li>
+      <li><b>Bootordningen och systemets klocka</b>, inställda i firmware och avlästa</li>
+      <li><b>POST-sekvensen</b> såsom den faktiskt visar sig på <b>er</b> maskin</li>
+      <li><b>Minst ett fel</b> som uppstod under bygget — vad, hur det syntes, hur det åtgärdades</li>
+    </ol>
+
+    <p>Rapporten slutar där maskinen har hittat sin startenhet och skulle ha laddat ett operativsystem om ett fanns installerat. Maskinen lämnas redo för det — och redan nästa lektion, i område 5, får den ett.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Säkerheten är ett krav, inte en rekommendation</span>
+      <p><b>ESD-armbandet fastklämt i chassit</b> och <b>strömkabeln urdragen</b> innan skruvmejseln rörs. Läraren kontrollerar båda vid varje bänk, varje pass.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Par vid bänken, egen rapport</span>
+      <p>Ni bygger <b>en</b> maskin tillsammans och delar bygge, fel och lösningar. <b>Rapporten skriver var och en själv</b> — dokumentationen bedöms individuellt. Labbpartnerns namn står överst.</p>
+      <p><b>Maskinen står kvar mellan passen.</b> Ingen skruvar isär, ingen städar undan.</p>
+    </div>
+
+    <h2 id="vaxer">2. Så växer rapporten</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Vad som byggs</th><th>Vad som förs in</th></tr></thead>
+        <tbody>
+          <tr><td><b>13</b> · mån 5/10</td><td>Distanser, nätaggregat, kort, processor, kylare</td><td>Planeringen: delarna, och kontrollen att de passar ihop</td></tr>
+          <tr><td><b>14</b> · tis 6/10</td><td>Minne, lagring, kablar, frontpanel. Första starten</td><td>Utförandet, och POST som den visade sig</td></tr>
+          <tr><td><b>15</b> · mån 12/10</td><td>Firmware-genomgång, ni läser av er version</td><td>Firmware-versionen</td></tr>
+          <tr><td><b>16</b> · tis 13/10</td><td>Bootordning och klocka ställs in</td><td>Resultatdelen, och felsökningsavsnittet</td></tr>
+          <tr><td><b>17</b> · mån 19/10</td><td>Sista felsökningen</td><td>Det som återstår — och när ni gör det</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="delarna">3. De fem delarna</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad som ska stå där</th></tr></thead>
+        <tbody>
+          <tr><td><b>1. Planering</b></td><td>Vilka delar ni har och <b>kontrollen att de går ihop</b>: processor mot sockel, RAM mot kortets platser, kylarfäste mot sockel. Formfaktorn mot chassit. Och monteringsordningen ni tänker följa — skriven <i>innan</i> ni börjar</td></tr>
+          <tr><td><b>2. Utförande</b></td><td>Vad ni gjorde, i den ordning ni gjorde det, över alla fem passen. Vilka kablar vart. Hur frontpanelen satt. Ska gå att följa av någon som inte var där</td></tr>
+          <tr><td><b>3. Resultat</b></td><td>Bootordningen med interna disken överst, klockan inställd, och POST-sekvensen dokumenterad</td></tr>
+          <tr><td><b>4. Felsökning</b></td><td>Minst ett verkligt fel, i tre led. Se nedan — det här är labbens tyngdpunkt</td></tr>
+          <tr><td><b>5. Källor</b></td><td>Minst en, med språk angivet. <b>Moderkortets manual är den självklara</b> — ni har använt den till frontpanelen, till pipmönstret och till firmware-tangenten. Den är på engelska, och det är avsikten</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="felet">4. Felet — labbens tyngdpunkt</h2>
+
+    <p>Felsökningsavsnittet ska beskriva ett verkligt fel i <b>tre led</b>. Skillnaden mellan ett tunt svar och ett som håller är att det senare går att följa av någon annan:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Led</th><th>Tunt</th><th>Håller</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vad gick fel</b></td><td>"Datorn startade inte"</td><td>"Ingen bild vid första start, fläktarna snurrade"</td></tr>
+          <tr><td><b>Hur syntes det</b></td><td>"Det funkade inte"</td><td>"Tre korta pip vid start, ingen bild, strömlampan lyste"</td></tr>
+          <tr><td><b>Hur åtgärdades det</b></td><td>"Vi fixade det"</td><td>"Slog upp tre pip i manualen: minnesfel. Tryckte ner RAM-stickan tills båda spärrarna knäppte. Bild vid nästa start"</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Metodregeln som gör felet dokumenterbart</span>
+      <p><b>Ändra en sak i taget.</b> Byt mot något du <i>vet</i> fungerar. Starta. Anteckna.</p>
+      <p>Ändrade ni tre saker och maskinen startade — då vet ni inte vad felet var, och har ingenting att skriva. Det är inte pedanteri, det är vad som gör felsökningen till ett resultat.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Uppstod inget fel?</span>
+      <p>Ovanligt, men det händer. Då <b>framkallar ni ett</b>: bryt strömmen, dra ur minnet, starta, och dokumentera vad maskinen gör. Sätt tillbaka det efteråt. Skriv i rapporten att felet framkallades avsiktligt — det är ärligt och det bedöms inte lägre.</p>
+    </div>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">5. Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Alla fem delarna är ifyllda</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Labbpartnerns namn står överst</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Maskinen är monterad och startar</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Bootordningen har interna disken överst</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Klockan är inställd och avläst</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>POST-sekvensen är beskriven översiktligt, från vår egen maskin</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Minst ett fel är dokumenterat</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Jag har stämt av med läraren under arbetets gång</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">6. Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Jag beskriver <i>varför</i> monteringsordningen ser ut som den gör</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Jag skriver vad varje kabel gör, inte bara var den satt</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Felsökningen redogör för orsaken <b>och</b> hur vi kom fram till den</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Planeringen med delkontroll var godkänd <b>innan</b> första skruven</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Jag har använt moderkortets manual på engelska utan handledning</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Utförandet går att följa steg för steg</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">7. Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utmaning-1"><span>Jag skiljer på vad som gäller alltid och vad som gäller just den här maskinen</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-2"><span>Felsökningen visar ett resonemang som <b>uteslöt alternativ</b></span></label></li>
+        <li><label><input type="checkbox" id="utmaning-3"><span>Jag anger vilket kort pipkoden gäller, inte bara vad den betyder</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-4"><span>Jag ger ett eget förslag på hur bygget kunde gjorts bättre</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <div class="notis">
+      <span class="rubrik">Fyra förbehåll att välja bland till utmaningen</span>
+      <p><b>Frontpanelens lysdioder har polaritet, knapparna har det inte.</b> Samma stiftrad, två olika regler.<br>
+      <b>Pip- och lysdiodsmönster är tillverkarspecifika.</b> Tre pip betyder inte samma sak på två olika kort.<br>
+      <b>Ett dedikerat grafikkort stänger av moderkortets bildutgång.</b> Bilden uteblir trots att maskinen startar korrekt.<br>
+      <b>Fungerar det efter att du gjort tre saker vet du inte vilken som hjälpte.</b> Det är skillnaden mellan felsökning och att peta.</p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Om betyget A i det här området</span>
+      <p>Ett fullständigt A går inte att nå genom hårdvarublocket. A-kriteriet kräver att du redogör för <i>sambandet mellan de olika delarna som ingår i nätverkets uppbyggnad</i> — och nätverket börjar först i område 8. Kriteriet prövas första gången i labb 10.</p>
+      <p>Det du övar här är A-nivåns <b>kvaliteter</b>: nyansering, ett felsökningsresonemang som håller, och egna förbättringsförslag. Sitter de när kriteriet prövas är den delen redan avklarad.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="../labbrapport.html">Labbrapportmall</a> · <a href="index.html">Tillbaka till område 4</a> · <a href="bygget.html">Bygget, steg för steg</a> · <a href="firmware.html">Firmware och bootordning</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

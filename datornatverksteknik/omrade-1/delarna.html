@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Delarna och vad de gör – Dator- och nätverksteknik område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-1-delarna">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Uppslag</strong> · Delarna och vad de gör</span>
+  <a href="#missuppfattningar">Missuppfattningar</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#funktion">1. Vad varje del gör</a></li>
+      <li><a href="#saknas">2. Vad händer om den saknas</a></li>
+      <li><a href="#vagen">3. Vägen data tar</a></li>
+      <li><a href="#begrepp">4. Hårdvara, mjukvara, firmware</a></li>
+      <li><a href="#portar">5. Portarna på baksidan</a></li>
+      <li><a href="#nivaer">6. E, C och A</a></li>
+      <li><a href="#missuppfattningar">7. Missuppfattningar</a></li>
+      <li><a href="#ordlista">8. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 1 · lektion 3</p>
+    <h1>Delarna och vad de gör</h1>
+    <p class="inledning">I lektion 1 fick delarna sina namn. Här står vad de gör, och — viktigare — vad som händer när en av dem saknas. Det andra är det som gör att du kan felsöka i stället för att gissa.</p>
+
+    <h2 id="funktion">1. Vad varje del gör</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Uppgift</th></tr></thead>
+        <tbody>
+          <tr><td><b>Processor</b></td><td>Räknar. Allt som händer i maskinen är i botten räkneoperationer, och de sker här</td></tr>
+          <tr><td><b>RAM-minne</b></td><td>Håller det som används just nu. Snabbt att nå, men töms när strömmen går</td></tr>
+          <tr><td><b>Lagring</b></td><td>Behåller innehållet utan ström. Hårddisken håller magnetiseringens riktning, SSD:n instängd laddning</td></tr>
+          <tr><td><b>Grafikkort</b></td><td>Räknar fram bilden och avlastar processorn</td></tr>
+          <tr><td><b>Kylare</b></td><td>För bort värmen. Räknearbete blir värme, och värmen måste någonstans</td></tr>
+          <tr><td><b>Nätaggregat</b></td><td>Omvandlar 230 V växelström till 12, 5 och 3,3 V likström</td></tr>
+          <tr><td><b>Moderkort</b></td><td>Förbinder dem alla. <i>Hur</i> det går till kommer i område 2</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Skillnaden RAM och lagring</span>
+      <p>Båda kallas "minne" i vardagsspråk, och det är därför de blandas ihop. Den enda skiljelinje du behöver just nu: <b>vad händer när strömmen går?</b> RAM töms. Lagringen gör det inte.</p>
+    </div>
+
+    <h2 id="saknas">2. Vad händer om den saknas</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Utan …</th><th>… händer det här</th></tr></thead>
+        <tbody>
+          <tr><td><b>Processor</b></td><td>Maskinen kommer aldrig i gång, hur mycket fläktarna än snurrar</td></tr>
+          <tr><td><b>RAM-minne</b></td><td>Ingen bild alls — bara pip eller en blinkande lysdiod. Ingen startbild att fastna på</td></tr>
+          <tr><td><b>Kylare</b></td><td>Processorn går ner i hastighet och stänger till sist av sig själv</td></tr>
+          <tr><td><b>Grafikkort</b></td><td>Processorns inbyggda grafik tar över. Räcker till skrivbord och film, men inte till spel och 3D</td></tr>
+          <tr><td><b>Lagring</b></td><td>Maskinen kommer i gång men hittar inget att starta</td></tr>
+          <tr><td><b>Nätaggregat</b></td><td>Ingen ström alls</td></tr>
+          <tr><td><b>Moderkort</b></td><td>Ingenting att koppla in de sex andra i</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Grafikkortet har ett förbehåll</span>
+      <p><b>De flesta</b> processorer har inbyggd grafik som tar över när det egna grafikkortet saknas. Men inte alla — Intels modeller med <b>F</b> i namnet och en del Ryzen utan APU har ingen alls, och då blir det ingen bild. Säger någon "maskinen startar inte utan grafikkort" är det fel på de flesta maskiner och rätt på några.</p>
+    </div>
+
+    <h2 id="vagen">3. Vägen data tar</h2>
+    <p>Tre pilar räcker för att beskriva vad som händer när du öppnar ett program:</p>
+    <ol>
+      <li><b>Lagring → RAM.</b> Programmet ligger som filer på lagringen och kopieras in i arbetsminnet.</li>
+      <li><b>RAM → processor.</b> Processorn hämtar det den ska räkna på därifrån.</li>
+      <li><b>Processor → skärm.</b> Resultatet blir en bild.</li>
+    </ol>
+    <p>Den vanligaste vändningen är att rita pilen <i>processor → RAM</i> först, eftersom processorn känns som början. Fråga dig då var innehållet låg innan det kom till RAM.</p>
+
+    <h2 id="begrepp">4. Hårdvara, mjukvara, firmware</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Begrepp</th><th>Vad det är</th></tr></thead>
+        <tbody>
+          <tr><td><b>Hårdvara</b></td><td>Det du kan tappa i golvet</td></tr>
+          <tr><td><b>Mjukvara</b></td><td>Program som ligger som filer på lagringen och laddas när de ska köras</td></tr>
+          <tr><td><b>Firmware</b></td><td>Programkod som sitter fast i en krets på kortet. Finns där innan något operativsystem laddats, och finns kvar om du byter hårddisk</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kortaste sättet att minnas det: <b>firmware är mjukvara som bor i hårdvaran.</b></p>
+
+    <h2 id="portar">5. Portarna på baksidan</h2>
+
+    <img src="../../rearIONames_.png" alt="Baksidan på ett moderkort med portarna märkta A till H. A är två runda PS/2-kontakter, B en VGA-kontakt, C HDMI, D DisplayPort, E två svarta USB-A-portar, F fyra blå USB-A-portar, G nätverksporten RJ45 och H tre runda ljuduttag." style="max-width:100%;height:auto;border-radius:var(--rundning);border:1px solid var(--linje)">
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Port</th><th>Till vad</th><th>Känns igen på</th></tr></thead>
+        <tbody>
+          <tr><td><b>USB-A</b></td><td>Tangentbord, mus, USB-minnen</td><td>Den rektangulära, vänder rätt bara åt ett håll</td></tr>
+          <tr><td><b>USB-C</b></td><td>Samma sak, nyare, och ofta ström</td><td>Liten och oval, vänder rätt åt båda hållen. <b>Finns inte på kortet ovan</b> – leta efter den på nyare maskiner</td></tr>
+          <tr><td><b>HDMI</b></td><td>Bildskärm</td><td>Bred med avsmalnande underkant</td></tr>
+          <tr><td><b>DisplayPort</b></td><td>Bildskärm</td><td>Liknar HDMI men har <b>ett avfasat hörn</b></td></tr>
+          <tr><td><b>RJ45</b></td><td>Nätverk</td><td>Fyrkantig med en klämma. Kallas ofta "internetkontakten" — namnet är RJ45</td></tr>
+          <tr><td><b>3,5 mm</b></td><td>Hörlurar och mikrofon</td><td>Rund, färgmarkerad på många kort</td></tr>
+          <tr><td><b>VGA</b></td><td>Bildskärm, analogt</td><td>Blågrå med 15 stift. Bara på äldre kort – <b>B</b> på bilden</td></tr>
+          <tr><td><b>PS/2</b></td><td>Mus och tangentbord</td><td>Två runda, grön för mus och lila för tangentbord. Ersatt av USB – <b>A</b> på bilden</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="nivaer">6. E, C och A</h2>
+    <p>Området har inget prov och ingen inlämning, men det du gör här bär in i resten av kursen. Kryssa av när du kan.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Jag kan säga vad var och en av de sju delarna gör</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Jag kan namnge portarna på en maskins baksida</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Jag vet skillnaden mellan RAM och lagring</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Jag kan säga vad som händer om en viss del saknas, och varför</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Jag kan rita datorns delar och dra pilarna åt rätt håll</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Jag kan skilja på hårdvara, mjukvara och firmware</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Jag kan resonera om vad som händer när <b>två</b> delar saknas samtidigt</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Jag kan förklara varför grafikkortssvaret har ett förbehåll</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Jag kan utifrån ett symptom säga vilka delar som <b>inte</b> kan vara orsaken</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="missuppfattningar">7. Missuppfattningar</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: RAM, fläkt, grafikkort" autocomplete="off">
+      <p class="traffar" id="traffar-fel">6 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>Maskinen startar inte utan grafikkort</td><td>De flesta processorer har inbyggd grafik och ger bild ändå. Undantagen är Intels F-modeller och Ryzen utan APU</td></tr>
+          <tr><td>Fläktarna snurrar, alltså fungerar processorn</td><td>Fläktarna kan snurra för fullt utan processor. De säger ingenting om att maskinen kommit i gång</td></tr>
+          <tr><td>Utan RAM fastnar man på startbilden</td><td>Det blir ingen bild alls — bara pip eller en blinkande lysdiod</td></tr>
+          <tr><td>RAM och lagring är i princip samma sak</td><td>RAM töms när strömmen går. Lagringen gör det inte. Det är hela skillnaden</td></tr>
+          <tr><td>Firmware är ett program man installerar</td><td>Firmware sitter fast i en krets på kortet, inte som en fil på lagringen</td></tr>
+          <tr><td>RJ45 heter "internetkontakten"</td><td>Det är vardagsordet. Namnet är RJ45 och funktionen är nätverk</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">8. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Firmware</b></td><td>Programkod som sitter fast i en krets på kortet, inte som en fil på lagringen</td></tr>
+          <tr><td><b>Inbyggd grafik</b></td><td>Grafikkrets inuti processorn, som ger bild utan ett eget grafikkort</td></tr>
+          <tr><td><b>Likström</b></td><td>Ström som går åt ett håll. Det är vad datorns delar arbetar med</td></tr>
+          <tr><td><b>Växelström</b></td><td>Ström som byter riktning. Det är vad som kommer ur vägguttaget</td></tr>
+          <tr><td><b>RJ45</b></td><td>Kontakten för nätverkskabel</td></tr>
+          <tr><td><b>DisplayPort</b></td><td>Bildskärmskontakt som liknar HDMI men har ett avfasat hörn</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a> · <a href="arbetsmiljo.html">Arbetsmiljörutinen</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

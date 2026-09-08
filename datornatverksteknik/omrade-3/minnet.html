@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minnet och de binära talen – Dator- och nätverksteknik område 3</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-3-minnet">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Uppslag</strong> · Minnet och de binära talen</span>
+  <a href="#rakna">Räkna binärt</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#glommer">1. Minnet som glömmer</a></li>
+      <li><a href="#adressen">2. Adressen och de två bussarna</a></li>
+      <li><a href="#atta">3. Faktorn åtta</a></li>
+      <li><a href="#rakna">4. Räkna binärt</a></li>
+      <li><a href="#hex">5. Hex, kort</a></li>
+      <li><a href="#noderna">6. Noderna att öva i</a></li>
+      <li><a href="#ordlista">7. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 3 · lektion 9 och 10</p>
+    <h1>Minnet och de binära talen</h1>
+    <p class="inledning">RAM-minnet är den enda delen i datorn som glömmer allt när strömmen bryts. Den här sidan förklarar varför — och lär dig räkna i det talsystem minnet själv använder.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du lektion 9 eller 10?</span>
+      <p>Då är det här sidan att läsa. Avsnitt 1 till 3 är lektion 9, avsnitt 4 och 5 är lektion 10. Noderna i avsnitt 6 kan du göra själv, i din egen takt.</p>
+    </div>
+
+    <h2 id="glommer">1. Minnet som glömmer</h2>
+
+    <p>Varje bit i RAM-minnet är en <b>liten kondensator</b> — en behållare för elektrisk laddning. Är den laddad läses den som en etta, är den tom som en nolla.</p>
+
+    <p>Problemet är att laddningen <b>läcker ur sig</b>. Inte på timmar, utan på millisekunder. Lämnad ensam skulle varje etta i minnet sjunka mot noll och bli en nolla.</p>
+
+    <p>Lösningen heter <b>refresh</b>: minnesstyrenheten sveper igenom minnet rad för rad och laddar om varje cell innan den hinner blekna. Riktig DRAM gör det ungefär <b>var 64:e millisekund</b> — tusentals gånger i sekunden, hela tiden datorn är på.</p>
+
+    <p>Det är därför RAM kallas <b>flyktigt minne</b>. Stängs strömmen av stannar omladdningen, laddningen läcker ut, och allt innehåll är borta. Inte raderat — bara utrunnet.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Gå till <b>ComputerExplorer → ram → dram-refresh</b>. Stäng av refresh och vänta. Cellerna bleknar en efter en och räknaren <i>Förlorade bitar</i> tickar uppåt. Slå på den igen, skriv om data, och skruva sedan upp <i>Läckagetakt</i> tills minnet tappar data <b>trots</b> att refresh är på.</p>
+    </div>
+
+    <p><b>Flyktigt betyder inte trasigt.</b> Det är konstruktionen, inte en defekt. Snabbheten är priset man betalar med glömskan — och på lektion 11 möter du två enheter som gjort motsatt val.</p>
+
+    <h2 id="adressen">2. Adressen och de två bussarna</h2>
+
+    <p>Minnet är inte en hög. Det är <b>numrerade platser</b>, och varje plats har ett eget nummer — sin <b>adress</b>.</p>
+
+    <p>Poängen är att processorn <b>inte letar</b>. Den pekar. Ska den läsa något lägger den adressen på <b>adressbussen</b>, och minnet svarar med innehållet på <b>databussen</b>.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Buss</th><th>Bär</th><th>Riktning</th></tr></thead>
+        <tbody>
+          <tr><td><b>Adressbussen</b></td><td><i>vilken</i> plats det gäller</td><td>från processorn till minnet</td></tr>
+          <tr><td><b>Databussen</b></td><td><i>vad</i> som står där</td><td>åt båda hållen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>En buss är samma sorts sak som PCIe och SATA från område 2 — en uppsättning ledningar som binder ihop två delar. Skillnaden är att de här ligger inuti, mellan processorn och minnet.</p>
+
+    <p>Att varje plats har ett eget nummer är hela anledningen till att RAM heter <b>Random Access Memory</b>: vilken adress som helst kan nås direkt, i valfri ordning, med ungefär samma hastighet.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Blanda inte ihop adressen med värdet</span>
+      <p>Adressen är <b>var</b>. Värdet är <b>vad</b>. I noden Adressjakten ställs båda frågorna om vartannat, och det är den vanligaste förväxlingen i hela området.</p>
+    </div>
+
+    <h2 id="atta">3. Faktorn åtta</h2>
+
+    <p>En <b>byte är åtta bitar</b>. Alltid. Prefixen är desamma som överallt annars: kilo, mega, giga, tera.</p>
+
+    <ul>
+      <li>Lagring och minne mäts i <b>byte</b> — GB, MB.</li>
+      <li>Hastighet mäts i <b>bit per sekund</b> — Mbit/s, ofta skrivet Mbps.</li>
+    </ul>
+
+    <p>Därför skiljer en gigabyte och en gigabit med faktorn åtta:</p>
+
+    <pre><code>100 Mbit/s ÷ 8 = 12,5 MB/s</code></pre>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det här kostar poäng i labb 3</span>
+      <p>Du mäter i <b>MB/s</b>. Tillverkaren anger ofta <b>Mbit/s</b>. Blandas de ihop blir ditt resultat fel med en faktor åtta — och det är det vanligaste felet i hela labben.</p>
+    </div>
+
+    <h2 id="rakna">4. Räkna binärt</h2>
+
+    <p>Binärt använder bara två tecken, 0 och 1. Varje position har ett värde, och positionerna dubblas åt vänster:</p>
+
+    <pre><code>128   64   32   16    8    4    2    1</code></pre>
+
+    <h3>Binärt till decimalt: summera positionerna som är ettor</h3>
+
+    <pre><code>128   64   32   16    8    4    2    1
+  1    0    1    0    0    1    1    0
+
+128 +  0 + 32 +  0 +  0 +  4 +  2 +  0  =  166</code></pre>
+
+    <h3>Decimalt till binärt: börja från 128 och fråga "får det plats?"</h3>
+
+    <p>Talet 200:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Position</th><th>Får det plats?</th><th>Kvar</th></tr></thead>
+        <tbody>
+          <tr><td>128</td><td>Ja → 1</td><td>72</td></tr>
+          <tr><td>64</td><td>Ja → 1</td><td>8</td></tr>
+          <tr><td>32</td><td>Nej → 0</td><td>8</td></tr>
+          <tr><td>16</td><td>Nej → 0</td><td>8</td></tr>
+          <tr><td>8</td><td>Ja → 1</td><td>0</td></tr>
+          <tr><td>4</td><td>Nej → 0</td><td>0</td></tr>
+          <tr><td>2</td><td>Nej → 0</td><td>0</td></tr>
+          <tr><td>1</td><td>Nej → 0</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Svaret är <code>11001000</code>. Kontrollen: 128 + 64 + 8 = 200.</p>
+
+    <div class="notis">
+      <span class="rubrik">Metoden att minnas</span>
+      <p><b>Börja alltid från det största talet och arbeta neråt.</b> Den som börjar från 1 och räknar uppåt fastnar.</p>
+    </div>
+
+    <p>Åtta bitar rymmer talen <b>0 till 255</b>. Det är 256 olika värden, inte 255 — nollan räknas med. Alla åtta bitar satta till 1 ger 255, det största ett byte rymmer.</p>
+
+    <h2 id="hex">5. Hex, kort</h2>
+
+    <p>Noderna i avsnitt 6 visar adresser <b>hexadecimalt</b>. Hex är bara ett annat sätt att skriva samma tal: vi räknar 0 till 9 som vanligt, och när siffrorna tar slut fortsätter vi med bokstäver.</p>
+
+    <pre><code>0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F</code></pre>
+
+    <p>A är 10, B är 11, C är 12, D är 13, E är 14 och F är 15. Ett tecken räcker alltså till sexton värden i stället för tio. Står det <code>0x</code> framför betyder det bara "det här är hex".</p>
+
+    <p>Hex ingår inte i det du prövas på — det är där för att noderna använder det. Fastnar du, håll dig till adresserna 0 till 9 tills mekaniken sitter.</p>
+
+    <h2 id="noderna">6. Noderna att öva i</h2>
+
+    <p>Du hittar dem genom att klicka dig fram i Computer Explorer, i den ordning som står här:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vägen dit</th><th>Heter</th><th>Vad du ska se</th></tr></thead>
+        <tbody>
+          <tr><td>ComputerExplorer → ram → dram-refresh</td><td>DRAM-uppdatering</td><td>Stäng av refresh och se minnet rinna ut</td></tr>
+          <tr><td>ComputerExplorer → ram → address-game</td><td>Adressjakten</td><td>Skilj frågan om <i>platsen</i> från frågan om <i>innehållet</i></td></tr>
+          <tr><td>ComputerExplorer → ram → read-write-viz</td><td>RAM: 16 BYTE</td><td>Slå på Långsamt läge. Adressen läggs ut först, data sedan</td></tr>
+          <tr><td>ComputerExplorer → binary → counter</td><td>Binär räknare</td><td>Kryssa i <i>Visa bitvärden</i> — då står positionsraden under varje bit</td></tr>
+          <tr><td>ComputerExplorer → binary → arithmetic</td><td>Binär addition</td><td>Carryn som ripplar genom flera positioner</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Vill du ha mer?</span>
+      <p><b>ComputerExplorer → ram → stack-viz</b> visar hur ett program använder minnet, och <b>ComputerExplorer → binary → race-game</b> tränar omvandlingen på tid. Ingetdera ingår i området — de är där om du vill.</p>
+    </div>
+
+    <h2 id="ordlista">7. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>RAM</b></td><td>Random Access Memory. Arbetsminnet, där vilken adress som helst nås lika snabbt i valfri ordning</td></tr>
+          <tr><td><b>Flyktigt minne</b></td><td>Minne som tappar sitt innehåll när strömmen bryts</td></tr>
+          <tr><td><b>Kondensator</b></td><td>Behållare för elektrisk laddning. En per bit i RAM-minnet</td></tr>
+          <tr><td><b>Refresh</b></td><td>Omladdningen av varje minnesrad, ungefär var 64:e millisekund, så att laddningen inte hinner läcka ut</td></tr>
+          <tr><td><b>Adress</b></td><td>Numret på en enskild plats i minnet. Talar om <i>var</i>, inte <i>vad</i></td></tr>
+          <tr><td><b>Adressbuss</b></td><td>Ledningarna som bär adressen från processorn till minnet</td></tr>
+          <tr><td><b>Databuss</b></td><td>Ledningarna som bär själva innehållet, åt båda hållen</td></tr>
+          <tr><td><b>Bit</b></td><td>Den minsta enheten. Antingen 0 eller 1</td></tr>
+          <tr><td><b>Byte</b></td><td>Åtta bitar. Rymmer talen 0 till 255</td></tr>
+          <tr><td><b>Mbit/s</b></td><td>Megabit per sekund. Mäter hastighet. Dela med 8 för att få MB/s</td></tr>
+          <tr><td><b>Hexadecimalt</b></td><td>Talsystem med sexton tecken: 0–9 och sedan A–F</td></tr>
+          <tr><td><b>Carry</b></td><td>Minnessiffran som bärs vidare till nästa position vid addition</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 3</a> · <a href="lagringen.html">Lagringen, nästa uppslag</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

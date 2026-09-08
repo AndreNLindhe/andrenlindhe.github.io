@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Labb 3: Minne och lagring – Dator- och nätverksteknik område 3</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-3-labb">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Uppgift</strong> · Labb 3: Mät och jämför</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppgiften">1. Uppgiften</a></li>
+      <li><a href="#metoden">2. Metoden</a></li>
+      <li><a href="#delarna">3. De fem delarna</a></li>
+      <li><a href="#ska">4. Ska-krav</a></li>
+      <li><a href="#bor">5. Bör-krav</a></li>
+      <li><a href="#utmaning">6. Utmaning</a></li>
+      <li><a href="#felsokning">7. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 3 · kursens andra labbrapport</p>
+    <h1>Labb 3: Minne och lagring — mät och jämför</h1>
+    <p class="inledning">Du mäter hur snabbt minst två lagringsmedia faktiskt är, med en tidtagen filkopiering, och förklarar skillnaden utifrån hur medierna fungerar inuti.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-09-30">
+        <span class="nar">30 sept</span>
+        <span class="vad">Labb 3 lämnas in kl 23:59
+          <small>Rapporten byggs under alla fyra passen, inte kvällen innan.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det som är nytt den här gången</span>
+      <p>Mallens fem delar är samma som i labb 2. Skillnaden är att <b>resultatdelen ska innehålla en tabell med dina egna mätvärden</b>. Förra gången beskrev du vad du såg. Den här gången producerar du siffror — och en siffra utan enhet är inget resultat.</p>
+    </div>
+
+    <h2 id="uppgiften">1. Uppgiften</h2>
+
+    <p>Du mäter <b>läs- och skrivhastighet i MB/s</b> på minst två lagringsmedia, ställer upp mätvärdena i en tabell och förklarar varför de ser ut som de gör.</p>
+
+    <p>De två medierna är normalt <b>skoldatorns interna SSD</b> och <b>ett USB-minne</b>. Har ni tillgång till en extern mekanisk hårddisk är den ett bättre andra medium, eftersom skillnaden mellan rörliga och icke-rörliga delar då syns i era egna siffror.</p>
+
+    <div class="notis">
+      <span class="rubrik">Par vid bänken, egen rapport</span>
+      <p>Mätningarna gör ni två och två och delar mätvärden. <b>Rapporten skriver var och en själv</b> — dokumentationen bedöms individuellt. Samma siffror i båda rapporterna är självklart. Det är förklaringen som ska vara din egen. Labbpartnerns namn står överst.</p>
+    </div>
+
+    <h2 id="metoden">2. Metoden</h2>
+
+    <p><b>Välj en enskild fil på minst 2 GB.</b> En ISO-fil, en videofil eller en stor arkivfil fungerar. Välj inte en mapp med många små filer — det mäter sökningar och filsystem i stället för överföring.</p>
+
+    <p>Hastigheten räknas ut så här:</p>
+
+    <pre><code>hastighet (MB/s) = filens storlek i MB ÷ tiden i sekunder
+
+2 GB = 2048 MB
+2048 MB ÷ 40 s = 51 MB/s</code></pre>
+
+    <h3>Mätning 1 — interna SSD</h3>
+    <p>Kopiera testfilen från en mapp till en annan <b>på samma enhet</b>. Enheten läser och skriver då samtidigt, så siffran blir lägre än vad SSD:n klarar åt ett enda håll. Det är inte ett mätfel — men skriv in det, för det förklarar ditt eget resultat.</p>
+
+    <h3>Mätning 2 — det andra mediet</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Riktning</th><th>Vad som mäts</th></tr></thead>
+        <tbody>
+          <tr><td>Interna SSD → USB-minnet</td><td>USB-minnets <b>skrivhastighet</b></td></tr>
+          <tr><td>USB-minnet → interna SSD</td><td>USB-minnets <b>läshastighet</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Skrivning är normalt långsammare än läsning. Skriv ut båda siffrorna.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Mät en gång, på en nystartad maskin</span>
+      <p>Kopierar du samma fil en andra gång ligger den kvar i RAM-minnets cache och siffran blir orimligt hög. Då mäter du minnet, inte lagringen.</p>
+    </div>
+
+    <p>Ta tid med mobilens tidtagarur. Utforskarens hastighetsvisning får användas som komplement, men inte som enda källa — den visar ett ögonblicksvärde som hoppar, inte ett snitt.</p>
+
+    <h2 id="delarna">3. De fem delarna</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad som ska stå där</th></tr></thead>
+        <tbody>
+          <tr><td><b>1. Planering</b></td><td>Vilka två medier och varför. Testfilen och dess storlek i MB. Metoden. Och vad du <b>tror</b> går snabbast, skrivet <i>före</i> mätningen</td></tr>
+          <tr><td><b>2. Utförande</b></td><td>Vad ni gjorde, i den ordning ni gjorde det. Vilken maskin, vilken port, om maskinen var nystartad</td></tr>
+          <tr><td><b>3. Resultat</b></td><td>Tabellen — och förklaringen under den</td></tr>
+          <tr><td><b>4. Felsökning</b></td><td>Vad som gick fel, eller vad ni kontrollerade när något såg konstigt ut. Lämnas aldrig tomt</td></tr>
+          <tr><td><b>5. Källor</b></td><td>Minst en, med språket angivet. En produktspecifikation på engelska duger utmärkt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Tabellen att fylla i</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Medium</th><th>Riktning</th><th>Storlek (MB)</th><th>Tid (s)</th><th>Hastighet (MB/s)</th></tr></thead>
+        <tbody>
+          <tr><td>Intern SSD</td><td>inom samma enhet</td><td></td><td></td><td></td></tr>
+          <tr><td>USB-minne</td><td>skrivning</td><td></td><td></td><td></td></tr>
+          <tr><td>USB-minne</td><td>läsning</td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Under tabellen skriver du svaret på en enda fråga: <b>varför blev skillnaden så stor — eller så liten — som den blev?</b></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">4. Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Alla fem delarna är ifyllda</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Labbpartnerns namn står överst</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Minst två medier är mätta och står i tabellen</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Varje hastighet har enheten MB/s utskriven</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Jag beskriver översiktligt vad som skiljer medierna åt</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Jag har stämt av med läraren under arbetets gång</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">5. Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Jag förklarar <i>varför</i> siffrorna ser ut som de gör, kopplat till hur medierna fungerar inuti</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Filstorlek och tid står med, så att någon annan kan räkna efter</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Planeringsdelen var godkänd av läraren <b>innan</b> första mätningen</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Jag har använt en produktspecifikation på engelska utan handledning</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Utförandet går att följa steg för steg och ge jämförbara siffror</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">6. Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utmaning-1"><span>Jag skiljer på vad jag <i>mätte</i> och vad jag <i>ville</i> mäta</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-2"><span>Jag skriver ut minst ett förbehåll — något siffran inte visar</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-3"><span>Jag jämför mitt värde mot tillverkarens angivna, och kommenterar skillnaden</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-4"><span>Jag ger ett eget förslag på hur mätningen kunde gjorts bättre</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <div class="notis">
+      <span class="rubrik">Fyra förbehåll att välja bland till utmaningen</span>
+      <p><b>Bussens topphastighet är ett tak, inte ett löfte</b> — SATA III klarar cirka 600 MB/s, men ingen enhet når det bara för att den sitter i porten.<br>
+      <b>USB-portens generation sätter sitt eget tak</b> — USB 2.0 klarar 480 Mbit/s, alltså cirka 60 MB/s. Ett snabbt minne i en långsam port mäter porten.<br>
+      <b>De första sekunderna ljuger</b> — Windows skriver via en buffert i RAM, så hastigheten startar högt och sjunker.<br>
+      <b>En stor fil mäter något annat än många små</b> — på en mekanisk hårddisk dominerar sökningen totalt vid tusen små filer.</p>
+    </div>
+
+    <h2 id="felsokning">7. Felsökning</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: långsam, USB, cache" autocomplete="off">
+      <p class="traffar" id="traffar-fel">6 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Kopieringen gick på någon sekund, hastigheten blev orimligt hög</td><td>Filen låg kvar i RAM-minnets cache sedan förra kopieringen</td><td>Starta om maskinen och mät en gång till, en enda gång</td></tr>
+          <tr><td>USB-minnet ger cirka 50–60 MB/s trots att det säljs som snabbt</td><td>Det sitter i en USB 2.0-port, vars tak är 480 Mbit/s</td><td>Byt port och mät om. Skriv in båda värdena — jämförelsen är ett resultat i sig</td></tr>
+          <tr><td>SSD:ns siffra ligger långt under 500 MB/s</td><td>Enheten läser och skriver samtidigt när filen kopieras inom samma enhet</td><td>Inget fel. Skriv in förklaringen i utförandedelen</td></tr>
+          <tr><td>Hastigheten hoppar kraftigt i Utforskarens fönster</td><td>Windows visar ett ögonblicksvärde, inte ett snitt</td><td>Ta tid på hela kopieringen och räkna ut snittet själv</td></tr>
+          <tr><td>Mätvärdet blev åtta gånger fel jämfört med förväntat</td><td>Mbit/s och MB/s har blandats ihop</td><td>Dela med 8. Tillverkaren anger ofta bit, du mäter byte</td></tr>
+          <tr><td>Kopieringen tog mycket längre tid än väntat</td><td>Testfilen är en mapp med många små filer</td><td>Välj en enskild stor fil. Många små mäter sökningar, inte överföring</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Innan du lämnar in</span>
+      <p>Gå igenom ska-kraven ovan en sista gång. Den vanligaste bristen är inte en saknad mätning — det är en <b>tabell utan förklaring under</b>, eller ett värde utan enhet.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="../labbrapport.html">Labbrapportmall</a> · <a href="index.html">Tillbaka till område 3</a> · <a href="lagringen.html">Lagringen, del för del</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

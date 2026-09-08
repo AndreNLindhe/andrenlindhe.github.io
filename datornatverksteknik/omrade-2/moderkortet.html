@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moderkortet, del för del – Dator- och nätverksteknik område 2</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-2-moderkortet">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Uppslag</strong> · Moderkortet, del för del</span>
+  <a href="#forvaxlingar">Förväxlingar</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#sockeln">1. Sockeln</a></li>
+      <li><a href="#platserna">2. Platserna</a></li>
+      <li><a href="#kontakterna">3. Kontakterna</a></li>
+      <li><a href="#kretsarna">4. Kretsarna</a></li>
+      <li><a href="#formfaktorn">5. Formfaktorn</a></li>
+      <li><a href="#forvaxlingar">6. Tre förväxlingar</a></li>
+      <li><a href="#nivaer">7. E, C och A</a></li>
+      <li><a href="#missuppfattningar">8. Missuppfattningar</a></li>
+      <li><a href="#ordlista">9. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 2 · lektion 5 och 6</p>
+    <h1>Moderkortet, del för del</h1>
+    <p class="inledning">I område 1 var moderkortet "den stora brädan som allt annat sitter i". Här får brädan sina egna delar: sockeln, platserna, kontakterna och kretsarna. Det är dem du ska namnge i labb 2 — och känna igen igen när du bygger en dator i lektion 13.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du något av passen?</span>
+      <p>Allt som gicks igenom på lektion 5 och 6 står på den här sidan. Det du inte kan läsa dig till är att ha hållit i kortet — fråga en klasskamrat om ni kan titta på deras tillsammans, eller kom till mig så plockar vi fram ett.</p>
+    </div>
+
+    <h2 id="sockeln">1. Sockeln</h2>
+    <p>Sockeln är fästet som håller processorn. Den sitter mitt på kortet och är kvadratisk, med en spak eller en bygel som låser fast processorn.</p>
+
+    <p>Sockeltypen avgör <b>var kontaktstiften sitter</b>, och det är den enda skillnaden du behöver kunna:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Typ</th><th>Står för</th><th>Stiften sitter</th><th>Används av</th></tr></thead>
+        <tbody>
+          <tr><td><b>LGA</b></td><td><i>Land Grid Array</i></td><td><b>I sockeln.</b> Processorn har platta kontaktytor på undersidan</td><td>Intel. Och AMD, från AM5</td></tr>
+          <tr><td><b>PGA</b></td><td><i>Pin Grid Array</i></td><td><b>På processorn.</b> Sockeln har hål</td><td>AMD före AM5, till exempel AM4 och AM3+</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Rör aldrig stiften</span>
+      <p>Stiften är det ömtåligaste som finns på hela kortet. Ett böjt stift i en LGA-sockel är moderkortets fel och går sällan att laga. Ett böjt stift på en PGA-processor är processorns fel. Sockeln är den enda delen på kortet du aldrig tar i med fingret.</p>
+    </div>
+
+    <p>Sockelnamnet säger ofta både typ och storlek. <code>LGA1718</code> betyder LGA med 1718 kontaktpunkter — och det är samma sockel som AMD kallar <b>AM5</b>. <code>LGA 1150</code> har 1150 stift. <b>Siffran är alltså antalet stift</b>, inte ett modellnummer.</p>
+
+    <p>En processor passar i <b>exakt en</b> sockeltyp. Det finns ingen adapter.</p>
+
+    <h2 id="platserna">2. Platserna</h2>
+    <p>Fyra sorters platser, och de går att skilja på formen ensam.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Plats</th><th>Till vad</th><th>Känns igen på</th></tr></thead>
+        <tbody>
+          <tr><td><b>Minnesplats</b><br><span style="color:var(--dov)">DIMM</span></td><td>RAM-minnet</td><td>Långsmal, med klämmor i ändarna. Sitter alltid nära sockeln — kort väg till processorn</td></tr>
+          <tr><td><b>PCIe x16</b></td><td>Grafikkort</td><td>Den långa. Den närmast processorn är ofta metallförstärkt, för ett grafikkort är tungt</td></tr>
+          <tr><td><b>PCIe x1</b></td><td>Mindre kort: nätverk, ljud</td><td>Samma form som x16, men en stump</td></tr>
+          <tr><td><b>M.2</b></td><td>Lagring</td><td>Ser inte ut som de andra. Enheten ligger <i>ner</i> mot kortet i stället för att stå upp. Ofta under en kylfläns</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Två saker som står i manualen och inte på kortet</span>
+      <p><b>Vilka två minnesplatser du ska använda</b> om du bara har två minnen. Det är inte alltid de två närmast processorn.</p>
+      <p><b>Hur snabb den andra x16-platsen är.</b> Den ser likadan ut som den första men är sällan lika snabb — kontakten säger x16, kopplingen bakom kan vara x4. Att skriva ut det i labbrapporten är precis den nyansering som skiljer A från C.</p>
+    </div>
+
+    <h2 id="kontakterna">3. Kontakterna</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kontakt</th><th>Vad som kopplas in</th><th>Var den sitter</th></tr></thead>
+        <tbody>
+          <tr><td><b>24-pin</b></td><td>Ström till <b>moderkortet</b>, från nätaggregatet</td><td>Längs högerkanten. Kortets enskilt största kontakt</td></tr>
+          <tr><td><b>4- eller 8-pin</b></td><td>Ström till <b>processorn</b> — en separat matning</td><td>Uppe vid sockeln</td></tr>
+          <tr><td><b>SATA</b></td><td>Lagringsenheter</td><td>Nedre högra hörnet. Märkta <code>SATA6G</code> på kortet</td></tr>
+          <tr><td><b>Frontpanel</b></td><td>Strömknapp, återställning, lysdioder</td><td>Också nedre högra hörnet. Ett fält med nakna stift</td></tr>
+          <tr><td><b>USB-kontakt</b></td><td>USB-portarna på chassits framsida</td><td>Längs nederkanten eller högerkanten</td></tr>
+          <tr><td><b>Fläktkontakter</b></td><td>Processorns kylare och chassifläktar</td><td>Utspridda. De vid sockeln är märkta <code>CPU_FAN</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Processorns strömkontakt är den som glöms</span>
+      <p>Att kortet har <b>två</b> strömkontakter överraskar nästan alla första gången. Glömmer du den lilla vid sockeln ser maskinen helt strömlös ut trots att 24-pin sitter i — inga fläktar, ingen lampa, ingenting. Det är det vanligaste felet vid ett bygge, och du möter det på riktigt i lektion 14.</p>
+    </div>
+
+    <h2 id="kretsarna">4. Kretsarna</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krets</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><b>Chipsetet</b></td><td>Fördelar en del av kortets anslutningar — SATA, USB och vissa expansionsplatser. En <b>fördelare</b>, inte en räknare. Sitter under en egen kylfläns nere till höger</td></tr>
+          <tr><td><b>CMOS-batteriet</b></td><td>Håller klockan och grundinställningarna vid liv <b>utan yttre ström</b>. Ett platt knappcellsbatteri</td></tr>
+          <tr><td><b>BIOS-kretsen</b></td><td>Innehåller kortets firmware. Vad den gör när maskinen startar hör till område 4</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kommer du ihåg <b>firmware</b> från lektion 3? Det är programkod som sitter fast i en krets i stället för att ligga som en fil på lagringen — <i>mjukvara som bor i hårdvaran</i>. BIOS-kretsen är det tydligaste exemplet som finns.</p>
+
+    <p>En dator som glömmer datumet varje gång den varit strömlös har nästan alltid ett slut CMOS-batteri. Det är ett av få fel som går att gissa rätt på från symptomet ensamt.</p>
+
+    <h2 id="formfaktorn">5. Formfaktorn</h2>
+    <p>Formfaktorn är kortets standardiserade storlek och hålmönster. Den bestämmer tre saker: <b>yttermåtten, var skruvhålen sitter</b> mot chassit, och <b>hur många expansionsplatser</b> som får plats.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Formfaktor</th><th>Ungefärligt mått</th><th>Kommentar</th></tr></thead>
+        <tbody>
+          <tr><td><b>ATX</b></td><td>305 × 244 mm</td><td>Vanligast. Flest expansionsplatser</td></tr>
+          <tr><td><b>micro-ATX</b></td><td>244 × 244 mm</td><td>Kortare, färre platser</td></tr>
+          <tr><td><b>Mini-ITX</b></td><td>170 × 170 mm</td><td>Minst. Oftast en enda expansionsplats</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Följden är det som spelar roll: <b>ett kort och ett chassi måste ha samma formfaktor.</b> Ett ATX-kort går inte i ett Mini-ITX-chassi, och skruvhålen är skälet.</p>
+
+    <h2 id="forvaxlingar">6. Tre förväxlingar</h2>
+    <p>Det här är de tre som faktiskt blir fel, varje år. Kan du dem har du klarat den svåraste delen av labb 2.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Förväxlingen</th><th>Så skiljer du dem</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>SATA-kontakt eller frontpanel?</b><br><span style="color:var(--dov)">Båda små, båda i samma hörn</span></td>
+            <td>SATA-kontakten är en <b>sluten plastram</b> med ett L-format spår, märkt <code>SATA</code>. Frontpanelen är ett <b>fält med nakna stift</b> utan ram. Kabel som sitter fast i en ram, mot lösa stift man trär på</td>
+          </tr>
+          <tr>
+            <td><b>PCIe x16 eller x1?</b><br><span style="color:var(--dov)">Identisk form</span></td>
+            <td>Bara längden skiljer. x16 är den du kan lägga en penna längs. x1 är en stump</td>
+          </tr>
+          <tr>
+            <td><b>Chipsetets kylfläns eller processorns?</b><br><span style="color:var(--dov)">Båda metallplattor med logotyp</span></td>
+            <td>Processorns kylare sitter <b>i sockeln</b>, mitt på kortet. Chipsetets sitter nere till höger och har <b>ingen sockel under sig</b></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Delarna sitter olika på olika kort</span>
+      <p>På lektion 6 fick du namnge delarna på ett kort du aldrig sett — ett Intel-kort från omkring 2012, medan ert eget är från 2024. Det var poängen. <b>Delarna heter samma sak men sitter någon annanstans</b>, och det är den kunskapen som är värd något. Det äldre kortet hade till exempel ingen M.2-plats alls: M.2 fanns inte 2012, så all lagring gick via SATA.</p>
+    </div>
+
+    <h2 id="nivaer">7. E, C och A</h2>
+    <p>Kryssa av när du kan. Kraven hör till labb 2 — hela uppgiften står på <a href="labb.html">labbsidan</a>.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Jag kan peka ut sockeln och säga om den är LGA eller PGA</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Jag kan skilja minnesplatserna från expansionsplatserna</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Jag hittar kortets två strömkontakter och vet vilken som går vart</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Jag kan peka ut chipsetet och CMOS-batteriet</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Jag klarar de tre förväxlingarna utan att tveka</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Jag kan namnge delarna på ett kort jag aldrig sett förut</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Jag kan säga vad formfaktorn bestämmer</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Jag kan hitta och läsa mitt korts manual på engelska</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Jag kan förklara varför två platser som ser likadana ut inte behöver vara lika snabba</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Jag kan slå upp i manualen vilka platser som delar bandbredd med varandra</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Jag kan säga ungefär hur gammalt ett kort är utifrån vilka platser och portar det har</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="missuppfattningar">8. Missuppfattningar</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: sockel, SATA, kylfläns" autocomplete="off">
+      <p class="traffar" id="traffar-fel">7 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>Sockeln och processorn är samma sak</td><td>Sockeln sitter kvar på kortet när processorn är borta. Den är fästet, inte delen</td></tr>
+          <tr><td>Man kan köpa en adapter om processorn inte passar</td><td>Nej. En processor passar i exakt en sockeltyp. Passar den inte är kortet fel köpt</td></tr>
+          <tr><td>Siffran i <code>LGA 1150</code> är ett modellnummer</td><td>Det är antalet kontaktstift. LGA 1150 har 1150 av dem</td></tr>
+          <tr><td>Alla metallplattor på kortet kyler processorn</td><td>Processorns kylare sitter i sockeln. De andra kyler chipsetet och strömkretsarna</td></tr>
+          <tr><td>24-pin är den enda strömkontakten</td><td>Processorn har en egen, uppe vid sockeln. Glöms den startar ingenting</td></tr>
+          <tr><td>Två x16-platser är lika snabba</td><td>Kontakten säger x16, kopplingen bakom kan vara x4. Manualen har svaret</td></tr>
+          <tr><td>Ett moderkort passar i vilket chassi som helst</td><td>Formfaktorn måste stämma. Skruvhålen sitter på bestämda ställen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">9. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Sockel</b></td><td>Fästet på moderkortet som håller processorn</td></tr>
+          <tr><td><b>LGA</b></td><td><i>Land Grid Array.</i> Sockeltyp där stiften sitter i sockeln</td></tr>
+          <tr><td><b>PGA</b></td><td><i>Pin Grid Array.</i> Sockeltyp där stiften sitter på processorn</td></tr>
+          <tr><td><b>DIMM</b></td><td>Minnesplatsen där RAM-modulerna sitter</td></tr>
+          <tr><td><b>PCIe</b></td><td><i>PCI Express.</i> Expansionsplatsen där grafikkort och andra kort sätts i</td></tr>
+          <tr><td><b>M.2</b></td><td>Platsen där lagring monteras liggande direkt på moderkortet</td></tr>
+          <tr><td><b>Chipset</b></td><td>Kretsen som fördelar en del av kortets anslutningar</td></tr>
+          <tr><td><b>CMOS-batteri</b></td><td>Knappcellen som håller klocka och inställningar vid liv utan ström</td></tr>
+          <tr><td><b>Formfaktor</b></td><td>Kortets standardiserade storlek och hålmönster. ATX är vanligast</td></tr>
+          <tr><td><b>Frontpanel</b></td><td>Stiftfältet där chassits strömknapp och lysdioder kopplas in</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 2</a> · <a href="bussarna.html">Bussarna och processorerna</a> · <a href="labb.html">Labb 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

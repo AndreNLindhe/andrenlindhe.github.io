@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bussarna och processorerna – Dator- och nätverksteknik område 2</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-2-bussarna">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Uppslag</strong> · Bussarna och processorerna</span>
+  <a href="#rakningen">Mbit och MB</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#buss">1. Vad en buss är</a></li>
+      <li><a href="#pcie">2. PCIe</a></li>
+      <li><a href="#sata">3. SATA</a></li>
+      <li><a href="#externa">4. USB och Ethernet</a></li>
+      <li><a href="#rakningen">5. Mbit och MB</a></li>
+      <li><a href="#typer">6. Fyra processortyper</a></li>
+      <li><a href="#prestanda">7. Vad som gör en processor snabb</a></li>
+      <li><a href="#sockel">8. Processor och sockel</a></li>
+      <li><a href="#nivaer">9. E, C och A</a></li>
+      <li><a href="#missuppfattningar">10. Missuppfattningar</a></li>
+      <li><a href="#ordlista">11. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 2 · lektion 7 och 8</p>
+    <h1>Bussarna och processorerna</h1>
+    <p class="inledning">Delarna har namn sedan lektion 5. Här får vägarna mellan dem namn — och en hastighet. Räkningen i avsnitt 5 är den enda på den här sidan du kommer att använda igen varje gång ett nätverk mäts, hela våren.</p>
+
+    <h2 id="buss">1. Vad en buss är</h2>
+    <p>En buss är <b>en väg som data färdas på, med en bestämd bredd och en bestämd hastighet</b>. Det är hela begreppet. Två egenskaper räcker för att beskriva vilken buss som helst:</p>
+
+    <ol>
+      <li><b>Vad den förbinder</b> — vilka två saker sitter i var sin ände?</li>
+      <li><b>Hur mycket som får plats per sekund</b> — bandbredden.</li>
+    </ol>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sort</th><th>Var den går</th><th>Exempel</th></tr></thead>
+        <tbody>
+          <tr><td><b>Intern buss</b></td><td>Stannar inne på moderkortet. Binder ihop sockel, minnesplatser och expansionsplatser</td><td>PCIe, SATA</td></tr>
+          <tr><td><b>Extern buss</b></td><td>Lämnar kortet, i praktiken genom bakre I/O-panelen</td><td>USB, Ethernet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="pcie">2. PCIe</h2>
+    <p><b>PCI Express</b>, i dagligt tal PCIe, är kortets viktigaste interna buss och den grafikkortet sitter på. Två ord förklarar hela bandbredden:</p>
+
+    <ul>
+      <li><b>Lane</b> — en enskild bana. En plats märkt <code>x16</code> har sexton av dem, en <code>x1</code> har en.</li>
+      <li><b>Generation</b> — varje ny generation ungefär <b>fördubblar</b> bandbredden per lane.</li>
+    </ul>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Generation</th><th>Ungefär per lane</th><th>En x16-plats</th></tr></thead>
+        <tbody>
+          <tr><td>PCIe 3.0</td><td>1 GB/s</td><td>~16 GB/s</td></tr>
+          <tr><td>PCIe 4.0</td><td>2 GB/s</td><td>~32 GB/s</td></tr>
+          <tr><td>PCIe 5.0</td><td>4 GB/s</td><td>~64 GB/s</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Siffrorna är avrundade. Det du ska bära med dig är <b>storleksordningen och fördubblingen</b>, inte decimalerna.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Antalet lanes står inte alltid på platsen</span>
+      <p>Den andra x16-platsen kan vara kopplad med bara fyra lanes trots att kontakten är lika lång. Vilket som gäller står i moderkortets manual. Skriver du ut det förbehållet i labbrapporten har du visat A-nivåns nyansering.</p>
+    </div>
+
+    <h2 id="sata">3. SATA</h2>
+    <p><b>SATA</b> binder lagringsenheter till kortet — en kabel per enhet, och kontakterna sitter i kortets nedre högra hörn.</p>
+
+    <p>Den vanliga versionen heter <b>SATA 6G</b>, och siffran är bokstavligen hastigheten: <b>6 Gbit/s</b>. Titta på kortet — kontakterna är märkta <code>SATA6G</code>. Det är ovanligt att en buss bär sin egen bandbredd i namnet på kretskortet.</p>
+
+    <p>Räknat i byte blir det omkring <b>600 MB/s</b> i praktiken.</p>
+
+    <div class="notis">
+      <span class="rubrik">Bussens tak är inte diskens fart</span>
+      <p>6 Gbit/s är vad <b>bussen</b> klarar, inte vad disken klarar. En långsam hårddisk mättar den aldrig. Hur snabba enheterna faktiskt är mäter du själv i område 3 — det är hela labb 3.</p>
+    </div>
+
+    <h2 id="externa">4. USB och Ethernet</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Buss</th><th>Hastighet</th><th>Känns igen på</th></tr></thead>
+        <tbody>
+          <tr><td><b>USB 2.0</b></td><td>480 Mbit/s</td><td><b>Svart</b> plast inne i porten</td></tr>
+          <tr><td><b>USB 3.x</b></td><td>5–20 Gbit/s beroende på generation</td><td><b>Blå</b> plast inne i porten</td></tr>
+          <tr><td><b>Ethernet</b> genom RJ45</td><td>1 Gbit/s i skolan och hemma</td><td>Fyrkantig kontakt med klämma</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Minns du baksidesbilden från den diagnostiska övningen i område 1? Där räknade du svarta och blå USB-portar utan att veta varför färgen fanns. <b>Färgen är hastighetsmärkningen.</b></p>
+
+    <h2 id="rakningen">5. Mbit och MB</h2>
+
+    <div class="notis viktig">
+      <span class="rubrik">Den enda formeln du behöver</span>
+      <p><b>Bussar mäts i bitar. Filer mäts i byte. En byte är åtta bitar.</b><br>
+      För att gå från det ena till det andra: <b>dela med 8.</b></p>
+    </div>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Buss</th><th>I bitar</th><th>I byte</th></tr></thead>
+        <tbody>
+          <tr><td>USB 2.0</td><td>480 Mbit/s</td><td><b>60 MB/s</b></td></tr>
+          <tr><td>SATA 6G</td><td>6000 Mbit/s</td><td><b>~600 MB/s</b> <span style="color:var(--dov)">(750 i teorin)</span></td></tr>
+          <tr><td>Ethernet</td><td>1000 Mbit/s</td><td><b>125 MB/s</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Det är därför en fil på 1 GB <b>inte</b> kommer över på en sekund på ett gigabitnät — den tar omkring åtta.</p>
+
+    <p>Vill du testa dig själv: hur lång tid tar en fil på 4 GB över de olika bussarna?</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Buss</th><th>Hastighet</th><th>4 GB tar</th></tr></thead>
+        <tbody>
+          <tr><td>PCIe 4.0 x16</td><td>~32 GB/s</td><td>en åttondels sekund</td></tr>
+          <tr><td>SATA 6G</td><td>~600 MB/s</td><td>~7 sekunder</td></tr>
+          <tr><td>Ethernet 1 Gbit/s</td><td>125 MB/s</td><td>~32 sekunder</td></tr>
+          <tr><td>USB 2.0</td><td>60 MB/s</td><td>drygt en minut</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Spannet är ungefär <b>femhundra gånger</b> mellan snabbast och långsammast — och den långsammaste är den du använder oftast.</p>
+
+    <h2 id="typer">6. Fyra processortyper</h2>
+    <p>Processorer delas in efter <b>vad de ska användas till</b>, inte efter hur snabba de är.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Typ</th><th>Byggd för</th><th>Vad som får väga tyngst</th></tr></thead>
+        <tbody>
+          <tr><td><b>Stationär</b></td><td>Skrivbordsdatorn</td><td>Hög klockfrekvens och många kärnor. Ström och värme begränsar inte</td></tr>
+          <tr><td><b>Bärbar</b></td><td>Laptopen</td><td>Strömförbrukning och värme väger <b>lika tungt</b> som hastighet. Batteritid är en del av kravet</td></tr>
+          <tr><td><b>Server</b></td><td>Maskiner som går dygnet runt i åratal</td><td>Fler kärnor, och ofta <b>ECC</b> — minne som upptäcker och rättar bitfel</td></tr>
+          <tr><td><b>Inbyggd</b></td><td>Telefoner och surfplattor</td><td>Extremt låg strömförbrukning. Bygger på <b>ARM</b>-arkitekturen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">En bärbar processor är inte en sämre stationär</span>
+      <p>Den är byggd mot ett annat krav. Samma sak med serverprocessorn: fler kärnor men ofta lägre klockfrekvens, för att klara många samtidiga uppgifter i åratal utan att gå sönder. Att jämföra dem rakt av är som att jämföra en lastbil med en sportbil.</p>
+    </div>
+
+    <h2 id="prestanda">7. Vad som gör en processor snabb</h2>
+    <p>Fyra faktorer. De två första känner de flesta till, de två sista är de som ger nyansen.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Faktor</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><b>Klockfrekvensen</b>, i GHz</td><td>Hur många takter per sekund</td></tr>
+          <tr><td><b>Antalet kärnor</b></td><td>Hur många saker den kan räkna på samtidigt</td></tr>
+          <tr><td><b>Cachestorleken</b></td><td>Det lilla snabbminnet inuti processorn</td></tr>
+          <tr><td><b>Arkitekturens ålder</b></td><td>Hur mycket arbete den hinner <i>per takt</i></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Fler GHz betyder inte alltid snabbare</span>
+      <p>En modern processor på 3 GHz slår en tio år gammal på 4 GHz, eftersom den hinner mer arbete per takt. <b>Klockfrekvens går bara att jämföra rakt av inom samma generation.</b></p>
+    </div>
+
+    <h2 id="sockel">8. Processor och sockel</h2>
+    <p>En processor passar i <b>exakt en</b> sockeltyp. Det finns ingen adapter, ingen mellanlösning. Väljer du fel processor till ditt moderkort är kortet fel köpt — och det är precis det felet du ska undvika när du bygger en dator i lektion 13.</p>
+
+    <p>Ofta går det att lista ut sockeln ur namnet:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sockel</th><th>Typ</th><th>Hur du ser det</th></tr></thead>
+        <tbody>
+          <tr><td><code>LGA 2011</code></td><td>LGA</td><td>Står i namnet. Och siffran är antalet stift: 2011 stycken</td></tr>
+          <tr><td><code>LGA 1150</code></td><td>LGA</td><td>Samma sak, 1150 stift</td></tr>
+          <tr><td><code>AM3+</code></td><td>PGA</td><td>AMD. Alla AMD-socklar <b>före AM5</b> är PGA — stiften sitter på processorn</td></tr>
+          <tr><td><code>AM5</code></td><td>LGA</td><td>Här bytte AMD. AM5 heter <code>LGA1718</code> hos Intel-namngivningen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="nivaer">9. E, C och A</h2>
+    <p>Det här hör till labb 2 och till prov 1 i november. Kryssa av när du kan.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Jag kan säga vad en buss är och skilja intern från extern</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Jag kan namnge tre bussar och säga vad var och en förbinder</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Jag kan nämna minst två faktorer som påverkar en processors prestanda</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Jag kan namnge fyra processortyper efter användningsområde</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Jag kan ange bandbredd med enhet, inte bara säga "snabb"</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Jag kan räkna om mellan Mbit/s och MB/s åt båda hållen</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Jag kan förklara varför bussens tak inte är samma sak som enhetens fart</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Jag kan läsa ut ur ett sockelnamn om den är LGA eller PGA</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Jag kan räkna ut hur lång tid en fil tar över en given buss</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Jag kan förklara varför en modern 3 GHz kan slå en gammal 4 GHz</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Jag kan resonera om vilken buss som är flaskhalsen i en given situation</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="missuppfattningar">10. Missuppfattningar</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: GHz, Mbit, SATA" autocomplete="off">
+      <p class="traffar" id="traffar-fel">7 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>Mbit/s och MB/s är samma sak</td><td>Åtta gånger fel. Bussar mäts i bitar, filer i byte</td></tr>
+          <tr><td>En gigabitanslutning flyttar 1 GB på en sekund</td><td>Den flyttar 125 MB på en sekund. 1 GB tar omkring åtta</td></tr>
+          <tr><td>Disken är lika snabb som SATA-bussen</td><td>Bussen är vägen, disken är fordonet. En långsam disk mättar aldrig bussen</td></tr>
+          <tr><td>Fler GHz är alltid snabbare</td><td>Bara inom samma generation. En nyare arkitektur hinner mer per takt</td></tr>
+          <tr><td>Bärbara processorer är sämre versioner</td><td>De är byggda mot ett annat krav. Batteritid ingår i kravet</td></tr>
+          <tr><td>Två lika långa PCIe-platser är lika snabba</td><td>Antalet lanes bakom kan skilja. Manualen har svaret</td></tr>
+          <tr><td>Alla AMD-socklar har stift på processorn</td><td>Stämde före AM5. AM5 är LGA, med stiften i sockeln</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">11. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Buss</b></td><td>En väg som data färdas på, med bestämd bredd och hastighet</td></tr>
+          <tr><td><b>Bandbredd</b></td><td>Hur mycket data som får plats per sekund</td></tr>
+          <tr><td><b>Lane</b></td><td>En enskild bana i en PCIe-buss. x16 har sexton</td></tr>
+          <tr><td><b>Gbit/s</b></td><td>Gigabit per sekund. Mäts i <i>bitar</i> — dela med 8 för byte</td></tr>
+          <tr><td><b>ECC</b></td><td>Minne som upptäcker och rättar bitfel. Vanligt i servrar</td></tr>
+          <tr><td><b>ARM</b></td><td>Processorarkitektur i telefoner och surfplattor, byggd för låg strömförbrukning</td></tr>
+          <tr><td><b>Kärna</b></td><td>En räknedel i processorn. Fler kärnor = fler saker samtidigt</td></tr>
+          <tr><td><b>Cache</b></td><td>Litet, mycket snabbt minne inuti processorn</td></tr>
+          <tr><td><b>Klockfrekvens</b></td><td>Antal takter per sekund, mätt i GHz</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 2</a> · <a href="moderkortet.html">Moderkortet, del för del</a> · <a href="labb.html">Labb 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

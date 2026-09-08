@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Installationen steg för steg – Dator- och nätverksteknik område 5</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-5-installation">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Uppslag</strong> · Installationen steg för steg</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#varfor">1. Varför disken var tom</a></li>
+      <li><a href="#vagen-in">2. Vägen förbi bootordningen</a></li>
+      <li><a href="#disklistan">3. Disklistan</a></li>
+      <li><a href="#partitioner">4. En partition blir fyra</a></li>
+      <li><a href="#kontot">5. Det lokala kontot</a></li>
+      <li><a href="#stegen">6. Alla steg i ordning</a></li>
+      <li><a href="#klart">7. När är du klar?</a></li>
+      <li><a href="#felsokning">8. Felsökning</a></li>
+      <li><a href="#ordlista">9. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 5 · lektion 18</p>
+    <h1>Installationen steg för steg</h1>
+    <p class="inledning">Maskinen du byggde klarade POST, hittade den interna disken — och sedan ingenting. Disken var tom. Den här sidan handlar om passet där det som saknades kommer på plats.</p>
+
+    <h2 id="varfor">1. Varför disken var tom</h2>
+
+    <p>I område 4 slutade rapporten där maskinen hade hittat sin startenhet och <b>skulle ha laddat ett operativsystem om ett fanns installerat</b>. De flesta maskiner skrev något i stil med <code>No bootable device</code>, eller startade rakt in i firmware igen.</p>
+
+    <p>Det är inte ett fel. En dator utan operativsystem är en maskin som fungerar men inte går att använda — och den här lektionen är där den går från det ena till det andra.</p>
+
+    <div class="notis">
+      <span class="rubrik">Dagens installation ingår inte i labb 4</span>
+      <p>Labb 4 lämnas in dagen efter det här passet, och den rapporten slutar där maskinen hittade sin startenhet. <b>Skriv inte in installationen där.</b></p>
+    </div>
+
+    <h2 id="vagen-in">2. Vägen förbi bootordningen</h2>
+
+    <p>Firmware söker igenom sina anslutna enheter i den ordning bootordningen anger. Ligger den interna disken överst — som du ställde in på lektion 16 — hittar den en tom disk och ger upp. <b>USB-minnet måste komma före den</b> för att installationen ska starta.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Väg</th><th>Hur</th><th>När den är bäst</th></tr></thead>
+        <tbody>
+          <tr><td><b>Startmenyn</b></td><td>En egen tangent direkt vid start, ofta <code>F8</code>, <code>F11</code> eller <code>F12</code>. Väljer startenhet <b>en enda gång</b></td><td>Bäst här. Bootordningen rörs aldrig, så inget behöver ställas tillbaka</td></tr>
+          <tr><td><b>Bootordningen i firmware</b></td><td>Flytta USB överst, spara, starta om</td><td>Fungerar, men <b>måste ställas tillbaka</b> efter installationen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Vilken tangent som öppnar startmenyn står i moderkortets manual, och ofta i en textrad längst ner på skärmen under POST:s första sekunder. <b>Tryck upprepade gånger direkt vid påslag</b> — inte en gång och vänta.</p>
+
+    <h2 id="disklistan">3. Disklistan</h2>
+
+    <p>Installationsguiden visar en lista över enheter: <code>Enhet 0</code>, <code>Enhet 1</code>, och så vidare. <b>USB-minnet står också i den listan.</b></p>
+
+    <div class="notis varna">
+      <span class="rubrik">Det här är passets farligaste steg</span>
+      <p><b>Titta på storleken.</b> Den interna disken är den stora. USB-minnet är det lilla — ofta 8, 16 eller 32 GB. Installerar du på USB-minnet installerar du på det du installerar <i>från</i>.</p>
+      <p>Är storlekarna svåra att skilja åt: den interna disken är den som redan hade en rad i firmwares bootordning på lektion 16. <b>Visa läraren skärmen innan du trycker vidare.</b></p>
+    </div>
+
+    <h2 id="partitioner">4. En partition blir fyra</h2>
+
+    <p>Är disken helt tom står den som <b>outilldelat utrymme</b>. Markera den, tryck <i>Nytt</i>, godta hela storleken, tryck <i>Verkställ</i>.</p>
+
+    <p>Windows svarar med en ruta om att det kan komma att skapa <b>ytterligare partitioner för systemfiler</b>. Godta den — och titta på vad som händer, för det är enda gången i kursen du får se det:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Partition</th><th>Storlek</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td>Återställning</td><td>~500 MB–1 GB</td><td>Startar återställningsmiljön när Windows inte startar</td></tr>
+          <tr><td><b>EFI-system</b></td><td>~100 MB</td><td><b>Det UEFI faktiskt läser vid start.</b> Här ligger starthanteraren</td></tr>
+          <tr><td>MSR (reserverad)</td><td>~16 MB</td><td>Reserverat utrymme som Windows själv använder</td></tr>
+          <tr><td>Primär</td><td>Resten av disken</td><td>Här hamnar Windows, programmen och filerna</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Här hänger område 4 ihop med område 5</span>
+      <p>På lektion 15 var <b>starthanteraren</b> ett steg i en beskrivning: firmware kör, startenhet väljs, starthanteraren läses in, kärnan laddas. <b>EFI-partitionen är svaret på var den ligger.</b> Nu är det en rad i en tabell på din egen skärm.</p>
+    </div>
+
+    <p>Är disken inte tom — den har använts förut och har gamla partitioner — markerar du varje befintlig partition och trycker <i>Ta bort</i> tills allt är outilldelat utrymme. <b>Allt på disken försvinner då.</b> På skolans maskiner finns ingenting att förlora, men det är samma knapp med samma konsekvens på en maskin där det gör det.</p>
+
+    <h2 id="kontot">5. Det lokala kontot</h2>
+
+    <p>Filerna kopieras, maskinen startar om — <b>och nu ska USB-minnet ut</b>. Sitter det kvar, och bootordningen ändrades i firmware, börjar installationsguiden om från början.</p>
+
+    <p>Sedan kommer den första uppstarten: språk, tangentbord, nätverk och konto. Vid kontosteget letar många efter en knapp som heter något med "lokalt konto". Den heter något annat:</p>
+
+    <pre><code>Alternativ för inloggning  →  Anslut till domän i stället</code></pre>
+
+    <p>Därefter skapas ett vanligt lokalt konto. <b>Använd kontonamnet och lösenordet som står på tavlan</b> — hitta inte på ett eget.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Skriv upp kontouppgifterna</span>
+      <p>Efter det här passet kommer <b>höstlovet</b>. Nästa lektion är tretton dagar senare, och då ska du logga in på maskinen igen. Hittar varje par på sitt eget lösenord kan ingen annan komma in i maskinen.</p>
+    </div>
+
+    <p>Sekretessinställningarna på slutet: stäng av allt. Det är ett snabbt val — men också första gången du ser att ett operativsystem frågar om saker som inte har med funktionen att göra.</p>
+
+    <h2 id="stegen">6. Alla steg i ordning</h2>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Installationen, steg för steg</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="inst-1"><span>USB-minnet i, maskinen startas</span></label></li>
+        <li><label><input type="checkbox" id="inst-2"><span>Startmenytangenten trycks direkt vid start, USB-minnet väljs</span></label></li>
+        <li><label><input type="checkbox" id="inst-3"><span>Språk, tid och tangentbord — svenska rakt igenom</span></label></li>
+        <li><label><input type="checkbox" id="inst-4"><span><b>Anpassad installation</b>, inte uppgradering</span></label></li>
+        <li><label><input type="checkbox" id="inst-5"><span>Rätt enhet i disklistan — kontrollerad mot storleken, och visad för läraren</span></label></li>
+        <li><label><input type="checkbox" id="inst-6"><span>Nytt → Verkställ → rutan om ytterligare partitioner godtagen</span></label></li>
+        <li><label><input type="checkbox" id="inst-7"><span>Den stora primära partitionen markerad, Nästa</span></label></li>
+        <li><label><input type="checkbox" id="inst-8"><span>Filerna kopierade — det tar tid, och det ser stillastående ut</span></label></li>
+        <li><label><input type="checkbox" id="inst-9"><span><b>USB-minnet uttaget</b> vid omstarten</span></label></li>
+        <li><label><input type="checkbox" id="inst-10"><span>Lokalt konto skapat med namnet och lösenordet från tavlan</span></label></li>
+        <li><label><input type="checkbox" id="inst-11"><span>Sekretessinställningarna avstängda</span></label></li>
+        <li><label><input type="checkbox" id="inst-12"><span>Utloggad och inloggad igen — kontot fungerar</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="klart">7. När är du klar?</h2>
+
+    <p>Inte när skrivbordet visas. Klar är du när tre saker stämmer:</p>
+
+    <ol>
+      <li><b>USB-minnet är ur maskinen</b></li>
+      <li><b>Bootordningen har den interna disken överst igen</b>, om du ändrade den i firmware</li>
+      <li><b>Maskinen startar till inloggningsskärmen utan att någon rör tangentbordet</b></li>
+    </ol>
+
+    <p>Den tredje är den enda som räknas. En maskin som startar upp av sig själv till inloggningen är en färdig installation — och det är den läraren kvitterar, inte påståendet att det gick bra.</p>
+
+    <div class="notis">
+      <span class="rubrik">Ingenting mer görs på maskinen i dag</span>
+      <p>Inga program, inga nedladdningar. Kringutrustning och drivrutiner tillhör nästa pass. Blir du klar tidigt: gå och hjälp ett par som fortfarande installerar — eller skriv klart på labb 4, som lämnas in i morgon.</p>
+    </div>
+
+    <h2 id="felsokning">8. Felsökning</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: disk, konto, usb, tpm" autocomplete="off">
+      <p class="traffar" id="traffar-fel">8 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Maskinen startar rakt in i firmware, eller skriver <code>No bootable device</code></td><td>USB-minnet valdes aldrig som startenhet</td><td>Starta om och tryck startmenytangenten direkt — <code>F8</code>, <code>F11</code> eller <code>F12</code> beroende på kort</td></tr>
+          <tr><td>"Den här datorn kan inte köra Windows 11"</td><td>TPM 2.0 eller Secure Boot är avstängt i firmware</td><td>Gå in i firmware och slå på båda. Inställningen heter ofta <code>PTT</code> på Intel-kort och <code>fTPM</code> på AMD-kort</td></tr>
+          <tr><td>Installationsguiden startar om varje gång maskinen startar</td><td>USB-minnet sitter kvar och ligger före disken i bootordningen</td><td>Ta ut minnet. Ställ tillbaka bootordningen om du ändrade den</td></tr>
+          <tr><td>Disklistan är tom</td><td>Disken syns inte för guiden — en M.2-enhet som inte sitter i helt, eller en SATA-kabel som lossnat</td><td>Stäng av, kontrollera anslutningen, starta om. Kontrollera också att disken syns i firmware</td></tr>
+          <tr><td>Osäker på vilken enhet som är den interna disken</td><td>USB-minnet står i samma lista</td><td>Storleken skiljer dem åt. Fråga läraren innan du trycker vidare — ett felval kostar hela passet</td></tr>
+          <tr><td>Kommer inte vidare från kontosteget</td><td>Du letar efter en knapp som heter något med "lokalt konto"</td><td>Alternativ för inloggning → Anslut till domän i stället</td></tr>
+          <tr><td>Kopieringen verkar ha hängt sig</td><td>Ingenting rör sig på skärmen</td><td>Vänta. Att det ser stillastående ut är normalt — starta inte om</td></tr>
+          <tr><td>Maskinen startar men stannar på en svart skärm efter installationen</td><td>Bildskärmen sitter i moderkortets utgång trots att maskinen har grafikkort</td><td>Flytta kabeln till grafikkortet. Samma fel som i område 4</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">9. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Operativsystem</b></td><td>Programvaran som gör maskinvaran användbar: startar program, håller reda på filer och sköter kontakten med maskinvaran</td></tr>
+          <tr><td><b>Installationsmedia</b></td><td>Det som operativsystemet installeras från — här ett USB-minne skrivet med en <code>.iso</code>-fil</td></tr>
+          <tr><td><b>Startmeny</b></td><td>En meny som öppnas med en egen tangent vid start och låter dig välja startenhet en enda gång, utan att ändra bootordningen</td></tr>
+          <tr><td><b>Partition</b></td><td>En avgränsad del av en disk som operativsystemet behandlar som en egen enhet</td></tr>
+          <tr><td><b>EFI-systempartition</b></td><td>Den lilla partition UEFI läser vid start. Här ligger starthanteraren</td></tr>
+          <tr><td><b>Outilldelat utrymme</b></td><td>Diskutrymme som ännu inte tillhör någon partition</td></tr>
+          <tr><td><b>OOBE</b></td><td>Out-Of-Box Experience. Den första uppstarten efter installationen, där språk, nätverk och konto ställs in</td></tr>
+          <tr><td><b>Lokalt konto</b></td><td>Ett konto som bara finns på den här maskinen, till skillnad från ett konto kopplat till en tjänst på nätet</td></tr>
+          <tr><td><b>TPM</b></td><td>Trusted Platform Module. En säkerhetskrets Windows 11 kräver. Heter ofta PTT på Intel-kort och fTPM på AMD-kort</td></tr>
+          <tr><td><b>Secure Boot</b></td><td>En firmware-funktion som bara tillåter start av programvara som är signerad. Krävs av Windows 11</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 5</a> · <a href="kringutrustning.html">Drivrutiner och portar</a> · <a href="../omrade-4/firmware.html">Firmware och bootordning</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
