@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projekt 2 – Stilsatt webbplats – Webbutveckling 1 område 3</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-3-projekt-2">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Uppgift</strong> · Projekt 2</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#avsnitt-1">1. Uppdraget</a></li>
+      <li><a href="#avsnitt-2">2. Får jag ändra i HTML:en?</a></li>
+      <li><a href="#avsnitt-3">3. Har du inget färdigt Projekt 1?</a></li>
+      <li><a href="#kraven">4. Kraven</a></li>
+      <li><a href="#avsnitt-5">5. Tekniska krav</a></li>
+      <li><a href="#matrisen">6. Bedömningsmatris</a></li>
+      <li><a href="#avsnitt-7">7. Kom igång</a></li>
+      <li><a href="#avsnitt-8">8. Så ligger tiden</a></li>
+      <li><a href="#avsnitt-9">9. Innan du lämnar in</a></li>
+      <li><a href="#felsokning">10. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 3 · projekt</p>
+    <h1>Projekt 2 – Stilsatt webbplats</h1>
+    <p class="inledning">Nu formger du sajten du byggde i Projekt 1. Extern stilmall,
+      eget designsystem i CSS-variabler, layout med Flexbox och Grid – och en sajt som
+      håller ihop på alla fyra sidorna.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-11-06">
+        <span class="nar">6 nov</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Samma repo som Projekt 1. Länken lämnas i itslearning-uppgiften.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-11-09">
+        <span class="nar">9 nov</span>
+        <span class="vad">Prov 2 – kodprov CSS
+          <small>Skriftligt prov utan dator.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="avsnitt-1">1. Uppdraget</h2>
+    <p>Du ska formge sajten du byggde i Projekt 1. Samma innehåll, samma sidor, samma
+      repo – men nu med en extern stilmall som gör den till din.</p>
+
+    <p>Formen ska byggas på ett <b>designsystem</b>: ett fåtal färger, en typografisk
+      skala och en uppsättning avstånd, samlade som CSS-variabler och återanvända på hela
+      sajten. Layouten byggs med Flexbox och Grid, och den ska tåla att fönstret smalnar
+      utan att falla isär.</p>
+
+    <p>Sajten ska fortfarande validera – både HTML och CSS.</p>
+
+    <h2 id="avsnitt-2">2. Får jag ändra i HTML:en?</h2>
+    <p>Ja. Att formge kräver nästan alltid att du lägger till <code>class</code>-attribut,
+      och ibland ett element som håller ihop en grupp.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Regeln</span>
+      <p>HTML får ändras för att bära form, men strukturen ska fortfarande vara semantisk
+        och validera. Klasser är fritt fram. En ny <code>div</code> lägger du till först
+        när ingen befintlig struktur duger – och kan du inte förklara varför den behövs,
+        behövs den inte.</p>
+    </div>
+
+    <p>Det du inte får göra är att byta ut semantiska element mot <code>div</code> för
+      att det blir enklare att styla. <code>header</code>, <code>nav</code>,
+      <code>main</code>, <code>section</code> och <code>footer</code> går utmärkt att
+      formge som de är.</p>
+
+    <h2 id="avsnitt-3">3. Har du inget färdigt Projekt 1?</h2>
+    <p>Två vägar, och båda är godkända.</p>
+
+    <p><b>Rätta det du har.</b> Fungerar sajten men har valideringsfel: rätta dem först.
+      Det ingår i den här uppgiften, och det går fort med felsökningstabellen i
+      <a href="../omrade-2-html/html-guiden.html#felsokning">HTML-guiden</a>.</p>
+
+    <p><b>Utgå från startsajten.</b> Finns ingen sajt att stilsätta ligger det en färdig,
+      ostilad fyrasidig webbplats i <b>itslearning</b> under område 3. Ladda ner den, lägg
+      den i ditt repo och formge den i stället.</p>
+
+    <div class="notis">
+      <span class="rubrik">Du hamnar inte efter – och får inget försprång</span>
+      <p>Startsajten ligger på ren E-nivå: den uppfyller ska-kraven i Projekt 1 och
+        ingenting mer. Allt som bedöms i Projekt 2 är formen, och den bygger du själv
+        oavsett vilken sajt du utgår från. Säg till mig om du tar startsajten, så vet jag
+        varför innehållet inte är ditt.</p>
+    </div>
+
+    <h2 id="kraven">4. Kraven</h2>
+    <p>Kryssa av allt eftersom. Kryssen sparas i din webbläsare.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>En extern stilmall <code>stil.css</code> i repots rot, inkopplad med <code>&lt;link&gt;</code> i <code>head</code> på <b>varje</b> sida.</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Ingen CSS i HTML-filerna: inga <code>style</code>-attribut, inget <code>style</code>-element.</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Alla sidor delar samma stilmall och ser ut att höra ihop.</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span><code>box-sizing: border-box</code> är satt för hela sajten.</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Egna färger för bakgrund, text och länkar, med läsbar kontrast.</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Ett typsnitt valt med en typsnittsstack, och <code>line-height</code> satt på brödtexten.</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Navigationen är layoutad med <b>Flexbox</b>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Minst ett område på sajten är layoutat med <b>Grid</b>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>Minst tre <b>CSS-variabler</b>, definierade på <code>:root</code> och använda på flera ställen.</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>Bilderna spränger inte sin spalt: <code>max-width: 100%</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span>Layouten faller inte isär när fönstret smalnar – utan media queries.</span></label></li>
+        <li><label><input type="checkbox" id="ska-12"><span>All HTML validerar fortfarande utan fel.</span></label></li>
+        <li><label><input type="checkbox" id="ska-13"><span>CSS:en validerar utan fel i W3C:s CSS-validator.</span></label></li>
+        <li><label><input type="checkbox" id="ska-14"><span>Sajten är publicerad och repo-länken inlämnad senast fredag 6 november 23:59.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— mot nivå C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Färgerna och typografin är en <b>skala</b>, inte lösa värden: variabler med namn som säger vad de är till för.</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Avstånden kommer från ett fåtal återkommande värden, inte från siffror jag hittar på varje gång.</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Relativa enheter – <code>rem</code> för typografi och avstånd – i stället för <code>px</code> överallt.</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span><code>gap</code> mellan flex- och grid-barn i stället för marginaler på varje barn.</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Hovring <b>och</b> tangentbordsfokus syns på alla länkar och knappar.</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Stilmallen är indelad i block med kommentarer, i en ordning som går att följa.</span></label></li>
+        <li><label><input type="checkbox" id="bor-7"><span>Inga id-selektorer för formgivning. Klasser räcker.</span></label></li>
+        <li><label><input type="checkbox" id="bor-8"><span>En kortlayout eller ett galleri som radbryter av sig självt, med <code>wrap</code> eller <code>auto-fit</code>.</span></label></li>
+        <li><label><input type="checkbox" id="bor-9"><span>Formuläret är formgivet så att fält och etiketter hör ihop visuellt.</span></label></li>
+        <li><label><input type="checkbox" id="bor-10"><span>Sajten är provad i två webbläsare.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— mot nivå A</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Hela designsystemet ligger i variabler: färg, typografisk skala, avståndsskala, hörnradie och skugga.</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Sidlayouten är byggd med <code>grid-template-areas</code>.</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Ett mörkt läge via <code>prefers-color-scheme</code>, där <b>bara variabelvärdena</b> byts – inte reglerna.</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>Specificiteten är låg och medveten: inga <code>!important</code>, inga långa selektorkedjor.</span></label></li>
+        <li><label><input type="checkbox" id="utm-5"><span><code>:focus-visible</code> hanteras separat från <code>:hover</code>.</span></label></li>
+        <li><label><input type="checkbox" id="utm-6"><span>Jag kan förklara kaskaden i min egen stilmall: varför en regel vinner över en annan.</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="avsnitt-5">5. Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Så ska det vara</th></tr></thead>
+        <tbody>
+          <tr><td>Repo</td><td>Samma repo som Projekt 1. Sajten växer, den byts inte ut</td></tr>
+          <tr><td>Stilmall</td><td><code>stil.css</code> i repots rot, bredvid <code>index.html</code></td></tr>
+          <tr><td>Inkoppling</td><td><code>&lt;link rel="stylesheet" href="stil.css"&gt;</code> i <code>head</code> på varje sida</td></tr>
+          <tr><td>Sökvägar</td><td>Relativa. Aldrig inledande snedstreck</td></tr>
+          <tr><td>Indrag</td><td>2 mellanslag</td></tr>
+          <tr><td>Enheter</td><td><code>rem</code> för typografi och avstånd. <code>px</code> bara där det verkligen ska vara fast</td></tr>
+          <tr><td>Variabler</td><td>Definierade på <code>:root</code>, namngivna efter vad de är till för</td></tr>
+          <tr><td>Validering</td><td><code>validator.w3.org</code> för HTML, <code>jigsaw.w3.org/css-validator</code> för CSS</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Så här ser repot ut när du är klar:</p>
+
+<pre><code>bilder/
+  ...
+index.html
+sida-2.html
+sida-3.html
+sida-4.html
+stil.css
+README.md</code></pre>
+
+    <p>En stilmall räcker. Delar du upp CSS:en i flera filer ska det finnas ett skäl, och
+      de ska kopplas in i en ordning du kan förklara.</p>
+
+    <h2 id="matrisen">6. Bedömningsmatris</h2>
+    <p>Så här bedöms sajten, kriterium för kriterium. Tisdag 3 november gör ni
+      kamratrespons i par utifrån den här matrisen – då har du tre dagar kvar att göra
+      något åt det ni hittar.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Stilmall och selektorer</b></td>
+            <td>Extern <code>stil.css</code> inkopplad på varje sida. Ingen CSS i HTML</td>
+            <td>Klasser i stället för id. Selektorerna är läsbara och stilmallen indelad i kommenterade block</td>
+            <td>Låg och medveten specificitet. Inga <code>!important</code>, inga långa kedjor. Du kan förklara varför en regel vinner</td>
+          </tr>
+          <tr>
+            <td><b>Boxmodell, färg och typografi</b></td>
+            <td><code>box-sizing: border-box</code>, egna färger med läsbar kontrast, typsnittsstack och <code>line-height</code></td>
+            <td>Färg och typografi som skala i variabler. <code>rem</code> i stället för <code>px</code>. Avstånden kommer från ett fåtal värden</td>
+            <td>Hela systemet i variabler, inklusive avstånd, radie och skugga. Kontrasten är kontrollerad, inte gissad</td>
+          </tr>
+          <tr>
+            <td><b>Flexbox</b></td>
+            <td>Navigationen är layoutad med Flexbox</td>
+            <td><code>gap</code> i stället för marginaler. Något radbryter med <code>wrap</code> när det blir trångt</td>
+            <td>Flexbox används där den passar bäst, och du kan säga varför just där och inte Grid</td>
+          </tr>
+          <tr>
+            <td><b>Grid</b></td>
+            <td>Minst ett område använder Grid</td>
+            <td>Ett rutnät som skalar av sig självt med <code>repeat(auto-fit, minmax(...))</code></td>
+            <td>Sidlayouten byggd med <code>grid-template-areas</code></td>
+          </tr>
+          <tr>
+            <td><b>Designsystem</b></td>
+            <td>Minst tre variabler på <code>:root</code>, använda på flera ställen</td>
+            <td>Variabelnamnen säger vad de är till för, och hårdkodade värden är utbytta</td>
+            <td>Mörkt läge som byter enbart variabelvärden. Systemet går att ändra på ett ställe och slår igenom överallt</td>
+          </tr>
+          <tr>
+            <td><b>Konsekvens och kvalitet</b></td>
+            <td>Alla sidor delar stilmall och hör ihop. HTML och CSS validerar</td>
+            <td>Noll fel i båda validatorerna, provad i två webbläsare, hovring och fokus syns</td>
+            <td><code>:focus-visible</code> skilt från <code>:hover</code>. Layouten håller på varje bredd du provar</td>
+          </tr>
+          <tr>
+            <td><b>Arbetssätt</b></td>
+            <td>Sajten är publicerad och inlämnad</td>
+            <td>Commits spridda över arbetspassen med meddelanden som säger vad du gjorde</td>
+            <td>Du kan förklara varje regel i din stilmall, och vad som händer om du tar bort den</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Ingen rad väger tyngre än någon annan. Men en sajt som inte validerar eller inte är
+      publicerad är inte inlämnad, oavsett hur den ser ut.</p>
+
+    <h2 id="avsnitt-7">7. Kom igång – de tre första sakerna</h2>
+    <ol>
+      <li>Öppna ditt repo från Projekt 1 och kontrollera att alla fyra sidorna validerar.
+        Gör de inte det är det första du rättar.</li>
+      <li>Skapa <code>stil.css</code> i repots rot och koppla in den i <code>head</code>
+        på <b>alla</b> sidor.</li>
+      <li>Skriv <code>:root</code> högst upp i stilmallen med tre variabler, och använd
+        dem direkt.</li>
+    </ol>
+
+    <p>Det tredje steget ser ut så här. Skriv av det, byt färgerna mot dina egna, och
+      ladda om varje sida för att se att det slår igenom överallt:</p>
+
+<pre><code class="sprak-css">:root {
+  --bakgrund: #fdfdfb;
+  --text: #1c1c1a;
+  --accent: #2f6f5e;
+}
+
+body {
+  background: var(--bakgrund);
+  color: var(--text);
+}</code></pre>
+
+    <h2 id="avsnitt-8">8. Så ligger tiden</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Datum</th><th>Vad som händer</th></tr></thead>
+        <tbody>
+          <tr><td>tis 6/10</td><td><b>Genomgång:</b> stilmallar och selektorer. Uppgiften delas ut</td></tr>
+          <tr><td>fre 9/10</td><td><b>Genomgång:</b> boxmodell, färg och typografi</td></tr>
+          <tr><td>mån 12/10</td><td><b>Genomgång:</b> Flexbox</td></tr>
+          <tr><td>tis 13/10</td><td><b>Genomgång:</b> Grid</td></tr>
+          <tr><td>fre 16/10</td><td><b>Genomgång:</b> CSS-variabler och designsystem</td></tr>
+          <tr><td>mån 19/10</td><td>Arbetspass</td></tr>
+          <tr><td>tis 20/10</td><td>Arbetspass</td></tr>
+          <tr><td>fre 23/10</td><td>Arbetspass. <b>Sista passet före höstlovet</b></td></tr>
+          <tr><td>v.44</td><td><b>Höstlov.</b> Ingen lektion 26–30 oktober</td></tr>
+          <tr><td>mån 2/11</td><td>Arbetspass</td></tr>
+          <tr><td>tis 3/11</td><td>Arbetspass. <b>Kamratrespons</b> i par utifrån bedömningsmatrisen</td></tr>
+          <tr><td>fre 6/11</td><td>Sista finputs. Validera HTML och CSS, testa i två webbläsare. <b>Deadline 23:59</b></td></tr>
+          <tr><td>mån 9/11</td><td><b>Prov 2</b> – kodprov CSS, skriftligt utan dator</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Höstlovet ligger mitt i projektet</span>
+      <p>Efter fredag 23 oktober är det tio dagar innan vi ses igen. Den som kommer
+        tillbaka utan att veta var hen var förlorar ett helt arbetspass på att komma
+        ihåg.</p>
+      <p><b>Ha det här klart innan lovet:</b> stilmallen inkopplad på alla sidor,
+        variablerna på plats, färger och typografi satta, och navigationen layoutad med
+        Flexbox. Då är det Grid och finputs som väntar efter lovet, och det hinns med på
+        tre pass.</p>
+      <p>Skriv en rad i din <code>README.md</code> innan du går på lov om vad som är
+        kvar. Det tar en minut och sparar en kvart.</p>
+    </div>
+
+    <h2 id="avsnitt-9">9. Innan du lämnar in</h2>
+    <p>Gå igenom listan på fredagen den 6 november, i den här ordningen.</p>
+    <ol>
+      <li><code>stil.css</code> är inkopplad i <code>head</code> på <b>alla</b> sidor.</li>
+      <li>Ingen <code>style</code> kvar i HTML-filerna – sök efter ordet.</li>
+      <li><code>box-sizing: border-box</code> är satt.</li>
+      <li>Minst tre variabler på <code>:root</code>, använda på flera ställen.</li>
+      <li>Navigationen använder Flexbox, något område använder Grid.</li>
+      <li>Bilderna har <code>max-width: 100%</code>.</li>
+      <li>Fönstret går att smalna utan att layouten faller isär.</li>
+      <li>Alla sidor ger noll fel i HTML-validatorn.</li>
+      <li>Stilmallen ger noll fel i CSS-validatorn.</li>
+      <li>Provad i två webbläsare.</li>
+      <li>Allt committat och synkat, adressen fungerar i ett privat fönster.</li>
+      <li>Repo-länken är inlämnad i itslearning.</li>
+    </ol>
+
+    <h2 id="felsokning">10. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: variabel, flex, grid, bredd, fokus" autocomplete="off">
+      <p class="traffar" id="traffar-fel">22 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Stilmallen gör ingenting alls</td><td><code>link</code>-raden ligger i <code>body</code>, eller filnamnet stämmer inte</td><td>Raden hör hemma i <code>head</code>. Jämför filnamnet tecken för tecken</td></tr>
+          <tr><td>Stilen fungerar på startsidan men inte på de andra</td><td><code>link</code>-raden saknas på de sidorna</td><td>Varje sida behöver sin egen rad. Kopiera den till alla fyra</td></tr>
+          <tr><td>En regel fungerar, nästa gör det inte</td><td>Semikolon saknas efter värdet innan</td><td>Semikolon efter varje värde. Felet syns på nästa rad, inte på den trasiga</td></tr>
+          <tr><td>Allt efter en viss regel slutar gälla</td><td>En klammer är ostängd</td><td>Räkna klamrarna. Varje <code>{</code> har en <code>}</code></td></tr>
+          <tr><td>Min ändring syns inte alls</td><td>Webbläsaren visar en sparad version</td><td>Ladda om med <kbd>Ctrl</kbd> + <kbd>F5</kbd></td></tr>
+          <tr><td>Elementet blir bredare än jag satt</td><td><code>padding</code> och <code>border</code> läggs ovanpå bredden</td><td><code>box-sizing: border-box</code> för hela sajten</td></tr>
+          <tr><td>Marginalerna mellan två element slås ihop</td><td>Marginalkollaps – två lodräta marginaler blir en</td><td>Använd <code>gap</code> eller <code>padding</code> i stället för marginal</td></tr>
+          <tr><td>Färgen slår inte igenom</td><td>En annan regel har högre specificitet</td><td>Titta i DevTools vilken regel som vinner. Ett <code>id</code> slår en klass</td></tr>
+          <tr><td>Jag måste skriva <code>!important</code> för att det ska funka</td><td>Specificiteten har sprungit iväg</td><td>Sänk den vinnande selektorn i stället. <code>!important</code> flyttar bara problemet</td></tr>
+          <tr><td>Bilden spränger sidan i sidled</td><td>Ingen maxbredd satt</td><td><code>img { max-width: 100%; height: auto; }</code></td></tr>
+          <tr><td>Flex-barnen ligger på varandra i stället för på rad</td><td><code>flex-direction</code> är satt till <code>column</code></td><td>Standardvärdet är <code>row</code>. Ta bort raden eller ändra den</td></tr>
+          <tr><td>Flexbox radbryter inte när det blir trångt</td><td><code>flex-wrap</code> saknas</td><td><code>flex-wrap: wrap</code> på behållaren</td></tr>
+          <tr><td><code>gap</code> gör ingenting</td><td>Elementet är varken flex eller grid</td><td><code>gap</code> gäller bara i flex, grid och flerspaltig text</td></tr>
+          <tr><td>Grid-kolumnerna blir olika breda</td><td><code>fr</code> blandat med fasta värden</td><td><code>1fr</code> betyder lika delar av det som blir över, inte lika bredd</td></tr>
+          <tr><td>Rutnätet skalar inte när fönstret smalnar</td><td>Fasta kolumnvärden</td><td><code>repeat(auto-fit, minmax(16rem, 1fr))</code></td></tr>
+          <tr><td>Variabeln gör ingenting</td><td>Den är definierad i fel block, eller stavad olika på de två ställena</td><td>Definiera på <code>:root</code>, använd med <code>var(--namn)</code></td></tr>
+          <tr><td><code>var(--namn)</code> syns som text på sidan</td><td>Bindestrecken saknas i definitionen</td><td>Två bindestreck i namnet: <code>--namn</code></td></tr>
+          <tr><td>Texten är svår att läsa mot bakgrunden</td><td>För låg kontrast</td><td>Ljusare text eller mörkare bakgrund. Gissa inte – kontrollera</td></tr>
+          <tr><td>Fokusmarkeringen är borta när jag tabbar</td><td><code>outline: none</code> utan något i stället</td><td>Ta aldrig bort utan att sätta något annat. <code>:focus-visible</code></td></tr>
+          <tr><td>Layouten faller isär när fönstret smalnar</td><td>Fasta bredder i <code>px</code></td><td>Procent, <code>fr</code> eller <code>minmax</code> i stället</td></tr>
+          <tr><td>CSS-validatorn klagar på något jag inte skrivit</td><td>Den läser hela filen, även gamla rader</td><td>Läs radnumret i meddelandet. Validatorn pekar rätt</td></tr>
+          <tr><td>Sidan ser annorlunda ut i Firefox</td><td>Olika standardstil för formulär och rubriker</td><td>Sätt egna värden på det som skiljer sig</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="css-guiden.html">CSS-guiden</a> · <a href="index.html">Tillbaka till område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

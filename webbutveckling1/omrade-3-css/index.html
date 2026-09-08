@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS – form, layout och designsystem – Webbutveckling 1 område 3</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-3-start">
+
+<header class="topp">
+  <a href="../index.html">← Kursen</a>
+  <span class="harifran"><strong>Område 3</strong> · CSS – form, layout och designsystem</span>
+  <a href="css-guiden.html">Guiden</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 3 · v.41–46</p>
+    <h1>CSS – form, layout och designsystem</h1>
+    <p class="inledning">Tolv lektioner om hur en sajt ser ut. Fem genomgångar och sex
+      arbetspass, och däremellan formger du sajten du byggde i område 2 – med ett eget
+      designsystem, Flexbox och Grid.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-11-06">
+        <span class="nar">6 nov</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Projekt 2 – stilsatt webbplats. Samma repo som Projekt 1.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-11-09">
+        <span class="nar">9 nov</span>
+        <span class="vad">Prov 2 – kodprov CSS
+          <small>Skriftligt prov utan dator.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis varna">
+      <span class="rubrik">Höstlovet ligger mitt i projektet</span>
+      <p>Sista passet före lovet är fredag 23 oktober, och vi ses igen måndag 2 november.
+        Tio dagar emellan.</p>
+      <p><b>Ha det här klart innan lovet:</b> stilmallen inkopplad på alla sidor,
+        variablerna på plats, färger och typografi satta, och navigationen layoutad med
+        Flexbox. Då är det Grid och finputs som väntar efter lovet, och det hinns med på
+        tre pass.</p>
+    </div>
+
+    <h2 id="material">Material</h2>
+    <div class="rutnat">
+      <a class="kort webb" href="css-guiden.html">
+        <span class="sort">Guide</span>
+        <span class="rubrik">CSS-guiden</span>
+        <p>Områdets uppslagsbok. Fjorton avsnitt från stilmallens syntax till
+          designsystem, med felsökning, snabbreferens och ordträning.</p>
+      </a>
+      <a class="kort gran" href="projekt-2.html">
+        <span class="sort">Uppgift</span>
+        <span class="rubrik">Projekt 2</span>
+        <p>Områdets projekt. Uppdraget, kraven i tre nivåer och bedömningsmatrisen du
+          stäms av mot. Deadline 6 november.</p>
+      </a>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Har du inget färdigt Projekt 1?</span>
+      <p>Det ligger en färdig, ostilad fyrasidig webbplats i <b>itslearning</b> under
+        område 3. Ladda ner den, lägg den i ditt repo och formge den i stället. Du hamnar
+        inte efter – allt som bedöms i Projekt 2 är formen. Säg till mig om du tar den.</p>
+    </div>
+
+    <h2 id="lektionerna">Lektionerna</h2>
+    <p>Missade du ett pass? Sista kolumnen pekar på det du behöver läsa för att komma
+      ikapp.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Datum</th><th>Vad vi gör</th><th>Missade du passet?</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>tis 6/10</td>
+            <td><b>Stilmallar och selektorer.</b> Extern stilmall, syntax, selektortyper, kaskaden och specificitet. Uppgiften delas ut.</td>
+            <td><a href="css-guiden.html#stilmallen">Guiden 1–4</a></td>
+          </tr>
+          <tr>
+            <td>fre 9/10</td>
+            <td><b>Boxmodell, färg och typografi.</b> box-sizing, hex och hsl, typsnittsstackar och relativa enheter.</td>
+            <td><a href="css-guiden.html#boxmodellen">Guiden 5–7</a></td>
+          </tr>
+          <tr>
+            <td>mån 12/10</td>
+            <td><b>Flexbox.</b> Layout i en riktning. Navigering och kortgalleri som radbryter av sig själva.</td>
+            <td><a href="css-guiden.html#flexbox">Guiden 8</a></td>
+          </tr>
+          <tr>
+            <td>tis 13/10</td>
+            <td><b>Grid.</b> Rutnät som väljer antal kolumner själv, och sidlayout ritad i text.</td>
+            <td><a href="css-guiden.html#grid">Guiden 9</a></td>
+          </tr>
+          <tr>
+            <td>fre 16/10</td>
+            <td><b>CSS-variabler och designsystem.</b> Egna egenskaper, färg- och avståndsskalor, refaktorering.</td>
+            <td><a href="css-guiden.html#variabler">Guiden 10</a></td>
+          </tr>
+          <tr>
+            <td>mån 19/10</td>
+            <td><b>Arbetspass.</b> Eget projekt med handledning.</td>
+            <td><a href="projekt-2.html#kraven">Kraven</a></td>
+          </tr>
+          <tr>
+            <td>tis 20/10</td>
+            <td><b>Arbetspass.</b> Eget projekt med handledning.</td>
+            <td><a href="projekt-2.html#kraven">Kraven</a></td>
+          </tr>
+          <tr>
+            <td>fre 23/10</td>
+            <td><b>Arbetspass.</b> Sista passet före höstlovet.</td>
+            <td><a href="css-guiden.html#felsokning">Felsökning</a></td>
+          </tr>
+          <tr>
+            <td>v.44</td>
+            <td><b>Höstlov.</b> Ingen lektion 26–30 oktober.</td>
+            <td>–</td>
+          </tr>
+          <tr>
+            <td>mån 2/11</td>
+            <td><b>Arbetspass.</b> Första passet efter lovet.</td>
+            <td><a href="css-guiden.html#felsokning">Felsökning</a></td>
+          </tr>
+          <tr>
+            <td>tis 3/11</td>
+            <td><b>Arbetspass.</b> Kamratrespons i par utifrån bedömningsmatrisen.</td>
+            <td><a href="projekt-2.html#matrisen">Matrisen</a></td>
+          </tr>
+          <tr>
+            <td>fre 6/11</td>
+            <td><b>Sista finputs och deadline.</b> Validera HTML och CSS, testa i två webbläsare. Inlämning 23:59.</td>
+            <td><a href="projekt-2.html#avsnitt-9">Innan du lämnar in</a></td>
+          </tr>
+          <tr>
+            <td>mån 9/11</td>
+            <td><b>Prov 2 – kodprov CSS.</b> Skriftligt prov utan dator.</td>
+            <td><a href="css-guiden.html#snabbreferens">Snabbreferens</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="efterat">Vad du kan efter området</h2>
+    <ul>
+      <li>Koppla en extern stilmall till en sajt och skriva regler som gör det du tänkt.</li>
+      <li>Välja selektor efter vad du vill träffa, och veta vilken som vinner när två
+        krockar.</li>
+      <li>Förklara varför ett element blir bredare än du sagt, och laga det.</li>
+      <li>Välja färger med läsbar kontrast och sätta typografi i relativa enheter.</li>
+      <li>Bygga en navigering med Flexbox som radbryter av sig själv.</li>
+      <li>Bygga ett rutnät med Grid som väljer antal kolumner själv – utan media
+        queries.</li>
+      <li>Samla färg, typografi och avstånd i variabler, och byta hela sajtens utseende på
+        ett ställe.</li>
+      <li>Validera både HTML och CSS, och läsa felmeddelandena.</li>
+    </ul>
+
+    <footer class="fot">
+      <p><a href="../index.html">Tillbaka till kursen</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

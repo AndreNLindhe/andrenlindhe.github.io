@@ -1,0 +1,1032 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designguiden – Webbutveckling 1 område 4</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-4-design-guiden">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Guide</strong> · UX, design och mobilanpassning</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#viewport">1. Viewport-taggen och mobile first</a></li>
+      <li><a href="#enheter">2. Relativa enheter</a></li>
+      <li><a href="#mediaqueries">3. Media queries</a></li>
+      <li><a href="#wireframen">4. Wireframen: vad och varför</a></li>
+      <li><a href="#figma">5. Figma-grunder</a></li>
+      <li><a href="#till-kod">6. Från wireframe till kod</a></li>
+      <li><a href="#hierarki">7. Hierarki och läsmönster</a></li>
+      <li><a href="#klickbarhet">8. Klickbarhet och feedback</a></li>
+      <li><a href="#formular">9. Formulär och konventioner</a></li>
+      <li><a href="#tillganglighet">10. Tillgänglighet i praktiken</a></li>
+      <li><a href="#tangentbord">11. Tangentbord, kontrast och fokus</a></li>
+      <li><a href="#wave">12. WAVE och Lighthouse</a></li>
+      <li><a href="#langre">13. Ta det längre</a></li>
+      <li><a href="#felsokning">14. Felsökning</a></li>
+      <li><a href="#snabbreferens">15. Snabbreferens</a></li>
+      <li><a href="#ordlista">16. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 4 · guide</p>
+    <h1>UX, design och mobilanpassning</h1>
+    <p class="inledning">Guide till lektion 34–37. Den ska fungera för dig som var borta,
+      och gå att slå i mitt under ett arbetspass. Alla exempel är hämtade ur den
+      responsiva Vikstadssajten – koden här är samma kod som i förlagan.</p>
+
+    <h2 id="efterat">Vad du kan efter guiden</h2>
+    <ul>
+      <li>Få en sida att bete sig som en sida i en telefon, i stället för som en nedzoomad skärm.</li>
+      <li>Bygga en layout som håller på varje bredd utan att du skriver en enda brytpunkt.</li>
+      <li>Välja brytpunkter utifrån ditt innehåll, och säga varför just där.</li>
+      <li>Rita en wireframe i två bredder och koda efter den.</li>
+      <li>Säga vad som gör en sajt begriplig – och vilka konventioner du inte bör bryta.</li>
+      <li>Köra WAVE och Lighthouse, läsa vad de säger och rätta felen.</li>
+      <li>Ta dig igenom hela din sajt med enbart tangentbordet.</li>
+      <li>Kontrollera kontrast i stället för att gissa.</li>
+    </ul>
+
+    <p class="meta">Avsnitt 1–3 hör till lektion 34, 4–6 till lektion 35, 7–9 till
+      lektion 36 och avsnitt 10–12 till lektion 37.</p>
+
+
+    <h2 id="viewport">1. Viewport-taggen och mobile first</h2>
+
+    <h3>Raden som måste finnas</h3>
+
+<pre><code class="sprak-html">&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code></pre>
+
+    <p>Den ligger i <code>head</code> på varje sida i förlagan, och utan den spelar
+      resten av det här området ingen roll.</p>
+
+    <p>En telefon som möter en sida utan viewport-tagg antar att sidan är byggd för en
+      dator. Den låtsas då vara ungefär 980 pixlar bred och zoomar ut alltihop tills det
+      får plats. Resultatet är en sida där texten är för liten att läsa och dina media
+      queries aldrig löser ut – telefonen tycker ju att den är bred.</p>
+
+    <p><code>width=device-width</code> säger: använd skärmens faktiska bredd.
+      <code>initial-scale=1</code> säger: börja på 100 procents zoom.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova det</span>
+      <p>Öppna din sida i telefonen, ta bort raden, ladda om. Lägg tillbaka den. Det är
+        den tydligaste demonstrationen i hela området, och den tar en minut.</p>
+    </div>
+
+    <h3>Mobile first</h3>
+
+    <p>Mobile first betyder att <b>grundreglerna gäller den smala skärmen</b>, och att
+      media queries lägger till för de breda. Inte tvärtom.</p>
+
+<pre><code class="sprak-css">/* Gäller alla. Den smala skärmen behöver inget extra. */
+body &gt; header {
+  padding: 1.5rem 2.5rem;
+}
+
+/* Lägger till när det finns plats. */
+@media (min-width: 40rem) {
+  body &gt; header {
+    display: flex;
+    justify-content: space-between;
+  }
+}</code></pre>
+
+    <p>Skälet är inte att telefoner är viktigare. Skälet är att <b>det är lättare att
+      lägga till än att ta bort.</b> Börjar du med desktoplayouten består ditt
+      mobilarbete av att nollställa saker – <code>float: none</code>,
+      <code>width: auto</code>, <code>display: block</code> – och varje sådan rad är en
+      rad som kan glömmas.</p>
+
+    <p>Praktiskt betyder det <code>min-width</code> i dina media queries, nästan alltid.</p>
+
+    <h3>Prova själv</h3>
+    <p>Öppna din sajt, gör fönstret så smalt det går, och läs igenom den. Skriv upp tre
+      saker som inte fungerar. Det är din arbetslista för det här området.</p>
+
+
+    <h2 id="enheter">2. Relativa enheter</h2>
+
+    <p>En layout som mäts i <code>px</code> är låst vid en bredd. En layout som mäts
+      relativt anpassar sig av sig själv – och den som anpassar sig av sig själv behöver
+      färre brytpunkter. Det här avsnittet är alltså inte pyssel. Det är det som gör
+      nästa avsnitt kort.</p>
+
+    <h3>De fem du behöver</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Enhet</th><th>Utgår från</th><th>Använd till</th></tr></thead>
+        <tbody>
+          <tr><td><code>rem</code></td><td>Webbläsarens grundstorlek</td><td>Typografi, avstånd, brytpunkter</td></tr>
+          <tr><td><code>%</code></td><td>Föräldern</td><td>Bredder inuti sidan</td></tr>
+          <tr><td><code>fr</code></td><td>Det som blir över i ett grid</td><td>Kolumnbredder</td></tr>
+          <tr><td><code>vw</code></td><td>Fönstrets bredd</td><td>Sällan ensam. Bra inuti <code>clamp()</code></td></tr>
+          <tr><td><code>ch</code></td><td>Bredden på en nolla</td><td>Läsmått på text</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><code>em</code> finns också och utgår från elementets egen textstorlek. Den är
+      användbar men förvirrande, eftersom den ärvs och multipliceras. Håll dig till
+      <code>rem</code> tills du har skäl.</p>
+
+    <h3>rem, och varför du inte ska röra html</h3>
+
+    <p><code>1rem</code> är webbläsarens grundstorlek, normalt 16 pixlar. Den som behöver
+      större text ändrar den inställningen i sin webbläsare – och då ska din sajt växa
+      med.</p>
+
+<pre><code>/* Gör inte så här. */
+html { font-size: 12px; }</code></pre>
+
+    <p>Den raden låser fast grundstorleken och slår ut besökarens egen inställning. Låt
+      <code>html</code> vara.</p>
+
+    <h3>vw ensam är nästan alltid fel</h3>
+
+<pre><code>/* Ser bra ut i ett fönster. Oläsbart i ett annat. */
+h1 { font-size: 5vw; }</code></pre>
+
+    <p><code>5vw</code> är fem procent av fönsterbredden. På en telefon blir det 19
+      pixlar, på en bred skärm 96. Det finns ingen undre eller övre gräns.</p>
+
+    <h3>clamp() är svaret</h3>
+
+<pre><code class="sprak-css">--text-jatte: clamp(1.9rem, 1.2rem + 2.4vw, 2.8rem);</code></pre>
+
+    <p>Det är rubrikstorleken i förlagan, och <code>clamp()</code> tar tre värden: minst,
+      önskat, högst. Rubriken blir aldrig mindre än <code>1.9rem</code> och aldrig större
+      än <code>2.8rem</code>, och däremellan växer den mjukt med fönstret.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Poängen</span>
+      <p>Det där är en brytpunkt du slipper skriva. Utan <code>clamp()</code> hade du
+        behövt en media query för att byta rubrikstorlek, och den hade hoppat i stället
+        för att glida.</p>
+    </div>
+
+    <h3>Prova själv</h3>
+    <p>Leta upp tre <code>px</code>-värden i din stilmall och byt dem mot
+      <code>rem</code>. Sätt sedan <code>clamp()</code> på din <code>h1</code> och dra
+      fönstret långsamt. Ser du var den slutar växa?</p>
+
+
+    <h2 id="mediaqueries">3. Media queries</h2>
+
+    <p>En media query frågar webbläsaren om något och lägger till regler när svaret är
+      ja.</p>
+
+<pre><code class="sprak-css">@media (min-width: 40rem) {
+  /* Gäller från 40rem och uppåt. */
+}</code></pre>
+
+    <h3>Brytpunkter kommer ur innehållet</h3>
+
+    <p>Det här är avsnittets enda riktigt viktiga mening: <b>brytpunkten ligger där ditt
+      innehåll slutar fungera, inte där någon telefon råkar vara bredd.</b></p>
+
+    <p>Listor på "vanliga brytpunkter" finns överallt och de är nästan alltid fel.
+      Skärmar kommer i alla storlekar, och din layout vet ingenting om vilken modell den
+      visas på. Den vet däremot när menyn blir trång, när textraderna blir för långa,
+      eller när det finns plats för en spalt till.</p>
+
+    <p>Så här hittar du dem: dra fönstret långsamt från smalt till brett. Där något blir
+      fult sätter du en brytpunkt. Skriv sedan ner i din <code>README.md</code> vad det
+      var som blev fult. Kan du inte formulera det har du förmodligen inte behövt
+      brytpunkten.</p>
+
+    <h3>Måtten i rem, inte px</h3>
+
+    <p>Sätter du brytpunkten i <code>rem</code> flyttar den sig när besökaren zoomar upp
+      texten. Det är precis vad du vill: den som läser med större text får
+      desktoplayouten senare, eftersom texten tar mer plats.</p>
+
+    <h3>Hela förlagans uppsättning</h3>
+
+    <p>Vikstadssajten har tre media queries. Tre, för hela sajten.</p>
+
+<pre><code class="sprak-css">/* 26rem – de smalaste telefonerna. Padding satt för läsbarhet äter
+   en sjättedel av en 320 px-skärm. */
+@media (max-width: 26rem) {
+  main { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
+
+/* 40rem – när namnet och menyn får plats bredvid varandra.
+   flex-wrap kan radbryta, men den kan inte byta riktning. */
+@media (min-width: 40rem) {
+  body &gt; header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+}
+
+/* 55rem – när det finns plats för en sidospalt.
+   Grid kan inte veta när det finns plats. Det måste du säga. */
+@media (min-width: 55rem) {
+  main.medsidospalt {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 14rem;
+    column-gap: 3.5rem;
+    align-items: start;
+  }
+}</code></pre>
+
+    <p>Lägg märke till vad som <b>inte</b> står där. Menyn radbryter med
+      <code>flex-wrap</code>. Kortrutnätet väljer antal kolumner med
+      <code>repeat(auto-fit, minmax(16rem, 1fr))</code>. Rubriken växer med
+      <code>clamp()</code>. Bilderna skalar med <code>max-width: 100%</code>. Ingen av
+      dem behövde en brytpunkt.</p>
+
+    <h3>När automatiken räcker – och när den inte gör det</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Situation</th><th>Behöver brytpunkt?</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td>Meny som ska radbryta</td><td>Nej</td><td><code>flex-wrap: wrap</code></td></tr>
+          <tr><td>Kort som ska bli färre kolumner</td><td>Nej</td><td><code>repeat(auto-fit, minmax(...))</code></td></tr>
+          <tr><td>Rubrik som ska växa</td><td>Nej</td><td><code>clamp()</code></td></tr>
+          <tr><td>Bild som ska krympa</td><td>Nej</td><td><code>max-width: 100%</code></td></tr>
+          <tr><td>Byta från kolumn till rad</td><td><b>Ja</b></td><td>Flex kan inte byta riktning själv</td></tr>
+          <tr><td>Lägga till en sidospalt</td><td><b>Ja</b></td><td>Grid vet inte när det finns plats</td></tr>
+          <tr><td>Ändra avstånd på små skärmar</td><td><b>Ja</b></td><td>Ingen automatik känner till läsbarhet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Testa brytpunkterna</h3>
+
+    <p><b>Device mode.</b> <kbd>F12</kbd> och sedan telefonikonen uppe till vänster i
+      DevTools, eller <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd>. Du får en
+      linjal längst upp – dra i den och se var din layout ändrar sig. Det är det
+      snabbaste sättet att hitta brytpunkter.</p>
+
+    <p><b>Riktig telefon.</b> Device mode simulerar bredden. Den simulerar inte fingrar,
+      verklig upplösning, långsam uppkoppling eller att du håller telefonen i solen.
+      Publicera med GitHub Pages och öppna adressen i din egen telefon minst en gång.
+      Det är ett bör-krav i Projekt 3, och det brukar hitta något.</p>
+
+    <h3>Prova själv</h3>
+    <p>Dra fönstret från smalt till brett och skriv ner varje bredd där något ser fel ut.
+      Sätt en brytpunkt på den första. Skriv en mening om varför den ligger där.</p>
+
+
+    <h2 id="wireframen">4. Wireframen: vad och varför</h2>
+
+    <p>En wireframe är en skiss av sidan som visar <b>var innehållet ligger och hur
+      viktigt det är</b> – inget annat. Inga färger, inga typsnitt, inga bilder. Grå
+      rutor med etiketter.</p>
+
+    <h3>Varför inte bara börja koda</h3>
+
+    <p>För att du då fattar layoutbeslut medan du samtidigt slåss med CSS. Två svåra
+      saker på en gång. Wireframen skiljer dem åt: först bestämmer du vad som ska ligga
+      var, sedan bygger du det.</p>
+
+    <p>Det märks tydligast när desktopvyn ska göras. Den som ritat vet vart blocken ska
+      ta vägen. Den som inte ritat upptäcker mitt i att strukturen inte bär.</p>
+
+    <h3>Två ramar, samma innehåll</h3>
+
+    <p>Du ritar din sida i två bredder: <b>mobil 375 px</b> och <b>desktop 1280 px</b>.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Regeln som gör wireframen användbar</span>
+      <p>Samma innehåll i båda. Blocken flyttas, de tillkommer inte och de försvinner
+        inte. Har du en meny, en rubrik, en ingress och fyra avsnitt på mobilen ska exakt
+        de sakerna finnas i desktopramen – omflyttade.</p>
+      <p>Bryter du regeln har du ritat två olika sajter, och då kan du inte bygga båda ur
+        samma HTML.</p>
+    </div>
+
+    <h3>Gråskala med flit</h3>
+
+    <p>Färg drar uppmärksamheten till fel fråga. Wireframen ska svara på "vad är
+      viktigast här och vad kommer först", inte "vilken grön ska rubriken ha". Formen
+      gjorde du i Projekt 2.</p>
+
+    <h3>Prova själv</h3>
+    <p>Ta en sida du redan har. Rita den som block på ett papper, i mobilbredd, på fem
+      minuter. Bara rektanglar med namn i. Rita sedan samma sida i desktopbredd
+      bredvid.</p>
+
+
+    <h2 id="figma">5. Figma-grunder</h2>
+
+    <p>Figma är ett ritverktyg som körs i webbläsaren. Du behöver fyra saker ur det.</p>
+
+    <h3>Ramar</h3>
+    <p>En <b>ram</b> (<i>frame</i>) är en yta med en bestämd storlek – din skärm. Du
+      ritar en ram på 375 px bredd för mobilen och en på 1280 px för desktop, och sedan
+      ritar du inuti dem. Ramar kan ligga inuti ramar: ett kort inuti en sida är också en
+      ram.</p>
+
+    <h3>Komponenter</h3>
+    <p>En <b>komponent</b> är ett element du gjort en gång och återanvänder. Din meny,
+      din knapp, ditt kort. Ändrar du originalet ändras alla kopior.</p>
+
+    <p>Det är samma tanke som en CSS-klass, och det är därför komponenter är värda
+      besväret: det du gör till komponent i Figma blir oftast en klass i din stilmall.</p>
+
+    <h3>Autolayout</h3>
+    <p><b>Autolayout</b> låter en ram sköta avstånden mellan sina barn i stället för att
+      du placerar dem för hand. Du säger "på rad, 16 px mellan" och innehållet ordnar
+      sig. Det är Flexbox. Samma egenskaper, andra namn:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Figma</th><th>CSS</th></tr></thead>
+        <tbody>
+          <tr><td>Autolayout, horisontell</td><td><code>display: flex; flex-direction: row</code></td></tr>
+          <tr><td>Autolayout, vertikal</td><td><code>display: flex; flex-direction: column</code></td></tr>
+          <tr><td>Spacing between items</td><td><code>gap</code></td></tr>
+          <tr><td>Padding</td><td><code>padding</code></td></tr>
+          <tr><td>Alignment</td><td><code>justify-content</code> och <code>align-items</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Ritar du med autolayout blir översättningen till kod nästan mekanisk.</p>
+
+    <h3>Anteckningsytan</h3>
+    <p>Bredvid ramarna skriver du <b>var brytpunkten ligger och varför</b>. Det är den
+      texten som kopplar ihop skissen med avsnitt 3, och den efterfrågas i Projekt 3.</p>
+
+    <h3>Prova själv</h3>
+    <p>Duplicera mallen från itslearning. Rita mobilramen med autolayout: header, meny,
+      rubrik, ingress, tre innehållsblock, footer. Gör menyn till en komponent.</p>
+
+
+    <h2 id="till-kod">6. Från wireframe till kod</h2>
+
+    <h3>Ordningen</h3>
+    <ol class="steg">
+      <li><b>Skriv HTML:en efter mobilramen, uppifrån och ner.</b> Ett block i skissen
+        blir ett element. En ruta märkt "meny" blir <code>&lt;nav&gt;</code>, en märkt
+        "innehåll" blir <code>&lt;main&gt;</code>.</li>
+      <li><b>Stila för mobil.</b> Grundreglerna, utan media queries.</li>
+      <li><b>Dra fönstret bredare tills något blir fult.</b> Där sätter du din
+        brytpunkt.</li>
+      <li><b>Skriv media queryn</b> så att layouten blir desktopramen.</li>
+    </ol>
+
+    <p>Lägg märke till att HTML:en skrivs <b>en gång</b>. Desktopvyn är samma dokument
+      med andra regler, inte ett nytt dokument.</p>
+
+    <h3>Blocken blir element</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>I skissen</th><th>I koden</th></tr></thead>
+        <tbody>
+          <tr><td>Toppen med namn och meny</td><td><code>&lt;header&gt;</code> med <code>&lt;nav&gt;</code></td></tr>
+          <tr><td>Sidans innehåll</td><td><code>&lt;main&gt;</code></td></tr>
+          <tr><td>Ett avsnitt med rubrik</td><td><code>&lt;section&gt;</code> med <code>&lt;h2&gt;</code></td></tr>
+          <tr><td>Ett kort i ett rutnät</td><td><code>&lt;article&gt;</code></td></tr>
+          <tr><td>Innehållsförteckning</td><td><code>&lt;nav&gt;</code> med <code>&lt;ul&gt;</code></td></tr>
+          <tr><td>Botten</td><td><code>&lt;footer&gt;</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Det här är semantiken från område 2. Wireframen gör den lättare, eftersom du redan
+      bestämt vad varje ruta <i>är</i> innan du väljer element.</p>
+
+    <h3>Ordningen i filen är inte layouten</h3>
+
+    <p>Det här är avsnittets viktigaste sak, och den kommer tillbaka i avsnitt 11.</p>
+
+    <p>I förlagan ligger innehållsförteckningen i HTML:en mellan ingressen och första
+      avsnittet. På en telefon står den där – man läser den på vägen ner. På en bred
+      skärm flyttas den visuellt till en egen spalt:</p>
+
+<pre><code class="sprak-css">@media (min-width: 55rem) {
+  main.medsidospalt &gt; .pasidan {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}</code></pre>
+
+    <div class="notis viktig">
+      <span class="rubrik">Filen är oförändrad</span>
+      <p>Bara var rutan hamnar ändras. Det spelar roll, för tangentbordet och
+        skärmläsaren följer filen, inte layouten. Flyttar du ett block visuellt förbi
+        något annat får du en sida som hoppar när man tabbar – och det är ett fel som
+        ingen ser förrän någon provar.</p>
+    </div>
+
+    <h3>Prova själv</h3>
+    <p>Ta din mobilram och skriv HTML:en efter den, uppifrån och ner, utan att öppna
+      stilmallen. Öppna sedan sidan. Den ska vara ful men fullständig.</p>
+
+
+    <h2 id="hierarki">7. Hierarki och läsmönster</h2>
+
+    <p>UX är frågan om sajten går att förstå utan att man anstränger sig. Det mesta av
+      det är inte kod – det är ordning.</p>
+
+    <h3>Ögat läser i mönster</h3>
+
+    <p>Besökare läser inte sidor. De skannar dem, och de gör det i förutsägbara banor:
+      uppifrån och ner, vänster till höger, med extra tid på det som sticker ut. Det
+      första och det största får uppmärksamhet. Det i mitten av ett stycke får det
+      inte.</p>
+
+    <p>Praktiskt: <b>det viktigaste ska ligga högst upp och se viktigast ut.</b> Om din
+      sida handlar om öppettider ska öppettiderna inte ligga i tredje stycket.</p>
+
+    <h3>Hierarki med tre verktyg</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Verktyg</th><th>Hur du säger "det här är viktigare"</th></tr></thead>
+        <tbody>
+          <tr><td>Storlek</td><td>Rubriker större än brödtext</td></tr>
+          <tr><td>Position</td><td>Högre upp, längre till vänster</td></tr>
+          <tr><td>Kontrast</td><td>Mörkare mot ljus bakgrund</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Du behöver sällan mer än två nivåer skillnad. Är allt framhävt är ingenting
+      framhävt.</p>
+
+    <h3>Rubriknivåer är innehållsförteckningen</h3>
+
+    <p>En <code>h1</code> per sida som säger vad sidan handlar om. <code>h2</code> för
+      sidans delar. <code>h3</code> för delar av delarna. Hoppa aldrig från
+      <code>h2</code> till <code>h4</code> för att <code>h4</code> råkar ha lagom
+      storlek – storleken sätter du i CSS.</p>
+
+    <p>Det här är både UX och tillgänglighet: skärmläsare kan lista sidans rubriker, och
+      den listan är din innehållsförteckning. Är den trasig är sidan svår att
+      navigera.</p>
+
+    <h3>Läsmått</h3>
+
+    <p>En textrad som är för lång är svår att läsa, eftersom ögat tappar bort vilken rad
+      det ska tillbaka till. Runt 60–75 tecken är bekvämt.</p>
+
+<pre><code class="sprak-css">p { max-width: 34rem; }</code></pre>
+
+    <p>Det är därför förlagan har en maxbredd på brödtexten fast <code>main</code> är
+      bredare.</p>
+
+    <h3>Prova själv</h3>
+    <p>Öppna din startsida och fråga: vad ser jag först? Är det det viktigaste? Om inte,
+      flytta eller förstärk.</p>
+
+
+    <h2 id="klickbarhet">8. Klickbarhet och feedback</h2>
+
+    <h3>Det klickbara ska se klickbart ut</h3>
+
+    <p>Länkar ska se ut som länkar. Understruket eller tydligt avvikande färg – helst
+      båda, eftersom den som inte skiljer färger behöver något mer än färgen. Knappar ska
+      se ut som knappar: en yta med kant eller bakgrund, inte bara text.</p>
+
+    <p>Det omvända gäller också: <b>det som inte är klickbart ska inte se klickbart ut.</b>
+      En understruken rubrik får folk att klicka och bli besvikna.</p>
+
+    <h3>Klickytan är större än texten</h3>
+
+    <p>Ett finger är ungefär 10 millimeter brett. En muspekare är en pixel. Riktmärket är
+      <b>minst 44 × 44 pixlar</b> för allt som ska tryckas på.</p>
+
+<pre><code class="sprak-css">.huvudmeny a {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}</code></pre>
+
+    <p>Det är förlagans lösning. Lägg märke till att texten inte växer – bara ytan runt
+      den.</p>
+
+    <h3>Feedback: sidan ska svara</h3>
+
+    <p>Varje gång någon gör något ska något hända, direkt.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Tillstånd</th><th>Vad besökaren får veta</th></tr></thead>
+        <tbody>
+          <tr><td><code>:hover</code></td><td>Det här går att klicka på</td></tr>
+          <tr><td><code>:focus-visible</code></td><td>Tangentbordet är här nu</td></tr>
+          <tr><td><code>:active</code></td><td>Klicket registrerades</td></tr>
+          <tr><td><code>aria-current="page"</code></td><td>Du är på den här sidan</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Förlagan använder alla fyra. Den sista är värd att titta på:</p>
+
+<pre><code class="sprak-css">.huvudmeny a[aria-current="page"] {
+  color: var(--accent-djup);
+  border-bottom-color: var(--accent);
+}</code></pre>
+
+    <p>Attributet står i HTML:en och säger vilken sida vi är på. CSS:en låter formen
+      följa innebörden i stället för att lägga till en klass som säger samma sak en gång
+      till.</p>
+
+    <h3>Prova själv</h3>
+    <p>Hovra över varje klickbar sak på din sajt. Svarar de alla? Tabba sedan igenom
+      sidan. Ser du var du är, hela vägen?</p>
+
+
+    <h2 id="formular">9. Formulär och konventioner</h2>
+
+    <h3>Formulär-UX i fem punkter</h3>
+    <ol class="steg">
+      <li><b>Varje fält har en synlig <code>label</code>.</b> Platshållartext räknas inte
+        – den försvinner när man börjar skriva, precis när man behöver den.</li>
+      <li><b>Säg vad som förväntas innan felet uppstår.</b> "Format: 070-123 45 67"
+        bredvid fältet slår ett rött felmeddelande efteråt.</li>
+      <li><b>Fråga inte om sådant du inte behöver.</b> Varje fält kostar besökaren tid
+        och dig ifyllningar.</li>
+      <li><b>Gruppera det som hör ihop</b> med <code>fieldset</code> och
+        <code>legend</code>.</li>
+      <li><b>Använd rätt <code>type</code>.</b> <code>type="email"</code> ger tangentbord
+        med snabel-a på telefonen. <code>type="tel"</code> ger sifferknappsatsen.</li>
+    </ol>
+
+    <h3>Konventioner du inte bör bryta</h3>
+
+    <p>Besökaren har varit på tusen sajter före din. De förväntningarna är gratis att
+      uppfylla och dyra att bryta.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Konvention</th><th>Vad som händer om du bryter den</th></tr></thead>
+        <tbody>
+          <tr><td>Logotypen leder till startsidan</td><td>Folk klickar och kommer ingenstans</td></tr>
+          <tr><td>Menyn ligger högst upp</td><td>Folk letar</td></tr>
+          <tr><td>Aktuell sida är markerad i menyn</td><td>Folk vet inte var de är</td></tr>
+          <tr><td>Länkar är understrukna eller tydligt färgade</td><td>Folk hittar dem inte</td></tr>
+          <tr><td>Formulärets knapp ligger sist</td><td>Folk skickar för tidigt eller inte alls</td></tr>
+          <tr><td>Kontaktuppgifter finns i footern</td><td>Folk letar överallt annars</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Att bryta en konvention kan vara rätt, men det ska vara ett beslut du kan
+      motivera, inte något som råkade bli så.</p>
+
+    <h3>Prova själv</h3>
+    <p>Be någon som inte sett din sajt hitta en sak på den – öppettiderna,
+      kontaktformuläret. Titta på var de letar innan de hittar. Det är den billigaste
+      användbarhetstesten som finns.</p>
+
+
+    <h2 id="tillganglighet">10. Tillgänglighet i praktiken</h2>
+
+    <p>Tillgänglighet betyder att sajten fungerar också för den som inte ser skärmen,
+      inte kan använda mus, eller inte uppfattar färgskillnader. Det är ett krav i lag
+      för offentliga sajter, och det är hantverk för alla andra.</p>
+
+    <p><b>WCAG</b> är regelverket. Det är stort, men det mesta du behöver ryms i det här
+      avsnittet och nästa.</p>
+
+    <h3>Semantiken gör grovjobbet</h3>
+
+    <p>Det här är den goda nyheten: gjorde du område 2 ordentligt är du redan halvvägs.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det du redan gör</th><th>Vad det ger</th></tr></thead>
+        <tbody>
+          <tr><td><code>header</code>, <code>nav</code>, <code>main</code>, <code>footer</code></td><td>Landmärken att hoppa mellan</td></tr>
+          <tr><td>En <code>h1</code> per sida, inga hopp i nivåerna</td><td>En innehållsförteckning som går att navigera</td></tr>
+          <tr><td><code>alt</code> på bilderna</td><td>Bilderna beskrivs för den som inte ser dem</td></tr>
+          <tr><td><code>label</code> kopplad med <code>for</code></td><td>Fälten går att förstå och träffa</td></tr>
+          <tr><td><code>&lt;a&gt;</code> för länkar, <code>&lt;button&gt;</code> för knappar</td><td>Fokuserbara av sig själva, fungerar med tangentbord</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Den sista raden är värd att stanna vid. En <code>&lt;div onclick&gt;</code> går
+      inte att nå med tangentbordet. En <code>&lt;button&gt;</code> gör det, utan att du
+      gör något.</p>
+
+    <h3>alt-texten</h3>
+
+    <p><code>alt</code> beskriver vad bilden <b>visar</b>, inte vad den heter.</p>
+
+<pre><code class="sprak-html">&lt;img src="bilder/karta.svg"
+     alt="Karta över reservatet. Parkeringen ligger i sydväst, och därifrån går
+          tre markerade stigar norrut mot mossen och österut längs stranden."&gt;</code></pre>
+
+    <p>Är bilden ren dekoration som inte tillför något: <code>alt=""</code>. Tomt, inte
+      borttaget. Då hoppar skärmläsaren över den i stället för att läsa upp filnamnet.</p>
+
+    <h3>Hopplänken</h3>
+
+    <p>Den som tabbar sig in på en sida måste annars igenom hela menyn, på varje sida.
+      Hopplänken låter dem hoppa direkt till innehållet:</p>
+
+<pre><code class="sprak-html">&lt;a class="hoppa" href="#innehall"&gt;Hoppa till innehållet&lt;/a&gt;</code></pre>
+
+    <p>Den ligger först i <code>body</code> och pekar på
+      <code>&lt;main id="innehall"&gt;</code>. I CSS:en göms den ovanför skärmkanten och
+      kommer fram när den får fokus:</p>
+
+<pre><code class="sprak-css">.hoppa {
+  position: absolute;
+  top: -4rem;
+}
+
+.hoppa:focus {
+  top: 0;
+}</code></pre>
+
+    <div class="notis varna">
+      <span class="rubrik">Göm den aldrig med display: none</span>
+      <p>Då försvinner den ur tabbordningen och gör ingen nytta alls.</p>
+    </div>
+
+    <h3>Prova själv</h3>
+    <p>Öppna en av dina sidor och stäng av bilderna i webbläsaren, eller läs bara dina
+      <code>alt</code>-texter i tur och ordning. Förstår du vad sidan visar?</p>
+
+
+    <h2 id="tangentbord">11. Tangentbord, kontrast och fokus</h2>
+
+    <h3>Tangentbordstestet</h3>
+
+    <p>Det tar två minuter och hittar mer än något verktyg.</p>
+
+    <ol class="steg">
+      <li>Klicka högst upp på sidan, i adressfältet.</li>
+      <li>Tryck <kbd>Tab</kbd> upprepade gånger.</li>
+      <li>Följ med blicken.</li>
+    </ol>
+
+    <p>Tre saker ska stämma:</p>
+    <ul class="kryss">
+      <li><b>Du ska se var du är.</b> Försvinner markeringen har någon skrivit
+        <code>outline: none</code>.</li>
+      <li><b>Ordningen ska följa läsordningen.</b> Hoppar fokus fram och tillbaka har
+        layouten flyttat något förbi något annat.</li>
+      <li><b>Du ska nå allt klickbart.</b> Hoppas något över är det troligen en
+        <code>div</code> som borde varit en <code>button</code>.</li>
+    </ul>
+
+    <h3>Fokusmarkeringen</h3>
+
+<pre><code class="sprak-css">a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}</code></pre>
+
+    <p><code>:focus-visible</code> skiljer på tangentbord och mus. Musanvändaren behöver
+      ingen ram runt länken hen just klickade på; tangentbordsanvändaren behöver den
+      absolut. Använder du <code>:focus</code> får båda den, och då blir frestelsen att ta
+      bort den igen.</p>
+
+    <p>Ta aldrig bort en fokusmarkering utan att sätta en egen i stället.</p>
+
+    <h3>Kontrast</h3>
+
+    <p>Kontrast är förhållandet mellan textens ljushet och bakgrundens. Kraven:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Krav</th></tr></thead>
+        <tbody>
+          <tr><td>Brödtext</td><td>4,5:1</td></tr>
+          <tr><td>Stor text (från ungefär 24px, eller 19px fet)</td><td>3:1</td></tr>
+          <tr><td>Gränser på fält och knappar</td><td>3:1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Gissa inte.</b> Ljusgrå text på vit bakgrund ser stilren ut på din skärm i ett
+      välbelyst rum, och blir omöjlig på en telefon i solljus.</p>
+
+    <p>Verktyg: WAVE visar kontrastfel direkt, och DevTools visar kontrastvärdet när du
+      hovrar över en färg i stilpanelen.</p>
+
+    <h3>Rörelse</h3>
+
+<pre><code class="sprak-css">@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}</code></pre>
+
+    <p>Har du animationer ska den som slagit på "minska rörelse" i sitt system slippa dem.
+      Lägg märke till att den här media queryn frågar om <b>användaren</b>, inte om
+      skärmen – precis som <code>prefers-color-scheme</code> från område 3.</p>
+
+    <h3>Prova själv</h3>
+    <p>Tangentbordstesta alla dina sidor. Skriv ner varje ställe där du tappar bort
+      fokus.</p>
+
+
+    <h2 id="wave">12. WAVE och Lighthouse steg för steg</h2>
+
+    <p>Två verktyg som hittar det du missat. De ersätter inte tangentbordstestet – de
+      hittar andra saker.</p>
+
+    <h3>WAVE</h3>
+
+    <p>WAVE är ett tillägg som lägger ikoner ovanpå din sida och pekar på problemen.</p>
+
+    <ol class="steg">
+      <li>Installera <b>WAVE Evaluation Tool</b> i Chrome eller Firefox.</li>
+      <li>Öppna din <b>publicerade</b> sida. WAVE behöver en adress, inte en lokal
+        fil.</li>
+      <li>Klicka på WAVE-ikonen.</li>
+      <li>Läs vänsterpanelen.</li>
+    </ol>
+
+    <p>Panelen delar fynden i grupper, och de väger olika:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Grupp</th><th>Betyder</th><th>Vad du gör</th></tr></thead>
+        <tbody>
+          <tr><td><b>Errors</b> (röda)</td><td>Verkliga fel</td><td>Rätta alla. Bör-krav i Projekt 3</td></tr>
+          <tr><td><b>Contrast Errors</b></td><td>Text som inte når 4,5:1</td><td>Rätta alla</td></tr>
+          <tr><td><b>Alerts</b> (gula)</td><td>Kanske fel, kanske inte</td><td>Läs varje, förklara de du lämnar</td></tr>
+          <tr><td><b>Features</b> (gröna)</td><td>Sådant du gjort rätt</td><td>Kontrollera att de sitter där du tror</td></tr>
+          <tr><td><b>Structural</b></td><td>Rubriker och landmärken</td><td>Kontrollera att strukturen stämmer</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>De vanligaste felen och vad de betyder</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>WAVE säger</th><th>Vad som är fel</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td><i>Missing alternative text</i></td><td>En <code>img</code> saknar <code>alt</code></td><td>Beskriv bilden, eller <code>alt=""</code> om den är dekoration</td></tr>
+          <tr><td><i>Empty link</i></td><td>Länken innehåller ingen text</td><td>En bild utan <code>alt</code> inuti en länk. Ge bilden <code>alt</code></td></tr>
+          <tr><td><i>Missing form label</i></td><td>Fält utan <code>label</code></td><td><code>for</code> och <code>id</code> ska vara exakt samma sträng</td></tr>
+          <tr><td><i>Very low contrast</i></td><td>Under 4,5:1</td><td>Mörkare text eller ljusare bakgrund</td></tr>
+          <tr><td><i>Missing first level heading</i></td><td>Ingen <code>h1</code></td><td>En per sida</td></tr>
+          <tr><td><i>Skipped heading level</i></td><td><code>h2</code> följt av <code>h4</code></td><td>Nivå, inte storlek</td></tr>
+          <tr><td><i>Redundant link</i></td><td>Två länkar bredvid varandra till samma mål</td><td>Slå ihop dem</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Före och efter</h3>
+
+    <p>Projekt 3 kräver <b>en WAVE-rapport före och en efter</b>, som skärmbilder i din
+      <code>README.md</code>.</p>
+
+    <p>"Före" är första körningen på din sajt, innan du rättat något. Kör den tidigt –
+      det är mycket lättare att visa vad du gjort om du har utgångsläget sparat. "Efter"
+      är när du är klar.</p>
+
+    <h3>Lighthouse</h3>
+
+    <p>Lighthouse ligger inbyggt i Chrome DevTools och ger poäng i fyra kategorier.</p>
+
+    <ol class="steg">
+      <li><kbd>F12</kbd>, fliken <b>Lighthouse</b>.</li>
+      <li>Kryssa i minst <b>Accessibility</b>. <i>Performance</i> är intressant men hör
+        till område 7.</li>
+      <li>Välj <b>Mobile</b>.</li>
+      <li><b>Analyze page load</b>.</li>
+    </ol>
+
+    <p>Du får en siffra och en lista. Siffran är inte målet – listan är. Ett fel som
+      Lighthouse inte kan mäta finns fortfarande.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Verktygen kan inte allt</span>
+      <p>Varken WAVE eller Lighthouse kan avgöra om din <code>alt</code>-text är bra. De
+        ser att den finns. Att den beskriver rätt sak kan bara du kontrollera.</p>
+    </div>
+
+    <h3>Prova själv</h3>
+    <p>Kör WAVE på din startsida nu, innan du rättat något. Spara skärmbilden. Det är din
+      "före"-mätning, och den blir bara svårare att ta senare.</p>
+
+
+    <h2 id="langre">13. Ta det längre</h2>
+
+    <p>Fördjupning mot C och A. Inget här krävs för E.</p>
+
+    <h3>Rutnät helt utan brytpunkter</h3>
+
+<pre><code class="sprak-css">.kortrutnat {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1.5rem;
+}</code></pre>
+
+    <p><code>auto-fit</code> fyller på så många kolumner som får plats,
+      <code>minmax</code> säger att ingen får bli smalare än <code>16rem</code>. Rutnätet
+      väljer själv: fyra kolumner på en bred skärm, en på en telefon, utan att du skriver
+      en enda <code>@media</code>.</p>
+
+    <p>Kan du förklara varför det här ibland är bättre än en brytpunkt, är du på A-nivå i
+      matrisens rad om responsiv layout.</p>
+
+    <h3>minmax(0, 1fr) och tabeller som spränger sidan</h3>
+
+<pre><code class="sprak-css">body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}</code></pre>
+
+    <p>Ett grid-item har <code>min-width: auto</code> – "bli aldrig smalare än ditt
+      innehåll". Ett brett barn, som en tabell, drar då spåret bredare än skärmen och
+      hela sidan börjar scrolla i sidled. <code>minmax(0, ...)</code> säger att spåret
+      får bli hur smalt som helst.</p>
+
+    <p>Det är den vanligaste orsaken till vågrät rullning som inte går att hitta.</p>
+
+    <h3>Svepet</h3>
+
+<pre><code class="sprak-css">.tabellsvep {
+  overflow-x: auto;
+}</code></pre>
+
+    <p>Fem kolumner text får inte plats på en telefon, och ingen befintlig struktur kan
+      bära den scrollningen. Ett extra element runt tabellen är rätt svar – och det är
+      också exemplet på när en ny <code>div</code> är motiverad enligt Projekt 3:s
+      regel.</p>
+
+    <h3>Fokusordning i två layouter</h3>
+
+    <p>Har du flyttat block mellan mobil och desktop: tangentbordstesta <b>båda</b>
+      bredderna. Fokusordningen följer filen, och en layout som ser logisk ut kan ha en
+      tabbordning som inte gör det.</p>
+
+    <h3>prefers-color-scheme</h3>
+
+    <p>Mörkt läge från område 3 hör hit också. Det är samma familj som
+      <code>prefers-reduced-motion</code>: media queries som frågar om användarens
+      inställningar i stället för om skärmens mått.</p>
+
+
+    <h2 id="felsokning">14. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: viewport, media, kontrast, fokus, wave" autocomplete="off">
+      <p class="traffar" id="traffar-fel">22 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Sidan är utzoomad i telefonen</td><td>Viewport-taggen saknas</td><td><code>&lt;meta name="viewport" …&gt;</code> i <code>head</code>, på varje sida</td></tr>
+          <tr><td>Det går att dra sidan i sidled</td><td>Något element är bredare än skärmen</td><td>Leta fasta <code>px</code>-bredder i DevTools, ett element i taget</td></tr>
+          <tr><td>Vågrät rullning som inte går att hitta</td><td>Ett grid-item vägrar krympa</td><td><code>minmax(0, 1fr)</code> i stället för <code>1fr</code></td></tr>
+          <tr><td><code>100vw</code> ger vågrät rullning</td><td><code>vw</code> räknar med rullningslisten</td><td><code>100%</code> för bredder inuti sidan</td></tr>
+          <tr><td>Bilden spränger sidan</td><td>Ingen maxbredd</td><td><code>img { max-width: 100%; height: auto; }</code></td></tr>
+          <tr><td><code>@media</code>-regeln gör ingenting</td><td>Den står före regeln den ska åsidosätta</td><td>Media queries sist i filen</td></tr>
+          <tr><td><code>@media</code>-regeln gäller alltid</td><td><code>min-width</code> och <code>max-width</code> förväxlade</td><td><code>min-width</code> = från den bredden och uppåt</td></tr>
+          <tr><td>Layouten hoppar vid en bredd</td><td>Brytpunkten ligger där innehållet inte behöver den</td><td>Dra fönstret långsamt, flytta dit det faktiskt blir trångt</td></tr>
+          <tr><td>Bra i device mode, trasigt i telefonen</td><td>Device mode simulerar bara bredden</td><td>Publicera och öppna på riktig telefon</td></tr>
+          <tr><td>Texten blir jättestor på bred skärm</td><td><code>vw</code> utan gränser</td><td><code>clamp(minst, önskat, högst)</code></td></tr>
+          <tr><td><code>rem</code> ger fel storlek överallt</td><td><code>font-size</code> är satt på <code>html</code></td><td>Låt <code>html</code> vara</td></tr>
+          <tr><td>Menyn radbryter till oläslighet</td><td><code>gap</code> saknas, eller ingen brytpunkt</td><td><code>gap</code> på behållaren, kolumn under brytpunkten</td></tr>
+          <tr><td>Svårt att träffa länkarna med fingret</td><td>Klickytan är bara texten</td><td><code>min-height: 44px</code> och <code>padding</code> på länken</td></tr>
+          <tr><td>Fokusmarkeringen syns inte</td><td><code>outline: none</code> utan ersättning</td><td><code>:focus-visible</code> med egen <code>outline</code></td></tr>
+          <tr><td><kbd>Tab</kbd> hoppar i konstig ordning</td><td>Filens ordning skiljer sig från den visuella</td><td>Flytta i HTML:en, inte med <code>tabindex</code></td></tr>
+          <tr><td>Något klickbart går inte att tabba till</td><td>Det är en <code>div</code>, inte en <code>a</code> eller <code>button</code></td><td>Byt element</td></tr>
+          <tr><td>WAVE: <i>Empty link</i></td><td>Bild utan <code>alt</code> inuti en länk</td><td>Ge bilden <code>alt</code> som säger vart länken går</td></tr>
+          <tr><td>WAVE: <i>Missing form label</i></td><td><code>for</code> matchar inte <code>id</code></td><td>Exakt samma sträng, versaler räknas</td></tr>
+          <tr><td>WAVE: <i>Skipped heading level</i></td><td>Rubriknivå vald efter storlek</td><td>Nivå i HTML, storlek i CSS</td></tr>
+          <tr><td>WAVE hittar fel jag inte ser</td><td>De flesta tillgänglighetsfel är osynliga</td><td>Det är hela poängen. Rätta felet, inte mätningen</td></tr>
+          <tr><td>WAVE vill inte köra</td><td>Sidan ligger lokalt</td><td>WAVE behöver en publicerad adress</td></tr>
+          <tr><td>Lighthouse ger låg poäng på allt</td><td><i>Performance</i> mäts också</td><td>Kryssa i bara <i>Accessibility</i> i det här området</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <h2 id="snabbreferens">15. Snabbreferens</h2>
+
+    <h3>Viewport</h3>
+<pre><code class="sprak-html">&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code></pre>
+
+    <h3>Media queries</h3>
+<pre><code class="sprak-css">@media (min-width: 40rem) { }        /* från 40rem och uppåt */
+@media (max-width: 26rem) { }        /* till och med 26rem */
+@media (prefers-reduced-motion: reduce) { }
+@media (prefers-color-scheme: dark) { }</code></pre>
+
+    <h3>Enheter</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Enhet</th><th>Utgår från</th></tr></thead>
+        <tbody>
+          <tr><td><code>rem</code></td><td>Webbläsarens grundstorlek</td></tr>
+          <tr><td><code>%</code></td><td>Föräldern</td></tr>
+          <tr><td><code>fr</code></td><td>Det som blir över i ett grid</td></tr>
+          <tr><td><code>vw</code> / <code>vh</code></td><td>Fönstrets bredd / höjd</td></tr>
+          <tr><td><code>ch</code></td><td>Bredden på en nolla</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Skalar utan brytpunkt</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Hur</th></tr></thead>
+        <tbody>
+          <tr><td>Text</td><td><code>clamp(minst, önskat, högst)</code></td></tr>
+          <tr><td>Rutnät</td><td><code>repeat(auto-fit, minmax(16rem, 1fr))</code></td></tr>
+          <tr><td>Rad som radbryter</td><td><code>flex-wrap: wrap</code></td></tr>
+          <tr><td>Bild</td><td><code>max-width: 100%; height: auto</code></td></tr>
+          <tr><td>Grid-spår som får krympa</td><td><code>minmax(0, 1fr)</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Tillgänglighet</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Mått</th></tr></thead>
+        <tbody>
+          <tr><td>Kontrast, brödtext</td><td>4,5:1</td></tr>
+          <tr><td>Kontrast, stor text</td><td>3:1</td></tr>
+          <tr><td>Klickyta</td><td>44 × 44 px</td></tr>
+          <tr><td>Rubriker</td><td>En <code>h1</code>, inga hopp</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Tangentbordstestet</h3>
+    <p><kbd>Tab</kbd> genom sidan. Ser du fokus? Följer ordningen läsordningen? Når du
+      allt?</p>
+
+
+    <h2 id="ordlista">16. Ordlista</h2>
+    <p>Klicka på en rad för att visa betydelsen, eller träna på orden med knapparna
+      nedan.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>viewport</b></td><td>Den yta i webbläsaren där sidan visas</td></tr>
+          <tr><td><b>mobile first</b></td><td>Grundreglerna gäller smal skärm, media queries lägger till för breda</td></tr>
+          <tr><td><b>brytpunkt</b></td><td>Bredden där en media query börjar gälla</td></tr>
+          <tr><td><b>media query</b></td><td>Regel som gäller när ett villkor är uppfyllt</td></tr>
+          <tr><td><b>relativ enhet</b></td><td>Mått som utgår från något annat: rem, %, fr, vw</td></tr>
+          <tr><td><b>clamp()</b></td><td>Tre värden: minst, önskat, högst. Skalar mjukt mellan gränserna</td></tr>
+          <tr><td><b>device mode</b></td><td>DevTools-läge som visar sidan i en vald skärmbredd</td></tr>
+          <tr><td><b>wireframe</b></td><td>Skiss som visar var innehållet ligger, utan färg och form</td></tr>
+          <tr><td><b>ram (frame)</b></td><td>Ytan du ritar i i Figma – en skärm</td></tr>
+          <tr><td><b>komponent</b></td><td>Element du gjort en gång och återanvänder. Figmas motsvarighet till en klass</td></tr>
+          <tr><td><b>autolayout</b></td><td>Figmas sätt att sköta avstånd automatiskt. Samma tanke som Flexbox</td></tr>
+          <tr><td><b>hierarki</b></td><td>Vad som ser viktigast ut, och därmed läses först</td></tr>
+          <tr><td><b>läsmått</b></td><td>Hur långa textraderna är. Runt 60–75 tecken är bekvämt</td></tr>
+          <tr><td><b>konvention</b></td><td>Sådant besökaren redan förväntar sig, från andra sajter</td></tr>
+          <tr><td><b>feedback</b></td><td>Att sidan svarar när någon gör något</td></tr>
+          <tr><td><b>WCAG</b></td><td>Regelverket för webbtillgänglighet</td></tr>
+          <tr><td><b>landmärke</b></td><td>Semantiskt område man kan hoppa mellan: header, nav, main, footer</td></tr>
+          <tr><td><b>hopplänk</b></td><td>Länk först på sidan som hoppar förbi menyn, syns bara vid fokus</td></tr>
+          <tr><td><b>kontrast</b></td><td>Förhållandet mellan textens och bakgrundens ljushet</td></tr>
+          <tr><td><b>fokusmarkering</b></td><td>Ramen som visar var tangentbordet är</td></tr>
+          <tr><td><b>:focus-visible</b></td><td>Fokusmarkering för tangentbord men inte för mus</td></tr>
+          <tr><td><b>tabbordning</b></td><td>Ordningen Tab går i. Följer filen, inte layouten</td></tr>
+          <tr><td><b>WAVE</b></td><td>Tillägg som visar tillgänglighetsfel ovanpå sidan</td></tr>
+          <tr><td><b>Lighthouse</b></td><td>Verktyg i DevTools som ger poäng och en åtgärdslista</td></tr>
+          <tr><td><b>skärmläsare</b></td><td>Program som läser upp sidan för den som inte ser den</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="projekt-3.html">Vidare till Projekt 3</a> · <a href="index.html">Tillbaka till område 4</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

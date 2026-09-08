@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projekt 3 – Webbplats från egen wireframe – Webbutveckling 1 område 4</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-4-projekt-3">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Uppgift</strong> · Projekt 3</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#avsnitt-1">1. Uppdraget</a></li>
+      <li><a href="#avsnitt-2">2. Två vägar – du väljer</a></li>
+      <li><a href="#avsnitt-3">3. Sajten ska ha</a></li>
+      <li><a href="#kraven">4. Kraven</a></li>
+      <li><a href="#avsnitt-5">5. Tekniska krav</a></li>
+      <li><a href="#matrisen">6. Bedömningsmatris</a></li>
+      <li><a href="#avsnitt-7">7. Kom igång</a></li>
+      <li><a href="#avsnitt-8">8. Så ligger tiden</a></li>
+      <li><a href="#avsnitt-9">9. Innan du lämnar in</a></li>
+      <li><a href="#felsokning">10. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 4 · projekt</p>
+    <h1>Projekt 3 – Webbplats från egen wireframe</h1>
+    <p class="inledning">Nu ritar du sajten innan du bygger den. En wireframe i två
+      bredder, en sajt som fungerar lika bra i telefonen som på skärmen, och en
+      tillgänglighet som är kontrollerad i stället för gissad.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-11-20">
+        <span class="nar">20 nov</span>
+        <span class="vad">Wireframen ska vara klar
+          <small>Ingen inlämning – men härifrån bygger du, och åtta arbetspass återstår.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-12-11">
+        <span class="nar">11 dec</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Repo-länken och Figma-länken lämnas i itslearning-uppgiften.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-12-14">
+        <span class="nar">14 dec</span>
+        <span class="vad">Prov 3 – responsivt, UX och tillgänglighet
+          <small>Skriftligt prov utan dator.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="avsnitt-1">1. Uppdraget</h2>
+    <p>Du ska rita en webbplats innan du bygger den, och sedan bygga den så att den
+      fungerar lika bra i en telefon som på en skärm – och för den som inte använder
+      mus.</p>
+
+    <p>Tre saker bedöms, och de hänger ihop i den ordningen:</p>
+    <ol>
+      <li><b>Wireframen.</b> En skiss av sidan i två bredder, mobil och desktop, som
+        visar var innehållet ligger och hur viktigt det är. Ritas först, byggs sedan.</li>
+      <li><b>Den responsiva sajten.</b> Byggd från wireframen, med brytpunkter som
+        kommer ur innehållet i stället för ur en lista på telefonmodeller.</li>
+      <li><b>Tillgängligheten.</b> Kontrollerad med WAVE, inte gissad. Du lämnar in en
+        mätning före och en efter, så att arbetet syns.</li>
+    </ol>
+
+    <p>Det här är kursens största arbetsblock – nio arbetspass. Det är också första
+      gången du bestämmer hur sajten ska se ut innan du börjar skriva kod.</p>
+
+    <h2 id="avsnitt-2">2. Två vägar – du väljer</h2>
+    <p>Wireframen är obligatorisk. Vilken sajt den föreställer bestämmer du.</p>
+
+    <div class="notis">
+      <span class="rubrik">Bygg vidare</span>
+      <p>Rita en wireframe av sajten du redan har från Projekt 1 och 2, och bygg om den
+        efter skissen: responsiv, tillgänglig och med genomtänkt UX. Du arbetar i samma
+        repo. Den här vägen ger oftast mest – du har innehållet och kan lägga hela tiden
+        på form och funktion.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Börja om</span>
+      <p>Rita en wireframe för ett nytt ämne och bygg den sajten från grunden, i ett nytt
+        publikt repo. Du får mer arbete, men helt fria händer. Den här vägen är också
+        utvägen för dig som inte har ett Projekt 2 att bygga vidare på – då börjar du
+        här, och du hamnar inte efter.</p>
+    </div>
+
+    <p>Båda vägarna bedöms med samma matris. Matrisen frågar efter wireframe,
+      brytpunkter, UX och tillgänglighet, och de kraven ser likadana ut oavsett vilken
+      sajt du valde.</p>
+
+    <p>Säg till mig vilken väg du tar innan du börjar koda, så vet jag vad jag tittar
+      på.</p>
+
+    <h2 id="avsnitt-3">3. Sajten ska ha</h2>
+    <p>Oavsett väg gäller samma minimum, och det är samma omfattning som Projekt 1:</p>
+    <ul>
+      <li>Minst fyra sidor som hänger ihop med en gemensam navigation</li>
+      <li>Semantisk struktur som validerar</li>
+      <li>Bilder med <code>alt</code>-text</li>
+      <li>Ett formulär med kopplade etiketter</li>
+      <li>En extern stilmall</li>
+    </ul>
+    <p>Väljer du att bygga vidare har du redan allt det här. Väljer du att börja om är
+      det första du bygger, och guiderna från område 2 och 3 gäller fortfarande.</p>
+
+    <h2 id="kraven">4. Kraven</h2>
+    <p>Kryssa av allt eftersom. Kryssen sparas i din webbläsare.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>En wireframe i Figma, ritad i mallen från itslearning, med <b>två ramar</b>: mobil 375 px och desktop 1280 px.</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Samma innehåll i båda ramarna. Blocken flyttas – de tillkommer inte och försvinner inte.</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Wireframen är i gråskala. Färg hör inte hemma i en skiss.</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Länken till din Figma-fil lämnas in tillsammans med repo-länken.</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code> i <code>head</code> på varje sida.</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Sajten är läsbar och användbar vid 375 px bredd, utan att något behöver dras i sidled.</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Minst en <code>@media</code>-regel som ändrar layouten vid en brytpunkt du valt själv.</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Bilderna skalar med sin spalt: <code>max-width: 100%</code> och <code>height: auto</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>Minst en bredd i sajten är satt i <code>%</code> eller <code>fr</code> i stället för <code>px</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>Ingen vågrät rullning vid någon bredd mellan 375 px och full skärm.</span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span>Alla bilder har <code>alt</code> som beskriver vad bilden visar – eller <code>alt=""</code> om den bara är dekoration.</span></label></li>
+        <li><label><input type="checkbox" id="ska-12"><span>Alla formulärfält har en <code>label</code> kopplad med <code>for</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-13"><span>Text mot bakgrund har minst 4,5:1 i kontrast för brödtext.</span></label></li>
+        <li><label><input type="checkbox" id="ska-14"><span>Tangentbordsfokus syns på alla länkar, knappar och fält. Hela sajten går att nå med enbart <kbd>Tab</kbd>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-15"><span>Rubriknivåerna hoppar inte – en <code>h1</code> per sida, inga hopp från <code>h2</code> till <code>h4</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-16"><span>En WAVE-rapport <b>före</b> och en <b>efter</b>, som skärmbilder i din <code>README.md</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-17"><span>HTML och CSS validerar utan fel.</span></label></li>
+        <li><label><input type="checkbox" id="ska-18"><span>Sajten är publicerad, och repo-länken plus Figma-länken är inlämnade senast fredag 11 december 23:59.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— mot nivå C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Sajten är byggd <b>mobile first</b>: grundreglerna gäller den smala skärmen, och <code>@media</code>-reglerna lägger till för de breda.</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Brytpunkten är vald för att innehållet kräver den, och du kan säga vilket innehåll. Skriv det i <code>README.md</code>.</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Relativa enheter bär layouten: <code>rem</code> för typografi och avstånd, <code>%</code> eller <code>fr</code> för bredder.</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Navigationen fungerar på en smal skärm utan att radbrytas till oläslighet.</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Klickytorna är minst 44 × 44 px – ett finger är trubbigare än en muspekare.</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Sajten följer konventioner besökaren redan kan: logotypen leder hem, aktuell sida är markerad, länkar ser ut som länkar.</span></label></li>
+        <li><label><input type="checkbox" id="bor-7"><span>Formuläret säger vad som förväntas innan felet uppstår, inte efteråt.</span></label></li>
+        <li><label><input type="checkbox" id="bor-8"><span>WAVE visar noll fel (<i>errors</i>) efter ditt arbete.</span></label></li>
+        <li><label><input type="checkbox" id="bor-9"><span>Sajten är provad på en riktig telefon, inte bara i webbläsarens device mode.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— mot nivå A</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Layouten klarar hela spannet utan att någon brytpunkt känns som ett hopp – dra fönstret långsamt från smalt till brett.</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span><code>clamp()</code> eller <code>min()</code>/<code>max()</code> används så att något skalar mjukt i stället för att byta värde vid en brytpunkt.</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Ett rutnät som anpassar sig helt utan <code>@media</code>, med <code>repeat(auto-fit, minmax(...))</code> – och du kan förklara varför det ibland slår en brytpunkt.</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span><code>prefers-reduced-motion</code> respekteras om du har någon rörelse.</span></label></li>
+        <li><label><input type="checkbox" id="utm-5"><span>Fokusordningen följer den visuella ordningen, också där layouten flyttat om blocken mellan mobil och desktop.</span></label></li>
+        <li><label><input type="checkbox" id="utm-6"><span>WAVE visar noll fel <b>och</b> noll kontrastvarningar, och du kan förklara vad de återstående <i>alerts</i> betyder.</span></label></li>
+        <li><label><input type="checkbox" id="utm-7"><span>Du kan hålla upp din wireframe bredvid den färdiga sajten, peka på var du valde att avvika – och säga varför.</span></label></li>
+      </ul>
+    </section>
+
+    <p><button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="avsnitt-5">5. Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <tbody>
+          <tr><td><b>Repo</b></td><td>Bygger du vidare: samma repo som Projekt 1–2. Börjar du om: nytt publikt repo, Pages påslaget</td></tr>
+          <tr><td><b>Wireframe</b></td><td>Figma, mallen från itslearning duplicerad. Länken lämnas in</td></tr>
+          <tr><td><b>Viewport</b></td><td><code>&lt;meta name="viewport" …&gt;</code> i <code>head</code> på <b>varje</b> sida</td></tr>
+          <tr><td><b>Brytpunkter</b></td><td>Egna, motiverade i <code>README.md</code>. Inte kopierade från en lista</td></tr>
+          <tr><td><b>Enheter</b></td><td><code>rem</code>, <code>%</code>, <code>fr</code>, <code>vw</code>. <code>px</code> bara där det ska vara fast</td></tr>
+          <tr><td><b>Kontrast</b></td><td>Minst 4,5:1 för brödtext. Kontrollerad, inte gissad</td></tr>
+          <tr><td><b>Testning</b></td><td>WAVE före och efter. Riktig telefon minst en gång</td></tr>
+          <tr><td><b>Validering</b></td><td><code>validator.w3.org</code> för HTML, <code>jigsaw.w3.org/css-validator</code> för CSS</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det här lämnas in</span>
+      <ol>
+        <li><b>Repo-länken</b> i itslearning – sajten publicerad och fungerande.</li>
+        <li><b>Figma-länken</b> till din wireframe.</li>
+        <li><b><code>README.md</code></b> med vilken väg du valde, var brytpunkten ligger
+          och varför, samt WAVE-rapporten före och efter som skärmbilder.</li>
+      </ol>
+    </div>
+
+    <h2 id="matrisen">6. Bedömningsmatris</h2>
+    <p>Så här bedöms sajten, kriterium för kriterium. Tisdag 8 december gör ni
+      kamratrespons i par utifrån den här matrisen – då har du tre dagar kvar att göra
+      något åt det ni hittar.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Wireframe</b></td>
+            <td>Två ramar, mobil och desktop, samma innehåll i båda. Gråskala</td>
+            <td>Wireframen går att bygga från: block, hierarki och navigation är entydiga. Anteckning om var brytpunkten ligger</td>
+            <td>Du kan peka på var den färdiga sajten avviker från skissen och motivera varje avvikelse</td>
+          </tr>
+          <tr>
+            <td><b>Från skiss till kod</b></td>
+            <td>Sajten känns igen från wireframen</td>
+            <td>Ordningen och tyngden i skissen finns kvar i koden, i båda bredderna</td>
+            <td>Skissen har styrt markupen, inte bara utseendet: strukturen bär layouten i stället för att lagas i efterhand</td>
+          </tr>
+          <tr>
+            <td><b>Responsiv layout</b></td>
+            <td>Viewport-taggen på plats, läsbar vid 375 px, minst en <code>@media</code>-regel, ingen vågrät rullning</td>
+            <td>Mobile first. Brytpunkten är vald utifrån innehållet och motiverad i <code>README.md</code>. Relativa enheter bär layouten</td>
+            <td>Mjuk skalning med <code>clamp()</code> eller <code>auto-fit</code> där en brytpunkt inte behövs. Hela spannet fungerar, inte bara de bredder du råkade testa</td>
+          </tr>
+          <tr>
+            <td><b>UX</b></td>
+            <td>Gemensam navigation som går att hitta på alla sidor</td>
+            <td>Konventioner som besökaren kan: logotypen leder hem, aktuell sida markerad, klickytor minst 44 px. Formuläret vägleder</td>
+            <td>Hierarkin styr blicken dit du vill, och du kan förklara hur. Inget viktigt kräver att besökaren letar</td>
+          </tr>
+          <tr>
+            <td><b>Tillgänglighet</b></td>
+            <td><code>alt</code> på bilder, <code>label</code> på fält, synligt fokus, kontrast minst 4,5:1, rubriknivåer utan hopp</td>
+            <td>Noll fel i WAVE efter ditt arbete. Hela sajten nåbar med enbart tangentbord</td>
+            <td>Noll fel och noll kontrastvarningar. Fokusordningen följer den visuella ordningen i båda bredderna. <code>prefers-reduced-motion</code> om du har rörelse</td>
+          </tr>
+          <tr>
+            <td><b>Semantik och kvalitet</b></td>
+            <td>HTML och CSS validerar. Semantiska element används</td>
+            <td>Noll fel i båda validatorerna. Provad på riktig telefon. Stilmallen är läsbar och indelad</td>
+            <td>Semantiken bär tillgängligheten av sig själv – landmärken, rubriker och länktexter gör att sajten fungerar utan att du lagt till något extra</td>
+          </tr>
+          <tr>
+            <td><b>Arbetssätt</b></td>
+            <td>Sajten publicerad, wireframe och repo inlämnade</td>
+            <td>WAVE före och efter dokumenterat i <code>README.md</code>. Commits spridda över arbetspassen</td>
+            <td>Du kan visa vad WAVE hittade, vad du gjorde åt det, och vad du valde att inte göra – och varför</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Ingen rad väger tyngre än någon annan. Men en sajt som inte validerar eller inte
+      är publicerad är inte inlämnad, oavsett hur den ser ut.</p>
+
+    <h2 id="avsnitt-7">7. Kom igång – de tre första sakerna</h2>
+    <ol>
+      <li>Bestäm väg: bygga vidare eller börja om. Skriv det i din <code>README.md</code>
+        redan nu.</li>
+      <li>Öppna Figma-mallen från itslearning och duplicera den. Rita
+        <b>mobilramen först</b>, och bara block – rektanglar med etiketter.</li>
+      <li>Lägg in viewport-taggen i <code>head</code> på alla dina sidor och öppna sajten
+        i telefonen.</li>
+    </ol>
+
+    <p>Det tredje steget är den här raden. Den tar två minuter och visar dig vad hela
+      projektet handlar om – jämför sajten i telefonen före och efter:</p>
+
+<pre><code class="sprak-html">&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code></pre>
+
+    <h2 id="avsnitt-8">8. Så ligger tiden</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Datum</th><th>Vad som händer</th></tr></thead>
+        <tbody>
+          <tr><td>tis 10/11</td><td><b>Genomgång:</b> media queries som undantag. Uppgiften delas ut</td></tr>
+          <tr><td>fre 13/11</td><td><b>Genomgång:</b> Figma och wireframes</td></tr>
+          <tr><td>mån 16/11</td><td><b>Genomgång:</b> UX</td></tr>
+          <tr><td>tis 17/11</td><td><b>Genomgång:</b> tillgänglighet och WAVE</td></tr>
+          <tr><td>fre 20/11</td><td>Arbetspass. <b>Wireframen ska vara klar här</b></td></tr>
+          <tr><td>mån 23/11</td><td><b>Ledig dag.</b> Ingen lektion</td></tr>
+          <tr><td>tis 24/11</td><td>Arbetspass</td></tr>
+          <tr><td>fre 27/11</td><td>Arbetspass</td></tr>
+          <tr><td>mån 30/11</td><td>Arbetspass</td></tr>
+          <tr><td>tis 1/12</td><td>Arbetspass. Kör WAVE första gången – <b>"före"-mätningen</b></td></tr>
+          <tr><td>fre 4/12</td><td>Arbetspass</td></tr>
+          <tr><td>mån 7/12</td><td>Arbetspass</td></tr>
+          <tr><td>tis 8/12</td><td>Arbetspass. <b>Kamratrespons</b> i par utifrån bedömningsmatrisen</td></tr>
+          <tr><td>fre 11/12</td><td>Sista finputs. Validera, kör WAVE igen, testa i telefon. <b>Deadline 23:59</b></td></tr>
+          <tr><td>mån 14/12</td><td><b>Prov 3</b> – responsivt, UX och tillgänglighet, skriftligt utan dator</td></tr>
+          <tr><td>tis 15/12</td><td>Buffert: komplettering och kodgranskning i par</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Wireframen först, koden sedan</span>
+      <p>Frestelsen är att öppna kodredigeraren direkt och rita skissen efteråt, för att
+        det känns som att koda är att komma framåt. Gör inte det. En wireframe tar en
+        lektion att rita och sparar tre lektioners omtag, och den som bygger utan skiss
+        märker det först när desktopvyn ska göras och ingenting passar.</p>
+      <p><b>Ha wireframen klar till fredag 20 november.</b> Då har du åtta arbetspass
+        kvar till att bygga, och du vet vad du bygger.</p>
+    </div>
+
+    <h2 id="avsnitt-9">9. Innan du lämnar in</h2>
+    <p>Gå igenom listan på fredagen den 11 december, i den här ordningen.</p>
+    <ol>
+      <li>Wireframen har två ramar, mobil och desktop, med samma innehåll.</li>
+      <li>Figma-länken är inlämnad.</li>
+      <li>Viewport-taggen finns i <code>head</code> på <b>alla</b> sidor.</li>
+      <li>Sajten är läsbar vid 375 px utan vågrät rullning.</li>
+      <li>Minst en <code>@media</code>-regel, och du vet varför brytpunkten ligger där.</li>
+      <li>Minst en bredd är satt i <code>%</code> eller <code>fr</code>.</li>
+      <li>Brytpunkten är motiverad i <code>README.md</code>.</li>
+      <li>Alla bilder har <code>alt</code>, alla fält har <code>label</code>.</li>
+      <li>Hela sajten går att nå med enbart <kbd>Tab</kbd>, och fokus syns.</li>
+      <li>Kontrasten är kontrollerad, inte gissad.</li>
+      <li>WAVE-rapport före och efter ligger i <code>README.md</code>.</li>
+      <li>Provad på en riktig telefon.</li>
+      <li>Noll fel i HTML-validatorn och i CSS-validatorn.</li>
+      <li>Allt committat och synkat, adressen fungerar i ett privat fönster.</li>
+      <li>Repo-länken är inlämnad i itslearning.</li>
+    </ol>
+
+    <h2 id="felsokning">10. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: viewport, wave, kontrast, fokus, media" autocomplete="off">
+      <p class="traffar" id="traffar-fel">22 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Sidan är utzoomad i telefonen och texten pytteliten</td><td>Viewport-taggen saknas</td><td>Lägg in <code>&lt;meta name="viewport" …&gt;</code> i <code>head</code>. På varje sida</td></tr>
+          <tr><td>Det går att dra sidan i sidled på mobilen</td><td>Något element är bredare än skärmen</td><td>Leta efter fasta bredder i <code>px</code>. Ett element i taget i DevTools</td></tr>
+          <tr><td>Bilden spränger sidan i sidled</td><td>Ingen maxbredd satt</td><td><code>img { max-width: 100%; height: auto; }</code></td></tr>
+          <tr><td><code>100vw</code> ger vågrät rullning</td><td><code>vw</code> räknar med rullningslisten, <code>100%</code> gör det inte</td><td>Använd <code>100%</code> för bredder inuti sidan</td></tr>
+          <tr><td><code>@media</code>-regeln gör ingenting</td><td>Den står före regeln den ska åsidosätta</td><td>Media queries sist i filen. Den som står sist vinner vid samma specificitet</td></tr>
+          <tr><td><code>@media</code>-regeln gäller hela tiden</td><td><code>min-width</code> och <code>max-width</code> är förväxlade</td><td><code>min-width</code> = "från den här bredden och uppåt". Mobile first använder <code>min-width</code></td></tr>
+          <tr><td>Layouten hoppar plötsligt vid en viss bredd</td><td>Brytpunkten ligger där innehållet inte behöver den</td><td>Dra fönstret långsamt och se var det <i>faktiskt</i> blir trångt. Flytta brytpunkten dit</td></tr>
+          <tr><td>Ser bra ut i device mode men trasigt i telefonen</td><td>Device mode simulerar bredden, inte allt annat</td><td>Testa på riktig telefon minst en gång. Publicera och öppna adressen där</td></tr>
+          <tr><td>Menyn radbryter till oläslighet på smal skärm</td><td><code>flex-wrap</code> utan att avstånden hänger med</td><td><code>gap</code> på behållaren, och låt menyn bli en kolumn under brytpunkten</td></tr>
+          <tr><td>Länkarna är svåra att träffa med fingret</td><td>Klickytan är bara så stor som texten</td><td><code>padding</code> på länken, inte på behållaren. Minst 44 × 44 px</td></tr>
+          <tr><td><code>rem</code> ger fel storlek överallt</td><td><code>font-size</code> är satt på <code>html</code></td><td>Låt <code>html</code> vara. <code>rem</code> utgår från webbläsarens grundstorlek, och den ska besökaren få bestämma</td></tr>
+          <tr><td>WAVE: <i>Missing alternative text</i></td><td>En <code>img</code> saknar <code>alt</code></td><td>Beskriv vad bilden visar. Är den ren dekoration: <code>alt=""</code></td></tr>
+          <tr><td>WAVE: <i>Empty link</i></td><td>En länk innehåller bara en bild utan <code>alt</code></td><td>Ge bilden <code>alt</code> som säger vart länken går</td></tr>
+          <tr><td>WAVE: <i>Missing form label</i></td><td><code>label</code> saknas, eller <code>for</code> matchar inte fältets <code>id</code></td><td><code>for</code> och <code>id</code> ska vara exakt samma sträng</td></tr>
+          <tr><td>WAVE: <i>Very low contrast</i></td><td>Text och bakgrund ligger för nära varandra</td><td>Mörkare text eller ljusare bakgrund. Kontrollera i WAVE:s kontrastverktyg</td></tr>
+          <tr><td>WAVE: <i>Skipped heading level</i></td><td>Sidan hoppar från <code>h2</code> till <code>h4</code></td><td>Rubriknivåer är en innehållsförteckning, inte textstorlekar. Storleken sätts i CSS</td></tr>
+          <tr><td>WAVE: <i>Missing first level heading</i></td><td>Sidan saknar <code>h1</code></td><td>En <code>h1</code> per sida, som säger vad just den sidan handlar om</td></tr>
+          <tr><td>Fokusmarkeringen syns inte när jag tabbar</td><td><code>outline: none</code> utan något i stället</td><td>Ta aldrig bort utan att sätta något annat. <code>:focus-visible</code></td></tr>
+          <tr><td><kbd>Tab</kbd> hoppar i konstig ordning</td><td>Ordningen i HTML-filen skiljer sig från den visuella ordningen</td><td>Flytta i HTML:en, inte med <code>tabindex</code>. Fokus följer dokumentet</td></tr>
+          <tr><td>Något klickbart går inte att nå med tangentbordet</td><td>Det är en <code>div</code> eller <code>span</code>, inte en länk eller knapp</td><td>Använd <code>a</code> eller <code>button</code>. De är fokuserbara av sig själva</td></tr>
+          <tr><td>Sajten ser bra ut men WAVE hittar fel jag inte ser</td><td>De flesta tillgänglighetsfel är osynliga för den som ser</td><td>Det är hela poängen med verktyget. Rätta felet, inte mätningen</td></tr>
+          <tr><td>Jag hinner inte fixa allt WAVE hittade</td><td>Fel och varningar väger olika</td><td>Ta <i>errors</i> först, <i>contrast errors</i> sedan. <i>Alerts</i> sist – vissa är acceptabla</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="design-guiden.html">Designguiden</a> · <a href="index.html">Tillbaka till område 4</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
