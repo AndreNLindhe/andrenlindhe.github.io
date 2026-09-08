@@ -1,21 +1,27 @@
 {
+  "datornatverksteknik": {
+    "commit": "3214b1f",
+    "kalla": "C:\\Skola\\DatNät\\elevpaket",
+    "namn": "Dator- och nätverksteknik",
+    "publicerad": "2026-09-08"
+  },
   "granssnitt-webb": {
-    "commit": "008322b",
+    "commit": "764fde1",
     "kalla": "C:\\Skola\\Grägrä\\planering\\elevpaket",
     "namn": "Gränssnittsdesign och Webbutveckling",
-    "publicerad": "2026-09-03"
+    "publicerad": "2026-09-08"
   },
   "mekatronik1": {
     "commit": "7254287",
     "kalla": "C:\\Skola\\Mekatronik1\\elevpaket",
     "namn": "Mekatronik 1",
-    "publicerad": "2026-09-07"
+    "publicerad": "2026-09-08"
   },
   "webbserverprogrammering": {
-    "commit": "b24dfd6",
+    "commit": "3d585f0",
     "kalla": "C:\\Skola\\Webserverprogrammering 1\\elevpaket",
     "namn": "Webbserverprogrammering 1",
-    "publicerad": "2026-09-03"
+    "publicerad": "2026-09-08"
   },
   "webbutveckling1": {
     "commit": "0b84cf7",

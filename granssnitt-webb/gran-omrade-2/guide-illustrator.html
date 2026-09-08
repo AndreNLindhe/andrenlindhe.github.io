@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Illustrator för webb – Gränssnittsdesign område 2</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="gran-2-guide">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Guide</strong> · Illustrator för webb</span>
+  <a href="uppgift.html">Uppgiften</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#vektor">1. Vektor och pixel</a></li>
+      <li><a href="#banor">2. Banor och ankarpunkter</a></li>
+      <li><a href="#pathfinder">3. Pathfinder och justering</a></li>
+      <li><a href="#artboards">4. Artboards</a></li>
+      <li><a href="#rutnat">5. Ikonrutnätet</a></li>
+      <li><a href="#streck">6. Streckbredd och hörnradie</a></li>
+      <li><a href="#budskap">7. Vad en ikon kan säga</a></li>
+      <li><a href="#balans">8. Optisk balans</a></li>
+      <li><a href="#typografi">9. Typografi</a></li>
+      <li><a href="#ordmarke">10. Ordmärke</a></li>
+      <li><a href="#svg">11. SVG och export</a></li>
+      <li><a href="#felsokning">12. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Gränssnittsdesign · område 2</p>
+    <h1>Guide – Illustrator för webb</h1>
+    <p class="inledning">Här står det du behöver för uppgiften, och guiden fungerar utan att
+      du varit på lektionen. Slå upp i den när du fastnar. Guiden är komplett för området:
+      alla sex passen har sitt avsnitt.</p>
+
+    <h2 id="vektor">1. Vektor och pixel</h2>
+
+    <p>En pixelbild är ett rutnät av färgvärden. En vektor är en uppsättning instruktioner:
+      punkter, linjer och regler för hur de förbinds.</p>
+
+    <p>Skillnaden märks först när du förstorar. Pixelbilden har inget mer att ge — den kan
+      bara göra rutorna större. Vektorn räknas om, och kanten blir lika skarp i 400 % som i
+      100 %.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Pixelbild</th><th>Vektor</th></tr></thead>
+        <tbody>
+          <tr><td><b>Filen innehåller</b></td><td>Ett rutnät av färgvärden</td><td>Punkter, linjer och regler</td></tr>
+          <tr><td><b>Vid förstoring</b></td><td>Rutorna blir större och syns</td><td>Räknas om, kanten förblir skarp</td></tr>
+          <tr><td><b>Bra till</b></td><td>Foton</td><td>Ikoner, logotyper, illustrationer</td></tr>
+          <tr><td><b>Format</b></td><td>JPG, PNG, WebP</td><td>SVG, AI, EPS</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Regeln</span>
+      <p>Fotografier ska aldrig vara vektorer, och ikoner ska aldrig vara pixlar. Nästan
+        alla suddiga ikoner på webben kommer av att någon bytte plats på de två.</p>
+    </div>
+
+    <h2 id="banor">2. Banor och ankarpunkter</h2>
+
+    <p>En bana är punkter förbundna med linjer. Varje punkt har ett läge, och kan ha handtag
+      som bestämmer hur linjen kröker sig in i och ut ur punkten.</p>
+
+    <ul>
+      <li><b>Hörnpunkt</b> — linjen byter riktning tvärt</li>
+      <li><b>Mjuk punkt</b> — linjen fortsätter i samma riktning genom punkten</li>
+    </ul>
+
+    <p>Med pennverktyget ger ett <b>klick</b> en hörnpunkt, och <b>klicka och dra</b> ger en
+      mjuk punkt med handtag.</p>
+
+    <div class="notis">
+      <span class="rubrik">Färre punkter är bättre</span>
+      <p>En cirkel behöver fyra punkter, inte tolv. Med för många blir kanten ojämn och
+        formen svår att ändra i efterhand. Ritar du en form med tjugo punkter har du
+        troligen använt pennverktyget som en penna — det är inte vad det gör.</p>
+    </div>
+
+    <h2 id="pathfinder">3. Pathfinder och justering</h2>
+
+    <p>De flesta ikoner byggs av enkla former som kombineras, inte av banor ritade för
+      hand. Pathfinder-panelen har fyra knappar du behöver:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Knapp</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><b>Förena</b></td><td>Två former blir en</td></tr>
+          <tr><td><b>Subtrahera</b></td><td>Den övre formen skär ut ett hål i den undre</td></tr>
+          <tr><td><b>Skärning</b></td><td>Bara det som överlappar blir kvar</td></tr>
+          <tr><td><b>Exkludera</b></td><td>Överlappet blir hålet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>En molnikon är tre cirklar och en rektangel, förenade. Det tar trettio sekunder och
+      ger en renare form än samma moln ritat för hand.</p>
+
+    <p><b>Justeringspanelen</b> centrerar mot artboarden och fördelar jämnt. Det är den som
+      gör att ett set ser ordnat ut i stället för nästan ordnat.</p>
+
+    <h2 id="artboards">4. Artboards</h2>
+
+    <p>En artboard är en rityta i dokumentet, och ett dokument kan ha många.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Regeln för uppgiften</span>
+      <p>En ikon per artboard, alla kvadratiska och lika stora — 24 × 24 px. Det är det som
+        gör exporten förutsägbar och ikonerna lika stora. Exporten namnger dessutom
+        filerna efter artboarden, så namnge dem medan du ritar.</p>
+    </div>
+
+    <h2 id="rutnat">5. Ikonrutnätet</h2>
+
+    <p>Allt börjar här. Ett ikonrutnät är en kvadrat med marginaler, och alla ikoner i ett
+      set ritas innanför samma.</p>
+
+    <ul>
+      <li><b>24 × 24 px</b> är storleken i uppgiften. Andra vanliga: 16, 20, 32</li>
+      <li><b>Marginal runt om</b>, ofta 2 px. Ikonen fyller alltså 20 × 20</li>
+      <li><b>Optisk yta</b> — en cirkel måste ritas något större än en kvadrat för att se
+        lika stor ut</li>
+    </ul>
+
+    <p><b>Varför marginalen finns:</b> ikonen ska kunna sitta intill text eller inuti en
+      knapp utan att nudda kanten. Utan marginal måste varje användning kompensera för
+      sig.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Sätt rutnätet innan du ritar den andra ikonen</span>
+      <p>Allt annat i uppgiften går att justera i efterhand. Det gör inte rutnätet — det
+        sitter i varje ikon du redan ritat, och ändrar du det får du rita om dem.</p>
+    </div>
+
+    <h2 id="streck">6. Streckbredd och hörnradie</h2>
+
+    <p>Två tal som ska vara desamma i hela setet. Det är de som gör att ikonerna ser ut att
+      höra ihop.</p>
+
+    <p><b>Streckbredd.</b> På ett 24-rutnät är 2 px en trygg start. 1,5 ger ett finare
+      uttryck, 3 ett kraftigare. Vilket du väljer spelar mindre roll — att det är samma i
+      alla ikoner spelar all roll.</p>
+
+    <p><b>Hörnradie.</b> Skarpa hörn ger ett tekniskt uttryck, rundade ett mjukare. Samma
+      radie i hela setet, också på insidan av former.</p>
+
+    <div class="notis">
+      <span class="rubrik">Kontur eller fyllning?</span>
+      <p>En kontur ändrar tjocklek när ikonen skalas, om du inte kryssar i att konturen ska
+        skalas med. För ett ikonset är det oftast enklare att göra om konturerna till
+        fyllning innan export — då kan formen aldrig ändra sig. Mer om det i SVG-avsnittet
+        när det kommer.</p>
+    </div>
+
+    <h2 id="budskap">7. Vad en ikon kan säga</h2>
+
+    <p>Det här är det svåraste i uppgiften, och det som avgör hur den går.</p>
+
+    <p>En ikon fungerar när den avbildar <b>ett föremål</b> eller <b>en handling</b> som är
+      allmänt känd. Den fungerar inte när den ska avbilda ett begrepp.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fungerar</th><th>Fungerar inte</th></tr></thead>
+        <tbody>
+          <tr><td>Kuvert, karta, kamera, papperskorg</td><td>Hållbarhet, kvalitet, innovation</td></tr>
+          <tr><td>Förstoringsglas, kugghjul, pil</td><td>Trygghet, gemenskap, framtid</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Fundera på hur du skulle rita <i>hållbarhet</i>. Löv, jordglob, återvinningspil — alla
+      betyder något annat också, och ingen av dem betyder hållbarhet utan en text bredvid.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Testet som avgör</span>
+      <p>Visa ikonen för någon annan utan att säga vad den föreställer. Gissar hen rätt
+        fungerar den. Gissar hen fel är det inte hens fel.</p>
+    </div>
+
+    <p>Du ska lista tolv möjliga ikoner och välja sex. Arbetet ligger i bortvalet — de sex
+      som blir kvar ska vara de som klarar testet.</p>
+
+    <h2 id="balans">8. Optisk balans</h2>
+
+    <p>Matematiskt centrerat och optiskt centrerat är inte samma sak.</p>
+
+    <p>En triangel som centreras med justeringspanelen ser ut att ligga för långt åt höger,
+      eftersom tyngdpunkten sitter till vänster. Flyttar du den några pixlar ser den
+      centrerad ut — fast den inte är det.</p>
+
+    <p>Samma sak gäller storlek. En cirkel med samma bredd som en kvadrat ser mindre ut, och
+      måste ritas något större för att väga lika.</p>
+
+    <div class="notis">
+      <span class="rubrik">Ögat har alltid rätt</span>
+      <p>Ser det fel ut är det fel, även när panelen säger att det är rätt. Panelen mäter
+        koordinater, inte hur något upplevs.</p>
+    </div>
+
+    <h2 id="typografi">9. Typografi</h2>
+
+    <p>Läsbarhet är teknik, inte tycke. Fyra mått avgör om en text går att läsa, och alla
+      fyra går att mäta.</p>
+
+    <h3>Typsnittsklasser</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Klass</th><th>Kännetecken</th><th>Passar till</th></tr></thead>
+        <tbody>
+          <tr><td><b>Serif</b></td><td>Fötter på bokstäverna</td><td>Långa texter, tryck, något som ska kännas etablerat</td></tr>
+          <tr><td><b>Sans-serif</b></td><td>Inga fötter</td><td>Gränssnitt, skärm, rubriker — det mesta på webben</td></tr>
+          <tr><td><b>Monospace</b></td><td>Alla tecken lika breda</td><td>Kod, tabelldata, sifferkolumner</td></tr>
+          <tr><td><b>Display</b></td><td>Ritat för att synas</td><td>Logotyper och rubriker. Aldrig brödtext</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b>Ett typsnitt för rubriker och ett för brödtext räcker.</b> Tre är nästan alltid ett
+      för mycket, och två som liknar varandra ser ut som ett misstag. Serif rubrik och sans
+      brödtext fungerar; två olika sans-serifer gör det sällan.</p>
+
+    <h3>X-höjd</h3>
+    <p>X-höjd är höjden på ett gement <i>x</i> — bokstäverna utan uppstaplar. Två typsnitt i
+      samma storlek kan se helt olika stora ut om x-höjden skiljer.</p>
+    <p>Stor x-höjd ser större ut och läses lättare i små storlekar. Liten x-höjd ser
+      elegantare ut och tappar i 12 px.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Titta på brödtexten, inte på rubriken</span>
+      <p>Väljer du typsnitt efter hur rubriken ser ut i 60 px väljer du fel. Sätt ett helt
+        stycke i den storlek det ska läsas i, och läs det på armlängds avstånd.</p>
+    </div>
+
+    <h3>Radlängd och radavstånd</h3>
+    <p>Radlängd mäts i <b>tecken</b>, inte i centimeter. 60 till 75 tecken per rad är det
+      spann ögat klarar utan att tappa raden.</p>
+    <ul>
+      <li><b>För kort rad</b> — ögat hoppar hela tiden, texten blir hackig</li>
+      <li><b>För lång rad</b> — ögat tappar bort vilken rad det ska tillbaka till</li>
+    </ul>
+    <p>Radavstånd hänger ihop med radlängden: längre rader behöver mer luft för att ögat ska
+      hitta tillbaka. Ungefär 1,4 till 1,6 gånger textstorleken är en rimlig brödtext.</p>
+
+    <h3>Den typografiska skalan</h3>
+    <p>Fem storlekar som hör ihop — och de hör ihop för att de bygger på <b>ett
+      förhållande</b>, inte för att någon tyckte att de såg bra ut.</p>
+    <p>Börja i brödtexten och multiplicera med en faktor. Med 16 som bas och faktorn 1,25:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Storlek</th><th>Används till</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>16</td><td>Brödtext</td></tr>
+          <tr><td>2</td><td>20</td><td>Ingress, mellanrubrik</td></tr>
+          <tr><td>3</td><td>25</td><td>Rubrik nivå 3</td></tr>
+          <tr><td>4</td><td>31</td><td>Rubrik nivå 2</td></tr>
+          <tr><td>5</td><td>39</td><td>Sidrubrik</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Avrunda till hela tal. Räknar du ut skalan så här kan du alltid lägga till ett steg
+      till. <b>1,2</b> ger en tät skala som passar gränssnitt med mycket innehåll,
+      <b>1,5</b> en dramatisk skala för en enkel sida med få nivåer.</p>
+
+    <h3>Hierarki</h3>
+    <p>Fyra sätt att göra något viktigare: <b>storlek</b>, <b>vikt</b>, <b>färg</b> och
+      <b>avstånd</b>.</p>
+    <div class="notis">
+      <span class="rubrik">Använd två åt gången, inte fyra</span>
+      <p>En rubrik som är större, fetare, mörkare och har mer luft skriker. En som är större
+        och har luft räcker.</p>
+    </div>
+
+    <h3>Licenser</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sort</th><th>Vad det innebär</th></tr></thead>
+        <tbody>
+          <tr><td><b>Fria</b></td><td>Google Fonts och liknande. Får användas kommersiellt, ofta SIL Open Font License</td></tr>
+          <tr><td><b>Köpta</b></td><td>Licens per användningsområde: webb, tryck, app. Kostar per sajt eller per besökare</td></tr>
+          <tr><td><b>Systemtypsnitt</b></td><td>Finns redan på datorn. Ingen hämtning, ingen licensfråga för webb</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b>Att ett typsnitt går att ladda ner betyder inte att det får användas på en sajt.</b>
+      Ett typsnitt som följde med Photoshop får sällan bäddas in. För uppgiften räcker det
+      att du vet vilken licens ditt typsnitt har och kan säga det.</p>
+
+    <div class="notis">
+      <span class="rubrik">Hur skalan skrivs i kod</span>
+      <p>Här bestämmer du vilka värdena ska vara. Hur de skrivs som CSS kommer i
+        Webbutveckling den 3 november — och det är den här skalan du då skriver in.</p>
+    </div>
+
+    <h2 id="ordmarke">10. Ordmärke</h2>
+
+    <p>Ett ordmärke är sajtens namn satt som logotyp. De flesta logotyper du känner igen är
+      ord och inte symboler, och det är av tre skäl: ordet säger namnet direkt medan en
+      symbol måste läras in, ett ordmärke går att göra bra på en lektion medan en symbol tar
+      veckor, och ord i vektor skalar rent från 16 pixlar till en vepa.</p>
+
+    <p><b>Ett ordmärke är inte ett typsnittsval.</b> Det är ett typsnittsval plus justering.
+      Typsnittet gör ungefär åttio procent av jobbet. De sista tjugo procenten gör du själv,
+      och det är de som skiljer ett ordmärke från ett rubrikord.</p>
+
+    <h3>Välja typsnitt</h3>
+
+    <p>Utgå från sajtens rubriktypsnitt. Samma typsnitt som rubrikerna är det enklaste valet
+      och nästan alltid rätt — ordmärket ska höra ihop med typografin du satte i avsnitt 9,
+      inte konkurrera med den.</p>
+
+    <p>Tre saker avgör om ett typsnitt håller som ordmärke:</p>
+
+    <ul>
+      <li><b>Ordets längd.</b> Ett namn på tre bokstäver klarar ett display-typsnitt. Ett
+        namn på fjorton gör det inte.</li>
+      <li><b>Sajtens ton.</b> Samma fråga som i avsnitt 9, men svaret syns tydligare här
+        eftersom ordmärket är det första någon ser.</li>
+      <li><b>Bokstävernas form.</b> Vissa typsnitt tål att justeras, andra faller isär så
+        fort du rör avstånden.</li>
+    </ul>
+
+    <h3>Spärrning och kerning</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ord</th><th>Vad det betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Spärrning</b></td><td>Avståndet mellan <i>alla</i> tecken i ordet. Ett värde för hela ordet</td></tr>
+          <tr><td><b>Kerning</b></td><td>Avståndet mellan <i>två enskilda</i> tecken. Justeras par för par</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Ett ordmärke behöver båda. Tre regler räcker långt:</p>
+
+    <ul>
+      <li><b>Stora storlekar tål mindre avstånd.</b> Namnet satt i 80 pixlar ser luftigt ut
+        med samma spärrning som fungerar i 14. Det är därför värdet måste sättas om för
+        varje version.</li>
+      <li><b>Versaler behöver mer spärrning än gemener.</b> Ett ordmärke i versaler utan
+        spärrning ser hopklämt ut. Det är det vanligaste felet.</li>
+      <li><b>Vissa bokstavspar öppnar sig av sig själva.</b> AV, To, Ya och LT glipar. De
+        måste dras ihop för hand, och det är just det kerning är till för.</li>
+    </ul>
+
+    <h3>Optisk justering</h3>
+
+    <p>Matematiskt lika avstånd mellan tecknen <b>ser</b> ojämna ut. Bokstäverna har olika
+      form: ett V lutar undan upptill, ett L öppnar sig nedtill, ett O buktar ut. Sätter du
+      samma tal överallt blir vissa gap synligt större än andra.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Ögat bestämmer, inte panelen</span>
+      <p>Du justerar inte avståndet, du justerar hur avståndet upplevs. Det går inte att
+        räkna fram. Zooma ut, kisa, och flytta tills gapen ser lika stora ut.</p>
+    </div>
+
+    <h3>Tre versioner</h3>
+
+    <p>Uppgiften kräver tre storleksversioner, och de ska skilja sig i mer än storlek. Ett
+      märke som bara förminskas blir grått och tätt. Ett som bara förstoras blir glest och
+      håligt.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Version</th><th>Vad du ändrar</th></tr></thead>
+        <tbody>
+          <tr><td><b>Stor</b></td><td>Full spärrning, alla detaljer kvar, eventuell undertext</td></tr>
+          <tr><td><b>Mellan</b></td><td>Undertexten stryks, spärrningen dras åt något, detaljerna tunnas ut</td></tr>
+          <tr><td><b>Liten</b></td><td>Tätare spärrning, tjockare streck, detaljer som ändå försvinner tas bort</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Märket ska också fungera <b>mörkt på ljust och ljust på mörkt</b>. Det är samma fil
+      med ombytta färger, inte två olika märken.</p>
+
+    <h3>Arbetsgången</h3>
+
+    <p>Skissa för hand först. Det är inte en pedagogisk omväg — det är snabbare.</p>
+
+    <ol>
+      <li>Skissa <b>tre ordmärken på papper</b>. Tio minuter, tjock penna, inga linjaler.
+        Skisserna ska visa proportioner och tyngd, inte vara fina.</li>
+      <li>Välj ett och skriv <b>en mening</b> om varför just det.</li>
+      <li>Sätt ordet i Illustrator i ditt typsnitt.</li>
+      <li>Justera spärrningen tills det ser jämnt ut. Kerna paren som glipar.</li>
+      <li>Gör om steg 4 för varje storleksversion, med egna värden.</li>
+    </ol>
+
+    <div class="notis">
+      <span class="rubrik">Öppnar du Illustrator först</span>
+      <p>Då justerar du i stället för att välja. Du fastnar i den första idén eftersom den
+        redan ser färdig ut på skärmen. Tre skisser på papper tar tio minuter och sparar en
+        timme.</p>
+    </div>
+
+    <h2 id="svg">11. SVG och export</h2>
+
+    <p>En SVG är inte en bild. Det är text — en instruktion som råkar rita något. Öppnar du
+      din exporterade ikon i en textredigerare i stället för att dubbelklicka på den ser du
+      banorna du ritade, uttryckta i tal.</p>
+
+    <p>Det är därför du kan städa i filen, och det är därför kravet på en rensad export
+      finns: en fil du aldrig öppnat vet du inte vad den innehåller.</p>
+
+    <h3>Vad filen innehåller</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad det är</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;svg&gt;</code></td><td>Ytterhöljet. Här sitter <code>viewBox</code></td></tr>
+          <tr><td><code>&lt;path&gt;</code></td><td>Banan. Attributet <code>d</code> är punkterna och kurvorna du ritade</td></tr>
+          <tr><td><code>&lt;g&gt;</code></td><td>En grupp, samma gruppering som i Illustrator</td></tr>
+          <tr><td><code>fill</code> och <code>stroke</code></td><td>Fyllning och kontur, som färgvärden inbakade i filen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">viewBox är filens viktigaste rad</span>
+      <p>Följde du rutnätet står det <code>0 0 24 24</code> — ett koordinatsystem som är 24
+        enheter brett och 24 högt. Det är den raden som gör att ikonen kan ritas i vilken
+        storlek som helst utan att bli suddig. Står det något annat ritade du utanför
+        artboarden.</p>
+    </div>
+
+    <h3>Rensningen</h3>
+
+    <p>Illustrator lägger till saker ingen bad om. Så här ser en orensad export ut — det du
+      ser här ska du känna igen i din egen fil, inte skriva av:</p>
+
+<pre><code>&lt;svg id="Lager_1" data-name="Lager 1" viewBox="0 0 24 24"&gt;
+  &lt;defs&gt;&lt;style&gt;.cls-1 { fill: #1b3a5c; }&lt;/style&gt;&lt;/defs&gt;
+  &lt;title&gt;ikon-fyr&lt;/title&gt;
+  &lt;g id="Lager_2"&gt;&lt;/g&gt;
+  &lt;path class="cls-1" d="M12 2 L22 20 L2 20 Z"/&gt;
+&lt;/svg&gt;</code></pre>
+
+    <p>Samma fil rensad. Ikonen ser exakt likadan ut — det är beviset på att skräpet var
+      skräp:</p>
+
+<pre><code>&lt;svg viewBox="0 0 24 24"&gt;
+  &lt;path d="M12 2 L22 20 L2 20 Z" fill="#1b3a5c"/&gt;
+&lt;/svg&gt;</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad du ser</th><th>Vad det är</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;title&gt;</code>, <code>&lt;desc&gt;</code></td><td>Rester av lagernamn</td><td>Ta bort, eller skriv om till något som beskriver ikonen</td></tr>
+          <tr><td><code>&lt;g&gt;</code> utan innehåll</td><td>Tom grupp efter en raderad form</td><td>Ta bort</td></tr>
+          <tr><td><code>id</code>, <code>data-name</code></td><td>Illustrators egna namn</td><td>Ta bort</td></tr>
+          <tr><td><code>&lt;style&gt;</code> med <code>.cls-1</code></td><td>Klasser i stället för attribut</td><td>Ersätt med <code>fill</code> direkt på formen</td></tr>
+          <tr><td><code>&lt;defs&gt;</code> som inget använder</td><td>Rester av effekter</td><td>Ta bort</td></tr>
+          <tr><td><code>&lt;image&gt;</code> eller <code>base64</code></td><td>En rasterbild har följt med</td><td>Rita om formen. Filen är ingen vektor</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Hittar du base64 hjälper ingen rensning</span>
+      <p>Då var något i ikonen aldrig en vektor: ett klistrat foto, eller en effekt som
+        rastrerats. Sök efter ordet <b>base64</b> i filen — det tar tio sekunder och ger
+        svaret direkt. Formen ska ritas om, inte städas.</p>
+    </div>
+
+    <h3>Färg som ärvs</h3>
+
+    <p>En exporterad ikon har färgen fast i filen. Byt ut färgvärdet mot detta:</p>
+
+<pre><code class="sprak-svg">fill="currentColor"</code></pre>
+
+    <p>Nu tar ikonen färg från texten omkring sig i stället för att bära sin egen. Ett set
+      med inbränd färg måste exporteras om varje gång sajten byter färgtema. Ett med
+      <code>currentColor</code> behöver aldrig röras igen.</p>
+
+    <p>Samma sak med storleken: ta bort <code>width</code> och <code>height</code> ur
+      <code>&lt;svg&gt;</code>-taggen, men låt <code>viewBox</code> stå kvar.</p>
+
+<pre><code class="sprak-svg">&lt;svg viewBox="0 0 24 24"&gt;</code></pre>
+
+    <div class="notis varna">
+      <span class="rubrik">Det vanligaste felet i hela avsnittet</span>
+      <p>Att ta bort <code>viewBox</code> i stället för <code>width</code>. Då tappar ikonen
+        sitt koordinatsystem och kollapsar. Två attribut bort, ett kvar — och det som är
+        kvar är <code>viewBox</code>.</p>
+    </div>
+
+    <p><code>currentColor</code> går inte att sätta i Illustrators färgväljare. Den skrivs in
+      i filen, för hand.</p>
+
+    <h3>När SVG inte är svaret</h3>
+
+    <p>SVG vinner på ikoner, logotyper och enkla illustrationer: ritat material med skarpa
+      kanter och få färger. SVG förlorar på foton — alltid — och på illustrationer med
+      tusentals banor, där filen blir både större och långsammare än en PNG av samma bild.</p>
+
+    <p>Tumregeln är att ju fler banor, desto sämre affär. En ikon på tolv banor är
+      självklar. En detaljerad karta på tolvtusen är det inte. Resten av formatvalet står i
+      <a href="../gran-omrade-1/guide-photoshop.html">guiden till område 1</a>.</p>
+
+    <h3>Mappar och filnamn</h3>
+
+    <p>Så här ska det ligga när du lämnar in:</p>
+
+<pre><code>ikonset/
+  arbetsfiler/     ikoner.ai, ordmarke.ai
+  svg/             ikon-fyr.svg, ikon-karta.svg, ordmarke-liten.svg
+  typografi.md     din skala</code></pre>
+
+    <p>Filnamn i gemener, bindestreck i stället för mellanslag, inga å ä ö. Det märks inte
+      förrän filen ligger på en server, och då är det för sent.</p>
+
+    <h2 id="felsokning">12. Felsökning</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Vad du gör</th></tr></thead>
+        <tbody>
+          <tr><td>Kanten är skakig och ojämn</td><td>För många ankarpunkter</td><td>Rita om med färre, eller använd grundformer och pathfinder</td></tr>
+          <tr><td>Ikonen faller isär när du flyttar den</td><td>Formerna är inte grupperade</td><td>Markera allt och gruppera, eller förena med pathfinder</td></tr>
+          <tr><td>Ikonen hamnar inte med i exporten</td><td>Den ligger utanför artboarden</td><td>Flytta in den, eller justera mot artboard i justeringspanelen</td></tr>
+          <tr><td>Strecket blir tunnare när du förminskar</td><td>Konturen skalas inte med</td><td>Kryssa i att skala konturer, eller gör om konturen till fyllning</td></tr>
+          <tr><td>En ikon ser sjuk ut bredvid de andra</td><td>Annan streckbredd eller hörnradie</td><td>Mät. Det är nästan alltid ett av de två talen</td></tr>
+          <tr><td>Ikonen blir en grå fläck i 16 px</td><td>För mycket detalj</td><td>Ta bort element tills två eller tre är kvar</td></tr>
+          <tr><td>Ingen förstår vad ikonen föreställer</td><td>Motivet är ett begrepp, inte ett föremål</td><td>Byt motiv. Se avsnitt 7</td></tr>
+          <tr><td>Två typsnitt ser nästan lika ut</td><td>Båda i samma klass</td><td>Välj ett ur en annan klass, eller nöj dig med ett</td></tr>
+          <tr><td>Brödtexten är svår att läsa fast storleken stämmer</td><td>För lång rad, eller för lite radavstånd</td><td>Räkna tecken per rad. Sikta på 60–75</td></tr>
+          <tr><td>Ordmärket ser hopklämt ut</td><td>Versaler utan spärrning</td><td>Öka spärrningen. Versaler behöver mer luft än gemener</td></tr>
+          <tr><td>Ett gap i ordet ser större än de andra</td><td>Ett bokstavspar som glipar, till exempel AV eller LT</td><td>Kerna paret för hand. Se avsnitt 10</td></tr>
+          <tr><td>Ikonen försvinner eller kollapsar efter rensning</td><td><code>viewBox</code> är borttagen</td><td>Lägg tillbaka den. Det är <code>width</code> och <code>height</code> som ska bort</td></tr>
+          <tr><td>SVG-filen är ovanligt stor</td><td>Sparad i stället för exporterad, eller en rasterbild inbakad</td><td>Exportera om. Sök efter <code>base64</code> i filen. Se avsnitt 11</td></tr>
+          <tr><td>Färgerna ser rätt ut i Illustrator men fel i webbläsaren</td><td>Dokumentet är i CMYK</td><td>Byt färgläge till RGB och exportera om</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 2</a> ·
+        <a href="uppgift.html">Uppgift 2 – Ikonset och ordmärke</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
