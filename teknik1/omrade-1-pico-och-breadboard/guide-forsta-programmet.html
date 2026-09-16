@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Det första programmet – Teknik 1 område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-1-forsta-programmet">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Guide</strong> · Det första programmet</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#blink">1. Blink</a></li>
+      <li><a href="#rad">2. Vad varje rad gör</a></li>
+      <li><a href="#kor">3. Kör, stoppa, ändra</a></li>
+      <li><a href="#breadboard">4. Breadboarden</a></li>
+      <li><a href="#led">5. LED på pinne 15</a></li>
+      <li><a href="#sos">6. SOS – din första uppgift</a></li>
+      <li><a href="#felsokning">7. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 1 · pass 1</p>
+    <h1>Det första programmet</h1>
+    <p class="inledning">Ett program är instruktioner i ordning. Pico:n läser dem uppifrån
+      och ner och gör exakt det som står, varken mer eller mindre. Det första programmet
+      tänder och släcker en lysdiod – och det räcker för att förstå hur allt annat i blocket
+      fungerar.</p>
+
+    <h2 id="blink">1. Blink</h2>
+    <p>I VS Code: <strong>File → New File</strong>. Spara direkt som <code>blink.py</code> i
+      mappen <code>teknik1</code> (<kbd>Ctrl</kbd>+<kbd>S</kbd>). Skriv av programmet rad
+      för rad – kopiera inte, det är genom att skriva du lär dig var tecknen sitter.</p>
+<pre><code class="sprak-python">from machine import Pin
+from time import sleep
+
+led = Pin(25, Pin.OUT)
+
+while True:
+    led.on()
+    sleep(0.5)
+    led.off()
+    sleep(0.5)</code></pre>
+    <div class="notis viktig">
+      <span class="rubrik">Indraget är inte pynt</span>
+      <p>Raderna under <code>while True:</code> har fyra mellanslag i början. Det är så
+        Python vet att de hör till loopen. VS Code gör indraget själv när du trycker Enter
+        efter kolonet – ta inte bort det.</p>
+    </div>
+
+    <h2 id="rad">2. Vad varje rad gör</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Raden</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>from machine import Pin</code></td><td>Hämtar verktyget som styr pinnar. Det finns inte förrän du hämtat det</td></tr>
+          <tr><td><code>from time import sleep</code></td><td>Hämtar verktyget som väntar</td></tr>
+          <tr><td><code>led = Pin(25, Pin.OUT)</code></td><td>Pinne 25 är den inbyggda lysdioden. <code>OUT</code> betyder att vi skickar ut, inte lyssnar. Namnet <code>led</code> väljer du själv</td></tr>
+          <tr><td><code>while True:</code></td><td>Gör raderna nedanför om och om igen, för alltid</td></tr>
+          <tr><td><code>led.on()</code></td><td>Pinnen går hög – 3,3 volt – och lysdioden tänds</td></tr>
+          <tr><td><code>sleep(0.5)</code></td><td>Vänta en halv sekund. Inget händer på pinnen under tiden</td></tr>
+          <tr><td><code>led.off()</code></td><td>Pinnen går låg – 0 volt – och lysdioden släcks</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Det är hela idén: <strong>varje rad gör något med en pinne, eller väntar.</strong>
+      Pinnen är antingen på eller av.</p>
+
+    <h2 id="kor">3. Kör, stoppa, ändra</h2>
+    <ol>
+      <li>Klicka <strong>Run</strong> nere i listen (eller <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> →
+        <code>MicroPico: Run current file on Pico</code>). Den gröna lysdioden på kortet blinkar.</li>
+      <li>Klicka <strong>Stop</strong>. Den slutar.</li>
+      <li>Ändra <code>0.5</code> till <code>0.1</code> på båda ställena. Kör igen. Ändra till
+        <code>2</code>. Kör igen.</li>
+      <li>Ta bort raden <code>led.off()</code>. Gissa vad som händer <em>innan</em> du kör.</li>
+    </ol>
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Gör så att den lyser länge och är släckt kort. Sedan tvärtom. Du behöver bara ändra
+        två tal.</p>
+    </div>
+
+    <h2 id="breadboard">4. Breadboarden</h2>
+    <p>Breadboarden är en platta med hål där du kopplar ihop saker utan att löda. Det enda
+      du måste veta:</p>
+    <ul>
+      <li><strong>De fem hålen i en rad sitter ihop</strong> elektriskt. Sätter du två ben i
+        samma rad är de kopplade till varandra.</li>
+      <li>De långa raderna längs kanten sitter ihop <em>på längden</em>. De används för plus
+        och minus.</li>
+      <li>Spåret i mitten delar plattan. Pico:n sätts över spåret så att benen hamnar på
+        var sin sida – då kortsluts inte benen med varandra.</li>
+    </ul>
+<pre><code>   a  b  c  d  e     f  g  h  i  j
+1  o  o  o  o  o  |  o  o  o  o  o     ← a1–e1 sitter ihop. f1–j1 sitter ihop.
+2  o  o  o  o  o  |  o  o  o  o  o        Men a1 och f1 gör det inte.
+3  o  o  o  o  o  |  o  o  o  o  o
+              spåret</code></pre>
+
+    <h2 id="led">5. LED på pinne 15</h2>
+    <p>Du behöver: en lysdiod, ett motstånd på 220 Ω (röd-röd-brun), två kopplingstrådar.</p>
+    <ol>
+      <li>Tråd från Pico:ns <strong>GP15</strong> till en tom rad på breadboarden.</li>
+      <li>Motståndet från den raden till en ny rad.</li>
+      <li>Lysdiodens <strong>långa ben</strong> i motståndets rad. Det <strong>korta benet</strong>
+        i en egen rad.</li>
+      <li>Tråd från lysdiodens korta ben till <strong>GND</strong> på Pico:n.</li>
+    </ol>
+    <div class="notis varna">
+      <span class="rubrik">Två regler</span>
+      <p><strong>Motståndet är inte valfritt.</strong> Utan det brinner lysdioden efter en
+        stund. <strong>Långt ben till plus.</strong> Lyser den inte: vänd lysdioden. Den går
+        inte sönder av att sitta fel.</p>
+    </div>
+    <p>Sedan samma program med en siffra ändrad. Spara som <code>blink15.py</code>:</p>
+<pre><code class="sprak-python">from machine import Pin
+from time import sleep
+
+led = Pin(15, Pin.OUT)
+
+while True:
+    led.on()
+    sleep(0.5)
+    led.off()
+    sleep(0.5)</code></pre>
+    <p>Kör. Nu blinkar lysdioden på breadboarden i stället för den på kortet. Samma kod,
+      annan pinne – det är precis så roboten kommer att styras om tre veckor.</p>
+
+    <h2 id="sos">6. SOS – din första uppgift</h2>
+    <p>SOS på morse är tre korta, tre långa, tre korta. Kort = 0,2 sekunder, lång = 0,6.
+      Mellan varje blink är den släckt 0,2 sekunder.</p>
+    <p>Skriv det <em>först</em> med talen inskrivna överallt. Det blir många rader. Det
+      är meningen.</p>
+    <p>När det fungerar: du vill göra hela mönstret dubbelt så snabbt. Hur många ställen
+      måste du ändra på? Det är därför <strong>variabler</strong> finns. Skriv om programmet
+      så här i början, och använd namnen i stället för talen:</p>
+<pre><code class="sprak-python">from machine import Pin
+from time import sleep
+
+led = Pin(15, Pin.OUT)
+kort = 0.2
+lang = 0.6
+
+while True:
+    led.on()
+    sleep(kort)
+    led.off()
+    sleep(kort)
+    # … fortsätt själv: tre korta, tre långa, tre korta</code></pre>
+    <p>Nu räcker det att ändra <code>kort</code> och <code>lang</code> på ett ställe.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Klart när <span style="color:var(--dov);font-weight:400">— det här ska alla ha</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Blink körs på den inbyggda lysdioden</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Lysdiod med motstånd kopplad på GP15, och den blinkar</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>SOS blinkar, med <code>kort</code> och <code>lang</code> som variabler</span></label></li>
+      </ul>
+    </section>
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">Om du hinner <span style="color:var(--dov);font-weight:400">— utmaning</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>En paus på 1,5 s mellan varje SOS</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Två lysdioder (GP15 och GP14) som växlar: när den ena tänds släcks den andra</span></label></li>
+      </ul>
+    </section>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="felsokning">7. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: Indentation, NameError, lyser inte" autocomplete="off">
+      <p class="traffar" id="traffar-fel">7 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Röd text: <code>IndentationError</code></td><td>Indraget under <code>while True:</code> saknas eller är olika på olika rader</td><td>Fyra mellanslag på varje rad i loopen. Inte tab på en och mellanslag på en annan</td></tr>
+          <tr><td>Röd text: <code>NameError: name 'pin' isn't defined</code></td><td>Litet p i <code>pin</code></td><td>Python skiljer på stora och små bokstäver. <code>Pin</code></td></tr>
+          <tr><td>Röd text: <code>SyntaxError</code> och en pil</td><td>Ett tecken saknas – oftast kolonet efter <code>while True</code> eller en parentes</td><td>Titta på raden pilen pekar på, och raden ovanför</td></tr>
+          <tr><td>Programmet kör men lysdioden på breadboarden är släckt</td><td>Lysdioden sitter åt fel håll</td><td>Vänd den. Långt ben mot motståndet</td></tr>
+          <tr><td>Lysdioden lyser svagt eller inte alls, koden är rätt</td><td>Motstånd och lysdiod i samma rad, eller GND-tråden i fel rad</td><td>Kontrollera att varje del går från en rad till en <em>annan</em> rad</td></tr>
+          <tr><td>Run-knappen är grå</td><td>Ett program kör redan</td><td>Klicka <strong>Stop</strong>, eller tryck <kbd>Ctrl</kbd>+<kbd>C</kbd> i Pico:ns terminal</td></tr>
+          <tr><td>Den inbyggda lysdioden blinkar fast jag kör <code>blink15.py</code></td><td>Du ändrade inte 25 till 15, eller körde fel fil</td><td>Kontrollera att fliken du står i är <code>blink15.py</code> och att raden säger <code>Pin(15, …)</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ord">Ord på den här sidan</h2>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>program</b></td><td>Instruktioner i ordning. Körs uppifrån och ner</td></tr>
+          <tr><td><b>import</b></td><td>Hämta ett verktyg så att det går att använda</td></tr>
+          <tr><td><b>pinne (GPIO)</b></td><td>Ett ben på Pico:n som programmet kan sätta på eller av, eller lyssna på</td></tr>
+          <tr><td><b>loop</b></td><td>Rader som körs om och om igen. <code>while True:</code> är en loop utan slut</td></tr>
+          <tr><td><b>indrag</b></td><td>Mellanslagen i början av en rad. Visar vad som hör till loopen</td></tr>
+          <tr><td><b>variabel</b></td><td>Ett namn som står för ett värde. <code>kort = 0.2</code>. Ändra på ett ställe, gäller överallt</td></tr>
+          <tr><td><b>breadboard</b></td><td>Kopplingsplatta. Fem hål i en rad sitter ihop</td></tr>
+          <tr><td><b>motstånd</b></td><td>Komponent som begränsar strömmen. 220 Ω skyddar lysdioden</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

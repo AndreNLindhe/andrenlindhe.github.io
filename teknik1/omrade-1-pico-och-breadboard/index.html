@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 1 · Pico och breadboard – Teknik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-1-start">
+
+<header class="topp">
+  <a href="../index.html">← Kursen</a>
+  <span class="harifran"><strong>Område 1</strong> · Pico och breadboard</span>
+  <a href="#passen">Passen</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 1 · v. 40–41</p>
+    <h1>Pico och breadboard</h1>
+    <p class="inledning">Två onsdagar, fyra pass. Mikrokontrollern sitter på en breadboard
+      och du lär dig det som allt annat bygger på: program är instruktioner i ordning,
+      pinnar går på och av, och med <code>if</code> kan programmet fatta beslut. Roboten
+      monteras redan första dagen – men den får ingen kod förrän område 2.</p>
+
+    <div class="notis">
+      <span class="rubrik">Ta med</span>
+      <p>Din dator, laddad. Första passet installeras VS Code – har du det redan går det
+        fortare. Pico:n och breadboarden ligger i skåpet mellan passen.</p>
+    </div>
+
+    <h2 id="material">Material</h2>
+    <div class="rutnat">
+      <a class="kort webb" href="guide-installation.html">
+        <span class="sort">Guide · pass 1</span>
+        <span class="rubrik">Installation: VS Code och Pico:n</span>
+        <p>Tillägget MicroPico, koppla in, och kvittot: Pico:n svarar <code>hej</code>.
+          Med felsökning.</p>
+      </a>
+      <a class="kort webb" href="guide-forsta-programmet.html">
+        <span class="sort">Guide · pass 1</span>
+        <span class="rubrik">Det första programmet</span>
+        <p>Blink, vad varje rad gör, breadboarden, en lysdiod på pinne 15 och SOS med
+          variabler. Din första uppgift.</p>
+      </a>
+      <a class="kort webb" href="guide-montera-roboten.html">
+        <span class="sort">Guide · pass 2</span>
+        <span class="rubrik">Montera roboten</span>
+        <p>Vad är vad: hjärna, drivkrets, motor, sensor. Monteringsordning, batterier och
+          märkning.</p>
+      </a>
+      <a class="kort gran" href="../loggbok.html">
+        <span class="sort">Varje pass</span>
+        <span class="rubrik">Loggboken</span>
+        <p>Tre frågor de sista tio minuterna. Mallen att kopiera in i <code>logg.md</code>.</p>
+      </a>
+    </div>
+
+    <h2 id="passen">Passen</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Vad vi gör</th><th>Missade du passet?</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>1 · ons 30/9 fm</td>
+            <td><b>Från kod till pinne.</b> VS Code och MicroPico igång. Blink på kortets lysdiod, sedan en lysdiod på breadboard. SOS med variabler.</td>
+            <td><a href="guide-installation.html">Installationen</a>, sedan <a href="guide-forsta-programmet.html">det första programmet</a></td>
+          </tr>
+          <tr>
+            <td>2 · ons 30/9 em</td>
+            <td><b>Montera roboten.</b> Ingen kod. Vad är vad, monteringsordning, batterier, märkning.</td>
+            <td><a href="guide-montera-roboten.html">Monteringsguiden</a></td>
+          </tr>
+          <tr>
+            <td>3 · ons 7/10 fm</td>
+            <td><b>Knapp, ljus och ljud.</b> Pico:n börjar lyssna: knapp, ljussensor, tröskelvärden, buzzer. <code>if</code> och <code>while</code>.</td>
+            <td>Läggs upp inför passet</td>
+          </tr>
+          <tr>
+            <td>4 · ons 7/10 em</td>
+            <td><b>Utmaning: ljus-theremin.</b> Ljussensorn styr tonhöjden, knappen tystar.</td>
+            <td>Läggs upp inför passet</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="efterat">Vad du kan efter området</h2>
+    <ul>
+      <li>Skriva ett program i VS Code och köra det på Pico:n.</li>
+      <li>Förklara vad <code>import</code>, <code>Pin</code>, <code>sleep</code> och <code>while True</code> gör.</li>
+      <li>Koppla en lysdiod med motstånd på en breadboard och styra den från kod.</li>
+      <li>Använda en variabel så att ett värde bara behöver ändras på ett ställe.</li>
+      <li>Läsa en knapp och en ljussensor, och låta programmet fatta beslut med <code>if</code>.</li>
+      <li>Peka ut hjärna, drivkrets, motor och sensor på roboten.</li>
+      <li>Skriva loggbok som går att använda fem veckor senare.</li>
+    </ul>
+
+    <footer class="fot">
+      <p><a href="../index.html">Tillbaka till kursen</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

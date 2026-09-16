@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Installation: VS Code och Pico:n – Teknik 1 område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-1-installation">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Guide</strong> · Installation</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#vad">1. Vad du behöver</a></li>
+      <li><a href="#vscode">2. VS Code och MicroPico</a></li>
+      <li><a href="#koppla">3. Koppla in Pico:n</a></li>
+      <li><a href="#kvitto">4. Kvittot: hej</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 1 · pass 1</p>
+    <h1>Installation: VS Code och Pico:n</h1>
+    <p class="inledning">Det här gör du en gång. När det är klart skriver du kod i VS Code
+      på din dator och Pico:n kör den direkt. Följ stegen i ordning – hoppa inte över
+      steg 4, det är där du vet att allt fungerar.</p>
+
+    <h2 id="vad">1. Vad du behöver</h2>
+    <ul>
+      <li>Din dator, med rätt att installera program.</li>
+      <li>En Pico (RP2350-Plus) ur lådan. Den har redan rätt firmware – du behöver inte göra något med den.</li>
+      <li>En USB-kabel som klarar <em>data</em>, inte bara laddning. Kablarna i lådan gör det. En laddkabel hemifrån gör det ofta inte – då lyser Pico:n men datorn ser den inte.</li>
+    </ul>
+
+    <h2 id="vscode">2. VS Code och MicroPico</h2>
+    <p><strong>VS Code</strong> är programmet du skriver kod i. <strong>MicroPico</strong>
+      är ett tillägg (en <em>extension</em>) som lär VS Code att prata med Pico:n.</p>
+    <ol>
+      <li>Har du inte VS Code: hämta från <code>code.visualstudio.com</code> och installera
+        med alla förval.</li>
+      <li>Öppna VS Code. Klicka på <strong>Extensions</strong> i vänsterkanten (ikonen med
+        fyra rutor), eller tryck <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>.</li>
+      <li>Sök på <code>MicroPico</code>. Klicka <strong>Install</strong> på tillägget som
+        heter just så.</li>
+      <li>Skapa en mapp på skrivbordet som heter <code>teknik1</code>. All kod i blocket
+        ligger där.</li>
+      <li>I VS Code: <strong>File → Open Folder</strong> → välj mappen <code>teknik1</code>.
+        Svara <strong>Yes, I trust the authors</strong> om VS Code frågar – det är din egen mapp.</li>
+    </ol>
+    <p>Mappen ser ut så här när blocket är slut. Just nu är den tom:</p>
+<pre><code>teknik1/
+  blink.py
+  sos.py
+  logg.md
+  …</code></pre>
+
+    <h2 id="koppla">3. Koppla in Pico:n</h2>
+    <ol>
+      <li>Koppla kabeln mellan Pico:n och datorn. Windows piper till.</li>
+      <li><strong>Inget fönster ska öppnas.</strong> Öppnas ett fönster med filer i har du
+        råkat hålla in knappen på Pico:n medan du kopplade in – dra ur och koppla in igen
+        utan att röra knappen.</li>
+      <li>Titta nere till vänster i VS Code. Där står <strong>Pico Disconnected</strong>.
+        Klicka på texten. Den ska bli <strong>Pico Connected</strong>.</li>
+      <li>Blir den inte det: tryck <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>, skriv
+        <code>MicroPico: Connect</code> och tryck Enter.</li>
+    </ol>
+
+    <h2 id="kvitto">4. Kvittot: hej</h2>
+    <p>Nere i VS Code finns en terminal. Om den inte syns: <strong>View → Terminal</strong>.
+      Skriv den här raden och tryck Enter:</p>
+<pre><code>print("hej")</code></pre>
+    <p>Pico:n svarar:</p>
+<pre><code>hej</code></pre>
+    <div class="notis">
+      <span class="rubrik">Nu är du klar</span>
+      <p>Det som hände: du skrev en rad Python, datorn skickade den till Pico:n, Pico:n
+        körde den och skickade tillbaka svaret. Allt du gör resten av blocket är samma sak
+        med längre program.</p>
+    </div>
+    <p>Klar före de andra? Hjälp paret bredvid. Nästa sida är
+      <a href="guide-forsta-programmet.html">det första programmet</a>.</p>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: kabel, port, fönster" autocomplete="off">
+      <p class="traffar" id="traffar-fel">6 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Pico:ns lampa lyser, men VS Code hittar den inte</td><td>Kabeln är en laddkabel utan datatrådar</td><td>Byt till en kabel ur lådan</td></tr>
+          <tr><td>Ett fönster med filer öppnas när jag kopplar in</td><td>Pico:n är i BOOTSEL-läge – knappen var intryckt</td><td>Dra ur. Koppla in igen utan att röra knappen</td></tr>
+          <tr><td><strong>Connect</strong> misslyckas eller kopplar till fel sak</td><td>MicroPico valde fel port</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> → <code>MicroPico: Connect</code> → välj COM-porten som dök upp när du kopplade in</td></tr>
+          <tr><td>Det står <strong>Pico Disconnected</strong> och klick gör inget</td><td>Tillägget har inte laddat klart</td><td>Stäng VS Code och öppna igen. Öppna mappen <code>teknik1</code> på nytt</td></tr>
+          <tr><td>Terminalen syns inte</td><td>Panelen är stängd</td><td><strong>View → Terminal</strong>, eller <kbd>Ctrl</kbd>+<kbd>ö</kbd></td></tr>
+          <tr><td>Jag skriver <code>print("hej")</code> men inget händer</td><td>Terminalen är datorns, inte Pico:ns</td><td>Klicka på <strong>Pico Connected</strong> nere till vänster så öppnas Pico:ns terminal</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ord">Ord på den här sidan</h2>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>mikrokontroller</b></td><td>En liten dator som gör en sak, utan skärm och tangentbord. Pico:n är en</td></tr>
+          <tr><td><b>firmware</b></td><td>Programmet som ligger i Pico:n från början och som förstår Python. Redan installerat</td></tr>
+          <tr><td><b>extension</b></td><td>Tillägg till VS Code. MicroPico är ett</td></tr>
+          <tr><td><b>terminal</b></td><td>Textfönstret där du skriver rader som körs direkt</td></tr>
+          <tr><td><b>BOOTSEL</b></td><td>Knappen på Pico:n. Hålls den in när kabeln sätts i går Pico:n i ett läge för att byta firmware – det vill du inte</td></tr>
+          <tr><td><b>COM-port</b></td><td>Windows namn på USB-anslutningen till Pico:n, till exempel COM5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

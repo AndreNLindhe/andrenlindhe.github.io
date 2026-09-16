@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Montera roboten – Teknik 1 område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-1-montera-roboten">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Guide</strong> · Montera roboten</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#vad">1. Vad är vad</a></li>
+      <li><a href="#ordning">2. Monteringsordning</a></li>
+      <li><a href="#batteri">3. Batterierna</a></li>
+      <li><a href="#kontroll">4. Kontroll och märkning</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 1 · pass 2</p>
+    <h1>Montera roboten</h1>
+    <p class="inledning">Roboten heter Pico2Go och kommer i delar. Du monterar den idag,
+      men den får ingen kod förrän om tre veckor. Tills dess står den på bänken som mål.
+      Det viktigaste med det här passet är inte skruvarna – det är att du vet vad varje del
+      är till för.</p>
+
+    <h2 id="vad">1. Vad är vad</h2>
+    <p>Allt på roboten är en av fyra sorter. Det gäller för varje robot, varje tvättmaskin
+      och varje bil.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sort</th><th>På Pico2Go</th><th>Vad den gör</th><th>Var den sitter</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Hjärna</strong></td><td>Pico:n (RP2350-Plus)</td><td>Kör programmet. Bestämmer vad som ska hända</td><td>Ovanpå, i den långa headern. <em>Tom idag</em></td></tr>
+          <tr><td><strong>Drivkrets</strong></td><td>TB6612, ett litet chip på huvudkortet</td><td>Hjärnan orkar inte driva en motor själv. Drivkretsen tar hjärnans svaga signal och gör den stark nog</td><td>På huvudkortet, nära motorerna</td></tr>
+          <tr><td><strong>Motor</strong></td><td>Två N20-motorer med växellåda</td><td>Vrider hjulen. En per sida – olika fart på dem gör att roboten svänger</td><td>Undersidan, en på varje sida</td></tr>
+          <tr><td><strong>Sensor</strong></td><td>Linjeföljare (fem IR-ögon), ultraljud, två IR-hindersensorer</td><td>Ser golvet, mäter avstånd framåt, ser hinder på sidorna</td><td>Under fronten, framtill, och på framkanten</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Dessutom finns saker hjärnan kan <em>visa och säga</em>: en liten skärm (LCD), fyra
+      färglysdioder under roboten och en buzzer. De kallas utgångar, och de kommer senare.</p>
+
+    <h2 id="ordning">2. Monteringsordning</h2>
+    <p>Underifrån och upp, tunga delar först. Skruva löst tills alla skruvar i en del sitter,
+      dra sedan åt. <strong>Dra aldrig hårt</strong> – plasten spricker och skruvarna är små.</p>
+    <ol>
+      <li><strong>Motorerna.</strong> De två N20-motorerna i sina fästen på huvudkortets
+        undersida. Kabeln ska peka bakåt. Sätt båda löst, dra sedan åt.</li>
+      <li><strong>Hjulen.</strong> Tryck fast på motoraxeln. Axeln är D-formad – vrid hjulet
+        tills det passar, tryck sedan hela vägen in.</li>
+      <li><strong>Stödhjulet.</strong> Kulan med sitt fäste, med distanserna emellan, så
+        att roboten står plant.</li>
+      <li><strong>Linjeföljarkortet.</strong> Det smala kortet med fem svarta fyrkanter.
+        Stiftlisten in i huvudkortet, skruvarna i. <strong>Fyrkanterna ska peka rakt ner mot
+        golvet och kortet ska vara parallellt med golvet.</strong> Det är det enda i
+        monteringen som ger fel senare om det blir snett.</li>
+      <li><strong>Ultraljudsmodulen.</strong> Den med två runda "ögon". I sin header
+        framtill, ögonen framåt.</li>
+      <li><strong>Skärmen.</strong> Om den ligger lös i kitet: i sin header ovanpå.</li>
+      <li><strong>Inte Pico:n.</strong> Den långa headern där Pico:n ska sitta är tom idag.
+        Pico:n ligger kvar på breadboarden.</li>
+    </ol>
+    <div class="notis">
+      <span class="rubrik">Bilder</span>
+      <p>Tillverkarens monteringsbilder visas på projektorn under passet. Fastnar du på
+        ett steg: titta på lärarens färdiga robot – den står framme.</p>
+    </div>
+
+    <h2 id="batteri">3. Batterierna</h2>
+    <p>Roboten drivs av två batterier av typen 14500 (ser ut som AA men är 3,7 volt –
+      blanda aldrig med vanliga AA).</p>
+    <ol>
+      <li>Titta i batterifacket. Plus och minus är märkta.</li>
+      <li>Sätt i båda åt rätt håll.</li>
+      <li>Slå på strömbrytaren. En gul eller grön lampa tänds – batteriindikatorn.</li>
+    </ol>
+    <div class="notis varna">
+      <span class="rubrik">Om ingen lampa tänds</span>
+      <p>Batterierna sitter åt fel håll, eller så har skyddskretsen löst ut. Vänd
+        batterierna, koppla in en USB-kabel i roboten några sekunder, ta ur den och prova
+        strömbrytaren igen.</p>
+    </div>
+
+    <h2 id="kontroll">4. Kontroll och märkning</h2>
+    <ul>
+      <li>Vänd roboten. Snurra hjulen för hand – de ska gå lätt och rakt.</li>
+      <li>Linjeföljarkortet parallellt med golvet, 5–10 mm över det när roboten står.</li>
+      <li>Strömbrytare på: indikatorn lyser. Strömbrytare av.</li>
+      <li>Etikett med robotens nummer och era namn – <strong>på roboten och på lådan</strong>.</li>
+      <li>Batterierna ur och i batterilådan. De ska inte ligga i roboten över veckan.</li>
+      <li>Roboten i lådan, lådan i skåpet. Pico:n stannar på breadboarden.</li>
+    </ul>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Klart innan du går</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Hjulen snurrar lätt för hand</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Linjeföljaren pekar rakt ner, parallell med golvet</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Batteriindikatorn tänds</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Headern för Pico:n är tom</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Etikett på roboten och på lådan</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Batterierna ur, i batterilådan</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Loggbok skriven för eftermiddagen</span></label></li>
+      </ul>
+    </section>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: hjul, batteri, skruv" autocomplete="off">
+      <p class="traffar" id="traffar-fel">5 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Roboten vaggar när hjulet snurras</td><td>Hjulet sitter snett på axeln</td><td>Dra av, vrid tills D-formen passar, tryck hela vägen in</td></tr>
+          <tr><td>Ingen lampa när strömbrytaren slås på</td><td>Batterier åt fel håll, eller skyddskretsen har löst ut</td><td>Vänd batterierna. USB-kabel i några sekunder, ur, prova igen</td></tr>
+          <tr><td>Skruven går inte i</td><td>Fel skruv – det finns två längder</td><td>Byt till den andra längden. Tvinga aldrig</td></tr>
+          <tr><td>Linjeföljarkortet sitter snett</td><td>Stiftlisten är inte hela vägen in</td><td>Lossa skruvarna, tryck listen rakt in, skruva igen</td></tr>
+          <tr><td>En del blir över</td><td>Ett steg hoppades över, eller delen hör till Pico:n som inte ska sitta i idag</td><td>Gå igenom listan i avsnitt 2 igen. Fråga om det fortfarande blir över</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ord">Ord på den här sidan</h2>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>hjärna</b></td><td>Den del som kör programmet. Mikrokontrollern</td></tr>
+          <tr><td><b>drivkrets</b></td><td>Förstärker hjärnans signal så att den orkar driva en motor</td></tr>
+          <tr><td><b>sensor</b></td><td>En del som mäter något i världen och rapporterar till hjärnan</td></tr>
+          <tr><td><b>utgång</b></td><td>Något hjärnan kan visa eller säga: lampa, skärm, buzzer, motor</td></tr>
+          <tr><td><b>header</b></td><td>Raden med hål som ett kort sticks i</td></tr>
+          <tr><td><b>linjeföljare</b></td><td>Fem IR-ögon under fronten som ser om golvet är ljust eller mörkt</td></tr>
+          <tr><td><b>ultraljud</b></td><td>Sensorn med två runda ögon. Skickar ett ljud och mäter hur lång tid ekot tar</td></tr>
+          <tr><td><b>14500</b></td><td>Batterityp. Ser ut som AA men är 3,7 V. Blandas aldrig med AA</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

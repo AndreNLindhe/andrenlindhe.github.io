@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loggboken – Teknik 1</title>
+  <link rel="stylesheet" href="stil.css">
+</head>
+<body data-nyckel="tek-loggbok">
+
+<header class="topp">
+  <a href="index.html">← Startsidan</a>
+  <span class="harifran"><strong>Loggboken</strong> · tre frågor, varje pass</span>
+  <a href="#mall">Mallen</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Teknik 1 · alla pass</p>
+    <h1>Loggboken</h1>
+    <p class="inledning">De sista tio minuterna av varje pass skriver ni loggbok. Tre
+      frågor, alltid samma, i en fil som heter <code>logg.md</code> i er mapp
+      <code>teknik1</code>. Två meningar per fråga räcker.</p>
+
+    <h2 id="varfor">Varför</h2>
+    <p>Loggboken bedöms inte. Den finns av två skäl:</p>
+    <ul>
+      <li><strong>Den är råmaterialet till dokumentationen</strong> du lämnar in efter
+        blocket. Där ska du beskriva vad som strulade och hur ni löste det – och det minns
+        ingen fem veckor senare. Loggboken minns.</li>
+      <li><strong>Den som var borta läser ikapp.</strong> Om din parkamrat är sjuk nästa
+        pass vet du var ni var. Om du är sjuk vet din parkamrat vad du behöver veta.</li>
+    </ul>
+    <p>Fråga två är den viktiga. Att lösa problem <em>med säkerhet</em> – som det heter i
+      kursplanen – syns inte i en robot som fungerar. Det syns i hur ni kom dit.</p>
+
+    <h2 id="fragorna">De tre frågorna</h2>
+    <ol>
+      <li><strong>Vad gjorde vi idag?</strong> Kort. Vad ni byggde, vad ni fick att fungera.</li>
+      <li><strong>Vad strulade, och hur löste vi det?</strong> Det här är den viktiga. Om
+        inget strulade, skriv det. Men det brukar ha gjort det.</li>
+      <li><strong>Vad gör vi nästa gång?</strong> En sak ni vill testa, kolla eller
+        fortsätta med.</li>
+    </ol>
+
+    <h2 id="exempel">Ett ifyllt exempel</h2>
+    <p>Så här kan det se ut efter ett pass en bit in i blocket:</p>
+<pre><code>## Pass 5 – 14/10 fm
+
+**Vad gjorde vi?**
+Flyttade Pico:n till roboten. Skrev fram(), back(), vanster(), hoger() och stopp().
+Mätte hastigheten: 23 cm/s vid fart 50.
+
+**Vad strulade, och hur löste vi det?**
+Roboten svängde åt höger när den skulle köra rakt. Vi tror höger motor är svagare.
+Löste det med fart 50 på vänster och 55 på höger – då gick den nästan rakt.
+
+**Nästa gång?**
+Testa om 55 stämmer när batteriet är fullt. Kolla ultraljudet.</code></pre>
+    <p>Lägg märke till fråga två: de beskriver <em>vad de såg</em>, <em>vad de trodde</em>
+      och <em>vad de gjorde</em>. Det är felsökning, och det är precis det som ska in i
+      dokumentationen senare.</p>
+
+    <h2 id="mall">Mallen</h2>
+    <p>Kopiera den här och klistra in överst i <code>logg.md</code> varje pass. Byt ut
+      passnummer och datum. Det här blocket går att markera och kopiera – det är en mall,
+      inte kod att träna på.</p>
+<pre class="fri"><code>## Pass (nummer) – (datum)
+
+**Vad gjorde vi?**
+
+
+**Vad strulade, och hur löste vi det?**
+
+
+**Nästa gång?**
+
+</code></pre>
+    <div class="notis">
+      <span class="rubrik">Filen heter logg.md</span>
+      <p><code>.md</code> är en textfil. Den öppnas i VS Code som vilken fil som helst.
+        Radernas <code>##</code> och <code>**</code> är bara markeringar för rubrik och fet
+        text – de gör ingenting, men de gör filen lättare att läsa.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till startsidan</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,525 @@
+/* Elevpaket – gemensam stil för alla sidor.
+   Ljust som standard, mörkt om systemet är inställt på det. */
+
+:root {
+  --papper: #fbfaf8;
+  --kort: #ffffff;
+  --text: #1a1d23;
+  --dov: #5a6472;
+  --linje: #e2e0db;
+  --linje-stark: #cbc8c1;
+  --gran: #b26a1a;
+  --gran-svag: #fdf3e4;
+  --webb: #0f7c74;
+  --webb-svag: #e6f5f3;
+  --ok: #2f7a3f;
+  --varning: #b23a2f;
+  --skugga: 0 1px 2px rgba(26, 29, 35, 0.06), 0 6px 20px rgba(26, 29, 35, 0.05);
+  --rundning: 10px;
+  --las: 68ch;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --papper: #12151b;
+    --kort: #191d25;
+    --text: #e8ebf0;
+    --dov: #9aa5b5;
+    --linje: #2a303b;
+    --linje-stark: #3a424f;
+    --gran: #eba85f;
+    --gran-svag: #2a2118;
+    --webb: #55cec2;
+    --webb-svag: #16292a;
+    --ok: #7fd08a;
+    --varning: #f0857a;
+    --skugga: 0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+
+body {
+  margin: 0;
+  background: var(--papper);
+  color: var(--text);
+  font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------- Topprad ---------------- */
+
+.topp {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.75rem 1.5rem;
+  background: color-mix(in srgb, var(--papper) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--linje);
+  font-size: 0.9rem;
+}
+
+.topp a { color: var(--dov); text-decoration: none; }
+.topp a:hover, .topp a:focus-visible { color: var(--text); text-decoration: underline; }
+.topp .harifran { flex: 1; }
+.topp strong { font-weight: 600; }
+
+/* ---------------- Sidram ---------------- */
+
+.ram { max-width: 66rem; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
+.smal { max-width: var(--las); }
+
+/* ---------------- Rubriker och text ---------------- */
+
+h1 {
+  font-size: clamp(1.9rem, 4.6vw, 2.9rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.6rem;
+  font-weight: 660;
+}
+
+h2 {
+  font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 3rem 0 0.9rem;
+  font-weight: 640;
+  padding-top: 0.4rem;
+}
+
+h3 {
+  font-size: 1.1rem;
+  margin: 2rem 0 0.5rem;
+  font-weight: 640;
+}
+
+p, ul, ol, table, pre, blockquote { max-width: var(--las); }
+p { margin: 0 0 1rem; }
+
+.ledtext {
+  font-size: 0.8rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--webb);
+  font-weight: 600;
+  margin: 0 0 0.7rem;
+}
+
+.inledning {
+  font-size: 1.2rem;
+  color: var(--dov);
+  max-width: 56ch;
+  margin-bottom: 2rem;
+}
+
+a { color: var(--webb); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+code, kbd, samp, pre {
+  font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+  font-size: 0.92em;
+}
+
+code {
+  background: var(--webb-svag);
+  color: inherit;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  /* En lång adress eller sökväg i löpande text kan inte brytas av sig själv och
+     drar då hela sidan bredare än skärmen på mobil. Gäller inte pre-block: där
+     hindrar white-space: pre brytning, och pre har sin egen sidledsscroll. */
+  overflow-wrap: anywhere;
+}
+
+kbd {
+  background: var(--kort);
+  border: 1px solid var(--linje-stark);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  padding: 0.1em 0.4em;
+  font-size: 0.86em;
+  white-space: nowrap;
+}
+
+pre {
+  background: var(--kort);
+  border: 1px solid var(--linje);
+  border-radius: var(--rundning);
+  padding: 1rem 1.2rem;
+  overflow-x: auto;
+  line-height: 1.5;
+  /* Kod i elevpaketet går inte att markera, och därmed inte att kopiera. Den ska
+     skrivas av för hand – avskrivningen är en del av inlärningen, inte ett hinder
+     på vägen till den. Gäller kodblock, inte <code> i löpande text: ett filnamn
+     eller ett kommando i en mening är inte det som ska tränas.
+     paket.js stoppar dessutom copy, cut och drag inuti blocket. */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+/* Undantaget. Ett block märkt class="fri" går att markera och kopiera som vanligt.
+   Det är till för kod eleven inte ska träna på att skriva: en färdig mall hen fått,
+   en lång konfigurationsrad, något som ska klistras in någon annanstans.
+
+   Sätts medvetet, block för block. Exempelkod som eleven ska lära sig genom att
+   skriva av får aldrig ha den. */
+pre.fri {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  user-select: text;
+  cursor: auto;
+}
+pre code { background: none; padding: 0; }
+
+/* Självrättande tabell: svarskolumnen är suddad tills raden klickas. Texten finns
+   kvar i DOM:en – det här är en övning, inte ett prov, och en skärmläsare ska
+   kunna nå svaret. Suddningen görs med genomskinlig text och en skugga, så att
+   raden behåller sin höjd och tabellen inte hoppar när svaret visas. */
+table.facit tbody tr { cursor: pointer; }
+table.facit td.dolt,
+table.facit td.dolt code {
+  color: transparent;
+  text-shadow: 0 0 0.55rem var(--dov);
+  user-select: none;
+}
+table.facit td.dolt code { background: none; }
+table.facit tbody tr:hover td.dolt { text-shadow: 0 0 0.35rem var(--dov); }
+table.facit tbody tr.visad { background: var(--webb-svag); }
+
+.facitknapp { margin: 0 0 1rem; }
+
+/* Sätts av paket.js på varje pre, så att eleven vet att det är avsiktligt och
+   inte en trasig sida. Ligger i blockets överkant, till höger. */
+.kodruta {
+  position: relative;
+}
+.kodruta::after {
+  content: "skriv av";
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.15rem 0.6rem;
+  font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dov);
+  background: var(--linje);
+  border-bottom-left-radius: var(--rundning);
+  border-top-right-radius: var(--rundning);
+  pointer-events: none;
+}
+
+blockquote {
+  margin: 1.6rem 0;
+  padding: 0.2rem 0 0.2rem 1.2rem;
+  border-left: 3px solid var(--webb);
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+hr { border: none; border-top: 1px solid var(--linje); margin: 3rem 0; }
+
+/* ---------------- Tabeller ---------------- */
+
+.tabellsvep { overflow-x: auto; max-width: 100%; margin: 0 0 1.5rem; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.98rem;
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--linje);
+}
+th {
+  font-weight: 640;
+  border-bottom: 2px solid var(--linje-stark);
+  white-space: nowrap;
+}
+tbody tr:hover { background: var(--webb-svag); }
+
+/* ---------------- Kortrutnät ---------------- */
+
+.rutnat {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+  max-width: none;
+  margin: 0 0 2rem;
+  padding: 0;
+  list-style: none;
+}
+
+.kort {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: var(--kort);
+  border: 1px solid var(--linje);
+  border-radius: var(--rundning);
+  padding: 1.3rem 1.4rem;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--skugga);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+a.kort:hover, a.kort:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--webb);
+  outline: none;
+}
+.kort .sort {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--webb);
+  font-weight: 660;
+}
+.kort .rubrik { font-size: 1.15rem; font-weight: 640; line-height: 1.25; }
+.kort p { margin: 0; color: var(--dov); font-size: 0.95rem; max-width: none; }
+.kort.gran { border-top: 3px solid var(--gran); }
+.kort.gran .sort { color: var(--gran); }
+.kort.webb { border-top: 3px solid var(--webb); }
+.kort.tom { opacity: 0.55; box-shadow: none; }
+
+/* ---------------- Notiser ---------------- */
+
+.notis {
+  border: 1px solid var(--linje);
+  border-left: 3px solid var(--webb);
+  background: var(--kort);
+  border-radius: 0 var(--rundning) var(--rundning) 0;
+  padding: 1rem 1.2rem;
+  margin: 1.6rem 0;
+  max-width: var(--las);
+}
+.notis p:last-child { margin-bottom: 0; }
+.notis.varna { border-left-color: var(--varning); }
+.notis.viktig { border-left-color: var(--gran); }
+.notis .rubrik {
+  display: block;
+  font-weight: 660;
+  font-size: 0.78rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--dov);
+  margin-bottom: 0.35rem;
+}
+
+/* ---------------- Innehållsförteckning ---------------- */
+
+.medlayout { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 3rem; align-items: start; }
+
+.innehall {
+  position: sticky;
+  top: 4.5rem;
+  font-size: 0.92rem;
+  border-left: 1px solid var(--linje);
+  padding-left: 1rem;
+}
+.innehall p {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dov);
+  font-weight: 660;
+  margin-bottom: 0.7rem;
+}
+.innehall ol { list-style: none; margin: 0; padding: 0; }
+.innehall li { margin-bottom: 0.4rem; line-height: 1.35; }
+.innehall a {
+  color: var(--dov);
+  text-decoration: none;
+  display: block;
+}
+.innehall a:hover { color: var(--text); }
+.innehall a.har { color: var(--webb); font-weight: 640; }
+
+@media (max-width: 60rem) {
+  /* minmax(0,1fr), inte 1fr: ett grid-item har min-width auto, så ett brett
+     barn (tabell, pre, flerspaltig innehållslista) annars drar spåret bredare
+     än skärmen och hela sidan börjar svepa i sidled. Samma skäl som i
+     desktopregeln ovan. */
+  .medlayout { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .innehall { position: static; border-left: none; border-bottom: 1px solid var(--linje); padding: 0 0 1rem; }
+  .innehall ol { columns: 2; column-gap: 1.5rem; }
+}
+
+/* ---------------- Kravlistor med kryss ---------------- */
+
+.kravblock { margin: 0 0 2.4rem; }
+
+.kravblock > .huvud {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.7rem;
+}
+.kravblock h2 { margin: 0; padding: 0; }
+.kravblock .antal { font-size: 0.9rem; color: var(--dov); font-variant-numeric: tabular-nums; }
+
+.stapel {
+  height: 6px;
+  background: var(--linje);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  max-width: var(--las);
+}
+.stapel span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--webb);
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+.kravblock[data-niva="bor"] .stapel span { background: var(--gran); }
+.kravblock[data-niva="utmaning"] .stapel span { background: var(--ok); }
+
+ul.krav { list-style: none; margin: 0; padding: 0; }
+ul.krav li { margin-bottom: 0.15rem; }
+
+ul.krav label {
+  display: grid;
+  grid-template-columns: 1.4rem 1fr;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+ul.krav label:hover { background: var(--kort); }
+ul.krav input { margin: 0.3rem 0 0; width: 1.1rem; height: 1.1rem; accent-color: var(--webb); }
+ul.krav input:checked + span { color: var(--dov); text-decoration: line-through; text-decoration-color: var(--linje-stark); }
+
+/* ---------------- Sök i tabell ---------------- */
+
+.sok { margin: 1.2rem 0 1rem; max-width: var(--las); }
+.sok label {
+  display: block;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dov);
+  font-weight: 640;
+  margin-bottom: 0.4rem;
+}
+.sok input {
+  width: 100%;
+  font: inherit;
+  padding: 0.6rem 0.8rem;
+  background: var(--kort);
+  color: var(--text);
+  border: 1px solid var(--linje-stark);
+  border-radius: 8px;
+}
+.sok input:focus-visible { outline: 2px solid var(--webb); outline-offset: 1px; }
+.sok .traffar { font-size: 0.88rem; color: var(--dov); margin: 0.5rem 0 0; }
+tr[hidden] { display: none; }
+
+/* ---------------- Ordträning ---------------- */
+
+.traning {
+  background: var(--kort);
+  border: 1px solid var(--linje);
+  border-radius: var(--rundning);
+  padding: 1.6rem;
+  max-width: var(--las);
+  box-shadow: var(--skugga);
+}
+.traning .ordet {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 660;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.8rem;
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+}
+.traning .svaret {
+  color: var(--dov);
+  min-height: 3.4em;
+  margin: 0 0 1.2rem;
+}
+.traning .svaret[hidden] { display: block; visibility: hidden; }
+.traning .knappar { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+.traning .rest { font-size: 0.88rem; color: var(--dov); margin-left: auto; font-variant-numeric: tabular-nums; }
+
+button.knapp {
+  font: inherit;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  border: 1px solid var(--webb);
+  background: var(--webb);
+  color: var(--papper);
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+button.knapp:hover { filter: brightness(1.08); }
+button.knapp.tom { background: none; color: var(--webb); }
+button.knapp:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+/* ---------------- Nedräkning ---------------- */
+
+ul.datum { list-style: none; margin: 0; padding: 0; max-width: none; }
+ul.datum li {
+  display: grid;
+  grid-template-columns: 7rem 1fr auto;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.85rem 0.2rem;
+  border-bottom: 1px solid var(--linje);
+}
+ul.datum .nar { font-variant-numeric: tabular-nums; font-weight: 640; }
+ul.datum .vad { line-height: 1.35; }
+ul.datum .vad small { display: block; color: var(--dov); font-size: 0.85rem; }
+ul.datum .kvar { font-size: 0.88rem; color: var(--dov); white-space: nowrap; }
+ul.datum li.forbi { opacity: 0.5; }
+ul.datum li.nast { background: var(--webb-svag); border-radius: 8px; }
+ul.datum li.nast .kvar { color: var(--webb); font-weight: 640; }
+
+@media (max-width: 40rem) {
+  ul.datum li { grid-template-columns: 1fr auto; }
+  ul.datum .nar { grid-column: 1 / -1; font-size: 0.9rem; color: var(--dov); }
+}
+
+/* ---------------- Sidfot ---------------- */
+
+.fot {
+  border-top: 1px solid var(--linje);
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  color: var(--dov);
+  font-size: 0.9rem;
+}
+.fot p { max-width: none; }
+
+/* ---------------- Utskrift ---------------- */
+
+@media print {
+  .topp, .innehall, .sok, .traning, .stapel { display: none; }
+  body { font-size: 11pt; background: #fff; color: #000; }
+  .ram { padding: 0; max-width: none; }
+  .medlayout { display: block; }
+  a { color: #000; }
+}

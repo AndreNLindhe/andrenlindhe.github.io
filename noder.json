@@ -18,5 +18,9 @@
   "datornatverksteknik": {
     "namn": "Dator- och nätverksteknik",
     "kalla": "C:/Skola/DatNät/elevpaket"
+  },
+  "teknik1": {
+    "namn": "Teknik 1",
+    "kalla": "C:/Skola/Teknik1/elevpaket"
   }
 }
