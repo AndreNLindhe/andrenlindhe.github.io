@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Montera roboten – Teknik 1 område 1</title>
+  <title>Roboten – vad är vad – Teknik 1 område 1</title>
   <link rel="stylesheet" href="../stil.css">
 </head>
 <body data-nyckel="tek-1-montera-roboten">
 
 <header class="topp">
   <a href="index.html">← Område 1</a>
-  <span class="harifran"><strong>Guide</strong> · Montera roboten</span>
+  <span class="harifran"><strong>Guide</strong> · Roboten – vad är vad</span>
   <a href="#felsokning">Felsökning</a>
 </header>
 
@@ -20,21 +20,20 @@
     <p>Innehåll</p>
     <ol>
       <li><a href="#vad">1. Vad är vad</a></li>
-      <li><a href="#ordning">2. Monteringsordning</a></li>
-      <li><a href="#batteri">3. Batterierna</a></li>
-      <li><a href="#kontroll">4. Kontroll och märkning</a></li>
-      <li><a href="#felsokning">5. Felsökning</a></li>
+      <li><a href="#batteri">2. Batterierna</a></li>
+      <li><a href="#kontroll">3. Kontroll och märkning</a></li>
+      <li><a href="#felsokning">4. Felsökning</a></li>
     </ol>
   </nav>
 
   <main>
 
     <p class="ledtext">Teknik 1 · område 1 · pass 2</p>
-    <h1>Montera roboten</h1>
-    <p class="inledning">Roboten heter Pico2Go och kommer i delar. Du monterar den idag,
-      men den får ingen kod förrän om tre veckor. Tills dess står den på bänken som mål.
-      Det viktigaste med det här passet är inte skruvarna – det är att du vet vad varje del
-      är till för.</p>
+    <h1>Roboten – vad är vad</h1>
+    <p class="inledning">Roboten heter Pico2Go och kommer i delar. Du monterar den på
+      passet, med läraren som visar steg för steg – det står inte här. Roboten får ingen
+      kod förrän om tre veckor; tills dess står den på bänken som mål. Det viktigaste med
+      passet är inte skruvarna, det är att du vet vad varje del är till för.</p>
 
     <h2 id="vad">1. Vad är vad</h2>
     <p>Allt på roboten är en av fyra sorter. Det gäller för varje robot, varje tvättmaskin
@@ -53,33 +52,7 @@
     <p>Dessutom finns saker hjärnan kan <em>visa och säga</em>: en liten skärm (LCD), fyra
       färglysdioder under roboten och en buzzer. De kallas utgångar, och de kommer senare.</p>
 
-    <h2 id="ordning">2. Monteringsordning</h2>
-    <p>Underifrån och upp, tunga delar först. Skruva löst tills alla skruvar i en del sitter,
-      dra sedan åt. <strong>Dra aldrig hårt</strong> – plasten spricker och skruvarna är små.</p>
-    <ol>
-      <li><strong>Motorerna.</strong> De två N20-motorerna i sina fästen på huvudkortets
-        undersida. Kabeln ska peka bakåt. Sätt båda löst, dra sedan åt.</li>
-      <li><strong>Hjulen.</strong> Tryck fast på motoraxeln. Axeln är D-formad – vrid hjulet
-        tills det passar, tryck sedan hela vägen in.</li>
-      <li><strong>Stödhjulet.</strong> Kulan med sitt fäste, med distanserna emellan, så
-        att roboten står plant.</li>
-      <li><strong>Linjeföljarkortet.</strong> Det smala kortet med fem svarta fyrkanter.
-        Stiftlisten in i huvudkortet, skruvarna i. <strong>Fyrkanterna ska peka rakt ner mot
-        golvet och kortet ska vara parallellt med golvet.</strong> Det är det enda i
-        monteringen som ger fel senare om det blir snett.</li>
-      <li><strong>Ultraljudsmodulen.</strong> Den med två runda "ögon". I sin header
-        framtill, ögonen framåt.</li>
-      <li><strong>Skärmen.</strong> Om den ligger lös i kitet: i sin header ovanpå.</li>
-      <li><strong>Inte Pico:n.</strong> Den långa headern där Pico:n ska sitta är tom idag.
-        Pico:n ligger kvar på breadboarden.</li>
-    </ol>
-    <div class="notis">
-      <span class="rubrik">Bilder</span>
-      <p>Tillverkarens monteringsbilder visas på projektorn under passet. Fastnar du på
-        ett steg: titta på lärarens färdiga robot – den står framme.</p>
-    </div>
-
-    <h2 id="batteri">3. Batterierna</h2>
+    <h2 id="batteri">2. Batterierna</h2>
     <p>Roboten drivs av två batterier av typen 14500 (ser ut som AA men är 3,7 volt –
       blanda aldrig med vanliga AA).</p>
     <ol>
@@ -94,7 +67,7 @@
         strömbrytaren igen.</p>
     </div>
 
-    <h2 id="kontroll">4. Kontroll och märkning</h2>
+    <h2 id="kontroll">3. Kontroll och märkning</h2>
     <ul>
       <li>Vänd roboten. Snurra hjulen för hand – de ska gå lätt och rakt.</li>
       <li>Linjeföljarkortet parallellt med golvet, 5–10 mm över det när roboten står.</li>
@@ -112,7 +85,7 @@
       <div class="stapel"><span></span></div>
       <ul class="krav">
         <li><label><input type="checkbox" id="ska-1"><span>Hjulen snurrar lätt för hand</span></label></li>
-        <li><label><input type="checkbox" id="ska-2"><span>Linjeföljaren pekar rakt ner, parallell med golvet</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Linjeföljaren (kortet med fem svarta fyrkanter) pekar rakt ner, parallell med golvet</span></label></li>
         <li><label><input type="checkbox" id="ska-3"><span>Batteriindikatorn tänds</span></label></li>
         <li><label><input type="checkbox" id="ska-4"><span>Headern för Pico:n är tom</span></label></li>
         <li><label><input type="checkbox" id="ska-5"><span>Etikett på roboten och på lådan</span></label></li>
@@ -123,7 +96,7 @@
     <p>Kryssen sparas i din webbläsare.
       <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
 
-    <h2 id="felsokning">5. Felsökning</h2>
+    <h2 id="felsokning">4. Felsökning</h2>
     <div class="sok">
       <label for="sok-fel">Sök bland felen</label>
       <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
@@ -138,7 +111,7 @@
           <tr><td>Ingen lampa när strömbrytaren slås på</td><td>Batterier åt fel håll, eller skyddskretsen har löst ut</td><td>Vänd batterierna. USB-kabel i några sekunder, ur, prova igen</td></tr>
           <tr><td>Skruven går inte i</td><td>Fel skruv – det finns två längder</td><td>Byt till den andra längden. Tvinga aldrig</td></tr>
           <tr><td>Linjeföljarkortet sitter snett</td><td>Stiftlisten är inte hela vägen in</td><td>Lossa skruvarna, tryck listen rakt in, skruva igen</td></tr>
-          <tr><td>En del blir över</td><td>Ett steg hoppades över, eller delen hör till Pico:n som inte ska sitta i idag</td><td>Gå igenom listan i avsnitt 2 igen. Fråga om det fortfarande blir över</td></tr>
+          <tr><td>En del blir över</td><td>Ett steg hoppades över, eller delen hör till Pico:n som inte ska sitta i idag</td><td>Jämför med lärarens robot. Fråga om det fortfarande blir över</td></tr>
         </tbody>
       </table>
     </div>
