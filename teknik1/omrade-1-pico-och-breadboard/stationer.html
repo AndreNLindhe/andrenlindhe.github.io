@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stationerna – Teknik 1 område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-1-stationer">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Stationer</strong> · för den som är klar</span>
+  <a href="#s1">Korten</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 1 · när du är klar med dagens uppgift</p>
+    <h1>Stationerna</h1>
+    <p class="inledning">Tio små byggen med sensorkitet. Välj en, hämta delarna i lådan,
+      bygg. Varje kort har delarna, målet och en ledtråd – men ingen färdig kod. Det är
+      meningen: det här är problem att lösa, inte kod att skriva av.</p>
+
+    <div class="notis">
+      <span class="rubrik">Så kopplas sensorkitets moduler</span>
+      <p>Modulerna har tre stift: <strong>S</strong> (signal) till en GP-pinne, <strong>+</strong>
+        till 3V3, <strong>−</strong> till GND. Analoga moduler (ljus, NTC, joystick) måste ha
+        S på GP26, GP27 eller GP28. Digitala kan sitta var som helst.</p>
+    </div>
+
+    <p>Svårighet: ★ klarar du direkt efter dagens genomgång · ★★ kräver att du kombinerar
+      två saker · ★★★ kräver något nytt, kortet ger ledtråden.</p>
+
+    <h2 id="s1">S1 · Trafikljus ★</h2>
+    <p><strong>Delar:</strong> röd, gul och grön LED, 3 × 220 Ω. Stretch: tryckknapp.<br>
+      <strong>Mål:</strong> rätt svensk sekvens: röd → röd+gul → grön → gul → röd. Använd
+      variabler för tiderna.<br>
+      <strong>Stretch:</strong> fotgängarknapp – trycker man blir det rött inom tre sekunder.<br>
+      <strong>Ledtråd:</strong> tre <code>Pin</code>-objekt, en <code>while True</code>, och
+      <code>sleep</code> mellan varje läge. Knappen läses där det är grönt.</p>
+
+    <h2 id="s2">S2 · Nattlampa med dimmer ★</h2>
+    <p><strong>Delar:</strong> ljussensormodul (S → GP26), LED.<br>
+      <strong>Mål:</strong> ju mörkare, desto starkare lyser LED:n. Inte av/på – glidande.<br>
+      <strong>Ledtråd:</strong> <code>read_u16()</code> ger 0–65535. En LED som är
+      <code>PWM(Pin(15))</code> har <code>duty_u16()</code> som tar 0–65535. Vad händer om du
+      skickar in det ena i det andra? Och om det blir tvärtom: <code>65535 - varde</code>.</p>
+
+    <h2 id="s3">S3 · Reaktionsspel ★★</h2>
+    <p><strong>Delar:</strong> LED, tryckknapp.<br>
+      <strong>Mål:</strong> LED:n är släckt. Efter en slumpmässig tid (1–5 s) tänds den. Mät
+      tiden till knapptrycket och skriv ut den i millisekunder.<br>
+      <strong>Stretch:</strong> bästa tiden sparas. Tjuvstart (tryck innan LED:n tänds) ger
+      "Tjuvstart!".<br>
+      <strong>Ledtråd:</strong> <code>import random</code> och <code>random.uniform(1, 5)</code>
+      ger ett slumptal. <code>time.ticks_ms()</code> ger klockan i millisekunder – läs av före
+      och efter, och <code>time.ticks_diff(efter, fore)</code> ger skillnaden.</p>
+
+    <h2 id="s4">S4 · Termometer med varning ★★</h2>
+    <p><strong>Delar:</strong> NTC-modul (S → GP27), buzzer, LED.<br>
+      <strong>Mål:</strong> skriv ut temperaturen varje sekund. Larma över 30 °C (håll fingret
+      på sensorn).<br>
+      <strong>Rimlighet:</strong> om din formel ger 250 °C – vad är fel? Rummet är omkring
+      20 °C. Kalibrera mot det.<br>
+      <strong>Ledtråd:</strong> NTC:ns värde sjunker när det blir varmt. En enkel modell:
+      <code>temp = 20 + (rumsvarde - varde) / k</code>. Mät <code>rumsvarde</code> först.
+      Hitta <code>k</code> genom att jämföra med en riktig termometer, eller med fingret
+      (ungefär 32 °C på ytan).</p>
+
+    <h2 id="s5">S5 · Stöldlarm ★★</h2>
+    <p><strong>Delar:</strong> tiltsensor eller vibrationssensor, buzzer, LED, tryckknapp.<br>
+      <strong>Mål:</strong> i larmat läge tjuter det om någon rör breadboarden – tills knappen
+      trycks. Knappen larmar av och på.<br>
+      <strong>Ledtråd:</strong> en variabel <code>larmat</code> som är True eller False, som
+      toggle-lampan. Tre lägen att skilja på: larmat och stilla, larmat och rörd (tjuter),
+      olarmat. Tiltsensorn är digital – läs den som en knapp.</p>
+
+    <h2 id="s6">S6 · Varvräknare ★★★</h2>
+    <p><strong>Delar:</strong> optisk läsgaffel, en pappskiva med ett hål eller en tunga,
+      något som snurrar (för hand går bra).<br>
+      <strong>Mål:</strong> räkna hur många gånger pappen passerar gaffeln. Skriv ut varv per
+      minut.<br>
+      <strong>Ledtråd:</strong> räkna bara när värdet <em>går från</em> 1 till 0 – inte medan
+      det är 0. Spara förra värdet i en variabel och jämför med det nya varje varv i loopen.<br>
+      <strong>Stretch:</strong> <code>Pin.irq()</code> låter Pico:n räkna själv i bakgrunden.
+      Sök på <em>micropython pin irq</em>.</p>
+
+    <h2 id="s7">S7 · Joystick-RGB ★★</h2>
+    <p><strong>Delar:</strong> joystick (X → GP26, Y → GP27), RGB-LED-modul (tre stift R, G, B
+      till tre GP-pinnar).<br>
+      <strong>Mål:</strong> joystickens läge bestämmer färgen. I mitten är den släckt.<br>
+      <strong>Ledtråd:</strong> två <code>read_u16()</code>, tre <code>PWM</code> med
+      <code>duty_u16()</code>. X kan styra rött, Y grönt. Vad ska styra blått? I mitten är
+      båda ungefär 32000 – hur blir det "släckt" där?</p>
+
+    <h2 id="s8">S8 · Morse-sändare ★★★</h2>
+    <p><strong>Delar:</strong> LED eller buzzer.<br>
+      <strong>Mål:</strong> <code>text = "SOS"</code> överst i programmet – och programmet
+      blinkar morse för varje bokstav.<br>
+      <strong>Ledtråd:</strong> en <em>dictionary</em> kopplar bokstav till mönster:
+      <code>morse = {"S": "...", "O": "---"}</code>. Sedan <code>for bokstav in text:</code> och
+      inuti den <code>for tecken in morse[bokstav]:</code>. Punkt är kort, streck är långt.<br>
+      <strong>Stretch:</strong> <code>input()</code> i terminalen – skriv vad som helst.</p>
+
+    <h2 id="s9">S9 · Magnetlås ★</h2>
+    <p><strong>Delar:</strong> magnetkontakt eller hallsensor, LED (två färger, eller
+      röd/grön-modulen), buzzer.<br>
+      <strong>Mål:</strong> grönt när magneten är nära (dörren stängd). Rött och ett pip när
+      den tas bort.<br>
+      <strong>Ledtråd:</strong> sensorn är digital. Läs den som knappen. Prova först med
+      <code>print</code> vilket värde "nära" ger.</p>
+
+    <h2 id="s10">S10 · Knack-kod ★★★</h2>
+    <p><strong>Delar:</strong> knacksensor, LED.<br>
+      <strong>Mål:</strong> tre knackningar inom två sekunder tänder LED:n. Andra mönster gör
+      ingenting.<br>
+      <strong>Ledtråd:</strong> spara tidpunkten för varje knack (<code>ticks_ms()</code>) i en
+      lista med <code>append</code>. Hur många av tiderna i listan ligger inom de senaste
+      2000 ms? En knack studsar också – vänta 0,1 s efter varje.</p>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="klara">Stationer jag klarat</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="st-1"><span>S1 Trafikljus</span></label></li>
+        <li><label><input type="checkbox" id="st-2"><span>S2 Nattlampa med dimmer</span></label></li>
+        <li><label><input type="checkbox" id="st-3"><span>S3 Reaktionsspel</span></label></li>
+        <li><label><input type="checkbox" id="st-4"><span>S4 Termometer</span></label></li>
+        <li><label><input type="checkbox" id="st-5"><span>S5 Stöldlarm</span></label></li>
+        <li><label><input type="checkbox" id="st-6"><span>S6 Varvräknare</span></label></li>
+        <li><label><input type="checkbox" id="st-7"><span>S7 Joystick-RGB</span></label></li>
+        <li><label><input type="checkbox" id="st-8"><span>S8 Morse</span></label></li>
+        <li><label><input type="checkbox" id="st-9"><span>S9 Magnetlås</span></label></li>
+        <li><label><input type="checkbox" id="st-10"><span>S10 Knack-kod</span></label></li>
+      </ul>
+    </section>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <div class="notis">
+      <span class="rubrik">Skriv om det i loggboken</span>
+      <p>En station som gick är värd två rader. En station som <em>inte</em> gick, och
+        varför, är värd fyra.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

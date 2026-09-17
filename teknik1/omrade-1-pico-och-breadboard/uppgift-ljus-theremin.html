@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uppgift: ljus-theremin – Teknik 1 område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-1-theremin">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Uppgift</strong> · Ljus-theremin</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppgiften">1. Uppgiften</a></li>
+      <li><a href="#omrakning">2. Omräkningen</a></li>
+      <li><a href="#start">3. Startskelettet</a></li>
+      <li><a href="#krav">4. Nivåerna</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 1 · pass 4 · utmaning</p>
+    <h1>Ljus-theremin</h1>
+    <p class="inledning">En theremin är ett instrument man spelar utan att röra det.
+      Er version: ljussensorn styr buzzerns tonhöjd. Handen upp och ner över sensorn
+      ändrar tonen. Knappen tystar.</p>
+
+    <h2 id="uppgiften">1. Uppgiften</h2>
+    <p>Ljuset in. Tonen ut. Knappen tystar. Allt du behöver sitter redan på breadboarden
+      sedan förmiddagen: knappen på GP14, ljussensorn på GP26, buzzern på GP16.</p>
+    <p>Det nya är en enda rad: den som gör om sensorns tal till en frekvens.</p>
+
+    <h2 id="omrakning">2. Omräkningen</h2>
+    <p>Sensorn ger ett tal mellan 0 och 65535. Buzzern vill ha en frekvens, säg mellan
+      200 och 2000 Hz. Det lägsta talet ska bli den lägsta tonen, det högsta talet den
+      högsta, och allt däremellan ska hamna däremellan.</p>
+<pre><code>frekvens = 200 + varde * 1800 // 65535</code></pre>
+    <p>Räkna själv innan du skriver in den:</p>
+    <ul>
+      <li>Vad blir <code>frekvens</code> om <code>varde</code> är 0?</li>
+      <li>Vad blir den om <code>varde</code> är 65535?</li>
+      <li>Varför står det 1800 och inte 2000?</li>
+    </ul>
+    <div class="notis viktig">
+      <span class="rubrik">Ordningen spelar roll</span>
+      <p><code>//</code> är heltalsdivision – resultatet blir ett heltal, och det är vad
+        <code>freq()</code> vill ha. Men <code>varde // 65535</code> blir nästan alltid 0
+        (vad är 30000 delat med 65535, utan decimaler?). Därför multipliceras det
+        <em>först</em>, sedan delas det.</p>
+    </div>
+
+    <h2 id="start">3. Startskelettet</h2>
+    <p>Ny fil <code>theremin.py</code>. Det här är början – loopen är tom, och den skriver
+      ni själva.</p>
+<pre><code class="sprak-python">from machine import ADC, Pin, PWM
+from time import sleep
+
+ljus = ADC(26)
+knapp = Pin(14, Pin.IN, Pin.PULL_UP)
+ton = PWM(Pin(16))
+
+while True:
+    # 1. läs sensorn till en variabel
+    # 2. räkna om till frekvens
+    # 3. om knappen är nedtryckt: tyst
+    #    annars: sätt frekvensen och slå på ljudet
+    sleep(0.02)</code></pre>
+    <p>Kommentarerna (raderna med <code>#</code>) är planen. Skriv en rad kod under varje.
+      Allt du behöver har du använt i förmiddags: <code>read_u16()</code>,
+      <code>knapp.value()</code>, <code>freq()</code>, <code>duty_u16()</code>, <code>if</code>
+      och <code>else</code>.</p>
+
+    <h2 id="krav">4. Nivåerna</h2>
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Ska <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Tonen följer ljuset: handen upp och ner ändrar tonhöjden</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Knappen tystar, och tonen kommer tillbaka när knappen släpps</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Ni kan säga med ord vad omräkningsraden gör</span></label></li>
+      </ul>
+    </section>
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">Bör <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Tonen är vänd: mörkt ger hög ton, ljust ger låg (eller tvärtom mot vad ni först fick). Ledtråd: <code>65535 - varde</code></span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Tonen är jämn, inte hackig – ni har provat olika <code>sleep</code></span></label></li>
+      </ul>
+    </section>
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>LED:n lyser starkare ju högre ton. Ledtråd: LED:n kan också vara <code>PWM</code>, och <code>duty_u16</code> tar 0–65535 – samma som sensorn ger</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Knappen byter oktav i stället för att tysta: en variabel som minns, som toggle-lampan i förmiddags. Dubbla frekvensen</span></label></li>
+      </ul>
+    </section>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: samma ton, TypeError, hackar" autocomplete="off">
+      <p class="traffar" id="traffar-fel">6 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Alltid samma ton</td><td><code>varde // 65535</code> blir 0 – delat innan multiplicerat</td><td>Multiplicera först: <code>varde * 1800 // 65535</code></td></tr>
+          <tr><td>Röd text: <code>TypeError</code> på <code>freq()</code></td><td>Ett decimaltal skickas in – <code>/</code> i stället för <code>//</code></td><td>Använd <code>//</code>, eller <code>int(...)</code> runt uttrycket</td></tr>
+          <tr><td>Tonen hackar</td><td><code>sleep</code> för lång</td><td>0.02 räcker. Frekvensen byts varje varv i loopen</td></tr>
+          <tr><td>Knappen tystar inte</td><td><code>if knapp.value() == 1</code></td><td>Nedtryckt är 0. Samma regel som i förmiddags</td></tr>
+          <tr><td>Tyst för alltid efter första trycket</td><td><code>duty_u16(0)</code> sätts men aldrig tillbaka</td><td><code>duty_u16(30000)</code> i <code>else</code>-grenen, varje varv</td></tr>
+          <tr><td>Ingen ton alls</td><td>Aktiv piezo i stället för passiv</td><td>Byt till modulen utan vit lapp</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buzzern – Teknik 1 område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-1-buzzer">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Guide</strong> · Buzzern</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#ton">1. En ton</a></li>
+      <li><a href="#pwm">2. Vad PWM är</a></li>
+      <li><a href="#melodi">3. Tre toner</a></li>
+      <li><a href="#larm">4. Larmet: allt ihop</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 1 · pass 3</p>
+    <h1>Buzzern</h1>
+    <p class="inledning">Hittills har programmet bara kunnat blinka. En buzzer låter det
+      säga något – och den lär dig PWM, som är samma sak som styr motorerna om en vecka.</p>
+
+    <h2 id="ton">1. En ton</h2>
+    <p>Använd den <strong>passiva</strong> piezon – den <em>utan</em> vit klisterlapp på
+      ovansidan. Den med lapp är aktiv och ger bara en enda ton.</p>
+<pre><code>modul S ──── Pico GP16
+modul − ──── Pico GND
+(modul + ──── Pico 3V3, om modulen har tre stift)</code></pre>
+    <p>Ny fil <code>ton.py</code>:</p>
+<pre><code class="sprak-python">from machine import Pin, PWM
+from time import sleep
+
+ton = PWM(Pin(16))
+
+ton.freq(440)
+ton.duty_u16(30000)
+sleep(0.5)
+ton.duty_u16(0)</code></pre>
+    <p>Kör. En halv sekund ton, sedan tyst. Ingen <code>while True</code> den här gången –
+      programmet körs uppifrån och ner en gång och är klart.</p>
+
+    <h2 id="pwm">2. Vad PWM är</h2>
+    <p>En pinne kan bara vara på eller av. Men den kan slå på och av <em>väldigt snabbt</em>.
+      Det är PWM, <em>pulse width modulation</em>, och det är två tal:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Raden</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>PWM(Pin(16))</code></td><td>Gör pinnen till en som slår på och av, i stället för att bara vara på</td></tr>
+          <tr><td><code>freq(440)</code></td><td>Hur många gånger per sekund. 440 gånger = tonen A</td></tr>
+          <tr><td><code>duty_u16(30000)</code></td><td>Hur stor del av varje slag pinnen är på. 0 = aldrig = tyst. 65535 = alltid = också tyst, för då slår den inte. 30000 är ungefär hälften</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>En passiv piezo låter bara om signalen växlar – därför PWM, inte <code>on()</code>.
+      Om en vecka är det samma <code>duty_u16</code> som bestämmer hur fort ett hjul snurrar.</p>
+
+    <h2 id="melodi">3. Tre toner</h2>
+    <p>Frekvenserna för C, E och G: 262, 330, 392. Skriv en funktionsliknande följd:</p>
+<pre><code class="sprak-python">from machine import Pin, PWM
+from time import sleep
+
+ton = PWM(Pin(16))
+
+ton.freq(262)
+ton.duty_u16(30000)
+sleep(0.3)
+ton.freq(330)
+sleep(0.3)
+ton.freq(392)
+sleep(0.3)
+ton.duty_u16(0)</code></pre>
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Byt ut talen. Gör en egen melodi på fem toner. Lägg en kort tystnad
+        (<code>duty_u16(0)</code>, <code>sleep(0.05)</code>, <code>duty_u16(30000)</code>) mellan
+        två toner som är lika – annars hörs de som en.</p>
+    </div>
+
+    <h2 id="larm">4. Larmet: allt ihop</h2>
+    <p>Knapp, ljussensor och buzzer i ett program. Scenariot: sensorn ligger i en låda.
+      Någon öppnar lådan, det blir ljust, larmet går. Knappen tystar.</p>
+<pre><code class="sprak-python">from machine import ADC, Pin, PWM
+from time import sleep
+
+ljus = ADC(26)
+knapp = Pin(14, Pin.IN, Pin.PULL_UP)
+led = Pin(15, Pin.OUT)
+ton = PWM(Pin(16))
+ton.freq(880)
+troskel = 30000
+larm = False
+
+while True:
+    varde = ljus.read_u16()
+    if knapp.value() == 0:
+        larm = False
+    elif varde &gt; troskel:
+        larm = True
+    if larm:
+        ton.duty_u16(30000)
+        led.on()
+    else:
+        ton.duty_u16(0)
+        led.off()
+    sleep(0.05)</code></pre>
+    <p><code>elif</code> betyder <em>annars om</em>. Python läser villkoren uppifrån och det
+      <strong>första som stämmer vinner</strong>. Därför står knappen först: den ska alltid
+      kunna tysta, oavsett ljuset.</p>
+    <div class="notis viktig">
+      <span class="rubrik">Tecknet beror på din modul</span>
+      <p><code>varde &gt; troskel</code> är rätt om din sensor ger högre tal i ljus. Ger den
+        högre tal i mörker: <code>&lt;</code>. Du vet vilket sedan nattlampan.</p>
+    </div>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Klart när <span style="color:var(--dov);font-weight:400">— det här ska alla ha</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>En ton i en halv sekund</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Tre toner i följd</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Larmet: går vid ljus, knappen tystar</span></label></li>
+      </ul>
+    </section>
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">Om du hinner <span style="color:var(--dov);font-weight:400">— utmaning</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Larmet piper i stället för att tjuta: ton – tyst – ton – tyst, så länge det är larmat</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>En station på <a href="stationer.html">stationssidan</a></span></label></li>
+      </ul>
+    </section>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: tyst, konstant, elif" autocomplete="off">
+      <p class="traffar" id="traffar-fel">5 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Helt tyst, koden kör utan fel</td><td>Aktiv piezo (vit lapp) i stället för passiv, eller <code>duty_u16(0)</code></td><td>Byt modul. Kontrollera att duty är 30000 när det ska låta</td></tr>
+          <tr><td>En ton som aldrig slutar</td><td>Programmet stoppades innan <code>duty_u16(0)</code></td><td>Kör igen, eller skriv <code>ton.duty_u16(0)</code> i terminalen</td></tr>
+          <tr><td>Samma ton oavsett <code>freq()</code></td><td>Aktiv piezo – den struntar i frekvensen</td><td>Byt till den utan lapp</td></tr>
+          <tr><td>Larmet går inte att tysta</td><td>Knappens <code>if</code> står efter sensorns – sensorn vinner</td><td>Knappen först, sensorn som <code>elif</code></td></tr>
+          <tr><td>Larmet går hela tiden, eller aldrig</td><td>Fel tecken för din modul</td><td>Byt <code>&gt;</code> mot <code>&lt;</code>, eller flytta tröskeln</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ord">Ord på den här sidan</h2>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>PWM</b></td><td>Pulse width modulation. Pinnen slår på och av snabbt. Två tal: hur ofta (freq) och hur stor del av tiden på (duty)</td></tr>
+          <tr><td><b>frekvens</b></td><td>Hur många gånger per sekund. Enhet hertz, Hz. 440 Hz = tonen A</td></tr>
+          <tr><td><b>duty cycle</b></td><td>Andelen av varje slag som pinnen är på. <code>duty_u16</code> tar 0–65535</td></tr>
+          <tr><td><b>passiv piezo</b></td><td>Buzzer som behöver en växlande signal för att låta. Kan spela toner</td></tr>
+          <tr><td><b>aktiv piezo</b></td><td>Buzzer med inbyggd ton. Låter av bara ström. Kan inte byta ton</td></tr>
+          <tr><td><b>elif</b></td><td>"Annars om." Ett villkor till, som bara prövas om det ovanför inte stämde</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

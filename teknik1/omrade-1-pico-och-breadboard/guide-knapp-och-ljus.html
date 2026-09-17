@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Knapp och ljussensor – Teknik 1 område 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-1-knapp-och-ljus">
+
+<header class="topp">
+  <a href="index.html">← Område 1</a>
+  <span class="harifran"><strong>Guide</strong> · Knapp och ljussensor</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#knapp">1. Knappen: av eller på</a></li>
+      <li><a href="#toggle">2. Ett tryck tänder, nästa släcker</a></li>
+      <li><a href="#ljus">3. Ljussensorn: ett tal</a></li>
+      <li><a href="#troskel">4. Tröskeln – och nattlampan</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 1 · pass 3</p>
+    <h1>Knapp och ljussensor</h1>
+    <p class="inledning">Förra veckan skickade Pico:n ut. Nu ska den lyssna. Två sorters
+      ingångar: knappen, som är av eller på, och ljussensorn, som ger ett tal. Med
+      <code>if</code> kan programmet fatta beslut utifrån det den hör.</p>
+
+    <h2 id="knapp">1. Knappen: av eller på</h2>
+    <p>Koppla: knappens ena ben till <strong>GP14</strong>, andra benet till <strong>GND</strong>.
+      Inget motstånd. LED:n sitter kvar på GP15 sedan förra veckan.</p>
+<pre><code>Pico GP14 ──── knapp ──── Pico GND
+
+Fyra ben? De sitter ihop parvis. Sätt knappen över mittspåret
+så att paren hamnar på var sin sida.</code></pre>
+    <p>Ny fil <code>knapp.py</code>:</p>
+<pre><code class="sprak-python">from machine import Pin
+from time import sleep
+
+knapp = Pin(14, Pin.IN, Pin.PULL_UP)
+led = Pin(15, Pin.OUT)
+
+while True:
+    if knapp.value() == 0:
+        led.on()
+    else:
+        led.off()
+    sleep(0.05)</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Raden</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>Pin.IN</code></td><td>Nu lyssnar vi på pinnen i stället för att styra den</td></tr>
+          <tr><td><code>Pin.PULL_UP</code></td><td>Pinnen vilar på 1. Knappen drar ner den till 0 när du trycker. Regeln: <strong>nedtryckt = 0</strong></td></tr>
+          <tr><td><code>knapp.value()</code></td><td>Frågar pinnen: vad är du just nu? Svaret är 0 eller 1</td></tr>
+          <tr><td><code>if knapp.value() == 0:</code></td><td>Om det stämmer: gör raderna som är indragna under</td></tr>
+          <tr><td><code>else:</code></td><td>Annars: gör de här raderna i stället</td></tr>
+          <tr><td><code>==</code></td><td>Två likamed <em>jämför</em>. Ett likamed <em>sätter</em>. Blanda inte</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Kör. LED:n lyser bara medan knappen hålls nere.</p>
+
+    <h2 id="toggle">2. Ett tryck tänder, nästa släcker</h2>
+    <p>Programmet måste <em>minnas</em> om lampan är tänd. Det är en variabel. Vid varje
+      tryck vänds den.</p>
+<pre><code class="sprak-python">from machine import Pin
+from time import sleep
+
+knapp = Pin(14, Pin.IN, Pin.PULL_UP)
+led = Pin(15, Pin.OUT)
+tand = False
+
+while True:
+    if knapp.value() == 0:
+        tand = not tand
+        sleep(0.3)
+    if tand:
+        led.on()
+    else:
+        led.off()
+    sleep(0.05)</code></pre>
+    <div class="notis">
+      <span class="rubrik">Varför sleep(0.3) efter trycket?</span>
+      <p>En knapp studsar: under några tusendels sekunder efter trycket hoppar signalen
+        mellan 0 och 1 flera gånger. Utan pausen räknas ett tryck som tio, och lampan
+        hamnar var som helst. Pausen väntar ut studsen.</p>
+    </div>
+    <p><code>not tand</code> betyder "motsatsen till tand". Var <code>tand</code> False blir
+      det True, och tvärtom.</p>
+
+    <h2 id="ljus">3. Ljussensorn: ett tal</h2>
+    <p>Sensormodulen har tre stift. <strong>S</strong> till <strong>GP26</strong>,
+      <strong>+</strong> till <strong>3V3</strong>, <strong>−</strong> till <strong>GND</strong>.
+      GP26 är en av tre pinnar på Pico:n som kan läsa analogt: 26, 27 och 28.</p>
+<pre><code>modul S ──── Pico GP26
+modul + ──── Pico 3V3
+modul − ──── Pico GND</code></pre>
+    <p>Ny fil <code>ljus.py</code>:</p>
+<pre><code class="sprak-python">from machine import ADC
+from time import sleep
+
+ljus = ADC(26)
+
+while True:
+    print(ljus.read_u16())
+    sleep(0.2)</code></pre>
+    <p>Kör. Talen rullar i terminalen. Håll handen över sensorn och se talet ändras.
+      <strong>Det är skillnaden:</strong> knappen svarar 0 eller 1. Sensorn svarar med ett
+      tal mellan 0 och 65535.</p>
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Anteckna två tal: värdet i vanligt ljus, och värdet med handen tätt över. Åt
+        vilket håll går det när det blir mörkt – upp eller ner? Det beror på modulen,
+        och du behöver veta det i nästa avsnitt.</p>
+    </div>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>digital</b></td><td>Av eller på. 0 eller 1. Inget däremellan. Knappen</td></tr>
+          <tr><td><b>analog</b></td><td>Ett värde som kan vara vad som helst mellan lägsta och högsta. Ljuset</td></tr>
+          <tr><td><b>ADC</b></td><td><em>Analog-to-digital converter.</em> Kretsen i Pico:n som gör om en spänning till ett tal. <code>read_u16()</code> ger 0–65535</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="troskel">4. Tröskeln – och nattlampan</h2>
+    <p>Ett tal är inget beslut. För att göra något av det behövs en gräns: en
+      <strong>tröskel</strong>. Under tröskeln – gör en sak. Över – gör en annan. Var
+      tröskeln ligger bestämmer du.</p>
+<pre><code class="sprak-python">from machine import ADC, Pin
+from time import sleep
+
+ljus = ADC(26)
+led = Pin(15, Pin.OUT)
+troskel = 30000
+
+while True:
+    varde = ljus.read_u16()
+    print(varde)
+    if varde &lt; troskel:
+        led.on()
+    else:
+        led.off()
+    sleep(0.1)</code></pre>
+    <p>Tröskeln hittar du med de två talen du antecknade: lägg den mittemellan. Låt
+      <code>print</code> stå kvar i loopen – det är så du ser vad programmet ser.</p>
+    <div class="notis viktig">
+      <span class="rubrik">Gör lampan tvärtom?</span>
+      <p>Tänds den i ljus och släcks i mörker ger din modul <em>högre</em> tal i mörker.
+        Byt <code>&lt;</code> mot <code>&gt;</code>. Inget annat behöver ändras.</p>
+    </div>
+    <div class="notis">
+      <span class="rubrik">Skriv ut värdet. Alltid.</span>
+      <p>När något inte fungerar resten av blocket: lägg en <code>print()</code> i loopen
+        och titta. Nio gånger av tio står svaret i terminalen.</p>
+    </div>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Klart när <span style="color:var(--dov);font-weight:400">— det här ska alla ha</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>LED:n lyser medan knappen hålls</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Ett tryck tänder, nästa släcker</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Ljussensorns värde syns i terminalen och ändras med handen</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Nattlampan tänds i mörker, med en tröskel ni hittat själva</span></label></li>
+      </ul>
+    </section>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+    <p>Nästa sida: <a href="guide-buzzer.html">buzzern</a>. Klar med allt? <a href="stationer.html">Stationerna</a>.</p>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: flimrar, tvärtom, samma tal" autocomplete="off">
+      <p class="traffar" id="traffar-fel">7 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>LED:n flimrar utan att någon rör knappen</td><td><code>Pin.PULL_UP</code> saknas – pinnen svävar</td><td>Lägg till <code>Pin.PULL_UP</code> som tredje argument</td></tr>
+          <tr><td>Knappen är "alltid tryckt"</td><td>Fyrbensknappen sitter så att två ben som redan sitter ihop hamnar i samma rad</td><td>Vrid knappen 90 grader</td></tr>
+          <tr><td>Toggle-lampan hoppar hit och dit vid ett tryck</td><td>Studs – <code>sleep(0.3)</code> efter trycket saknas</td><td>Lägg till pausen direkt efter <code>tand = not tand</code></td></tr>
+          <tr><td>Sensorn ger alltid samma tal</td><td>S sitter inte i GP26, eller + saknas</td><td>Kontrollera alla tre trådar. GP26, inte GP25</td></tr>
+          <tr><td>Nattlampan gör tvärtom</td><td>Modulen ger högre tal i mörker</td><td>Byt <code>&lt;</code> mot <code>&gt;</code></td></tr>
+          <tr><td>Röd text: <code>SyntaxError</code> på if-raden</td><td><code>=</code> i stället för <code>==</code>, eller kolonet saknas</td><td>Två likamed jämför. Kolon sist på raden</td></tr>
+          <tr><td>Röd text: <code>IndentationError</code></td><td>Raden under <code>if</code> är inte indragen ett steg till</td><td>Fyra mellanslag mer än <code>if</code>-raden</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 1</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
