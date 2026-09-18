@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 2 · Roboten – Teknik 1</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-2-start">
+
+<header class="topp">
+  <a href="../index.html">← Kursen</a>
+  <span class="harifran"><strong>Område 2</strong> · Roboten</span>
+  <a href="#passen">Passen</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 2 · v. 42–43</p>
+    <h1>Roboten</h1>
+    <p class="inledning">Samma hjärna, ny kropp. Pico:n flyttar från breadboarden till
+      roboten och styr motorer, läser ultraljud och till sist linjeföljaren. Du skriver
+      funktioner, mäter och räknar, och lär dig använda kod som någon annan skrivit – ett
+      bibliotek.</p>
+
+    <div class="notis">
+      <span class="rubrik">Ta med</span>
+      <p>Din dator. Roboten står i skåpet med Pico:n i – från och med nu lämnar Pico:n inte
+        roboten. Batterierna laddas mellan passen.</p>
+    </div>
+
+    <h2 id="material">Material</h2>
+    <div class="rutnat">
+      <a class="kort webb" href="guide-motorer.html">
+        <span class="sort">Guide · pass 5</span>
+        <span class="rubrik">Motorerna</span>
+        <p>Flytten, drivkretsen, sex pinnar. <code>fram()</code> och <code>stopp()</code>,
+          tre funktioner du skriver själv, kalibrering, förutsägelse och <code>main.py</code>.</p>
+      </a>
+      <a class="kort gran" href="uppgift-stanna-fore-vaggen.html">
+        <span class="sort">Uppgift · pass 6</span>
+        <span class="rubrik">Stanna före väggen</span>
+        <p>Ultraljud mäter tid, inte avstånd. <code>avstand()</code> med timeout, och en
+          robot som stannar 10 cm före väggen. Tre nivåer.</p>
+      </a>
+      <a class="kort gran" href="../loggbok.html">
+        <span class="sort">Varje pass</span>
+        <span class="rubrik">Loggboken</span>
+        <p>Från och med nu med mätvärden: hastighet, fel, avstånd. De ska in i
+          dokumentationen.</p>
+      </a>
+    </div>
+
+    <h2 id="passen">Passen</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Vad vi gör</th><th>Missade du passet?</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>5 · ons 14/10 fm</td>
+            <td><b>Pico:n flyttar in i roboten.</b> PWM och H-bryggan. Funktioner med parameter: <code>fram</code>, <code>stopp</code> och tre till. Mät hastigheten, förutsäg 50 cm, mät felet. <code>main.py</code>.</td>
+            <td><a href="guide-motorer.html">Motorerna</a></td>
+          </tr>
+          <tr>
+            <td>6 · ons 14/10 em</td>
+            <td><b>Utmaning: stanna före väggen.</b> Ultraljud, <code>return</code>, timeout, <code>while</code> med villkor.</td>
+            <td><a href="uppgift-stanna-fore-vaggen.html">Uppgiften</a></td>
+          </tr>
+          <tr>
+            <td>7 · ons 21/10 fm</td>
+            <td><b>Linjeföljaren.</b> Bibliotek, listor, LCD:n, kalibrering, följa linjen.</td>
+            <td>Läggs upp inför passet</td>
+          </tr>
+          <tr>
+            <td>8 · ons 21/10 em</td>
+            <td><b>Utmaning: ovalbanan med hinder.</b> Labyrintprojektet presenteras.</td>
+            <td>Läggs upp inför passet</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="efterat">Vad du kan efter området</h2>
+    <ul>
+      <li>Skriva en funktion med parameter, och en som svarar med <code>return</code>.</li>
+      <li>Förklara varför en motor behöver en drivkrets, och vad PWM och en H-brygga gör.</li>
+      <li>Mäta robotens hastighet, förutsäga en sträcka, och säga varför förutsägelsen inte stämmer exakt.</li>
+      <li>Läsa ultraljud och linjeföljare, och styra roboten efter vad de ser.</li>
+      <li>Använda ett bibliotek någon annan skrivit, och visa värden på LCD:n.</li>
+      <li>Skriva loggbok med mätvärden.</li>
+    </ul>
+
+    <footer class="fot">
+      <p><a href="../index.html">Tillbaka till kursen</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

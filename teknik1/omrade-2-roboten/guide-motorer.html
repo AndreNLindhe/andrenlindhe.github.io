@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Motorerna – Teknik 1 område 2</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-2-motorer">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Guide</strong> · Motorerna</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#flytt">1. Flytten</a></li>
+      <li><a href="#drivkrets">2. Varför en drivkrets</a></li>
+      <li><a href="#pinnar">3. Sex pinnar</a></li>
+      <li><a href="#fram">4. fram() och stopp()</a></li>
+      <li><a href="#tre">5. back, vanster, hoger – skriv själv</a></li>
+      <li><a href="#kalibrera">6. Kalibrera och beräkna</a></li>
+      <li><a href="#main">7. main.py</a></li>
+      <li><a href="#felsokning">8. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 2 · pass 5</p>
+    <h1>Motorerna</h1>
+    <p class="inledning">Samma hjärna, ny kropp. Pico:n flyttar från breadboarden till
+      roboten, och samma <code>Pin</code> och <code>PWM</code> som styrde en lysdiod och en
+      buzzer styr nu två motorer. Det nya i Python är <strong>funktioner</strong> – och det
+      nya i teknik är att du mäter något och jämför med vad du räknat ut.</p>
+
+    <h2 id="flytt">1. Flytten</h2>
+    <ol>
+      <li>Pico:n ur breadboarden: dra <strong>rakt upp</strong> med båda tummarna så att inga
+        ben böjs.</li>
+      <li>In i robotens långa header. USB-kontakten ska peka åt samma håll som på lärarens
+        robot – titta på den. Tryck ner jämnt tills den bottnar.</li>
+      <li>Roboten upp på en låda så att <strong>hjulen är i luften</strong>. Den ska inte köra
+        iväg medan du testar.</li>
+      <li>USB-kabel i Pico:n. Strömbrytaren <strong>på</strong>. Motorerna drivs av
+        batterierna – USB räcker bara till Pico:n.</li>
+      <li>VS Code: <strong>Pico Connected</strong>, som vanligt.</li>
+    </ol>
+
+    <h2 id="drivkrets">2. Varför en drivkrets</h2>
+    <p>En pinne på Pico:n orkar några milliampere. En motor vill ha hundratals. Därför
+      sitter det ett chip mellan dem – <strong>TB6612</strong>, drivkretsen från
+      monteringspasset. Det tar Pico:ns svaga signal och släpper igenom batteriets ström
+      till motorn. Två saker styrs:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Hur</th><th>Samma som</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Fart</strong></td><td>PWM. Pinnen slår på och av 1000 gånger i sekunden; <code>duty_u16</code> bestämmer hur stor del av tiden den är på. Motorn ser medelvärdet</td><td>Buzzern förra veckan – där var det tonhöjd, här är det fart</td></tr>
+          <tr><td><strong>Riktning</strong></td><td>Två pinnar per motor: <em>fram</em> och <em>bak</em>. Den som är 1 bestämmer åt vilket håll strömmen går genom motorn. Inuti chipet är det fyra brytare i ett H – en <em>H-brygga</em></td><td>En vanlig <code>Pin.OUT</code>, som lysdioden</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="pinnar">3. Sex pinnar</h2>
+<pre><code>Vänster motor    fart GP16    fram GP17    bak GP18
+Höger motor      fart GP21    fram GP20    bak GP19</code></pre>
+    <p>Tre per motor: en fart, två riktningar. Numren är fasta – de sitter i robotens
+      kretskort och går inte att välja.</p>
+
+    <h2 id="fram">4. fram() och stopp()</h2>
+    <p>Ny fil <code>kor.py</code>. Skriv av:</p>
+<pre><code class="sprak-python">from machine import Pin, PWM
+from time import sleep
+
+fart_v = PWM(Pin(16))
+fart_v.freq(1000)
+v_fram = Pin(17, Pin.OUT)
+v_bak = Pin(18, Pin.OUT)
+
+fart_h = PWM(Pin(21))
+fart_h.freq(1000)
+h_fram = Pin(20, Pin.OUT)
+h_bak = Pin(19, Pin.OUT)
+
+
+def fram(fart):
+    v_fram.value(1)
+    v_bak.value(0)
+    h_fram.value(1)
+    h_bak.value(0)
+    fart_v.duty_u16(int(fart * 65535 / 100))
+    fart_h.duty_u16(int(fart * 65535 / 100))
+
+
+def stopp():
+    fart_v.duty_u16(0)
+    fart_h.duty_u16(0)
+
+
+fram(50)
+sleep(1)
+stopp()</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>funktion</b></td><td><code>def fram(fart):</code> ger ett namn åt raderna under. Ett recept: skriv det en gång, använd det hur många gånger som helst</td></tr>
+          <tr><td><b>parameter</b></td><td><code>fart</code> i parentesen. Det som varierar mellan gångerna. <code>fram(50)</code> är halv fart, <code>fram(100)</code> full</td></tr>
+          <tr><td><b>anrop</b></td><td>Raderna längst ner. Funktionen körs inte förrän någon anropar den – därför måste <code>def</code> stå <em>före</em> anropet i filen</td></tr>
+          <tr><td><code>int(fart * 65535 / 100)</code></td><td>Förra veckans omräkning baklänges: 0–100 blir 0–65535. <code>int()</code> för att <code>duty_u16</code> vill ha ett heltal</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Kör. Hjulen snurrar framåt i en sekund.</p>
+    <div class="notis viktig">
+      <span class="rubrik">Snurrar de bakåt?</span>
+      <p>Då är riktningspinnarna förväxlade. Byt 17 och 18 (eller 19 och 20) i koden. Det
+        är kalibrering nummer ett. Snurrar bara ett hjul: kontrollera att motorkabeln
+        sitter i huvudkortet.</p>
+    </div>
+
+    <h2 id="tre">5. back, vanster, hoger – skriv själv</h2>
+    <p>Du har <code>fram</code> som mönster. De tre andra ser likadana ut – det enda som
+      skiljer är vilka riktningspinnar som är 1 och 0:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Funktion</th><th>v_fram</th><th>v_bak</th><th>h_fram</th><th>h_bak</th><th>Vad som händer</th></tr></thead>
+        <tbody>
+          <tr><td><code>fram</code></td><td>1</td><td>0</td><td>1</td><td>0</td><td>Båda hjulen framåt</td></tr>
+          <tr><td><code>back</code></td><td>0</td><td>1</td><td>0</td><td>1</td><td>Båda bakåt</td></tr>
+          <tr><td><code>vanster</code></td><td>0</td><td>1</td><td>1</td><td>0</td><td>Vänster hjul bakåt, höger framåt – roboten vrider sig på stället</td></tr>
+          <tr><td><code>hoger</code></td><td>1</td><td>0</td><td>0</td><td>1</td><td>Tvärtom</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Alla tre tar <code>fart</code> som parameter och sätter båda <code>duty_u16</code>,
+      precis som <code>fram</code>. Testa sedan en följd:
+      <code>fram(50)</code>, <code>sleep(1)</code>, <code>vanster(40)</code>,
+      <code>sleep(0.5)</code>, <code>stopp()</code>.</p>
+    <div class="notis varna">
+      <span class="rubrik">Alltid stopp() sist</span>
+      <p>Annars snurrar motorerna tills batteriet tar slut. Det gäller varje program du
+        skriver för roboten från och med nu.</p>
+    </div>
+
+    <h2 id="kalibrera">6. Kalibrera och beräkna</h2>
+    <p>Nu på golvet. En startlinje av tejp. Programmet: <code>fram(50)</code>,
+      <code>sleep(1)</code>, <code>stopp()</code>.</p>
+    <ol>
+      <li><strong>Mät.</strong> Kör tre gånger från startlinjen. Mät sträckan varje gång.
+        Medelvärdet är din sträcka på en sekund.</li>
+      <li><strong>Kör den rakt?</strong> Oftast inte – den ena motorn är lite starkare.
+        Lägg en faktor på den starkare: <code>fart_h.duty_u16(int(fart * 1.05 * 65535 / 100))</code>.
+        Prova 1.03, 1.05, 1.08 tills den går rakt. Det heter <strong>kalibrering</strong>:
+        mäta, justera, mäta igen.</li>
+      <li><strong>Hastigheten.</strong> Sträcka delat med tid. 23 cm på 1 s = 23 cm/s.
+        Skriv upp ert tal.</li>
+      <li><strong>Förutsäg.</strong> Hur lång <code>sleep</code> behövs för 50 cm?
+        50 / 23 ≈ 2,2 s. Skriv in. Kör <em>en</em> gång. Mät hur långt den faktiskt kom.</li>
+      <li><strong>Felet.</strong> Skillnaden mellan 50 och det ni mätte. Skriv upp det.</li>
+    </ol>
+    <div class="notis">
+      <span class="rubrik">Varför stämmer det inte?</span>
+      <p>Modellen <em>sträcka = hastighet × tid</em> är rätt, men den vet inte om att
+        batteriet sjunker, att motorerna är olika, att hjulen spinner vid start och att
+        roboten rullar en bit efter <code>stopp()</code>. Att veta <em>vad</em> modellen
+        inte vet är det som kallas rimlighetsbedömning – och det är en av sakerna
+        dokumentationen frågar efter. Hastigheten, förutsägelsen och felet ska in i
+        loggboken.</p>
+    </div>
+
+    <h2 id="main">7. main.py</h2>
+    <p>Hittills har roboten bara kört medan USB-kabeln sitter i. En fil som heter exakt
+      <code>main.py</code> startar automatiskt när Pico:n får ström.</p>
+<pre><code class="sprak-python"># samma pinnar och funktioner som i kor.py ovanför ...
+
+sleep(3)
+fram(50)
+sleep(1)
+stopp()</code></pre>
+    <ol>
+      <li>Spara som <code>main.py</code>. Högerklicka filen i VS Code →
+        <strong>Upload file to Pico</strong>. Kontrollera att den syns i Pico:ns filträd.</li>
+      <li>Dra ur USB. Strömbrytare av, på. Roboten väntar tre sekunder – så att du hinner
+        ställa ner den – kör en sekund, stannar.</li>
+    </ol>
+    <div class="notis varna">
+      <span class="rubrik">Ett while True i main.py kör tills batteriet tar slut</span>
+      <p>Och det går inte att stoppa från VS Code utan att koppla in kabeln igen. Alltid
+        <code>sleep</code> + <code>stopp()</code>, eller ett villkor som avslutar loopen.
+        Vill du bli av med ett <code>main.py</code>: koppla in USB, tryck Stop, radera
+        filen från Pico:n i filträdet.</p>
+    </div>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Klart när <span style="color:var(--dov);font-weight:400">— det här ska alla ha</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Pico:n sitter i roboten och <code>fram(50)</code> snurrar båda hjulen framåt</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span><code>back</code>, <code>vanster</code> och <code>hoger</code> skrivna och testade</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Hastigheten uppmätt i cm/s, och roboten kör rakt</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>En förutsägelse för 50 cm, körd en gång, felet uppmätt – allt i loggboken</span></label></li>
+      </ul>
+    </section>
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">Om du hinner <span style="color:var(--dov);font-weight:400">— utmaning</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span><code>main.py</code> som kör en kvadrat med 30 cm sidor. Hur många sekunder är 90 grader? Mät</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>En funktion <code>kor(v, h)</code> som tar två farter – en per hjul – så att roboten kan svänga i en båge</span></label></li>
+      </ul>
+    </section>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="felsokning">8. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: bakåt, stilla, NameError" autocomplete="off">
+      <p class="traffar" id="traffar-fel">9 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Pico Connected, men ingenting händer</td><td>Strömbrytaren är av – USB driver Pico:n, inte motorerna</td><td>Slå på strömbrytaren</td></tr>
+          <tr><td>Ingen kontakt alls med Pico:n i roboten</td><td>Pico:n sitter åt fel håll i headern</td><td>Ta ur, vänd, sätt i som på lärarens robot</td></tr>
+          <tr><td>Hjulen snurrar bakåt på <code>fram</code></td><td>Riktningspinnarna förväxlade</td><td>Byt 17 ↔ 18 eller 19 ↔ 20</td></tr>
+          <tr><td>Bara ett hjul snurrar</td><td>En motorkabel sitter löst, eller fel PWM-pinne</td><td>Kabeln i huvudkortet. Fart är 16 och 21</td></tr>
+          <tr><td><code>NameError: fram isn't defined</code></td><td>Anropet står ovanför <code>def fram</code></td><td>Flytta anropet nedanför funktionerna</td></tr>
+          <tr><td><code>TypeError: can't convert float</code></td><td><code>int()</code> saknas</td><td><code>duty_u16(int(...))</code></td></tr>
+          <tr><td>Roboten kör och kör</td><td><code>stopp()</code> saknas, eller <code>while True</code> utan slut</td><td>Stop i VS Code. <code>stopp()</code> sist</td></tr>
+          <tr><td>Roboten svänger på <code>fram</code></td><td>Motorerna är olika starka</td><td>Faktor på den starkare, avsnitt 6</td></tr>
+          <tr><td><code>main.py</code> startar inte utan USB</td><td>Filen ligger på datorn, inte på Pico:n</td><td><strong>Upload file to Pico</strong>. Kontrollera filträdet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ord">Ord på den här sidan</h2>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>funktion</b></td><td>Ett namn åt flera rader kod. Skrivs en gång med <code>def</code>, används med namnet</td></tr>
+          <tr><td><b>parameter</b></td><td>Det som skickas in i funktionen och varierar mellan anropen. <code>fart</code></td></tr>
+          <tr><td><b>anrop</b></td><td>Att använda funktionen: <code>fram(50)</code></td></tr>
+          <tr><td><b>drivkrets</b></td><td>Chip som förstärker hjärnans signal så att den orkar driva en motor. TB6612</td></tr>
+          <tr><td><b>H-brygga</b></td><td>Fyra brytare runt en motor som bestämmer åt vilket håll strömmen går. Sitter inuti drivkretsen</td></tr>
+          <tr><td><b>kalibrering</b></td><td>Mäta, justera, mäta igen – tills det stämmer</td></tr>
+          <tr><td><b>rimlighetsbedömning</b></td><td>Att veta vad en beräkning inte tar hänsyn till, och hur mycket fel det kan ge</td></tr>
+          <tr><td><b>main.py</b></td><td>Filen som Pico:n kör själv när den får ström</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

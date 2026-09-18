@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uppgift: stanna före väggen – Teknik 1 område 2</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-2-vagg">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Uppgift</strong> · Stanna före väggen</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#ultraljud">1. Hur ultraljud mäter</a></li>
+      <li><a href="#funktionen">2. avstand() – en funktion som svarar</a></li>
+      <li><a href="#uppgiften">3. Uppgiften</a></li>
+      <li><a href="#krav">4. Nivåerna</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 2 · pass 6 · utmaning</p>
+    <h1>Stanna före väggen</h1>
+    <p class="inledning">Roboten får ögon. Ultraljudssensorn framtill skickar ett klick,
+      lyssnar efter ekot och mäter tiden. Uppgiften: kör mot en vägg och stanna 10 cm
+      före. Du använder motorfunktionerna från förmiddagen som de är.</p>
+
+    <h2 id="ultraljud">1. Hur ultraljud mäter</h2>
+    <p>Sensorn med de två runda "ögonen" mäter inte avstånd. Den mäter <strong>tid</strong>:</p>
+    <ol>
+      <li>Pico:n skickar en kort puls på pinnen <code>trig</code> (GP14). Sensorn skickar
+        ut ett klick, för högt för att höras.</li>
+      <li>Pinnen <code>echo</code> (GP15) går hög, och stannar hög tills ekot kommer
+        tillbaka.</li>
+      <li>Hur länge <code>echo</code> var hög är tiden ljudet tog – fram <em>och</em>
+        tillbaka.</li>
+    </ol>
+    <p>Avståndet räknar du ut själv:</p>
+<pre><code>avstånd = tid × 0,034 / 2
+
+0,034  ljudets hastighet: 340 m/s = 34 000 cm/s = 0,034 cm per mikrosekund
+/ 2    ljudet gick fram och tillbaka – halva tiden per väg
+1200 µs × 0,034 / 2 = 20,4 cm</code></pre>
+
+    <h2 id="funktionen">2. avstand() – en funktion som svarar</h2>
+    <p>Ny fil <code>vagg.py</code>. Skriv av:</p>
+<pre><code class="sprak-python">from machine import Pin
+from time import sleep, sleep_us, ticks_us, ticks_diff
+
+trig = Pin(14, Pin.OUT)
+echo = Pin(15, Pin.IN)
+
+
+def avstand():
+    trig.value(0)
+    sleep_us(2)
+    trig.value(1)
+    sleep_us(10)
+    trig.value(0)
+    t0 = ticks_us()
+    while echo.value() == 0:
+        if ticks_diff(ticks_us(), t0) &gt; 30000:
+            return 999
+    start = ticks_us()
+    while echo.value() == 1:
+        if ticks_diff(ticks_us(), start) &gt; 30000:
+            return 999
+    slut = ticks_us()
+    tid = ticks_diff(slut, start)
+    return tid * 0.034 / 2
+
+
+while True:
+    print(avstand())
+    sleep(0.2)</code></pre>
+    <p>Kör. Håll handen framför sensorn – talet följer. Lägg måttbandet: stämmer det på
+      20 cm?</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det nya</th><th>Vad det gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>return</code></td><td><code>fram()</code> <em>gör</em> något. <code>avstand()</code> <em>svarar</em> – med ett tal. Det som står efter <code>return</code> skickas tillbaka till den som anropade, och funktionen är klar. <code>x = avstand()</code> lägger svaret i en variabel. Det heter <strong>returvärde</strong></td></tr>
+          <tr><td><code>ticks_us()</code>, <code>ticks_diff()</code></td><td>Klockan i mikrosekunder, och skillnaden mellan två avläsningar. Ljudet är snabbt – millisekunder räcker inte</td></tr>
+          <tr><td>De två <code>while</code>-looparna</td><td>Första: vänta tills ekot <em>börjar</em>. Andra: vänta tills det <em>slutar</em>. Tiden emellan är tiden</td></tr>
+          <tr><td><code>if ticks_diff(...) &gt; 30000: return 999</code></td><td><strong>Timeout.</strong> Om ekot aldrig kommer – en tröja, ingenting framför – skulle loopen vänta för evigt och programmet hänga. Efter 30 ms ger vi upp och svarar 999. Det finns i båda looparna</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="uppgiften">3. Uppgiften</h2>
+    <p>Kopiera pinnarna och funktionerna från <code>kor.py</code> in i <code>vagg.py</code>
+      (ovanför <code>avstand</code>, eller under – bara före loopen). Byt sedan ut
+      <code>print</code>-loopen mot:</p>
+<pre><code class="sprak-python">while avstand() &gt; 10:
+    fram(40)
+stopp()</code></pre>
+    <p><em>Så länge det är mer än 10 cm kvar: kör. Sedan: stanna.</em> Det är första gången
+      <code>while</code> har ett villkor som inte är <code>True</code>. Lägg märke till att
+      <code>stopp()</code> står <em>efter</em> loopen, utan indrag.</p>
+    <p>Roboten på golvet, en kartong 60 cm framför. Kör. Mät var den stannade.</p>
+    <div class="notis">
+      <span class="rubrik">Den stannar för sent?</span>
+      <p>Två orsaker. Roboten rullar en bit efter <code>stopp()</code> – samma sak som i
+        förmiddags. Och vid fart 40 hinner loopen inte läsa särskilt ofta. Vad gör du med
+        det? Lägre fart nära väggen. Eller: stanna vid 13 om den rullar 3.</p>
+    </div>
+
+    <h2 id="krav">4. Nivåerna</h2>
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Ska <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span><code>avstand()</code> ger rimliga tal – kontrollerat mot måttbandet</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Roboten stannar före väggen, inom 15 cm</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Avståndet där den stannade står i loggboken</span></label></li>
+      </ul>
+    </section>
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">Bör <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Stannar inom 3 cm från 10 – med lägre fart nära väggen, eller med rulltiden inräknad</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Ni kan förklara varför den först stannade för sent</span></label></li>
+      </ul>
+    </section>
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Backar om något kommer närmare än 5 cm, står stilla mellan 5 och 15, kör fram om det är längre. Ledtråd: <code>if</code>/<code>elif</code>/<code>else</code> inne i en <code>while True</code></span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Följa hand: håll 15 cm till en kartong som flyttas fram och tillbaka. Samma tre grenar – men vad händer om farten beror på hur långt fel avståndet är?</span></label></li>
+      </ul>
+    </section>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: 999, hänger, kör in" autocomplete="off">
+      <p class="traffar" id="traffar-fel">7 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Alltid 999</td><td>Ekot kommer aldrig: fel pinnar, eller sensorn sitter löst</td><td>14 är <code>trig</code>, 15 är <code>echo</code>. Tryck fast sensorn i headern</td></tr>
+          <tr><td>Alltid 0 eller mycket små tal</td><td><code>start</code> läses innan ekot börjat</td><td>Ordningen: första loopen väntar tills <code>echo</code> är 1, <em>sedan</em> <code>start = ticks_us()</code></td></tr>
+          <tr><td>Talet fladdrar</td><td>Sned vägg, mjukt material, sensorn pekar snett</td><td>Kartong rakt framför. Stretch: medelvärde av tre mätningar</td></tr>
+          <tr><td>Programmet hänger, Stop krävs</td><td>Timeouten saknas i en av looparna</td><td>Båda <code>while</code>-looparna ska ha sin <code>if ticks_diff(...) &gt; 30000</code></td></tr>
+          <tr><td>Roboten kör in i väggen</td><td>För hög fart, eller <code>&lt;</code> i stället för <code>&gt;</code></td><td>Fart 30. Villkoret är <code>avstand() &gt; 10</code></td></tr>
+          <tr><td>Roboten stannar direkt</td><td><code>&lt;</code> i villkoret, eller <code>stopp()</code> indragen inne i loopen</td><td><code>stopp()</code> efter loopen, utan indrag</td></tr>
+          <tr><td><code>NameError: fram isn't defined</code></td><td>Motorfunktionerna är inte kopierade in i filen</td><td>Klistra in pinnar och funktioner från <code>kor.py</code> ovanför loopen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
