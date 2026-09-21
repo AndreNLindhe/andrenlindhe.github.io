@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dokumentationsmallen – Teknik 1</title>
+  <link rel="stylesheet" href="stil.css">
+</head>
+<body data-nyckel="tek-dokumentationsmall">
+
+<header class="topp">
+  <a href="index.html">← Startsidan</a>
+  <span class="harifran"><strong>Dokumentationsmallen</strong> · labyrintprojektet</span>
+  <a href="#mall">Mallen</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#varfor">1. Varför dokumentationen väger tungt</a></li>
+      <li><a href="#delar">2. De fem delarna</a></li>
+      <li><a href="#niva">3. Vad som skiljer E, C och A</a></li>
+      <li><a href="#flode">4. Om flödesschemat</a></li>
+      <li><a href="#mall">5. Mallen</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Teknik 1 · inlämning onsdag 11 november</p>
+    <h1>Dokumentationsmallen</h1>
+    <p class="inledning">Fem delar, 2–3 sidor plus bilder. Del 1, 3 och 4 skriver ni i
+      par. <strong>Del 2 och 5 skriver du själv.</strong> Bifoga <code>main.py</code> och
+      <code>logg.md</code>.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-11-11">
+        <span class="nar">11 nov</span>
+        <span class="vad">Inlämning
+          <small>Dokumentet, main.py och logg.md.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="varfor">1. Varför dokumentationen väger tungt</h2>
+    <p>Blocket bedöms på två saker ur kursplanen: att <em>lösa tekniska problem, praktiskt
+      och teoretiskt</em>, och att <em>dokumentera, visualisera och kommunicera</em>
+      tekniska lösningar. Roboten på banan är det praktiska. Allt annat – beräkningarna,
+      flödesschemat, felsökningen, resonemanget – syns bara i dokumentationen.</p>
+    <p>En robot som klarar labyrinten med en dokumentation som bara säger "den fungerade"
+      visar mindre än en robot som fastnade på nivå 1 med en dokumentation som visar
+      exakt vad som gick fel, vad ni provade, och varför ni valde som ni gjorde.</p>
+
+    <h2 id="delar">2. De fem delarna</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Rubrik</th><th>Vad som ska in</th><th>Skrivs</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><strong>Uppgiften</strong></td><td>Vad skulle roboten klara? Vilken nivå siktade ni på, och varför den?</td><td>par</td></tr>
+          <tr><td>2</td><td><strong>Hur roboten tänker</strong></td><td>Ett <em>flödesschema</em> över labyrintlogiken. Handritat och fotat, eller i draw.io / Excalidraw. Varje beslut ska vara med: linje under mitten, korsning, återvändsgränd, mål.</td><td><strong>var för sig</strong></td></tr>
+          <tr><td>3</td><td><strong>Koden</strong></td><td>De viktigaste bitarna – tre eller fyra – med förklaring i egna ord: vad gör den, och varför ser den ut så? Inte hela filen.</td><td>par</td></tr>
+          <tr><td>4</td><td><strong>Test och resultat</strong></td><td>Vad testade ni, vad gick, vad gick inte. Mätvärden: tröskelvärden, hastighet, hur många körningar som lyckades av hur många. Bild eller kort film från banan.</td><td>par</td></tr>
+          <tr><td>5</td><td><strong>Utvärdering</strong></td><td>Vad skulle ni göra annorlunda? Vad var svårast, och hur löste ni det? Och <em>hållbarhetsfrågan</em>: vad händer med roboten och batterierna efter kursen – kan den repareras, återanvändas, återvinnas?</td><td><strong>var för sig</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="notis">
+      <span class="rubrik">Loggboken är råmaterialet</span>
+      <p>Del 4 och 5 skriver ni ur loggboken. Där står vad som strulade varje pass och
+        hur ni löste det – det minns ingen fem veckor senare. Två elever i samma par får
+        gärna ha olika flödesscheman och olika utvärderingar. Det är bra, inte fel.</p>
+    </div>
+
+    <h2 id="niva">3. Vad som skiljer E, C och A</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Del 2 flödesschema</strong></td><td>Visar huvudflödet</td><td>Alla beslut är med, och det stämmer med koden</td><td>Stämmer med koden och visar vad som händer vid fel: tappad linje, hinder</td></tr>
+          <tr><td><strong>Del 3 kod</strong></td><td>Beskriver <em>vad</em> koden gör</td><td>Förklarar <em>varför</em> – kopplar kodrad till robotens beteende</td><td>Resonerar om alternativ: "vi provade bang-bang först, bytte till P-reglering för att …"</td></tr>
+          <tr><td><strong>Del 4 test</strong></td><td>Anger att det testades och hur det gick</td><td>Redovisar mätvärden och vad de ledde till</td><td>Drar slutsatser ur testerna som ändrade lösningen, och säger vad som inte gick att lösa och varför</td></tr>
+          <tr><td><strong>Del 5 utvärdering</strong></td><td>Nämner något att ändra</td><td>Motiverar ändringen ur testerna</td><td>Väger alternativ mot varandra, inklusive hållbarhet</td></tr>
+          <tr><td><strong>Roboten</strong></td><td>Bas eller nivå 1 med handledning</td><td>Nivå 1 självständigt, eller nivå 2 med handledning</td><td>Nivå 2 självständigt, eller utmaningen</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Robotens nivå är <em>ett</em> belägg bland flera. Ett par som fastnade på nivå 1 men
+      dokumenterar en genomarbetad felsökning kan mycket väl visa C.</p>
+
+    <h2 id="flode">4. Om flödesschemat</h2>
+    <p>Ett flödesschema är en ritning av programmets beslut. Rutor för det roboten gör,
+      romber för frågorna den ställer, pilar emellan. Det behöver inte vara snyggt – det
+      behöver stämma med koden.</p>
+<pre><code>        ┌──────────────┐
+        │  läs sensorn │◄─────────────────┐
+        └──────┬───────┘                  │
+               ▼                          │
+        ◇ alla fem svarta?  ─ ja ─► ◇ fortfarande efter 5 cm? ─ ja ─► [ MÅL: stopp ]
+               │ nej                      │ nej
+               ▼                          ▼
+        ◇ ingen svart?  ─ ja ─► [ vänd 180° ] ──┐    [ korsning: sväng vänster ] ──┐
+               │ nej                            │                                  │
+               ▼                                │                                  │
+        [ följ linjen ] ────────────────────────┴──────────────────────────────────┘</code></pre>
+    <p>Rita ett första utkast på papper över lovet. Det tar tjugo minuter, och det är det
+      första ni gör pass 9 – innan någon rör koden.</p>
+
+    <h2 id="mall">5. Mallen</h2>
+    <p>Kopiera den här till ert dokument (Word, Google Docs eller vad ni vill) och fyll i.
+      Blocket går att markera och kopiera.</p>
+<pre class="fri"><code># Labyrintprojektet – dokumentation
+
+Par: ___ och ___
+Robot nr: ___
+Nivå vi siktade på: ___
+
+## 1. Uppgiften (par)
+Vad skulle roboten klara? Vilken nivå siktade ni på och varför?
+
+## 2. Hur roboten tänker (var för sig – skriv ditt namn)
+Flödesschema. Rita för hand och fota, eller använd draw.io.
+Alla beslut ska finnas med: linje under mitten, korsning, återvändsgränd, mål.
+
+## 3. Koden (par)
+Välj tre–fyra viktiga bitar. Klistra in dem. Förklara med egna ord vad de gör
+och varför de ser ut så.
+
+## 4. Test och resultat (par)
+Vad testade ni? Vad gick, vad gick inte? Mätvärden: tröskelvärden, hastighet,
+antal lyckade körningar. Bild från banan.
+
+## 5. Utvärdering (var för sig – skriv ditt namn)
+Vad skulle ni göra annorlunda? Vad var svårast, hur löste ni det?
+Vad händer med roboten och batterierna efter kursen?
+
+Bilagor: main.py och logg.md
+Lämnas in senast onsdag 11/11.</code></pre>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till startsidan</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="paket.js"></script>
+</body>
+</html>

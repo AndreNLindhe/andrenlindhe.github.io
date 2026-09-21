@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Linjeföljaren – Teknik 1 område 2</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-2-linjefoljaren">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Guide</strong> · Linjeföljaren</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#kalibrera">1. Kalibrera</a></li>
+      <li><a href="#position">2. En position</a></li>
+      <li><a href="#kor">3. kor(v, h) – två farter</a></li>
+      <li><a href="#bangbang">4. Följa linjen: bang-bang</a></li>
+      <li><a href="#p">5. Följa linjen bättre: P-reglering</a></li>
+      <li><a href="#main">6. main.py</a></li>
+      <li><a href="#felsokning">7. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 2 · pass 7</p>
+    <h1>Linjeföljaren</h1>
+    <p class="inledning">Fem tal säger var linjen är. Biblioteket gör om dem till ett
+      enda – en position – och på den kan roboten styra. Först måste den veta vad som
+      är vitt och vad som är svart: det är kalibreringen. Sidan förutsätter att
+      <a href="guide-bibliotek.html">biblioteken</a> ligger på Pico:n.</p>
+
+    <h2 id="kalibrera">1. Kalibrera</h2>
+    <p>Vitt golv ger 60 i ett rum och 200 i ett annat. Sensorerna är inte heller exakt
+      lika. Därför <strong>kalibrerar</strong> du: låt varje sensor se både vitt och svart,
+      så vet biblioteket vad som är vad.</p>
+<pre><code class="sprak-python">from TRSensor import TRSensor
+from time import sleep
+
+sensor = TRSensor()
+
+for i in range(100):
+    sensor.calibrate()
+
+while True:
+    position, varden = sensor.readLine()
+    print(position)
+    sleep(0.2)</code></pre>
+    <div class="notis viktig">
+      <span class="rubrik">Vagga roboten medan kalibreringen kör</span>
+      <p>De 100 varven tar tre–fyra sekunder. Under tiden håller du roboten i handen och
+        vaggar den fram och tillbaka i sidled över tejpen, så att <em>alla fem</em>
+        sensorerna hinner se både vitt och svart. Kalibreringen görs om varje gång
+        programmet startar – vagga direkt när du kört.</p>
+    </div>
+
+    <h2 id="position">2. En position</h2>
+    <p><code>readLine()</code> svarar med <strong>två saker</strong> på samma gång –
+      returvärdet från förra veckan, fast två i stället för ett:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Namn</th><th>Vad det är</th></tr></thead>
+        <tbody>
+          <tr><td><code>position</code></td><td>Ett tal 0–4000. <strong>0</strong> = linjen under vänster kant. <strong>2000</strong> = linjen i mitten. <strong>4000</strong> = under höger kant. Ser ingen sensor linjen får du 0 eller 4000, beroende på vilken sida den senast var på</td></tr>
+          <tr><td><code>varden</code></td><td>Listan igen, men kalibrerad: 0 = det ljusaste sensorn såg, 1000 = det mörkaste. Summan av alla fem säger hur mycket svart roboten ser totalt – alla över tejp ger nära 5000</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Flytta roboten i sidled över linjen och se <code>position</code> glida. Visa den
+      stort på skärmen: <code>lcd.text("pos " + str(position), 10, 10, lcd.VIT)</code>.</p>
+
+    <h2 id="kor">3. kor(v, h) – två farter</h2>
+    <p>För att svänga mjukt behöver hjulen olika fart. En funktion som tar två – den var
+      utmaning förra veckan, nu behöver alla den. Pinnarna från <code>kor.py</code> ovanför.</p>
+<pre><code class="sprak-python">def kor(v, h):
+    v_fram.value(1)
+    v_bak.value(0)
+    h_fram.value(1)
+    h_bak.value(0)
+    fart_v.duty_u16(int(v * 65535 / 100))
+    fart_h.duty_u16(int(h * 65535 / 100))</code></pre>
+    <p><code>kor(20, 45)</code>: vänster hjul långsamt, höger fort – roboten svänger
+      vänster. <code>kor(40, 40)</code>: rakt.</p>
+
+    <h2 id="bangbang">4. Följa linjen: bang-bang</h2>
+    <p>Tre lägen, inget däremellan. <em>Antingen eller</em> – det heter bang-bang.</p>
+<pre><code class="sprak-python">while True:
+    position, varden = sensor.readLine()
+    if position &lt; 1500:
+        kor(20, 45)
+    elif position &gt; 2500:
+        kor(45, 20)
+    else:
+        kor(40, 40)</code></pre>
+    <p>Linjen till vänster (under 1500) → sväng vänster. Till höger (över 2500) → sväng
+      höger. Mitten → rakt. Ställ roboten på ovalen, vagga för kalibreringen, släpp. Den
+      följer – och vaggar. Justera farterna tills den klarar ett varv.</p>
+    <div class="notis">
+      <span class="rubrik">Svänger den fel håll?</span>
+      <p>Då är sensorkortet vänt, så att 0 är höger kant. Byt <code>&lt;</code> och
+        <code>&gt;</code> – eller byt farterna i de två svängarna. Testa först med
+        <code>print(position)</code>: linjen till vänster ska ge under 2000.</p>
+    </div>
+
+    <h2 id="p">5. Följa linjen bättre: P-reglering</h2>
+    <p>Bang-bang svänger lika hårt oavsett om linjen är lite eller mycket åt sidan.
+      Bättre: <em>ju längre ut linjen är, desto mer sväng</em>. Det heter proportionell
+      reglering, P-reglering, och det är en rad:</p>
+<pre><code class="sprak-python">fart = 45
+k = 0.015
+
+while True:
+    position, varden = sensor.readLine()
+    fel = position - 2000
+    v = fart + fel * k
+    h = fart - fel * k
+    kor(max(0, min(100, v)), max(0, min(100, h)))</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Raden</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>fel = position - 2000</code></td><td>Hur långt från mitten linjen är: −2000 … 2000. Noll = mitt på</td></tr>
+          <tr><td><code>v = fart + fel * k</code></td><td>Linjen till höger (fel positivt) → vänster hjul fortare → roboten svänger höger. Lagom mycket</td></tr>
+          <tr><td><code>k</code></td><td>Hur hårt roboten reagerar. För litet: tappar kurvan. För stort: vaggar. <strong>Hitta ert k</strong> – börja på 0.015</td></tr>
+          <tr><td><code>max(0, min(100, v))</code></td><td>Håller farten inom 0–100. Utan det kan v bli 75 eller −5, och <code>duty_u16</code> vill inte ha det</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Det är hela reglertekniken i en rad. Att ni provade bang-bang först och bytte
+      till P – och varför – är precis den sortens resonemang dokumentationen frågar
+      efter.</p>
+
+    <h2 id="main">6. main.py</h2>
+    <p>Kalibreringen först, sedan tre sekunder, sedan loopen. Ladda upp, dra ur kabeln,
+      ställ på ovalen, slå på, <strong>vagga direkt</strong>, släpp.</p>
+<pre><code class="sprak-python"># pinnar, kor() och stopp() ovanför ...
+
+sensor = TRSensor()
+lcd = ST7789()
+
+for i in range(100):
+    sensor.calibrate()
+sleep(3)
+
+while True:
+    position, varden = sensor.readLine()
+    lcd.fill(lcd.SVART)
+    lcd.text("pos " + str(position), 10, 10, lcd.VIT)
+    lcd.show()
+    if position &lt; 1500:
+        kor(20, 45)
+    elif position &gt; 2500:
+        kor(45, 20)
+    else:
+        kor(40, 40)</code></pre>
+    <p>Skärmen visar positionen medan den kör. Det är så du ser vad roboten ser när
+      den tappar linjen.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Klart när <span style="color:var(--dov);font-weight:400">— det här ska alla ha</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Kalibrerat, och <code>position</code> glider 0–4000 när roboten flyttas över linjen</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span><code>kor(v, h)</code> skriven och testad</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Roboten följer ovalen ett helt varv med bang-bang</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Positionen syns på skärmen medan den kör</span></label></li>
+      </ul>
+    </section>
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">Om du hinner <span style="color:var(--dov);font-weight:400">— utmaning</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>P-reglering, med ett <code>k</code> ni hittat själva. Skriv upp k och vad som hände med för stort och för litet</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Roboten stannar på tvärlinjen: alla fem sensorer ser svart – vad blir <code>sum(varden)</code> då?</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Snabbast runt ovalen utan att tappa linjen – ta tid</span></label></li>
+      </ul>
+    </section>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="felsokning">7. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: 4000, fel håll, kurvan" autocomplete="off">
+      <p class="traffar" id="traffar-fel">7 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td><code>position</code> är alltid 0 eller 4000</td><td>Ingen kalibrering, eller kalibrerad utan att någon sensor såg tejpen</td><td>Kör om programmet och vagga över linjen under de 100 varven</td></tr>
+          <tr><td>Roboten svänger åt fel håll</td><td>Sensorkortet vänt, eller <code>&lt;</code>/<code>&gt;</code> förväxlade</td><td>Testa med <code>print</code>: linjen till vänster ska ge under 2000. Annars byt tecknen</td></tr>
+          <tr><td>Tappar linjen i kurvan</td><td>För hög fart, eller för liten skillnad mellan hjulen</td><td>Mittfart 30. Svängarna 15/45</td></tr>
+          <tr><td>Vaggar våldsamt</td><td>Bang-bang gör det. Eller för stort <code>k</code></td><td>Mindre skillnad mellan farterna, eller P-reglering med mindre k</td></tr>
+          <tr><td>Kör rakt fram och struntar i linjen</td><td>Kalibreringen gjordes i luften – allt ser likadant ut</td><td>Roboten ska stå på banan under kalibreringen</td></tr>
+          <tr><td>Ingenting händer efter <code>calibrate</code>-loopen</td><td>Den tar 3–4 sekunder</td><td>Vänta. Skriv något på skärmen efter loopen så att du ser när den är klar</td></tr>
+          <tr><td><code>ValueError</code> på <code>duty_u16</code></td><td>Farten är utanför 0–100</td><td><code>max(0, min(100, …))</code> runt v och h</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ord">Ord på den här sidan</h2>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>kalibrering</b></td><td>Låta sensorn se vitt och svart så att den vet vad som är vad. Görs varje start</td></tr>
+          <tr><td><b>position</b></td><td>Ett tal 0–4000 som säger var linjen är under roboten. 2000 = mitten</td></tr>
+          <tr><td><b>bang-bang</b></td><td>Styrning med bara några fasta lägen. Sväng eller sväng inte</td></tr>
+          <tr><td><b>P-reglering</b></td><td>Styrning där reaktionen är proportionell mot felet. Lite fel – lite sväng</td></tr>
+          <tr><td><b>fel</b></td><td>Skillnaden mellan där man är och där man vill vara</td></tr>
+          <tr><td><b>k</b></td><td>Förstärkningen – hur hårt man reagerar på felet</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

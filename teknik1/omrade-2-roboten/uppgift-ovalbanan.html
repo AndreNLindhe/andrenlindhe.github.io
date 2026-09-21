@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uppgift: ovalbanan med hinder – Teknik 1 område 2</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-2-oval">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Uppgift</strong> · Ovalbanan med hinder</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppgiften">1. Uppgiften</a></li>
+      <li><a href="#hinder">2. Hindersensorerna</a></li>
+      <li><a href="#krav">3. Nivåerna</a></li>
+      <li><a href="#efter">4. Efter lovet</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 2 · pass 8 · utmaning</p>
+    <h1>Ovalbanan med hinder</h1>
+    <p class="inledning">Roboten följer ovalen. Någon ställer en kartong på banan. Roboten
+      stannar. Kartongen tas bort. Roboten kör vidare. Bygg vidare på <code>linje.py</code>
+      från förmiddagen – det är fyra rader till.</p>
+
+    <h2 id="uppgiften">1. Uppgiften</h2>
+    <p>Följ linjen som i förmiddags. Stanna om något står framför roboten. Kör vidare när
+      det är borta. Det är allt – men det kräver att hindret kollas <em>först</em>, före
+      linjen, precis som knappen i larmet: det som är viktigast står överst.</p>
+<pre><code class="sprak-python">hinder_h = Pin(2, Pin.IN)
+hinder_v = Pin(3, Pin.IN)
+
+while True:
+    position, varden = sensor.readLine()
+    if hinder_v.value() == 0 or hinder_h.value() == 0:
+        stopp()
+    elif position &lt; 1500:
+        kor(20, 45)
+    elif position &gt; 2500:
+        kor(45, 20)
+    else:
+        kor(40, 40)</code></pre>
+    <p><code>or</code> betyder <em>om det ena eller det andra</em>. Ser någon av de två
+      sensorerna ett hinder stannar roboten. Loopen fortsätter – nästa varv, om hindret
+      är borta, kör den igen.</p>
+
+    <h2 id="hinder">2. Hindersensorerna</h2>
+    <p>På robotens framkant sitter två små IR-sensorer, en på varje sida. De fungerar som
+      linjeföljaren – skickar IR-ljus, lyssnar efter reflektionen – men svarar digitalt:
+      <strong>0 = något är framför, 1 = fritt</strong>. Som knappen.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sensor</th><th>Pinne</th><th>Värde</th></tr></thead>
+        <tbody>
+          <tr><td>Höger</td><td>GP2</td><td>0 = hinder, 1 = fritt</td></tr>
+          <tr><td>Vänster</td><td>GP3</td><td>0 = hinder, 1 = fritt</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="notis">
+      <span class="rubrik">Avståndet ställs med en skruv</span>
+      <p>På varje sensor sitter en liten skruv som bestämmer hur nära något måste vara.
+        Testa med <code>print(hinder_v.value())</code> och en kartong: den ska ge 0 på
+        5–10 cm och 1 annars. Ger den 0 hela tiden ser den golvet – vrid skruven.</p>
+    </div>
+
+    <h2 id="krav">3. Nivåerna</h2>
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Ska <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Roboten följer ovalen och stannar när kartongen ställs framför</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Den kör vidare när kartongen tas bort</span></label></li>
+      </ul>
+    </section>
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">Bör <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Den stannar mjukt – saktar ner innan den stannar. Ledtråd: ultraljudet från pass 6 ser längre än IR-sensorerna</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Ni har valt avståndet själva och kan säga varför</span></label></li>
+      </ul>
+    </section>
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Roboten kör <em>runt</em> kartongen och hittar tillbaka till linjen. Ledtråd: sväng ut, kör en bit, sväng in, kör rakt tills <code>position</code> inte längre är 0 eller 4000 – då har den hittat linjen igen</span></label></li>
+      </ul>
+    </section>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="efter">4. Efter lovet</h2>
+    <p>Roboten som följer linjen är halva projektet. Andra halvan är att välja väg.
+      <a href="../omrade-3-labyrinten/uppgift-labyrinten.html">Labyrintprojektet</a>
+      presenteras på passet – läs det, och läs
+      <a href="../dokumentationsmall.html">dokumentationsmallen</a> över lovet. Rita ett
+      första flödesschema på papper: vad gör roboten när linjen är under mitten, i en
+      korsning, i en återvändsgränd, vid målet?</p>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: stannar aldrig, NameError" autocomplete="off">
+      <p class="traffar" id="traffar-fel">5 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Roboten stannar aldrig för kartongen</td><td>Sensorn ser den inte – avståndet är för kort</td><td>Skruven på sensorn. Testa med <code>print</code></td></tr>
+          <tr><td>Roboten stannar hela tiden</td><td>Sensorn ser golvet eller sin egen skugga</td><td>Vrid skruven åt andra hållet. Kontrollera att 0 verkligen är hinder</td></tr>
+          <tr><td><code>NameError: sensor</code> eller <code>kor</code></td><td>Ny fil utan linjeföljningskoden</td><td>Bygg vidare på <code>linje.py</code> – lägg till hinderraderna där</td></tr>
+          <tr><td>Stannar, men kör inte vidare</td><td>Något låser efter <code>stopp()</code></td><td><code>stopp()</code> bara i sin gren. Ingen <code>while</code> inuti loopen</td></tr>
+          <tr><td>Tappar linjen efter stoppet</td><td>Rullade förbi linjen när den stannade</td><td>Sänk farten. Eller <code>back</code> en kort stund efter stoppet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

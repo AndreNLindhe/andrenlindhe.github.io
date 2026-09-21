@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bibliotek och listor – Teknik 1 område 2</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-2-bibliotek">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Guide</strong> · Bibliotek och listor</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#vad">1. Vad ett bibliotek är</a></li>
+      <li><a href="#ladda">2. Ladda upp två filer</a></li>
+      <li><a href="#lista">3. Fem tal i ett namn</a></li>
+      <li><a href="#lcd">4. Skärmen</a></li>
+      <li><a href="#for">5. for-loopen</a></li>
+      <li><a href="#felsokning">6. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 2 · pass 7</p>
+    <h1>Bibliotek och listor</h1>
+    <p class="inledning">Linjeföljaren under roboten läses via en krets och en teknik som
+      ligger långt utanför den här kursen. Någon annan har skrivit den koden. Du använder
+      den. Det är vad ett bibliotek är – och det är så nästan all programmering fungerar.</p>
+
+    <h2 id="vad">1. Vad ett bibliotek är</h2>
+    <p><code>from machine import Pin</code> – det har du skrivit sedan första passet.
+      <code>machine</code> är ett bibliotek: en samling färdig kod som följer med
+      MicroPython. Du hämtar det du behöver med <code>import</code>.</p>
+    <p>Idag lägger du till två bibliotek till. De är vanliga Python-filer som läggs på
+      Pico:n, och sedan importeras precis som <code>machine</code>:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fil</th><th>Vad den kan</th><th>Vad du skriver</th></tr></thead>
+        <tbody>
+          <tr><td><a href="bibliotek/TRSensor.py" download>TRSensor.py</a></td><td>Läser de fem IR-sensorerna under fronten</td><td><code>from TRSensor import TRSensor</code></td></tr>
+          <tr><td><a href="bibliotek/ST7789.py" download>ST7789.py</a></td><td>Ritar text på skärmen</td><td><code>from ST7789 import ST7789</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Du behöver inte förstå vad som står i filerna. Du behöver veta <em>vad de kan</em> –
+      det står i en kommentar överst i varje fil.</p>
+
+    <h2 id="ladda">2. Ladda upp två filer</h2>
+    <ol>
+      <li>Klicka på filnamnen i tabellen ovanför och spara båda i mappen <code>teknik1</code>.</li>
+      <li>I VS Code: högerklicka på <code>TRSensor.py</code> → <strong>Upload file to Pico</strong>.
+        Samma med <code>ST7789.py</code>.</li>
+      <li>Kontrollera i Pico:ns filträd att de ligger där.</li>
+    </ol>
+<pre><code>Pico
+  ├── main.py         (om du har en)
+  ├── TRSensor.py     ← ny
+  └── ST7789.py       ← ny</code></pre>
+    <div class="notis viktig">
+      <span class="rubrik">På Pico:n, inte bara på datorn</span>
+      <p><code>import</code> letar på Pico:n. Ligger filen bara i mappen på datorn får du
+        <code>ImportError: no module named 'TRSensor'</code>. Ladda upp.</p>
+    </div>
+
+    <h2 id="lista">3. Fem tal i ett namn</h2>
+    <p>Ny fil <code>linje.py</code>:</p>
+<pre><code class="sprak-python">from TRSensor import TRSensor
+from time import sleep
+
+sensor = TRSensor()
+
+while True:
+    varden = sensor.AnalogRead()
+    print(varden)
+    sleep(0.2)</code></pre>
+    <p>Kör. Terminalen visar något i stil med <code>[812, 790, 65, 780, 805]</code>. Fem tal
+      i hakparenteser – det är en <strong>lista</strong>. Håll roboten över tejpen och
+      flytta den i sidled: ett tal i taget hoppar upp.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Skrivsätt</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><code>varden</code></td><td>Hela listan, fem tal</td></tr>
+          <tr><td><code>varden[0]</code></td><td>Första talet – sensorn längst till vänster</td></tr>
+          <tr><td><code>varden[2]</code></td><td>Tredje talet – mitten</td></tr>
+          <tr><td><code>varden[4]</code></td><td>Femte talet – längst till höger. <strong>Index börjar på noll</strong>, så det sista är 4, inte 5</td></tr>
+          <tr><td><code>sensor.AnalogRead()</code></td><td>"Fråga sensorn." Svaret är listan. Högre tal = mörkare underlag</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="notis">
+      <span class="rubrik">Så ser sensorn</span>
+      <p>Varje sensor har en IR-lampa och en mottagare bredvid varandra. På vitt
+        underlag studsar ljuset upp i mottagaren – lågt tal. På svart tejp sugs ljuset upp
+        – högt tal. Sensorn ser alltså inte "svart", den mäter <em>hur mycket ljus som
+        kommer tillbaka</em>.</p>
+    </div>
+
+    <h2 id="lcd">4. Skärmen</h2>
+    <p>Samma sak igen, ett bibliotek till:</p>
+<pre><code class="sprak-python">from TRSensor import TRSensor
+from ST7789 import ST7789
+from time import sleep
+
+sensor = TRSensor()
+lcd = ST7789()
+
+while True:
+    varden = sensor.AnalogRead()
+    lcd.fill(lcd.SVART)
+    for i in range(5):
+        lcd.text(str(varden[i]), 10, 10 + i * 15, lcd.VIT)
+    lcd.show()
+    sleep(0.2)</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Raden</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>lcd.fill(lcd.SVART)</code></td><td>Fyller hela skärmen med en färg – rensar</td></tr>
+          <tr><td><code>lcd.text(text, x, y, färg)</code></td><td>Skriver text på plats x, y. Texten är 8 pixlar hög. Skärmen är 240 bred och 135 hög</td></tr>
+          <tr><td><code>lcd.show()</code></td><td>Skickar det du ritat till skärmen. <strong>Inget syns förrän show()</strong></td></tr>
+          <tr><td><code>lcd.VIT</code>, <code>lcd.SVART</code>, <code>lcd.GRON</code>, <code>lcd.ROD</code>, <code>lcd.BLA</code>, <code>lcd.GUL</code></td><td>Färgerna</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Nu ser du sensorvärdena <strong>utan USB-kabel</strong>. Det är felsökningsverktyget
+      resten av blocket: vad ser roboten just nu?</p>
+
+    <h2 id="for">5. for-loopen</h2>
+    <p>Raden <code>for i in range(5):</code> är ny. Den betyder: <em>gör det indragna fem
+      gånger, med <code>i</code> = 0, 1, 2, 3, 4</em>. Det är så man går genom en lista.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Varv</th><th><code>i</code></th><th><code>varden[i]</code></th><th><code>10 + i * 15</code></th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>0</td><td>vänster kant</td><td>10</td></tr>
+          <tr><td>2</td><td>1</td><td></td><td>25</td></tr>
+          <tr><td>3</td><td>2</td><td>mitten</td><td>40</td></tr>
+          <tr><td>4</td><td>3</td><td></td><td>55</td></tr>
+          <tr><td>5</td><td>4</td><td>höger kant</td><td>70</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><code>str(varden[i])</code> gör om talet till text – <code>lcd.text</code> vill ha
+      text. <code>10 + i * 15</code> är raden på skärmen: varje varv 15 pixlar längre ner.</p>
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Skriv de fem talen bredvid varandra i stället för under varandra. Vad ska ändras
+        – x eller y?</p>
+    </div>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Klart när <span style="color:var(--dov);font-weight:400">— det här ska alla ha</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Båda filerna ligger på Pico:n</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Fem tal i terminalen som ändras när roboten flyttas över tejpen</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Samma fem tal på skärmen, utan kabel</span></label></li>
+      </ul>
+    </section>
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+    <p>Nästa sida: <a href="guide-linjefoljaren.html">linjeföljaren</a> – kalibrering, position och att följa linjen.</p>
+
+    <h2 id="felsokning">6. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: ImportError, svart, lika" autocomplete="off">
+      <p class="traffar" id="traffar-fel">6 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td><code>ImportError: no module named 'TRSensor'</code></td><td>Filen ligger på datorn, inte på Pico:n</td><td>Högerklicka → Upload file to Pico. Kontrollera filträdet</td></tr>
+          <tr><td>Alla fem tal är lika och ändras inte</td><td>Sensorkortet sitter löst i headern</td><td>Tryck fast det. Det ska peka rakt ner mot golvet</td></tr>
+          <tr><td>Skärmen är svart</td><td><code>show()</code> saknas</td><td><code>lcd.show()</code> sist i loopen</td></tr>
+          <tr><td><code>TypeError</code> på <code>lcd.text</code></td><td>Ett tal skickas in i stället för text</td><td><code>str(varden[i])</code></td></tr>
+          <tr><td><code>IndexError: list index out of range</code></td><td><code>varden[5]</code> – listan har index 0–4</td><td><code>range(5)</code> ger 0–4. Inte 5</td></tr>
+          <tr><td>Skärmen visar konstiga färger</td><td>Fel färgkonstant</td><td>Använd <code>lcd.VIT</code> osv, inte egna tal</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ord">Ord på den här sidan</h2>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>bibliotek</b></td><td>Färdig kod som någon annan skrivit, som du hämtar med <code>import</code> och använder</td></tr>
+          <tr><td><b>import</b></td><td>Hämta ett bibliotek så att det går att använda</td></tr>
+          <tr><td><b>lista</b></td><td>Flera värden i ett namn. Skrivs med hakparenteser: <code>[812, 790, 65]</code></td></tr>
+          <tr><td><b>index</b></td><td>Numret på en plats i listan. Börjar på 0</td></tr>
+          <tr><td><b>for-loop</b></td><td>Gör något ett bestämt antal gånger, med en variabel som räknar</td></tr>
+          <tr><td><b>range(5)</b></td><td>Talen 0, 1, 2, 3, 4</td></tr>
+          <tr><td><b>str()</b></td><td>Gör om ett tal till text</td></tr>
+          <tr><td><b>IR</b></td><td>Infrarött ljus. Osynligt för ögat, synligt för sensorn</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
