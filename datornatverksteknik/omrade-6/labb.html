@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Labb 6: Installera och konfigurera ett operativsystem – Dator- och nätverksteknik område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-6-labb">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Uppgift</strong> · Labb 6</span>
+  <a href="#checklista">Checklista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppgiften">1. Uppgiften</a></li>
+      <li><a href="#vaxer">2. Så växer rapporten fram</a></li>
+      <li><a href="#behov">3. Vad "kopplat till ett behov" betyder</a></li>
+      <li><a href="#ska">4. Ska-krav — nivå E</a></li>
+      <li><a href="#bor">5. Bör-krav — nivå C</a></li>
+      <li><a href="#utmaning">6. Utmaning — nivå A</a></li>
+      <li><a href="#misstag">7. Vanliga misstag</a></li>
+      <li><a href="#checklista">8. Checklista innan inlämning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 6 · kursens femte labbrapport</p>
+    <h1>Labb 6: Installera och konfigurera ett operativsystem</h1>
+    <p class="inledning">Det nya den här gången ligger inte i installationen — du har installerat ett operativsystem en gång redan, och nu sker det i en virtuell maskin där ett fel kostar fem minuter i stället för ett pass. Det nya ligger i <b>jämförelsetabellen</b>, och i kravet att varje rad kopplas till ett behov.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-12-02">
+        <span class="nar">2 dec</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Sista lektionstiden är tisdag 1 december.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="uppgiften">1. Uppgiften</h2>
+    <p>Du arbetar i en <b>virtuell maskin</b> som du själv skapar, på elevdatorn. Tre saker ska göras och dokumenteras:</p>
+    <ol>
+      <li><b>Ett operativsystem installeras</b> i en virtuell maskin, med <code>Windows.iso</code> som installationskälla</li>
+      <li><b>Minst två användarkonton</b> konfigureras i samma maskin, med olika behörigheter — och du testar vad standardkontot <b>inte</b> får göra</li>
+      <li><b>Windows, Linux och macOS jämförs</b> i en tabell med sex egenskaper, där <b>varje rad kopplas till ett behov</b></li>
+    </ol>
+    <p>Dessutom förs <b>två meningar om virtuellt minne</b> in i resultatdelen. De hör inte till de tre delarna ovan och bedöms inte som en av dem — de står där för att de ska stå någonstans, och för att de prövas i prov 2.</p>
+
+    <div class="notis">
+      <span class="rubrik">Ni arbetar två och två — men rapporten skriver var och en själv</span>
+      <p>Ni delar virtuell maskin, installation och fel. <b>Dokumentationen bedöms individuellt.</b> Att ni installerade samma system är självklart; det är beskrivningen och resonemanget som ska vara ditt eget. Labbpartnerns namn står överst.</p>
+    </div>
+
+    <h2 id="vaxer">2. Så växer rapporten fram</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Vad som görs</th><th>Vad som förs in</th></tr></thead>
+        <tbody>
+          <tr><td><b>23</b><br>mån 16/11</td><td>Tabellens sex rader. VirtualBox installeras, maskinen skapas</td><td>Planeringen. Tabellens rader och kolumner</td></tr>
+          <tr><td><b>24</b><br>tis 17/11</td><td>Operativsystemet installeras</td><td>Utförandet: stegen, disklistan, partitionerna, tiden</td></tr>
+          <tr><td><b>25</b><br>tis 24/11</td><td>Det andra kontot skapas och testas</td><td>Resultatet: kontona, vad som nekades, och varför</td></tr>
+          <tr><td><b>26</b><br>mån 30/11</td><td><code>virtual-memory</code> provas</td><td>De två meningarna om minnet</td></tr>
+          <tr><td><b>27</b><br>tis 1/12</td><td>Tabellen färdigställs med behovsmeningar</td><td>Tabellen klar. Felsökningen. Källorna</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Anteckna installationen medan den körs</span>
+      <p>En vecka ligger mellan lektion 24 och 25, eftersom måndag 23/11 är lovdag. Kopieringen på lektion 24 tar tio till tjugo minuter och ingenting händer på skärmen — <b>skriv utförandedelen då</b>. Det du inte skrev den 17:e minns du inte den 24:e.</p>
+    </div>
+
+    <h2 id="behov">3. Vad "kopplat till ett behov" betyder</h2>
+    <p>Det här är det enda kravet som är nytt mot tidigare rapporter, och det är det som avgör betyget i den här labben.</p>
+    <p>Så här ser en rad ut i de flesta rapporter:</p>
+    <blockquote><p>Maskinvarustöd: Windows stöder mest maskinvara.</p></blockquote>
+    <p>Vad är fel med den? <b>Ingenting — den är sann.</b> Problemet är att den inte säger något. Lägg till behovet:</p>
+    <blockquote>
+      <p>Maskinvarustöd: Windows stöder mest maskinvara. Det spelar roll för den som ska köra på hårdvara hen inte valt själv — en begagnad maskin, eller en blandad datorpark. För den som köper en Apple-maskin med macOS förinstallerat spelar det ingen roll alls.</p>
+    </blockquote>
+
+    <div class="notis viktig">
+      <span class="rubrik">"För alla" är inte ett svar</span>
+      <p>En egenskap som spelar roll lika mycket för alla <b>skiljer inte systemen åt</b>. Om du inte kan säga vem raden gäller för är raden inte klar.</p>
+    </div>
+
+    <h2 id="ska">4. Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2>Det här ska finnas</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Alla <b>fem delar</b> ifyllda, i ordning</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Labbpartnerns namn står överst</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Den virtuella maskinens inställningar står i planeringen</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Installationen beskriven: disklistan, partitionerna, tiden</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Det står att installationen skedde <b>i en virtuell maskin</b>, och vad det innebar</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span><b>Två konton</b>, med namn och typ</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Minst <b>två nekade försök</b>, med meddelandets faktiska ordalydelse</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Jämförelsetabellen: <b>sex rader, tre kolumner</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>De <b>två meningarna</b> om virtuellt minne</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>Felsökningsavsnittet ifyllt, i <b>tre led</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span>Källorna uppskrivna, <b>med språk angivet</b></span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bor">5. Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2>Det här lyfter rapporten</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Planeringen var <b>godkänd av läraren innan</b> installationen började</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Varje tabellrad säger <b>varför</b> skillnaden finns, inte bara att den finns</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Det står <b>vem</b> som nekade standardkontot, och <b>när</b> — kärnan, vid systemanropet</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Beskrivningen går att <b>följa steg för steg</b> av någon annan</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Minst en källa är på <b>engelska</b>, använd utan handledning</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>"Linux" står aldrig utan <b>distribution</b> i raderna om uppdateringar och underhåll</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="utmaning">6. Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2>Det som gör rapporten nyanserad</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Varje tabellrad säger <b>för vem</b> skillnaden spelar roll — och för vem den inte gör det</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Rapporten säger vad tabellen <b>inte</b> visar — vilken fråga en jämförelse av licens och maskinvarustöd inte svarar på</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Felsökningsavsnittet innehåller <b>egna förbättringsförslag</b> — vad du skulle göra annorlunda nästa gång</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>Att en installation fick göras om beskrivs som <b>ett resultat</b>, inte som ett misslyckande</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Om betyget A i det här området</span>
+      <p>A-kriteriets skarpaste mening — att redogöra för <b>sambandet mellan de olika delarna som ingår i nätverkets uppbyggnad</b> — går inte att pröva här. Den kommer i område 10 och i slutuppdraget.</p>
+      <p><b>Det betyder inte att A är omöjligt i den här labben.</b> Här prövas A genom den nyanserade jämförelsen och genom egna förbättringsförslag: en tabell som säger för vem, och som är ärlig om vad den inte visar.</p>
+    </div>
+
+    <h2 id="misstag">7. Vanliga misstag</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Misstag</th><th>Så gör du i stället</th></tr></thead>
+        <tbody>
+          <tr><td>Behovsmeningen säger "för alla"</td><td>En egenskap som spelar roll lika mycket för alla skiljer inte systemen åt</td></tr>
+          <tr><td>"Bäst" eller "säkrast" står i en cell</td><td>Ingen kan kontrollera "bäst". Skriv vad som faktiskt gäller</td></tr>
+          <tr><td>"Linux" står utan distribution</td><td>Ubuntu och Fedora skiljer sig i uppdateringar och underhåll</td></tr>
+          <tr><td>macOS kallas gratis</td><td>Systemet kostar inget. Det förutsätter Apples hårdvara</td></tr>
+          <tr><td>Utförandet skrivs en vecka senare</td><td>Skriv under kopieringen den 17:e. Detaljerna finns bara då</td></tr>
+          <tr><td>"Windows nekade" i resultatdelen</td><td>Kärnan nekade, vid systemanropet</td></tr>
+          <tr><td>Det andra kontot är administratör</td><td>Kontrollera kontotypen. Ett andra administratörskonto testar ingenting</td></tr>
+          <tr><td>Meddelandet sammanfattas</td><td>Skriv av ordalydelsen. Den är resultatet</td></tr>
+          <tr><td>Felsökningsavsnittet lämnas tomt</td><td>TPM, veckan emellan, kontotypen. Något hände</td></tr>
+          <tr><td>Bara svenska källor</td><td>Då är tabellen inte kontrollerad. Tillverkarnas sidor är på engelska</td></tr>
+          <tr><td>Två identiska rapporter i ett par</td><td>Tabellen och resonemanget skrivs själv</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Jämförelsetabellen går inte att fylla i ur minnet</span>
+      <p>Att Ubuntu uppdaterar system och program genom samma pakethanterare, eller vem som underhåller Fedora, är saker du har slagit upp. <b>Skriv upp var</b> — och de sidorna är oftast på engelska.</p>
+      <p>En rapport i det här området utan en engelskspråkig källa har med största sannolikhet inte kontrollerat sin egen tabell.</p>
+    </div>
+
+    <h2 id="checklista">8. Checklista innan inlämning</h2>
+    <p>Gå igenom listorna ovan en sista gång. Det är den enskilt mest värdefulla sista handlingen och den kostar fyra minuter.</p>
+    <ul>
+      <li>Ska-kraven är minimum — utan dem är rapporten inte färdig</li>
+      <li>Bör-kraven är det som gör den möjlig att följa</li>
+      <li>Utmaningarna är det som gör den nyanserad</li>
+    </ul>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 6</a> · <a href="../omrade-5/labb.html">Labb 5</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

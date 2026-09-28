@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Repetition inför prov 3 – Dator- och nätverksteknik område 10</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-10-repetition">
+
+<header class="topp">
+  <a href="index.html">← Område 10</a>
+  <span class="harifran"><strong>Prov</strong> · Repetition inför prov 3</span>
+  <a href="#forklara">Förklara</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#provet">1. Vad som gäller</a></li>
+      <li><a href="#omrade-8">2. Område 8: nätverkets grunder</a></li>
+      <li><a href="#omrade-9">3. Område 9: protokollen</a></li>
+      <li><a href="#omrade-10">4. Område 10: switchning, routning och VLAN</a></li>
+      <li><a href="#kommandona">5. Kommandona</a></li>
+      <li><a href="#forklara">6. Kan du förklara det?</a></li>
+      <li><a href="#sa-repeterar-du">7. Så repeterar du</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · prov 3 · måndag 3 maj</p>
+    <h1>Repetition inför prov 3</h1>
+    <p class="inledning">Kursens tredje prov, och det största. Det omfattar <b>hela vårens nätverksblock</b> — område 8, 9 och 10 — och tyngdpunkten har flyttats: från att namnge utrustning till att <b>förklara mekanismer</b>. Varför switchen flödar, vad routern gör med sin tabell, varför broadcasten stannar vid en VLAN-gräns. Den här sidan säger vad som gäller, vad som kan prövas i varje område och var stoffet finns — och ger dig frågor att träna förklaringarna på.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-05-03">
+        <span class="nar">3 maj</span>
+        <span class="vad">Prov 3 · måndag 13:00–14:10
+          <small>Cirka 16 frågor. Provet tar ungefär 60 minuter av passets 70.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="provet">1. Vad som gäller</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vad omfattar det?</b></td><td>Område 8, 9 och 10 i sin helhet</td></tr>
+          <tr><td><b>Hur många frågor?</b></td><td>Cirka 16 — fler än på prov 1 och 2, eftersom provet täcker tre områden</td></tr>
+          <tr><td><b>Hur lång tid?</b></td><td>Ungefär 60 minuter av passets 70</td></tr>
+          <tr><td><b>Hjälpmedel?</b></td><td>Inga. Ingen dator, ingen mobil, inget material</td></tr>
+          <tr><td><b>Vilken sorts frågor?</b></td><td><b>Förklara</b> — varför, inte bara vad. Att namnge räcker sällan</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Labb 10 var förberedelsen</span>
+      <p>Det finns ingen lektion avsatt för repetition. Lektion 58 var labbens inlämningspass, och provet är passet därpå. <b>Den som skrev förklaringen i labb 10 själv har redan repeterat område 10</b> — provet frågar efter mekanismer, och rapporten är full av dem.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Skriv eftersom</span>
+      <p>Provet frågar efter förklaringar. <b>Ett svar utan <i>eftersom</i> är sällan fullständigt.</b></p>
+      <p>Kan du inte en fråga — <b>hoppa över den och gå tillbaka</b> när du gått igenom resten.</p>
+    </div>
+
+    <h2 id="omrade-8">2. Område 8: nätverkets grunder <span style="color:var(--dov);font-weight:400">— lektion 34–41</span></h2>
+
+    <ul>
+      <li><b>Nätverkstyperna</b> och <b>de fyra enheterna</b> — och vad som skiljer switchen från routern</li>
+      <li><b>Fysisk och logisk topologi</b>, och när de två bilderna skiljer sig</li>
+      <li><b>Kablar och kategorier</b>, RJ45-kontakten och <b>T568B</b></li>
+      <li><b>IPv4-adressen</b>, privat och publik, och <b>de tre privata intervallen</b></li>
+      <li><b>Nätmasken</b>, och hur den avgör om två adresser är i samma nät</li>
+      <li><b>Tre sätt en adress kommer till:</b> statisk, DHCP och självtilldelad — <code>169.254</code></li>
+      <li><b>Vad en ping bevisar</b>, och vad ett uteblivet svar <b>inte</b> bevisar</li>
+    </ul>
+
+    <p class="ledtext">Sidorna finns kvar: <a href="../omrade-8/natverket.html">nätverket och enheterna</a> · <a href="../omrade-8/topologierna.html">topologierna</a> · <a href="../omrade-8/media.html">mediet och kabeln</a> · <a href="../omrade-8/adresseringen.html">adresseringen</a> · <a href="../omrade-8/labb.html#ping">vad pingen bevisar</a></p>
+
+    <h2 id="omrade-9">3. Område 9: protokollen <span style="color:var(--dov);font-weight:400">— lektion 42–49</span></h2>
+
+    <ul>
+      <li><b>Protokoll som överenskommelse</b> — varför sändare och mottagare måste vara överens om formen</li>
+      <li><b>TCP/IP:s fyra lager</b> och <b>OSI:s sju</b>, sida vid sida</li>
+      <li><b>Kapsling</b> — kuvert i kuvert på väg ut, uppackat i omvänd ordning på väg in</li>
+      <li><b>MAC och IP</b>, <b>ARP</b> och broadcasten</li>
+      <li><b>ICMP</b>, och varför pingen saknar lager 4</li>
+      <li><b>TCP mot UDP</b> — vad som faktiskt skiljer dem, inte sloganen. <b>Portar</b> som konvention</li>
+      <li><b>DHCP:s fyra meddelanden</b></li>
+      <li><b>DNS</b>, <b>HTTP</b>, och vad <b>HTTPS döljer och inte döljer</b></li>
+    </ul>
+
+    <p class="ledtext">Sidorna finns kvar: <a href="../omrade-9/lagren.html">lagren och kapslingen</a> · <a href="../omrade-9/ramen.html">ramen, ARP och ICMP</a> · <a href="../omrade-9/transporten.html">TCP och UDP</a> · <a href="../omrade-9/dhcp.html">DHCP</a> · <a href="../omrade-9/tjansterna.html">DNS, HTTP och HTTPS</a></p>
+
+    <h2 id="omrade-10">4. Område 10: switchning, routning och VLAN <span style="color:var(--dov);font-weight:400">— lektion 50–58</span></h2>
+
+    <ul>
+      <li><b>Switchens adresstabell</b>: hur den lärs in, switchens tre fall, <b>flödning</b> och <b>åldrande</b></li>
+      <li><b>Broadcastdomän mot kollisionsdomän</b> — och tabellen med hubb, switch och router</li>
+      <li><b>Routingtabellen</b>, <b>direktanslutna rutter</b> och när <b>statisk routning</b> behövs</li>
+      <li><b>Standardgatewayen</b> — vad den är, och vad som händer när den saknas</li>
+      <li>Att <b>MAC-adresserna byts</b> vid routern medan <b>IP-adresserna ligger kvar</b></li>
+      <li><b>VLAN</b>, och varför en broadcast stannar vid VLAN-gränsen</li>
+      <li><b>Trunk</b>, <b>802.1Q</b> och <b>router-on-a-stick</b> — och varför varje VLAN behöver ett eget nät</li>
+    </ul>
+
+    <p class="ledtext">Sidorna finns kvar: <a href="switchen.html">switchen och adresstabellen</a> · <a href="broadcast.html">broadcastdomän och kollisionsdomän</a> · <a href="routern.html">routern väljer väg</a> · <a href="vlan.html">VLAN och gränsen för en broadcast</a> · <a href="trunken.html">routning mellan VLAN</a></p>
+
+    <h2 id="kommandona">5. Kommandona</h2>
+
+    <div class="notis viktig">
+      <span class="rubrik">Känna igen, inte skriva ur minnet</span>
+      <p>Du ska känna igen <code>show mac address-table</code>, <code>show ip route</code> och <code>switchport access vlan</code>, och veta <b>vad de visar eller gör</b>. Du behöver inte kunna skriva dem ur minnet.</p>
+      <p>Cisco IOS är plattformens syntax, inte kursens kunskap. <b>Lägg inte kvällen på att plugga kommandon.</b> Lägg den på att kunna förklara vad tabellerna de skriver ut betyder.</p>
+    </div>
+
+    <h2 id="forklara">6. Kan du förklara det?</h2>
+
+    <p>Frågorna nedan är inte provfrågor. De är till för att träna det provet prövar: att <b>förklara</b>. Säg svaret högt, eller skriv det på ett papper utan att titta — med ett <i>eftersom</i> i. Kryssa när du klarat det utan att läsa. Står du still: länken leder till stället där svaret finns.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Område 8</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="fk8-1"><span>Varför den fysiska och den logiska topologin kan se olika ut för samma nät — <a href="../omrade-8/topologierna.html#skiljer">topologierna</a></span></label></li>
+        <li><label><input type="checkbox" id="fk8-2"><span>Hur nätmasken avgör om två adresser är i samma nät — med ett eget exempel — <a href="../omrade-8/adresseringen.html#samma-nat">adresseringen</a></span></label></li>
+        <li><label><input type="checkbox" id="fk8-3"><span>Vad en adress som börjar på <code>169.254</code> säger om vad som gick fel — <a href="../omrade-8/adresseringen.html#tre-satt">adresseringen</a></span></label></li>
+        <li><label><input type="checkbox" id="fk8-4"><span>Vad en lyckad ping bevisar, och varför ett uteblivet svar inte bevisar att maskinen är borta — <a href="../omrade-8/labb.html#ping">labb 8</a></span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Område 9</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="fk9-1"><span>Varför ARP måste komma före ICMP när en maskin pingar en granne första gången — <a href="../omrade-9/ramen.html#arp">ramen</a></span></label></li>
+        <li><label><input type="checkbox" id="fk9-2"><span>Varför Layer 4 är tomt när en ping öppnas i Packet Tracer — <a href="../omrade-9/ramen.html#tomt">ramen</a></span></label></li>
+        <li><label><input type="checkbox" id="fk9-3"><span>Vad kapsling är, i ordningen ut och ordningen in — <a href="../omrade-9/lagren.html#kapsling">lagren</a></span></label></li>
+        <li><label><input type="checkbox" id="fk9-4"><span>Vad som faktiskt skiljer TCP från UDP, utan ordet "snabbare" — <a href="../omrade-9/transporten.html#snabbare">transporten</a></span></label></li>
+        <li><label><input type="checkbox" id="fk9-5"><span>Varför DHCP börjar med en broadcast från <code>0.0.0.0</code> — <a href="../omrade-9/dhcp.html#broadcast">DHCP</a></span></label></li>
+        <li><label><input type="checkbox" id="fk9-6"><span>Vad HTTPS döljer, och vad det lämnar synligt — <a href="../omrade-9/tjansterna.html#sni">tjänsterna</a></span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Område 10</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="fk10-1"><span>Varför switchen slutar flöda en ram till en viss maskin — och varför den aldrig slutar flöda en broadcast — <a href="broadcast.html#okand">broadcasten</a></span></label></li>
+        <li><label><input type="checkbox" id="fk10-2"><span>Varför två ihopkopplade switchar har var sin tabell, och varför de inte är likadana — <a href="switchen.html#tva-tabeller">switchen</a></span></label></li>
+        <li><label><input type="checkbox" id="fk10-3"><span>Varför en switch delar upp kollisionsdomäner men aldrig broadcastdomäner — <a href="broadcast.html#jamforelsen">broadcasten</a></span></label></li>
+        <li><label><input type="checkbox" id="fk10-4"><span>Varför routern känner båda näten utan en enda rad statisk routning — <a href="routern.html#show-ip-route">routern</a></span></label></li>
+        <li><label><input type="checkbox" id="fk10-5"><span>Vad som händer med ett paket till ett annat nät när maskinen saknar standardgateway, och varför — <a href="routern.html#gatewayen">routern</a></span></label></li>
+        <li><label><input type="checkbox" id="fk10-6"><span>Varför MAC-adresserna byts vid routern men IP-adresserna ligger kvar — <a href="routern.html#pingen">routern</a></span></label></li>
+        <li><label><input type="checkbox" id="fk10-7"><span>Hur switchningen och VLAN-indelningen tillsammans avgör hur långt en broadcast når — <a href="vlan.html#lektion-52">VLAN</a></span></label></li>
+        <li><label><input type="checkbox" id="fk10-8"><span>Varför varje VLAN behöver ett eget IP-nät för att kunna routas — <a href="trunken.html#eget-nat">trunken</a></span></label></li>
+        <li><label><input type="checkbox" id="fk10-9"><span>Varför pingen mellan två VLAN går, medan broadcasten fortfarande stannar — <a href="labb.html#sista-passet">labb 10</a></span></label></li>
+      </ul>
+    </section>
+
+    <div class="notis">
+      <span class="rubrik">Mot A</span>
+      <p>De frågor som börjar med <i>varför</i> och handlar om två delar samtidigt — ARP och ICMP, switchningen och VLAN:et, routern och gatewayen — är de som prövar <b>sambandet mellan de olika delarna som ingår i nätverkets uppbyggnad</b>. Kan du förklara dem med båda delarna i samma mening har du A-kriteriets mening i händerna.</p>
+    </div>
+
+    <h2 id="sa-repeterar-du">7. Så repeterar du</h2>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Fem sätt som faktiskt fungerar</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="rep-1"><span><b>Använd ordträningen</b> på uppslagssidorna. Område 8, 9 och 10 har en ordlista på varje uppslag</span></label></li>
+        <li><label><input type="checkbox" id="rep-2"><span><b>Läs dina egna labbrapporter</b> — labb 8, 9 och 10. Du skrev dem för att du gjorde saken</span></label></li>
+        <li><label><input type="checkbox" id="rep-3"><span><b>Rita hela nätet från labb 10</b> på ett papper, utan att titta: två switchar, routern, två VLAN, trunken, alla nät och gateways</span></label></li>
+        <li><label><input type="checkbox" id="rep-4"><span><b>Fyll i tabellen med hubb, switch och router</b> ur minnet — kollisionsdomäner och broadcastdomäner</span></label></li>
+        <li><label><input type="checkbox" id="rep-5"><span><b>Förklara för någon annan</b> varför pingen mellan VLAN går men broadcasten inte. Den avslöjar direkt om du kan den</span></label></li>
+      </ul>
+    </section>
+
+    <div class="notis">
+      <span class="rubrik">Provet är inte allt</span>
+      <p>Provet är ett bedömningsunderlag bland flera. Det prövar framför allt det du ska kunna <b>beskriva och förklara</b> — det praktiska handlaget bedöms i labbrapporterna.</p>
+    </div>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <div class="notis">
+      <span class="rubrik">Efter provet</span>
+      <p>Dagen efter, <b>tisdag 4 maj</b>, öppnar område 11: felsökning i datorer och nätverk.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 10</a> · <a href="../index.html">Kursens startsida</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

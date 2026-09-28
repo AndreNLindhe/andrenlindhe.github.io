@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 6 – Dator- och nätverksteknik</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-6-start">
+
+<header class="topp">
+  <a href="../index.html">← Kursen</a>
+  <span class="harifran"><strong>Område 6</strong> · Operativsystem: installation, virtualisering och egenskaper</span>
+  <a href="#lektioner">Lektioner</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · v.46–49 · 6 lektioner</p>
+    <h1>Operativsystem: installation, virtualisering och egenskaper</h1>
+    <p class="inledning">Område 5 gav den byggda datorn ett operativsystem en gång, med ett enda konto, så att maskinen gick att använda. Här tar du operativsystemet som eget ämne: du installerar om och om igen i en virtuell maskin, där ett fel bara kostar en ny installation och aldrig den fysiska disken. Du sätter upp flera användare med olika behörigheter, och du jämför Windows, Linux och macOS utifrån sex egenskaper som går att kontrollera — inte utifrån rykten om vilket som är snabbast eller säkrast. Till sist ser du vad som faktiskt händer när firmware lämnar över: hur flera program delar en processor och varför minnet ser större ut än det är.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Labb 6 – Installera och konfigurera ett operativsystem · deadline onsdag 2/12 kl 23:59</span>
+      <p>Det nya i den här labben är <b>jämförelsetabellen</b>: sex egenskaper, tre system, och kravet att <b>varje rad kopplas till ett behov</b>. En egenskap är bara intressant satt mot vad någon faktiskt ska göra med systemet. Hela uppgiften står på <a href="labb.html">labbsidan</a>.</p>
+    </div>
+
+    <h2 id="lektioner">Lektionerna</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Datum</th><th>Vad passet handlar om</th><th>Missade du passet?</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>22</td>
+            <td>tis 10 nov</td>
+            <td>Från firmware till kärna</td>
+            <td><a href="karnan.html">Kärnan och de två lägena</a></td>
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>mån 16 nov</td>
+            <td>Vanliga operativsystem jämförda</td>
+            <td><a href="jamforelsen.html">De tre systemen jämförda</a></td>
+          </tr>
+          <tr>
+            <td>24</td>
+            <td>tis 17 nov</td>
+            <td>Installation i virtuell maskin</td>
+            <td><a href="virtuell-maskin.html">Installationen i den virtuella maskinen</a></td>
+          </tr>
+          <tr>
+            <td>25</td>
+            <td>tis 24 nov</td>
+            <td>Användare och behörigheter</td>
+            <td><a href="anvandare.html">Användare och behörigheter</a></td>
+          </tr>
+          <tr>
+            <td>26</td>
+            <td>mån 30 nov</td>
+            <td>Hur operativsystemet arbetar</td>
+            <td><a href="arbetet.html">Hur operativsystemet arbetar</a></td>
+          </tr>
+          <tr>
+            <td>27</td>
+            <td>tis 1 dec</td>
+            <td>Jämförelsetabell och inlämning</td>
+            <td><a href="labb.html">Labb 6: kraven och checklistan</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Området öppnar på en tisdag, och har en vecka utan lektion i mitten</span>
+      <p>Prov 1 stängde område 5 på måndagen, så <b>lektion 22 öppnar ensam på en tisdag</b>. Och måndag 23/11 är lovdag, vilket gör att <b>lektion 24 och 25 blir två tisdagar i rad</b> — en hel vecka utan en enda lektion emellan.</p>
+      <p>Det betyder två saker för dig: <b>installationen på lektion 24 ska bli helt klar under passet</b>, och du behöver skriva upp kontonamnet och lösenordet, för du ska logga in i den virtuella maskinen igen en vecka senare.</p>
+    </div>
+
+    <h2>Sidor i det här området</h2>
+
+    <ul class="rutnat">
+      <li>
+        <a class="kort webb" href="karnan.html">
+          <span class="sort">Uppslag · lektion 22</span>
+          <span class="rubrik">Kärnan och de två lägena</span>
+          <p>Vad kärnan är och när den tar över. Användarläge mot kärnläge, systemanropet, och de fyra lagren.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort webb" href="jamforelsen.html">
+          <span class="sort">Uppslag · lektion 23</span>
+          <span class="rubrik">De tre systemen jämförda</span>
+          <p>Sex egenskaper som går att kontrollera. Virtualisering, varför VirtualBox — och hur du skapar den virtuella maskinen.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort webb" href="virtuell-maskin.html">
+          <span class="sort">Uppslag · lektion 24</span>
+          <span class="rubrik">Installationen i den virtuella maskinen</span>
+          <p>Fjorton steg, disklistan som bara har en disk, och partitionen som blev fyra. Med felsökningstabell.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort webb" href="anvandare.html">
+          <span class="sort">Uppslag · lektion 25</span>
+          <span class="rubrik">Användare och behörigheter</span>
+          <p>Administratör mot standardkonto, grupper, de tre klasserna — och var behörigheten faktiskt prövas.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort webb" href="arbetet.html">
+          <span class="sort">Uppslag · lektion 26</span>
+          <span class="rubrik">Hur operativsystemet arbetar</span>
+          <p>En processor och många program. Kontextväxlingen, dödläget, och varför minnet ser större ut än det är.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort gran" href="labb.html">
+          <span class="sort">Uppgift · deadline 2/12</span>
+          <span class="rubrik">Labb 6: Installera och konfigurera ett operativsystem</span>
+          <p>Uppgiftens tre delar, kravet på behovskoppling, och kraven i E, C och A.</p>
+        </a>
+      </li>
+    </ul>
+
+    <h2>Det centrala innehåll området täcker</h2>
+    <p>Ur Skolverkets ämnesplan för kursen Dator- och nätverksteknik:</p>
+    <ul>
+      <li>Vanliga operativsystem och deras egenskaper.</li>
+      <li>Hård- och mjukvaruinstallation, uppbyggnad, konfigurering och uppgradering av datorer och datorsystem.</li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Ett fel kostar fem minuter, inte ett pass</span>
+      <p>Hela området vilar på en enda skillnad mot område 5: <b>du installerar i en virtuell maskin</b>. Den virtuella disken är en fil på din riktiga disk, och går något fel tar du bort maskinen och skapar en ny.</p>
+      <p>På lektion 18 var disklistan passets farligaste steg — där stod USB-minnet i samma lista som den interna disken. Här finns bara en disk. <b>Samma steg, samma knappar, men det går inte längre att göra sönder något.</b> Det är därför det är ett bra ställe att lära sig det på.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Prov 2 · tisdag 15 december</span>
+      <p>Skriftligt prov om <b>område 6 och 7</b>, cirka 14 frågor. Härifrån kommer installationen i virtuell maskin, användarna och behörigheterna, jämförelsen mellan de tre systemen, och processerna och minnet från lektion 26.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Vad som hör hit — och vad som hör till område 7</span>
+      <p>Här handlar det om operativsystemet som <b>ämne</b>: hur det installeras, hur det delar ut resurser, och hur systemen skiljer sig åt. Frågan om hur en maskin som redan fungerar <b>hålls frisk</b> — säkerhetskopiering, återställning, virusskydd och prestanda — hör till område 7, som öppnar måndag 7/12.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="../index.html">Tillbaka till kursens startsida</a> · <a href="../omrade-5/index.html">Område 5</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

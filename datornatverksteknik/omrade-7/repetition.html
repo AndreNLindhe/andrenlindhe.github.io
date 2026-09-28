@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Repetition inför prov 2 – Dator- och nätverksteknik område 7</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-7-repetition">
+
+<header class="topp">
+  <a href="index.html">← Område 7</a>
+  <span class="harifran"><strong>Prov</strong> · Repetition inför prov 2</span>
+  <a href="#provas-inte">Prövas inte</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#provet">1. Vad som gäller</a></li>
+      <li><a href="#karnan">2. Kärnan och lägena</a></li>
+      <li><a href="#systemen">3. Systemen och den virtuella maskinen</a></li>
+      <li><a href="#behorigheter">4. Användare och behörigheter</a></li>
+      <li><a href="#processer">5. Processer och minne</a></li>
+      <li><a href="#kopian">6. Säkerhetskopian och beviset</a></li>
+      <li><a href="#provas-inte">7. Vad som inte prövas</a></li>
+      <li><a href="#sa-repeterar-du">8. Så repeterar du</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · prov 2 · tisdag 15 december</p>
+    <h1>Repetition inför prov 2</h1>
+    <p class="inledning">Provet omfattar <b>hela område 6</b> plus den del av område 7 som hunnit sätta sig: lektion 28 och 29, säkerhetskopian och beviset. Den här sidan säger vad som gäller på provet, vad som är värt att kunna — och, lika viktigt, vad som <b>inte</b> kommer.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-12-15">
+        <span class="nar">15 dec</span>
+        <span class="vad">Prov 2 · tisdag 14:45–15:55
+          <small>Cirka 14 frågor. Provet tar ungefär 60 minuter av passets 70.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="provet">1. Vad som gäller</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vad omfattar det?</b></td><td>Område 6 i sin helhet, plus lektion 28 och 29</td></tr>
+          <tr><td><b>Hur många frågor?</b></td><td>Cirka 14</td></tr>
+          <tr><td><b>Hur lång tid?</b></td><td>Ungefär 60 minuter av passets 70</td></tr>
+          <tr><td><b>Hjälpmedel?</b></td><td>Inga. Ingen dator, ingen mobil, inget material</td></tr>
+          <tr><td><b>Vilken sorts frågor?</b></td><td>Namnge, förklara och resonera — snarare än räkna. Samma tyngdpunkt som prov 1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Provet stänger ingenting</span>
+      <p>Prov 1 stängde område 5. <b>Det här provet ligger inuti område 7</b>, med två labbpass kvar efter sig. Området fortsätter på samma maskiner med samma labb — ställ inte undan USB-minnet efter provet.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Fastna inte på en fråga</span>
+      <p>Kan du inte en fråga — <b>hoppa över den och gå tillbaka</b> när du gått igenom resten. Varje termin sitter någon fast på fråga tre och hinner inte fram till fjorton.</p>
+    </div>
+
+    <h2 id="karnan">2. Kärnan och lägena <span style="color:var(--dov);font-weight:400">— lektion 22</span></h2>
+
+    <ul>
+      <li><b>Vad kärnan är</b>, och när den tar över från firmware</li>
+      <li><b>Skillnaden mellan firmware och kärna</b> — var de bor och när de kör</li>
+      <li><b>Användarläge mot kärnläge.</b> Att skillnaden är rättigheter, inte hastighet</li>
+      <li><b>Systemanropet</b> i fyra steg — och att det är i steg 3 behörigheten prövas</li>
+      <li><b>Varför gränsen finns:</b> för att ett fel ska stanna i det program där det uppstod</li>
+      <li><b>De fyra lagren</b>, uppifrån och ned, och vad som hör till vilket</li>
+    </ul>
+
+    <p class="ledtext">Sidan finns kvar: <a href="../omrade-6/karnan.html">kärnan och de två lägena</a></p>
+
+    <h2 id="systemen">3. Systemen och den virtuella maskinen <span style="color:var(--dov);font-weight:400">— lektion 23 och 24</span></h2>
+
+    <ul>
+      <li><b>De sex egenskaperna</b> som Windows, Linux och macOS jämfördes utifrån</li>
+      <li><b>Att en egenskap bara är intressant satt mot ett behov</b> — det är hela poängen med jämförelsen</li>
+      <li><b>Vad en virtuell maskin är:</b> ett helt operativsystem som körs som ett program inuti ett annat</li>
+      <li><b>Värd och gäst</b>, och att den virtuella disken är en fil på den riktiga disken</li>
+      <li><b>Varför ett fel bara kostar en ny virtuell maskin</b>, aldrig den fysiska disken</li>
+      <li><b>Installationens gång:</b> disklistan, partitionen som blev fyra, det lokala kontot</li>
+    </ul>
+
+    <p class="ledtext">Sidorna finns kvar: <a href="../omrade-6/jamforelsen.html">de tre systemen jämförda</a> · <a href="../omrade-6/virtuell-maskin.html">installationen i den virtuella maskinen</a></p>
+
+    <h2 id="behorigheter">4. Användare och behörigheter <span style="color:var(--dov);font-weight:400">— lektion 25</span></h2>
+
+    <ul>
+      <li><b>Administratör mot standardkonto</b> — vad skillnaden faktiskt består i</li>
+      <li><b>Grupper</b>, och varför behörigheter sätts på grupp i stället för på person</li>
+      <li><b>De tre klasserna</b> av behörighet</li>
+      <li><b>Var behörigheten prövas:</b> kärnan nekar systemanropet — inte programmet, inte Utforskaren</li>
+      <li><b>Skadebegränsning:</b> ett konto som inte får röra något kan inte heller förstöra det</li>
+    </ul>
+
+    <p class="ledtext">Sidan finns kvar: <a href="../omrade-6/anvandare.html">användare och behörigheter</a></p>
+
+    <h2 id="processer">5. Processer och minne <span style="color:var(--dov);font-weight:400">— lektion 26</span></h2>
+
+    <ul>
+      <li><b>Hur en processor kan köra många program</b> som verkar gå samtidigt</li>
+      <li><b>Kontextväxlingen</b> — vad som sparas och återställs</li>
+      <li><b>Dödläge:</b> två processer, två resurser, och varför ingen kommer vidare</li>
+      <li><b>Virtuellt minne</b> — de två meningarna, ordagrant om du kan</li>
+    </ul>
+
+    <p class="ledtext">Sidan finns kvar: <a href="../omrade-6/arbetet.html">hur operativsystemet arbetar</a></p>
+
+    <h2 id="kopian">6. Säkerhetskopian och beviset <span style="color:var(--dov);font-weight:400">— lektion 28 och 29</span></h2>
+
+    <ul>
+      <li><b>De tre frågorna:</b> vad, var, hur ofta — och skälet bakom var och en</li>
+      <li><b>3-2-1-regeln</b>, och vilken siffra som skyddar mot brand</li>
+      <li><b>Full mot inkrementell</b> — vad var och en kostar i tid, utrymme och återställning</li>
+      <li><b>Varför RAID inte är en säkerhetskopia</b></li>
+      <li><b>Principen:</b> en kopia som aldrig återställts är inte bevisat en kopia</li>
+      <li><b>Kedjan ta bort → återställ → verifiera</b>, och varför alla tre leden behövs</li>
+      <li><b>Varför återställningen ska ske från verktyget</b> och inte ur papperskorgen</li>
+      <li><b>Varför kopian ska vara bortkopplad</b> mellan körningarna</li>
+    </ul>
+
+    <p class="ledtext">Sidorna finns kvar: <a href="sakerhetskopian.html">säkerhetskopian</a> · <a href="aterstallningen.html">återställningen</a></p>
+
+    <h2 id="provas-inte">7. Vad som inte prövas</h2>
+
+    <div class="notis viktig">
+      <span class="rubrik">Lektion 30 kommer inte på provet</span>
+      <p>Virusskyddet, den mänskliga faktorn, vad som gör en maskin långsam och myterna gås igenom <b>dagen före provet</b> — och prövas därför inte i det. Allt det vägs in i bedömningen av <a href="labb.html">labb 7</a> i stället.</p>
+      <p><b>Plugga inte det i kväll.</b> Lägg tiden på område 6 och på säkerhetskopian.</p>
+    </div>
+
+    <h2 id="sa-repeterar-du">8. Så repeterar du</h2>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Fem sätt som faktiskt fungerar</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="rep-1"><span><b>Använd ordträningen</b> på uppslagssidorna. Område 6 har fem ordlistor, område 7 har två hittills</span></label></li>
+        <li><label><input type="checkbox" id="rep-2"><span><b>Läs dina egna labbrapporter</b> — labb 6 och det du hunnit skriva i labb 7. Du skrev dem för att du gjorde saken</span></label></li>
+        <li><label><input type="checkbox" id="rep-3"><span><b>Rita systemanropets fyra steg</b> på ett papper, utan att titta. Kan du peka ut var behörigheten prövas?</span></label></li>
+        <li><label><input type="checkbox" id="rep-4"><span><b>Säg 3-2-1-regeln högt</b>, med vad varje siffra skyddar mot. Den är gjord för att kunna utantill</span></label></li>
+        <li><label><input type="checkbox" id="rep-5"><span><b>Förklara för någon annan</b> varför RAID inte är en säkerhetskopia. Den avslöjar direkt om du kan den</span></label></li>
+      </ul>
+    </section>
+
+    <div class="notis">
+      <span class="rubrik">Provet är inte allt</span>
+      <p>Betyget vilar på nio labbrapporter, tre prov och slutuppdraget. Provet prövar framför allt det du ska kunna <b>beskriva och förklara</b> — det praktiska handlaget bedöms i labbrapporterna.</p>
+    </div>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 7</a> · <a href="../index.html">Kursens startsida</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

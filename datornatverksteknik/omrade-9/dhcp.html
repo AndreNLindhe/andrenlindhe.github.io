@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DHCP – Dator- och nätverksteknik område 9</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-9-dhcp">
+
+<header class="topp">
+  <a href="index.html">← Område 9</a>
+  <span class="harifran"><strong>Uppslag</strong> · DHCP</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#fyra">1. Fyra meddelanden</a></li>
+      <li><a href="#uthyrning">2. Adressen hyrs ut</a></li>
+      <li><a href="#poolen">3. Poolens värden</a></li>
+      <li><a href="#kopian">4. DHCP i din kopia</a></li>
+      <li><a href="#broadcast">5. Varför 0.0.0.0 och 255.255.255.255</a></li>
+      <li><a href="#lagren">6. DHCP i lagren</a></li>
+      <li><a href="#udp">7. Varför UDP</a></li>
+      <li><a href="#tre">8. Tre protokoll i rapporten</a></li>
+      <li><a href="#missuppfattningar">9. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">10. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 9 · lektion 47</p>
+    <h1>DHCP</h1>
+    <p class="inledning">På lektion 40 stod det att hur DHCP faktiskt går till, i fyra meddelanden, hör till område 9. Här är det. Servern från lektion 46 får en tjänst till, en maskin i parets kopia slutar ha en statisk adress — och fyra kuvert gör det arbete du gjorde för hand i februari. Nätmasken och de privata intervallen förklaras inte på nytt; de sitter sedan lektion 40. Det nya är hur de kommer fram.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Varför det här behövs</span>
+      <p>I februari satte varje grupp tre, fyra adresser för hand. <b>Skolans nät har hundratals maskiner.</b> Ingen sätter dem för hand. Det gör en DHCP-server — <i>Dynamic Host Configuration Protocol</i>.</p>
+    </div>
+
+    <h2 id="fyra">1. Fyra meddelanden</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>#</th><th>Meddelande</th><th>Vem</th><th>Vad det säger</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><b>DHCPDISCOVER</b></td><td>Klienten, till alla</td><td><i>Finns det en DHCP-server här?</i></td></tr>
+          <tr><td>2</td><td><b>DHCPOFFER</b></td><td>Servern</td><td><i>Du kan få <code>192.168.1.100</code>, mask, gateway, DNS — i så här lång tid</i></td></tr>
+          <tr><td>3</td><td><b>DHCPREQUEST</b></td><td>Klienten, till alla</td><td><i>Jag tar den adressen</i></td></tr>
+          <tr><td>4</td><td><b>DHCPACK</b></td><td>Servern</td><td><i>Den är din</i></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Erbjudandet innehåller <b>IP-adress, nätmask, standardgateway, DNS-server och uthyrningstid</b>.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Varför räcker det inte med två — fråga och svar?</span>
+      <p><b>Det kan finnas flera DHCP-servrar i ett nät.</b> Klienten kan få flera erbjudanden. REQUEST säger vilket den valde, och den säger det <b>till alla</b>, så att de servrar som inte blev valda vet att deras erbjudande kan ges till någon annan. ACK låser valet.</p>
+    </div>
+
+    <h2 id="uthyrning">2. Adressen hyrs ut</h2>
+
+    <p><b>Uthyrningstiden</b> — <i>lease time</i> — betyder att adressen inte ges bort för alltid. Den <b>hyrs ut</b>, och klienten måste förnya den. En maskin som försvinner ur nätet lämnar tillbaka sin adress genom att sluta förnya.</p>
+
+    <h2 id="poolen">3. Poolens värden</h2>
+
+    <p>Samma för alla grupper, med gruppens nätdel. Fälten heter som i Packet Tracer:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fält i Packet Tracer</th><th>Värde</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td><b>Default Gateway</b></td><td><code>192.168.&lt;grupp&gt;.1</code></td><td>Nätet har ingen router förrän område 10. Erbjudandet innehåller den ändå</td></tr>
+          <tr><td><b>DNS Server</b></td><td><code>192.168.&lt;grupp&gt;.2</code></td><td>Servern själv, från lektion 46</td></tr>
+          <tr><td><b>Start IP Address</b></td><td><code>192.168.&lt;grupp&gt;.100</code></td><td>Långt från maskinernas <code>10</code>–<code>13</code> och serverns <code>.2</code></td></tr>
+          <tr><td><b>Subnet Mask</b></td><td><code>255.255.255.0</code></td><td>Samma som hela området</td></tr>
+          <tr><td><b>Maximum Number of Users</b></td><td><code>50</code></td><td>Räcker gott</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Gatewayen <code>.1</code> finns inte — med avsikt</span>
+      <p><b>DHCP delar ut vad den är inställd att dela ut.</b> Om adressen stämmer är administratörens ansvar, inte protokollets. Routern och standardgatewayen är område 10:s ämne.</p>
+    </div>
+
+    <h2 id="kopian">4. DHCP i din kopia</h2>
+
+    <ol>
+      <li>Servern: <b>Services → DHCP</b>. <b>Service: On</b>, fyll i poolen enligt tabellen ovan, och tryck <b>Save</b></li>
+      <li><b>Simulation</b>, filter på <b>DHCP</b> — bocka gärna ur allt annat</li>
+      <li><b>Välj en maskin</b> — inte servern — och byt den från <b>Static</b> till <b>DHCP</b> under <b>Desktop → IP Configuration</b></li>
+      <li><b>Capture/Forward</b>, ett kuvert i taget. <b>Öppna vart och ett</b>, titta på Layer 3 — från vilken adress, till vilken — och fyll i tabellen nedan</li>
+      <li>Kör <code>ipconfig /all</code> i maskinens Command Prompt. <b>Skriv upp adress, mask, gateway och DNS</b></li>
+      <li>Jämför med vad maskinen hade förut, i adresstabellen från lektion 40</li>
+    </ol>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>#</th><th>Meddelande</th><th>Från IP</th><th>Till IP</th><th>Från MAC</th><th>Till MAC</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>2</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>3</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>4</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Alla fyra heter DHCP i Event List</span>
+      <p>Det som skiljer dem är <b>ordningen</b> och <b>adresserna</b>. DISCOVER och REQUEST går från <code>0.0.0.0</code> till <code>255.255.255.255</code>. OFFER och ACK kommer från servern — skriv upp vilken mottagare din version visar för dem, den erbjudna adressen eller broadcast.</p>
+    </div>
+
+    <p>Efter utbytet ser <code>ipconfig /all</code> ut ungefär så här, med gruppens nätdel i stället för <code>1</code>:</p>
+
+    <pre><code>C:\&gt;ipconfig /all
+
+   IP Address......................: 192.168.1.100
+   Subnet Mask.....................: 255.255.255.0
+   Default Gateway.................: 192.168.1.1
+   DNS Servers.....................: 192.168.1.2</code></pre>
+
+    <p><b>Adress, mask, gateway och DNS-server</b> — allt det som skrevs in för hand i februari, nu utan att någon skrev något.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Maskinen har nu en ny adress</span>
+      <p>Den stämmer inte längre med adresstabellen från lektion 40. <b>Skriv upp den nya.</b> Den används i labbrapporten, och den som pingar maskinen på lektion 48 behöver den.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Vilka två meddelanden går till <code>255.255.255.255</code>, och varför just de?</b> Svaret står i nästa avsnitt — försök först själv.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Vill du ha mer</span>
+      <p>Kör <code>ipconfig /release</code> och sedan <code>ipconfig /renew</code> i simuleringsläget. Hur många kuvert blir det den här gången? Byt ytterligare en maskin till DHCP — vilken adress får den, och varför just den?</p>
+      <p>Stäng av DHCP-tjänsten och förnya adressen. Vilken adress får maskinen till slut? Det är lektion 40:s <code>169.254</code>, nu med förklaringen. Och fundera på vad som händer om två DHCP-servrar i samma nät delar ut olika gatewayer — det är ett riktigt fel, och det heter en obehörig DHCP-server, <i>rogue DHCP</i>.</p>
+      <p>På din riktiga elevdator visar <code>ipconfig /all</code> när adressen hyrdes och när den går ut.</p>
+    </div>
+
+    <h2 id="broadcast">5. Varför 0.0.0.0 och 255.255.255.255</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Adress</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td>Från <code>0.0.0.0</code></td><td>Klienten <b>har ingen adress än</b> — det är den den frågar efter. Den kan inte skriva en avsändaradress den inte har</td></tr>
+          <tr><td>Till <code>255.255.255.255</code></td><td>Klienten <b>vet inte vem servern är.</b> Samma problem som ARP på lektion 44: den som frågar vet inte vem den ska fråga, och frågar därför alla</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>På Layer 2 går samma kuvert till <code>FFFF.FFFF.FFFF</code> — broadcastadressen från <a href="ramen.html#arp">ARP-avsnittet</a>.</p>
+
+    <h2 id="lagren">6. DHCP i lagren</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>TCP/IP-lager</th><th>DHCP-kuvertet</th></tr></thead>
+        <tbody>
+          <tr><td>Applikation</td><td><b>DHCP</b> — meddelandet och erbjudandet</td></tr>
+          <tr><td>Transport</td><td><b>UDP</b>, port <code>68</code> hos klienten och <code>67</code> hos servern</td></tr>
+          <tr><td>Internet</td><td>IP, från <code>0.0.0.0</code></td></tr>
+          <tr><td>Nätverksåtkomst</td><td>Ethernet, till <code>FFFF.FFFF.FFFF</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Öppna ett av kuverten och titta på Layer 4: <b>UDP</b>, och portarna.</p>
+
+    <h2 id="udp">7. Varför UDP</h2>
+
+    <p>Samma skäl som för DNS på lektion 46 — och ett till:</p>
+
+    <ul>
+      <li>Meddelandena är <b>korta</b></li>
+      <li><b>TCP:s handskakning går inte ens</b> — den kräver att båda sidor har en adress, och klienten har ingen</li>
+      <li>Kommer inget svar <b>frågar klienten igen</b>. Programmet sköter det själv</li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det andra skälet är ett samband mellan lagren</span>
+      <p><b>Transportprotokollet väljs inte bara efter vad som är snabbt, utan efter vad som är möjligt</b> med det lagret under vet. Klienten saknar IP-adress på internetlagret — därför kan transportlagret inte använda TCP.</p>
+      <p>Det är den sortens mening A-nivån frågar efter: varför ett lager ser ut som det gör, förklarat med ett annat.</p>
+    </div>
+
+    <h2 id="tre">8. Tre protokoll i rapporten</h2>
+
+    <p>Tre bevis finns nu i din rapport, om du sparat dem:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Protokoll</th><th>Bevis</th></tr></thead>
+        <tbody>
+          <tr><td>43, 44, 45</td><td><b>ICMP</b> och <b>ARP</b></td><td>Out och In Layers, echo request och reply, ARP-frågan</td></tr>
+          <tr><td>46</td><td><b>TCP</b> och <b>HTTP</b>, <b>UDP</b> och <b>DNS</b></td><td>Sekvensen, och Layer 4 med portarna</td></tr>
+          <tr><td><b>47</b></td><td><b>DHCP</b></td><td>De fyra meddelandena</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Kravet är minst tre protokoll.</b> Den som sparat allt har sju.</p>
+
+    <p>Skärmbilderna av de fyra DHCP-kuverten och tabellen in i rapportens utförandedel <b>nu</b>, tillsammans med maskinens nya adress.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Vilket bevis saknas hos dig?</span>
+      <p>Saknar du ett från lektion 43 eller 45 går det att fånga igen i kopian — det tar fem minuter. Gör det före lektion 49; där fångas bara det som saknas de första femton minuterna.</p>
+    </div>
+
+    <h2 id="missuppfattningar">9. Vanliga missuppfattningar</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: Save, 169.254, gateway" autocomplete="off">
+      <p class="traffar" id="traffar-fel">8 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Symptom eller föreställning</th><th>Så är det</th></tr></thead>
+        <tbody>
+          <tr><td>Maskinen får ingen adress</td><td>Tjänsten slogs på men poolen sparades inte. Tryck <b>Save</b> i DHCP-fliken</td></tr>
+          <tr><td>Maskinen får <code>169.254.x.x</code></td><td>DHCP-servern svarade inte — tjänsten är av, eller poolen tom. Samma självtilldelning som på lektion 40</td></tr>
+          <tr><td>Servern kan också byta till DHCP</td><td>Servern ska ha statisk adress. Den kan inte fråga sig själv</td></tr>
+          <tr><td>De fyra kuverten ser likadana ut</td><td>Alla heter DHCP i Event List. Ordningen och adresserna skiljer dem</td></tr>
+          <tr><td>Gatewayen <code>.1</code> är fel</td><td>Rätt iakttaget — det finns ingen router. DHCP delar ut vad den är inställd på. Routern är område 10</td></tr>
+          <tr><td>Två meddelanden, fråga och svar, borde räcka</td><td>Det kan finnas flera servrar. REQUEST till alla talar om vilket erbjudande som valdes</td></tr>
+          <tr><td>Maskinen går att pinga på sin gamla adress</td><td>Den har fått en ny. <code>ipconfig</code>, och skriv upp den</td></tr>
+          <tr><td>Poolen kan starta på <code>.10</code></td><td><code>.100</code>. Annars krockar den med de statiska adresserna</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">10. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>DHCP</b></td><td><i>Dynamic Host Configuration Protocol</i> — delar ut adresser automatiskt. Applikationslagret, över UDP</td></tr>
+          <tr><td><b>DHCPDISCOVER</b></td><td>Klientens första meddelande, till alla: finns det en DHCP-server här?</td></tr>
+          <tr><td><b>DHCPOFFER</b></td><td>Serverns erbjudande: adress, mask, gateway, DNS-server och uthyrningstid</td></tr>
+          <tr><td><b>DHCPREQUEST</b></td><td>Klientens svar, till alla: jag tar den adressen</td></tr>
+          <tr><td><b>DHCPACK</b></td><td>Serverns bekräftelse, som låser tilldelningen</td></tr>
+          <tr><td><b>Pool</b></td><td>Det adressintervall DHCP-servern får dela ut ur</td></tr>
+          <tr><td><b>Uthyrningstid</b></td><td><i>Lease time</i> — hur länge klienten får behålla adressen innan den måste förnyas</td></tr>
+          <tr><td><b>Standardgateway</b></td><td><i>Default gateway</i> — adressen dit trafik till andra nät skickas. Område 10:s ämne</td></tr>
+          <tr><td><b><code>0.0.0.0</code></b></td><td>Avsändaradressen när klienten ännu inte har någon</td></tr>
+          <tr><td><b><code>255.255.255.255</code></b></td><td>IP-adressen som betyder alla i det lokala nätet — broadcast på internetlagret</td></tr>
+          <tr><td><b>Rogue DHCP</b></td><td>En obehörig DHCP-server i nätet, som delar ut fel värden</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 9</a> · <a href="transporten.html">Föregående: TCP och UDP</a> · <a href="tjansterna.html">Nästa: DNS, HTTP och HTTPS</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

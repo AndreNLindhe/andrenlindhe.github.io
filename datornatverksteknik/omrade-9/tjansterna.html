@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DNS, HTTP och HTTPS – Dator- och nätverksteknik område 9</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-9-tjansterna">
+
+<header class="topp">
+  <a href="index.html">← Område 9</a>
+  <span class="harifran"><strong>Uppslag</strong> · DNS, HTTP och HTTPS</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#dns">1. DNS</a></li>
+      <li><a href="#http">2. HTTP</a></li>
+      <li><a href="#https">3. HTTPS</a></li>
+      <li><a href="#sni">4. Det som syns: SNI</a></li>
+      <li><a href="#kapslingen">5. Kapslingen hela vägen</a></li>
+      <li><a href="#noderna">6. Noderna</a></li>
+      <li><a href="#resan">7. Paketets resa</a></li>
+      <li><a href="#labben">8. Inför labben</a></li>
+      <li><a href="#missuppfattningar">9. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">10. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 9 · lektion 48</p>
+    <h1>DNS, HTTP och HTTPS</h1>
+    <p class="inledning">Sex pass har öppnat ett lager i taget — ramen, ARP, IP, ICMP, TCP och UDP, DHCP. Här används alla på en gång. Någon skriver en webbadress, och på en bråkdel av en sekund slås namnet upp, en anslutning öppnas och en sida hämtas. Sidan går igenom DNS, HTTP och HTTPS — inklusive vad HTTPS döljer och vad det faktiskt lämnar synligt — och följer sedan ett enda paket genom alla fyra lagren, ut och in. Det är samma sekvens som ska stå i labbrapporten.</p>
+
+    <h2 id="dns">1. DNS</h2>
+
+    <p><b>DNS</b> — <i>Domain Name System</i> — översätter ett <b>namn</b> till en <b>IP-adress</b>:</p>
+
+    <div class="notis">
+      <span class="rubrik">I parets kopia</span>
+      <p><code>webb.lab</code> → <code>192.168.1.2</code></p>
+    </div>
+
+    <p>Se det i kopian:</p>
+
+    <ol>
+      <li><b>Reset Simulation</b>, filter på <b>DNS</b>, <b>TCP</b> och <b>HTTP</b></li>
+      <li>PC:ns <b>Web Browser</b>: <code>http://webb.lab</code>, <b>Go</b></li>
+      <li>Klicka fram och titta på ordningen: först <b>två DNS-kuvert</b> — frågan och svaret, klara och avslutade</li>
+      <li><b>Först därefter</b> börjar TCP-handskakningen, mot adressen DNS svarade med</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Två transaktioner, inte en</span>
+      <p>Webbläsaren kan inte öppna en anslutning mot ett namn. Den behöver adressen först, och den frågar efter den i <b>ett eget utbyte som är över innan webbanslutningen ens börjar</b>.</p>
+    </div>
+
+    <p>På internet är det fler steg än i kopian:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Vem frågas</th><th>Svarar</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Din resolver — ofta internetleverantörens</td><td><i>Jag vet inte, men jag frågar</i></td></tr>
+          <tr><td>2</td><td>En <b>root-server</b></td><td><i>Fråga <code>.com</code>-servrarna</i></td></tr>
+          <tr><td>3</td><td>En <b>TLD-server</b> för <code>.com</code></td><td><i>Fråga <code>example.com</code>:s egen server</i></td></tr>
+          <tr><td>4</td><td>Den <b>auktoritativa</b> servern</td><td><i><code>93.184.216.34</code></i></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Sedan <b>cachen</b>, samma idé som ARP-cachen på lektion 44: svaret sparas, och nästa gång går det på ett steg. I Packet Tracer är servern själv den auktoritativa för <code>webb.lab</code>.</p>
+
+    <h2 id="http">2. HTTP</h2>
+
+    <p><b>HTTP</b> — <i>HyperText Transfer Protocol</i> — är webbens protokoll. <b>Det är vanlig text</b>, rad för rad. En förfrågan ser ut så här, och avslutas med en tom rad:</p>
+
+    <pre><code>GET / HTTP/1.1
+Host: webb.lab
+</code></pre>
+
+    <ul>
+      <li><b><code>GET</code></b> är metoden — <i>hämta</i>. <code>POST</code> skickar in data, som ett formulär</li>
+      <li><b><code>/</code></b> är sökvägen — vilken sida på servern</li>
+      <li><b><code>Host:</code></b> säger vilken webbplats. En server kan ha många</li>
+    </ul>
+
+    <p>Svaret börjar med en <b>statuskod</b>:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kod</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>200</b> OK</td><td>Här är sidan</td></tr>
+          <tr><td><b>404</b> Not Found</td><td>Servern fanns. Sidan fanns inte</td></tr>
+          <tr><td><b>301</b> Moved Permanently</td><td>Sidan har flyttat — här är den nya adressen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">404 är inte ett nätverksfel</span>
+      <p><b>Anslutningen fungerade</b>, DNS fungerade, TCP fungerade — det var bara sökvägen som var fel. Samma tanke som med pingen på lektion 45: <b>svaret säger vad som gick fel, och ingenting mer.</b></p>
+    </div>
+
+    <p>Öppna ett HTTP-kuvert i kopian. <b>Layer 7: HTTP.</b> Layer 4: TCP, port <code>80</code>.</p>
+
+    <h2 id="https">3. HTTPS</h2>
+
+    <p><b>HTTPS</b> är HTTP med kryptering runt — <b>TLS</b>, <i>Transport Layer Security</i>. Samma förfrågan, men ingen på vägen kan läsa den.</p>
+
+    <ol>
+      <li>Servern: <b>Services → HTTP</b>. Kontrollera att <b>HTTPS On</b> är på</li>
+      <li><b>Simulation</b>, filter på <b>DNS</b>, <b>TCP</b>, <b>HTTP</b> och <b>HTTPS</b></li>
+      <li>PC:ns <b>Web Browser</b>: <code>https://webb.lab</code></li>
+      <li>Klicka fram. Samma <b>DNS</b> först — okrypterat, över UDP <code>53</code>. Sedan TCP-handskakningen mot port <b><code>443</code></b> i stället för <code>80</code>. Sedan HTTPS-kuverten, där innehållet inte går att läsa</li>
+    </ol>
+
+    <p>Det viktiga är vad HTTPS döljer — och vad det <b>inte</b> döljer:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>HTTPS döljer</th><th>HTTPS lämnar synligt</th></tr></thead>
+        <tbody>
+          <tr><td>Sidans innehåll</td><td><b>Käll- och mål-IP</b> — nätet måste veta vart paketet ska</td></tr>
+          <tr><td>Sökvägen — <code>/konto/installningar</code></td><td><b>Portnumret</b> <code>443</code></td></tr>
+          <tr><td>Formulär och lösenord</td><td><b>Värdnamnet</b> — i <b>SNI</b>, se nästa avsnitt</td></tr>
+          <tr><td>Kakor</td><td><b>DNS-frågan före</b> — den skickades okrypterad</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="sni">4. Det som syns: SNI</h2>
+
+    <p>Den tredje raden i högerkolumnen är den som brukar överraska. Så här ser handskakningens allra första meddelande ut, <b>ClientHello</b>:</p>
+
+    <pre><code>TLS Handshake: ClientHello
+  Version: TLS 1.3
+  Extension: server_name
+    Server Name: webb.lab          ← klartext
+  Extension: key_share
+    (klientens nyckeldel)</code></pre>
+
+    <p><b>SNI</b> — <i>Server Name Indication</i> — är ett fält i ClientHello. Klienten talar om <b>vilken webbplats</b> den vill nå, eftersom servern kan ha många och behöver välja rätt certifikat. <b>Det skickas innan krypteringen är upprättad.</b> Alltså i klartext.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Därför en bild och inte Packet Tracer</span>
+      <p>Packet Tracer visar HTTPS-trafiken, men <b>öppnar inte TLS-handskakningen</b>. Meddelandena där nycklar utbyts och där SNI-fältet står syns inte som egna kuvert. I ett verktyg som fångar riktig trafik syns fältet precis som på bilden ovan.</p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Slutsatsen, i en mening</span>
+      <p><b>Den som ser trafiken vet vilken webbplats du besökte — men inte vad du gjorde där.</b></p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">En nyans på A-nivå</span>
+      <p>Om HTTPS döljer innehållet, varför skickas DNS-frågan okrypterad? Det finns nyare lösningar — <b>DNS över HTTPS</b>, och krypterad ClientHello, <b>ECH</b> — som döljer också namnet. Men de används inte överallt.</p>
+    </div>
+
+    <h2 id="kapslingen">5. Kapslingen hela vägen</h2>
+
+    <p><b>Områdets huvudidé, i ett enda paket.</b> Ett meddelande som skrivs i en applikation kapslas in i ett TCP- eller UDP-segment, segmentet i ett IP-paket, paketet i en Ethernet-ram — och ramen skickas som bitar på kabeln. Hos mottagaren packas samma lager upp i omvänd ordning.</p>
+
+    <ol>
+      <li>Klicka fram HTTPS-sekvensen från <a href="#https">avsnitt 3</a> till det <b>första HTTPS-kuvertet efter handskakningen</b>, från PC:n till servern</li>
+      <li><b>Öppna det hos PC:n: Out Layers.</b> Läs lager för lager, uppifrån</li>
+      <li>Klicka fram till servern. <b>Öppna kuvertet igen: In Layers</b></li>
+    </ol>
+
+    <p>Hos PC:n, på väg ut:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>TCP/IP-lager</th><th>Layer</th><th>Vad lagret tillförde</th><th>Enheten heter</th></tr></thead>
+        <tbody>
+          <tr><td>Applikation</td><td>7</td><td>Förfrågan, krypterad av TLS</td><td>data</td></tr>
+          <tr><td>Transport</td><td>4</td><td><b>TCP</b>: källport, målport <code>443</code>, sekvensnummer</td><td>segment</td></tr>
+          <tr><td>Internet</td><td>3</td><td><b>IP</b>: käll-IP, mål-IP <code>192.168.&lt;grupp&gt;.2</code></td><td>paket</td></tr>
+          <tr><td>Nätverksåtkomst</td><td>2, 1</td><td><b>Ethernet</b>: käll-MAC, mål-MAC. Sedan bitar på porten</td><td>ram, bitar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Hos servern, på väg in — samma rader, <b>nerifrån och upp</b>. Varje lager tar bort sitt eget kuvert och lämnar resten uppåt:</p>
+
+    <ol>
+      <li><b>Layer 1–2:</b> ramen tas emot. Mål-MAC:en är serverns, FCS stämmer. Ethernet-kuvertet av</li>
+      <li><b>Layer 3:</b> mål-IP:n är serverns. IP-kuvertet av</li>
+      <li><b>Layer 4:</b> port <code>443</code> — det är webbservern. TCP-kuvertet av</li>
+      <li><b>Layer 7:</b> TLS dekrypterar. Förfrågan är framme</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det här är labbrapportens resultatdel</span>
+      <p>Exakt den här sekvensen — ut hos sändaren, in hos mottagaren, vad varje lager tillförde — ska stå i rapporten, för det paket du själv väljer på lektion 49. Skriv av tabellen eller fotografera den.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Vill du ha mer</span>
+      <p>Följ DNS-frågan genom lagren på samma sätt och jämför: vad skiljer Layer 4? Öppna <b>Outbound PDU Details</b> i HTTPS-kuvertet och se vad som står i TCP-headern. Är sekvensnumret samma som i handskakningen?</p>
+    </div>
+
+    <h2 id="noderna">6. Noderna</h2>
+
+    <h3>DNS-uppslaget</h3>
+
+    <div class="notis">
+      <span class="rubrik">Pröva det själv</span>
+      <p><b>ComputerExplorer → networking → dns</b> — nodens titel är <i>DNS</i>.</p>
+    </div>
+
+    <p>Tryck <b>▸ Slå upp www.example.com</b>. Följ den kalla uppslagningen — root, TLD, auktoritativ — och titta i <b>Resolverns cache</b>. Tryck igen: nu står det <b>Cacheträff</b>. Samma idé som ARP-cachen. Tryck <b>Töm cache</b> och se kedjan komma tillbaka.</p>
+
+    <h3>Förfrågan och svaret</h3>
+
+    <p><b>ComputerExplorer → networking → http</b> — nodens titel är <i>HTTP-förfrågan</i>. Kör scenariot <b>GET → 200</b> och sedan <b>GET → 404</b>. Läs förfrågan rad för rad. Vad skiljer svaren?</p>
+
+    <p>Kör också <b>GET → 301</b> och leta upp <b>Location</b>-huvudet. Det är så <code>http://</code> blir <code>https://</code> när du skriver en adress utan att tänka på det.</p>
+
+    <h3>Handskakningen</h3>
+
+    <p><b>ComputerExplorer → networking → tls-handshake</b> — nodens titel är <i>TLS-handskakning</i>. Stega igenom handskakningen. <b>Första steget är ClientHello</b> — meddelandet som bär SNI-fältet från bilden i avsnitt 4. Noden nämner inte SNI själv; den visar var i handskakningen meddelandet hör hemma.</p>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p>Vid vilket steg blir kanalen krypterad? <b>ClientHello skickas före det steget. Vad betyder det för SNI?</b></p>
+    </div>
+
+    <h2 id="resan">7. Paketets resa</h2>
+
+    <p><b>ComputerExplorer → networking → packet-journey</b> — nodens titel är <i>Paketets resa</i>. Tryck <b>Spela ⏵</b> och låt den gå igenom nio steg:</p>
+
+    <div class="notis">
+      <span class="rubrik">Stegen</span>
+      <p>Tolka URL:en → DNS-uppslagning → ARP → <b>Routa över internet</b> → TCP-handskakning → TLS-handskakning → HTTP-förfrågan → HTTP-svar → Rendera sidan</p>
+    </div>
+
+    <p><b>Nästan varje steg har du sett i området.</b> Det fjärde, <b>Routa över internet</b>, är område 10 — en förhandstitt på hur routern väljer väg.</p>
+
+    <h2 id="labben">8. Inför labben</h2>
+
+    <p>På lektion 49 väljer du det paket du följer genom lagren i rapporten. Hela genomgången av valet, kraven och bedömningen står på <a href="labb.html">labbsidan</a>. Det korta:</p>
+
+    <ul>
+      <li><b>Minst tre protokoll</b> identifierade i fångsten som helhet — inte nödvändigtvis i det paket som följs</li>
+      <li><b>Ett paket följt genom lagren</b>, med Out Layers hos sändaren och In Layers hos mottagaren</li>
+      <li><b>Vad varje lager tillförde, med egna ord</b> — inte vad Packet Tracer skrev, utan vad det var till för</li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">ICMP räcker för E</span>
+      <p>Men ett paket med alla fyra lager fyllda ger mer att förklara, och <b>det är där C och A skrivs</b>. A-nivån förklarar <b>sambandet mellan lagren</b>: varför ARP måste komma före ICMP, varför DHCP går över UDP, vad HTTPS inte döljer — och varför det inte kan dölja det.</p>
+    </div>
+
+    <h2 id="missuppfattningar">9. Vanliga missuppfattningar</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: HTTPS, 404, DNS" autocomplete="off">
+      <p class="traffar" id="traffar-fel">7 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>HTTPS döljer vilken sida jag besöker</td><td>Innehållet och sökvägen, ja. Värdnamnet och IP-adressen, nej</td></tr>
+          <tr><td>404 är ett nätverksfel</td><td>Nätet fungerade. Sökvägen var fel. Svaret säger bara det</td></tr>
+          <tr><td>DNS och HTTP är samma anslutning</td><td>Två transaktioner. DNS är klar innan TCP börjar</td></tr>
+          <tr><td>SNI går att hitta i Packet Tracer</td><td>Simulatorn öppnar inte TLS-handskakningen. Därför bilden i avsnitt 4</td></tr>
+          <tr><td>DNS-kuverten kommer alltid före TCP</td><td>Bara om namnet skrevs och inte låg i cachen. <b>Reset Simulation</b>, och skriv namnet</td></tr>
+          <tr><td><code>https://webb.lab</code> borde fungera direkt</td><td>HTTPS kan vara av på servern: <b>Services → HTTP → HTTPS On</b></td></tr>
+          <tr><td>Det lättaste paketet är det bästa att följa</td><td>ICMP räcker för E. Fyra lager ger mer att förklara</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">10. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>DNS</b></td><td><i>Domain Name System</i> — översätter ett namn till en IP-adress, i en egen transaktion</td></tr>
+          <tr><td><b>Resolver</b></td><td>Den DNS-server du frågar först, ofta internetleverantörens. Frågar vidare åt dig</td></tr>
+          <tr><td><b>Root-server</b></td><td>Toppen av DNS-hierarkin. Svarar med vilka servrar som har hand om till exempel <code>.com</code></td></tr>
+          <tr><td><b>TLD</b></td><td><i>Top-level domain</i> — sista delen av namnet, som <code>.com</code></td></tr>
+          <tr><td><b>Auktoritativ server</b></td><td>Den server som har det riktiga svaret för ett visst namn</td></tr>
+          <tr><td><b>HTTP</b></td><td><i>HyperText Transfer Protocol</i> — webbens protokoll. Vanlig text, rad för rad. Port <code>80</code></td></tr>
+          <tr><td><b>Statuskod</b></td><td>Talet först i HTTP-svaret: 200, 404, 301</td></tr>
+          <tr><td><b>HTTPS</b></td><td>HTTP med TLS-kryptering runt. Port <code>443</code></td></tr>
+          <tr><td><b>TLS</b></td><td><i>Transport Layer Security</i> — krypteringen i HTTPS</td></tr>
+          <tr><td><b>ClientHello</b></td><td>Första meddelandet i TLS-handskakningen, skickat innan krypteringen är upprättad</td></tr>
+          <tr><td><b>SNI</b></td><td><i>Server Name Indication</i> — värdnamnet i ClientHello. Syns i klartext</td></tr>
+          <tr><td><b>Kapsling</b></td><td>Varje lager lägger sitt kuvert runt lagret ovanför på väg ut, och tar bort sitt på väg in</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 9</a> · <a href="dhcp.html">Föregående: DHCP</a> · <a href="labb.html">Nästa: labb 9</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

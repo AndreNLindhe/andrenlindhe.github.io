@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mediet och kabeln – Dator- och nätverksteknik område 8</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-8-media">
+
+<header class="topp">
+  <a href="index.html">← Område 8</a>
+  <span class="harifran"><strong>Uppslag</strong> · Mediet och kabeln</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mediet">1. Mediet sätter taket</a></li>
+      <li><a href="#utp">2. UTP och tvinningen</a></li>
+      <li><a href="#rj45">3. RJ45-kontakten</a></li>
+      <li><a href="#kategorierna">4. Kategorierna</a></li>
+      <li><a href="#tre">5. Tre saker utöver siffran</a></li>
+      <li><a href="#fiber">6. Fiber</a></li>
+      <li><a href="#tradlost">7. Trådlöst som medium</a></li>
+      <li><a href="#t568b">8. T568B steg för steg</a></li>
+      <li><a href="#testaren">9. Kabeltestaren</a></li>
+      <li><a href="#missuppfattningar">10. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">11. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 8 · lektion 38 och 39</p>
+    <h1>Mediet och kabeln</h1>
+    <p class="inledning">Två veckor har gått åt till att koppla, rita och namnge. Nu handlar det om kabeln själv: vad den är gjord av, varför ledarna är tvinnade, vad siffran på manteln betyder — och vad som avgör hastigheten utöver den siffran. Sedan samma fråga ställd till ett annat medium: luft. Väggmaterial och bandval är för trådlöst vad kategori och längd är för koppar. Sist det praktiska: T568B-ordningen steg för steg, och vad kabeltestaren visar när den tänder stiften ett till åtta.</p>
+
+    <h2 id="mediet">1. Mediet sätter taket</h2>
+
+    <div class="notis viktig">
+      <span class="rubrik">Definitionen</span>
+      <p><b>Mediet är det data färdas genom.</b> Koppar, glas eller luft — det är de tre, och valet mellan dem är samma sorts val som valet mellan två kabelkategorier.</p>
+    </div>
+
+    <p>Nätet står färdigt och ritat. Frågan är inte längre <b>om</b> det fungerar, utan <b>vad det klarar</b> — och det avgörs av mediet.</p>
+
+    <h2 id="utp">2. UTP och tvinningen</h2>
+
+    <p>Den vanligaste kabeln för trådbunden anslutning är parkabel av typen <b>UTP</b>, <i>unshielded twisted pair</i> — oskärmad tvinnad parkabel.</p>
+
+    <p>Under manteln ligger <b>fyra par</b>, åtta ledare, och varje par är tvinnat om sig självt.</p>
+
+    <div class="notis">
+      <span class="rubrik">Varför paren tvinnas</span>
+      <p>För att <b>dämpa störningar</b>. Två ledare som löper tvinnade om varandra plockar upp ungefär samma störning, och eftersom signalen mäts som <b>skillnaden mellan dem</b> tar störningarna ut varandra. En rak, otvinnad kabel plockar upp mer.</p>
+      <p><b>Tvinningen är inte för att det ska få plats — den är för att det ska fungera.</b> Därför ska du inte tvinna upp mer av paren än nödvändigt när du sätter på en kontakt.</p>
+    </div>
+
+    <h2 id="rj45">3. RJ45-kontakten</h2>
+
+    <p>Kabeln avslutas i en <b>RJ45</b>-kontakt med plats för åtta ledare — en per ledare i de fyra paren. Det är den kontakt som suttit i varje port i labbet sedan lektion 34.</p>
+
+    <p>På <code>CableNames.png</code>, bilden över kontakter som gicks igenom i område 1 och 5, är RJ45 <b>kontakt E</b>. Jämför den mot bilden en gång — det är samma sak från två håll, och det är billigt att göra kopplingen tydlig.</p>
+
+    <h2 id="kategorierna">4. Kategorierna</h2>
+
+    <p>Siffran tryckt på manteln anger vad kabeln är <b>byggd och testad för</b>.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kategori</th><th>Anges vanligen klara</th><th>Anmärkning</th></tr></thead>
+        <tbody>
+          <tr><td><b>Cat5e</b></td><td>1 Gbit/s upp till 100 m</td><td>Vanligast i äldre installationer</td></tr>
+          <tr><td><b>Cat6</b></td><td>1 Gbit/s upp till 100 m</td><td>Kan under goda förhållanden nå högre, men då oftast på kortare sträckor</td></tr>
+          <tr><td><b>Cat6a</b></td><td>10 Gbit/s hela vägen till 100 m</td><td>Byggd för det. Grövre och styvare</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det som inte står på förpackningen</span>
+      <p>Kategorin är ett <b>löfte om vad kabeln är byggd för</b>, inte en garanti om vad just den här kabeln klarar just nu.</p>
+    </div>
+
+    <h2 id="tre">5. Tre saker utöver siffran</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Varför det spelar roll</th></tr></thead>
+        <tbody>
+          <tr><td><b>Kabelns skick</b></td><td>En klämd, knäckt eller dragen kabel presterar sämre än en hel av samma kategori</td></tr>
+          <tr><td><b>Längden</b></td><td>100 meter är en <b>gräns</b>, inte ett riktvärde. Nära gränsen är marginalen liten</td></tr>
+          <tr><td><b>Störningar i miljön</b></td><td>En kabel som ligger längs en strömkabel har det svårare, hur väl tvinnad den än är</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Meningen som binder ihop området</span>
+      <p><b>Kedjan är aldrig starkare än sin svagaste länk.</b> Sitter det en Cat5e någonstans i förbindelsen spelar det ingen roll att nätverkskortet och switchporten är byggda för mer.</p>
+      <p>Det är samma resonemang som <b>flaskhalsen i område 3</b>, när lagringens hastighet mättes. Formen känner du igen — det är innehållet som är nytt.</p>
+    </div>
+
+    <p>Hittar du <b>ingen märkning</b> på kabeln är det ett fynd och inte ett misslyckande. En omärkt kabel är en kabel vars kategori ingen vet, och det är i sig ett svar på vad man kan lita på. Skriv upp det.</p>
+
+    <h2 id="fiber">6. Fiber</h2>
+
+    <p><b>Optisk fiber</b> för ljus i stället för elektriska signaler, genom glas i stället för koppar. Den används där koppar inte räcker: längre sträckor eller högre kapacitet.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Skillnad</th><th>Mot koppar</th></tr></thead>
+        <tbody>
+          <tr><td><b>Räckvidd</b></td><td>Långt bortom kopparens 100 meter</td></tr>
+          <tr><td><b>Störningar</b></td><td>Ljus i glas bryr sig inte om elektriska fält</td></tr>
+          <tr><td><b>Kontakterna</b></td><td>Andra, och de syns inte på <code>CableNames.png</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Fiber används inte i labbet. Den finns här som <b>jämförelsepunkt</b>, så att koppar inte framstår som det enda alternativet. Det är ett annat medium — inte "en snabbare kabel".</p>
+
+    <h2 id="tradlost">7. Trådlöst som medium</h2>
+
+    <p>Byt medium till <b>luft</b>, och frågorna är desamma men svaren ser annorlunda ut. Det som motsvarar kategori och längd heter här <b>väggmaterial</b>, <b>avstånd</b> och <b>bandval</b>.</p>
+
+    <div class="notis">
+      <span class="rubrik">Pröva det själv</span>
+      <p><b>ComputerExplorer → networking → wifi-planner</b></p>
+      <p>Du ritar upp ett rum med väggar av valt material, placerar en accesspunkt och simulerar signalen. Verktygen <b>Rita vägg</b>, <b>Dörr</b>, <b>Fönster</b> och <b>Enhet</b> ligger i vänsterkanten, och <b>Väggmaterial</b> ändras på en markerad vägg.</p>
+    </div>
+
+    <p>Två frågor att besvara med noden:</p>
+
+    <ol>
+      <li><b>Vad händer med täckningen när väggen byts</b> från gips till betong?</li>
+      <li><b>Vad händer när bandet byts</b> mellan 2,4 och 5 GHz?</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Svaret på den andra är det som brukar överraska</span>
+      <p><b>Det högre bandet ger mer kapacitet men kortare räckvidd genom hinder.</b> 2,4 GHz går längre genom väggar, 5 GHz bär mer på kortare avstånd.</p>
+      <p>Det är <b>exakt samma avvägning</b> som mellan en lång Cat5e och en kort Cat6a. Samma fråga, två medier.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Trådlöst ersätter inte kabeln — det förlänger den</span>
+      <p>Markera en placerad enhet i noden och titta på <b>Anslutning</b>. Den kan vara <b>Trådbunden (Ethernet)</b> eller <b>Trådlös</b>. En accesspunkt är trådlös <b>mot klienterna</b>, men behöver oftast själv sitta i en kabel.</p>
+      <p>Titta på den riktiga accesspunkten i labbet: den har ett nätverksuttag på sig.</p>
+    </div>
+
+    <p>Vill du ha mer: utmaningen <b>Betongkontor</b> kräver 75 % täckning med högst tre enheter genom tjock betong och en armerad kärna. <b>Radhus</b> är svårare än så.</p>
+
+    <h2 id="t568b">8. T568B steg för steg</h2>
+
+    <p>Åtta steg, och de är desamma i handen som i noden <b>ComputerExplorer → networking → make-an-ethernet-cable</b>. Kör den till slutet <b>innan</b> du går fram till krympstationen — ordningen ska sitta i huvudet, inte läras vid stationen med kön bakom sig.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Vad</th><th>Det som är lätt att missa</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><b>Klipp</b></td><td>Ett rakt, rent snitt gör resten lättare</td></tr>
+          <tr><td>2</td><td><b>Skala</b></td><td>Cirka <b>25 mm</b>. Skada inte ledarna under</td></tr>
+          <tr><td>3</td><td><b>Tvinna upp</b></td><td>Bara så mycket som behövs — tvinningen är till för något</td></tr>
+          <tr><td>4</td><td><b>Ordna</b></td><td><b>T568B.</b> Ordningen som ska sitta</td></tr>
+          <tr><td>5</td><td><b>Kapa jämnt</b></td><td>Alla åtta lika långa, platta och i ordning</td></tr>
+          <tr><td>6</td><td><b>Sätt i</b></td><td>Spärren nedåt, varje ledare <b>hela vägen fram</b></td></tr>
+          <tr><td>7</td><td><b>Pressa</b></td><td>Guldstiften trycks genom isoleringen ner i koppar</td></tr>
+          <tr><td>8</td><td><b>Testa</b></td><td>Testaren tänder stiften <b>1 → 8</b>. Alla åtta = godkänd</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">T568B, från vänster till höger med spärren nedåt</span>
+      <p>vit/orange · orange · vit/grön · <b>blå</b> · vit/blå · <b>grön</b> · vit/brun · brun</p>
+    </div>
+
+    <p><b>Blå och grön byter plats mot vad man väntar sig.</b> Paren ligger inte i följd — det gröna paret är delat, med blå-paret emellan. Det är inte godtyckligt, men skälet ligger utanför kursen. Det som gäller är att <b>ordningen är bestämd och att båda ändar ska ha samma</b>.</p>
+
+    <div class="notis">
+      <span class="rubrik">Varför en ordning behövs alls</span>
+      <p><b>Båda ändarna måste vara överens om vilken ledare som är vilken.</b> Stift 1 i ena änden ska nå stift 1 i den andra. Blir det fel blir det inte "lite sämre" — det blir <b>ingen länk</b>.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Steg 6 är det som avgör</span>
+      <p><b>Titta in i kontaktens ände mot ljuset innan du pressar.</b> Når inte alla åtta ledare hela vägen fram blir kabeln underkänd — och <b>en krympt kontakt går inte att öppna</b>. Den är förbrukad.</p>
+    </div>
+
+    <h2 id="testaren">9. Kabeltestaren</h2>
+
+    <p>Kabeltestaren skickar ström genom en ledare i taget och tänder stiften i ordning, 1 till 8. Alla åtta tända betyder att alla åtta ledare går hela vägen igenom och hamnar rätt.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad testaren visar</th><th>Vad det betyder</th></tr></thead>
+        <tbody>
+          <tr><td>Alla åtta tänder, 1 till 8</td><td><b>Godkänd.</b> Ledarna är hela och ligger i samma ordning i båda ändar</td></tr>
+          <tr><td>Ett stift hoppas över</td><td>Den ledaren är av, eller nådde inte fram i kontakten</td></tr>
+          <tr><td>Stiften tänder i fel ordning</td><td>Ledarna ligger olika i de två ändarna. Ordningen är fel i den ena</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Två kontroller, och den andra är den som räknas</span>
+      <p><b>Kabeltestaren säger att kabeln håller. Länklysdioden säger att den håller i det här nätet, i den här porten, mot det här nätverkskortet.</b></p>
+      <p>En kabel kan visa grönt i testaren och ändå ge mörk port — testaren kontrollerar ledarna, inte passformen. Då gäller samma tre steg som på lektion 35: <b>tryck, byt kabel, byt port.</b></p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Hann du inte fram till krympstationen?</span>
+      <p><b>Det är planerat så.</b> Labbet har ett eller två krympverktyg, inte ett per par. Det finns två vägar och <b>båda räknas</b>: krympa en egen kontakt, eller testa och godkänna en färdig patchkabel med kabeltestaren. De leder till samma sak — en kabel du <b>vet</b> håller.</p>
+      <p>En <b>underkänd</b> kabel är dessutom ett bättre fynd än tio godkända. Skriv upp vilket stift som inte tände — det går rakt in i rapportens felsökningsdel.</p>
+    </div>
+
+    <h2 id="missuppfattningar">10. Vanliga missuppfattningar</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: Cat6, tvinning, 5 GHz" autocomplete="off">
+      <p class="traffar" id="traffar-fel">9 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>Cat6 är alltid snabbare än Cat5e</td><td>Kategorin är vad kabeln är <b>byggd</b> för. Skick, längd och störningar avgör också vad den klarar</td></tr>
+          <tr><td>Ingen märkning betyder Cat5e</td><td>Det betyder att kategorin är <b>okänd</b>. Skriv upp det — det är ett svar</td></tr>
+          <tr><td>Tvinningen är för att spara plats</td><td>Den dämpar störningar. Därför ska paren inte tvinnas upp i onödan</td></tr>
+          <tr><td>5 GHz är bättre överallt</td><td>Mer kapacitet, sämre genom väggar. <code>wifi-planner</code> visar det på tio sekunder</td></tr>
+          <tr><td>Accesspunkten är kabelfri</td><td>Den heter trådlös för att den är det <b>mot klienterna</b>. Titta på dess eget nätverksuttag</td></tr>
+          <tr><td>Trådlöst är bara sämre</td><td>Det är ett val av medium. Rörlighet mot stabilitet, som längd mot kategori</td></tr>
+          <tr><td>Fiber är en snabbare kabel</td><td>Annat medium — ljus i glas. Andra sträckor, andra kontakter</td></tr>
+          <tr><td>Kabeln är godkänd när kontakten sitter på</td><td>Först när testaren tänt alla åtta. Och sedan när lysdioden lyser i det riktiga nätet</td></tr>
+          <tr><td>En misslyckad kontakt går att rätta</td><td>En krympt kontakt går inte att öppna. Kontrollera i ljuset <b>före</b> pressningen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">11. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Medium</b></td><td>Det data färdas genom: koppar, glas eller luft</td></tr>
+          <tr><td><b>UTP</b></td><td><i>Unshielded twisted pair</i> — oskärmad tvinnad parkabel. Den vanligaste nätverkskabeln</td></tr>
+          <tr><td><b>Tvinnat par</b></td><td>Två ledare snodda om varandra så att störningar tar ut varandra</td></tr>
+          <tr><td><b>Ledare</b></td><td>En av de åtta koppartrådarna i kabeln. Fyra par, åtta ledare</td></tr>
+          <tr><td><b>RJ45</b></td><td>Kontakten i änden på en nätverkskabel, med plats för åtta ledare. Kontakt <b>E</b> på <code>CableNames.png</code></td></tr>
+          <tr><td><b>Kategori</b></td><td>Siffran på kabelmanteln — Cat5e, Cat6, Cat6a. Vad kabeln är byggd och testad för</td></tr>
+          <tr><td><b>Gbit/s</b></td><td>Gigabit per sekund. Måttet på hur mycket data en förbindelse bär</td></tr>
+          <tr><td><b>Optisk fiber</b></td><td>Medium som för ljus genom glas i stället för ström genom koppar. Längre räckvidd, okänslig för elektriska fält</td></tr>
+          <tr><td><b>T568B</b></td><td>Den bestämda ordningen de åtta ledarna läggs i kontakten. Båda ändarna ska ha samma</td></tr>
+          <tr><td><b>Krympverktyg</b></td><td>Verktyget som pressar fast en RJ45-kontakt på kabeländen. Engelska: <i>crimping tool</i></td></tr>
+          <tr><td><b>Kabeltestare</b></td><td>Apparat som tänder stiften 1 till 8 och visar att alla åtta ledare går hela vägen igenom</td></tr>
+          <tr><td><b>Band</b></td><td>Frekvensområdet ett trådlöst nät sänder på — 2,4, 5 eller 6 GHz. Högre band: mer kapacitet, sämre genom väggar</td></tr>
+          <tr><td><b>Täckning</b></td><td>Hur stor del av ytan som når tillräcklig signal. Måttet <code>wifi-planner</code> mäter i procent</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 8</a> · <a href="adresseringen.html">Nästa: adresseringen</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

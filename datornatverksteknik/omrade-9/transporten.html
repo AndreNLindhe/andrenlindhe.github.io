@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TCP och UDP – Dator- och nätverksteknik område 9</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-9-transporten">
+
+<header class="topp">
+  <a href="index.html">← Område 9</a>
+  <span class="harifran"><strong>Uppslag</strong> · TCP och UDP</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#servern">1. Servern läggs till</a></li>
+      <li><a href="#http">2. HTTP i simuleringsläget</a></li>
+      <li><a href="#tcp">3. Vad TCP gör</a></li>
+      <li><a href="#dns">4. DNS-frågan och UDP</a></li>
+      <li><a href="#snabbare">5. Är UDP snabbare?</a></li>
+      <li><a href="#portarna">6. Portarna</a></li>
+      <li><a href="#noderna">7. Noderna</a></li>
+      <li><a href="#utmaning">8. Utmaning: nätets broms</a></li>
+      <li><a href="#missuppfattningar">9. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">10. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 9 · lektion 46</p>
+    <h1>TCP och UDP</h1>
+    <p class="inledning">ICMP hade inget transportlager och inget portnummer. Här läggs en server till i nätet, och för första gången har paketen något på Layer 4 — och det finns två helt olika sätt att fylla den raden. Sidan går igenom de fyra saker TCP gör som UDP inte gör, varför "UDP är alltid snabbare" inte stämmer på det sätt det brukar sägas, och varför portnummer är en konvention och inte en lag.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Sloganen att ifrågasätta</span>
+      <p><i>"TCP är pålitligt, UDP är snabbt."</i> Den är inte helt fel, men den döljer vad som faktiskt skiljer dem. <b>Räkna paketen i stället</b>, och förklara skillnaden utifrån vad som syns.</p>
+    </div>
+
+    <h2 id="servern">1. Servern läggs till</h2>
+
+    <p>En <b>server</b> är en maskin som tillhandahåller <b>tjänster</b> — här en webbsida och ett namnuppslag. Den kostar ingen ny utrustning; den finns bara i simuleringen. Samma värden för alla grupper, med gruppens nätdel:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Värde</th></tr></thead>
+        <tbody>
+          <tr><td>Serverns adress</td><td><code>192.168.&lt;grupp&gt;.2</code></td></tr>
+          <tr><td>Nätmask</td><td><code>255.255.255.0</code></td></tr>
+          <tr><td>DNS-namn</td><td><code>webb.lab</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><code>.2</code> ligger utanför maskinernas <code>10</code>–<code>13</code> och krockar inte. Namnet är påhittat med avsikt — det finns inte på internet, och det ska inte se ut som om det gör det.</p>
+
+    <p>I parets egen kopia:</p>
+
+    <ol>
+      <li><b>End Devices → Server</b>, dra in den och koppla den till switchen med en <b>Copper Straight-Through</b></li>
+      <li>Serverns <b>Desktop → IP Configuration</b>: <code>192.168.&lt;grupp&gt;.2</code>, <code>255.255.255.0</code></li>
+      <li><b>Services → HTTP</b>: kontrollera att <b>HTTP On</b> är på — det är den från början</li>
+      <li><b>Services → DNS</b>: <b>DNS Service On</b>. <b>Name:</b> <code>webb.lab</code>, <b>Type:</b> A Record, <b>Address:</b> <code>192.168.&lt;grupp&gt;.2</code>. Tryck <b>Add</b></li>
+      <li>På den PC du ska använda: <b>Desktop → IP Configuration → DNS Server:</b> <code>192.168.&lt;grupp&gt;.2</code></li>
+    </ol>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Kan du öppna <code>http://192.168.&lt;grupp&gt;.2</code> i PC:ns Web Browser i Realtime-läge?</b> Kan du det är servern på plats.</p>
+      <p>Gör den inte det: pinga servern först. ICMP är testet för det lagret.</p>
+    </div>
+
+    <h2 id="http">2. HTTP i simuleringsläget</h2>
+
+    <ol>
+      <li><b>Simulation</b>, filter på <b>ARP</b>, <b>DNS</b>, <b>HTTP</b> och <b>TCP</b></li>
+      <li>PC:ns <b>Desktop → Web Browser</b>: <code>http://192.168.&lt;grupp&gt;.2</code>, <b>Go</b></li>
+      <li><b>Capture/Forward</b> tills sidan har kommit fram, och <b>räkna kuverten</b> i Event List</li>
+      <li>Öppna det <b>första TCP-kuvertet</b>. Layer 4: <b>TCP</b>, <b>Src Port</b> och <b>Dst Port</b>. Vilken port är servern på?</li>
+    </ol>
+
+    <p>Exakt hur många kuvert du räknar beror på om ARP och stängningen i slutet räknas med. <b>Det spelar ingen roll — antalet är stort.</b></p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Titta på de tre första TCP-kuverten</span>
+      <p><b>Inget av dem innehåller webbsidan.</b> De är TCP som förbereder sig. Det är den första av de fyra sakerna i nästa avsnitt.</p>
+    </div>
+
+    <p><i>Skärmbilden av sekvensen i Event List, och av Layer 4 i ett TCP-kuvert, är labb 9:s TCP-exempel. Ta den nu.</i></p>
+
+    <h2 id="tcp">3. Vad TCP gör</h2>
+
+    <p>Fyra saker, och var och en med vad den löser:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>TCP gör</th><th>Vad det betyder</th><th>Vad det löser</th></tr></thead>
+        <tbody>
+          <tr><td><b>Handskakning</b></td><td>Tre meddelanden innan data skickas: <b>SYN</b>, <b>SYN-ACK</b>, <b>ACK</b></td><td>Båda sidor vet att den andra finns och lyssnar</td></tr>
+          <tr><td><b>Numrering</b></td><td>Varje segment får ett <b>sekvensnummer</b></td><td>Mottagaren kan lägga dem i rätt ordning, även om de kommer i fel</td></tr>
+          <tr><td><b>Kvittens och omsändning</b></td><td>Mottagaren kvitterar — <i>acknowledgement</i>, <b>ACK</b> — det som kommit. Det som inte kvitteras skickas igen</td><td>Tappade segment kommer ändå fram</td></tr>
+          <tr><td><b>Flödeskontroll</b></td><td>Mottagaren talar om hur mycket den hinner ta emot, och sändaren bromsar</td><td>En snabb sändare dränker inte en långsam mottagare</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Två lager, två uppgifter</span>
+      <p>På lektion 44 kastades ramen med fel FCS, och ingen fick veta det. <b>Det är TCP som märker att något saknas och skickar om.</b> Ethernet upptäcker felet, TCP rättar det.</p>
+      <p>Det är kapslingen som ett samarbete, inte bara som kuvert.</p>
+    </div>
+
+    <p>Flödeskontrollen syns som fältet <b>WINDOW</b> om du öppnar <b>Outbound PDU Details</b> i ett TCP-kuvert. Det är mottagarens besked om hur mycket den kan ta. I samma flik står också <b>SEQUENCE NUMBER</b> och <b>ACK NUMBER</b> — tre av TCP:s fyra saker syns som fält.</p>
+
+    <h2 id="dns">4. DNS-frågan och UDP</h2>
+
+    <ol>
+      <li><b>Reset Simulation</b></li>
+      <li>Samma webbläsare, men nu med namnet: <code>http://webb.lab</code>, <b>Go</b></li>
+      <li>Klicka fram. <b>Först kommer två DNS-kuvert: frågan och svaret.</b> Sedan samma TCP-sekvens som förut</li>
+      <li>Öppna DNS-frågan. Layer 4: <b>UDP</b>, <b>Dst Port</b> <code>53</code></li>
+    </ol>
+
+    <p><b>Två paket.</b> Ingen handskakning, ingen kvittens. <b>UDP skickar och är sedan klart</b>, oavsett om något kommer fram. Det kallas <b>förbindelselöst</b>.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>TCP</th><th>UDP</th></tr></thead>
+        <tbody>
+          <tr><td>Handskakning</td><td>Ja, tre meddelanden</td><td>Nej</td></tr>
+          <tr><td>Numrering och ordning</td><td>Ja</td><td>Nej</td></tr>
+          <tr><td>Kvittens och omsändning</td><td>Ja</td><td>Nej</td></tr>
+          <tr><td>Flödeskontroll</td><td>Ja</td><td>Nej</td></tr>
+          <tr><td>Header</td><td>20 byte</td><td>8 byte</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Varför UDP för DNS?</span>
+      <p>Frågan är liten, svaret är litet. Kommer svaret inte <b>frågar klienten igen</b> — programmet sköter det själv, snabbare än TCP hade hunnit göra sin handskakning.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Syns inga DNS-kuvert?</span>
+      <p>Antingen var DNS inte med i <b>Edit Filters</b>, eller så saknar PC:n <b>DNS Server</b> under IP Configuration. Fungerar adressen men inte namnet är det nästan alltid det senare.</p>
+    </div>
+
+    <p><code>Introduktion Nätverk.pdf</code> sidan 6 säger att transportlagret <i>"säkerställer att data kommer fram rätt"</i>. Den formuleringen stämmer för TCP — och inte för UDP.</p>
+
+    <p><i>Skärmbilden av DNS-frågan, med UDP och port <code>53</code>, är labb 9:s UDP-exempel.</i></p>
+
+    <h2 id="snabbare">5. Är UDP snabbare?</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det som stämmer</th><th>Det som inte stämmer</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>UDP har kortare header och ingen handskakning. <b>Varje enskilt paket</b> kommer iväg fortare</td>
+            <td>Att hela överföringen därför går fortare. Ska en fil komma fram hel måste något skicka om det som tappas. <b>Gör inte TCP det, måste programmet göra det själv</b> — och då är det inte längre självklart vem som vinner</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Vad som faktiskt avgör</span>
+      <p><b>Applikationen och nätets skick</b> — inte protokollet. Frågan som avgör valet är: <b>gör det något om en bit saknas?</b></p>
+    </div>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Tillämpning</th><th>Protokoll</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td>En webbsida, en fil</td><td>TCP</td><td>En saknad bit förstör helheten</td></tr>
+          <tr><td>Ett videosamtal</td><td>UDP</td><td>En tappad bildruta märks mindre än en fördröjning</td></tr>
+          <tr><td>En DNS-fråga</td><td>UDP</td><td>Liten fråga. Klienten frågar igen själv</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="portarna">6. Portarna</h2>
+
+    <p>Layer 4 bär ett <b>portnummer</b>, och det talar om <b>vilket program</b> på maskinen paketet ska till:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Port</th><th>Tjänst</th></tr></thead>
+        <tbody>
+          <tr><td><code>80</code></td><td>HTTP</td></tr>
+          <tr><td><code>443</code></td><td>HTTPS</td></tr>
+          <tr><td><code>53</code></td><td>DNS</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">En konvention, inte en lag</span>
+      <p>Ingenting i TCP hindrar en webbserver från att lyssna på <code>8080</code> i stället — då skriver man bara <code>http://webb.lab:8080</code>. Konventionen gör att ingen behöver skriva det.</p>
+    </div>
+
+    <h2 id="noderna">7. Noderna</h2>
+
+    <p>Antalet paket i Packet Tracer visar inte vad som händer när något faktiskt tappas. Det gör noderna.</p>
+
+    <h3>TCP mot UDP</h3>
+
+    <div class="notis">
+      <span class="rubrik">Den bärande noden</span>
+      <p><b>ComputerExplorer → networking → tcp-vs-udp</b> — nodens titel är <i>TCP vs UDP</i>.</p>
+    </div>
+
+    <ol>
+      <li>Tryck <b>Tick ▸</b> och följ båda banorna. Sex paket skickas, och nätverket tappar paket <b>#3</b></li>
+      <li>Kör till slutet. Hur många tick tog TCP? Hur många tog UDP?</li>
+      <li>Läs tabellen <b>Sida vid sida</b></li>
+    </ol>
+
+    <p>TCP blev klart senare — <b>men med allt.</b> UDP blev klart först — <b>med en lucka.</b></p>
+
+    <div class="notis varna">
+      <span class="rubrik">Tabellen säger "minimal" vid UDP:s fördröjning. Stämmer det?</span>
+      <p>Per paket, ja. För hela överföringen beror det på om luckan får finnas. Nodens egen sista mening säger samma sak: ingen av dem är bättre.</p>
+    </div>
+
+    <h3>Handskakningen</h3>
+
+    <p><b>ComputerExplorer → networking → tcp-handshake</b> — nodens titel är <i>TCP-handskakning</i>. Stega igenom <b>SYN</b>, <b>SYN-ACK</b>, <b>ACK</b>. Det är de tre första kuverten från Packet Tracer, med tillstånden utskrivna. Noden visar också de fyra meddelanden som stänger anslutningen.</p>
+
+    <h3>Omsändningen</h3>
+
+    <p><b>ComputerExplorer → networking → tcp-reliability</b> — nodens titel är <i>TCP-tillförlitlighet</i>. Välj scenariot <b>Paketförlust</b>. Se segmentet tappas, mottagaren skicka <b>duplicerad ACK</b>, och sändaren skicka om. <b>Det är omsändningen, steg för steg.</b></p>
+
+    <h3>Portarna håller isär</h3>
+
+    <p><b>ComputerExplorer → networking → ports-sockets</b> — nodens titel är <i>Portar &amp; socketar</i>. Tryck <b>+ Öppna anslutning</b> tre gånger, sedan <b>Ta emot ett paket ▸</b>. Alla anslutningar går till port <b>443</b> på samma server — ändå hålls de isär. Titta i <b>Sockettabell</b>: vad skiljer raderna?</p>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Varför var UDP klart först i <code>tcp-vs-udp</code>, och var det bra?</b></p>
+    </div>
+
+    <h2 id="utmaning">8. Utmaning: nätets broms</h2>
+
+    <div class="notis viktig">
+      <span class="rubrik">Utmaning</span>
+      <p><b>ComputerExplorer → networking → congestion-control</b> — nodens titel är <i>Överbelastningskontroll</i>.</p>
+      <p>Flödeskontrollen i avsnitt 3 bromsar <b>för mottagarens skull</b>. Den här noden visar att TCP också bromsar <b>för nätets skull</b> — och att det är en annan mekanism.</p>
+    </div>
+
+    <ol>
+      <li>Tryck <b>RTT ▸</b> för att gå fram en tur och retur i taget, eller <b>Spela ⏵</b> för att låta den gå</li>
+      <li>Följ <b>överbelastningsfönstret</b>: hur växer det, och vad händer när ett paket tappas?</li>
+      <li>Formulera skillnaden mot flödeskontrollen i <b>en mening</b>: vem bromsar TCP för, i vardera fallet?</li>
+    </ol>
+
+    <p>Den meningen är en A-mening. Den visar ett <b>samband</b>: samma protokoll bromsar av två olika skäl, för två olika delar av nätet.</p>
+
+    <h2 id="missuppfattningar">9. Vanliga missuppfattningar</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: UDP, port, snabb" autocomplete="off">
+      <p class="traffar" id="traffar-fel">7 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>UDP är opålitligt, alltså dåligt</td><td>UDP lovar ingenting. Det är ett val, inte en brist</td></tr>
+          <tr><td>TCP är långsamt</td><td>Handskakningen tar tid per anslutning. För en fil som ska komma fram hel är TCP rätt val</td></tr>
+          <tr><td>UDP är alltid snabbare</td><td>Per paket, ja. För hela överföringen avgör applikationen och nätets skick</td></tr>
+          <tr><td>Port <code>80</code> är en regel</td><td>Det är en konvention. <code>:8080</code> fungerar också</td></tr>
+          <tr><td>De tre första TCP-kuverten bär webbsidan</td><td>De är handskakningen: SYN, SYN-ACK, ACK. Sidan kommer efter</td></tr>
+          <tr><td>Flödeskontroll och överbelastningskontroll är samma sak</td><td>Båda bromsar. Flödeskontrollen för mottagaren, överbelastningskontrollen för nätet</td></tr>
+          <tr><td><code>http://webb.lab</code> borde fungera när adressen gör det</td><td>PC:n behöver en <b>DNS Server</b> under IP Configuration för att kunna fråga efter namnet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">10. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Server</b></td><td>En maskin som tillhandahåller tjänster, till exempel en webbsida eller ett namnuppslag</td></tr>
+          <tr><td><b>TCP</b></td><td><i>Transmission Control Protocol</i> — transportprotokollet med handskakning, numrering, kvittens och flödeskontroll</td></tr>
+          <tr><td><b>UDP</b></td><td><i>User Datagram Protocol</i> — transportprotokollet som skickar och är klart. Förbindelselöst</td></tr>
+          <tr><td><b>Segment</b></td><td>Det transportlagret skickar. Varje TCP-segment har ett sekvensnummer</td></tr>
+          <tr><td><b>Handskakning</b></td><td>TCP:s tre meddelanden innan data skickas: SYN, SYN-ACK, ACK</td></tr>
+          <tr><td><b>Sekvensnummer</b></td><td>Numret på ett TCP-segment, så att mottagaren kan lägga dem i rätt ordning</td></tr>
+          <tr><td><b>ACK</b></td><td><i>Acknowledgement</i> — kvittensen på att något kommit fram</td></tr>
+          <tr><td><b>Omsändning</b></td><td>Att skicka om ett segment som inte kvitterats</td></tr>
+          <tr><td><b>Flödeskontroll</b></td><td>Mottagaren talar om hur mycket den hinner ta emot, och sändaren bromsar. Fältet WINDOW</td></tr>
+          <tr><td><b>Överbelastningskontroll</b></td><td>TCP bromsar för nätets skull, inte mottagarens. En annan mekanism än flödeskontrollen</td></tr>
+          <tr><td><b>Förbindelselöst</b></td><td>Utan handskakning och kvittens. Så arbetar UDP</td></tr>
+          <tr><td><b>Portnummer</b></td><td>Talar om vilket program på maskinen paketet ska till. <code>80</code>, <code>443</code> och <code>53</code> är konventioner</td></tr>
+          <tr><td><b>Socket</b></td><td>En anslutnings adress och port. Håller isär flera samtidiga anslutningar till samma server</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 9</a> · <a href="ramen.html">Föregående: ramen, ARP och ICMP</a> · <a href="dhcp.html">Nästa: DHCP</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

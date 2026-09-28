@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lagren och kapslingen – Dator- och nätverksteknik område 9</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-9-lagren">
+
+<header class="topp">
+  <a href="index.html">← Område 9</a>
+  <span class="harifran"><strong>Uppslag</strong> · Lagren och kapslingen</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#rorelsen">1. Pingen i simuleringsläget</a></li>
+      <li><a href="#protokoll">2. Ett protokoll</a></li>
+      <li><a href="#tcpip">3. TCP/IP-modellen</a></li>
+      <li><a href="#osi">4. OSI-modellen</a></li>
+      <li><a href="#tre-modeller">5. Tre modeller, samma resa</a></li>
+      <li><a href="#kopian">6. Parets egen kopia</a></li>
+      <li><a href="#fonstret">7. Kuvertet öppnas</a></li>
+      <li><a href="#kapsling">8. Kuvert i kuvert</a></li>
+      <li><a href="#beviset">9. Labb 9:s första bevis</a></li>
+      <li><a href="#missuppfattningar">10. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">11. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 9 · lektion 42 och 43</p>
+    <h1>Lagren och kapslingen</h1>
+    <p class="inledning">Område 8 slutade med en pingmatris full av svar. Pingen bevisade att kedjan höll, men ingen hade sett vad som faktiskt skickades. Den här sidan börjar där: ett kuvert som rör sig över skärmen i Packet Tracer, hopp för hopp. Sedan vad ett protokoll är, hur TCP/IP-modellens fyra lager och OSI-modellens sju hör ihop, och varför Computer Explorer visar samma sak med fem. Sist öppnas kuvertet i parets egen kopia av nätet — och visar sig vara flera kuvert, inuti varandra.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Tre modeller, en resa</span>
+      <p>TCP/IP har fyra lager, OSI sju och Computer Explorers nod fem. <b>De beskriver samma resa.</b> Det är inte tre sanningar som tävlar, utan tre sätt att dela upp en.</p>
+    </div>
+
+    <h2 id="rorelsen">1. Pingen i simuleringsläget</h2>
+
+    <p>Hittills har du använt Packet Tracer i läget <b>Realtime</b>: allt händer på en gång, för snabbt för att se. I läget <b>Simulation</b> står tiden still, och du stegar fram ett paket i taget.</p>
+
+    <p>Gör det själv i en kopia av gruppens nät där adresserna är satta — se <a href="#kopian">avsnitt 6</a> om din kopia saknar adresser:</p>
+
+    <ol>
+      <li>Klicka på <b>Simulation</b> längst ned till höger. Tiden står still</li>
+      <li>Öppna <b>Command Prompt</b> på en PC och skriv <code>ping</code> följt av en grannes adress, till exempel <code>ping 192.168.1.11</code></li>
+      <li>Tryck <b>Capture/Forward</b>. Ett kuvert dyker upp vid datorn</li>
+      <li>Tryck igen. Kuvertet flyttar till switchen. Igen — vidare till mottagaren</li>
+      <li><b>Fortsätt tills svaret är tillbaka</b>, och titta på <b>Event List</b>, som fylls på rad för rad</li>
+    </ol>
+
+    <p>Lägg märke till att det finns <b>två sorters kuvert</b>. Det första är en fråga som behövs innan pingen alls kan skickas — den förklaras på <a href="ramen.html">lektion 44</a>. Öppna inga kuvert än. Frågan att bära med sig är: <b>vad står det på kuvertet, och vad ligger i det?</b></p>
+
+    <div class="notis varna">
+      <span class="rubrik">Skräpar switchens egna protokoll i listan?</span>
+      <p>Syns <b>STP</b>, <b>CDP</b> eller <b>DTP</b> i Event List är det switchen som pratar för egen räkning. Klicka på <b>Edit Filters</b> och bocka ur allt utom <b>ARP</b> och <b>ICMP</b>.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Varför Packet Tracer och inte riktig trafik</span>
+      <p>Branschens verktyg för att fånga trafik på ett riktigt nät heter <b>Wireshark</b>, och namnet är värt att känna igen. Packet Tracer låter dig i stället klicka fram ett paket i taget på <b>samma nät som byggdes i område 8</b>, utan allt annat som far på skolans nät i vägen.</p>
+      <p>Och en sak till: <b>trafik på ett nät någon annan äger fångar man inte utan tillstånd</b>. Det är en yrkesregel, inte en skolregel.</p>
+    </div>
+
+    <h2 id="protokoll">2. Ett protokoll</h2>
+
+    <div class="notis viktig">
+      <span class="rubrik">Definitionen</span>
+      <p><b>Ett protokoll är en överenskommelse om hur ett meddelande ska formas och tolkas.</b></p>
+    </div>
+
+    <p>Två delar, och båda behövs:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad det betyder</th><th>I postbilden</th></tr></thead>
+        <tbody>
+          <tr><td><b>Formen</b></td><td>Vad som står var, i vilken ordning, hur långt</td><td>Mottagaren överst, avsändaren i hörnet, frimärket till höger</td></tr>
+          <tr><td><b>Tolkningen</b></td><td>Vad mottagaren ska göra med det</td><td>Ett rekommenderat brev ska kvitteras</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Tänk dig att du får bitarna <code>01001000 01101001</code>. Är det ett tal? Två bokstäver? En färg? <b>Bitarna betyder ingenting förrän båda sidor vet vilket protokoll de följer.</b> Med rätt överenskommelse är det bokstäverna <i>Hi</i>.</p>
+
+    <p>Pingen är samma sak: en fråga i en bestämd form, och ett svar i en bestämd form. Båda maskinerna vet vad de ska göra med meddelandet eftersom de följer <b>samma protokoll</b>. Det heter ICMP, och det är <a href="ramen.html#icmp">lektion 45:s</a> ämne.</p>
+
+    <p>Ett nät använder <b>många protokoll samtidigt</b>, vart och ett för sin egen uppgift. Det är därför de ordnas i lager.</p>
+
+    <h2 id="tcpip">3. TCP/IP-modellen</h2>
+
+    <p>Modellen står redan i <code>Introduktion Nätverk.pdf</code>, sidan 6. Det är den som faktiskt körs i nätverk.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>#</th><th>Lager</th><th>Uppgift</th><th>Exempel på protokoll</th></tr></thead>
+        <tbody>
+          <tr><td>4</td><td><b>Applikation</b></td><td>Det användaren ser: webbsidor, e-post, chatt</td><td>HTTP, FTP, DNS, SMTP</td></tr>
+          <tr><td>3</td><td><b>Transport</b></td><td>Ser till att data kommer fram rätt, till rätt program</td><td>TCP, UDP</td></tr>
+          <tr><td>2</td><td><b>Internet</b></td><td>Adressering och vägval mellan nät</td><td>IP, ICMP</td></tr>
+          <tr><td>1</td><td><b>Nätverksåtkomst</b></td><td>Den fysiska överföringen — kabel, radio</td><td>Ethernet, WiFi</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Varje lager gör sin egen del</span>
+      <p>… och litar på att lagret under gör sin. Applikationen bryr sig inte om huruvida det går över kabel eller radio. Kabeln bryr sig inte om huruvida det är en webbsida eller ett mejl.</p>
+    </div>
+
+    <p><b>ICMP står i internetlagret.</b> Pingen har alltså inget applikationslager alls — den är nätverkets eget verktyg, inte ett program. Det ser du med egna ögon på lektion 45.</p>
+
+    <div class="notis">
+      <span class="rubrik">Två av fyra lager har du redan byggt</span>
+      <p>Kabeln, kontakten och switchporten från område 8 är <b>nätverksåtkomst</b>. IPv4-adressen och nätmasken är <b>internet</b>.</p>
+    </div>
+
+    <h2 id="osi">4. OSI-modellen</h2>
+
+    <p>OSI-modellen har sju lager. Så här hör de ihop med TCP/IP:s fyra:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>OSI</th><th>Namn</th><th>Hör till TCP/IP-lagret</th></tr></thead>
+        <tbody>
+          <tr><td>7</td><td>Application</td><td>Applikation</td></tr>
+          <tr><td>6</td><td>Presentation</td><td>Applikation</td></tr>
+          <tr><td>5</td><td>Session</td><td>Applikation</td></tr>
+          <tr><td>4</td><td>Transport</td><td>Transport</td></tr>
+          <tr><td>3</td><td>Network</td><td>Internet</td></tr>
+          <tr><td>2</td><td>Data Link</td><td>Nätverksåtkomst</td></tr>
+          <tr><td>1</td><td>Physical</td><td>Nätverksåtkomst</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>De engelska namnen behålls. <b>Det är så de står i manualer, i certifieringar och i Packet Tracer</b> — och kursens kriterier kräver att du kan läsa manualer på engelska.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Varför två modeller?</span>
+      <p><b>Inget riktigt nät är byggt i sju separata lager.</b> TCP/IP är det som faktiskt körs. Men <b>OSI är branschens gemensamma språk</b> för att peka ut var i stacken något hör hemma.</p>
+    </div>
+
+    <p>Så här låter det i vardagen:</p>
+    <ul>
+      <li>En switch kallas <b>lager 2-enhet</b> — den läser MAC-adresser, OSI-lager 2</li>
+      <li>En router är en <b>lager 3-enhet</b> — den läser IP-adresser</li>
+      <li>"Felet sitter på lager 1" betyder: kolla kabeln</li>
+    </ul>
+
+    <div class="notis varna">
+      <span class="rubrik">Skriv av tabellen — du behöver den</span>
+      <p><b>Packet Tracer numrerar sina lager enligt OSI.</b> När kuvertet öppnas står det <b>Layer 1</b>, <b>Layer 2</b>, <b>Layer 3</b> i fönstret. Utan tabellen ovan är det bara nummer.</p>
+      <p>Nummer 1 är alltid kabeln, i båda modellerna.</p>
+    </div>
+
+    <h2 id="tre-modeller">5. Tre modeller, samma resa</h2>
+
+    <div class="notis">
+      <span class="rubrik">Pröva det själv</span>
+      <p><b>ComputerExplorer → networking → osi-layers</b> — nodens titel är <i>Den lagrade modellen</i>.</p>
+      <p>Knapparna heter <b>Steg ▸</b>, <b>Spela ⏵</b> och <b>Återställ</b>.</p>
+    </div>
+
+    <ol>
+      <li>Tryck <b>Steg ▸</b> och följ webbläsarens förfrågan <b>"GET /index.html"</b> ner genom sändarens lager</li>
+      <li>Titta på rutan <b>Datan just nu</b> vid varje steg — enheten byter namn: <b>data</b>, <b>segment</b>, <b>paket</b>, <b>ram</b>, <b>bitar</b></li>
+      <li>Följ den över <b>kabeln</b> och upp genom mottagarens lager</li>
+      <li>Sista steget: servern får <b>exakt samma</b> "GET /index.html" som skickades</li>
+    </ol>
+
+    <p>Frågan att kunna svara på: <b>i vilket steg lades IP-adressen till, och i vilket togs den bort?</b></p>
+
+    <p>Noden har <b>fem</b> lager: Applikation, Transport, Nätverk, Länk, Fysiskt. Det är varken TCP/IP:s fyra eller OSI:s sju — och det är inget fel.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Noden (5)</th><th>TCP/IP (4)</th><th>OSI (7)</th></tr></thead>
+        <tbody>
+          <tr><td>Applikation</td><td>Applikation</td><td>7, 6, 5</td></tr>
+          <tr><td>Transport</td><td>Transport</td><td>4</td></tr>
+          <tr><td>Nätverk</td><td>Internet</td><td>3</td></tr>
+          <tr><td>Länk</td><td>Nätverksåtkomst</td><td>2</td></tr>
+          <tr><td>Fysiskt</td><td>Nätverksåtkomst</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Femlagersmodellen delar TCP/IP:s nätverksåtkomst i två — länken och det fysiska — eftersom det är två olika saker: <b>ramen med sina MAC-adresser</b>, och <b>signalen på kabeln</b>. Många läroböcker använder den av just det skälet.</p>
+
+    <div class="notis">
+      <span class="rubrik">Vill du ha mer</span>
+      <p>Stanna i noden på steget där Ethernet-huvudet läggs till och läs vad det innehåller: MAC-adresser och en kontrollsumma, <b>FCS</b>. Båda kommer tillbaka på lektion 44.</p>
+      <p>Pröva också att placera varje protokoll från sidan 6 i OSI-modellen i stället för i TCP/IP. Var hamnar HTTP? DNS? Ethernet? Och vilket lager är en patchkabel, en switch, en router?</p>
+    </div>
+
+    <h2 id="kopian">6. Parets egen kopia</h2>
+
+    <p>I område 8 delade fyra elever på en switch, eftersom kravet var minst tre riktiga maskiner. Nu är nätet simulerat, och <b>det som sker i simuleringen ska vara ert eget</b> — ni lägger till en server på lektion 46 och ändrar adresser på lektion 47. Därför gör varje par en egen kopia av gruppens fil från lektion 37.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Gruppens fil saknar adresser</span>
+      <p>Den byggdes port för port mot portkartan på lektion 36–37. Adresserna sattes på lektion 40 — men bara på de riktiga maskinerna. <b>Facit för vilka adresser kopian ska ha är adresstabellen i din labb 8-rapport.</b></p>
+      <p>Hittar ni inte gruppens fil: bygg om den efter portkartan.</p>
+    </div>
+
+    <ol>
+      <li><b>Öppna gruppens fil</b> från lektion 37</li>
+      <li><b>Spara som</b> — en ny fil med <b>båda namnen i paret</b>. Från och med nu är det den ni arbetar i</li>
+      <li><b>Sätt adresserna</b> på varje PC: <b>Desktop → IP Configuration → Static</b>. Samma adresser och samma mask som i adresstabellen från lektion 40</li>
+      <li><b>Pinga</b> mellan två av maskinerna i vanligt <b>Realtime</b>-läge. Svaret ska komma</li>
+      <li><b>Spara igen</b></li>
+    </ol>
+
+    <p><b>Går pingen inte:</b> samma orsaker som på lektion 41 — fel nätdel, samma adress på två maskiner, eller en kabel som inte sitter i rätt port i kopian. <b>Skriv ner vad som hände.</b> Det är labbens första felsökningsmaterial.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Stämmer adresserna i kopian mot adresstabellen?</b> Kopian används varje pass till och med lektion 49, och den följer med in i område 10.</p>
+    </div>
+
+    <h2 id="fonstret">7. Kuvertet öppnas</h2>
+
+    <p>När du klickar på ett kuvert i simuleringsläget öppnas fönstret <b>PDU Information at Device: …</b>. Fliken <b>OSI Model</b> visar två kolumner:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kolumn</th><th>Vad den visar</th><th>När den är ifylld</th></tr></thead>
+        <tbody>
+          <tr><td><b>Out Layers</b></td><td>Hur paketet <b>byggs</b> när det skickas ut</td><td>Hos <b>sändaren</b></td></tr>
+          <tr><td><b>In Layers</b></td><td>Hur paketet <b>packas upp</b> när det tas emot</td><td>Hos <b>mottagaren</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Gör så här i parets egen kopia:</p>
+
+    <ol>
+      <li>Växla till <b>Simulation</b></li>
+      <li><b>Edit Filters</b>: bocka ur allt utom <b>ARP</b> och <b>ICMP</b></li>
+      <li><code>ping</code> från en PC till en annan</li>
+      <li><b>Capture/Forward</b> tills ICMP-kuvertet ligger vid sändaren. Klicka på kuvertet i topologin, eller på den färgade rutan i Event List</li>
+      <li><b>Skriv av varje Layer-rad som har innehåll</b> under <b>Out Layers</b> — exakt som det står</li>
+      <li>Klicka vidare tills kuvertet ligger vid <b>mottagaren</b>. Öppna det igen, och skriv av <b>In Layers</b></li>
+    </ol>
+
+    <p>Tabellen att fylla i. Den tredje kolumnen fyller du i efter <a href="#kapsling">avsnitt 8</a>:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Layer i Packet Tracer</th><th>Vad som står där</th><th>TCP/IP-lager</th></tr></thead>
+        <tbody>
+          <tr><td>Layer 7</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>Layer 6</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>Layer 5</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>Layer 4</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>Layer 3</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>Layer 2</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>Layer 1</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Skriv av, förklara inte</span>
+      <p>Står det <code>IP Header</code>, <code>Ethernet II Header</code> eller <code>Port(s): FastEthernet0</code> är det det du skriver. Vad fälten betyder tar de kommande passen, ett lager i taget.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Layer 4 till 7 är tomma — skriv upp det</span>
+      <p>För ett pingkuvert har bara <b>Layer 1, 2 och 3</b> innehåll. Det är inte ett fel, och du har inte gjort något fel. <b>Varför de är tomma förklaras på <a href="ramen.html#tomt">lektion 45</a>.</b></p>
+    </div>
+
+    <p>Två saker som är lätta att göra fel:</p>
+    <ul>
+      <li><b>Fönstret visar bara In Layers:</b> kuvertet öppnades hos mottagaren. Klicka tillbaka till sändaren med <b>Back</b></li>
+      <li><b>Fel kuvert öppnat:</b> ARP-kuvertet kommer först. Det är det andra som är ICMP. ARP förklaras på lektion 44</li>
+    </ul>
+
+    <p>Flikarna <b>Inbound PDU Details</b> och <b>Outbound PDU Details</b> visar varje header fält för fält. De hör till lektion 44 och framåt.</p>
+
+    <div class="notis">
+      <span class="rubrik">Vill du ha mer</span>
+      <p>Öppna kuvertet också <b>vid switchen</b> och jämför med sändarens. Vilka lager använde switchen? Frågan kommer tillbaka i område 10.</p>
+      <p>Öppna ARP-kuvertet och se att det ser annorlunda ut. Skriv upp hur — förklaringen kommer på lektion 44. Eller pinga en adress som inte finns i kopian: hur långt kom kuvertet?</p>
+    </div>
+
+    <h2 id="kapsling">8. Kuvert i kuvert</h2>
+
+    <p>Det du skrev av är inte ett kuvert, utan flera, inuti varandra:</p>
+
+    <pre><code>┌─ Layer 2: Ethernet ─────────────────────────┐
+│  ┌─ Layer 3: IP ────────────────────────┐   │
+│  │  ┌─ ICMP ────────────────────────┐   │   │
+│  │  │  frågan: "är du där?"         │   │   │
+│  │  └───────────────────────────────┘   │   │
+│  └──────────────────────────────────────┘   │
+└─────────────────────────────────────────────┘</code></pre>
+
+    <div class="notis viktig">
+      <span class="rubrik">Kapsling — encapsulation</span>
+      <p><b>Informationen som hör till ett lager ligger inbäddad i lagret under.</b> Ordet används på engelska i branschen, <i>encapsulation</i>, och ska kännas igen.</p>
+    </div>
+
+    <ul>
+      <li><b>På väg ut</b> läggs ett kuvert till för varje lager, uppifrån och ner. Det är <b>Out Layers</b></li>
+      <li><b>På väg in</b> tas de bort i omvänd ordning, nerifrån och upp. Det är <b>In Layers</b></li>
+      <li><b>Varje lager läser bara sitt eget kuvert.</b> Ethernet bryr sig inte om vad som står i IP-kuvertet, och IP bryr sig inte om vad som står i ICMP-kuvertet</li>
+    </ul>
+
+    <p>I postbilden: <b>brevet ligger i ett kuvert till avdelningen, i ett kuvert till företaget, i en postsäck till staden.</b> Varje sorteringscentral öppnar bara det yttersta.</p>
+
+    <p>Fyll nu i tabellens tredje kolumn. Packet Tracers Layer hör till TCP/IP-lagren så här:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Layer</th><th>TCP/IP-lager</th></tr></thead>
+        <tbody>
+          <tr><td>7, 6, 5</td><td>Applikation</td></tr>
+          <tr><td>4</td><td>Transport</td></tr>
+          <tr><td>3</td><td>Internet</td></tr>
+          <tr><td>2, 1</td><td>Nätverksåtkomst</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><code>osi-layers</code> från <a href="#tre-modeller">avsnitt 5</a> visar samma sak med fem lager. Känner du igen det har du förstått det.</p>
+
+    <h2 id="beviset">9. Labb 9:s första bevis</h2>
+
+    <p>In i rapportens <b>utförandedel</b>, under en rubrik för lektion 43:</p>
+
+    <ul>
+      <li>En <b>skärmbild av Out Layers</b> hos sändaren</li>
+      <li>En <b>skärmbild av In Layers</b> hos mottagaren</li>
+      <li><b>Tabellen</b>, ifylld, med TCP/IP-kolumnen</li>
+      <li>Vilka maskiner pingen gick mellan, med adresser</li>
+    </ul>
+
+    <p>Och i <b>planeringsdelen</b>: parets kopia — vad filen heter, vilka adresser den har, och att den stämmer mot adresstabellen från lektion 40.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Skärmbilden, inte bara tabellen</span>
+      <p>Tabellen visar vad du skrev. <b>Skärmbilden visar vad som fanns.</b> Ta den medan fönstret är öppet.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Arbetar du mot C eller A</span>
+      <p><b>Planeringen ska vara godkänd av läraren innan lektion 44.</b> På E-nivå stämmer du av under arbetets gång; på C och A planerar du färdigt först och genomför sedan självständigt.</p>
+    </div>
+
+    <h2 id="missuppfattningar">10. Vanliga missuppfattningar</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: OSI, Layer, protokoll" autocomplete="off">
+      <p class="traffar" id="traffar-fel">8 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>OSI är fel, det är TCP/IP som gäller</td><td>Båda gäller, för olika saker. <b>TCP/IP körs, OSI talas</b></td></tr>
+          <tr><td>Lagren räknas uppifrån i den ena modellen och nedifrån i den andra</td><td>Nummer 1 är alltid kabeln, i båda modellerna</td></tr>
+          <tr><td>Nodens fem lager är ett fel</td><td>Tre sätt att dela samma resa. Tabellen i avsnitt 5 visar hur de hör ihop</td></tr>
+          <tr><td>"Protokoll" är ett annat ord för program</td><td>Ett protokoll är en överenskommelse. Programmet följer den</td></tr>
+          <tr><td>Layer 4–7 är tomma, alltså är något fel</td><td>Rätt iakttaget, och det ska vara så för en ping. Förklaringen kommer på lektion 45</td></tr>
+          <tr><td>Layer-numren är TCP/IP-lagrens nummer</td><td>Packet Tracer numrerar enligt <b>OSI</b>. Layer 3 är internetlagret</td></tr>
+          <tr><td>Paret kan arbeta i gruppens gemensamma fil</td><td><b>Spara som</b>, med parets namn. Ändringarna på lektion 46 och 47 ska vara parets egna</td></tr>
+          <tr><td>Tabellen räcker, skärmbilden behövs inte</td><td>Tabellen visar vad du skrev. Skärmbilden visar vad som fanns</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">11. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Protokoll</b></td><td>En överenskommelse om hur ett meddelande ska formas och tolkas</td></tr>
+          <tr><td><b>TCP/IP-modellen</b></td><td>Fyra lager: applikation, transport, internet och nätverksåtkomst. Det som faktiskt körs</td></tr>
+          <tr><td><b>OSI-modellen</b></td><td>Sju lager, från Physical till Application. Branschens gemensamma språk för var något hör hemma</td></tr>
+          <tr><td><b>Lager</b></td><td>En del av resan med sin egen uppgift. Varje lager litar på att lagret under gör sin</td></tr>
+          <tr><td><b>Kapsling</b></td><td><i>Encapsulation</i> — informationen från ett lager bäddas in i lagret under, som kuvert i kuvert</td></tr>
+          <tr><td><b>Simulation</b></td><td>Packet Tracers läge där tiden står still och paketen stegas fram ett i taget</td></tr>
+          <tr><td><b>Realtime</b></td><td>Packet Tracers vanliga läge, där allt händer på en gång</td></tr>
+          <tr><td><b>Capture/Forward</b></td><td>Knappen i simuleringsläget som flyttar paketen ett steg</td></tr>
+          <tr><td><b>Event List</b></td><td>Listan i simuleringsläget över varje paket som skickats, rad för rad</td></tr>
+          <tr><td><b>PDU-fönstret</b></td><td>Fönstret <i>PDU Information at Device</i>, som öppnas när du klickar på ett kuvert. Fliken OSI Model visar paketet lager för lager</td></tr>
+          <tr><td><b>Out Layers</b></td><td>Kolumnen i PDU-fönstret som visar hur paketet byggs hos sändaren</td></tr>
+          <tr><td><b>In Layers</b></td><td>Kolumnen i PDU-fönstret som visar hur paketet packas upp hos mottagaren</td></tr>
+          <tr><td><b>Lager 2-enhet</b></td><td>En enhet som läser MAC-adresser, till exempel en switch</td></tr>
+          <tr><td><b>Lager 3-enhet</b></td><td>En enhet som läser IP-adresser, till exempel en router</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 9</a> · <a href="ramen.html">Nästa: ramen, ARP och ICMP</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

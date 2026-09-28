@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kärnan och de två lägena – Dator- och nätverksteknik område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-6-karnan">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Uppslag</strong> · Kärnan och de två lägena</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#karnan">1. Vad kärnan är</a></li>
+      <li><a href="#firmware">2. Firmware eller kärna?</a></li>
+      <li><a href="#lagena">3. De två lägena</a></li>
+      <li><a href="#systemanrop">4. Systemanropet</a></li>
+      <li><a href="#lagren">5. De fyra lagren</a></li>
+      <li><a href="#virtuell">6. Vad en virtuell maskin är</a></li>
+      <li><a href="#missuppfattningar">7. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">8. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 6 · lektion 22</p>
+    <h1>Kärnan och de två lägena</h1>
+    <p class="inledning">Operativsystemet är inte ett program bland andra. Det är det som bestämmer vad andra program får göra — och gränsen som gör det möjligt är osynlig på varje riktig maskin. Den här sidan går igenom vad kärnan är, var gränsen går, och varför den finns.</p>
+
+    <h2 id="karnan">1. Vad kärnan är</h2>
+    <p>På lektion 15 slutade startprocessen så här: firmware körde POST, valde en startenhet och läste in en <b>starthanterare</b>. Starthanteraren läste i sin tur in en <b>kärna</b> — på engelska <i>kernel</i>.</p>
+    <p><b>Kärnan är den del av operativsystemet som alltid ligger i minnet och som har rätt att göra allt.</b> Den startar inte som ett program bland andra; den är det som startar de andra.</p>
+    <p>Tre saker den gör, och alla tre kommer tillbaka senare i området:</p>
+    <ul>
+      <li><b>Delar ut processorn</b> mellan program som verkar köras samtidigt — lektion 26</li>
+      <li><b>Delar ut minnet</b>, och ger varje program en egen bild av det — lektion 26</li>
+      <li><b>Avgör vem som får röra vad</b> — lektion 25</li>
+    </ul>
+
+    <h2 id="firmware">2. Firmware eller kärna?</h2>
+    <p>De två blandas ihop hela tiden, och det är begripligt: båda kör "under" programmen och båda är osynliga. Skillnaden är var de bor och när de kör.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Firmware</th><th>Kärnan</th></tr></thead>
+        <tbody>
+          <tr><td><b>Var den finns</b></td><td>I en krets på moderkortet</td><td>Filer på lagringen, inlästa i minnet</td></tr>
+          <tr><td><b>När den kör</b></td><td>Före operativsystemet</td><td>Så länge maskinen är på</td></tr>
+          <tr><td><b>Vem den tillhör</b></td><td>Maskinvaran</td><td>Operativsystemet</td></tr>
+          <tr><td><b>I kursen</b></td><td>Område 4, lektion 15 och 16</td><td>Härifrån och framåt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Firmware slutar när kärnan tar över.</b> Det är hela överlämningen.</p>
+
+    <h2 id="lagena">3. De två lägena</h2>
+    <p>Processorn kan köra i två lägen, och skillnaden är <b>inte hastighet utan rättigheter</b>.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Läge</th><th>Vem kör där</th><th>Vad som är tillåtet</th></tr></thead>
+        <tbody>
+          <tr><td><b>Användarläge</b><br><small>Ring 3</small></td><td>Webbläsaren, spelet, textredigeraren</td><td>Räkna, läsa sitt eget minne. <b>Inte</b> röra maskinvaran</td></tr>
+          <tr><td><b>Kärnläge</b><br><small>Ring 0</small></td><td>Kärnan</td><td>Allt. Styra maskinvaran direkt, läsa vilket minne som helst</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Kärnläge betyder inte snabbare</span>
+      <p>Det är samma processor. Skillnaden är vad den <b>får</b> göra. Ring 0 och Ring 3 är bara två ord för samma sak — Ring 0 är det mest privilegierade.</p>
+    </div>
+
+    <h2 id="systemanrop">4. Systemanropet</h2>
+    <p>Mellan lägena går en <b>behörighetsgräns</b>. Ett vanligt program som vill spara en fil kan inte skriva till disken själv — det får inte. I stället gör det ett <b>systemanrop</b>:</p>
+    <ol>
+      <li>Programmet vill spara en fil, men får inte skriva till disken själv</li>
+      <li>Det gör ett <b>systemanrop</b> — ber kärnan om saken</li>
+      <li>Kärnan <b>kontrollerar att det är tillåtet</b></li>
+      <li>Kärnan utför det</li>
+    </ol>
+
+    <p><b>Varför är det byggt så?</b> Om varje program fick röra maskinvaran direkt skulle ett enda trasigt program kunna skriva sönder en annan användares filer, låsa skärmen eller stänga av maskinen. <b>Gränsen finns för att ett fel ska stanna i det program där det uppstod.</b></p>
+
+    <div class="notis">
+      <span class="rubrik">Steg 3 kommer tillbaka</span>
+      <p>Det är i steg 3 behörigheten prövas. På lektion 25 är det svaret på varför ett standardkonto inte kommer åt administratörens filer: <b>kärnan nekade systemanropet</b> — inte programmet, inte Utforskaren.</p>
+    </div>
+
+    <p>De engelska termerna är <i>user mode</i>, <i>kernel mode</i> och <i>system call</i>. De står så i Computer Explorer.</p>
+
+    <h2 id="lagren">5. De fyra lagren</h2>
+    <p>Ett operativsystem går att rita som fyra lager, uppifrån och ned. Det är den strukturen du byggde i <code>ComputerExplorer → operating-systems → layer-builder</code>.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Lager</th><th>Vad det är</th><th>Exempel</th></tr></thead>
+        <tbody>
+          <tr><td><b>Användarprogram</b></td><td>Vad användaren ser</td><td>Webbläsare, textredigerare, spel</td></tr>
+          <tr><td><b>Bibliotek &amp; systemanrop</b></td><td>Operativsystemets API</td><td><code>printf()</code>, <code>malloc()</code>, <code>open()</code></td></tr>
+          <tr><td><b>Kärna</b></td><td>Den privilegierade kärnan</td><td>CPU-schemaläggare, minneshanterare, filsystem, enhetsdrivrutin</td></tr>
+          <tr><td><b>Hårdvara</b></td><td>Den fysiska maskinen</td><td>Processor, minne, disk</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Det som fälls oftast</span>
+      <p><code>printf()</code> och <code>malloc()</code> hör till <b>Bibliotek &amp; systemanrop</b>, inte till kärnan. De är funktioner ditt program anropar, och de går i sin tur vidare till kärnan när de behöver.</p>
+      <p><code>open()</code>-systemanropet hör också dit. <b>Dörren är inte rummet.</b></p>
+    </div>
+
+    <h2 id="virtuell">6. Vad en virtuell maskin är</h2>
+    <p><b>En virtuell maskin är ett helt operativsystem som körs som ett program inuti ett annat.</b> Värden är din elevdator med sitt Windows. Gästen är det system du installerar.</p>
+    <ul>
+      <li>Den virtuella <b>disken är en fil</b> på din riktiga disk</li>
+      <li>Den <b>startar mot en installationskälla</b> precis som en fysisk maskin</li>
+      <li>Gästen får <b>sin egen kärna</b> och sina egna två lägen — allt på den här sidan, en gång till, i ett fönster</li>
+    </ul>
+    <p>Och skälet kursen går över till det nu: <b>ett fel kostar en ny virtuell maskin, aldrig den fysiska disken.</b></p>
+
+    <h2 id="missuppfattningar">7. Vanliga missuppfattningar</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det som sägs</th><th>Vad som faktiskt gäller</th></tr></thead>
+        <tbody>
+          <tr><td>"Kärnan är samma sak som firmware"</td><td>Firmware sitter i en krets och kör före. Kärnan är filer som läses in i minnet</td></tr>
+          <tr><td>"Kärnläge betyder snabbare"</td><td>Samma processor. Skillnaden är rättigheter, inte hastighet</td></tr>
+          <tr><td>"Ett systemanrop och en fälla är samma sak"</td><td>Ett systemanrop är att fråga. En fälla är att bli stoppad</td></tr>
+          <tr><td>"<code>printf()</code> är en del av kärnan"</td><td>Den är en biblioteksfunktion som <i>anropar</i> kärnan</td></tr>
+          <tr><td>"Enhetsdrivrutinen är hårdvara"</td><td>Drivrutinen är kod. Du installerade en i Windows på lektion 19</td></tr>
+          <tr><td>"En virtuell maskin är väl inget riktigt system?"</td><td>Den är ett program — och det är hela poängen. Ett program som kör ett helt operativsystem</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">8. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Kärna</b></td><td>Den del av operativsystemet som alltid ligger i minnet och har rätt att göra allt. Engelska: <i>kernel</i></td></tr>
+          <tr><td><b>Firmware</b></td><td>Programkod som sitter fast i en krets på kortet och kör innan operativsystemet startat</td></tr>
+          <tr><td><b>Användarläge</b></td><td>Det läge vanliga program körs i. Får inte röra maskinvaran. Ring 3</td></tr>
+          <tr><td><b>Kärnläge</b></td><td>Det läge kärnan körs i. Får allt. Ring 0</td></tr>
+          <tr><td><b>Behörighetsgräns</b></td><td>Gränsen mellan de två lägena. Ett program måste gå genom en systemanropsport för att korsa den</td></tr>
+          <tr><td><b>Systemanrop</b></td><td>När ett program ber kärnan göra något det inte får göra självt. Engelska: <i>system call</i></td></tr>
+          <tr><td><b>CPU-fälla</b></td><td>Vad som händer när ett program försöker något det aldrig får. Processorn stoppar det</td></tr>
+          <tr><td><b>Virtuell maskin</b></td><td>Ett helt operativsystem som körs som ett program inuti ett annat</td></tr>
+          <tr><td><b>Värd</b></td><td>Maskinen och systemet som kör den virtuella maskinen. Här: din elevdator</td></tr>
+          <tr><td><b>Gäst</b></td><td>Systemet som körs inuti den virtuella maskinen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 6</a> · <a href="jamforelsen.html">Nästa: de tre systemen jämförda</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

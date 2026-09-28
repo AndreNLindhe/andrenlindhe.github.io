@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VLAN och gränsen för en broadcast – Dator- och nätverksteknik område 10</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-10-vlan">
+
+<header class="topp">
+  <a href="index.html">← Område 10</a>
+  <span class="harifran"><strong>Uppslag</strong> · VLAN och gränsen för en broadcast</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#tre-satt">1. Tre sätt att dra en gräns</a></li>
+      <li><a href="#vad">2. Vad ett VLAN är</a></li>
+      <li><a href="#planen">3. VLAN-planen</a></li>
+      <li><a href="#delas">4. Switchen delas</a></li>
+      <li><a href="#show-vlan">5. <code>show vlan brief</code></a></li>
+      <li><a href="#pingen-dor">6. Varför pingen dör</a></li>
+      <li><a href="#router-vlan">7. Router och VLAN jämförda</a></li>
+      <li><a href="#inte-las">8. Ordning, inte lås</a></li>
+      <li><a href="#kontrolleras">9. Delningen kontrolleras</a></li>
+      <li><a href="#fangas">10. Broadcasten vid VLAN-gränsen</a></li>
+      <li><a href="#lektion-52">11. Jämförelsen med lektion 52</a></li>
+      <li><a href="#forklaringen">12. Förklaringen skrivs</a></li>
+      <li><a href="#nivaerna">13. Samma mening i tre nivåer</a></li>
+      <li><a href="#missuppfattningar">14. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">15. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 10 · lektion 55 och 56</p>
+    <h1>VLAN och gränsen för en broadcast</h1>
+    <p class="inledning">Hittills har gränsen för en broadcast gått vid routern — en fysisk låda med en kabel i varje nät. Här dras samma gräns <b>mitt i en switch</b>, utan att en enda kabel flyttas. Ett <b>VLAN</b> delar switchens portar i flera broadcastdomäner. Två maskiner som når varandra slutar göra det — fast de behåller sina adresser, i samma nät, med samma mask. Sedan fångas broadcasten vid VLAN-gränsen och jämförs med den från lektion 52. Sist det viktigaste i hela labb 10: att skriva <b>varför</b> den stannade.</p>
+
+    <h2 id="tre-satt">1. Tre sätt att dra en gräns</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Gränsen</th><th>Broadcastdomäner</th><th>Lektion</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td><b>Ingen gräns</b> — två switchar ihopkopplade</td><td>En</td><td>52</td></tr>
+          <tr><td><b>2</b></td><td><b>En router</b> — två nät, var sin routerport</td><td>Två</td><td>54</td></tr>
+          <tr><td><b>3</b></td><td><b>VLAN</b> — en switch, två VLAN</td><td>Två</td><td>55</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>De två första finns på <a href="switchen.html#tva-switchar">switchsidan</a> och <a href="routern.html#broadcast-routern">routersidan</a>. Den här sidan handlar om den tredje.</p>
+
+    <h2 id="vad">2. Vad ett VLAN är</h2>
+
+    <p><b>Skolans problem:</b> elevdatorerna och en gäst-uppkoppling i samma byggnad. De ska inte se varandras trafik — inte ens varandras broadcast. Med det du kan hittills behövs två switchar och en router.</p>
+
+    <p>Ett <b>VLAN</b> — <i>Virtual Local Area Network</i>, virtuellt lokalt nätverk — löser det i <b>en</b> switch. Varje port tilldelas ett VLAN, och switchen behandlar varje VLAN som om det vore en egen switch:</p>
+
+    <ul>
+      <li>En broadcast i VLAN 10 flödas <b>bara till VLAN 10:s portar</b></li>
+      <li>Adresstabellen hålls <b>per VLAN</b> — kolumnen <b>Vlan</b> i <code>show mac address-table</code> från lektion 50 får andra värden än <code>1</code></li>
+      <li><b>Ingenting</b> i kabeln eller hårdvaran ändras. Bara en inställning per port</li>
+    </ul>
+
+    <p><b>Skälet är sällan bara tekniskt.</b> Det är ordning, och det är pengar: trafik som inte ska blandas hålls isär utan att en enda kabel eller switch köps in.</p>
+
+    <h2 id="planen">3. VLAN-planen</h2>
+
+    <p>Planen gäller <b>den första switchen</b>, nät A:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>VLAN</th><th>Namn</th><th>Portar</th><th>Adresser</th></tr></thead>
+        <tbody>
+          <tr><td><b>10</b></td><td><code>ELEVER</code></td><td>Servern, två av maskinerna, <b>och porten mot routern</b></td><td>Som förut: <code>192.168.&lt;grupp&gt;.x</code></td></tr>
+          <tr><td><b>20</b></td><td><code>GAST</code></td><td>De två andra maskinerna</td><td><b>Som förut</b> — de byts först på lektion 57</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Två saker i planen är avsiktliga:</p>
+
+    <ul>
+      <li><b>Porten mot routern ligger i VLAN 10.</b> Då fortsätter VLAN 10 att vara nät A, med gateway och väg till nät B. VLAN 20 blir ensamt</li>
+      <li><b>Maskinerna i VLAN 20 behåller sina adresser.</b> De är fortfarande i <code>192.168.&lt;grupp&gt;.x</code>, samma nät som VLAN 10. Pingen som misslyckas kan därför bara ha stoppats av VLAN:et</li>
+    </ul>
+
+    <p>Namnet skrivs <code>GAST</code>, inte <code>GÄST</code> — IOS tar inte å, ä och ö.</p>
+
+    <h2 id="delas">4. Switchen delas</h2>
+
+    <p>I parets kopia, på <b>den första switchen</b>:</p>
+
+    <ol class="steg">
+      <li><b>Läs av portkartan:</b> vilken port har servern, vilka har maskinerna, vilken går till routern?</li>
+      <li><b>Bestäm</b> vilka två maskiner som går till VLAN 20. Skriv upp det</li>
+      <li><b>Pinga</b> mellan en av dem och en maskin som stannar i VLAN 10. <b>Det går</b></li>
+      <li><b>Konfigurera</b> VLAN 10 och 20 i switchens CLI, och tilldela portarna — <b>porten mot routern i VLAN 10</b>. Konfigurationen står nedan</li>
+      <li><code>show vlan brief</code>. Stämmer det mot planen?</li>
+      <li><b>Pinga igen</b>, samma två maskiner. <b>Det går inte</b></li>
+      <li>Pinga <b>inom</b> VLAN 10 och <b>inom</b> VLAN 20. Det går</li>
+    </ol>
+
+    <p>Konfigurationen, skriven för demokopians portar. <b>Dina portnummer är dina egna</b> — byt dem efter parets portkarta:</p>
+
+    <pre><code class="sprak-ios">enable
+configure terminal
+vlan 10
+ name ELEVER
+vlan 20
+ name GAST
+exit
+interface range FastEthernet0/1 - 3
+ switchport mode access
+ switchport access vlan 10
+exit
+interface GigabitEthernet0/1
+ switchport mode access
+ switchport access vlan 10
+exit
+interface range FastEthernet0/4 - 5
+ switchport mode access
+ switchport access vlan 20
+end</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>vlan 10</code>, <code>name ELEVER</code></td><td>Skapar VLAN 10 och ger det ett namn</td></tr>
+          <tr><td><code>interface range …</code></td><td>Väljer flera portar på en gång</td></tr>
+          <tr><td><code>switchport mode access</code></td><td>Porten tillhör <b>ett</b> VLAN och bär vanliga ramar</td></tr>
+          <tr><td><code>switchport access vlan 10</code></td><td>Vilket VLAN porten tillhör. Tas bara emot när du står i ett gränssnitt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Cisco IOS-syntax</b>, som resten av området — Ciscos switchar och Packet Tracer, inte alla tillverkares. Finns labbets utrustning kan samma kommandon skrivas in i en hanterbar Cisco-switch.</p>
+
+    <p><b>Anteckna portarna och VLAN:en.</b> Tabellen är planeringsdelen i rapporten:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Port</th><th>Maskin</th><th>Adress</th><th>VLAN</th></tr></thead>
+        <tbody>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="show-vlan">5. <code>show vlan brief</code></h2>
+
+    <p>Så här ser kontrollen ut i demokopian:</p>
+
+    <pre><code>Switch#show vlan brief
+
+VLAN Name        Status    Ports
+---- ----------- --------- ------------------------------
+1    default     active    Fa0/6, Fa0/7, … Gi0/2
+10   ELEVER      active    Fa0/1, Fa0/2, Fa0/3, Gi0/1
+20   GAST        active    Fa0/4, Fa0/5</code></pre>
+
+    <p><b>VLAN 1</b> finns kvar med portarna ingen rört. Det är switchens standard — alla portar börjar där.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Vad som inte ändrats</span>
+      <p>Samma kabel, samma switch, samma adress, samma mask, samma nät. <b>Det enda som ändrats är en inställning på två portar.</b></p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Vad är det enda som ändrats mellan steg 3 och steg 6?</b></p>
+    </div>
+
+    <h2 id="pingen-dor">6. Varför pingen dör</h2>
+
+    <p>Maskinen i VLAN 20 vill pinga <code>192.168.&lt;grupp&gt;.10</code>. <b>Samma nät</b>, enligt masken. Den skickar alltså en <b>ARP-broadcast</b>. Switchen flödar den — men <b>bara till VLAN 20:s portar.</b> Maskinen i VLAN 10 får aldrig frågan. Ingen svarar. Pingen dör <b>innan den ens skickats</b>.</p>
+
+    <p>Pinga också nät B från VLAN 20. Det går inte heller — VLAN 20 har ingen väg till routern. Det löses på lektion 57, se <a href="trunken.html">trunksidan</a>.</p>
+
+    <h2 id="router-vlan">7. Router och VLAN jämförda</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Lektion 54 — router</th><th>Lektion 55 — VLAN</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vad skiljer maskinerna åt</b></td><td>Var sin routerport</td><td>Var sitt VLAN i samma switch</td></tr>
+          <tr><td><b>Fysiskt</b></td><td>Två switchar</td><td><b>En</b> switch</td></tr>
+          <tr><td><b>Broadcastdomäner</b></td><td>Två</td><td>Två</td></tr>
+          <tr><td><b>Samma nät?</b></td><td>Nej — olika nätdel</td><td><b>Ja — ändå isär</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Samma princip, gjord i mjukvara</span>
+      <p>Två maskiner i olika VLAN är lika avskilda som två maskiner bakom var sin routerport. Därför gäller samma slutsats: <b>ska de nå varandra krävs något som routar mellan dem.</b> Det är lektion 57.</p>
+    </div>
+
+    <h2 id="inte-las">8. Ordning, inte lås</h2>
+
+    <p><b>Ett VLAN håller isär trafik logiskt. Det är inte i sig ett skydd.</b></p>
+
+    <ul>
+      <li><b>Felkonfiguration</b> — en port i fel VLAN, och en gästdator sitter bland elevdatorerna</li>
+      <li><b>VLAN-hopping</b> — tekniker där en angripare lurar switchen att skicka ramar in i ett annat VLAN</li>
+    </ul>
+
+    <p>Riktig säkerhet kräver mer: behörighet, brandvägg, övervakning. <b>VLAN är ordning, inte lås.</b> Kursen går inte djupare än så.</p>
+
+    <div class="notis">
+      <span class="rubrik">Vill du ha mer</span>
+      <p>Kör <code>show mac address-table</code> och titta på kolumnen <b>Vlan</b>. Samma switch, samma tabell — men raderna tillhör olika VLAN.</p>
+      <p>Flytta en maskin från VLAN 20 till VLAN 10 med ett enda kommando, och pinga. Ingen kabel rördes.</p>
+      <p>Lägg en tredje maskin i VLAN 20 och pinga inom VLAN:et. Hur många broadcastdomäner har switchen nu? Och hela nätet, med nät B?</p>
+    </div>
+
+    <h2 id="kontrolleras">9. Delningen kontrolleras</h2>
+
+    <p>Lektion 56 börjar med att delningen är klar:</p>
+
+    <ol class="steg">
+      <li><code>show vlan brief</code> på den första switchen</li>
+      <li>Stämmer portarna mot parets tabell?</li>
+      <li><b>Porten mot routern</b> i VLAN 10? Ligger den kvar i VLAN 1 når VLAN 10 inte nät B längre</li>
+      <li>Pinga <b>inom</b> VLAN 10: går. Pinga <b>mellan</b> VLAN 10 och 20: går inte</li>
+    </ol>
+
+    <p>Slutar också pingen inom VLAN 10 att fungera har en port hamnat i fel VLAN. Jämför <code>show vlan brief</code> med portkartan.</p>
+
+    <h2 id="fangas">10. Broadcasten vid VLAN-gränsen</h2>
+
+    <p><b>I VLAN 10:</b></p>
+
+    <ol class="steg">
+      <li><code>arp -d</code> på en maskin i VLAN 10</li>
+      <li><b>Simulation</b>, filter på <b>ARP</b></li>
+      <li>Pinga en annan maskin i VLAN 10</li>
+      <li><b>Capture/Forward</b> tills frågan nått alla den ska nå: servern, den andra maskinen, <b>porten mot routern</b></li>
+      <li><b>Skärmbild.</b> Vilka portar fick den? Vilka fick den <b>inte</b>?</li>
+    </ol>
+
+    <p><b>I VLAN 20:</b></p>
+
+    <ol class="steg">
+      <li><code>arp -d</code> på en maskin i VLAN 20</li>
+      <li>Pinga <code>192.168.&lt;grupp&gt;.10</code> — en maskin i VLAN 10, <b>samma nät</b></li>
+      <li>Följ frågan. Den når bara VLAN 20:s andra port. Ingen svarar. <b>Skärmbild</b></li>
+    </ol>
+
+    <p>Fyll i:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Broadcasten från</th><th>Nådde portarna</th><th>Nådde inte</th></tr></thead>
+        <tbody>
+          <tr><td>VLAN 10</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>VLAN 20</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Tabellen säger vad bilden visar. <b>Den ska in i rapporten</b>, inte bara skärmbilden.</p>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>ARP-frågan från VLAN 20 gällde en adress i samma nät. Varför fick den maskinen aldrig frågan?</b></p>
+    </div>
+
+    <h2 id="lektion-52">11. Jämförelsen med lektion 52</h2>
+
+    <p>Lägg din skärmbild från lektion 52 bredvid dagens:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Lektion 52</th><th>Lektion 56</th></tr></thead>
+        <tbody>
+          <tr><td><b>Switchar</b></td><td>Två</td><td>En</td></tr>
+          <tr><td><b>Broadcasten nådde</b></td><td><b>Varje</b> port på båda utom källporten</td><td>Bara VLAN 10:s portar</td></tr>
+          <tr><td><b>Broadcastdomäner</b></td><td>En</td><td>Två — en per VLAN</td></tr>
+          <tr><td><b>Vad avgjorde gränsen</b></td><td>Det fanns ingen</td><td><b>VLAN-indelningen</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Meningen som är hela området</span>
+      <p><b>Switchningen avgör att en broadcast flödas inom en domän. VLAN avgör var domänens gräns går.</b> Det är de två tillsammans — inte kabeln, inte antalet switchar — som stoppar trafiken vid VLAN-gränsen.</p>
+      <p>Det är den meningen rapporten ska <b>förklara</b>, inte skriva av.</p>
+    </div>
+
+    <p>Och den tredje delen, från lektion 54: <b>porten mot routern ligger i VLAN 10.</b> Broadcasten nådde routern — och stannade där, som alltid.</p>
+
+    <h2 id="forklaringen">12. Förklaringen skrivs</h2>
+
+    <div class="notis viktig">
+      <span class="rubrik">Skärmbilden är bevis. Förklaringen är betyget.</span>
+      <p>Att visa att en ping misslyckas är E-nivå. Det labb 10 bedömer — för första gången i kursen mot A-kriteriets <b>samband mellan de olika delarna som ingår i nätverkets uppbyggnad</b> — är förklaringen. Den som bara har skärmbilden har E.</p>
+    </div>
+
+    <p><b>Skriv ett eget första utkast</b> i ditt labbdokument, innan du läser vidare. Frågan att svara på:</p>
+
+    <blockquote>Varför nådde broadcasten från VLAN 10 inte maskinerna i VLAN 20, fast de sitter i samma switch och har adresser i samma nät?</blockquote>
+
+    <div class="notis varna">
+      <span class="rubrik">Utkastet först</span>
+      <p>Läs inte nivåerna nedan förrän du har skrivit ditt eget. Annars skriver du av A-nivån — och då är den inte din.</p>
+    </div>
+
+    <h2 id="nivaerna">13. Samma mening i tre nivåer</h2>
+
+    <p>Tre sätt att skriva om samma sak. Skillnaden är <b>kvalitativ</b>, inte en fråga om längd.</p>
+
+    <div class="notis">
+      <span class="rubrik">E — säger vad som hände</span>
+      <p>Broadcasten från VLAN 10 nådde bara maskinerna i VLAN 10. Pingen till VLAN 20 gick inte.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">C — säger varför, med mekanismen</span>
+      <p>Broadcasten stannade inom VLAN 10 eftersom switchen bara flödar en broadcast till portar i samma VLAN. Varje VLAN är en egen broadcastdomän, så maskinerna i VLAN 20 fick aldrig ARP-frågan och kunde inte svara.</p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">A — säger också hur delarna hänger ihop, och vad det får för följd</span>
+      <p>Broadcasten stannade inom VLAN 10 eftersom switchen flödar en broadcast bara till portar i samma VLAN — switchningen bestämmer att den flödas, VLAN-indelningen bestämmer hur långt. Att maskinerna har adresser i samma nät spelar ingen roll: ARP-frågan når aldrig fram, så IP-lagret får aldrig chansen. Det är samma resultat som när två nät skiljs av en router, som på lektion 54, men gjort i switchens inställningar i stället för med en kabel. Därför behövs en router också mellan VLAN — och VLAN 20 behöver ett eget IP-nät för att routern ska kunna skilja dem åt.</p>
+    </div>
+
+    <p><b>Skriv sedan om ditt utkast.</b> Inte av nivåerna — efter dem. Målet är att nå ett steg högre än utkastet. Fråga dig: <b>står det varför, eller bara vad?</b></p>
+
+    <p>Står det <i>för att de är i olika nät</i> har du blandat ihop med lektion 53. På lektion 55 var de i samma nät, med samma mask. Det var VLAN:et.</p>
+
+    <div class="notis">
+      <span class="rubrik">Labb 10:s tredje underlag</span>
+      <p>Skärmbilderna, tabellen över vilka portar broadcasten nådde, och <b>förklaringen i dina egna ord</b>. På lektion 58 går förklaringen in i resultatdelen i färdigskriven form, med routerns roll tillagd. Se <a href="labb.html#delarna">labbsidan</a>.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Vill du ha mer</span>
+      <p>Flytta porten mot routern till VLAN 20 och se vad som händer med VLAN 10:s väg till nät B. Flytta tillbaka.</p>
+      <p>Om en broadcast skickas i VLAN 1 — vilka portar når den?</p>
+      <p>Läs din omskrivna förklaring för din labbpartner, och låt partnern säga vilken nivå den når.</p>
+    </div>
+
+    <h2 id="missuppfattningar">14. Vanliga missuppfattningar</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: adress, port, säkerhet" autocomplete="off">
+      <p class="traffar" id="traffar-fel">10 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>Det var adressen som stoppade pingen</td><td>Samma nät, samma mask. Bara VLAN:et ändrades</td></tr>
+          <tr><td>Kabeln stoppar trafiken</td><td>Samma kabel som förut. Inställningen avgör</td></tr>
+          <tr><td>Maskinerna i VLAN 20 ska få nya adresser direkt</td><td>Inte på lektion 55. Då försvinner beviset. Lektion 57</td></tr>
+          <tr><td>VLAN skyddar mot intrång</td><td>Ordning, inte lås. Felkonfiguration och VLAN-hopping</td></tr>
+          <tr><td>Portnumren i exemplet gäller alla</td><td>Varje pars portkarta är egen</td></tr>
+          <tr><td>VLAN 10 når inte nät B, alltså är routern fel</td><td>Porten mot routern ligger kvar i VLAN 1. Lägg den i VLAN 10</td></tr>
+          <tr><td>Broadcasten når VLAN 20, alltså fungerar VLAN inte</td><td>En port ligger i fel VLAN. <code>show vlan brief</code></td></tr>
+          <tr><td>Förklaringen är att pingen gick inte</td><td>Det är vad som syntes, och det är E. Varför gick den inte?</td></tr>
+          <tr><td>A-meningen kan skrivas av</td><td>Utkastet först. Nivåerna sedan. Omskrivningen i egna ord</td></tr>
+          <tr><td>Namnet kan vara <code>GÄST</code></td><td>IOS tar inte å, ä och ö. <code>GAST</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">15. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>VLAN</b></td><td><i>Virtual Local Area Network</i> — en switch vars portar delas i flera broadcastdomäner</td></tr>
+          <tr><td><b>VLAN-plan</b></td><td>Vilken port som tillhör vilket VLAN, och vilka adresser maskinerna har</td></tr>
+          <tr><td><b>Access-port</b></td><td>En switchport som tillhör ett enda VLAN och bär vanliga ramar</td></tr>
+          <tr><td><b>VLAN 1</b></td><td>Switchens standard-VLAN. Alla portar börjar där</td></tr>
+          <tr><td><b><code>show vlan brief</code></b></td><td>Visar varje VLAN, dess namn och dess portar</td></tr>
+          <tr><td><b><code>interface range</code></b></td><td>Väljer flera portar på en gång i switchens CLI</td></tr>
+          <tr><td><b>VLAN-hopping</b></td><td>Tekniker där en angripare lurar switchen att skicka ramar in i ett annat VLAN</td></tr>
+          <tr><td><b>Portkarta</b></td><td>Vilken maskin som sitter i vilken port. Varje par har sin egen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 10</a> · <a href="routern.html">Föregående: routern</a> · <a href="trunken.html">Nästa: trunken</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

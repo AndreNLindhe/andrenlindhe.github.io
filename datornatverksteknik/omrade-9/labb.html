@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Labb 9: Protokoll i praktiken – Dator- och nätverksteknik område 9</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-9-labb">
+
+<header class="topp">
+  <a href="index.html">← Område 9</a>
+  <span class="harifran"><strong>Uppgift</strong> · Labb 9: Protokoll i praktiken</span>
+  <a href="#checklista">Checklista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppgiften">1. Uppgiften</a></li>
+      <li><a href="#par">2. Par, egen rapport</a></li>
+      <li><a href="#vaxer">3. Så växer rapporten fram</a></li>
+      <li><a href="#delarna">4. Vad varje del ska innehålla</a></li>
+      <li><a href="#paketet">5. Vilket paket ska jag följa?</a></li>
+      <li><a href="#sista-passet">6. Sista passet, steg för steg</a></li>
+      <li><a href="#bedomning">7. Bedömning</a></li>
+      <li><a href="#ska">8. Ska-krav — E</a></li>
+      <li><a href="#bor">9. Bör-krav — C</a></li>
+      <li><a href="#utmaning">10. Utmaning — A</a></li>
+      <li><a href="#nyanserat">11. Vad "nyanserat" betyder</a></li>
+      <li><a href="#misstag">12. Vanliga misstag</a></li>
+      <li><a href="#checklista">13. Checklista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 9 · labb 9</p>
+    <h1>Labb 9: Protokoll i praktiken</h1>
+    <p class="inledning">Kursens åttonde labbrapport, och den första som går åt andra hållet. De sju tidigare rapporterna beskrev vad du själv gjorde: skruvade, installerade, kopplade, mätte. <b>Den här förklarar något som redan fanns.</b> Ett paket du fångat men inte skapat, byggt enligt protokoll du inte har hittat på — och din uppgift är att läsa det och säga vad varje del är till för. Mallens fem delar är desamma. Det som är nytt är resultatdelen: där står inte vad du gjorde, utan vad paketet gjorde.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-03-17">
+        <span class="nar">17 mar</span>
+        <span class="vad">Inlämning kl 23:59 — <b>en onsdag</b>
+          <small>Sista lektionstiden är tisdag 16/3. Kvällen efter är till för att skriva, inte för att fånga.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Sista rapporten före påsklovet</span>
+      <p>Efter lektion 49 kommer påsklov 22–25/3 och annandag påsk 29/3. <b>Nästa pass är tisdag 30 mars.</b> Det som fångas på lektion 49 är det som gäller.</p>
+      <p><b>Spara Packet Tracer-filen där du hittar den igen.</b> Område 10 öppnar i samma nät.</p>
+    </div>
+
+    <h2 id="uppgiften">1. Uppgiften</h2>
+    <p>Fyra saker ska göras och dokumenteras:</p>
+
+    <ol>
+      <li><b>Simulera trafik</b> i Packet Tracers simuleringsläge, på parets egen kopia av nätet från område 8</li>
+      <li><b>Identifiera minst tre protokoll</b> i det du fångat</li>
+      <li><b>Följ ett paket genom lagren</b> — ut hos sändaren, in hos mottagaren</li>
+      <li><b>Förklara med egna ord vad varje lager tillförde</b></li>
+    </ol>
+
+    <p>Genom allt detta: <b>varje källa med språk angivet</b>, som sedan labb 5.</p>
+
+    <h2 id="par">2. Par, egen rapport</h2>
+
+    <p>Ni arbetar <b>två och två</b>, i parets egen kopia av gruppens nät från område 8. Kopian görs på lektion 43 — se <a href="lagren.html#kopian">lagersidan</a> — och från och med då är det den ni ändrar i.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Rapporten skriver var och en själv</span>
+      <p>Dokumentationen bedöms individuellt. Ni får följa samma paket — det är <b>förklaringen av vad varje lager tillförde</b> som ska vara din egen.</p>
+      <p>Labbpartnerns namn står överst.</p>
+    </div>
+
+    <h2 id="vaxer">3. Så växer rapporten fram</h2>
+
+    <p>Labben görs under åtta pass. <b>Varje labbpass ger ett bevis</b>, och när lektion 49 kommer finns underlaget redan — om du sparat det.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Vad som görs</th><th>Vad som förs in i rapporten</th></tr></thead>
+        <tbody>
+          <tr><td><b>42</b> · mån 22/2</td><td>Protokoll och lager. Labben introduceras</td><td>—</td></tr>
+          <tr><td><b>43</b> · tis 23/2</td><td>Parets kopia. <b>Första paketet öppnas</b></td><td>Planeringen: kopian. Utförandet: <b>Out och In Layers</b> för en ping</td></tr>
+          <tr><td><b>44</b> · mån 1/3</td><td>Ramen, ARP och IP</td><td><b>ARP-frågan och svaret</b></td></tr>
+          <tr><td><b>45</b> · tis 2/3</td><td>ICMP, och maskinen som inte svarar</td><td><b>ICMP-paret</b>, typ 8 och 0. En mening om uteblivna svar</td></tr>
+          <tr><td><b>46</b> · mån 8/3</td><td>Servern läggs till. TCP och UDP</td><td><b>HTTP över TCP</b> och <b>DNS över UDP</b>, med portarna</td></tr>
+          <tr><td><b>47</b> · tis 9/3</td><td>DHCP</td><td><b>De fyra DHCP-meddelandena</b></td></tr>
+          <tr><td><b>48</b> · mån 15/3</td><td>DNS, HTTP, HTTPS, kapslingen hela vägen</td><td>Kraven i detalj</td></tr>
+          <tr><td><b>49</b> · tis 16/3</td><td><b>Välj paket</b>, resultatdelen, felsökning, källor</td><td>Rapporten klar</td></tr>
+          <tr><td><b>onsdag 17/3</b></td><td>—</td><td><b>Inlämning senast 23:59</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Ta skärmbilden när du har fönstret öppet</span>
+      <p>Ett PDU-fönster som stängts går att öppna igen — men bara om du vet vilket kuvert det var.</p>
+    </div>
+
+    <h2 id="delarna">4. Vad varje del ska innehålla</h2>
+
+    <h3>1. Planering</h3>
+    <p>Skrivs på lektion 43.</p>
+    <ul>
+      <li><b>Parets kopia:</b> vad filen heter och var den ligger</li>
+      <li><b>Maskinerna och deras adresser</b> — samma som i adresstabellen från lektion 40</li>
+      <li>Att du <b>kontrollerat</b> att adresserna i kopian stämmer mot tabellen</li>
+      <li><b>Vad du tror blir svårast</b> — att hitta rätt kuvert, att förstå lagren, eller att förklara dem</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Arbetar du mot C eller A</span>
+      <p><b>Planeringen ska vara godkänd av läraren innan lektion 44.</b> På E-nivå stämmer du av under arbetets gång; på C och A planerar du färdigt först och genomför sedan självständigt.</p>
+    </div>
+
+    <h3>2. Utförande</h3>
+    <p>Skrivs på lektion 43 till 47, medan det händer. <b>En rubrik per pass</b>, med skärmbilderna under:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rubrik</th><th>Vad som ska stå där</th><th>Stödet</th></tr></thead>
+        <tbody>
+          <tr><td><b>Lektion 43</b></td><td>Det första öppnade paketet. <b>Out Layers</b> och <b>In Layers</b>, och vilka Layer-rader som var tomma</td><td><a href="lagren.html#fonstret">Lagren</a></td></tr>
+          <tr><td><b>Lektion 44</b></td><td>ARP-frågan till <code>FFFF.FFFF.FFFF</code>, svaret, och <code>arp -a</code> före och efter</td><td><a href="ramen.html#arp-kopian">Ramen</a></td></tr>
+          <tr><td><b>Lektion 45</b></td><td>Echo request och echo reply, med <b>typen</b> synlig</td><td><a href="ramen.html#icmp-kopian">Ramen</a></td></tr>
+          <tr><td><b>Lektion 46</b></td><td>Servern — adress, tjänster — och sekvensen för en HTTP-förfrågan och en DNS-fråga. <b>Layer 4 med portnumret</b> i båda</td><td><a href="transporten.html#servern">TCP och UDP</a></td></tr>
+          <tr><td><b>Lektion 47</b></td><td>DHCP-tjänsten, och <b>tabellen med de fyra meddelandena</b>: från och till, IP och MAC. Maskinens nya adress</td><td><a href="dhcp.html#kopian">DHCP</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>3. Resultat</h3>
+    <p>Skrivs på lektion 49. <b>Rapportens tyngdpunkt.</b></p>
+
+    <p><b>Det valda paketet.</b> Vilket det är, mellan vilka maskiner, och varför du valde det. <b>Två skärmbilder:</b> Out Layers hos sändaren och In Layers hos mottagaren. Och tabellen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>TCP/IP-lager</th><th>Layer i Packet Tracer</th><th>Vad som står där</th><th>Vad lagret tillförde</th></tr></thead>
+        <tbody>
+          <tr><td>Applikation</td><td>7, 6, 5</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>Transport</td><td>4</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>Internet</td><td>3</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>Nätverksåtkomst</td><td>2, 1</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Kolumn fyra är den som bedöms</span>
+      <p>Den ska inte upprepa vad Packet Tracer skrev, utan säga vad det var <b>till för</b>. Är ett lager tomt — som Layer 4 för ICMP — ska du förklara varför.</p>
+    </div>
+
+    <p>Skillnaden mellan kolumn tre och kolumn fyra:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kolumn 3 — vad som står</th><th>Kolumn 4 — vad det tillförde</th></tr></thead>
+        <tbody>
+          <tr><td><code>Dst Port: 53</code></td><td>Talar om att paketet ska till DNS-tjänsten på servern, och inte till något annat program</td></tr>
+          <tr><td><code>Dest. IP: 192.168.1.2</code></td><td>Pekar ut servern i nätet, och avgör att den finns i samma nät som avsändaren</td></tr>
+          <tr><td><code>Ethernet II Header</code></td><td>Levererar paketet till nästa enhet på länken, med en kontrollsumma som upptäcker fel</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Vägen in:</b> i vilken ordning kuverten togs bort hos mottagaren, och vad varje lager kontrollerade innan det lämnade resten uppåt. Förlagan står på <a href="tjansterna.html#kapslingen">tjänstesidan</a>.</p>
+
+    <p><b>Protokollen:</b> <b>minst tre</b>, identifierade i dina fångster som helhet — inte nödvändigtvis i det paket du följer. För vart och ett: <b>namnet, en mening om vad det gör, och vilket lager det hör till.</b></p>
+
+    <p><b>En mening om ett uteblivet svar</b>, från lektion 45: vad ett uteblivet pingsvar bevisar och inte bevisar, <b>med ett eget exempel</b>. Se <a href="ramen.html#meningen">ramsidan</a>.</p>
+
+    <h3>4. Felsökning</h3>
+    <p>Samma tre led som sedan labb 4: <b>vad gick fel, hur syntes det, hur åtgärdades det.</b> Avsnittet lämnas aldrig tomt. Området ger gott om material:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad som kan ha hänt</th><th>Var det hörde hemma</th></tr></thead>
+        <tbody>
+          <tr><td><b>Pingen som inte gick</b> i kopian — adresserna saknades, eller var fel</td><td>Lektion 43</td></tr>
+          <tr><td><b>Fel kuvert öppnat</b> — ARP i stället för ICMP</td><td>Lektion 43 och 44</td></tr>
+          <tr><td><b>Brandväggsmaskinen</b> — den fanns, men svarade inte på ping</td><td>Lektion 45</td></tr>
+          <tr><td><b><code>webb.lab</code> som inte fungerade</b> — PC:n saknade DNS Server</td><td>Lektion 46</td></tr>
+          <tr><td><b>Maskinen som fick <code>169.254</code></b> — DHCP-tjänsten var inte sparad</td><td>Lektion 47</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Gick ingenting fel?</span>
+      <p>Skriv vad du <b>kontrollerade</b> för att vara säker. Adresserna mot tabellen är en kontroll. Pingen i Realtime-läget innan simuleringen är en kontroll. Att servern svarade i Realtime-läget är en kontroll. <b>Det är ett giltigt felsökningsavsnitt.</b></p>
+    </div>
+
+    <h3>5. Källor</h3>
+    <p>Varje källa <b>med språket angivet</b>, som sedan labb 5. <b>Minst en på engelska.</b></p>
+    <p>Protokollen i labben är beskrivna i sina originaldokument — <b>RFC:erna</b> — och de är alla på engelska. RFC-dokumenten för ARP, ICMP, TCP, UDP, DHCP och DNS finns på <code>rfc-editor.org</code>, och Packet Tracers egen dokumentation finns under programmets <b>Help</b>. <b>Skriv adressen medan fliken är öppen.</b></p>
+
+    <h2 id="paketet">5. Vilket paket ska jag följa?</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Paket</th><th>Lager med innehåll</th><th>Vad det ger rapporten</th></tr></thead>
+        <tbody>
+          <tr><td><b>ICMP echo request</b></td><td>3, 2, 1</td><td>Enklast. Du måste förklara varför Layer 4 är tomt</td></tr>
+          <tr><td><b>DNS-frågan</b></td><td>7, 4, 3, 2, 1</td><td>Alla fyra TCP/IP-lager. UDP, port <code>53</code></td></tr>
+          <tr><td><b>HTTP eller HTTPS</b></td><td>7, 4, 3, 2, 1</td><td>Alla fyra. TCP, port <code>80</code> eller <code>443</code></td></tr>
+          <tr><td><b>DHCPDISCOVER</b></td><td>7, 4, 3, 2, 1</td><td>Alla fyra, och adresserna <code>0.0.0.0</code> och <code>255.255.255.255</code> att förklara</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">ICMP räcker för E</span>
+      <p>Ett paket med alla fyra lager fyllda ger mer att förklara — och <b>det är där C och A skrivs.</b> Kan du inte bestämma dig: ta DNS-frågan. Den har alla fyra lager, och alla har den.</p>
+    </div>
+
+    <h2 id="sista-passet">6. Sista passet, steg för steg</h2>
+
+    <p>Lektion 49, eller kvällen efter om du missade passet:</p>
+
+    <ol>
+      <li><b>Välj paket</b> tillsammans med din labbpartner. Varför just det? Skriv svaret i resultatdelen</li>
+      <li><b>Saknas ett bevis:</b> fånga om det i kopian. Det tar fem minuter. Sedan fångas ingenting mer — resten av tiden skrivs det</li>
+      <li><b>Två skärmbilder</b> av det valda paketet: Out Layers hos sändaren, In Layers hos mottagaren</li>
+      <li><b>Tabellen</b>, med kolumn fyra i dina egna ord</li>
+      <li><b>Vägen in</b>, i den ordning kuverten togs bort</li>
+      <li><b>Protokollen</b>, minst tre, med en mening och ett lager var</li>
+      <li><b>Felsökningen</b> i tre led, och <b>källorna</b> med språk</li>
+      <li><b>Checklistan</b> längst ned, punkt för punkt</li>
+      <li><b>Spara Packet Tracer-filen</b> där den hittas igen. Den behövs 30/3</li>
+    </ol>
+
+    <h2 id="bedomning">7. Bedömning</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nivå</th><th>Vad som utmärker rapporten</th></tr></thead>
+        <tbody>
+          <tr><td><b>E</b></td><td>Beskriver <b>översiktligt</b> vad varje lager i det följda paketet innehöll. Minst tre protokoll är namngivna. Skärmbilderna finns. Arbetet har utförts efter avstämning med läraren under arbetets gång. Dokumentationen är enkel men tillräcklig för att någon annan ska förstå vad som gjorts</td></tr>
+          <tr><td><b>C</b></td><td>Beskriver <b>utförligt</b>. Kolumn fyra säger vad varje lager var <b>till för</b>, inte bara vad som stod. Vägen in beskrivs. Planeringen var <b>godkänd innan</b> lektion 44. Fel identifieras med säkerhet. Källor på engelska används utan handledning. Dokumentationen går att följa steg för steg</td></tr>
+          <tr><td><b>A</b></td><td>Beskriver <b>utförligt och nyanserat</b>, och redogör för <b>sambandet mellan lagren</b>: varför ett protokoll måste komma före ett annat, varför ett lager är tomt, eller vad ett lager inte kan dölja. Rapporten säger vad ett <b>uteblivet pingsvar inte bevisar</b>, med ett eget exempel. Dokumentationen är noggrann och utförlig, med <b>egna förbättringsförslag</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ska">8. Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2>Det här ska finnas</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Alla <b>fem delar</b> ifyllda, i ordning</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Labbpartnerns namn står överst</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span><b>Parets kopia</b> och adresserna i planeringen</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span><b>Skärmbilder</b> från lektion 43, 44, 45, 46 och 47 i utförandet</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span><b>Det valda paketet</b>, och varför just det</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span><b>Out Layers</b> hos sändaren och <b>In Layers</b> hos mottagaren, som skärmbilder</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span><b>Tabellen</b> med alla fyra TCP/IP-lager, och <b>kolumn fyra ifylld med egna ord</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Ett tomt lager <b>förklarat</b>, om det finns ett</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span><b>Minst tre protokoll</b>, vart och ett med en mening och sitt lager</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>En mening om vad ett <b>uteblivet pingsvar inte bevisar</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span><b>Felsökningsavsnittet</b> i tre led</span></label></li>
+        <li><label><input type="checkbox" id="ska-12"><span><b>Varje källa med språk angivet</b>, minst en på engelska</span></label></li>
+        <li><label><input type="checkbox" id="ska-13"><span>Rapporten är <b>din egen text</b>, inte parets gemensamma</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bor">9. Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2>Det här gör rapporten möjlig att följa</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span><b>Planeringen godkänd av läraren innan</b> lektion 44</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Kolumn fyra säger vad varje lager var <b>till för</b> — inte bara vad som stod</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span><b>Vägen in</b> beskriven: i vilken ordning kuverten togs bort, och vad varje lager kontrollerade</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Meningen om uteblivna svar har <b>ett eget exempel</b>, inte bara regeln</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Felen är <b>identifierade med säkerhet</b>, inte gissade</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span><b>Källor på engelska</b>, använda utan handledning</span></label></li>
+        <li><label><input type="checkbox" id="bor-7"><span>Rapporten <b>går att följa steg för steg</b> av någon som inte var där</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="utmaning">10. Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2>Det här gör rapporten nyanserad</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utmaning-1"><span>Rapporten förklarar <b>varför ett protokoll måste komma före ett annat</b> — till exempel varför ARP kommer före ICMP</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-2"><span>Rapporten förklarar <b>varför ett lager är tomt</b>, eller <b>vad ett lager inte kan dölja</b> — till exempel varför HTTPS inte kan dölja IP-adressen</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-3"><span>Transportvalet förklaras med <b>lagret under</b> — till exempel varför DHCP inte kan använda TCP</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-4"><span>Det uteblivna svaret kopplas till ett <b>samband mellan två protokoll</b>: ARP svarade, ICMP inte</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-5"><span><b>Egna förbättringsförslag:</b> vad rapporten hade behövt för att visa något den inte visar nu</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Om betyget A i det här området</span>
+      <p>A-kriteriets skarpaste mening — att redogöra för <b>sambandet mellan de olika delarna som ingår i nätverkets uppbyggnad</b> — prövas första gången på riktigt i <b>labb 10</b>, och en sista gång i slutuppdraget.</p>
+      <p><b>Men lagren är ett samband i sig.</b> Varje lager litar på att lagret under gör sin del, och kapslingen är hur det samarbetet ser ut. En rapport som förklarar <b>varför</b> ARP måste komma före ICMP, eller <b>varför</b> HTTPS inte kan dölja IP-adressen, har redan börjat skriva A-meningen.</p>
+    </div>
+
+    <h2 id="nyanserat">11. Vad "nyanserat" betyder</h2>
+
+    <p>Tre sätt att skriva om samma sak — transportlagret i en DNS-fråga. Skillnaden är <b>kvalitativ</b>, inte en fråga om längd.</p>
+
+    <div class="notis">
+      <span class="rubrik">E — säger vad som står</span>
+      <p>På Layer 4 står det UDP, och målporten är 53.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">C — säger vad det var till för</span>
+      <p>Transportlagret använder UDP, och målporten 53 talar om att paketet ska till DNS-tjänsten på servern och inte till något annat program där. UDP skickar frågan utan handskakning.</p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">A — säger också varför just UDP, och vad det har för följd</span>
+      <p>Transportlagret använder UDP, och målporten 53 talar om att paketet ska till DNS-tjänsten på servern. UDP passar eftersom frågan är liten och svaret kommer i ett enda paket — en TCP-handskakning hade tagit tre paket innan frågan ens skickats. Priset är att ingenting garanterar att svaret kommer fram, så det är klienten själv som får fråga igen. Samma val gör DHCP, men av ett annat skäl: där har klienten ingen adress än, och TCP:s handskakning går inte ens att genomföra. Att testa vad som händer när DNS-servern inte svarar hade visat det här, och det är vad jag skulle lägga till.</p>
+    </div>
+
+    <p><b>Den sista meningen är ett eget förbättringsförslag</b>, och det är precis vad A-nivån efterfrågar. Ett annat förslag att bygga vidare på: riktig trafik, fångad på ett riktigt nät — med tillstånd.</p>
+
+    <h2 id="misstag">12. Vanliga misstag</h2>
+
+    <div class="sok">
+      <label for="sok-misstag">Sök bland misstagen</label>
+      <input type="search" id="sok-misstag" data-sok="tabell-misstag" data-traffar="traffar-misstag"
+             placeholder="till exempel: kolumn, Layer, källor" autocomplete="off">
+      <p class="traffar" id="traffar-misstag">12 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-misstag">
+        <thead><tr><th>Misstag</th><th>Varför det händer</th><th>Så gör du i stället</th></tr></thead>
+        <tbody>
+          <tr><td>Kolumn fyra upprepar kolumn tre</td><td>Det som står känns som svaret</td><td>Vad var det <b>till för</b>?</td></tr>
+          <tr><td>Bara Out Layers beskrivs</td><td>Vägen in glöms</td><td>Kuverten tas bort i omvänd ordning. Vad kontrollerade varje lager?</td></tr>
+          <tr><td>Layer-numren blandas ihop med TCP/IP-lagren</td><td>Packet Tracer numrerar enligt OSI</td><td>Tabellen från lektion 42. Layer 3 är internetlagret</td></tr>
+          <tr><td>Tomt Layer 4 för ICMP lämnas okommenterat</td><td>Det ser ut som en lucka</td><td>ICMP har inget portnummer. Förklara det — det är en poäng</td></tr>
+          <tr><td>Tre protokoll krävs i det följda paketet</td><td>Kraven lästes för strikt</td><td>Tre i fångsten som helhet. Det följda paketet kan ha färre</td></tr>
+          <tr><td>"Ping och ICMP är samma sak"</td><td>De nämns alltid ihop</td><td>Ping är kommandot. ICMP är protokollet</td></tr>
+          <tr><td>MAC och IP blandas ihop</td><td>Båda heter adress</td><td>MAC till nästa enhet på länken. IP hela vägen</td></tr>
+          <tr><td>"UDP är opålitligt och därför sämre"</td><td>Sloganen</td><td>UDP lovar ingenting. Det är ett val, med skäl</td></tr>
+          <tr><td>"HTTPS döljer vilken sida jag besöker"</td><td>Det sägs ofta</td><td>Innehållet, ja. IP-adressen och värdnamnet, nej</td></tr>
+          <tr><td>Skärmbilderna tas inte</td><td>Fönstret känns lätt att öppna igen</td><td>Det är det inte om du inte vet vilket kuvert det var</td></tr>
+          <tr><td>Paret skriver en gemensam text</td><td>De följde samma paket</td><td>Samma paket, egen förklaring</td></tr>
+          <tr><td>Bara svenska källor</td><td>Det gick fortare</td><td>Minst en på engelska. RFC:erna är på engelska</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="checklista">13. Checklista innan inlämning</h2>
+    <p>Gå igenom de tre listorna ovan en sista gång. Det är den enskilt mest värdefulla sista handlingen och den kostar fem minuter.</p>
+    <ul>
+      <li>Ska-kraven är minimum — utan dem är rapporten inte färdig</li>
+      <li>Bör-kraven är det som gör den möjlig att följa</li>
+      <li>Utmaningarna är det som gör den nyanserad</li>
+    </ul>
+
+    <div class="notis varna">
+      <span class="rubrik">Kontrollera två saker till</span>
+      <p><b>Att rapporten är din egen text, inte parets gemensamma.</b> Ni följde kanske samma paket — men förklaringen av vad varje lager tillförde bedöms individuellt.</p>
+      <p><b>Att skärmbilderna faktiskt ligger i filen</b>, och att Packet Tracer-filen är sparad där du hittar den den 30 mars.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 9</a> · <a href="../omrade-8/labb.html">Labb 8</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

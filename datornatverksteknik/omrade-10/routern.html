@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Routern väljer väg – Dator- och nätverksteknik område 10</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-10-routern">
+
+<header class="topp">
+  <a href="index.html">← Område 10</a>
+  <span class="harifran"><strong>Uppslag</strong> · Routern väljer väg</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#fragan">1. Den andra halvan</a></li>
+      <li><a href="#tva-nat">2. Två nät av ett</a></li>
+      <li><a href="#kopplas-in">3. Routern kopplas in</a></li>
+      <li><a href="#konfigurationen">4. Gränssnitten konfigureras</a></li>
+      <li><a href="#routingtabellen">5. Routingtabellen</a></li>
+      <li><a href="#gatewayen">6. Standardgatewayen</a></li>
+      <li><a href="#statisk">7. Statisk routning</a></li>
+      <li><a href="#noderna">8. Paketet hopp för hopp</a></li>
+      <li><a href="#slutfors">9. Kopplingen slutförs</a></li>
+      <li><a href="#pingen">10. Pingen via routern</a></li>
+      <li><a href="#show-ip-route">11. <code>show ip route</code></a></li>
+      <li><a href="#broadcast-routern">12. Broadcasten stannar vid routern</a></li>
+      <li><a href="#underlaget">13. Labb 10:s andra underlag</a></li>
+      <li><a href="#nat">14. Utmaning: NAT</a></li>
+      <li><a href="#missuppfattningar">15. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">16. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 10 · lektion 53 och 54</p>
+    <h1>Routern väljer väg</h1>
+    <p class="inledning">Switchen är förklarad. Här kommer den andra halvan av lektion 44:s fråga: hur routern väljer väg. Men först måste nätet bli två — sedan lektion 51 är de två switcharna ett enda nät, och en router har ingenting att göra där. Sidan visar hur routern kopplas in och får en adress i varje nät, hur den slår upp vart ett paket ska i sin <b>routingtabell</b>, och varför en maskin som ska nå ett annat nät skickar allt till sin <b>standardgateway</b>. Du känner igen <b>statisk routning</b> och vet när den behövs. Sist bevisas två saker vid routern: MAC-adresserna byts ut medan IP-adresserna ligger kvar, och broadcasten stannar.</p>
+
+    <h2 id="fragan">1. Den andra halvan</h2>
+
+    <div class="notis">
+      <span class="rubrik">Frågan från lektion 44</span>
+      <p><s>Hur switchen väljer port</s> — lektion 50, se <a href="switchen.html">switchsidan</a>. <b>Hur routern väljer väg — här.</b></p>
+    </div>
+
+    <p>Och en adress som funnits i nätet sedan lektion 47 utan att någon svarat på den: <b>gatewayen <code>192.168.&lt;grupp&gt;.1</code></b>, som DHCP delade ut. Den adressen har inte funnits på någon maskin. Nu får den en ägare — routern.</p>
+
+    <h2 id="tva-nat">2. Två nät av ett</h2>
+
+    <p>Adressplanen för området. Nät B är nytt: maskinerna på den andra switchen byter adress.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Nät A — den första switchen</th><th>Nät B — den andra switchen</th></tr></thead>
+        <tbody>
+          <tr><td><b>Nät</b></td><td><code>192.168.&lt;grupp&gt;.0</code></td><td><code>172.16.&lt;grupp&gt;.0</code></td></tr>
+          <tr><td><b>Mask</b></td><td><code>255.255.255.0</code></td><td><code>255.255.255.0</code></td></tr>
+          <tr><td><b>Maskinerna</b></td><td>Som förut: <code>.2</code> servern, <code>.10</code>–<code>.13</code></td><td><code>.20</code>, <code>.21</code> — <b>nya adresser</b></td></tr>
+          <tr><td><b>Routerns gränssnitt</b></td><td><code>Gi0/0</code> = <code>192.168.&lt;grupp&gt;.1</code></td><td><code>Gi0/1</code> = <code>172.16.&lt;grupp&gt;.1</code></td></tr>
+          <tr><td><b>Standardgateway</b></td><td><code>192.168.&lt;grupp&gt;.1</code></td><td><code>172.16.&lt;grupp&gt;.1</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><code>172.16</code> är det andra av de tre privata intervallen från lektion 40. I parets kopia:</p>
+
+    <ol class="steg">
+      <li><b>Ta bort länken</b> mellan switcharna</li>
+      <li>Ge <code>.20</code> och <code>.21</code> nya adresser: <code>172.16.&lt;grupp&gt;.20</code> och <code>172.16.&lt;grupp&gt;.21</code>, mask <code>255.255.255.0</code></li>
+      <li>Pinga <code>172.16.&lt;grupp&gt;.20</code> från en maskin i nät A</li>
+    </ol>
+
+    <p><b>Det går inte.</b> Två skäl, och båda ska kunna sägas:</p>
+
+    <ul>
+      <li><b>Det finns ingen kabel</b> — länken är borta</li>
+      <li><b>Och även om det fanns:</b> <code>192.168</code> och <code>172.16</code> har olika nätdel. Maskinen vet att mottagaren är i ett <b>annat nät</b>, och en maskin som ska nå ett annat nät skickar till sin <b>standardgateway</b>. Den har ingen</li>
+    </ul>
+
+    <h2 id="kopplas-in">3. Routern kopplas in</h2>
+
+    <ol class="steg">
+      <li><b>Network Devices → Routers → 2911</b>. Dra in den</li>
+      <li><b>Copper Straight-Through:</b> routerns <b>Gi0/0</b> till den första switchens <b>Gi0/1</b>, routerns <b>Gi0/1</b> till den andra switchens <b>Gi0/1</b></li>
+      <li>Routern, fliken <b>CLI</b>. Frågan <i>Would you like to enter the initial configuration dialog?</i> — svara <code>no</code></li>
+    </ol>
+
+    <div class="notis varna">
+      <span class="rubrik">Länkarna vid routern är röda</span>
+      <p>Det är inte ett fel. <b>En routers gränssnitt är avstängda från början.</b> En switch fungerar när den kopplas in. En router gör ingenting förrän den blivit tillsagd.</p>
+    </div>
+
+    <h2 id="konfigurationen">4. Gränssnitten konfigureras</h2>
+
+    <p>Skriv in konfigurationen rad för rad i routerns CLI. Exemplet är för grupp 1 — <b>byt <code>1</code> mot ditt gruppnummer</b> i båda adresserna:</p>
+
+    <pre><code class="sprak-ios">enable
+configure terminal
+interface GigabitEthernet0/0
+ ip address 192.168.1.1 255.255.255.0
+ no shutdown
+exit
+interface GigabitEthernet0/1
+ ip address 172.16.1.1 255.255.255.0
+ no shutdown
+end</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>enable</code></td><td>Behörighet att ändra och läsa allt. Prompten får <code>#</code></td></tr>
+          <tr><td><code>configure terminal</code></td><td>Läget för att ändra inställningar</td></tr>
+          <tr><td><code>interface GigabitEthernet0/0</code></td><td>Välj ett gränssnitt. Utan det tas <code>ip address</code> inte emot</td></tr>
+          <tr><td><code>ip address … …</code></td><td>Adress och mask — <b>routern får en adress i varje nät</b></td></tr>
+          <tr><td><code>no shutdown</code></td><td>Slå på gränssnittet. Länken blir grön</td></tr>
+          <tr><td><code>exit</code>, <code>end</code></td><td>Lämna gränssnittet, och lämna konfigurationsläget</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Cisco IOS-syntax igen</b>, samma som switchens <code>show mac address-table</code>. Andra tillverkares routrar har andra kommandon för samma sak. Finns labbets utrustning kan samma kommandon skrivas in där.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">En fot i varje nät</span>
+      <p>Routern har nu en adress i nät A och en i nät B. <b>Det är det en router är.</b></p>
+    </div>
+
+    <h2 id="routingtabellen">5. Routingtabellen</h2>
+
+    <p><b>Routern tar emot ett paket och läser mål-IP-adressen.</b> Sedan slår den upp den i sin <b>routingtabell</b>: en lista där varje rad säger <i>för det här nätet — ut genom det här gränssnittet</i>.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nät</th><th>Ut genom</th><th>Hur raden kom dit</th></tr></thead>
+        <tbody>
+          <tr><td><code>192.168.&lt;grupp&gt;.0/24</code></td><td><code>Gi0/0</code></td><td><b>Direktansluten</b> — gränssnittet har en adress där</td></tr>
+          <tr><td><code>172.16.&lt;grupp&gt;.0/24</code></td><td><code>Gi0/1</code></td><td><b>Direktansluten</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Ingen skrev in de raderna.</b> Så fort ett gränssnitt får en adress och slås på vet routern att nätet finns på andra sidan. Det kallas en <b>direktansluten rutt</b>, och den kräver ingen konfiguration utöver adressen.</p>
+
+    <h2 id="gatewayen">6. Standardgatewayen</h2>
+
+    <p>Sedan maskinens sida. Tabellen från lektion 44, se <a href="../omrade-9/ramen.html#samma-nat">ramsidan</a>:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Mottagaren är…</th><th>Maskinen ARP:ar efter…</th><th>Ramen går till…</th></tr></thead>
+        <tbody>
+          <tr><td><b>I samma nät</b></td><td>Mottagarens MAC</td><td>Mottagaren</td></tr>
+          <tr><td><b>I ett annat nät</b></td><td><b>Standardgatewayens</b> MAC</td><td>Routern</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Maskinen väljer aldrig väg</span>
+      <p>Den avgör bara <i>samma nät eller inte</i> — med masken — och skickar allt det andra till sin <b>standardgateway</b>: adressen till routerns gränssnitt <b>i maskinens eget nät</b>.</p>
+      <p><b>Saknas gatewayen, eller är den fel, går paketet ingenstans</b> — hur rätt allt annat än är. Det är en av de vanligaste felorsakerna i ett riktigt nät.</p>
+    </div>
+
+    <ol class="steg">
+      <li>Sätt <b>Default Gateway</b> på varje maskin i nät A: <code>192.168.&lt;grupp&gt;.1</code>. <b>Också servern</b> — den är en maskin som alla andra</li>
+      <li>Sätt <b>Default Gateway</b> på maskinerna i nät B: <code>172.16.&lt;grupp&gt;.1</code></li>
+      <li>Pinga från nät A till nät B</li>
+    </ol>
+
+    <p><b>Den första pingen tappar ofta ett eller två svar</b> — <code>Request timed out.</code> — medan routern ARP:ar i sitt andra nät. Det är inte ett fel. Pinga igen.</p>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Vilken gateway har maskinen i nät B, och varför just den?</b> Sätts gatewayen till routerns <i>andra</i> gränssnitt har du missat meningen ovan: routerns adress i maskinens <b>eget</b> nät.</p>
+    </div>
+
+    <h2 id="statisk">7. Statisk routning</h2>
+
+    <p><b>Direktanslutna rutter räcker så länge routern har en fot i varje nät.</b> Men ligger ett nät <b>bortom</b> en annan router vet den första inte om att det finns. Då skriver administratören in en rutt för hand — <b>statisk routning</b>. Så här ser en sådan rad ut:</p>
+
+    <pre><code>ip route 10.0.0.0 255.255.255.0 172.16.1.254</code></pre>
+
+    <p>Läs den: <i>till nätet <code>10.0.0.0</code> med masken <code>255.255.255.0</code> — skicka till nästa hopp <code>172.16.1.254</code>.</i> <b>Nät, mask, nästa hopp.</b></p>
+
+    <div class="notis varna">
+      <span class="rubrik">Känna igen, inte skriva</span>
+      <p><b>Raden behövs inte i er topologi.</b> Routern sitter direkt i båda näten. Du ska känna igen raden och veta när den behövs.</p>
+      <p>Och den är <b>Cisco IOS-syntax</b> — principen är densamma överallt, raden är det inte.</p>
+    </div>
+
+    <p>På internet sköts rutterna av routrar som berättar för varandra vilka nät de når. Det kallas <b>dynamisk routning</b>.</p>
+
+    <h2 id="noderna">8. Paketet hopp för hopp</h2>
+
+    <div class="notis">
+      <span class="rubrik">Pröva det själv</span>
+      <p><b>ComputerExplorer → networking → packet-routing</b> — nodens titel är <i>Paketrouting</i>.</p>
+    </div>
+
+    <ol class="steg">
+      <li>Tryck <b>▸ Skicka paket A → B</b> och följ paketet router för router</li>
+      <li>Tryck <b>Återställ</b>. Sänk <b>Start-TTL</b> till ett lågt värde och skicka igen. Paketet kastas på vägen</li>
+    </ol>
+
+    <p><b>Varje router känner bara nästa hopp</b> — ingen av dem känner hela vägen. TTL minskar med ett per router, så att ett paket inte kan cirkla för evigt. Du såg fältet i IP-headern i område 9, och det kommer tillbaka med <code>traceroute</code> i område 11.</p>
+
+    <div class="notis">
+      <span class="rubrik">Fördjupning</span>
+      <p><b>ComputerExplorer → networking → routing-algorithms</b> — nodens titel är <i>Routingalgoritmer</i>.</p>
+      <p>Noden visar hur en router räknar fram den billigaste vägen och fyller sin routingtabell. Tryck <b>Steg ▸</b> tills den är klar och läs <b>Resulterande routingtabell</b>. Klicka sedan på en annan nod för att byta källa: tabellen ändras. <b>Varje router har sin egen</b> — samma sak som switcharnas tabeller på lektion 52.</p>
+    </div>
+
+    <h2 id="slutfors">9. Kopplingen slutförs</h2>
+
+    <p>Går pingen från nät A till nät B inte, kontrollera i tur och ordning. Listan hittar nästan alla fel:</p>
+
+    <ol class="steg">
+      <li><b>Länkarna vid routern gröna?</b> Annars <code>no shutdown</code></li>
+      <li><b>Routerns adresser rätt?</b> <code>show ip interface brief</code> visar båda gränssnitten med adress och status</li>
+      <li><b>Nät B:s maskiner</b> har <code>172.16.&lt;grupp&gt;.x</code>?</li>
+      <li><b>Default Gateway</b> på varje maskin — <b>routerns adress i maskinens eget nät</b>?</li>
+      <li><b>Servern</b> har också gateway?</li>
+    </ol>
+
+    <p><b>Allt som var fel skrivs ner.</b> Det är labbens felsökningsavsnitt. Går pingen bara åt ena hållet saknar ena sidans maskin gateway — svaret behöver också en väg tillbaka.</p>
+
+    <h2 id="pingen">10. Pingen via routern</h2>
+
+    <ol class="steg">
+      <li><b>Realtime:</b> pinga från en maskin i nät A till en i nät B. Ger första försöket <code>Request timed out.</code>, pinga igen</li>
+      <li><b>Svar.</b> Skärmbild</li>
+      <li><b>Simulation</b>, filter på <b>ICMP</b>. Pinga igen och klicka fram echo request <b>till routern</b>. Öppna den och läs Layer 2 och Layer 3</li>
+      <li>Klicka fram den <b>ut ur routern</b>. Öppna den igen</li>
+    </ol>
+
+    <p>Jämför, och fyll i:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>In i routern</th><th>Ut ur routern</th></tr></thead>
+        <tbody>
+          <tr><td>Käll-MAC</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>Mål-MAC</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>Käll-IP</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>Mål-IP</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Så här ska det se ut när den är ifylld:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>In i routern</th><th>Ut ur routern</th></tr></thead>
+        <tbody>
+          <tr><td><b>Käll-MAC</b></td><td>Maskinen i nät A</td><td>Routerns <b>Gi0/1</b></td></tr>
+          <tr><td><b>Mål-MAC</b></td><td>Routerns <b>Gi0/0</b></td><td>Maskinen i nät B</td></tr>
+          <tr><td><b>Käll-IP</b></td><td>Maskinen i nät A</td><td><b>Samma</b></td></tr>
+          <tr><td><b>Mål-IP</b></td><td>Maskinen i nät B</td><td><b>Samma</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">MAC-adresserna byttes ut. IP-adresserna låg kvar.</span>
+      <p>Routern packade upp Ethernet-kuvertet, läste IP-adressen, och lade paketet i ett <b>nytt</b> Ethernet-kuvert för nästa länk — med sin egen MAC som avsändare och mottagarens MAC som mål.</p>
+      <p>Lektion 44 sa det här i ord: MAC-adressen räcker till nästa enhet på länken, IP-adressen hela vägen. <b>Nu syns det i ett enda kuvert.</b></p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Mot A</span>
+      <p>Den som kan förklara den tabellen i rapporten har skrivit en mening om <b>sambandet mellan lager 2 och lager 3</b> — den sortens samband mellan nätverkets delar som A-nivån frågar efter.</p>
+    </div>
+
+    <h2 id="show-ip-route">11. <code>show ip route</code></h2>
+
+    <p>Routingtabellen från avsnitt 5, som routern själv skriver ut den. Routern, <b>CLI</b>, <code>enable</code>, <code>show ip route</code>. För grupp 1 ser slutet av utskriften ut så här — din har ditt gruppnummer:</p>
+
+    <pre><code>Router#show ip route
+Gateway of last resort is not set
+
+     172.16.0.0/16 is variably subnetted, 2 subnets, 2 masks
+C       172.16.1.0/24 is directly connected, GigabitEthernet0/1
+L       172.16.1.1/32 is directly connected, GigabitEthernet0/1
+     192.168.1.0/24 is variably subnetted, 2 subnets, 2 masks
+C       192.168.1.0/24 is directly connected, GigabitEthernet0/0
+L       192.168.1.1/32 is directly connected, GigabitEthernet0/0</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kod</th><th>Betyder</th><th>Här</th></tr></thead>
+        <tbody>
+          <tr><td><b>C</b></td><td><i>Connected</i> — direktansluten</td><td>Nät A ut genom Gi0/0, nät B ut genom Gi0/1</td></tr>
+          <tr><td><b>L</b></td><td><i>Local</i> — routerns <b>egen</b> adress i nätet. <code>/32</code> betyder en enda adress</td><td><code>.1</code> i båda</td></tr>
+          <tr><td><b>S</b></td><td><i>Static</i> — inskriven för hand</td><td><b>Ingen</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Två C-rader, ingen S</span>
+      <p>Routern vet om båda näten utan en enda rad statisk konfiguration, eftersom den har ett gränssnitt i vart och ett. <b>Det är själva poängen:</b> statisk routning behövs först när ett nät ligger <b>bortom</b> det routern är direkt kopplad till. Så ser inte er topologi ut.</p>
+    </div>
+
+    <p><i>Gateway of last resort is not set</i> betyder att routern inte har någon standardväg för nät den inte känner. Ett paket till ett okänt nät kastas. Hemmaroutern har en sådan — mot internetleverantören.</p>
+
+    <p>Visar <code>show ip route</code> bara ett nät är ett gränssnitt avstängt eller saknar adress. Kör <code>show ip interface brief</code>.</p>
+
+    <h2 id="broadcast-routern">12. Broadcasten stannar vid routern</h2>
+
+    <p>På lektion 51 sades det: <i>switchen förlänger broadcastdomänen, routern avslutar den.</i> Här bevisas den andra halvan:</p>
+
+    <ol class="steg">
+      <li><code>arp -d</code> på en maskin i nät A</li>
+      <li><b>Simulation</b>, filter på <b>ARP</b></li>
+      <li>Pinga en <b>annan maskin i nät A</b></li>
+      <li>Följ ARP-frågan: den når varje port på den första switchen — <b>också porten till routern</b></li>
+      <li><b>Går den vidare in i nät B?</b></li>
+    </ol>
+
+    <p>Nej. Routern tar emot den på Gi0/0 och <b>skickar den ingenstans</b>.</p>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Varför?</b> Svaret, i dina egna ord, är en mening till rapporten: routern arbetar med nätadresser, och en ram till <i>alla i det här nätet</i> har inget att göra i ett annat nät. Se <a href="broadcast.html#routern">broadcastsidan</a>.</p>
+    </div>
+
+    <h2 id="underlaget">13. Labb 10:s andra underlag</h2>
+
+    <p>In i <b>utförandedelen</b>:</p>
+
+    <ul>
+      <li><b>Skärmbilden</b> av den lyckade pingen från nät A till nät B</li>
+      <li><b><code>show ip route</code></b>, skärmbild, med de två C-raderna markerade</li>
+      <li><b>Tabellen</b> med MAC och IP in i och ut ur routern</li>
+      <li><b>En mening:</b> varför ingen statisk rutt behövs</li>
+      <li><b>En mening:</b> varför ARP-frågan stannade vid routern</li>
+    </ul>
+
+    <p>Och uppdatera <b>planeringsdelen</b> med adressplanen: nät A och B, routerns två adresser, varje maskins gateway. Hela labben står på <a href="labb.html">labbsidan</a>.</p>
+
+    <div class="notis">
+      <span class="rubrik">Vill du ha mer</span>
+      <p>Ta bort gatewayen på en maskin och pinga över igen. Vad säger maskinen? Kommer paketet ens till switchen i simuleringsläget?</p>
+      <p>Pinga routerns <b>andra</b> gränssnitt, <code>172.16.&lt;grupp&gt;.1</code>, från nät A. Svarar den? Varför behövdes ingen ARP i nät B för det?</p>
+      <p>Stäng av routerns Gi0/1 med <code>shutdown</code> och kör <code>show ip route</code> igen. Vad hände med raden för nät B? Slå på igen med <code>no shutdown</code>.</p>
+      <p>Byt en maskin i <b>nät B</b> till DHCP. Får den en adress? Tänk på DHCPDISCOVER innan du svarar.</p>
+    </div>
+
+    <h2 id="nat">14. Utmaning: NAT</h2>
+
+    <p>Lektion 40 lämnade en fråga: skolans maskiner har privata adresser — hur når de ändå internet?</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Utmaning</span>
+      <p><b>ComputerExplorer → networking → nat</b> — nodens titel är <i>NAT</i>.</p>
+    </div>
+
+    <ol class="steg">
+      <li>Tryck <b>Värd A ansluter →</b>. Läs <b>NAT-översättningstabell</b></li>
+      <li>Tryck <b>Värd B ansluter →</b>. Läs tabellen igen, och vad noden säger om portarna</li>
+      <li>Formulera i <b>en mening</b> varför tabellen behöver ett portnummer och inte bara en adress</li>
+    </ol>
+
+    <p><b>NAT</b> — <i>Network Address Translation</i> — är en router som skriver om den privata avsändaradressen till sin egen publika på vägen ut, och minns det, så att svaret hittar tillbaka. Hela skolan kan dela en enda publik adress.</p>
+
+    <h2 id="missuppfattningar">15. Vanliga missuppfattningar</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: gateway, MAC, ip route" autocomplete="off">
+      <p class="traffar" id="traffar-fel">11 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>Röda länkar vid routern betyder att kabeln är fel</td><td>Gränssnitten är avstängda från början. <code>no shutdown</code></td></tr>
+          <tr><td><code>ip address</code> tas inte emot, alltså är adressen fel</td><td>Du står inte i ett gränssnitt. <code>interface GigabitEthernet0/0</code> först</td></tr>
+          <tr><td>Routern är rätt, alltså ska pingen gå</td><td>Maskinerna behöver <b>Default Gateway</b> — också servern</td></tr>
+          <tr><td>Gatewayen är vilket av routerns gränssnitt som helst</td><td>Routerns adress <b>i maskinens eget nät</b></td></tr>
+          <tr><td><code>Request timed out.</code> första gången betyder fel</td><td>Routern ARP:ar i det andra nätet. Pinga igen</td></tr>
+          <tr><td>Maskinen väljer väg</td><td>Den avgör bara samma nät eller inte, och skickar resten till gatewayen</td></tr>
+          <tr><td>Vi behöver <code>ip route</code> för säkerhets skull</td><td>Inte här. Två C-rader räcker — routern sitter i båda näten</td></tr>
+          <tr><td>L-raderna är dubbletter av C-raderna</td><td>Routerns egen adress. <code>/32</code> — en enda adress</td></tr>
+          <tr><td>MAC-adressen följer med hela vägen</td><td>Den byts vid routern. IP-adressen ligger kvar</td></tr>
+          <tr><td>ARP-frågan borde nå nät B</td><td>Den når routern, och routern skickar den ingenstans. Det är beviset</td></tr>
+          <tr><td>Kommandona fungerar på alla routrar</td><td>De är Cisco IOS. Principen är densamma överallt, raden är det inte</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">16. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Router</b></td><td>En lager 3-enhet med en fot i varje nät. Väljer väg efter mål-IP</td></tr>
+          <tr><td><b>Gränssnitt</b></td><td>En av routerns portar, med en egen adress i sitt nät. <i>Interface</i> på engelska</td></tr>
+          <tr><td><b>Routingtabell</b></td><td>Routerns lista: för det här nätet — ut genom det här gränssnittet</td></tr>
+          <tr><td><b>Direktansluten rutt</b></td><td>En rad för ett nät routern har ett gränssnitt i. Kommer av sig själv. <b>C</b> i <code>show ip route</code></td></tr>
+          <tr><td><b>Statisk routning</b></td><td>En rutt inskriven för hand: nät, mask, nästa hopp. <b>S</b> i <code>show ip route</code></td></tr>
+          <tr><td><b>Nästa hopp</b></td><td>Adressen till nästa router på vägen mot målnätet</td></tr>
+          <tr><td><b>Standardgateway</b></td><td><i>Default Gateway</i> — routerns adress i maskinens eget nät. Dit skickas allt till andra nät</td></tr>
+          <tr><td><b>Dynamisk routning</b></td><td>Routrar som berättar för varandra vilka nät de når, och räknar fram vägen själva</td></tr>
+          <tr><td><b>TTL</b></td><td><i>Time to live</i> — minskar med ett per router. Når den noll kastas paketet</td></tr>
+          <tr><td><b>NAT</b></td><td><i>Network Address Translation</i> — routern byter den privata avsändaradressen mot sin publika, och minns det</td></tr>
+          <tr><td><b><code>no shutdown</code></b></td><td>Slår på ett gränssnitt. Routerns gränssnitt är avstängda från början</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 10</a> · <a href="broadcast.html">Föregående: broadcasten</a> · <a href="vlan.html">Nästa: VLAN</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

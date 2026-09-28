@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Routning mellan VLAN – Dator- och nätverksteknik område 10</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-10-trunken">
+
+<header class="topp">
+  <a href="index.html">← Område 10</a>
+  <span class="harifran"><strong>Uppslag</strong> · Routning mellan VLAN</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#isar">1. Isär, och ändå nå varandra</a></li>
+      <li><a href="#routning">2. Varför en router</a></li>
+      <li><a href="#eget-nat">3. Varför ett eget nät</a></li>
+      <li><a href="#adressplanen">4. VLAN 20:s nya nät</a></li>
+      <li><a href="#taggen">5. 802.1Q-taggen</a></li>
+      <li><a href="#access-trunk">6. Access och trunk</a></li>
+      <li><a href="#stick">7. Router-on-a-stick</a></li>
+      <li><a href="#pingen">8. Pingen steg för steg</a></li>
+      <li><a href="#en-kabel">9. En kabel per VLAN</a></li>
+      <li><a href="#kopian">10. Bygget i din kopia</a></li>
+      <li><a href="#missuppfattningar">11. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">12. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 10 · lektion 57</p>
+    <h1>Routning mellan VLAN</h1>
+    <p class="inledning">VLAN 10 och VLAN 20 är två broadcastdomäner i samma switch, precis som tänkt. Men labb 10 kräver att de ändå ska nå varandra — och det låter som en motsägelse, men är det inte. Två VLAN är lika avskilda som två nät bakom var sin routerport, och därför behövs samma lösning som på lektion 53: en router. Två saker är nya. Routern får <b>en enda kabel</b> till switchen men ska tjäna båda VLAN:en, och det kräver att ramen bär sitt VLAN — en <b>802.1Q-tagg</b>. Och maskinerna i VLAN 20 måste få <b>ett eget nät</b>. Det är inte en formalitet, utan det sista sambandet i området.</p>
+
+    <h2 id="isar">1. Isär, och ändå nå varandra</h2>
+
+    <p>A-meningen på <a href="vlan.html#nivaerna">VLAN-sidan</a> slutade så här:</p>
+
+    <blockquote>Därför behövs en router också mellan VLAN — och VLAN 20 behöver ett eget IP-nät för att routern ska kunna skilja dem åt.</blockquote>
+
+    <p>Här görs det. VLAN:en ska kunna nå varandra — men bara <b>genom routern</b>, inte förbi den.</p>
+
+    <h2 id="routning">2. Varför en router</h2>
+
+    <p>Två VLAN är två broadcastdomäner. ARP-frågan når inte över gränsen. <b>Det enda som förbinder två broadcastdomäner är något som routar</b> — samma princip som på <a href="routern.html">lektion 53</a>, bara mellan VLAN i stället för mellan två fysiska nät.</p>
+
+    <h2 id="eget-nat">3. Varför ett eget nät</h2>
+
+    <p>Tänk dig en maskin i VLAN 20 med adressen <code>192.168.&lt;grupp&gt;.12</code> som vill nå <code>192.168.&lt;grupp&gt;.10</code>. Masken säger <b>samma nät</b>. Den skickar alltså <b>ingenting till routern</b> — den ARP:ar direkt, och frågan stannar vid VLAN-gränsen. Routern får aldrig chansen.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Ett VLAN, en broadcastdomän, ett IP-nät</span>
+      <p><b>De tre följs åt.</b> Maskinerna i VLAN 20 behöll sina adresser i en vecka för att bevisa att det var VLAN:et som stoppade. Nu ska de routas, och då måste masken säga <i>annat nät</i> — så att maskinen skickar till sin gateway.</p>
+    </div>
+
+    <h2 id="adressplanen">4. VLAN 20:s nya nät</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>VLAN 10 — <code>ELEVER</code></th><th>VLAN 20 — <code>GAST</code></th><th>Nät B</th></tr></thead>
+        <tbody>
+          <tr><td><b>Nät</b></td><td><code>192.168.&lt;grupp&gt;.0</code> — som förut</td><td><b><code>10.&lt;grupp&gt;.20.0</code></b> — nytt</td><td><code>172.16.&lt;grupp&gt;.0</code> — orört</td></tr>
+          <tr><td><b>Maskinerna</b></td><td>Som förut</td><td><b><code>10.&lt;grupp&gt;.20.10</code></b>, <b><code>.11</code></b></td><td>Som förut</td></tr>
+          <tr><td><b>Gateway</b></td><td><code>192.168.&lt;grupp&gt;.1</code></td><td><b><code>10.&lt;grupp&gt;.20.1</code></b></td><td><code>172.16.&lt;grupp&gt;.1</code></td></tr>
+          <tr><td><b>Routerns gränssnitt</b></td><td><b><code>Gi0/0.10</code></b></td><td><b><code>Gi0/0.20</code></b></td><td><code>Gi0/1</code> — orört</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>VLAN 20 får <code>10.&lt;grupp&gt;.20.x</code> — <b>det tredje privata intervallet från lektion 40.</b> Nu används alla tre: <code>192.168</code>, <code>172.16</code> och <code>10</code>. Att VLAN-numret står i adressen är en vanlig vana i riktiga nät. Det gör planen lätt att läsa.</p>
+
+    <h2 id="taggen">5. 802.1Q-taggen</h2>
+
+    <p><b>En kabel mellan switch och router, två VLAN på den.</b> Hur vet routern vilket VLAN en ram kommer från?</p>
+
+    <p>Svaret är <b>IEEE 802.1Q</b>: switchen sätter en <b>tagg</b> i ramen — ett litet fält mellan avsändarens MAC-adress och typfältet — som säger vilket VLAN den tillhör. Ramen från <a href="../omrade-9/ramen.html#ramen">lektion 44</a>, med taggen insatt:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Mål-MAC</th><th>Käll-MAC</th><th>802.1Q-tagg</th><th>Typ</th><th>Nyttolast</th><th>FCS</th></tr></thead>
+        <tbody>
+          <tr><td>vem den ska till</td><td>vem den kommer från</td><td><b>VLAN 20</b></td><td>vad som ligger i</td><td>IP-paketet</td><td>kontrollsumma</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Standarden är öppen, kommandot är Ciscos</span>
+      <p><b>802.1Q är en öppen standard.</b> De flesta tillverkares switchar och routrar förstår taggen. Det som är Cisco är <b>kommandona</b> — inte taggen.</p>
+    </div>
+
+    <h2 id="access-trunk">6. Access och trunk</h2>
+
+    <p>Två sorters portar på switchen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Porttyp</th><th>Bär</th><th>Taggar</th></tr></thead>
+        <tbody>
+          <tr><td><b>Access</b></td><td><b>Ett</b> VLAN</td><td>Nej — maskinen ser vanliga ramar</td></tr>
+          <tr><td><b>Trunk</b></td><td><b>Flera</b> VLAN</td><td><b>Ja</b> — varje ram märkt med sitt VLAN</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Maskinerna märker ingenting.</b> Taggen sätts på när ramen går ut på trunken och tas bort när den går ut på en access-port.</p>
+
+    <p>På switchen blir porten mot routern en trunk. I demokopian är det Gi0/1 — använd den port som går till routern i din kopia:</p>
+
+    <pre><code class="sprak-ios">interface GigabitEthernet0/1
+ switchport mode trunk</code></pre>
+
+    <p>Du står redan i konfigurationsläget om du fortsätter från VLAN-konfigurationen. Annars börjar du med <code>enable</code> och <code>configure terminal</code>, som förut.</p>
+
+    <h2 id="stick">7. Router-on-a-stick</h2>
+
+    <p>Routern har en kabel till switchen — en "pinne" — och ska ändå ha en fot i varje VLAN. Den delar sitt ena fysiska gränssnitt i <b>undergränssnitt</b>, ett per VLAN. Exemplet är för grupp 1 — <b>byt <code>1</code> mot ditt gruppnummer</b> i båda adresserna:</p>
+
+    <pre><code class="sprak-ios">enable
+configure terminal
+interface GigabitEthernet0/0
+ no ip address
+ no shutdown
+exit
+interface GigabitEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.1.1 255.255.255.0
+exit
+interface GigabitEthernet0/0.20
+ encapsulation dot1Q 20
+ ip address 10.1.20.1 255.255.255.0
+end</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>no ip address</code> på Gi0/0</td><td>Det fysiska gränssnittet ska inte ha någon adress — undergränssnitten tar över</td></tr>
+          <tr><td><code>no shutdown</code> på Gi0/0</td><td>Det fysiska gränssnittet måste vara på, annars fungerar inget av undergränssnitten</td></tr>
+          <tr><td><code>interface GigabitEthernet0/0.10</code></td><td>Skapar ett undergränssnitt. Siffran efter punkten är ett namn — vanan är VLAN-numret</td></tr>
+          <tr><td><code>encapsulation dot1Q 10</code></td><td><b>Ramar märkta VLAN 10 hör hit</b></td></tr>
+          <tr><td><code>ip address …</code></td><td>Undergränssnittets adress — <b>gatewayen för sitt VLAN</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik"><code>no ip address</code> först</span>
+      <p>Har Gi0/0 kvar sin adress från lektion 53 vägrar routern ge undergränssnittet <code>192.168.&lt;grupp&gt;.1</code>, eftersom samma nät skulle ligga på två gränssnitt. Felmeddelandet säger <i>overlaps</i>.</p>
+    </div>
+
+    <p><b>Namnet beskriver bara formen:</b> en fysisk länk ger routning åt flera VLAN. Det är <b>mekanismen</b> rapporten ska förklara — taggen, undergränssnitten, gatewayen — inte namnet.</p>
+
+    <p>Sedan maskinerna i VLAN 20: <code>10.&lt;grupp&gt;.20.10</code> och <code>10.&lt;grupp&gt;.20.11</code>, mask <code>255.255.255.0</code>, gateway <code>10.&lt;grupp&gt;.20.1</code>.</p>
+
+    <p>Och <code>show ip route</code> på routern: <b>tre C-rader.</b> VLAN 10 ut genom Gi0/0.10, VLAN 20 ut genom Gi0/0.20, nät B ut genom Gi0/1. Hur utskriften läses står på <a href="routern.html#show-ip-route">routersidan</a>.</p>
+
+    <h2 id="pingen">8. Pingen steg för steg</h2>
+
+    <p>Pinga från en maskin i VLAN 20 till <code>192.168.&lt;grupp&gt;.10</code>. <b>Svar.</b> Gör om det i <b>Simulation</b>, och följ den:</p>
+
+    <ol class="steg">
+      <li>Maskinen i VLAN 20 ser <i>annat nät</i> — och skickar till gatewayen <code>10.&lt;grupp&gt;.20.1</code></li>
+      <li>Switchen skickar ramen ut på trunken — <b>med taggen VLAN 20</b></li>
+      <li>Routern tar emot den på <b>Gi0/0.20</b>, slår upp mål-IP, och skickar ut den på <b>Gi0/0.10</b> — <b>med taggen VLAN 10</b></li>
+      <li>Switchen tar bort taggen och skickar ramen till maskinen i VLAN 10</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Samma kabel två gånger, med två olika taggar</span>
+      <p>Öppna ramen på trunken — mellan switchen och routern — och leta upp taggen på Layer 2.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Varför skickar maskinen i VLAN 20 till gatewayen nu, när den ARP:ade direkt förra veckan?</b> Svaret står i <a href="#eget-nat">avsnitt 3</a>.</p>
+    </div>
+
+    <h2 id="en-kabel">9. En kabel per VLAN</h2>
+
+    <p><b>Alla routrar kan inte trunka.</b> Då finns ett enklare alternativ: <b>en kabel per VLAN</b>, från var sitt fysiskt routergränssnitt till var sin <b>access-port</b> på switchen. Samma resultat, men en fysisk länk per nät i stället för en gemensam trunk.</p>
+
+    <p>Det är lektion 53:s lösning igen — och det visar att <b>principen inte beror på kablarna.</b> Trunken sparar kablar och portar. Mekanismen är densamma. Finns labbets utrustning, och saknar routern stöd för 802.1Q, är det så den kopplas.</p>
+
+    <h2 id="kopian">10. Bygget i din kopia</h2>
+
+    <p>Med adressplanen i <a href="#adressplanen">avsnitt 4</a>:</p>
+
+    <ol class="steg">
+      <li><b>Switchen:</b> porten mot routern till <code>switchport mode trunk</code></li>
+      <li><b>Routern:</b> <code>no ip address</code> på Gi0/0, sedan Gi0/0.10 och Gi0/0.20</li>
+      <li><b>VLAN 20:s maskiner:</b> nya adresser i <code>10.&lt;grupp&gt;.20.x</code>, ny gateway <code>10.&lt;grupp&gt;.20.1</code></li>
+      <li><code>show ip route</code> på routern — tre C-rader?</li>
+      <li>Pinga från VLAN 20 till VLAN 10</li>
+    </ol>
+
+    <p><b>Spara filen, ofärdig eller inte.</b> Nästa pass är det sista före deadline, och där verifieras allt — se <a href="labb.html#sista-passet">labbsidan</a>.</p>
+
+    <p><b>Går pingen inte:</b> har VLAN 20 kvar sina gamla adresser, eller gatewayen <code>192.168.&lt;grupp&gt;.1</code>? Är porten mot routern fortfarande <code>access</code>? Är Gi0/0 avstängt? Allt som var fel hör hemma i rapportens felsökningsavsnitt.</p>
+
+    <div class="notis">
+      <span class="rubrik">Vill du ha mer</span>
+      <p>Pinga från VLAN 20 till nät B. Tre nät, en router — hur många gånger passerar paketet trunken?</p>
+      <p>Byt namn på ett undergränssnitt till <code>Gi0/0.99</code> men behåll <code>encapsulation dot1Q 20</code>. Fungerar det? Vad säger det om vad som faktiskt avgör?</p>
+      <p>Leta upp taggen i <b>Outbound PDU Details</b>. Hur många bitar är VLAN-numret? Svaret, 12, ger högst 4094 VLAN.</p>
+      <p>En broadcast i VLAN 10 — går den ut på trunken? Når den VLAN 20? Svaret är labb 10:s fjärde fråga.</p>
+    </div>
+
+    <h2 id="missuppfattningar">11. Vanliga missuppfattningar</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: trunk, dot1Q, gateway" autocomplete="off">
+      <p class="traffar" id="traffar-fel">8 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td><i>overlaps</i> betyder att adressen är fel</td><td>Gi0/0 har kvar sin adress. <code>no ip address</code> på Gi0/0 först</td></tr>
+          <tr><td>VLAN 20 kan behålla sina gamla adresser</td><td>Då skickar maskinen aldrig till gatewayen. Ett VLAN, en broadcastdomän, ett nät</td></tr>
+          <tr><td>Nya adresser räcker</td><td>Porten mot routern måste också vara <code>trunk</code></td></tr>
+          <tr><td>Undergränssnitten fungerar fast Gi0/0 är avstängt</td><td><code>no shutdown</code> på det fysiska gränssnittet</td></tr>
+          <tr><td>Undergränssnittets nummer avgör VLAN:et</td><td>Siffran efter <code>dot1Q</code> avgör. Namnet är bara en vana</td></tr>
+          <tr><td>802.1Q är en Cisco-grej</td><td>Standarden är öppen. Kommandot <code>dot1Q</code> är Ciscos</td></tr>
+          <tr><td>Router-on-a-stick är en egen sorts router</td><td>Samma router. En kabel, flera undergränssnitt</td></tr>
+          <tr><td>Gatewayen i VLAN 20 är <code>192.168.&lt;grupp&gt;.1</code></td><td>Gatewayen är routerns adress <b>i maskinens eget nät</b>: <code>10.&lt;grupp&gt;.20.1</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">12. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Trunk</b></td><td>En port eller länk som bär flera VLAN, med varje ram märkt med sitt VLAN</td></tr>
+          <tr><td><b>Access-port</b></td><td>En port som bär ett enda VLAN, med vanliga ramar utan tagg</td></tr>
+          <tr><td><b>IEEE 802.1Q</b></td><td>Den öppna standarden för att märka en ram med sitt VLAN</td></tr>
+          <tr><td><b>Tagg</b></td><td>Fältet 802.1Q sätter in mellan käll-MAC och typ. Säger vilket VLAN ramen tillhör</td></tr>
+          <tr><td><b>Undergränssnitt</b></td><td>Ett logiskt gränssnitt i ett fysiskt, till exempel <code>Gi0/0.10</code>. Ett per VLAN</td></tr>
+          <tr><td><b>Router-on-a-stick</b></td><td>En router med en enda länk till switchen, som routar mellan flera VLAN via undergränssnitt</td></tr>
+          <tr><td><b><code>encapsulation dot1Q</code></b></td><td>Cisco-kommandot som knyter ett undergränssnitt till ett VLAN</td></tr>
+          <tr><td><b>Routning mellan VLAN</b></td><td>Att förbinda två VLAN — två broadcastdomäner — genom något som routar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 10</a> · <a href="vlan.html">Föregående: VLAN</a> · <a href="labb.html">Nästa: labb 10</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

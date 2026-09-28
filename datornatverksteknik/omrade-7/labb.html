@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Labb 7: Drift och återställning – Dator- och nätverksteknik område 7</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-7-labb">
+
+<header class="topp">
+  <a href="index.html">← Område 7</a>
+  <span class="harifran"><strong>Uppgift</strong> · Labb 7: Drift och återställning</span>
+  <a href="#checklista">Checklista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppgiften">1. Uppgiften</a></li>
+      <li><a href="#vaxer">2. Så växer rapporten fram</a></li>
+      <li><a href="#delarna">3. Vad varje del ska innehålla</a></li>
+      <li><a href="#ska">4. Ska-krav — E</a></li>
+      <li><a href="#bor">5. Bör-krav — C</a></li>
+      <li><a href="#utmaning">6. Utmaning — A</a></li>
+      <li><a href="#nyanserat">7. Vad "nyanserat" betyder</a></li>
+      <li><a href="#misstag">8. Vanliga misstag</a></li>
+      <li><a href="#checklista">9. Checklista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 7 · labb 7</p>
+    <h1>Labb 7: Drift och återställning</h1>
+    <p class="inledning">Höstterminens sjätte och sista labbrapport — och <b>ingenting i den är nytt</b>. Det är i sig poängen: allt som byggts upp sedan labb 2 sätts samman i en enda rapport. Mallens fem delar, felsökningsavsnittet i tre led, mätvärden i tabell, källor på två språk, och ett resonemang kopplat till ett behov. Det som prövas är inte om du kan formen, utan om du kan använda den på en maskin som redan fungerar — och hålla den frisk.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-12-22">
+        <span class="nar">22 dec</span>
+        <span class="vad">Inlämning kl 23:59 — <b>en tisdag</b>
+          <small>Sista lektionstiden är samma dag. Höstterminen slutar 22/12 och det finns ingen onsdag.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis varna">
+      <span class="rubrik">Den enda labben där passet och deadlinen är samma dag</span>
+      <p>Lektion 33 är terminens sista pass, och rapporten ska in samma kväll. Passet är till för <b>felsökningsavsnittet, källorna och checklistan</b> — inte för att göra om mätningar. Det som mättes på lektion 32 är det som gäller.</p>
+    </div>
+
+    <h2 id="uppgiften">1. Uppgiften</h2>
+    <p>Du arbetar på <b>din elevdator</b>, som du har adminrättigheter på. Fyra saker ska göras och dokumenteras:</p>
+
+    <ol>
+      <li><b>En säkerhetskopiering ställs in</b> av en vald mapp, mot ett USB-minne, och körs</li>
+      <li><b>En fil tas bort eller skadas med avsikt, och återställs från kopian.</b> Återställningen är beviset att kopian fungerar — inte inställningen i sig</li>
+      <li><b>Virusskyddet kontrolleras och ställs in</b> med automatiska uppdateringar, och en fullständig genomsökning körs</li>
+      <li><b>Maskinens prestanda mäts före och efter</b> en optimeringsåtgärd du själv valt och motiverat</li>
+    </ol>
+
+    <p>Genom allt detta: <b>varje källa med språk angivet</b>, som sedan labb 5.</p>
+
+    <div class="notis">
+      <span class="rubrik">Par vid bänken, egen rapport</span>
+      <p>Ni arbetar <b>två och två</b>, som resten av kursen, och delar USB-minne, mätningar och fel. <b>Rapporten skriver var och en själv</b> — dokumentationen bedöms individuellt. Att ni mätte samma tider är självklart; det är motiveringen till åtgärden och resonemanget om skillnaden som ska vara ditt eget.</p>
+      <p>Labbpartnerns namn står överst.</p>
+    </div>
+
+    <h2 id="vaxer">2. Så växer rapporten fram</h2>
+    <p>Labben görs under fem pass, med ett prov emellan.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Vad som görs</th><th>Vad som förs in i rapporten</th></tr></thead>
+        <tbody>
+          <tr><td><b>28</b> · mån 7/12</td><td>Filhistorik sätts upp mot USB-minnet och körs</td><td>Planeringen: mappen, minnet, första körningen</td></tr>
+          <tr><td><b>29</b> · tis 8/12</td><td>En fil tas bort och återställs</td><td>Utförandet: filen, innehållet, återställningen, att det stämde</td></tr>
+          <tr><td><b>30</b> · mån 14/12</td><td>Virusskyddet kontrolleras, genomsökning startas. <b>Mätning 1</b></td><td>Utgångsvärdet. Skyddets status</td></tr>
+          <tr><td><b>31</b> · tis 15/12</td><td>Prov 2</td><td>—</td></tr>
+          <tr><td><b>32</b> · mån 21/12</td><td>Åtgärden utförs. <b>Mätning 2.</b> Skärmdump av virusskyddet</td><td>Resultatet: tabellen, skillnaden, motiveringen</td></tr>
+          <tr><td><b>33</b> · tis 22/12</td><td>Felsökning, källor, checklistan</td><td>Rapporten klar</td></tr>
+          <tr><td><b>tis 22/12</b></td><td>—</td><td><b>Rapporten lämnas in senast 23:59 — samma dag</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Två saker att veta om tiden</span>
+      <p><b>Provet ligger mitt i labben.</b> Det som mättes på lektion 30 ska stå nedskrivet innan provet — inte i minnet.</p>
+      <p><b>Deadlinen är samma dag som sista passet.</b> Det finns ingen kväll efter.</p>
+    </div>
+
+    <h2 id="delarna">3. Vad varje del ska innehålla</h2>
+
+    <h3>1. Planering</h3>
+    <p>Skrivs på lektion 28, <b>innan</b> kopian körs.</p>
+    <ul>
+      <li><b>Vilken mapp</b> som ska kopieras, och ungefär hur stor den är</li>
+      <li><b>Vilket USB-minne</b>, och hur mycket plats det har</li>
+      <li><b>Vad ni tror</b> blir svårast — att få kopian att fungera, att återställa, eller att mäta en skillnad</li>
+      <li><b>Vilket prestandamått</b> ni tänker använda: uppstartstid, eller tiden att öppna tre bestämda program</li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Arbetar du mot C eller A</span>
+      <p><b>Planeringen ska vara godkänd av läraren innan kopian körs.</b> På E-nivå stämmer du av under arbetets gång; på C och A planerar du färdigt först och genomför sedan självständigt. Visa planeringen på lektion 28.</p>
+    </div>
+
+    <h3>2. Utförande</h3>
+    <p>Skrivs på lektion 28, 29 och 30 — <b>medan det händer</b>.</p>
+
+    <p><b>Säkerhetskopieringen:</b></p>
+    <ul>
+      <li>Hur Filhistorik ställdes in, och mot vilken enhet</li>
+      <li>Hur lång tid första körningen tog</li>
+      <li><b>Att ni öppnade en fil på USB-minnet</b> och såg att den var där</li>
+    </ul>
+
+    <p><b>Återställningen — beviset:</b></p>
+    <ul>
+      <li><b>Vilken fil</b> som togs bort eller skadades, och hur</li>
+      <li><b>Vad den innehöll</b> innan — nedskrivet före ni rörde den</li>
+      <li><b>Hur återställningen gick</b>, steg för steg, <b>från Filhistorik</b> — inte genom att kopiera tillbaka filen i Utforskaren</li>
+      <li><b>Att innehållet stämde</b> efteråt — eller inte, och vad ni gjorde då</li>
+      <li><b>Att USB-minnet dras ur mellan körningarna, och varför</b></li>
+    </ul>
+
+    <p><b>Virusskyddet:</b> att skyddet var aktivt, när databasen senast uppdaterades, och att en fullständig genomsökning startades.</p>
+
+    <h3>3. Resultat</h3>
+    <p>Skrivs på lektion 30 och 32. <b>Mätningarna i tabell:</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Mått</th><th>Värde 1</th><th>Värde 2</th></tr></thead>
+        <tbody>
+          <tr><td><b>Mätning 1</b> — före åtgärden</td><td>uppstartstid i sekunder</td><td></td><td></td></tr>
+          <tr><td><b>Mätning 2</b> — efter åtgärden</td><td>uppstartstid i sekunder</td><td></td><td></td></tr>
+          <tr><td><b>Skillnad</b></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Två värden per mätning</b>, för att en enda siffra inte säger något om mätmetoden.</p>
+
+    <p><b>Åtgärden och motiveringen.</b> Vilken av de tre åtgärderna ni valde — startprogram, tillfälliga filer eller diskutrymme — och <b>varför just den på just er maskin</b>. Motiveringen ska peka på något ni sett: antalet startprogram, procenten ledigt.</p>
+
+    <p><b>En mening om skillnaden.</b> Blev det en: varför, kopplat till åtgärden. Blev det ingen: <b>varför inte</b> — det är ett lika giltigt resultat.</p>
+
+    <p><b>Virusskyddets status, med skärmdump.</b> Aktivt, uppdaterat, genomsökt — <b>datumen ska synas i bilden</b>.</p>
+
+    <h3>4. Felsökning</h3>
+    <p>Samma tre led som sedan labb 4: <b>vad gick fel, hur syntes det, hur åtgärdades det.</b> Avsnittet lämnas aldrig tomt. Området ger material:</p>
+    <ul>
+      <li>USB-minnet som Filhistorik inte accepterade — fel format</li>
+      <li>Filen som återställdes tom, eller i fel version</li>
+      <li>Genomsökningen som inte körts klart för att maskinen stängts av</li>
+      <li>Åtgärden som inte gav någon skillnad, och varför</li>
+      <li>En mätning som blev orimlig — och en omkörning</li>
+    </ul>
+    <p><b>Gick ingenting fel:</b> skriv vad ni <b>kontrollerade</b> för att vara säkra, som i labb 2 och 3. Att öppna filen på USB-minnet är en kontroll. Att mäta två gånger är en kontroll.</p>
+
+    <h3>5. Källor</h3>
+    <p>Varje källa <b>med språket angivet</b>, som sedan labb 5. <b>Minst en på engelska.</b></p>
+    <p>Windows egen dokumentation om Filhistorik och Windows-säkerhet är på engelska i originalet, och det ni läst om vad som gör en maskin långsam är det oftast också. <b>Skriv adressen medan fliken är öppen</b>, inte på kvällen.</p>
+
+    <h2 id="ska">4. Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2>Det här ska finnas</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Alla <b>fem delar</b> ifyllda, i ordning</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Labbpartnerns namn står överst</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Planeringen: <b>mapp, USB-minne och prestandamått</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Säkerhetskopieringen beskriven: enhet, mapp, första körningen</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span><b>En fil öppnad på USB-minnet</b>, och det står i rapporten</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Återställningen: <b>vilken fil, vad den innehöll, att den kom tillbaka</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Det står att återställningen skedde <b>från Filhistorik</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Virusskyddets status, med <b>skärmdump där datumen syns</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>Mätning 1 och 2 i <b>tabell</b>, två värden per mätning</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>Åtgärden står nedskriven, med vad som faktiskt gjordes</span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span>Felsökningsavsnittet ifyllt, i <b>tre led</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-12"><span>Källorna uppskrivna, <b>med språk angivet</b></span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bor">5. Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2>Det här gör rapporten möjlig att följa</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span><b>Planeringen godkänd av läraren innan</b> arbetet började</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span><b>Åtgärden motiverad utifrån något ni sett</b> på maskinen — antalet startprogram, procenten ledigt — inte ett allmänt råd</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Motiveringen skriven <b>före</b> mätning 2</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Återställningen beskriven <b>steg för steg</b>: var i verktyget, vilken version</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span><b>Skälet till att USB-minnet dras ur</b> står utskrivet</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>En mening om skillnaden mellan mätningarna, <b>kopplad till åtgärden</b></span></label></li>
+        <li><label><input type="checkbox" id="bor-7"><span>Felen är <b>identifierade med säkerhet</b>, inte gissade</span></label></li>
+        <li><label><input type="checkbox" id="bor-8"><span><b>Minst en källa på engelska</b>, använd utan handledning</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="utmaning">6. Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2>Det här gör rapporten nyanserad</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utmaning-1"><span>Rapporten säger vad mätningen <b>inte</b> visar</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-2"><span>Det står varför en <b>otestad kopia inte är en kopia</b> — med egna ord</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-3"><span><b>Egna förbättringsförslag:</b> vad ni skulle göra annorlunda nästa gång, och varför</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-4"><span>Blev det ingen skillnad står det <b>varför inte</b>, kopplat till maskinens utgångsläge</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-5"><span>Återställningen gjord <b>två gånger</b> — en borttagning och en överskrivning</span></label></li>
+      </ul>
+    </section>
+
+    <div class="notis">
+      <span class="rubrik">Om betyget A i det här området</span>
+      <p>A-kriteriets skarpaste mening — <b>sambandet mellan nätverkets delar</b> — går inte att pröva här. Den kommer i område 10 och i slutuppdraget.</p>
+      <p>Det betyder inte att A är omöjligt i den här labben. Här prövas A genom <b>nyansen i resonemanget om mätningen</b>, genom att kopian bevisats och inte bara konfigurerats, och genom egna förbättringsförslag.</p>
+    </div>
+
+    <h2 id="nyanserat">7. Vad "nyanserat" betyder</h2>
+    <p>Tre sätt att skriva om samma mätning.</p>
+
+    <p><b>E — säger vad som hände:</b></p>
+    <blockquote>Uppstartstiden gick från 48 till 41 sekunder efter att vi stängt av startprogram.</blockquote>
+
+    <p><b>C — säger varför, kopplat till en orsak:</b></p>
+    <blockquote>Uppstartstiden gick från 48 till 41 sekunder. Vi stängde av sju startprogram, och de tog processortid och minne redan vid inloggningen — det är orsak nummer ett i genomgången.</blockquote>
+
+    <p><b>A — säger också vad mätningen inte visar:</b></p>
+    <blockquote>Uppstartstiden gick från 48 till 41 sekunder efter att vi stängt av sju startprogram. Men mätningen säger bara något om uppstarten — om maskinen är snabbare <i>att använda</i> efteråt vet vi inte, för det mätte vi inte. Nästa gång hade vi också mätt tiden att öppna tre program, för det är det som märks i vardagen.</blockquote>
+
+    <div class="notis viktig">
+      <span class="rubrik">Den sista meningen är själva A-nivån</span>
+      <p>"Nästa gång hade vi också mätt…" är ett <b>eget förbättringsförslag</b>, och det är precis vad A-kriteriet efterfrågar. Det går inte att få genom att skriva mer — bara genom att skriva om något annat.</p>
+    </div>
+
+    <h2 id="misstag">8. Vanliga misstag</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Misstag</th><th>Varför det händer</th><th>Så gör du i stället</th></tr></thead>
+        <tbody>
+          <tr><td>Filen kopieras tillbaka i Utforskaren</td><td>Det ser ut som samma sak</td><td>Från Filhistorik. Det är verktyget som övas, och det håller versioner</td></tr>
+          <tr><td>Kopian anses klar när inställningen är på</td><td>Bocken är grön</td><td>Öppna en fil på USB-minnet</td></tr>
+          <tr><td>USB-minnet lämnas i maskinen</td><td>Det är bekvämt</td><td>Dra ur det. Allt som når maskinen når kopian</td></tr>
+          <tr><td>Ett andra virusskydd installeras</td><td>"Installeras" står i uppgiften</td><td>Defender finns. Kontrollera, uppdatera, genomsök</td></tr>
+          <tr><td>Mätning 2 görs från omstart</td><td>Det går fortare</td><td>Samma metod som mätning 1</td></tr>
+          <tr><td>"Vi defragmenterade"</td><td>Det står först i varje lista på nätet</td><td>Skadligt för en SSD. Myt nummer ett</td></tr>
+          <tr><td>Motiveringen skrivs efter åtgärden</td><td>Man tänker på texten sist</td><td>Före. Annars är det en förklaring, inte ett val</td></tr>
+          <tr><td>"Ingen skillnad" tas som ett misslyckande</td><td>Man ville se en siffra gå ner</td><td>Det är ett resultat. Skriv varför</td></tr>
+          <tr><td>Skärmdumpen saknar datum</td><td>Fel vy</td><td>Datumen är beviset</td></tr>
+          <tr><td>Rapporten lämnas in på onsdag</td><td>Deadline brukar vara onsdag</td><td><b>Tisdag.</b> Terminen slutar då</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="checklista">9. Checklista innan inlämning</h2>
+    <p>Gå igenom listorna ovan en sista gång. Det är den enskilt mest värdefulla sista handlingen och den kostar fyra minuter.</p>
+    <ul>
+      <li>Ska-kraven är minimum — utan dem är rapporten inte färdig</li>
+      <li>Bör-kraven är det som gör den möjlig att följa</li>
+      <li>Utmaningarna är det som gör den nyanserad</li>
+    </ul>
+
+    <div class="notis varna">
+      <span class="rubrik">Kontrollera en sak till</span>
+      <p><b>Att rapporten är din egen text, inte partnerns.</b> Ni gjorde arbetet tillsammans och mätte samma tider — men motiveringen och resonemanget om skillnaden bedöms individuellt, och de ska vara dina.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 7</a> · <a href="../omrade-6/labb.html">Labb 6</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 10 – Dator- och nätverksteknik</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-10-start">
+
+<header class="topp">
+  <a href="../index.html">← Kursen</a>
+  <span class="harifran"><strong>Område 10</strong> · Switchning, routning och virtuella nät</span>
+  <a href="#lektioner">Lektioner</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · v.13–18 · 10 lektioner</p>
+    <h1>Switchning, routning och virtuella nät</h1>
+    <p class="inledning">Område 9 drog en tydlig gräns på lektion 44: en ram med sin MAC-adress kan nå en switch, och ett paket med sin IP-adress kan nå en router — men hur switchen väljer vilken port ramen ska ut på, och hur routern väljer väg, lämnades till det här området. Efter tio pass vet du hur en switch bygger sin <b>MAC-adresstabell</b> genom att läsa avsändaren i varje ram som kommer in, och vad den gör med en mottagare den ännu inte lärt sig: <b>flödning</b> till alla portar utom den ramen kom in på — ett normalt beteende, inget fel. Du vet varför en <b>broadcast</b> sprider sig över hela det switchade nätet medan en router stoppar den vid sitt eget gränssnitt, och du blandar inte ihop det med den i praktiken historiska <b>kollisionsdomänen</b>. Du vet hur en router avgör vart ett paket ska, med <b>routingtabellen</b> och maskinens <b>standardgateway</b>, och du känner igen hur <b>statisk routning</b> skrivs och när den behövs — till skillnad från de direktanslutna nät routern redan känner till av sig själv. Till sist har du i labb 10 delat en switch i minst två <b>VLAN</b>, kopplat ihop dem med en router, verifierat att en broadcast stannar inom sitt eget VLAN — och kan förklara varför. Det är här betygskriteriet för A prövas första gången: sambandet mellan de olika delarna som ingår i nätverkets uppbyggnad.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Labb 10 – Routa och separera med VLAN · deadline onsdag 28/4 kl 23:59</span>
+      <p>Kursens nionde labbrapport, den sista före slutuppdraget. Hela uppgiften står på <a href="labb.html">labbsidan</a>.</p>
+      <p><b>Att verifiera är E-nivå. Att förklara varför är det som skiljer C och A.</b> Den sista punkten i uppgiften — förklara varför broadcasten stannade — är inte ett tillägg. Den är uppgiften.</p>
+    </div>
+
+    <h2 id="lektioner">Lektionerna</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Datum</th><th>Vad passet handlar om</th><th>Missade du passet?</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>50</td>
+            <td>tis 30 mar</td>
+            <td>Switchens adresstabell och flödning</td>
+            <td><a href="switchen.html">Switchen och adresstabellen</a></td>
+          </tr>
+          <tr>
+            <td>51</td>
+            <td>mån 5 apr</td>
+            <td>Broadcastdomän och kollisionsdomän. Den andra switchen</td>
+            <td><a href="broadcast.html">Broadcastdomän och kollisionsdomän</a></td>
+          </tr>
+          <tr>
+            <td>52</td>
+            <td>tis 6 apr</td>
+            <td>Broadcasten över två switchar, och två tabeller</td>
+            <td><a href="switchen.html">Switchen och adresstabellen</a></td>
+          </tr>
+          <tr>
+            <td>53</td>
+            <td>mån 12 apr</td>
+            <td>Routern väljer väg</td>
+            <td><a href="routern.html">Routern väljer väg</a></td>
+          </tr>
+          <tr>
+            <td>54</td>
+            <td>tis 13 apr</td>
+            <td>Två nät nås via router</td>
+            <td><a href="routern.html">Routern väljer väg</a></td>
+          </tr>
+          <tr>
+            <td>55</td>
+            <td>mån 19 apr</td>
+            <td>VLAN på samma switch</td>
+            <td><a href="vlan.html">VLAN och gränsen för en broadcast</a></td>
+          </tr>
+          <tr>
+            <td>56</td>
+            <td>tis 20 apr</td>
+            <td>Broadcasten stannar vid VLAN-gränsen</td>
+            <td><a href="vlan.html">VLAN och gränsen för en broadcast</a></td>
+          </tr>
+          <tr>
+            <td>57</td>
+            <td>mån 26 apr</td>
+            <td>Routning mellan VLAN</td>
+            <td><a href="trunken.html">Routning mellan VLAN</a></td>
+          </tr>
+          <tr>
+            <td>58</td>
+            <td>tis 27 apr</td>
+            <td>Labb 10 färdigställs och lämnas in</td>
+            <td><a href="labb.html">Labb 10: kraven och checklistan</a></td>
+          </tr>
+          <tr>
+            <td>59</td>
+            <td>mån 3 maj</td>
+            <td>Prov 3: område 8–10</td>
+            <td><a href="repetition.html">Repetition inför prov 3</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Ni arbetar i par, i parets egen kopia</span>
+      <p>Området bärs av <b>Packet Tracer</b>, i samma kopia som i område 9. Den växer genom området: en switch till på lektion 51, en router på 53, två VLAN på 55 och en trunk på 57. <b>Spara efter varje pass</b>, där du hittar filen igen.</p>
+      <p><b>Rapporten skriver var och en själv.</b> Ni bygger samma nät, men förklaringen ska vara din.</p>
+    </div>
+
+    <h2>Sidor i det här området</h2>
+
+    <ul class="rutnat">
+      <li>
+        <a class="kort webb" href="switchen.html">
+          <span class="sort">Uppslag · lektion 50 och 52</span>
+          <span class="rubrik">Switchen och adresstabellen</span>
+          <p>Switchen lär sig av avsändaren. Tre fall, flödning som inte är ett fel, <code>show mac address-table</code> — och två switchar med var sin tabell som glömmer.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort webb" href="broadcast.html">
+          <span class="sort">Uppslag · lektion 51</span>
+          <span class="rubrik">Broadcastdomän och kollisionsdomän</span>
+          <p>Ramen som alltid flödas, hur långt den når och var den stannar. Hubb, switch och router — och den andra switchen.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort webb" href="routern.html">
+          <span class="sort">Uppslag · lektion 53 och 54</span>
+          <span class="rubrik">Routern väljer väg</span>
+          <p>Två nät av ett. Routingtabellen, standardgatewayen och statisk routning. MAC-adresserna som byts — och broadcasten som stannar.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort webb" href="vlan.html">
+          <span class="sort">Uppslag · lektion 55 och 56</span>
+          <span class="rubrik">VLAN och gränsen för en broadcast</span>
+          <p>En switch som beter sig som två. Pingen som dör fast adresserna är desamma — och förklaringen som är labbens tyngdpunkt.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort webb" href="trunken.html">
+          <span class="sort">Uppslag · lektion 57</span>
+          <span class="rubrik">Routning mellan VLAN</span>
+          <p>Ett VLAN, en broadcastdomän, ett IP-nät. 802.1Q-taggen, trunken och router-on-a-stick.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort gran" href="labb.html">
+          <span class="sort">Uppgift · deadline 28/4</span>
+          <span class="rubrik">Labb 10: Routa och separera med VLAN</span>
+          <p>Hur rapporten växer fram pass för pass, de tre testerna, de fyra frågorna — och kraven i E, C och A.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort gran" href="repetition.html">
+          <span class="sort">Prov · måndag 3 maj</span>
+          <span class="rubrik">Repetition inför prov 3</span>
+          <p>Vad provet omfattar i område 8, 9 och 10, var stoffet finns — och frågor att träna förklaringarna på.</p>
+        </a>
+      </li>
+    </ul>
+
+    <h2>Det centrala innehåll området täcker</h2>
+    <p>Ur Skolverkets ämnesplan för kursen Dator- och nätverksteknik:</p>
+    <ul>
+      <li>Begreppen switchning och routning.</li>
+      <li>Begreppet virtuella nät.</li>
+      <li>Lokala nätverk, uppbyggnad och arbetssätt.</li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Områdets princip</span>
+      <p><b>Konkret före abstrakt.</b> Varje mekanism ses först i Packet Tracer — en ram som flödas, en ping som dör, en broadcast som stannar — och förklaras sedan.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Cisco IOS är plattformens språk</span>
+      <p>Switcharna och routern i Packet Tracer konfigureras med <b>Cisco IOS</b>, samma kommandon som Ciscos riktiga utrustning. Andra tillverkare har andra kommandon för samma sak. <b>Det är mekanismen som är kunskapen, inte kommandot</b> — på provet ska du känna igen kommandona, inte skriva dem ur minnet.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Vägen till betyget A går genom nätverket</span>
+      <p>A-kriteriet har en mening varken E eller C har: du ska kunna redogöra för <b>sambandet mellan de olika delarna som ingår i nätverkets uppbyggnad</b>. <b>Labb 10 är första gången den prövas på riktigt</b> — hur switchen, VLAN-indelningen och routern tillsammans bestämmer var trafiken går. En sista gång prövas den i slutuppdraget.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Efter det här området</span>
+      <p><b>Prov 3 är måndag 3 maj</b>, och täcker område 8–10. Dagen efter, <b>tisdag 4 maj</b>, öppnar område 11: felsökning i datorer och nätverk.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="../index.html">Tillbaka till kursens startsida</a> · <a href="../omrade-9/index.html">Område 9</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

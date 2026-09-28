@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Switchen och adresstabellen – Dator- och nätverksteknik område 10</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-10-switchen">
+
+<header class="topp">
+  <a href="index.html">← Område 10</a>
+  <span class="harifran"><strong>Uppslag</strong> · Switchen och adresstabellen</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#fragan">1. Frågan som väntat</a></li>
+      <li><a href="#avsandaren">2. Switchen lär sig av avsändaren</a></li>
+      <li><a href="#tre-fall">3. Tre fall</a></li>
+      <li><a href="#normalt">4. Flödning är normalt</a></li>
+      <li><a href="#tabellen">5. Tabellen läst rad för rad</a></li>
+      <li><a href="#kopian">6. Flödningen i din kopia</a></li>
+      <li><a href="#noden">7. Tabellen medan den fylls</a></li>
+      <li><a href="#tva-switchar">8. Broadcasten över två switchar</a></li>
+      <li><a href="#tva-tabeller">9. Två switchar, två tabeller</a></li>
+      <li><a href="#glommer">10. Tabellen glömmer</a></li>
+      <li><a href="#underlaget">11. Labb 10:s första underlag</a></li>
+      <li><a href="#missuppfattningar">12. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">13. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 10 · lektion 50 och 52</p>
+    <h1>Switchen och adresstabellen</h1>
+    <p class="inledning">Område 9 slutade med en gräns: ramen når switchen — men hur switchen väljer vilken port ramen ska ut på lämnades till det här området. Den här sidan besvarar den halvan av frågan. Switchen lär sig var varje maskin sitter genom att läsa <b>avsändaren</b> i varje ram den tar emot, och skriver upp det i sin <b>MAC-adresstabell</b>. Vet den inte var mottagaren sitter skickar den ramen till alla — och det är inget fel. Sist två switchar i samma nät, som har var sin tabell och inte delar den med varandra, och en tabell som glömmer.</p>
+
+    <h2 id="fragan">1. Frågan som väntat</h2>
+
+    <div class="notis">
+      <span class="rubrik">Så slutade område 9</span>
+      <p>Ramen når switchen. Paketet kan nå en router. <b>Hur switchen väljer port, och hur routern väljer väg, är område 10.</b></p>
+    </div>
+
+    <p>Den här sidan tar switchen. Routern kommer på lektion 53, och står på <a href="routern.html">routersidan</a>.</p>
+
+    <p>Kom ihåg från lektion 42: <b>en switch är en lager 2-enhet.</b> Den tittar i Ethernet-kuvertet — MAC-adresserna — och bryr sig inte om vad som står i IP-kuvertet inuti.</p>
+
+    <h2 id="avsandaren">2. Switchen lär sig av avsändaren</h2>
+
+    <p>Varje gång en ram kommer in läser switchen ramens <b>käll-MAC</b>, och skriver upp den tillsammans med <b>porten ramen kom in på</b>. Listan kallas <b>MAC-adresstabellen</b>.</p>
+
+    <div class="notis">
+      <span class="rubrik">Brevbäraren</span>
+      <p>Tänk dig en brevbärare som noterar vilken dörr varje avsändare bor bakom — av breven de själva lämnar i lådan. Efter en stund vet hen var alla bor, utan att någon har berättat det.</p>
+    </div>
+
+    <p>Sedan läser switchen ramens <b>mål-MAC</b> och slår upp den i tabellen. Vad den gör då beror på vad den hittar.</p>
+
+    <h2 id="tre-fall">3. Tre fall</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Mål-MAC i tabellen?</th><th>Switchen gör</th><th>Kallas</th></tr></thead>
+        <tbody>
+          <tr><td><b>Ja</b>, på en annan port</td><td>Skickar ut på <b>den porten</b>, ingen annan</td><td>Vidarebefordran (<i>forwarding</i>)</td></tr>
+          <tr><td><b>Nej</b></td><td>Skickar ut på <b>alla portar utom den ramen kom in på</b></td><td>Flödning (<i>flooding</i>)</td></tr>
+          <tr><td>Ja, på <b>samma</b> port som ramen kom in på</td><td>Kastar ramen — mottagaren har redan fått den</td><td>Filtrering</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Det tredje fallet är sällsynt i ett nät med en maskin per port. <b>De två första är de som ska sitta.</b> Tabellen kommer tillbaka resten av området, och på prov 3.</p>
+
+    <h2 id="normalt">4. Flödning är normalt</h2>
+
+    <div class="notis viktig">
+      <span class="rubrik">Flödning är inte ett fel</span>
+      <p>Det är vad switchen gör när den inte vet — och den vet aldrig något från början. En switch som just startats flödar nästan allt, och lär sig på några sekunder.</p>
+    </div>
+
+    <p>Jämför med <b>hubben</b> från lektion 36. Hubben skickade allt till alla portar, alltid. Switchen gör det bara <b>tills den lärt sig</b>. Det är hela skillnaden, och det är därför switchen ersatte hubben.</p>
+
+    <h2 id="tabellen">5. Tabellen läst rad för rad</h2>
+
+    <p>Tabellen visas med kommandot <code>show mac address-table</code> i switchens kommandorad. I Packet Tracer: klicka på switchen, fliken <b>CLI</b>, tryck Enter, skriv <code>enable</code> — prompten ska sluta på <code>#</code>, inte <code>&gt;</code> — och sedan kommandot. En rad kan se ut så här:</p>
+
+    <pre><code>Switch#show mac address-table
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+   1    0001.c7a3.5b12    DYNAMIC     Fa0/1</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kolumn</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vlan</b></td><td>Vilket VLAN porten tillhör — <code>1</code> från början. Kolumnen får andra värden på lektion 55, se <a href="vlan.html">VLAN-sidan</a></td></tr>
+          <tr><td><b>Mac Address</b></td><td>Avsändaren switchen lärde sig</td></tr>
+          <tr><td><b>Type</b></td><td><code>DYNAMIC</code> — inlärd, inte inskriven för hand</td></tr>
+          <tr><td><b>Ports</b></td><td>Porten avsändaren sågs på</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Cisco IOS, inte en standard</span>
+      <p><code>show mac address-table</code> är <b>Cisco IOS-syntax</b> — det språk Packet Tracers switchar och Ciscos riktiga switchar talar. <b>Andra tillverkare har andra kommandon</b> för samma tabell. Det är tabellen som är kunskapen, inte kommandot.</p>
+    </div>
+
+    <p>Två kommandon till behövs på den här sidan: <code>clear mac address-table dynamic</code> tömmer tabellen, och <code>arp -d</code> — på en PC, i <b>Command Prompt</b> — tömmer maskinens ARP-cache, som på lektion 44.</p>
+
+    <h2 id="kopian">6. Flödningen i din kopia</h2>
+
+    <p>I parets egen kopia från område 9. Följ ordningen — den spelar roll:</p>
+
+    <ol class="steg">
+      <li><b>Realtime:</b> pinga från en maskin till en annan. Kontrollera med <code>arp -a</code> att mottagaren finns i cachen</li>
+      <li>Switchen, <b>CLI</b>: <code>enable</code>, <code>show mac address-table</code>. <b>Skriv av tabellen</b></li>
+      <li><code>clear mac address-table dynamic</code>. Kör <code>show mac address-table</code> igen. Tom</li>
+      <li><b>Simulation</b>, filter på <b>ICMP</b>, och samma ping igen</li>
+      <li><b>Capture/Forward</b> tills echo request når switchen, och ett klick till. <b>Skriv upp vilka portar</b> ramen gick ut på. De maskiner som inte är mottagaren tar emot den och kastar den</li>
+      <li>Klicka fram echo reply. <b>Skriv upp vilken enda port</b> svaret gick ut på</li>
+      <li>Pinga igen. <b>Vilken port använde nästa förfrågan?</b></li>
+      <li><code>show mac address-table</code> igen. <b>Skriv av</b> — nu har tabellen rader</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Varför steg 1</span>
+      <p>Är ARP-cachen tom skickar maskinen först en <b>ARP-fråga</b>, och den är en <b>broadcast</b>. Den flödas också — men av ett annat skäl än det du ska se här. Den här gången ska den första ramen vara en vanlig ram till en mottagare switchen inte känner. Broadcasten är lektion 51:s ämne, och står på <a href="broadcast.html">broadcastsidan</a>.</p>
+      <p>Syns ARP ändå som första ram: pinga i Realtime igen och kontrollera med <code>arp -a</code>.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Varför gick svaret bara till en port, när förfrågan gick till alla?</b> Svaret är avsnitt 2: switchen lärde sig frågarens port när förfrågan passerade.</p>
+    </div>
+
+    <p>Syns ingen flödning var tabellen redan fylld — töm den med <code>clear mac address-table dynamic</code> före pingen. Tar CLI:n inte emot <code>show mac address-table</code> har du glömt <code>enable</code>.</p>
+
+    <p><i>Ta en skärmbild av flödningen och av tabellen före och efter. Anteckningen är områdets första underlag, och hör hemma i labb 10:s utförandedel.</i></p>
+
+    <h2 id="noden">7. Tabellen medan den fylls</h2>
+
+    <div class="notis">
+      <span class="rubrik">Pröva det själv</span>
+      <p><b>ComputerExplorer → networking → switch-learning</b> — nodens titel är <i>Switch-inlärning</i>.</p>
+      <p>Noden visar det Packet Tracer visar först i efterhand: <b>tabellen, medan den fylls.</b> Packet Tracer visar rörelsen, noden visar minnet.</p>
+    </div>
+
+    <ol class="steg">
+      <li>Tryck <b>Återställ (töm tabell)</b>. Tabellen säger att switchen inte vet någonting</li>
+      <li>Välj <b>A → B</b> under <b>Skicka en ram</b> och tryck <b>Skicka ▸</b>. <b>Logg</b> visar flödningen. <b>Switchens MAC-tabell</b> har fått en rad — vilken?</li>
+      <li>Skicka <b>B → A</b>. Ramen vidarebefordras direkt. Nu har tabellen två rader</li>
+      <li>Skicka <b>A → B</b> igen. Ingen flödning</li>
+    </ol>
+
+    <p>Läs nodens förklaring efter varje ram. <b>I vilket steg lärde sig switchen B:s port?</b></p>
+
+    <div class="notis">
+      <span class="rubrik">Vill du ha mer</span>
+      <p>Skicka mellan alla värdar i noden tills flödningen upphört helt, och räkna hur många ramar det tog.</p>
+      <p>I kopian: flytta en maskins kabel till en annan switchport och pinga igen. Vad händer med tabellen? Porten är inte knuten till maskinen — det sades på lektion 35, och här syns varför det fungerar. Och fundera: <b>en switch med tomt minne flödar allt. Vad liknar den då?</b></p>
+    </div>
+
+    <h2 id="tva-switchar">8. Broadcasten över två switchar</h2>
+
+    <p>På lektion 51 kopplades en andra switch in, med två maskiner på <code>192.168.&lt;grupp&gt;.20</code> och <code>.21</code>. Hur det görs står på <a href="broadcast.html#andra-switchen">broadcastsidan</a>. På lektion 52 bevisas att en broadcast når varje port på <b>båda</b> switcharna.</p>
+
+    <p><b>Kontrollera nätet först:</b></p>
+
+    <ol class="steg">
+      <li>Länken mellan switcharna är <b>grön</b> i båda ändar</li>
+      <li><code>.20</code> och <code>.21</code> har rätt adress och mask, <code>255.255.255.0</code></li>
+      <li><b>Realtime:</b> pinga <code>.20</code> från en maskin på den första switchen. Svar</li>
+    </ol>
+
+    <p>Går det inte: korsad kabel, samma nätdel, samma mask. <b>Skriv ner vad som var fel</b> — det är felsökningsavsnittets material.</p>
+
+    <p><b>Sedan fångas broadcasten:</b></p>
+
+    <ol class="steg">
+      <li><code>clear mac address-table dynamic</code> på <b>båda</b> switcharna</li>
+      <li><code>arp -d</code> på en maskin på den <b>första</b> switchen</li>
+      <li><b>Simulation</b>, filter på <b>ARP</b></li>
+      <li>Pinga <code>192.168.&lt;grupp&gt;.20</code></li>
+      <li><b>Capture/Forward</b> ett steg i taget. På den första switchen går ARP-frågan ut på <b>alla portar utom den den kom in på</b> — också länken till den andra switchen. På den andra switchen går den ut på <b>alla portar utom länken</b> den kom in på</li>
+      <li><b>Skärmbild</b> när frågan har nått alla maskiner på båda switcharna</li>
+      <li>Klicka fram svaret. <b>Vart går det?</b></li>
+    </ol>
+
+    <p>Fyll i:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Switch</th><th>Frågan kom in på</th><th>Frågan gick ut på</th></tr></thead>
+        <tbody>
+          <tr><td>Den första</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>Den andra</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Varför gick svaret bara en väg, när frågan gick till alla?</b></p>
+      <p>Svaret är lektion 50 och 51 tillsammans: frågan var en <b>broadcast</b>, och en broadcast flödas alltid. Svaret är en vanlig ram till frågaren — och <b>frågaren lärde båda switcharna sin port</b> när frågan passerade.</p>
+    </div>
+
+    <p>Tar du skärmbilden för tidigt har frågan inte nått den andra switchen än. Klicka tills alla maskiner fått den.</p>
+
+    <h2 id="tva-tabeller">9. Två switchar, två tabeller</h2>
+
+    <p>Kör <code>show mac address-table</code> på <b>båda</b> switcharna, och skriv upp tabellerna sida vid sida. Portnumren här är ett exempel — dina kan vara andra:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th colspan="2">Den första switchen</th><th colspan="2">Den andra switchen</th></tr></thead>
+        <tbody>
+          <tr><td><b>MAC</b></td><td><b>Port</b></td><td><b>MAC</b></td><td><b>Port</b></td></tr>
+          <tr><td>frågarens</td><td>Fa0/1</td><td>frågarens</td><td><b>Gi0/1</b></td></tr>
+          <tr><td><code>.20</code>:s</td><td><b>Gi0/1</b></td><td><code>.20</code>:s</td><td>Fa0/1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Två saker att se:</p>
+
+    <ul>
+      <li><b>Varje switch ser den andra switchens maskiner på länkporten.</b> Den första switchen vet inte att <code>.20</code> sitter på den andra switchens Fa0/1. Den vet bara att <code>.20</code> finns <b>åt det hållet</b> — ut genom Gi0/1</li>
+      <li><b>Tabellerna är inte likadana.</b> Varje switch lär sig bara av det som passerar <b>dess egna portar</b>. De pratar inte med varandra om vad de vet</li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Adresstabellen är switchens eget minne</span>
+      <p><b>Den delas inte.</b> Det är skälet till att det räcker att koppla in en switch till utan att konfigurera något: den lär sig själv, från början, av trafiken.</p>
+    </div>
+
+    <h2 id="glommer">10. Tabellen glömmer</h2>
+
+    <p><b>En rad ligger inte kvar för evigt.</b> Har ingen ram setts <b>från</b> en adress på en stund tas raden bort — på Ciscos switchar efter <b>300 sekunder</b>, fem minuter. Det kallas <b>åldrande</b>, <i>aging</i>.</p>
+
+    <p>Varför? <b>Maskiner flyttas.</b> En bärbar dator kopplas in i en annan port, en maskin stängs av. En tabell som aldrig glömmer skulle till slut peka fel.</p>
+
+    <p>Följden: <b>nästa ram till en bortglömd adress flödas igen</b>, tills switchen lär sig porten på nytt. Samma flödning som i <a href="#normalt">avsnitt 4</a> — nu som något som kan komma tillbaka när som helst, och fortfarande inte ett fel.</p>
+
+    <div class="notis">
+      <span class="rubrik">Pröva i din version</span>
+      <p>Skriv <code>show mac address-table aging-time</code> i switchens CLI. Fungerar kommandot inte i din version av Packet Tracer: töm tabellen med <code>clear mac address-table dynamic</code>. Det är vad fem minuter utan trafik gör.</p>
+    </div>
+
+    <h2 id="underlaget">11. Labb 10:s första underlag</h2>
+
+    <p>In i labb 10-rapportens <b>utförandedel</b>:</p>
+
+    <ul>
+      <li><b>Skärmbilden</b> av flödningen över båda switcharna</li>
+      <li><b>Tabellen</b> över vilka portar frågan kom in på och gick ut på</li>
+      <li><b>De två MAC-adresstabellerna</b>, sida vid sida</li>
+      <li><b>En mening</b> om varför tabellerna skiljer sig åt</li>
+      <li>Anteckningen från lektion 50: flödningen, och tabellen före och efter</li>
+    </ul>
+
+    <p>Och i <b>planeringsdelen</b>: topologin — två switchar, vilken port som är länken, och vilka maskiner som sitter var.</p>
+
+    <div class="notis">
+      <span class="rubrik">Arbetar du mot C eller A</span>
+      <p><b>Planeringen ska vara godkänd av läraren innan lektion 53.</b> På E-nivå stämmer du av under arbetets gång; på C och A planerar du färdigt först och genomför sedan självständigt.</p>
+    </div>
+
+    <p>Saknas anteckningen från lektion 50: gör om den nu — tom tabell, ping, tabell. Det tar fem minuter. Hela labben står på <a href="labb.html">labbsidan</a>.</p>
+
+    <div class="notis">
+      <span class="rubrik">Vill du ha mer</span>
+      <p>Flytta <code>.20</code>:s kabel till en annan port på den andra switchen och pinga igen. Vad händer med den andra switchens tabell? Och den första?</p>
+      <p>Pinga från <code>.21</code> till <code>.20</code> — båda på den andra switchen — med tömda tabeller. Går frågan över länken till den första switchen? Varför?</p>
+      <p>Och om de två switcharna hade kopplats ihop med <b>två</b> kablar i stället för en — vad händer med en broadcast? Utan skydd blir det en slinga som aldrig tar slut. Switchar har ett eget protokoll mot det, <i>Spanning Tree</i>, som stänger den ena länken. Kursen går inte djupare, men frågan är värd att ha ställt.</p>
+    </div>
+
+    <h2 id="missuppfattningar">12. Vanliga missuppfattningar</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: flödning, tabell, avsändare" autocomplete="off">
+      <p class="traffar" id="traffar-fel">10 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>Switchen skickar till alla, alltså är den trasig</td><td>Flödning är normalt när den inte vet. Nästa ram går till en port</td></tr>
+          <tr><td>Switchen lär sig av mottagaren</td><td>Av <b>avsändaren</b>. Mottagaren lärs in först när den svarar</td></tr>
+          <tr><td>Den första ramen i ett ping är alltid ICMP</td><td>Är ARP-cachen tom är den första ramen en ARP-broadcast. Pinga i Realtime först</td></tr>
+          <tr><td>Ingen flödning syns, alltså fungerar det inte</td><td>Tabellen var redan fylld. <code>clear mac address-table dynamic</code> före pingen</td></tr>
+          <tr><td><code>show mac address-table</code> fungerar på alla switchar</td><td>Det är Cisco IOS. Andra tillverkare har andra kommandon. Tabellen är kunskapen</td></tr>
+          <tr><td>Den första switchen vet att <code>.20</code> sitter på Fa0/1</td><td>Den ser <code>.20</code> på länkporten. Bara den andra switchen vet Fa0/1</td></tr>
+          <tr><td>Broadcasten stannar vid den första switchen</td><td>Länken är en port som alla andra. Broadcasten flödas dit också</td></tr>
+          <tr><td>Två ihopkopplade switchar delar tabell</td><td>Var sin. De lär sig av sina egna portar</td></tr>
+          <tr><td>En rad i tabellen ligger kvar för alltid</td><td>Den glöms efter en stund utan trafik — 300 sekunder hos Cisco</td></tr>
+          <tr><td>Flödningen som kommer tillbaka är ett fel</td><td>Normalt. Tabellen glömmer för att maskiner flyttas</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">13. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>MAC-adresstabell</b></td><td>Switchens lista över vilken MAC-adress som setts på vilken port. Byggs av avsändarna</td></tr>
+          <tr><td><b>Vidarebefordran</b></td><td><i>Forwarding</i> — ramen skickas ut på den enda port där mottagaren sitter</td></tr>
+          <tr><td><b>Flödning</b></td><td><i>Flooding</i> — ramen skickas ut på alla portar utom den den kom in på, eftersom mottagaren är okänd</td></tr>
+          <tr><td><b>Filtrering</b></td><td>Ramen kastas, eftersom mottagaren sitter på samma port som ramen kom in på</td></tr>
+          <tr><td><b>Källport</b></td><td>Porten ramen kom in på. Den flödas aldrig tillbaka dit</td></tr>
+          <tr><td><b>Länkport</b></td><td>Porten som går till en annan switch. Maskinerna på andra sidan syns där</td></tr>
+          <tr><td><b>Åldrande</b></td><td><i>Aging</i> — en rad utan trafik tas bort efter en stund, hos Cisco 300 sekunder</td></tr>
+          <tr><td><b>Cisco IOS</b></td><td>Operativsystemet och kommandospråket i Ciscos switchar och routrar, och i Packet Tracer</td></tr>
+          <tr><td><b>CLI</b></td><td><i>Command Line Interface</i> — enhetens kommandorad</td></tr>
+          <tr><td><b><code>enable</code></b></td><td>Ger behörighet att läsa och ändra allt. Prompten slutar på <code>#</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 10</a> · <a href="broadcast.html">Nästa: broadcasten</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

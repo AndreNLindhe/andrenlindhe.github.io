@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Återställningen – Dator- och nätverksteknik område 7</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-7-aterstallningen">
+
+<header class="topp">
+  <a href="index.html">← Område 7</a>
+  <span class="harifran"><strong>Uppslag</strong> · Återställningen</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#beviset">1. Varför det här är beviset</a></li>
+      <li><a href="#kedjan">2. Kedjan, steg för steg</a></li>
+      <li><a href="#fran-verktyget">3. Varför från verktyget</a></li>
+      <li><a href="#versioner">4. Rätt fil eller rätt version</a></li>
+      <li><a href="#usb-ur">5. USB-minnet dras ur</a></li>
+      <li><a href="#utforandedelen">6. Vad som ska stå i rapporten</a></li>
+      <li><a href="#missuppfattningar">7. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">8. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 7 · lektion 29</p>
+    <h1>Återställningen</h1>
+    <p class="inledning">Passet är litet i innehåll och stort i betydelse. Det är det enda momentet i området som gör säkerhetskopian till något mer än en inställning: en fil tas bort med avsikt, som om den försvunnit på riktigt, och hämtas tillbaka från kopian. Först när den återställda filen är öppnad och innehållet stämmer är beviset klart.</p>
+
+    <h2 id="beviset">1. Varför det här är beviset</h2>
+
+    <div class="notis viktig">
+      <span class="rubrik">Principen från lektion 28</span>
+      <p><b>En säkerhetskopia som aldrig har återställts är inte bevisat en säkerhetskopia. Den är en förhoppning.</b></p>
+    </div>
+
+    <p>En säkerhetskopiering som är inställd kan vara trasig utan att någon märker det. Det enda som avgör saken är att faktiskt hämta tillbaka något — och kontrollera att det man fick tillbaka är det man förlorade.</p>
+
+    <p>Det är därför momentet har <b>tre</b> led och inte två. Att återställa räcker inte. Kedjan är:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Led</th><th>Vad du gör</th><th>Vad det bevisar</th></tr></thead>
+        <tbody>
+          <tr><td><b>Ta bort</b></td><td>Raderar filen, eller tömmer den och sparar</td><td>Att situationen är verklig och inte låtsas</td></tr>
+          <tr><td><b>Återställ</b></td><td>Hämtar tillbaka den från Filhistorik</td><td>Att kopian innehåller något</td></tr>
+          <tr><td><b>Verifiera</b></td><td>Öppnar filen och jämför innehållet</td><td>Att det som kom tillbaka är rätt sak</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kedjan">2. Kedjan, steg för steg</h2>
+
+    <ol>
+      <li><b>Välj en fil</b> i den kopierade mappen — en du vet vad den innehåller</li>
+      <li><b>Skriv upp</b> vad den heter och vad som står i den. <b>Innan du rör den</b></li>
+      <li><b>Ta bort den</b>, eller öppna den, radera innehållet och spara. Som om det vore på riktigt</li>
+      <li><b>Kontrollera att den är borta</b> eller tom</li>
+      <li><b>Öppna Filhistoriks återställningsvy.</b> Den ligger på ett annat ställe än inställningen</li>
+      <li><b>Hitta filen</b> i den version som fanns innan du rörde den</li>
+      <li><b>Återställ den</b></li>
+      <li><b>Öppna den.</b> Stämmer innehållet mot det du skrev upp i steg 2?</li>
+      <li><b>Skriv ner vad som hände</b>, direkt medan det är färskt</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Steg 2 och 8 är hela beviset</span>
+      <p>Utan <b>steg 2</b> finns ingenting att jämföra mot — "den kom tillbaka" säger inget om innehållet. Utan <b>steg 8</b> vet ingen om det fungerade; en fil kan återställas tom eller i fel version och ändå se rätt ut i listan.</p>
+    </div>
+
+    <h2 id="fran-verktyget">3. Varför från verktyget</h2>
+    <p>Det går att dra tillbaka en fil ur papperskorgen, och resultatet ser likadant ut. Ändå är det inte samma sak, av tre skäl:</p>
+
+    <ul>
+      <li><b>Papperskorgen finns bara för det du själv raderat.</b> Dör disken finns ingen papperskorg kvar att öppna</li>
+      <li><b>Papperskorgen har ingen version.</b> Den har filen som den var när den raderades — inte som den var i onsdags</li>
+      <li><b>Det är verktyget som ska övas.</b> Nästa gång du behöver det är originalet borta på riktigt, och då finns bara en väg</li>
+    </ul>
+
+    <p>Samma sak gäller att kopiera tillbaka filen från USB-minnet i Utforskaren. Det fungerar, men det övar inte det som ska övas, och det hittar inte rätt version åt dig.</p>
+
+    <h2 id="versioner">4. Rätt fil eller rätt version</h2>
+    <p>Filhistorik sparar <b>versioner</b>: hur filen såg ut vid olika tidpunkter. Det är därför den behöver plats med marginal — och det är också det som gör återställningsvyn lite krånglig första gången.</p>
+
+    <p><b>Att hitta rätt fil är lätt. Att hitta rätt version är svårare.</b> Det är där de flesta fastnar, och det är också det som gör funktionen värd något: den fil du vill ha tillbaka är ofta inte den senast sparade, utan den som fanns innan någon råkade skriva över den.</p>
+
+    <div class="notis">
+      <span class="rubrik">Är du klar i förtid</span>
+      <p>Gör om momentet en gång till, men <b>skriv över</b> filen i stället för att ta bort den — eller tvärtom, om du tog bort första gången. Då måste du hitta rätt <i>version</i> och inte bara rätt <i>fil</i>, och det är den övningen som gör momentet komplett.</p>
+    </div>
+
+    <h2 id="usb-ur">5. USB-minnet dras ur</h2>
+    <p>Sista momentet på passet ser litet ut och är det inte: <b>dra ur USB-minnet.</b> Kopian ska inte sitta i maskinen mellan körningarna.</p>
+
+    <p>Skälet hänger ihop med skadebegränsningen från lektion 25, i område 6: <b>allt som når maskinen når allt som sitter i maskinen.</b> Ett skadligt program som tar sig in kan skriva till varje enhet som är inkopplad — också USB-minnet. Då förstörs originalet <i>och</i> kopian, och kopian var inte till någon nytta.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Vad "en annan plats" egentligen betyder</span>
+      <p>I 3-2-1-regeln betyder <b>1</b> — minst en kopia på annan plats — inte bara en annan fysisk enhet. Det betyder <b>bortkopplad mellan körningarna</b>. En kopia som alltid sitter i är alltid nåbar, också för det som inte borde nå den.</p>
+      <p>Hela förklaringen, med namnet på hotet, kommer på <a href="virusskyddet.html">lektion 30</a>.</p>
+    </div>
+
+    <p>Skriv upp när nästa körning ska göras — och att minnet sätts i då, körs, och dras ur igen.</p>
+
+    <h2 id="utforandedelen">6. Vad som ska stå i rapporten</h2>
+    <p>Fyra saker i labbrapportens utförandedel, skrivna på lektionen medan det är färskt:</p>
+
+    <ul>
+      <li><b>Vilken fil</b> som togs bort eller skadades, och hur</li>
+      <li><b>Vad den innehöll</b> innan — det du skrev upp i steg 2</li>
+      <li><b>Hur återställningen gick</b>, steg för steg: var i verktyget du hittade den, vilken version du valde</li>
+      <li><b>Att innehållet stämde</b> efteråt — eller inte, och vad du gjorde då</li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Gick det fel är det ett resultat, inte ett misslyckande</span>
+      <p>En kopia som visade sig trasig är <b>precis vad hela passet är till för att upptäcka</b>. Skriv vad som hände och vad du gjorde åt det — det är ett fullgott felsökningsavsnitt, och det är mer värt än en återställning som bara fungerade.</p>
+    </div>
+
+    <h2 id="missuppfattningar">7. Vanliga missuppfattningar</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det som sägs</th><th>Vad som faktiskt gäller</th></tr></thead>
+        <tbody>
+          <tr><td>"Den kom tillbaka, alltså fungerade det"</td><td>Kom <i>vad</i> tillbaka? Utan steg 2 och 8 vet du inte om innehållet stämmer</td></tr>
+          <tr><td>"Jag drog upp den ur papperskorgen"</td><td>Papperskorgen finns inte kvar när disken dör, och har ingen version</td></tr>
+          <tr><td>"Jag kopierade tillbaka den från USB-minnet"</td><td>Fungerar, men övar inte verktyget och hittar inte rätt version</td></tr>
+          <tr><td>"Det räcker väl att inställningen är på?"</td><td>Det är precis det påståendet passet finns för att pröva</td></tr>
+          <tr><td>"Vi låter minnet sitta kvar, det är smidigare"</td><td>Då är kopian nåbar för allt som når maskinen. Dra ur det</td></tr>
+          <tr><td>"Återställningsvyn ligger väl i inställningarna?"</td><td>Nej, på ett annat ställe. Det är där de flesta fastnar</td></tr>
+          <tr><td>"Filen kom tillbaka tom — vi gjorde fel"</td><td>Kanske. Eller så var kopian trasig, och då har ni hittat något viktigt. Skriv ner det</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">8. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Återställning</b></td><td>Att hämta tillbaka data från en säkerhetskopia. Engelska: <i>restore</i></td></tr>
+          <tr><td><b>Verifiera</b></td><td>Att kontrollera att det som återställdes verkligen är rätt — genom att öppna det och jämföra</td></tr>
+          <tr><td><b>Version</b></td><td>Hur en fil såg ut vid en viss tidpunkt. Filhistorik sparar flera och låter dig välja</td></tr>
+          <tr><td><b>Återställningsvy</b></td><td>Den del av Filhistorik där du bläddrar bland versioner och hämtar tillbaka filer. Ligger inte på samma ställe som inställningen</td></tr>
+          <tr><td><b>Papperskorg</b></td><td>Windows tillfälliga förvaring av det användaren själv raderat. Inte en säkerhetskopia — den försvinner med disken</td></tr>
+          <tr><td><b>Bortkopplad kopia</b></td><td>En säkerhetskopia som inte sitter i maskinen mellan körningarna, och därför inte kan skrivas över av det som når maskinen</td></tr>
+          <tr><td><b>Skadebegränsning</b></td><td>Att bygga så att ett fel eller ett angrepp når så lite som möjligt. Kom i område 6, lektion 25</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 7</a> · <a href="virusskyddet.html">Nästa: virusskyddet och myterna</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

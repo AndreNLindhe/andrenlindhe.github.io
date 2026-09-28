@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>De tre systemen jämförda – Dator- och nätverksteknik område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-6-jamforelsen">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Uppslag</strong> · De tre systemen jämförda</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#behov">1. Varför "säkrast" inte går att jämföra</a></li>
+      <li><a href="#egenskaperna">2. De sex egenskaperna</a></li>
+      <li><a href="#tabellen">3. Windows, Linux och macOS</a></li>
+      <li><a href="#virtualisering">4. Virtualisering</a></li>
+      <li><a href="#virtualbox">5. Varför VirtualBox</a></li>
+      <li><a href="#skapa">6. Skapa den virtuella maskinen</a></li>
+      <li><a href="#missuppfattningar">7. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">8. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 6 · lektion 23</p>
+    <h1>De tre systemen jämförda</h1>
+    <p class="inledning">Sex egenskaper som går att kontrollera, tre system att ställa dem mot — och en regel som avgör om tabellen blir bedömd eller avskriven. Sidan slutar med det praktiska: hur du skapar den virtuella maskin som ska startas på lektion 24.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-12-02">
+        <span class="nar">2 dec</span>
+        <span class="vad">Labb 6 lämnas in kl 23:59
+          <small>Jämförelsetabellen är en av de tre delarna.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="behov">1. Varför "säkrast" inte går att jämföra</h2>
+    <p>Två påståenden du kommer att stöta på:</p>
+    <blockquote>
+      <p>"Linux är säkrast." &nbsp;·&nbsp; "Windows är snabbast."</p>
+    </blockquote>
+    <p>Hur skulle du kontrollera dem? <b>Det går inte</b> — inte för att de är fel, utan för att de inte säger vad som mäts, för vem, eller i vilken situation.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Regeln för hela labben</span>
+      <p><b>En egenskap är bara intressant satt mot ett behov.</b> "Stöder mest maskinvara" betyder ingenting i sig. Det betyder något för den som ska köra på hårdvara ingen valt åt hen.</p>
+      <p>Det är det <b>enda som är nytt</b> i labb 6 jämfört med tidigare rapporter — och det är det som skiljer en avskriven tabell från en bedömd. Kravet läggs till på lektion 27, inte på lektion 23.</p>
+    </div>
+
+    <h2 id="egenskaperna">2. De sex egenskaperna</h2>
+    <p>Alla sex är valda för att de går att slå upp och kontrollera. "Snabbast" och "säkrast" är inte med, och det är avsiktligt.</p>
+    <ol>
+      <li><b>Licens</b> — vad du får göra med systemet, och på vilka villkor</li>
+      <li><b>Maskinvarustöd</b> — vilken hårdvara systemet fungerar på</li>
+      <li><b>Mjukvara</b> — vilka program som körs</li>
+      <li><b>Uppdateringar</b> — hur de sköts</li>
+      <li><b>Kostnad</b> — vad systemet kostar, och vägen dit</li>
+      <li><b>Underhåll</b> — vem som ansvarar</li>
+    </ol>
+
+    <h2 id="tabellen">3. Windows, Linux och macOS</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Egenskap</th><th>Windows</th><th>Linux</th><th>macOS</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Licens</b></td>
+            <td>Per maskin. Köps med datorn eller separat</td>
+            <td>De flesta distributioner kostnadsfria, <b>öppen källkod</b></td>
+            <td>Licensieras med Apples egen hårdvara</td>
+          </tr>
+          <tr>
+            <td><b>Maskinvarustöd</b></td>
+            <td>Flest tillverkare skriver drivrutiner hit</td>
+            <td>Varierar med distribution och maskinvara</td>
+            <td>I praktiken låst till Apples hårdvara — men förutsägbart</td>
+          </tr>
+          <tr>
+            <td><b>Mjukvara</b></td>
+            <td>Störst utbud för persondator</td>
+            <td>Mycket finns, men inte allt. Program skrivs för ett system</td>
+            <td>Eget utbud. Windows-program kör inte utan vidare</td>
+          </tr>
+          <tr>
+            <td><b>Uppdateringar</b></td>
+            <td>Windows Update. Varje program uppdaterar oftast sig självt</td>
+            <td><b>System och program genom samma pakethanterare</b></td>
+            <td>App Store och systeminställningarna</td>
+          </tr>
+          <tr>
+            <td><b>Kostnad</b></td>
+            <td>Licenskostnad per maskin</td>
+            <td>Kostnadsfritt — men någon måste kunna det</td>
+            <td>Systemet kostar inget. <b>Hårdvaran gör det</b></td>
+          </tr>
+          <tr>
+            <td><b>Underhåll</b></td>
+            <td>Microsoft</td>
+            <td><b>En distribution</b> — Ubuntu, Fedora, Debian</td>
+            <td>Apple</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Maskinvarustödet är lektion 19 en gång till</span>
+      <p>Tillverkarna skriver drivrutiner för det system deras kunder använder, och det är oftast Windows. Det är hela förklaringen till den raden — inte att Windows skulle vara "bättre byggt".</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">"Linux" är inget svar utan distribution</span>
+      <p>Uppdateringstakt och underhåll skiljer sig mellan Ubuntu och Fedora. Skriver du bara "Linux" i raderna om uppdateringar och underhåll är raden inte klar.</p>
+    </div>
+
+    <h2 id="virtualisering">4. Virtualisering</h2>
+    <p><b>En virtuell maskin är ett helt operativsystem som körs som ett program inuti ett annat.</b> Värden är din elevdator med sitt Windows. Gästen är det system du installerar.</p>
+    <ul>
+      <li>Den virtuella <b>disken är en fil</b> på din riktiga disk. Partitionerna du skapar på lektion 24 skapas <i>inuti</i> den filen</li>
+      <li>Den <b>startar mot en installationskälla</b> — <code>Windows.iso</code>, samma fil som i område 5, men nu monterad som en skiva i stället för skriven till ett USB-minne</li>
+      <li>Gästen får <b>sin egen kärna</b> och sina egna två lägen</li>
+    </ul>
+    <p><b>Ett fel kostar en ny virtuell maskin, aldrig den fysiska disken.</b> I lektion 18 var disklistan passets farligaste steg. På lektion 24 är den ofarlig.</p>
+
+    <h2 id="virtualbox">5. Varför VirtualBox</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Hyper-V</th><th>VirtualBox</th></tr></thead>
+        <tbody>
+          <tr><td><b>Kräver Windows Pro</b></td><td>Ja</td><td><b>Nej</b> — fungerar på Home</td></tr>
+          <tr><td><b>Kräver VT-x / AMD-V i firmware</b><br><small>för en 64-bitars gäst</small></td><td>Ja</td><td><b>Ja, också</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kursen använder VirtualBox eftersom elevdatorerna kan ha Windows <b>Home</b>, och Hyper-V finns bara i Pro.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det VirtualBox slipper är Pro-kravet, inte firmware-kravet</span>
+      <p>Windows 11 finns bara som 64-bitars, och en 64-bitars gäst kräver <b>hårdvaruvirtualisering</b> — VT-x på Intel, AMD-V på AMD — påslaget i datorns firmware. Det gäller båda verktygen. På skolans maskiner är det påslaget.</p>
+    </div>
+
+    <h2 id="skapa">6. Skapa den virtuella maskinen</h2>
+    <p>Det här görs på lektion 23. Maskinen ska bara <b>skapas</b>, inte startas — installationen är ett eget pass.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Klart när du går från lektion 23</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="vb-1"><span>VirtualBox nedladdat och installerat — <b>förvalen igenomklickade</b>, inget ändrat</span></label></li>
+        <li><label><input type="checkbox" id="vb-2"><span>En ny virtuell maskin skapad</span></label></li>
+        <li><label><input type="checkbox" id="vb-3"><span>Maskinen har ett <b>namn du känner igen om två veckor</b> — inte "test"</span></label></li>
+        <li><label><input type="checkbox" id="vb-4"><span><code>Windows.iso</code> angiven som installationskälla</span></label></li>
+        <li><label><input type="checkbox" id="vb-5"><span>Minne och diskutrymme tilldelat enligt talen på tavlan</span></label></li>
+        <li><label><input type="checkbox" id="vb-6"><span><b>EFI, Secure Boot och TPM 2.0 påslagna</b> i maskinens inställningar</span></label></li>
+        <li><label><input type="checkbox" id="vb-7"><span>Maskinen är <b>skapad men inte startad</b></span></label></li>
+        <li><label><input type="checkbox" id="vb-8"><span>Tabellens sex rader står i labbrapporten</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <div class="notis varna">
+      <span class="rubrik">Punkt 6 är den som stoppar hela klassen</span>
+      <p>Windows 11 <b>vägrar installera</b> utan TPM 2.0 och Secure Boot, och en virtuell maskin har ingetdera förvalt. Slår du inte på dem nu möts du på lektion 24 av <i>"Den här datorn kan inte köra Windows 11"</i> — samma meddelande som i område 5, men av en annan orsak: där satt kravet i maskinens firmware, här i den virtuella maskinens inställningar.</p>
+    </div>
+
+    <h2 id="missuppfattningar">7. Vanliga missuppfattningar</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det som sägs</th><th>Vad som faktiskt gäller</th></tr></thead>
+        <tbody>
+          <tr><td>"Linux är säkrast"</td><td>Går inte att kontrollera. Byt mot licens och underhåll, som går</td></tr>
+          <tr><td>"macOS är gratis"</td><td>Systemet kostar inget. Det förutsätter Apples hårdvara, och där ligger kostnaden</td></tr>
+          <tr><td>"Ett snabbare macOS kan köra Windows-spel"</td><td>Program skrivs för ett bestämt system. Prestanda avgör inte</td></tr>
+          <tr><td>"Behöver jag Windows Pro för VirtualBox?"</td><td>Nej. Men virtualisering måste vara påslaget i firmware</td></tr>
+          <tr><td>"Den virtuella maskinen tar 64 GB direkt"</td><td>En dynamisk disk tar bara det den använder — men den kan växa till taket</td></tr>
+          <tr><td>"Jag kan starta maskinen redan i dag"</td><td>Skapa den, starta den inte. Installationen är ett eget pass</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">8. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Licens</b></td><td>Villkoren för vad du får göra med systemet</td></tr>
+          <tr><td><b>Öppen källkod</b></td><td>Koden går att läsa, ändra och sprida vidare</td></tr>
+          <tr><td><b>Distribution</b></td><td>En färdig Linux-utgåva med egen organisation och egen uppdateringstakt. Ubuntu, Fedora, Debian</td></tr>
+          <tr><td><b>Pakethanterare</b></td><td>Programmet som installerar och uppdaterar både system och program i en Linux-distribution</td></tr>
+          <tr><td><b>Virtuell maskin</b></td><td>Ett helt operativsystem som körs som ett program inuti ett annat</td></tr>
+          <tr><td><b>Värd</b></td><td>Maskinen som kör den virtuella maskinen</td></tr>
+          <tr><td><b>Gäst</b></td><td>Systemet inuti den virtuella maskinen</td></tr>
+          <tr><td><b>Hårdvaruvirtualisering</b></td><td>Stöd i processorn som krävs för att köra en 64-bitars gäst. VT-x på Intel, AMD-V på AMD</td></tr>
+          <tr><td><b>TPM 2.0</b></td><td>En säkerhetskrets Windows 11 kräver. En virtuell maskin måste ges en egen</td></tr>
+          <tr><td><b>Secure Boot</b></td><td>Kontroll av att det som startas är signerat. Krävs av Windows 11</td></tr>
+          <tr><td><b>ISO-fil</b></td><td>En avbild av en skiva. Kan monteras i en virtuell maskin eller skrivas till ett USB-minne</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 6</a> · <a href="virtuell-maskin.html">Nästa: installationen</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

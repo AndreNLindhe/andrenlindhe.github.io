@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Virusskyddet och myterna – Dator- och nätverksteknik område 7</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-7-virusskyddet">
+
+<header class="topp">
+  <a href="index.html">← Område 7</a>
+  <span class="harifran"><strong>Uppslag</strong> · Virusskyddet och myterna</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#tva-satt">1. Två sätt att känna igen</a></li>
+      <li><a href="#zero-day">2. Varför inget skydd räcker</a></li>
+      <li><a href="#manniskan">3. Den mänskliga faktorn</a></li>
+      <li><a href="#utpressning">4. Utpressningsprogram</a></li>
+      <li><a href="#langsam">5. Tre verkliga orsaker</a></li>
+      <li><a href="#myterna">6. Fyra myter</a></li>
+      <li><a href="#matning">7. Mätning 1</a></li>
+      <li><a href="#defender">8. Så gjorde du: Defender</a></li>
+      <li><a href="#missuppfattningar">9. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">10. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 7 · lektion 30</p>
+    <h1>Virusskyddet och myterna</h1>
+    <p class="inledning">Tre saker som hänger ihop mer än de ser ut att göra: vad ett virusskydd upptäcker och inte, vad som faktiskt gör en maskin långsam, och varför flera vanliga råd är verkningslösa eller direkt skadliga. Den röda tråden är att <b>det som låter rimligt inte alltid är det</b> — och att det går att kontrollera.</p>
+
+    <div class="notis">
+      <span class="rubrik">Det här passet prövades inte i prov 2</span>
+      <p>Provet omfattade område 6 plus lektion 28 och 29. Innehållet här vägs in i <a href="labb.html">labb 7</a> i stället.</p>
+    </div>
+
+    <h2 id="tva-satt">1. Två sätt att känna igen</h2>
+    <p>Ett virusskydd känner igen skadlig kod på två sätt, och de har olika styrkor och svagheter.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sätt</th><th>Hur</th><th>Styrka</th><th>Svaghet</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Signaturbaserat</b></td>
+            <td>Filer jämförs mot en databas med kända hot</td>
+            <td>Träffsäkert på det som är känt</td>
+            <td>Måste uppdateras löpande — känner inte igen det senaste</td>
+          </tr>
+          <tr>
+            <td><b>Beteendebaserat</b></td>
+            <td>Program som beter sig misstänkt larmas</td>
+            <td>Fångar det som saknar signatur</td>
+            <td>Kan larma fel, och kan missa det som beter sig oskyldigt tills det inte gör det</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Därför ska uppdateringarna vara automatiska</span>
+      <p><b>Ett virusskydd med tre veckor gammal databas skyddar mot tre veckor gamla hot.</b> Det är hela skälet till att du läste av datumet för den senaste uppdateringen och skrev upp det — datumet är beviset på att skyddet är aktuellt.</p>
+    </div>
+
+    <h2 id="zero-day">2. Varför inget skydd räcker</h2>
+    <p><b>Ingetdera sättet ger fullständigt skydd.</b> Ett helt nytt hot — en <b>zero-day-attack</b>, ett hål som utnyttjas innan tillverkaren ens vet om det — kan hinna göra skada innan en signatur finns att jämföra mot.</p>
+
+    <p>Namnet kommer av att tillverkaren haft <i>noll dagar</i> på sig att rätta felet. Det signaturbaserade skyddet har ingenting att känna igen, och det beteendebaserade fångar det bara om koden gör något som ser misstänkt ut.</p>
+
+    <h2 id="manniskan">3. Den mänskliga faktorn</h2>
+    <p>Virusskyddet skyddar inte mot att användaren själv släpper in något. Tre vanliga vägar:</p>
+
+    <ul>
+      <li><b>Klickar sig förbi en varning.</b> Rutan sa nej. Någon sa ja ändå</li>
+      <li><b>Öppnar en bifogad fil</b> i ett bedrägligt mejl — <b>nätfiske</b></li>
+      <li><b>Lämnar ut ett lösenord</b> till någon som ringer och utger sig för att vara support. Ett upplägg som lurar personen, inte tekniken: <b>social manipulation</b></li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Den vanligaste vägen in</span>
+      <p><b>Den mänskliga faktorn är fortfarande den vanligaste vägen in, och ingen mjukvara kompenserar fullt ut för den.</b></p>
+    </div>
+
+    <h2 id="utpressning">4. Utpressningsprogram</h2>
+    <p>Ett <b>utpressningsprogram</b> — på engelska <i>ransomware</i> — krypterar filerna på maskinen och kräver betalning för att låsa upp dem. Det krypterar <b>varje skrivbar plats det når</b>.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Frågan från lektion 29</span>
+      <p><b>Vad hade hänt om USB-minnet suttit i?</b></p>
+      <p>Kopian hade krypterats tillsammans med originalet. Den satt i maskinen, den var skrivbar, och då är den inte skyddad av att ligga på en annan enhet.</p>
+      <p>Det är därför <b>"en annan plats" måste betyda bortkopplad mellan körningarna</b>, inte bara en annan disk. Momentet där du drog ur minnet var inte en detalj.</p>
+    </div>
+
+    <h2 id="langsam">5. Tre verkliga orsaker</h2>
+    <p>En maskin som blivit långsammare efter ett halvårs användning har oftast <b>verkliga, mätbara orsaker</b>. Tre stycken:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Orsak</th><th>Vad som händer</th><th>Vad som hjälper</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Fler program som startar automatiskt</b></td>
+            <td>De tar processortid och minne redan vid inloggningen</td>
+            <td>Stäng av de onödiga</td>
+          </tr>
+          <tr>
+            <td><b>Mindre ledigt utrymme på disken</b></td>
+            <td>På en SSD blir det svårare för enheten att omfördela block — lektion 11:s skräpinsamling har ingenstans att ta vägen</td>
+            <td>Håll en marginal ledigt, gärna 10–20 %</td>
+          </tr>
+          <tr>
+            <td><b>Ansamlade tillfälliga filer</b></td>
+            <td>De tar plats utan att göra nytta</td>
+            <td>Städa bort dem</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>De tre åtgärderna i högerkolumnen är också menyn på lektion 32.</b> Det är bland dem du väljer din optimeringsåtgärd — och motiveringen ska peka på något du sett på just din maskin.</p>
+
+    <h2 id="myterna">6. Fyra myter</h2>
+    <p>Annat som brukar rekommenderas är verkningslöst eller direkt skadligt.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rådet</th><th>Vad som faktiskt gäller</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>"Defragmentera SSD:n"</b></td>
+            <td><b>Skadligt.</b> En SSD har ingen sökningsfördröjning att korta — det var hårddiskens problem, lektion 11. Och varje flytt är skrivningar, och cellerna tål ett begränsat antal</td>
+          </tr>
+          <tr>
+            <td><b>"Kör en registerstädare"</b></td>
+            <td><b>Verkningslöst.</b> Rör sällan det som gör en maskin långsam</td>
+          </tr>
+          <tr>
+            <td><b>"Städa RAM-minnet"</b></td>
+            <td><b>Verkningslöst.</b> Frigör data operativsystemet ändå skulle ha återanvänt. Minnet hanteras redan — lektion 26</td>
+          </tr>
+          <tr>
+            <td><b>"Installera ett virusskydd till"</b></td>
+            <td><b>Skadligt.</b> Gör maskinen <i>mindre</i> säker: de realtidsövervakande delarna konkurrerar om samma filer och kan blockera varandra</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Se slitaget hända</span>
+      <p><code>ComputerExplorer → storage → wear-levelling</code>: slå <b>Slitageutjämning: AV</b>, tryck <b>Autoskriv ▶</b> och se ett block dö medan <b>skrivningar till första fel</b> stannar. Slå sedan på utjämningen och kör igen — nu sprids skrivningarna och blocken lever längre.</p>
+      <p>Skillnaden i antal skrivningar är själva argumentet: <b>defragmentering är ingenting annat än onödiga skrivningar</b>, och det är därför den sliter på en SSD.</p>
+    </div>
+
+    <h2 id="matning">7. Mätning 1</h2>
+    <p>Utgångsvärdet — det som mätning 2 på lektion 32 ska jämföras mot. Förvalet är <b>uppstartstid med tidtagarur</b>.</p>
+
+    <ol>
+      <li><b>Stäng av maskinen helt</b> — inte omstart, inte viloläge</li>
+      <li><b>Starta tidtagaruret och tryck på strömknappen</b> samtidigt</li>
+      <li><b>Stoppa när inloggningsskärmen visas</b></li>
+      <li><b>Skriv ner tiden</b> i sekunder, i labbrapportens resultatdel</li>
+      <li><b>Gör det en gång till.</b> Skriv ner båda värdena</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Två värden, inte ett</span>
+      <p>En enda siffra säger ingenting om mätmetoden. Blir de två värdena olika är <b>det i sig värt en mening i rapporten</b> — det säger något om hur säker mätningen är.</p>
+      <p>Och: <b>mät innan genomsökningen startas.</b> En pågående genomsökning gör uppstarten långsammare, och då mäter du inte samma sak som på lektion 32.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Det här måttet är inte område 3:s mått</span>
+      <p>I område 3 mättes lagringens hastighet i <b>MB/s</b>. Här mäts <b>tid</b>, i sekunder. Två olika mått på två olika saker — blanda inte ihop dem i rapporten.</p>
+      <p>Startar din maskin orimligt snabbt eller långsamt av skäl du inte råder över, mät i stället <b>tiden att öppna tre bestämda program efter varandra</b>. Samma tre program, i samma ordning, på lektion 32.</p>
+    </div>
+
+    <h2 id="defender">8. Så gjorde du: Defender</h2>
+    <p><b>Windows Defender finns redan</b> på elevdatorerna. Uppgiften säger "installeras"; på Windows 11 är skyddet redan installerat, så momentet blir <b>kontrolleras, uppdateras, genomsöks</b>.</p>
+
+    <ol>
+      <li><b>Kontrollera att skyddet är på</b> — realtidsskydd och molnbaserat skydd</li>
+      <li><b>Kontrollera uppdateringarna</b>, och att de sker automatiskt. <b>Skriv upp datumet</b> för när databasen senast uppdaterades</li>
+      <li><b>Starta en fullständig genomsökning.</b> Den tar lång tid och kör långt efter passets slut — det är i sin ordning. Den ska ha körts klart till lektion 32</li>
+      <li><b>Skriv i rapporten:</b> att skyddet var på, när det senast uppdaterades, och att genomsökningen startades</li>
+    </ol>
+
+    <div class="notis varna">
+      <span class="rubrik">Låt genomsökningen köra klart</span>
+      <p>Stängs maskinen av mitt i hinner den inte bli klar till lektion 32, och då saknas skärmdumpen som visar att den körts. Skriv i så fall i rapporten att den startades om, och varför — det är ett giltigt felsökningsavsnitt.</p>
+    </div>
+
+    <h2 id="missuppfattningar">9. Vanliga missuppfattningar</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det som sägs</th><th>Vad som faktiskt gäller</th></tr></thead>
+        <tbody>
+          <tr><td>"Ett uppdaterat virusskydd stoppar allt"</td><td>Det stoppar det <b>kända</b>. Zero-day och den mänskliga faktorn går förbi</td></tr>
+          <tr><td>"Fler virusskydd är säkrare"</td><td>Tvärtom. De realtidsövervakande delarna konkurrerar och kan blockera varandra</td></tr>
+          <tr><td>"Ska vi inte installera något?"</td><td>Defender finns. Kontrollera, uppdatera, genomsök</td></tr>
+          <tr><td>"Defragmentering är väl bara onödigt?"</td><td>På en SSD är det <b>skadligt</b>, inte bara onödigt. Varje flytt är skrivningar, och cellerna slits</td></tr>
+          <tr><td>"Maskinen är långsam, den behöver ett städprogram"</td><td>Tre verkliga orsaker finns, och alla tre går att mäta. Börja där</td></tr>
+          <tr><td>"Jag mäter från omstart, det går fortare"</td><td>Då mäts inte samma sak som på lektion 32. Stäng av helt</td></tr>
+          <tr><td>"Jag mätte en gång, det räcker"</td><td>Två. Skillnaden mellan dem säger något om mätningens säkerhet</td></tr>
+          <tr><td>"Uppdateringsdatumet syns ju på skärmen"</td><td>Skriv upp det. Det är beviset, och skärmen ser annorlunda ut om en vecka</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">10. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Signaturbaserat skydd</b></td><td>Virusskydd som jämför filer mot en databas över kända hot. Måste uppdateras löpande</td></tr>
+          <tr><td><b>Beteendebaserat skydd</b></td><td>Virusskydd som larmar på program som beter sig misstänkt, även utan känd signatur</td></tr>
+          <tr><td><b>Zero-day-attack</b></td><td>Ett angrepp som utnyttjar ett hål innan tillverkaren vet om det. Noll dagar att rätta felet på</td></tr>
+          <tr><td><b>Nätfiske</b></td><td>Bedrägliga meddelanden som lurar mottagaren att öppna en fil eller lämna ut uppgifter. Engelska: <i>phishing</i></td></tr>
+          <tr><td><b>Social manipulation</b></td><td>Att lura personen i stället för tekniken — till exempel ringa och utge sig för att vara support. Engelska: <i>social engineering</i></td></tr>
+          <tr><td><b>Utpressningsprogram</b></td><td>Skadlig kod som krypterar filerna och kräver betalning. Krypterar varje skrivbar plats den når. Engelska: <i>ransomware</i></td></tr>
+          <tr><td><b>Realtidsskydd</b></td><td>Den del av virusskyddet som granskar filer i samma stund de används, inte bara vid en genomsökning</td></tr>
+          <tr><td><b>Fullständig genomsökning</b></td><td>Kontroll av hela lagringen, inte bara de vanligaste platserna. Tar lång tid</td></tr>
+          <tr><td><b>Slitageutjämning</b></td><td>SSD:ns sätt att sprida skrivningarna över alla celler så att inte samma block slits ut först. Engelska: <i>wear levelling</i></td></tr>
+          <tr><td><b>Defragmentering</b></td><td>Att flytta filers delar så de ligger i följd. Hjälper en hårddisk, sliter på en SSD</td></tr>
+          <tr><td><b>Uppstartstid</b></td><td>Tiden från strömknappen till inloggningsskärmen. Kursens prestandamått i det här området</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 7</a> · <a href="optimeringen.html">Nästa: optimeringen och mätningen</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

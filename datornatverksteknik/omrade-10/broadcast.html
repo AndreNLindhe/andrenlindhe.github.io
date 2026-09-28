@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Broadcastdomän och kollisionsdomän – Dator- och nätverksteknik område 10</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-10-broadcast">
+
+<header class="topp">
+  <a href="index.html">← Område 10</a>
+  <span class="harifran"><strong>Uppslag</strong> · Broadcastdomän och kollisionsdomän</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#alltid">1. Ramen som alltid flödas</a></li>
+      <li><a href="#kopian">2. Broadcasten i din kopia</a></li>
+      <li><a href="#okand">3. Okänd mottagare mot broadcast</a></li>
+      <li><a href="#doman">4. Broadcastdomänen</a></li>
+      <li><a href="#routern">5. Routern avslutar den</a></li>
+      <li><a href="#kollision">6. Kollisionsdomänen</a></li>
+      <li><a href="#jamforelsen">7. Hubb, switch och router</a></li>
+      <li><a href="#csma">8. Kollisionen som den såg ut</a></li>
+      <li><a href="#andra-switchen">9. Den andra switchen</a></li>
+      <li><a href="#labben">10. Labb 10 börjar</a></li>
+      <li><a href="#missuppfattningar">11. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">12. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 10 · lektion 51</p>
+    <h1>Broadcastdomän och kollisionsdomän</h1>
+    <p class="inledning">På lektion 50 flödade switchen en ram för att den inte visste var mottagaren satt — och slutade så fort den lärt sig. Den här sidan handlar om ramen som flödas <b>varje gång</b>, hur mycket switchen än har lärt sig: <b>broadcasten</b>. Hur långt den når kallas en <b>broadcastdomän</b>, och en router sätter stopp för den. Sidan reder också ut ett klassiskt missförstånd: broadcastdomän och <b>kollisionsdomän</b> är två olika saker. Den ena är högst levande. Den andra är i praktiken historia. Sist kopplas en andra switch in i din kopia.</p>
+
+    <h2 id="alltid">1. Ramen som alltid flödas</h2>
+
+    <p>På lektion 50 fylldes ARP-cachen i förväg, eftersom den första ramen annars hade varit en <b>broadcast</b>. Varför spelade det någon roll? Switchen flödar ju ändå en okänd mottagare.</p>
+
+    <p>Svaret: <b>en broadcast flödas av ett annat skäl — och den slutar aldrig flödas.</b></p>
+
+    <p>Kom ihåg från lektion 44: ARP-frågan skickas till <code>FFFF.FFFF.FFFF</code>. Samma adress skrivs <code>ff:ff:ff:ff:ff:ff</code> i många andra verktyg. Det är samma sak — alla ettor, alla mottagare.</p>
+
+    <h2 id="kopian">2. Broadcasten i din kopia</h2>
+
+    <p>Pröva själv, i parets kopia:</p>
+
+    <ol class="steg">
+      <li><code>arp -d</code> på en maskin, i <b>Command Prompt</b>. <b>Simulation</b>, filter på <b>ARP</b></li>
+      <li>Pinga en annan maskin. <b>ARP-frågan går ut på alla portar</b> utom den den kom in på</li>
+      <li>Switchen, <b>CLI</b>: <code>enable</code>, <code>show mac address-table</code>. <b>Båda maskinerna finns i tabellen</b></li>
+      <li><code>arp -d</code> på samma maskin igen, och pinga igen</li>
+      <li><b>ARP-frågan går ut på alla portar igen</b></li>
+    </ol>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Switchen vet var mottagaren sitter. Varför flödar den ändå?</b></p>
+    </div>
+
+    <h2 id="okand">3. Okänd mottagare mot broadcast</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Ram till okänd mottagare</th><th>Broadcast</th></tr></thead>
+        <tbody>
+          <tr><td><b>Mål-MAC</b></td><td>En enskild maskins adress</td><td><code>FFFF.FFFF.FFFF</code> — alla</td></tr>
+          <tr><td><b>Varför den flödas</b></td><td>Switchen vet inte var mottagaren sitter</td><td>Ramen <b>ska</b> till alla</td></tr>
+          <tr><td><b>Slutar flödas när…</b></td><td>Mottagaren har svarat och lärts in</td><td><b>Aldrig</b></td></tr>
+          <tr><td><b>Kan läras in?</b></td><td>Ja</td><td><b>Nej</b> — <code>FFFF.FFFF.FFFF</code> är aldrig en avsändare</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Den sista raden är nyckeln</span>
+      <p>Switchen lär sig av avsändare, och ingen maskin skickar någonsin <i>från</i> broadcastadressen. Den hamnar aldrig i tabellen, och därför flödas den alltid.</p>
+    </div>
+
+    <h2 id="doman">4. Broadcastdomänen</h2>
+
+    <p>En <b>broadcastdomän</b> är alla enheter som en broadcast når — alltså <b>alla som når varandra via switchar, utan att en router korsas.</b></p>
+
+    <p>Tänk dig tre switchar i kedja, med maskiner på varje. En broadcast från en maskin på den första når varje maskin på alla tre. Switchen flödar till alla portar, också porten till nästa switch — som flödar vidare.</p>
+
+    <h2 id="routern">5. Routern avslutar den</h2>
+
+    <p><b>Routern stoppar broadcasten.</b> Inte av princip, utan för att routern arbetar med <b>paket och nätadresser</b>, inte med ramar. Ramen till <code>FFFF.FFFF.FFFF</code> tas emot på routerns gränssnitt och packas upp — men routern har ingen anledning att skicka en ram adresserad till <i>alla i det här nätet</i> vidare in i ett annat nät.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Meningen som ska sitta</span>
+      <p><b>Switchen förlänger broadcastdomänen. Routern avslutar den.</b></p>
+    </div>
+
+    <p>Knyt till lektion 47: <b>DHCPDISCOVER är en broadcast.</b> Den når alltså bara DHCP-servrar i samma broadcastdomän — en maskin bakom en router får ingen adress från servern på andra sidan. Se <a href="../omrade-9/dhcp.html#broadcast">DHCP-sidan</a>. På lektion 54 bevisas att broadcasten stannar vid routern, se <a href="routern.html#broadcast-routern">routersidan</a>.</p>
+
+    <h2 id="kollision">6. Kollisionsdomänen</h2>
+
+    <p><b>Den äldre gränsen.</b> Förr delade flera maskiner <b>samma kabel</b> — via en hubb eller en enda lång koaxialkabel. Skickade två samtidigt krockade signalerna och förstördes båda: en <b>kollision</b>. Alla som kunde krocka med varandra var i samma <b>kollisionsdomän</b>.</p>
+
+    <p><b>I dag är det i praktiken historia.</b> Varje switchport är en egen länk med en egen kabel, och med <b>full duplex</b> kan båda ändar sända och ta emot samtidigt. Det finns ingen delad kabel att krocka på.</p>
+
+    <h2 id="jamforelsen">7. Hubb, switch och router</h2>
+
+    <p>Det klassiska missförståndet, uttryckt så att det går att rätta:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Utrustning</th><th>Kollisionsdomäner</th><th>Broadcastdomäner</th></tr></thead>
+        <tbody>
+          <tr><td><b>Hubb</b></td><td>En enda — alla portar delar</td><td>En</td></tr>
+          <tr><td><b>Switch</b></td><td><b>En per port</b> — delar upp dem</td><td><b>En</b> — flödar broadcast till alla</td></tr>
+          <tr><td><b>Router</b></td><td>En per port</td><td><b>En per port</b> — stoppar broadcast</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Läs den två gånger</span>
+      <p><b>Switchen delar upp kollisionsdomäner men aldrig broadcastdomäner.</b></p>
+      <p>Tabellen kommer på prov 3.</p>
+    </div>
+
+    <h2 id="csma">8. Kollisionen som den såg ut</h2>
+
+    <div class="notis">
+      <span class="rubrik">Pröva det själv</span>
+      <p><b>ComputerExplorer → networking → csma</b> — nodens titel är <i>Delat medium · CSMA/CD</i>.</p>
+      <p>Noden visar världen kollisionsdomänen hör hemma i.</p>
+    </div>
+
+    <ol class="steg">
+      <li>Tryck <b>▸ A &amp; B försöker båda skicka</b></li>
+      <li>Titta på rutorna <b>Använda slots</b>, <b>Kollisioner</b> och <b>Båda levererade</b></li>
+      <li>Tryck <b>Återställ</b> och gör om det några gånger. Antalet kollisioner varierar — väntetiden är slumpmässig</li>
+    </ol>
+
+    <p><b>CSMA/CD</b> — <i>Carrier Sense Multiple Access with Collision Detection</i> — är hur det gamla Ethernet hanterade den delade kabeln: lyssna, sänd, upptäck kollisionen, vänta en <b>slumpmässig</b> tid, försök igen. <b>Full duplex gjorde det överflödigt.</b></p>
+
+    <h2 id="andra-switchen">9. Den andra switchen</h2>
+
+    <p>Lektion 34 frågade vad som händer när portarna på switchen tar slut. <b>Svaret: man kopplar in en till.</b> I parets kopia:</p>
+
+    <ol class="steg">
+      <li><b>Network Devices → Switches → 2960</b>. Dra in den bredvid den första</li>
+      <li><b>Connections → Copper Cross-Over</b>. Koppla <b>Gi0/1</b> på den ena till <b>Gi0/1</b> på den andra</li>
+      <li>Lägg till <b>två PC</b> på den nya switchen, med adresserna <code>192.168.&lt;grupp&gt;.20</code> och <code>192.168.&lt;grupp&gt;.21</code>, mask <code>255.255.255.0</code></li>
+      <li>Vänta tills länkarna blir gröna. De är orange en stund medan switcharna förhandlar — det tar ungefär en halv minut</li>
+      <li>Pinga från en maskin på den första switchen till <code>.20</code></li>
+    </ol>
+
+    <div class="notis varna">
+      <span class="rubrik">Copper Cross-Over, inte rak kabel</span>
+      <p>En rak kabel mellan två switchar kan ge en röd länk i Packet Tracer, och då ser det ut som om något annat är fel.</p>
+      <p>Varför en korsad kabel: lektion 39:s T568B-ordning i båda ändar ger en rak kabel. Mellan två likadana enheter behöver sändparet i den ena ändan möta mottagarparet i den andra.</p>
+    </div>
+
+    <p><b>Samma nät, samma nätdel.</b> Maskinerna på den nya switchen tillhör samma broadcastdomän som de gamla — det finns ingen router emellan. Nås inte <code>.20</code>: kontrollera nätdelen och masken på de nya maskinerna.</p>
+
+    <p><b>Spara filen, med den andra switchen i.</b> Nästa pass fångas broadcasten över båda switcharna — se <a href="switchen.html#tva-switchar">switchsidan</a>.</p>
+
+    <div class="notis">
+      <span class="rubrik">Vill du ha mer</span>
+      <p>Pinga från en maskin på den nya switchen med tömd ARP-cache, och se ARP-frågan gå <b>tillbaka över länken</b> till den första switchen. Den flödas där också.</p>
+      <p>Koppla en tredje switch i kedjan. Hur långt når broadcasten nu? Finns det någon gräns alls utan router?</p>
+      <p>Räkna broadcastdomänerna och kollisionsdomänerna i ert eget nät, med två switchar och sju maskiner.</p>
+      <p>Och frågan från lektion 38: <b>en accesspunkt, en repeater och en mesh-nod</b> — delar någon av dem upp broadcastdomänen? Svaret är nej. Alla tre förlänger samma nät, som en switch eller en kabel.</p>
+    </div>
+
+    <h2 id="labben">10. Labb 10 börjar</h2>
+
+    <p>Labb 10 introduceras på lektion 51. Fyra krav:</p>
+
+    <ol>
+      <li><b>En router</b> som kopplar ihop två åtskilda nät</li>
+      <li><b>En switch delad i minst två VLAN</b></li>
+      <li><b>Verifiera</b> att en broadcast stannar inom sitt eget VLAN</li>
+      <li><b>Förklara varför</b></li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Den fjärde punkten är själva uppgiften</span>
+      <p>Att verifiera är E-nivå. Att förklara mekanismen är det som skiljer C och A — och det här är <b>den första rapporten i kursen som bedöms direkt mot A-kriteriets samband mellan delarna.</b></p>
+      <p><b>Deadline onsdag 28 april kl 23:59.</b> Provet på område 8–10 är måndagen efter. Hela uppgiften står på <a href="labb.html">labbsidan</a>.</p>
+    </div>
+
+    <h2 id="missuppfattningar">11. Vanliga missuppfattningar</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: kollision, router, kabel" autocomplete="off">
+      <p class="traffar" id="traffar-fel">9 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>ARP-frågan går till en port andra gången, när switchen lärt sig</td><td>En broadcast lärs aldrig in. Den flödas varje gång</td></tr>
+          <tr><td>Switchen minskar broadcast</td><td>Den minskar kollisionsdomäner. Broadcastdomäner aldrig</td></tr>
+          <tr><td>Broadcastdomän och kollisionsdomän är samma sak</td><td>Två olika gränser. Tabellen i avsnitt 7 — hubb, switch, router</td></tr>
+          <tr><td>Kollisioner händer hela tiden</td><td>Inte i ett switchat nät med full duplex. Det är historia</td></tr>
+          <tr><td>Routern stoppar broadcast för att den är gjord så</td><td>Den arbetar med paket och nätadresser. Den har ingen anledning att föra ramen vidare</td></tr>
+          <tr><td>En accesspunkt delar upp nätet</td><td>Den förlänger samma broadcastdomän, som en switch</td></tr>
+          <tr><td>Länken mellan switcharna är röd, alltså är switchen trasig</td><td>Rak kabel i stället för korsad. <b>Copper Cross-Over</b></td></tr>
+          <tr><td>Orange länk betyder fel</td><td>Switcharna förhandlar. Vänta en halv minut</td></tr>
+          <tr><td>De nya maskinerna ska ha ett eget nät</td><td>Inte än. <code>192.168.&lt;grupp&gt;.20</code> och <code>.21</code> — samma nät. Nät B kommer på lektion 53</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">12. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Broadcast</b></td><td>En ram till alla i det lokala nätet, till <code>FFFF.FFFF.FFFF</code>. Flödas alltid</td></tr>
+          <tr><td><b>Broadcastdomän</b></td><td>Alla enheter som når varandra via switchar utan att en router korsas — alla en broadcast når</td></tr>
+          <tr><td><b>Kollision</b></td><td>Två signaler på samma delade kabel samtidigt, som förstör varandra</td></tr>
+          <tr><td><b>Kollisionsdomän</b></td><td>Alla som kan krocka med varandra på en delad kabel. I praktiken historia</td></tr>
+          <tr><td><b>Full duplex</b></td><td>Båda ändar av en länk kan sända och ta emot samtidigt. Gör kollisioner omöjliga</td></tr>
+          <tr><td><b>Hubb</b></td><td>Skickar allt till alla portar, alltid. En kollisionsdomän och en broadcastdomän</td></tr>
+          <tr><td><b>CSMA/CD</b></td><td><i>Carrier Sense Multiple Access with Collision Detection</i> — lyssna, sänd, upptäck kollision, vänta slumpmässigt, försök igen</td></tr>
+          <tr><td><b>Korsad kabel</b></td><td><i>Crossover</i> — sändparet i ena änden möter mottagarparet i den andra. Mellan två switchar i Packet Tracer</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 10</a> · <a href="switchen.html">Föregående: switchen</a> · <a href="routern.html">Nästa: routern</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

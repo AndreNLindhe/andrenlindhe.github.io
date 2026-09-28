@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hur operativsystemet arbetar – Dator- och nätverksteknik område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-6-arbetet">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Uppslag</strong> · Hur operativsystemet arbetar</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#processer">1. En processor, många program</a></li>
+      <li><a href="#schemalaggning">2. Schemaläggningen</a></li>
+      <li><a href="#vaxlingen">3. Kontextväxlingen</a></li>
+      <li><a href="#dodlage">4. Låset och dödläget</a></li>
+      <li><a href="#minnet">5. Virtuellt minne</a></li>
+      <li><a href="#meningarna">6. De två meningarna</a></li>
+      <li><a href="#missuppfattningar">7. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">8. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 6 · lektion 26</p>
+    <h1>Hur operativsystemet arbetar</h1>
+    <p class="inledning">Kärnan gör tre saker: delar ut processorn, delar ut minnet, och avgör vem som får röra vad. Den tredje togs på lektion 25. Här tas de två första — och ingenting av det går att peka på i ett chassi.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det här prövas i prov 2</span>
+      <p>Prov 2 den <b>15 december</b> omfattar område 6 och 7. Härifrån kommer processerna och minnet — särskilt <b>de två meningarna</b> i avsnitt 6.</p>
+    </div>
+
+    <h2 id="processer">1. En processor, många program</h2>
+    <p>Hur många program körs på din dator just nu? <b>Fler än du ser fönster för.</b> Och hur många processorkärnor har den? Betydligt färre.</p>
+    <p><b>Slutsatsen är att de inte kör samtidigt.</b> Operativsystemet låter dem turas om, och byter så snabbt att det upplevs som parallellt.</p>
+    <p>Två begrepp:</p>
+    <ul>
+      <li><b>Process</b> — ett program som körs. Programmet är filen på disken, processen är den som lever i minnet med sitt eget tillstånd</li>
+      <li><b>Tidskvantum</b> — hur länge en process får hålla processorn innan den blir avbruten</li>
+    </ul>
+
+    <h2 id="schemalaggning">2. Schemaläggningen</h2>
+    <p>Den del av kärnan som väljer vilket program som får processorn näst heter <b>schemaläggare</b>. I <code>ComputerExplorer → operating-systems → process-scheduler</code> kör den <b>Round Robin</b>: varje process får sitt tidskvantum i tur och ordning.</p>
+    <p>De processer som är klara att köra men väntar på sin tur står i <b>redokön</b>.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Tidskvantum</th><th>Vad du får</th><th>Vad det kostar</th></tr></thead>
+        <tbody>
+          <tr><td><b>Kort</b></td><td>Jämnare svarstider. Bra när du skriver eller klickar</td><td>Fler växlingar — och varje växling kostar tid</td></tr>
+          <tr><td><b>Långt</b></td><td>Färre växlingar. Bra när maskinen räknar i timmar</td><td>En kort process kan få vänta bakom en lång</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>De två talen som mäter om schemaläggningen är bra heter <b>Väntat</b> och <b>Omloppstid</b> i noden.</p>
+
+    <h2 id="vaxlingen">3. Kontextväxlingen</h2>
+    <p>Bytet mellan två processer heter <b>kontextväxling</b> — <i>context switch</i>. Den går i sex steg:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Vad som händer</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><b>P1 körs</b> — en process har processorn</td></tr>
+          <tr><td>2</td><td><b>Timeravbrott utlöses</b> — kvantumet är slut</td></tr>
+          <tr><td>3</td><td><b>Sparar P1</b> — tillståndet skrivs till <b>processkontrollblocket</b></td></tr>
+          <tr><td>4</td><td><b>Växlar</b> — kärnan väljer nästa</td></tr>
+          <tr><td>5</td><td><b>Laddar P2</b> — nästa process tillstånd läses in</td></tr>
+          <tr><td>6</td><td><b>Kör P2</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Vad måste sparas för att en process ska kunna fortsätta exakt där den var? <b>Var i programmet den stod, och vad som låg i processorns register.</b> Det är processkontrollblocket.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Steg 3, 4 och 5 gör inget nyttigt arbete</span>
+      <p>De är ren omkostnad — tid som inte går till något program. <b>Det är därför tidskvantumet inte kan vara hur kort som helst.</b> Ett för kort kvantum lägger all tid på att växla.</p>
+    </div>
+
+    <h2 id="dodlage">4. Låset och dödläget</h2>
+    <p>När två processer vill åt samma sak samtidigt behövs ett <b>lås</b>. Det släpper in en i taget, så att inte båda ändrar samma värde och en ändring försvinner.</p>
+    <p>Men lås kan låsa sig. Ett <b>dödläge</b> uppstår så här:</p>
+    <ol>
+      <li>P1 tar resurs R1</li>
+      <li>P2 tar resurs R2</li>
+      <li>P1 vill nu ha R2 — som P2 håller</li>
+      <li>P2 vill ha R1 — som P1 håller</li>
+      <li><b>Båda väntar. Ingen kan fortsätta.</b></li>
+    </ol>
+
+    <div class="notis">
+      <span class="rubrik">Ett dödläge är inte en krasch</span>
+      <p>Ingenting har gått sönder. Båda processerna finns och båda väntar — på varandra. Det är värre än en krasch, eftersom ingenting larmar.</p>
+      <p>I <code>deadlock</code>-noden syns det som en <b>cirkel</b> i resursallokeringsgrafen. Cirkeln <i>är</i> dödläget.</p>
+    </div>
+
+    <h2 id="minnet">5. Virtuellt minne</h2>
+    <p>Om du startar tio program som vill ha 2 GB var, på en maskin med 8 GB — vad händer? <b>Det fungerar.</b></p>
+    <p><b>Varje process får ett eget virtuellt adressutrymme.</b> Processen tror att den har minnet för sig själv, från adress noll och uppåt. Operativsystemet <b>mappar</b> de virtuella adresserna mot fysiskt minne — och det som inte får plats läggs på lagringen.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ord</th><th>Vad det är</th></tr></thead>
+        <tbody>
+          <tr><td><b>Sida</b></td><td>Minnet delas i lika stora block. Det är sidor som flyttas</td></tr>
+          <tr><td><b>Ram</b></td><td>En plats i det fysiska minnet där en sida kan ligga</td></tr>
+          <tr><td><b>Sidfel</b></td><td>Processen läser en sida som inte finns i något ram just nu. Operativsystemet hämtar den från lagringen</td></tr>
+          <tr><td><b>Sidtabell</b></td><td>Mappningen mellan virtuella sidor och fysiska ramar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Ett <b>sidfel</b> är inte ett fel i betydelsen "något gick sönder". Det är normalt — men det kostar tid, eftersom lagringen är storleksordningar långsammare än RAM (lektion 9 och 11).</p>
+    <p><b>Det är därför en maskin med för lite minne blir trög i stället för att sluta fungera.</b> Den byter sidor hela tiden.</p>
+
+    <h2 id="meningarna">6. De två meningarna</h2>
+    <p>I labbrapportens resultatdel ska det stå <b>två meningar</b> om varför ett program kan se ut att ha mer minne än maskinen har.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Ett svar som håller nämner båda</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="min-1"><span>Att varje process får ett <b>eget virtuellt adressutrymme</b></span></label></li>
+        <li><label><input type="checkbox" id="min-2"><span>Att det som <b>inte får plats läggs på lagringen</b></span></label></li>
+      </ul>
+    </section>
+
+    <p>Ett svar som bara säger "operativsystemet fixar det" är inte klart.</p>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="missuppfattningar">7. Vanliga missuppfattningar</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det som sägs</th><th>Vad som faktiskt gäller</th></tr></thead>
+        <tbody>
+          <tr><td>"Programmen körs samtidigt"</td><td>De turas om. Växlingen är så snabb att den inte märks</td></tr>
+          <tr><td>"Process och program är samma sak"</td><td>Programmet är filen. Processen är den som körs</td></tr>
+          <tr><td>"Kontextväxlingen är gratis, den går ju snabbt"</td><td>Stegen som sparar och laddar gör inget nyttigt arbete. Det är kostnaden</td></tr>
+          <tr><td>"Kortare tidskvantum är alltid bättre"</td><td>För kort lägger all tid på att växla</td></tr>
+          <tr><td>"Ett dödläge är en krasch"</td><td>Ingen har kraschat. Båda väntar, och ingen kan fortsätta</td></tr>
+          <tr><td>"Sidfel betyder att något gått sönder"</td><td>Det är normalt. Det kostar tid, det går inte sönder</td></tr>
+          <tr><td>"Virtuellt minne är samma sak som växlingsfilen"</td><td>Adressutrymmet är kartan. Lagringen är dit sidor flyttas när ramarna är fulla</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">8. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Process</b></td><td>Ett program som körs, med sitt eget tillstånd i minnet</td></tr>
+          <tr><td><b>Tidskvantum</b></td><td>Hur länge en process får hålla processorn innan den avbryts</td></tr>
+          <tr><td><b>Redokö</b></td><td>De processer som är klara att köra men väntar på sin tur</td></tr>
+          <tr><td><b>Schemaläggare</b></td><td>Den del av kärnan som väljer vilken process som får processorn näst</td></tr>
+          <tr><td><b>Round Robin</b></td><td>Schemaläggning där varje process får sitt tidskvantum i tur och ordning</td></tr>
+          <tr><td><b>Kontextväxling</b></td><td>Bytet mellan två processer. Engelska: <i>context switch</i></td></tr>
+          <tr><td><b>Processkontrollblock</b></td><td>Där en process tillstånd sparas när den växlas ut</td></tr>
+          <tr><td><b>Lås</b></td><td>Släpper in en process i taget till en delad resurs</td></tr>
+          <tr><td><b>Dödläge</b></td><td>Två processer väntar på varandra i en cirkel. Ingen kan fortsätta</td></tr>
+          <tr><td><b>Virtuellt adressutrymme</b></td><td>Den egna bild av minnet varje process får</td></tr>
+          <tr><td><b>Sida</b></td><td>Ett lika stort block minnet delas i</td></tr>
+          <tr><td><b>Ram</b></td><td>En plats i det fysiska minnet där en sida kan ligga</td></tr>
+          <tr><td><b>Sidfel</b></td><td>När en sida som behövs inte finns i något ram och måste hämtas från lagringen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 6</a> · <a href="labb.html">Nästa: labb 6</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

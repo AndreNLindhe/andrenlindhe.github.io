@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ubuntu från USB-minne – Dator- och nätverksteknik område 3</title>
+  <link rel="stylesheet" href="../stil.css">
+  <style>
+    /* Sidans egen del: fältet för USB-minnets enhetsnamn och de platser i
+       kommandona där namnet skrivs in. Skalet i stil.css rörs inte. */
+    .enhetsval {
+      background: var(--kort);
+      border: 1px solid var(--linje);
+      border-left: 4px solid var(--varning);
+      border-radius: var(--rundning);
+      padding: 1rem 1.2rem;
+      margin: 0 0 1.5rem;
+      max-width: var(--las);
+    }
+    .enhetsval.klar { border-left-color: var(--ok); }
+    .enhetsval > label { display: block; font-weight: 640; margin-bottom: 0.4rem; }
+    .enhetsval input[type=text] {
+      font: inherit;
+      font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+      padding: 0.45rem 0.7rem;
+      width: 12rem;
+      max-width: 100%;
+      border: 1px solid var(--linje-stark);
+      border-radius: 6px;
+      background: var(--papper);
+      color: var(--text);
+    }
+    .enhetsval input[type=text]:focus-visible { outline: 2px solid var(--webb); outline-offset: 1px; }
+    .enhetsval .bekrafta {
+      display: block;
+      position: relative;
+      padding-left: 1.7rem;
+      margin-top: 0.8rem;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+    .enhetsval .bekrafta input {
+      position: absolute;
+      left: 0;
+      top: 0.15rem;
+      width: 1.1rem;
+      height: 1.1rem;
+      margin: 0;
+      accent-color: var(--ok);
+    }
+    .enhetsval .besked { margin: 0.8rem 0 0; font-size: 0.95rem; color: var(--dov); }
+    .enhetsval .besked.fel { color: var(--varning); font-weight: 640; }
+    .enhetsval .besked.ok { color: var(--ok); font-weight: 640; }
+
+    pre .enhet { color: var(--varning); font-weight: 700; }
+    pre .enhet.satt { color: var(--ok); }
+  </style>
+</head>
+<body data-nyckel="datnat-3-ubuntu">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Guide</strong> · Ubuntu från USB-minne</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#innan">Innan du börjar</a></li>
+      <li><a href="#steg-1">1. Kopiera ISO-filen</a></li>
+      <li><a href="#steg-2">2. Flasha USB-minnet</a></li>
+      <li><a href="#steg-3">3. Starta från USB</a></li>
+      <li><a href="#steg-4">4. Installera Ubuntu</a></li>
+      <li><a href="#steg-5">5. Uppdatera</a></li>
+      <li><a href="#steg-6">6. Återställ USB-minnet</a></li>
+      <li><a href="#steg-7">7. Flytta filer</a></li>
+      <li><a href="#felsokning">Felsökning</a></li>
+      <li><a href="#checklista">Checklista</a></li>
+      <li><a href="#nivaer">E, C och A</a></li>
+      <li><a href="#ordlista">Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 3 · förberedelse inför labbarna</p>
+    <h1>Ubuntu från USB-minne</h1>
+    <p class="inledning">Du börjar med ett USB-minne som har en ISO-fil på sig och slutar med en stationär dator som kör ett uppdaterat Ubuntu. Samma USB-minne används hela vägen: först som installationsmedia, sedan återställt till ett vanligt lagringsmedium som du flyttar filer till och från med kommandon i terminalen.</p>
+
+    <p>När guiden är klar har du:</p>
+    <ul>
+      <li>flashat USB-minnet med Ubuntus ISO-fil från en Windows-dator</li>
+      <li>installerat Ubuntu på den stationära datorns interna disk</li>
+      <li>uppdaterat Ubuntu från terminalen</li>
+      <li>återställt USB-minnet så att det går att spara filer på igen</li>
+      <li>kopierat och flyttat filer mellan datorn och USB-minnet med <code>cp</code> och <code>mv</code></li>
+    </ul>
+
+    <h2 id="innan">Innan du börjar</h2>
+
+    <ul>
+      <li>Elevdatorn (Windows) är inloggad och har <b>balenaEtcher</b> installerat. Saknas det: fråga läraren var installationsfilen ligger.</li>
+      <li>Sätt i USB-minnet i elevdatorn och öppna det i Utforskaren. Du ska se en fil som slutar på <code>.iso</code>, ungefär 6 GB stor.</li>
+      <li>Den stationära datorn står vid bänken med skärm, tangentbord, mus och nätverkskabel inkopplade.</li>
+    </ul>
+
+    <p><b>Utrustning:</b> ett USB-minne per par (minst 8 GB, med Ubuntus ISO-fil), en elevdator med Windows och balenaEtcher, en stationär dator per par med nätverkskabel, och kontonamnet och lösenordet som står på tavlan.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Tre steg raderar en hel enhet</span>
+      <p>Flashningen raderar USB-minnet. Installationen raderar den stationära datorns interna disk. Återställningen raderar USB-minnet igen. I alla tre fallen gäller samma regel: <b>identifiera enheten på storleken och typen innan du trycker</b>, och visa läraren skärmen om du är osäker. Kommandona i steg 6 fungerar lika bra mot fel disk som mot rätt.</p>
+    </div>
+
+    <h2 id="steg-1">1. Kopiera ISO-filen till elevdatorn</h2>
+
+    <p><b>Vad du gör.</b> Flyttar ISO-filen från USB-minnet till elevdatorns skrivbord.</p>
+
+    <p><b>Så här.</b> Öppna USB-minnet i Utforskaren, dra ISO-filen till skrivbordet och vänta tills kopieringen är klar.</p>
+
+    <p><b>Varför.</b> Flashningen i steg 2 skriver över <b>hela</b> USB-minnet — också ISO-filen som ligger på det. Ett program kan inte läsa en fil samtidigt som det skriver sönder den. Filen måste därför ligga någon annanstans innan minnet flashas.</p>
+
+    <div class="notis">
+      <span class="rubrik">Samma sorts mätning som labb 3</span>
+      <p>Titta på hastigheten Utforskaren visar medan filen kopieras. Det är USB-minnets <b>läshastighet</b> — samma riktning som mätningen <i>USB-minnet → interna SSD</i> i labben.</p>
+    </div>
+
+    <p><b>Kontrollera.</b> ISO-filen ligger på skrivbordet och har samma storlek som på USB-minnet (högerklicka → Egenskaper).</p>
+
+    <h2 id="steg-2">2. Flasha USB-minnet med balenaEtcher</h2>
+
+    <p><b>Vad du gör.</b> Skriver ISO-filen till USB-minnet så att datorn kan starta från det. Att <i>flasha</i> betyder att skriva en avbildning (image) till en enhet byte för byte.</p>
+
+    <p><b>Så här.</b></p>
+    <ol>
+      <li>Starta balenaEtcher.</li>
+      <li><b>Flash from file</b> → välj ISO-filen på skrivbordet.</li>
+      <li><b>Select target</b> → markera USB-minnet. <b>Kontrollera storleken.</b></li>
+      <li><b>Flash!</b> → godkänn frågan om administratörsrättigheter.</li>
+      <li>Vänta på både <i>Flashing</i> och <i>Validating</i>. Validating läser tillbaka det som skrevs och jämför det med ISO-filen.</li>
+      <li>Dyker Windows upp med rutan <i>Du måste formatera disken…</i>: tryck <b>Avbryt</b>.</li>
+    </ol>
+
+    <p><b>Varför.</b> Att bara kopiera ISO-filen till USB-minnet räcker inte. Datorn kan inte starta från en fil som ligger i ett filsystem, utan måste hitta en startbar struktur redan i början av enheten. Flashningen lägger ut ISO-filens innehåll byte för byte från enhetens första sektor, och då hamnar den där. Windows känner inte igen resultatet och erbjuder sig att formatera. Säger du ja raderas det du just skrev.</p>
+
+    <p><b>Kontrollera.</b> balenaEtcher visar <i>Flash Complete!</i> utan fel.</p>
+
+    <h2 id="steg-3">3. Starta den stationära datorn från USB-minnet</h2>
+
+    <p><b>Vad du gör.</b> Får den stationära datorn att starta Ubuntu från USB-minnet i stället för från sin interna disk.</p>
+
+    <p><b>Så här.</b> Stäng av den stationära datorn, sätt i USB-minnet, starta den och tryck <b>upprepade gånger</b> på startmenytangenten direkt vid påslag.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Tillverkare</th><th>Startmenytangent</th></tr></thead>
+        <tbody>
+          <tr><td>Dell, Lenovo, Gigabyte</td><td><kbd>F12</kbd></td></tr>
+          <tr><td>MSI, ASRock</td><td><kbd>F11</kbd></td></tr>
+          <tr><td>ASUS</td><td><kbd>F8</kbd></td></tr>
+          <tr><td>HP</td><td><kbd>F9</kbd> eller <kbd>Esc</kbd></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Välj raden med USB-minnet, gärna den som börjar med <code>UEFI:</code>. I menyn som kommer upp: <b>Try or Install Ubuntu</b>, <kbd>Enter</kbd>.</p>
+
+    <p><b>Varför.</b> Startmenyn väljer startenhet <b>en gång</b> utan att röra bootordningen i firmware, så inget behöver ställas tillbaka efteråt. <code>UEFI:</code> betyder att datorn startar på det moderna sättet, samma som Ubuntu sedan installeras för.</p>
+
+    <p><b>Kontrollera.</b> Ubuntus skrivbord visas i <i>live-läge</i> — Ubuntu körs direkt från USB-minnet utan att något är installerat — och installationsprogrammet öppnas av sig självt.</p>
+
+    <h2 id="steg-4">4. Installera Ubuntu</h2>
+
+    <p><b>Vad du gör.</b> Installerar Ubuntu på den stationära datorns interna disk.</p>
+
+    <p><b>Så här.</b> Välj <b>English</b> som språk i installationsprogrammet och <b>Swedish</b> som tangentbord. Knapparna nedan står då som de heter på skärmen.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Skärm</th><th>Välj</th></tr></thead>
+        <tbody>
+          <tr><td>Welcome to Ubuntu</td><td>English → Next</td></tr>
+          <tr><td>Accessibility</td><td>Next</td></tr>
+          <tr><td>Keyboard layout</td><td>Swedish – Swedish → Next</td></tr>
+          <tr><td>Connect to the internet</td><td>Use wired connection → Next</td></tr>
+          <tr><td>What do you want to do with Ubuntu?</td><td>Install Ubuntu</td></tr>
+          <tr><td>How would you like to install Ubuntu?</td><td>Interactive installation</td></tr>
+          <tr><td>What apps would you like to install?</td><td>Default selection</td></tr>
+          <tr><td>Install recommended proprietary software?</td><td>Kryssa i båda rutorna</td></tr>
+          <tr><td>How do you want to install Ubuntu?</td><td><b>Erase disk and install Ubuntu</b></td></tr>
+          <tr><td>Create your account</td><td>Namn och lösenord från tavlan</td></tr>
+          <tr><td>Select your timezone</td><td>Stockholm</td></tr>
+          <tr><td>Review your choices</td><td>Kontrollera disken → <b>Install</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>När installationen är klar: <b>Restart now</b>. På den svarta skärmen <code>Please remove the installation medium, then press ENTER</code>: dra ut USB-minnet, tryck <kbd>Enter</kbd>.</p>
+
+    <p><b>Varför.</b> Engelska i installationsprogrammet gör att guidens knapptexter och terminalens meddelanden stämmer ord för ord, och att ett felmeddelande går att söka på. Tangentbordet väljs svenskt för att å, ä och ö ska sitta där de står på tangenterna.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Erase disk raderar allt på den interna disken</span>
+      <p>På den här datorn finns inget att förlora. Men har datorn mer än en disk frågar installationsprogrammet vilken, och då gäller säkerhetsregeln: <b>titta på storleken</b>. USB-minnet är det lilla.</p>
+    </div>
+
+    <p>USB-minnet ska ut innan omstarten, annars kan datorn starta installationen igen.</p>
+
+    <p><b>Kontrollera.</b> Datorn startar till Ubuntus inloggningsskärm utan USB-minnet, och du kommer in med kontot från tavlan. Välkomstguiden efter första inloggningen: <i>Skip</i> på Ubuntu Pro, <i>No, don't share system data</i>, <i>Finish</i>.</p>
+
+    <h2 id="steg-5">5. Uppdatera Ubuntu från terminalen</h2>
+
+    <p><b>Vad du gör.</b> Hämtar och installerar alla uppdateringar som kommit sedan ISO-filen skapades.</p>
+
+    <p><b>Så här.</b> Öppna terminalen med <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> och skriv en rad i taget:</p>
+
+<pre><code>sudo apt update
+apt list --upgradable
+sudo apt upgrade
+sudo snap refresh
+sudo apt autoremove</code></pre>
+
+    <p><code>sudo</code> kör kommandot med administratörsrättigheter och frågar efter ditt lösenord. <b>Lösenordet syns inte när du skriver det</b>, inte ens som stjärnor. Skriv det och tryck <kbd>Enter</kbd>. På frågan <code>Do you want to continue? [Y/n]</code> svarar du <kbd>y</kbd>.</p>
+
+    <p>Avsluta med att kontrollera om en omstart behövs:</p>
+
+<pre><code>cat /var/run/reboot-required</code></pre>
+
+    <p>Svarar den <code>*** System restart required ***</code>:</p>
+
+<pre><code>sudo reboot</code></pre>
+
+    <p><b>Varför.</b> <code>apt update</code> installerar ingenting. Den hämtar den senaste listan över vilka paket och versioner som finns. Först med den listan vet <code>apt upgrade</code> vad som är nyare än det som är installerat. <code>snap refresh</code> uppdaterar de program som installerats som snap-paket (bland annat Firefox), eftersom <code>apt</code> inte sköter dem. <code>autoremove</code> tar bort paket som inget längre behöver. En ny kärna (kernel) börjar användas först efter omstart.</p>
+
+    <p><b>Kontrollera.</b> <code>sudo apt upgrade</code> en andra gång svarar <code>0 upgraded, 0 newly installed, 0 to remove</code>.</p>
+
+    <h2 id="steg-6">6. Återställ USB-minnet</h2>
+
+    <p><b>Vad du gör.</b> Gör om USB-minnet från installationsmedia till ett vanligt lagringsmedium som både Ubuntu och Windows kan läsa och skriva.</p>
+
+    <p><b>Varför.</b> Efter flashningen har USB-minnet ISO-filens struktur, och ISO-formatet är skrivskyddat. Det går att starta från men inte att spara filer på. Minnet behöver en ny <i>partitionstabell</i>, en partition och ett <i>filsystem</i> — i den ordningen.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">exFAT, inte FAT32</span>
+      <p>FAT32 fungerar överallt men klarar inga filer större än <b>4 GB</b>, och i labb 3 ska du kopiera en fil på flera gigabyte till USB-minnet. exFAT har inte den gränsen och kan läsas av både Windows, macOS och Linux.</p>
+    </div>
+
+    <p><b>Så här.</b> Sätt i USB-minnet i den stationära datorn och lista enheterna:</p>
+
+<pre><code>lsblk -o NAME,SIZE,TRAN,FSTYPE,LABEL,MOUNTPOINTS</code></pre>
+
+    <p>Hitta raden där <code>TRAN</code> står på <code>usb</code> och storleken stämmer med minnet. Namnet längst till vänster — till exempel <code>sda</code> eller <code>sdb</code> — är USB-minnets enhetsnamn. Den interna disken har <code>TRAN</code> <code>nvme</code> eller <code>sata</code>.</p>
+
+    <div class="enhetsval" id="enhetsval">
+      <label for="enhet">USB-minnets enhetsnamn enligt lsblk</label>
+      <input type="text" id="enhet" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="till exempel sdb">
+      <label class="bekrafta"><input type="checkbox" id="enhet-ok">På den raden står <code>TRAN</code> på <code>usb</code>, och storleken stämmer med mitt USB-minne</label>
+      <p class="besked" id="enhet-besked" aria-live="polite">Skriv namnet och kryssa i rutan, så skrivs det in i kommandona nedan i stället för <code>sdX</code>.</p>
+    </div>
+
+<pre><code>sudo umount /dev/<span class="enhet">sdX</span>?*
+sudo wipefs --all /dev/<span class="enhet">sdX</span>
+sudo parted /dev/<span class="enhet">sdX</span> --script mklabel msdos mkpart primary ntfs 1MiB 100%
+sudo apt install exfatprogs
+sudo mkfs.exfat -L USBMINNE /dev/<span class="enhet">sdX</span>1</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kommando</th><th>Vad det gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>umount</code></td><td>Kopplar loss de partitioner Ubuntu monterat automatiskt. En enhet som används går inte att radera. <code>not mounted</code> betyder att den redan var loss — det är inget fel</td></tr>
+          <tr><td><code>wipefs --all</code></td><td>Tar bort alla spår av den gamla strukturen: ISO-signaturen och båda partitionstabellerna</td></tr>
+          <tr><td><code>parted … mklabel msdos</code></td><td>Skriver en ny, tom partitionstabell av typen MBR, som alla operativsystem läser</td></tr>
+          <tr><td><code>mkpart primary ntfs 1MiB 100%</code></td><td>Skapar en partition över hela minnet. <code>ntfs</code> sätter bara partitionens typkod (07), som exFAT och NTFS delar — filsystemet skapas i nästa steg</td></tr>
+          <tr><td><code>apt install exfatprogs</code></td><td>Installerar verktyget som skapar exFAT. Är det redan installerat säger <code>apt</code> det</td></tr>
+          <tr><td><code>mkfs.exfat -L USBMINNE</code></td><td>Skapar filsystemet exFAT på den nya partitionen och ger den namnet <code>USBMINNE</code>. Partitionen heter som enheten med en <code>1</code> efter</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Kontrollera.</b> Dra ut USB-minnet och sätt i det igen. Kör <code>lsblk</code>-raden igen: <code>FSTYPE</code> är <code>exfat</code>, <code>LABEL</code> är <code>USBMINNE</code> och <code>MOUNTPOINTS</code> är <code>/media/&lt;ditt användarnamn&gt;/USBMINNE</code>.</p>
+
+    <h2 id="steg-7">7. Flytta filer mellan datorn och USB-minnet</h2>
+
+    <p><b>Vad du gör.</b> Kopierar och flyttar filer och mappar mellan hemmappen och USB-minnet med kommandon.</p>
+
+    <p><b>Så här.</b> Två sökvägar återkommer:</p>
+    <ul>
+      <li><code>~</code> är din hemmapp, <code>/home/&lt;ditt användarnamn&gt;</code></li>
+      <li><code>/media/$USER/USBMINNE</code> är USB-minnet. <code>$USER</code> byts av terminalen ut mot ditt användarnamn</li>
+    </ul>
+
+<pre><code>cd ~
+echo "Skapad på $(hostname)" &gt; test.txt
+ls -l
+cp test.txt /media/$USER/USBMINNE/
+ls -l /media/$USER/USBMINNE
+mkdir ~/Documents/fran-usb
+cp /media/$USER/USBMINNE/test.txt ~/Documents/fran-usb/
+mv ~/test.txt /media/$USER/USBMINNE/flyttad.txt
+cp -r ~/Documents/fran-usb /media/$USER/USBMINNE/
+ls -l /media/$USER/USBMINNE</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kommando</th><th>Vad det gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>cd ~</code></td><td>Går till hemmappen</td></tr>
+          <tr><td><code>echo "…" &gt; test.txt</code></td><td>Skapar filen <code>test.txt</code> med en rad text</td></tr>
+          <tr><td><code>ls -l</code></td><td>Listar filerna i mappen, med storlek och datum</td></tr>
+          <tr><td><code>cp från till</code></td><td>Kopierar. Originalet ligger kvar</td></tr>
+          <tr><td><code>mv från till</code></td><td>Flyttar. Originalet försvinner. Används också för att byta namn</td></tr>
+          <tr><td><code>mkdir</code></td><td>Skapar en mapp</td></tr>
+          <tr><td><code>cp -r</code></td><td>Kopierar en hel mapp med allt innehåll (<code>-r</code> = recursive)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Tryck <kbd>Tab</kbd> medan du skriver en sökväg så fyller terminalen i resten.</p>
+
+    <p>Innan USB-minnet dras ut:</p>
+
+<pre><code>sync
+udisksctl unmount -b /dev/<span class="enhet">sdX</span>1
+udisksctl power-off -b /dev/<span class="enhet">sdX</span></code></pre>
+
+    <p><b>Varför.</b> <code>cp</code> och <code>mv</code> skriver först till en buffert i RAM-minnet (<i>cache</i>) och låter USB-minnet ta emot datan i sin egen takt. Kommandot kan därför vara klart innan datan faktiskt ligger på minnet. <code>sync</code> väntar tills bufferten är tömd. Drar du ut minnet innan dess kan filen vara halv — och RAM-minnet, lektion 9, glömmer det som inte hann skrivas. <code>unmount</code> kopplar loss filsystemet och <code>power-off</code> stänger av minnet så att det är säkert att dra ut.</p>
+
+    <p><b>Kontrollera.</b> Sätt i USB-minnet i elevdatorn (Windows). <code>test.txt</code>, <code>flyttad.txt</code> och mappen <code>fran-usb</code> syns i Utforskaren.</p>
+
+    <h2 id="felsokning">När något går fel</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Gör så här</th></tr></thead>
+        <tbody>
+          <tr><td>balenaEtcher hittar inte ISO-filen</td><td>Den ligger kvar på USB-minnet</td><td>Steg 1: kopiera den till skrivbordet först</td></tr>
+          <tr><td>balenaEtcher visar <i>Validation failed</i></td><td>Skrivfel på minnet</td><td>Flasha om. Händer det igen: byt USB-minne</td></tr>
+          <tr><td>USB-minnet syns inte i startmenyn</td><td>Minnet flashades inte, eller satt inte i vid start</td><td>Kontrollera steg 2, sätt i minnet och starta om</td></tr>
+          <tr><td>Skärmen blir svart eller hackar efter <i>Try or Install Ubuntu</i></td><td>Grafikdrivrutinen i live-läget</td><td>Starta om, välj <b>Ubuntu (safe graphics)</b> i menyn</td></tr>
+          <tr><td>Installationen startar om från början efter omstart</td><td>USB-minnet satt kvar</td><td>Dra ut det och starta om</td></tr>
+          <tr><td><code>Could not get lock /var/lib/dpkg/lock-frontend</code></td><td>Ubuntu uppdaterar sig själv i bakgrunden</td><td>Vänta ett par minuter och kör kommandot igen</td></tr>
+          <tr><td><code>Permission denied</code></td><td>Kommandot kräver administratörsrättigheter</td><td>Sätt <code>sudo</code> först</td></tr>
+          <tr><td><code>Device or resource busy</code> från <code>wipefs</code></td><td>En partition är fortfarande monterad</td><td>Kör <code>umount</code>-raden igen</td></tr>
+          <tr><td><code>No such file or directory</code></td><td>Felstavad sökväg, eller fel skiftläge</td><td>Linux skiljer på <code>Documents</code> och <code>documents</code>. Använd <kbd>Tab</kbd></td></tr>
+          <tr><td>Windows säger att USB-minnet måste formateras</td><td>Det har inte återställts än</td><td>Tryck Avbryt, gör steg 6 på Ubuntu-datorn</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="checklista">Checklista</h2>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Ska</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ub-1"><span>ISO-filen kopierad till elevdatorns skrivbord</span></label></li>
+        <li><label><input type="checkbox" id="ub-2"><span>USB-minnet flashat, <i>Flash Complete!</i> utan fel</span></label></li>
+        <li><label><input type="checkbox" id="ub-3"><span>Rutan <i>Du måste formatera disken</i> besvarad med Avbryt</span></label></li>
+        <li><label><input type="checkbox" id="ub-4"><span>Den stationära datorn startad från USB-minnet via startmenyn</span></label></li>
+        <li><label><input type="checkbox" id="ub-5"><span>Rätt disk vald vid <i>Erase disk</i> — kontrollerad mot storleken</span></label></li>
+        <li><label><input type="checkbox" id="ub-6"><span>Konto skapat med namnet och lösenordet från tavlan</span></label></li>
+        <li><label><input type="checkbox" id="ub-7"><span>USB-minnet uttaget vid omstarten, Ubuntu startar från den interna disken</span></label></li>
+        <li><label><input type="checkbox" id="ub-8"><span><code>sudo apt update</code> och <code>sudo apt upgrade</code> körda</span></label></li>
+        <li><label><input type="checkbox" id="ub-9"><span><code>sudo apt upgrade</code> en andra gång svarar <code>0 upgraded</code></span></label></li>
+        <li><label><input type="checkbox" id="ub-10"><span>USB-minnet identifierat med <code>lsblk</code> — <code>TRAN</code> är <code>usb</code></span></label></li>
+        <li><label><input type="checkbox" id="ub-11"><span>USB-minnet återställt: <code>FSTYPE</code> <code>exfat</code>, <code>LABEL</code> <code>USBMINNE</code></span></label></li>
+        <li><label><input type="checkbox" id="ub-12"><span>En fil kopierad med <code>cp</code> och en flyttad med <code>mv</code> till USB-minnet</span></label></li>
+        <li><label><input type="checkbox" id="ub-13"><span><code>sync</code> kört innan minnet drogs ut</span></label></li>
+        <li><label><input type="checkbox" id="ub-14"><span>Filerna syns när minnet sätts i elevdatorn</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3>Bör</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ub-b1"><span><code>sudo snap refresh</code> och <code>sudo apt autoremove</code> körda</span></label></li>
+        <li><label><input type="checkbox" id="ub-b2"><span>Omstart gjord om <code>/var/run/reboot-required</code> fanns</span></label></li>
+        <li><label><input type="checkbox" id="ub-b3"><span>En hel mapp kopierad med <code>cp -r</code></span></label></li>
+        <li><label><input type="checkbox" id="ub-b4"><span>Du kan säga med egna ord vad <code>apt update</code> gör som <code>apt upgrade</code> inte gör</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3>Utmaning</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ub-u1"><span>Mät USB-minnets skrivhastighet från terminalen: <code>time cp</code> på en stor fil följt av <code>time sync</code>, och räkna ut MB/s. Jämför med det Windows visade i labb 3</span></label></li>
+        <li><label><input type="checkbox" id="ub-u2"><span>Förklara varför USB-minnet inte gick att spara filer på direkt efter flashningen, och varför <code>wipefs</code> behövs före <code>parted</code></span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="nivaer">Så långt kan du ta det — E, C och A</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nivå</th><th>Så ser det ut</th></tr></thead>
+        <tbody>
+          <tr><td><b>E</b></td><td>Du följer guiden steg för steg och stämmer av med läraren vid stegen som raderar något. Datorn fungerar när du är klar.</td></tr>
+          <tr><td><b>C</b></td><td>Du identifierar själv rätt enhet i varje steg och kan förklara vad varje kommando i steg 5 till 7 gör innan du kör det. Går något fel hittar du orsaken i felsökningstabellen utan att fråga.</td></tr>
+          <tr><td><b>A</b></td><td>Du kan förklara sambanden: varför ISO-filen måste lämna minnet innan det flashas, varför ett flashat minne inte går att spara på, varför exFAT och inte FAT32, och varför <code>sync</code> hänger ihop med RAM-minnets flyktighet från lektion 9.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">Ordlista</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>ISO-fil</b></td><td>En avbildning (image) av en hel skiva i en enda fil. Ubuntus installationsprogram levereras som en</td></tr>
+          <tr><td><b>Flasha</b></td><td>Skriva en avbildning till en enhet byte för byte. Allt som fanns på enheten försvinner</td></tr>
+          <tr><td><b>Startmeny</b> (boot menu)</td><td>En meny som öppnas med en egen tangent direkt vid start och låter dig välja startenhet en gång</td></tr>
+          <tr><td><b>Live-läge</b></td><td>Ubuntu körs direkt från USB-minnet utan att något installeras. Installationsprogrammet startar därifrån</td></tr>
+          <tr><td><b>Terminal</b></td><td>Ett fönster där du ger datorn kommandon i text. Öppnas med <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd></td></tr>
+          <tr><td><b>sudo</b></td><td>Kör ett kommando med administratörsrättigheter. Frågar efter ditt lösenord</td></tr>
+          <tr><td><b>Paket</b></td><td>Ett program eller en del av ett program, färdigt att installera. <code>apt</code> hämtar och installerar paket</td></tr>
+          <tr><td><b>Partitionstabell</b></td><td>Listan i början av en disk över vilka partitioner som finns och var de ligger</td></tr>
+          <tr><td><b>Filsystem</b></td><td>Hur filer och mappar organiseras på en partition. exFAT, FAT32, NTFS och ext4 är fyra olika</td></tr>
+          <tr><td><b>Montera</b> (mount)</td><td>Koppla ett filsystem till en mapp så att det går att öppna. USB-minnet monteras under <code>/media/</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="mer">Vill du mer</h2>
+    <ul>
+      <li><i>Install Ubuntu Desktop</i> — Ubuntus egen installationsguide med skärmbilder, steg för steg (engelska): <code>ubuntu.com/tutorials/install-ubuntu-desktop</code></li>
+      <li><code>man cp</code>, <code>man mv</code>, <code>man lsblk</code> i terminalen — manualsidan för varje kommando, med alla flaggor (engelska). Avsluta med <kbd>q</kbd></li>
+    </ul>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 3</a> · <a href="lagringen.html">Lagringen, del för del</a> · <a href="labb.html">Labb 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+<script>
+/* Enhetsnamnet i steg 6 och 7. Kommandona visar sdX tills eleven skrivit ett
+   giltigt namn OCH bekräftat att raden i lsblk är ett USB-minne. Namnet sparas
+   inte: samma minne kan få ett annat namn nästa gång det sätts i. */
+(function () {
+  var falt = document.getElementById("enhet");
+  var ok = document.getElementById("enhet-ok");
+  var besked = document.getElementById("enhet-besked");
+  var ruta = document.getElementById("enhetsval");
+  var platser = document.querySelectorAll("pre .enhet");
+  if (!falt || !ok || !besked) { return; }
+
+  var START = besked.innerHTML;
+
+  function tolka(text) {
+    var namn = text.trim().toLowerCase().replace(/^\/dev\//, "");
+    if (!namn) { return { namn: "", fel: "" }; }
+    if (/^sd[a-z]$/.test(namn)) { return { namn: namn, fel: "" }; }
+    if (/^sd[a-z]\d+$/.test(namn)) {
+      return { namn: "", fel: namn + " är en partition. Skriv enhetens namn utan siffran: " + namn.replace(/\d+$/, "") };
+    }
+    if (/^nvme/.test(namn)) {
+      return { namn: "", fel: namn + " är en NVMe-disk – nästan alltid datorns interna disk. USB-minnen heter sd följt av en bokstav." };
+    }
+    if (/^mmcblk/.test(namn)) {
+      return { namn: "", fel: namn + " är ett minneskort, inte ett USB-minne." };
+    }
+    return { namn: "", fel: "Namnet känns inte igen. Ett USB-minne heter sd följt av en bokstav, till exempel sdb." };
+  }
+
+  function uppdatera() {
+    var t = tolka(falt.value);
+    var klar = t.namn !== "" && ok.checked;
+
+    Array.prototype.forEach.call(platser, function (p) {
+      p.textContent = klar ? t.namn : "sdX";
+      p.classList.toggle("satt", klar);
+    });
+    if (ruta) { ruta.classList.toggle("klar", klar); }
+
+    besked.className = "besked";
+    if (t.fel) {
+      besked.classList.add("fel");
+      besked.textContent = t.fel;
+    } else if (t.namn && !ok.checked) {
+      besked.textContent = "Kryssa i rutan när du sett att raden för " + t.namn + " har TRAN usb och rätt storlek.";
+    } else if (klar) {
+      besked.classList.add("ok");
+      besked.textContent = "Kommandona nedan använder nu /dev/" + t.namn + ". Stämmer det inte: ändra fältet innan du kör något.";
+    } else {
+      besked.innerHTML = START;
+    }
+  }
+
+  falt.addEventListener("input", uppdatera);
+  ok.addEventListener("change", uppdatera);
+  uppdatera();
+})();
+</script>
+</body>
+</html>

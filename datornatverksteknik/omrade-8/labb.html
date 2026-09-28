@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Labb 8: Bygg och dokumentera ett litet LAN – Dator- och nätverksteknik område 8</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-8-labb">
+
+<header class="topp">
+  <a href="index.html">← Område 8</a>
+  <span class="harifran"><strong>Uppgift</strong> · Labb 8: Bygg och dokumentera ett litet LAN</span>
+  <a href="#checklista">Checklista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppgiften">1. Uppgiften</a></li>
+      <li><a href="#grupp">2. Grupp om fyra, egen rapport</a></li>
+      <li><a href="#vaxer">3. Så växer rapporten fram</a></li>
+      <li><a href="#delarna">4. Vad varje del ska innehålla</a></li>
+      <li><a href="#ritningarna">5. De två ritningarna</a></li>
+      <li><a href="#ping">6. Vad pingen bevisar</a></li>
+      <li><a href="#mappen">7. Den delade mappen</a></li>
+      <li><a href="#ska">8. Ska-krav — E</a></li>
+      <li><a href="#bor">9. Bör-krav — C</a></li>
+      <li><a href="#utmaning">10. Utmaning — A</a></li>
+      <li><a href="#nyanserat">11. Vad "nyanserat" betyder</a></li>
+      <li><a href="#misstag">12. Vanliga misstag</a></li>
+      <li><a href="#checklista">13. Checklista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 8 · labb 8</p>
+    <h1>Labb 8: Bygg och dokumentera ett litet LAN</h1>
+    <p class="inledning">Kursens sjunde labbrapport, och vårterminens första. Mallens fem delar är rutin vid det här laget och gås inte igenom på nytt. <b>Det nya är att rapporten innehåller en bild du själv ritat</b> — två, faktiskt — och det är ingen formalitet: kursens betygskriterier namnger <b>topologier</b> bland de underlag en elev ska kunna både använda och själv producera. Det andra som är nytt är att uppgiften prövar en <b>kedja</b>. Länken, kabeln och adressen har kontrollerats var för sig under fyra pass. Pingen prövar dem tillsammans, och det är först där man vet om nätet fungerar.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-02-10">
+        <span class="nar">10 feb</span>
+        <span class="vad">Inlämning kl 23:59 — <b>en onsdag</b>
+          <small>Sista lektionstiden är tisdag 9/2. Kvällen efter är till för att skriva, inte för att mäta.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Den här gången finns det en kväll efter sista passet</span>
+      <p>Till skillnad från labb 7, där passet och deadlinen låg samma dag, har du en kväll på dig. <b>Använd den till att skriva</b> — källorna, felsökningsavsnittet och motiveringen går att göra utan maskinerna.</p>
+      <p><b>Det som mäts på lektion 41 är det som gäller.</b> Nätet plockas ned efter passet.</p>
+    </div>
+
+    <h2 id="uppgiften">1. Uppgiften</h2>
+    <p>Fyra saker ska göras och dokumenteras:</p>
+
+    <ol>
+      <li><b>Minst tre enheter kopplas</b> till ett fungerande lokalt nätverk</li>
+      <li><b>Statiska IPv4-adresser sätts</b> inom samma nät, med samma nätmask</li>
+      <li><b>Ping verifierar</b> att alla enheter når varandra</li>
+      <li><b>Topologin ritas — fysiskt och logiskt</b>, med en motivering till varför de två bilderna ser ut som de gör</li>
+    </ol>
+
+    <p>Genom allt detta: <b>varje källa med språk angivet</b>, som sedan labb 5.</p>
+
+    <h2 id="grupp">2. Grupp om fyra, egen rapport</h2>
+
+    <p>Kravet på minst tre enheter nås genom att <b>två elevpar går samman kring en gemensam switch</b>. Ni arbetar alltså i grupper om fyra genom hela området, och ni delar switch, portkarta, adressplan och mätningar.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Rapporten skriver var och en själv</span>
+      <p>Dokumentationen bedöms individuellt, i alla tre betygsstegen. Att ni byggde samma nät är självklart — det är <b>motiveringen till topologierna</b> och <b>resonemanget om vad pingen bevisar</b> som ska vara ditt eget.</p>
+      <p>Labbpartnernas namn står överst i rapporten.</p>
+    </div>
+
+    <h2 id="vaxer">3. Så växer rapporten fram</h2>
+
+    <p>Labben görs under åtta pass. <b>Deadline är dagen efter det sista.</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Vad som görs</th><th>Vad som förs in i rapporten</th></tr></thead>
+        <tbody>
+          <tr><td><b>34</b> · mån 18/1</td><td>Bygget påbörjas, kablarna dras</td><td>—</td></tr>
+          <tr><td><b>35</b> · tis 19/1</td><td>Länken kontrolleras port för port</td><td>Planeringen: <b>portkartan</b></td></tr>
+          <tr><td><b>36</b> · mån 25/1</td><td>Topologibegreppet, Packet Tracer</td><td>—</td></tr>
+          <tr><td><b>37</b> · tis 26/1</td><td><b>De två ritningarna</b> och motiveringen</td><td>Resultatet: topologierna</td></tr>
+          <tr><td><b>38</b> · mån 1/2</td><td>Media, kategorier, trådlöst</td><td>—</td></tr>
+          <tr><td><b>39</b> · tis 2/2</td><td>Egen eller testad kabel in i nätet</td><td>Utförandet: <b>kabelns kategori</b></td></tr>
+          <tr><td><b>40</b> · mån 8/2</td><td>Adresserna sätts</td><td>Resultatet: <b>adresstabellen</b></td></tr>
+          <tr><td><b>41</b> · tis 9/2</td><td><b>Ping</b>, delad mapp, felsökning, källor</td><td>Rapporten klar</td></tr>
+          <tr><td><b>onsdag 10/2</b></td><td>—</td><td><b>Inlämning senast 23:59</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="delarna">4. Vad varje del ska innehålla</h2>
+
+    <h3>1. Planering</h3>
+    <p>Skrivs på lektion 35, när länken är kontrollerad.</p>
+    <ul>
+      <li><b>Portkartan:</b> vilken maskin sitter i vilken switchport</li>
+      <li><b>Maskinernas namn</b>, som de faktiskt heter — inte "min dator"</li>
+      <li><b>Hur många enheter</b> gruppen har i nätet</li>
+      <li><b>Vad ni tror blir svårast</b> — bygget, ritningarna eller adresserna</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Arbetar du mot C eller A</span>
+      <p><b>Planeringen ska vara godkänd av läraren innan adresserna sätts.</b> På E-nivå stämmer du av under arbetets gång; på C och A planerar du färdigt först och genomför sedan självständigt.</p>
+    </div>
+
+    <h3>2. Utförande</h3>
+    <p>Skrivs på lektion 35 och 39, medan det händer.</p>
+
+    <p><b>Bygget:</b></p>
+    <ul>
+      <li>Hur kablarna drogs och switchen strömsattes</li>
+      <li><b>Länklysdioden på varje port</b> — lyste den, och vad gjorde ni om den inte gjorde det</li>
+    </ul>
+
+    <p><b>Kabeln:</b></p>
+    <ul>
+      <li><b>Kabelns kategori</b>, avläst på manteln — eller att den saknade märkning</li>
+      <li><b>Hur den blev godkänd:</b> krympt av er själva, eller testad med kabeltestaren</li>
+      <li>Vad kabeltestaren visade</li>
+      <li><b>En mening om vad som hade begränsat hastigheten</b> om en lägre kategori använts</li>
+    </ul>
+
+    <h3>3. Resultat</h3>
+    <p>Skrivs på lektion 37, 40 och 41. <b>De två topologiritningarna</b> med motiveringen är den del som väger tyngst — se nedan.</p>
+
+    <p><b>Adresstabellen:</b></p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Maskin</th><th>IP-adress</th><th>Nätmask</th><th>Switchport</th></tr></thead>
+        <tbody>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Pingmatrisen</b> — varje maskin mot varje annan:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Från \ Till</th><th>PC-A</th><th>PC-B</th><th>PC-C</th></tr></thead>
+        <tbody>
+          <tr><td><b>PC-A</b></td><td>—</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td><b>PC-B</b></td><td>&nbsp;</td><td>—</td><td>&nbsp;</td></tr>
+          <tr><td><b>PC-C</b></td><td>&nbsp;</td><td>&nbsp;</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Och <b>den delade mappen</b>: vilken mapp, från vilken maskin, och att filen gick att öppna från grannmaskinen. Plus <b>en mening om att betygskriterierna namnger topologier</b> bland de underlag en elev ska kunna både använda och producera.</p>
+
+    <h3>4. Felsökning</h3>
+    <p>Samma tre led som sedan labb 4: <b>vad gick fel, hur syntes det, hur åtgärdades det.</b> Avsnittet lämnas aldrig tomt. Området ger gott om material:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad som kan ha hänt</th><th>Var det hörde hemma</th></tr></thead>
+        <tbody>
+          <tr><td><b>Länklysdioden som förblev mörk</b> — lös kontakt, trasig kabel eller fel port</td><td>Lektion 35</td></tr>
+          <tr><td><b>Kabeln som underkändes</b> av kabeltestaren, och vilket stift som inte tände</td><td>Lektion 39</td></tr>
+          <tr><td><b>Varningstriangeln som stod kvar</b> efter att adressen satts — fel mask</td><td>Lektion 40</td></tr>
+          <tr><td><b>Två maskiner med samma adress</b></td><td>Lektion 40</td></tr>
+          <tr><td><b>Pingen som gick åt ena hållet men inte det andra</b> — brandväggen</td><td>Lektion 41</td></tr>
+          <tr><td><b>Mappdelningen som var avstängd</b> på nätverksprofilen</td><td>Lektion 41</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Gick ingenting fel?</span>
+      <p>Skriv vad ni <b>kontrollerade</b> för att vara säkra. Länklysdioden på varje port är en kontroll. Pingen åt båda hållen är en kontroll. Adresserna jämförda mot tabellen är en kontroll. <b>Det är ett giltigt felsökningsavsnitt.</b></p>
+    </div>
+
+    <h3>5. Källor</h3>
+    <p>Varje källa <b>med språket angivet</b>, som sedan labb 5. <b>Minst en på engelska.</b></p>
+    <p>T568B-ordningen, kabelkategoriernas specifikationer och de privata adressintervallen finns alla dokumenterade, och originalkällorna är på engelska. <b>Skriv adressen medan fliken är öppen.</b></p>
+
+    <h2 id="ritningarna">5. De två ritningarna</h2>
+
+    <p><b>Rapportens tyngdpunkt, och det som är nytt.</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Visar</th><th>Frågan den svarar på</th></tr></thead>
+        <tbody>
+          <tr><td><b>Fysisk topologi</b></td><td>Hur kablar och enheter faktiskt sitter</td><td>Vilken kabel går vart?</td></tr>
+          <tr><td><b>Logisk topologi</b></td><td>Hur nätverket är uppbyggt sett till hur det fungerar</td><td>Hur färdas data genom nätet?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Den fysiska</b> ska visa switchen med sina portar, varje maskin med sitt namn, och en linje från varje maskin till den port den faktiskt sitter i, <b>med portnumret utsatt</b>. Den behöver <b>inte</b> vara skalenlig och behöver <b>inte</b> visa möbler eller rummet.</p>
+
+    <p><b>Den logiska</b> ritas separat, på ett eget papper eller i en egen bild. Den visar vilka enheter som kan nå varandra och via vad. <b>Portnumren hör inte hemma där.</b></p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Båda blir en stjärna — det är rätt</span>
+      <p>Det är inte ett fel ni ska dölja. Det beror på att ni har en <b>switch</b>, som bara skickar vidare till rätt port, och det är ett <b>specialfall</b> — inte en regel. Just därför ritas båda.</p>
+    </div>
+
+    <p>Motiveringen i tre steg, och hela resonemanget med hubben och Token Ring står på <a href="topologierna.html">topologisidan</a>:</p>
+
+    <ol>
+      <li><b>Vad er bild visar</b> — båda är en stjärna</li>
+      <li><b>Varför</b> — switchen skickar bara vidare till rätt port, så vägen data tar följer kabeln</li>
+      <li><b>När det inte hade varit så</b> — ett konkret exempel, med vad som skiljer</li>
+    </ol>
+
+    <h2 id="ping">6. Vad pingen bevisar</h2>
+
+    <p><b>Ping</b> — <i>Packet Internet Groper</i> — skickar en liten förfrågan till en annan maskin och väntar på svar. Kommandot är <code>ping 192.168.1.7</code>.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>En lyckad ping bevisar</th><th>Ett uteblivet svar bevisar</th></tr></thead>
+        <tbody>
+          <tr><td>Kabeln är hel och kontakterna sitter</td><td><b>Att maskinen inte svarade på just den frågan</b></td></tr>
+          <tr><td>Switchporten fungerar</td><td>— och ingenting mer</td></tr>
+          <tr><td>Båda maskinerna har adresser i <b>samma nät</b></td><td>&nbsp;</td></tr>
+          <tr><td><b>Hela kedjan håller, samtidigt</b></td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Vänsterkolumnen är områdets samband i en mening</span>
+      <p>Varje del har kontrollerats för sig: länken på lektion 35, kabeln på 39, adressen på 40. <b>Pingen är första gången de prövas tillsammans</b>, och det är därför den är labbens bevis.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Högerkolumnen är lika viktig och glöms oftast</span>
+      <p>En maskin som inte svarar kan vara avstängd, ha fel adress, sitta i en trasig kabel — eller vara fullt nåbar men ha en <b>brandvägg som inte svarar på ping</b>.</p>
+      <p><b>Pingen är ett bevis när den lyckas, men inte ett motbevis när den misslyckas.</b> Känns ofta igen på att den går åt ena hållet men inte åt det andra.</p>
+    </div>
+
+    <p>Misslyckas en ping felsöks den <b>på riktigt</b>, inte som en övning. De tre vanligaste orsakerna, i den ordning de ska prövas:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ordning</th><th>Orsak</th><th>Så kontrollerar du</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td><b>Fel nätdel</b></td><td>Jämför adresserna. Har båda samma tre första tal?</td></tr>
+          <tr><td><b>2</b></td><td><b>Samma adress på två maskiner</b></td><td>Titta i adresstabellen</td></tr>
+          <tr><td><b>3</b></td><td><b>Lös kontakt</b></td><td>Titta på länklysdioden på switchporten</td></tr>
+          <tr><td><b>4</b></td><td><b>Brandväggen svarar inte</b> — inte ett fel i nätet</td><td>Pingen går åt ena hållet men inte det andra</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Allt som händer här går rakt in i felsökningsavsnittet</b> — skriv medan det händer, inte om en timme när ingen minns vad ni provade.</p>
+
+    <h2 id="mappen">7. Den delade mappen</h2>
+
+    <p><b>Den resurs områdets inledning lovade.</b> Ett nätverk finns för att dela data och resurser — det sades på lektion 34, och här görs det.</p>
+
+    <ol>
+      <li><b>Skapa en mapp</b> på en av gruppens maskiner och lägg en fil i den</li>
+      <li><b>Dela den</b> över nätverket — klickvägen står på tavlan</li>
+      <li><b>Öppna den från grannmaskinen</b>, via nätverksplatsen eller genom att skriva maskinens adress</li>
+      <li><b>Öppna filen</b> och se att innehållet kommer fram</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Steg 4 är det som räknas</span>
+      <p><b>Att mappen syns är inte samma sak som att den fungerar.</b> Det är samma skillnad som mellan en grön bock och en öppnad fil i område 7 — en säkerhetskopia som aldrig återställts är inte bevisat en kopia.</p>
+    </div>
+
+    <p><b>Går delningen inte att slå på</b> i skolans miljö är det ett <b>resultat</b> och inte ett misslyckande. Skriv i rapporten vad som hindrade, och att pingen ändå bevisade att maskinerna når varandra.</p>
+
+    <p><i>Den här mappen är förlagan till slutuppdragets delade resurs på lektion 68.</i></p>
+
+    <h2 id="ska">8. Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2>Det här ska finnas</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Alla <b>fem delar</b> ifyllda, i ordning</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Labbpartnernas namn står överst</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span><b>Portkartan</b> i planeringen: maskin, switchport och länk</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Maskinerna heter <b>vad de faktiskt heter</b>, inte "min dator"</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span><b>Minst tre enheter</b> i nätet, och det framgår av rapporten</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Kabelns <b>kategori</b> — eller att den saknade märkning</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Hur kabeln blev godkänd: <b>krympt eller testad</b>, och vad testaren visade</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span><b>Fysisk topologi</b> ritad, med portnummer och maskinnamn</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span><b>Logisk topologi</b> ritad <b>separat</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span><b>Adresstabellen:</b> adress, nätmask och port för varje maskin</span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span><b>Pingmatrisen</b> ifylld</span></label></li>
+        <li><label><input type="checkbox" id="ska-12"><span>Den <b>delade mappen</b> beskriven — eller vad som hindrade den</span></label></li>
+        <li><label><input type="checkbox" id="ska-13"><span>Felsökningsavsnittet ifyllt, i <b>tre led</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-14"><span>Källorna uppskrivna, <b>med språk angivet</b></span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bor">9. Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2>Det här gör rapporten möjlig att följa</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span><b>Planeringen godkänd av läraren innan</b> adresserna sattes</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Motiveringen förklarar <b>varför</b> de två bilderna är lika, kopplat till vad switchen gör</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Den logiska ritningen är <b>ett val</b>, inte en avskrift — portnumren är borta</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span><b>En mening om vad en lägre kategori</b> hade begränsat</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Pingmatrisen är ifylld <b>åt båda hållen</b>, inte bara en riktning</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Felen är <b>identifierade med säkerhet</b>, inte gissade — vilket steg som löste vad</span></label></li>
+        <li><label><input type="checkbox" id="bor-7"><span>Rapporten <b>går att följa steg för steg</b> av någon som inte var där</span></label></li>
+        <li><label><input type="checkbox" id="bor-8"><span><b>Minst en källa på engelska</b>, använd utan handledning</span></label></li>
+        <li><label><input type="checkbox" id="bor-9"><span>En mening om att <b>betygskriterierna namnger topologier</b></span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="utmaning">10. Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2>Det här gör rapporten nyanserad</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utmaning-1"><span>Motiveringen ger ett <b>konkret exempel</b> på när bilderna inte hade varit lika — hubben eller Token Ring, med vad som skiljer</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-2"><span>Det står vad ritningarna <b>inte</b> visar — kategorier, längder, hastigheter</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-3"><span>Rapporten säger vad ett <b>uteblivet pingsvar inte bevisar</b></span></label></li>
+        <li><label><input type="checkbox" id="utmaning-4"><span><b>Kedjan skrivs ut:</b> att pingen prövar länk, kabel och adress samtidigt, och vad var del bidrog med</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-5"><span><b>Egna förbättringsförslag:</b> vad ni skulle göra annorlunda nästa gång, och varför</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Om betyget A i det här området</span>
+      <p>A-kriteriets skarpaste mening — att redogöra för <b>sambandet mellan de olika delarna som ingår i nätverkets uppbyggnad</b> — prövas första gången på riktigt i <b>labb 10</b>, och en sista gång i slutuppdraget.</p>
+      <p><b>Men kedjan börjar här.</b> Länken från lektion 35, kabeln från 39 och adressen från 40 prövas tillsammans av pingen på lektion 41 — och en rapport som skriver ut den kedjan har tagit första steget mot A. Det är därför resonemanget om vad pingen bevisar väger så tungt.</p>
+    </div>
+
+    <h2 id="nyanserat">11. Vad "nyanserat" betyder</h2>
+
+    <p>Tre sätt att skriva om samma sak — de två topologierna. Skillnaden är <b>kvalitativ</b>, inte en fråga om längd.</p>
+
+    <div class="notis">
+      <span class="rubrik">E — säger vad som är</span>
+      <p>Den fysiska och den logiska topologin ser likadana ut. Båda är en stjärna med switchen i mitten.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">C — säger varför, kopplat till en orsak</span>
+      <p>Den fysiska och den logiska topologin ser likadana ut, båda som en stjärna. Det beror på att switchen skickar vidare trafiken bara till den port som ska ha den, så vägen data tar följer samma linje som kabeln.</p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">A — säger också när det inte hade varit så, och vad bilden inte visar</span>
+      <p>Den fysiska och den logiska topologin ser likadana ut, båda som en stjärna, eftersom switchen skickar vidare trafiken bara till rätt port. Hade vi haft en hubb i stället hade den fysiska bilden varit identisk men den logiska blivit en buss, eftersom en hubb skickar allt till alla portar. Att bilderna sammanfaller hos oss är alltså ett specialfall och inte en regel. Ritningarna visar inte heller kabelkategorier eller längder, så de säger ingenting om vad nätet klarar i hastighet — det hade vi behövt en tredje uppgift för.</p>
+    </div>
+
+    <p><b>Den sista meningen är ett eget förbättringsförslag</b>, och det är precis vad A-nivån efterfrågar. Lägg märke till att A-texten inte är dubbelt så lång som C-texten — den gör något annat.</p>
+
+    <h2 id="misstag">12. Vanliga misstag</h2>
+
+    <div class="sok">
+      <label for="sok-misstag">Sök bland misstagen</label>
+      <input type="search" id="sok-misstag" data-sok="tabell-misstag" data-traffar="traffar-misstag"
+             placeholder="till exempel: ritning, ping, källor" autocomplete="off">
+      <p class="traffar" id="traffar-misstag">11 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-misstag">
+        <thead><tr><th>Misstag</th><th>Varför det händer</th><th>Så gör du i stället</th></tr></thead>
+        <tbody>
+          <tr><td>En ritning görs, inte två</td><td>De blir ju lika</td><td>Två frågor, två svar. Den ena visar kablar, den andra vägar</td></tr>
+          <tr><td>Den logiska ritas av från den fysiska</td><td>Den ser likadan ut</td><td>Ta bort portnumren. Blir den ändå lik är det rätt — men det ska vara ett val</td></tr>
+          <tr><td>Klassrummet ritas i skala</td><td>"Fysisk" tolkas som fysisk plats</td><td>Den visar kabel till port. Inte möbler</td></tr>
+          <tr><td>Motiveringen blir "de är lika"</td><td>Det är sant och känns färdigt</td><td>Det är E-nivå. Varför, och när hade de inte varit det?</td></tr>
+          <tr><td>"Ibland är de olika" som exempel</td><td>Exemplet är inte hämtat</td><td>Hubben eller Token Ring, med vad som skiljer</td></tr>
+          <tr><td>Pingen misslyckas och nätet döms ut</td><td>Ping antas vara ett facit</td><td>Ett uteblivet svar säger bara att den inte svarade på just den frågan</td></tr>
+          <tr><td>Matrisen fylls i åt ett håll</td><td>Det känns som samma sak</td><td>Varje maskin mot varje annan. Brandväggar gör riktningarna olika</td></tr>
+          <tr><td>Portkartan skrivs inte på lektion 35</td><td>Det känns självklart då</td><td>Om två veckor är det inte självklart, och den är underlaget till ritningen</td></tr>
+          <tr><td>Adresserna hittas på</td><td>Adressplanen på tavlan lästes inte</td><td>Två maskiner med samma adress ger ett fel som är svårt att förstå</td></tr>
+          <tr><td>Ritningarna blir kvar på papper</td><td>Ingen fotograferade dem</td><td>Fotografera på lektion 37, medan de ligger på bordet</td></tr>
+          <tr><td>Bara svenska källor</td><td>Det gick fortare</td><td>Minst en på engelska, som sedan labb 5</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="checklista">13. Checklista innan inlämning</h2>
+    <p>Gå igenom de tre listorna ovan en sista gång. Det är den enskilt mest värdefulla sista handlingen och den kostar fem minuter.</p>
+    <ul>
+      <li>Ska-kraven är minimum — utan dem är rapporten inte färdig</li>
+      <li>Bör-kraven är det som gör den möjlig att följa</li>
+      <li>Utmaningarna är det som gör den nyanserad</li>
+    </ul>
+
+    <div class="notis varna">
+      <span class="rubrik">Kontrollera två saker till</span>
+      <p><b>Att rapporten är din egen text, inte gruppens gemensamma.</b> Ni byggde samma nät och fyllde i samma matris — men motiveringen till topologierna och resonemanget om vad pingen bevisar bedöms individuellt.</p>
+      <p><b>Att ritningarna faktiskt ligger i filen.</b> En handritad bild som ligger kvar på ett papper i väskan finns inte i rapporten, hur bra den än är.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 8</a> · <a href="../omrade-7/labb.html">Labb 7</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

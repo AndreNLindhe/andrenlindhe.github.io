@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Adresseringen – Dator- och nätverksteknik område 8</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-8-adresseringen">
+
+<header class="topp">
+  <a href="index.html">← Område 8</a>
+  <span class="harifran"><strong>Uppslag</strong> · Adresseringen</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#ipv4">1. IPv4-adressen</a></li>
+      <li><a href="#privat">2. Privat och publik</a></li>
+      <li><a href="#natmasken">3. Nätmasken</a></li>
+      <li><a href="#samma-nat">4. Samma nät eller inte</a></li>
+      <li><a href="#tre-satt">5. Tre sätt en adress kommer till</a></li>
+      <li><a href="#triangeln">6. Svaret på varningstriangeln</a></li>
+      <li><a href="#ipv6">7. IPv6 — och en rättelse</a></li>
+      <li><a href="#satta">8. Så sätter du adressen</a></li>
+      <li><a href="#subnetting">9. Kontrollen i plattformen</a></li>
+      <li><a href="#missuppfattningar">10. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">11. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 8 · lektion 40</p>
+    <h1>Adresseringen</h1>
+    <p class="inledning">Maskinerna har haft länk sedan lektion 35 och ändå inte kunnat nå varandra. Här kommer förklaringen, och här försvinner varningstriangeln. Den här sidan går igenom hur en IPv4-adress är uppbyggd, vad som skiljer en privat adress från en publik, vad en nätmask gör och hur du avgör om två adresser hamnar i samma nät. Sedan de tre sätten en adress kan komma till — och varför en adress som börjar på <code>169.254</code> alltid betyder samma sak.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Länken är vägen. Adressen är husnumret.</span>
+      <p>Utan husnummer hjälper det inte att vägen finns. Det är därför maskinerna har kunnat sitta i samma switch i tre veckor utan att nå varandra — och det är områdets tydligaste exempel på <b>sambandet mellan nätverkets delar</b>.</p>
+    </div>
+
+    <h2 id="ipv4">1. IPv4-adressen</h2>
+
+    <p>En <b>IPv4-adress</b> skrivs som fyra tal mellan 0 och 255, skilda av punkter:</p>
+
+    <div class="notis">
+      <span class="rubrik">Exempel</span>
+      <p><code>192.168.1.1</code></p>
+    </div>
+
+    <p>Den pekar ut <b>en enskild enhet</b> i nätverket. Fyra tal, och vart och ett får vara högst 255 — det är hela regeln som behövs för att skriva en giltig adress.</p>
+
+    <h2 id="privat">2. Privat och publik</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Publik adress</th><th>Privat adress</th></tr></thead>
+        <tbody>
+          <tr><td><b>Var den gäller</b></td><td>På internet, synlig utåt</td><td>Bara inom det lokala nätet</td></tr>
+          <tr><td><b>Vem ger den</b></td><td>Internetleverantören</td><td>Nätets egen administratör, eller en DHCP-server</td></tr>
+          <tr><td><b>Exempel</b></td><td>Den adress skolan syns med utåt</td><td><code>192.168.1.5</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>De tre privata intervallen</b>, som aldrig används som publika adresser:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Från</th><th>Till</th><th>Känns igen från</th></tr></thead>
+        <tbody>
+          <tr><td><code>10.0.0.0</code></td><td><code>10.255.255.255</code></td><td>Större företagsnät</td></tr>
+          <tr><td><code>172.16.0.0</code></td><td><code>172.31.255.255</code></td><td>Mellanstora nät</td></tr>
+          <tr><td><code>192.168.0.0</code></td><td><code>192.168.255.255</code></td><td><b>Nästan varje hemmarouter</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Därför krockar det inte</span>
+      <p>Samma adress — <code>192.168.1.1</code> — finns i tusentals hem samtidigt utan att någonting går fel. De är <b>privata</b>, och de syns aldrig utanför sin egen router.</p>
+    </div>
+
+    <h2 id="natmasken">3. Nätmasken</h2>
+
+    <p><b>Områdets svåraste begrepp, och det som bär resten.</b> En adress säger inte i sig vilket nät maskinen tillhör. Det säger <b>nätmasken</b>:</p>
+
+    <div class="notis">
+      <span class="rubrik">Den mask ni använder</span>
+      <p><code>255.255.255.0</code></p>
+    </div>
+
+    <p>Den delar adressen i två delar:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad den pekar ut</th><th>I <code>192.168.1.5</code> med mask <code>255.255.255.0</code></th></tr></thead>
+        <tbody>
+          <tr><td><b>Nätdelen</b></td><td>Vilket nätverk</td><td><code>192.168.1</code></td></tr>
+          <tr><td><b>Värddelen</b></td><td>Vilken maskin i det nätet</td><td><code>5</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Regeln som ska sitta</span>
+      <p><b>Två maskiner måste ha samma nätdel för att nå varandra direkt.</b></p>
+    </div>
+
+    <p>Och postbilden från lektion 34, som är sådd för just det här: <b>nätdelen är gatan, värddelen är husnumret.</b> Två hus på samma gata når varandra genom att gå dit. Två hus på olika gator behöver någon som kan vägarna — och det är en <b>router</b>.</p>
+
+    <div class="notis">
+      <span class="rubrik">Här knyts switchen och routern ihop</span>
+      <p>Switchen kopplar ihop enheter i samma nät. Routern kopplar ihop olika nät. <b>Nätmasken är det som avgör vad "samma nät" betyder.</b></p>
+      <p>Det var meningen från lektion 34, och nu har den ett innehåll. Routern själv är område 10:s ämne.</p>
+    </div>
+
+    <h2 id="samma-nat">4. Samma nät eller inte</h2>
+
+    <p>Alla tre med masken <code>255.255.255.0</code>, jämförda mot <code>192.168.1.5</code>:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Adress</th><th>Nätdel</th><th>Når <code>192.168.1.5</code> direkt?</th></tr></thead>
+        <tbody>
+          <tr><td><code>192.168.1.7</code></td><td><code>192.168.1</code></td><td><b>Ja</b> — samma nätdel</td></tr>
+          <tr><td><code>192.168.1.200</code></td><td><code>192.168.1</code></td><td><b>Ja</b> — samma nätdel</td></tr>
+          <tr><td><code>192.168.<b>2</b>.7</code></td><td><code>192.168.2</code></td><td><b>Nej</b> — annan nätdel</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Lägg märke till att den tredje adressen ser nästan likadan ut som de andra. <b>En siffras skillnad på tredje positionen sätter maskinen i ett annat nät</b> — det är därför adressplanen på tavlan ska läsas och inte gissas.</p>
+
+    <h2 id="tre-satt">5. Tre sätt en adress kommer till</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sätt</th><th>Hur</th><th>Var det används</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Statisk</b></td>
+            <td>Satt för hand</td>
+            <td><b>Det ni gör.</b> Servrar, skrivare, utrustning som ska ha samma adress varje gång</td>
+          </tr>
+          <tr>
+            <td><b>DHCP</b></td>
+            <td>Delas ut automatiskt av en <b>DHCP-server</b> i nätet</td>
+            <td>Nästan överallt annars — hemma, på skolan</td>
+          </tr>
+          <tr>
+            <td><b>Självtilldelad</b></td>
+            <td>Maskinen tar en själv när ingetdera finns</td>
+            <td>När något gått fel</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>DHCP</b> står för <i>Dynamic Host Configuration Protocol</i>. Labbnätet har ingen DHCP-server, och det är därför adresserna sätts för hand. Hur DHCP faktiskt går till, i fyra meddelanden, hör till område 9.</p>
+
+    <h2 id="triangeln">6. Svaret på varningstriangeln</h2>
+
+    <p>Hittar en maskin varken en statisk adress eller en DHCP-server tar den efter en stund en adress ur intervallet</p>
+
+    <div class="notis">
+      <span class="rubrik">Det självtilldelade intervallet</span>
+      <p><code>169.254.0.0</code> – <code>169.254.255.255</code></p>
+    </div>
+
+    <p><b>Det är precis vad labbets maskiner gjort sedan lektion 35.</b> De har alla en adress — bara inte en som fungerar mot varandra, eftersom var och en valde sin egen på måfå.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">En av kursens mest användbara felsökningssignaler</span>
+      <p><b>En adress som börjar på <code>169.254</code> betyder alltid samma sak:</b> maskinen fick ingen adress och tog en själv. Antingen finns ingen DHCP-server, eller så nåddes den inte.</p>
+      <p>Den signalen kommer tillbaka i område 11, när felsökning blir ett eget ämne.</p>
+    </div>
+
+    <h2 id="ipv6">7. IPv6 — och en rättelse</h2>
+
+    <p><b>IPv6</b> använder åtta grupper hexadecimala tecken i stället för fyra tal:</p>
+
+    <div class="notis">
+      <span class="rubrik">Exempel</span>
+      <p><code>2001:0db8:85a3::1</code></p>
+    </div>
+
+    <p>Skälet det finns: IPv4:s dryga <b>4,3 miljarder</b> adresser räcker inte för världens enheter. IPv6:s adressutrymme är enormt mycket större.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Rättelse till <code>Introduktion Nätverk.pdf</code>, sidan 5</span>
+      <p>Sidan kallar IPv6 <b>"Framtidens standard"</b>. Så har det sagts i många år, och det är inte längre en bra beskrivning.</p>
+      <p><b>IPv6 har inte ersatt IPv4.</b> De flesta nät, skolans inräknat, kör i praktiken <b>båda sida vid sida</b>.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Poängen är större än adressformatet</span>
+      <p><b>Dokumentation åldras, och den som läser den behöver veta hur gammal den är.</b> Det är något du kommer att möta i yrket varje vecka: en manual som stämde när den skrevs och inte längre gör det.</p>
+    </div>
+
+    <p>I den här kursen arbetar du med <b>IPv4</b>. IPv6 ska du känna igen när du ser det, inte kunna räkna på.</p>
+
+    <h2 id="satta">8. Så sätter du adressen</h2>
+
+    <p>Adressplanen står på tavlan. Varje grupp har sitt eget nät — annars krockar adresserna mellan grupper som delar sal. För <b>varje maskin</b>:</p>
+
+    <ol>
+      <li><b>Öppna nätverksinställningarna</b> — klickvägen står på tavlan</li>
+      <li>Byt från automatiskt till <b>manuell</b> adressering</li>
+      <li><b>IP-adress:</b> gruppens nätdel, eget tal på sista positionen</li>
+      <li><b>Nätmask:</b> <code>255.255.255.0</code></li>
+      <li><b>Spara</b>, och <b>titta på nätverksikonen</b></li>
+      <li><b>Skriv upp</b> adress och mask för maskinen</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Steg 5 är passets bevis — titta innan du klickar vidare</span>
+      <p>Varningstriangeln försvinner, och den gör det <b>inom några sekunder</b>. Tre veckors väntan tar slut framför ögonen på dig, i samma ögonblick masken blir rätt.</p>
+    </div>
+
+    <p>Alla maskiner i gruppen ska ha <b>samma nätdel och samma mask, men olika sista tal</b>. Adresstabellen in i labbrapporten:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Maskin</th><th>IP-adress</th><th>Nätmask</th><th>Switchport</th></tr></thead>
+        <tbody>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Har två av era maskiner samma adress?</b> Det är dagens vanligaste fel, och felmeddelandet säger inte alltid tydligt vad det handlar om. Jämför mot tabellen innan ni går vidare.</p>
+    </div>
+
+    <h2 id="subnetting">9. Kontrollen i plattformen</h2>
+
+    <p><b>ComputerExplorer → networking → subnetting</b> — och det är en <b>kontroll</b>, inte en introduktion. Adresserna är redan satta; nu prövas om de hamnade där ni tror.</p>
+
+    <ol>
+      <li>Ställ in <b>nätverksbitar (prefix)</b> så att rutan <b>Nätmask</b> visar <code>255.255.255.0</code></li>
+      <li>Titta på <b>Nätverksadress</b> och <b>Användbart värdintervall</b> — ligger gruppens adresser inom det?</li>
+      <li>Kör testet <b>Är en annan värd på samma subnät?</b> med två av era egna adresser. Svaret ska bli <b>samma subnät</b></li>
+      <li>Pröva sedan en adress med <b>annan nätdel</b>. Svaret blir <b>annat subnät</b>, och noden skriver ut varför: trafiken måste gå via en <b>router</b></li>
+    </ol>
+
+    <div class="notis">
+      <span class="rubrik">Noden säger samma sak på två sätt</span>
+      <p><code>/24</code> i rutan <b>CIDR</b> och <code>255.255.255.0</code> i rutan <b>Nätmask</b> är <b>samma mask</b>. Den korta formen heter <b>CIDR-prefix</b> och är den man oftast ser i branschen.</p>
+      <p>Du ska <b>känna igen</b> <code>/24</code> när du möter det. Du behöver inte kunna räkna på det.</p>
+    </div>
+
+    <p><i>Rutan <b>Broadcast</b> finns också i noden. Lämna den — den hör till område 10.</i></p>
+
+    <h2 id="missuppfattningar">10. Vanliga missuppfattningar</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: mask, DHCP, IPv6" autocomplete="off">
+      <p class="traffar" id="traffar-fel">9 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>Adressen räcker för att två maskiner ska nå varandra</td><td>De måste ha <b>samma nätdel</b>, och det är masken som avgör vad nätdelen är</td></tr>
+          <tr><td>Masken spelar mindre roll än adressen</td><td>Med <code>255.255.0.0</code> i stället för <code>255.255.255.0</code> blir nätdelen en annan, och då gäller andra maskiner som grannar</td></tr>
+          <tr><td>IPv6 har ersatt IPv4</td><td>De körs <b>sida vid sida</b>. PDF:ens "framtidens standard" är daterat</td></tr>
+          <tr><td>En adress som börjar på <code>169.254</code> är en vanlig adress</td><td>Den är självtilldelad. Maskinen fick ingen och tog en själv</td></tr>
+          <tr><td>"Hemma funkar det utan att vi gör så här"</td><td>Där finns en <b>DHCP-server</b> i routern. Labbnätet saknar en — därför för hand, och därför triangeln</td></tr>
+          <tr><td><code>192.168.1.5</code> är unik i världen</td><td>Den finns i tusentals hem. Privata adresser syns aldrig utanför sin egen router</td></tr>
+          <tr><td>Två maskiner med samma adress märks direkt och tydligt</td><td>Felmeddelandet är otydligt och lätt att missa. Jämför mot adresstabellen i stället</td></tr>
+          <tr><td>Triangeln som står kvar betyder att kabeln är fel</td><td>Kontrollera adress och mask. Länken hade redan bevisats av lysdioden</td></tr>
+          <tr><td><code>/24</code> är något annat än <code>255.255.255.0</code></td><td>Samma mask, kortare skrivsätt. Det heter CIDR-prefix</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">11. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>IPv4-adress</b></td><td>Fyra tal mellan 0 och 255, skilda av punkter. Pekar ut en enskild enhet i nätverket</td></tr>
+          <tr><td><b>IPv6</b></td><td>Nyare adressformat med åtta grupper hexadecimala tecken. Finns för att IPv4:s adresser inte räcker</td></tr>
+          <tr><td><b>Privat adress</b></td><td>Adress som bara gäller inom det lokala nätet och aldrig syns på internet</td></tr>
+          <tr><td><b>Publik adress</b></td><td>Adress som gäller på internet, utdelad av internetleverantören</td></tr>
+          <tr><td><b>Nätmask</b></td><td>Talet som delar adressen i en nätdel och en värddel. I kursen <code>255.255.255.0</code></td></tr>
+          <tr><td><b>Nätdel</b></td><td>Den del av adressen som säger vilket nätverk maskinen tillhör. Gatan i postbilden</td></tr>
+          <tr><td><b>Värddel</b></td><td>Den del av adressen som säger vilken maskin i nätet. Husnumret</td></tr>
+          <tr><td><b>CIDR-prefix</b></td><td>Kort skrivsätt för nätmasken, till exempel <code>/24</code>. Samma sak som <code>255.255.255.0</code></td></tr>
+          <tr><td><b>Statisk adress</b></td><td>Adress satt för hand. Det ni gör på lektion 40</td></tr>
+          <tr><td><b>DHCP</b></td><td><i>Dynamic Host Configuration Protocol</i> — delar ut adresser automatiskt. Labbnätet har ingen DHCP-server</td></tr>
+          <tr><td><b>Självtilldelad adress</b></td><td>Adress ur <code>169.254.x.x</code> som maskinen tar själv när den varken har en statisk adress eller når en DHCP-server</td></tr>
+          <tr><td><b>Subnät</b></td><td>En avgränsad del av ett nätverk, bestämd av adressen och masken tillsammans</td></tr>
+          <tr><td><b>Hexadecimal</b></td><td>Talsystem med sexton siffror, <code>0</code> till <code>9</code> och <code>a</code> till <code>f</code>. Används i IPv6-adresser</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 8</a> · <a href="labb.html">Nästa: labb 8</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

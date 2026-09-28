@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Topologierna – Dator- och nätverksteknik område 8</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-8-topologierna">
+
+<header class="topp">
+  <a href="index.html">← Område 8</a>
+  <span class="harifran"><strong>Uppslag</strong> · Topologierna</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#vad">1. Vad en topologi är</a></li>
+      <li><a href="#tva">2. De två bilderna</a></li>
+      <li><a href="#formerna">3. Stjärna, buss och ring</a></li>
+      <li><a href="#skiljer">4. När bilderna skiljer sig</a></li>
+      <li><a href="#eget">5. Varför ert eget nät ger samma bild</a></li>
+      <li><a href="#rita">6. Så ritar du de två</a></li>
+      <li><a href="#motiveringen">7. Motiveringen — E, C och A</a></li>
+      <li><a href="#tracer">8. Packet Tracer</a></li>
+      <li><a href="#missuppfattningar">9. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">10. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 8 · lektion 36 och 37</p>
+    <h1>Topologierna</h1>
+    <p class="inledning">Nätet står färdigt. Nu ska det bli en bild — två, faktiskt, och de besvarar var sin fråga. Den här sidan går igenom vad en topologi är, vad som skiljer den fysiska från den logiska, och varför kravet på två ritningar inte är en formalitet trots att era två bilder blir likadana. Två historiska exempel — hubben och Token Ring — är svaret på varför, och de är också det du skriver motiveringen ur. Sist: Packet Tracer, kursens ritbord genom resten av våren.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det här är kursens första bild du själv producerar</span>
+      <p>Sex rapporter har innehållit text, tabeller, mätvärden och skärmdumpar. Den här ska innehålla <b>två ritningar du gjort själv</b>, och det är inte en formalitet: kursens betygskriterier namnger <b>topologier</b> bland de underlag en elev ska kunna både använda och själv producera.</p>
+    </div>
+
+    <h2 id="vad">1. Vad en topologi är</h2>
+
+    <div class="notis">
+      <span class="rubrik">Definitionen</span>
+      <p><b>En topologi är den bild ett nätverk bildar när enheter och förbindelser ritas upp.</b></p>
+    </div>
+
+    <p>Ordet betyder inget mer mystiskt än så. Det som gör begreppet värt ett eget pass är att det finns i <b>två varianter</b>, och att de två inte alltid visar samma sak.</p>
+
+    <h2 id="tva">2. De två bilderna</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Visar</th><th>Frågan den svarar på</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Fysisk topologi</b></td>
+            <td>Hur kablar och enheter <b>faktiskt sitter</b></td>
+            <td>Vilken kabel går vart?</td>
+          </tr>
+          <tr>
+            <td><b>Logisk topologi</b></td>
+            <td>Hur nätverket är uppbyggt <b>sett till hur det fungerar</b></td>
+            <td>Hur färdas data genom nätet?</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Den fysiska går att kontrollera genom att titta under bordet. Den logiska gör det inte — den handlar om <b>beteende</b>, inte om placering.</p>
+
+    <h2 id="formerna">3. Stjärna, buss och ring</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Form</th><th>Hur den ser ut</th><th>Var den finns</th></tr></thead>
+        <tbody>
+          <tr><td><b>Stjärna</b></td><td>Allt går via en central enhet</td><td><b>Ert eget labbnät.</b> Switchen i mitten, en kabel ut till varje maskin</td></tr>
+          <tr><td><b>Buss</b></td><td>Alla enheter delar en gemensam ledning</td><td>Äldre nät. Och <b>logiskt</b> i ett hubbnät</td></tr>
+          <tr><td><b>Ring</b></td><td>Varje enhet talar med nästa i tur</td><td>Äldre nät. Och <b>logiskt</b> i ett Token Ring-nät</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="skiljer">4. När bilderna skiljer sig</h2>
+
+    <p><b>Det här avsnittet är sidans viktigaste.</b> Utan det framstår kravet på två ritningar som en formalitet, och en formalitet skrivs slarvigt. Två exempel, båda historiska, båda konkreta.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Hubben — fysiskt en stjärna, logiskt en buss</span>
+      <p>Ett äldre nätverk byggt med en <b>hubb</b> i stället för en switch var fysiskt en stjärna: en kabel från varje maskin in till mitten, precis som i ert labb. <b>Men hubben skickade vidare allt den tog emot till alla portar samtidigt.</b> Alla enheter delade i praktiken samma ledning.</p>
+      <p>Samma bild under bordet. Helt annat beteende.</p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Token Ring — fysiskt en stjärna, logiskt en ring</span>
+      <p>Ett <b>Token Ring</b>-nät kopplades också fysiskt som en stjärna, in till en central enhet. <b>Men inuti den enheten var portarna kopplade i en slinga</b>, och varje maskin talade bara med nästa i tur.</p>
+      <p>Återigen: samma fysiska bild, en tredje logisk.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Meningen som ska landa</span>
+      <p><b>Kabeln visar var något sitter, inte hur det fungerar.</b> Två nät som ser identiska ut under bordet kan bete sig helt olika.</p>
+    </div>
+
+    <h2 id="eget">5. Varför ert eget nät ger samma bild</h2>
+
+    <p>I ett <b>switchat</b> nät sammanfaller de två bilderna. Switchen skickar bara vidare till den port som ska ha trafiken, så vägen data tar följer samma linje som kabeln. Både den fysiska och den logiska bilden blir en stjärna.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Det är ett specialfall, inte en regel</span>
+      <p>Att era bilder blir lika är <b>rätt</b>, och det är inte ett fel att dölja. Men det gäller för att ni har en switch — inte för att topologier i allmänhet brukar sammanfalla.</p>
+      <p><b>Just därför ritas båda och inte bara den ena.</b> Den som bara ritar en har svarat på en av två frågor och inte märkt det.</p>
+    </div>
+
+    <p><i>Hur switchen vet vilken port som ska ha trafiken hör till område 10. Här räcker det att veta att den gör det.</i></p>
+
+    <h2 id="rita">6. Så ritar du de två</h2>
+
+    <h3>Den fysiska</h3>
+
+    <p>Ritas ur <b>portkartan</b> från lektion 35 och ur verkligheten. Titta under bordet om det behövs — det är tillåtet, och det är poängen.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ska visa</th><th>Behöver inte visa</th></tr></thead>
+        <tbody>
+          <tr><td><b>Switchen</b>, med sina portar utmärkta</td><td>Skala</td></tr>
+          <tr><td><b>Varje maskin</b>, med sitt namn</td><td>Bord och möbler</td></tr>
+          <tr><td><b>En linje</b> från varje maskin till den port den faktiskt sitter i, <b>med portnumret utsatt</b></td><td>Väggar och avstånd</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan för den fysiska</span>
+      <p><b>Kan någon koppla om ert nät från den här bilden utan att fråga er?</b> Är svaret nej saknas ett portnummer eller ett maskinnamn.</p>
+    </div>
+
+    <h3>Den logiska</h3>
+
+    <p>Ritas <b>separat</b> — på ett eget papper eller i en egen bild. Det är viktigt att den inte blir en anteckning på den första: de är två svar på två frågor.</p>
+
+    <p>Vad den ska visa: <b>hur data färdas genom nätet.</b> Vilka enheter som kan nå varandra, och via vad. För ert nät blir svaret återigen en stjärna — all trafik går via switchen, och ingen maskin är kopplad direkt till någon annan.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Portnumren hör inte hemma i den logiska</span>
+      <p>Det är skillnaden mellan bilderna gjord praktisk: <b>den fysiska bryr sig om port 3, den logiska bryr sig om att trafiken går via switchen.</b></p>
+      <p>Ritar du av den första rakt av och byter rubrik har du inte ritat två bilder. Ta bort portnumren. Blir den ändå lik är det rätt — men det ska vara ett <b>val</b>.</p>
+    </div>
+
+    <h2 id="motiveringen">7. Motiveringen — E, C och A</h2>
+
+    <p><b>Det är motiveringen som bedöms. Bilderna är underlaget.</b> Uppgiften: skriv i resultatdelen varför de två bilderna ser likadana ut, med hänvisning till hubben eller Token Ring.</p>
+
+    <p>Strukturen som fungerar:</p>
+
+    <ol>
+      <li><b>Vad er bild visar</b> — båda är en stjärna</li>
+      <li><b>Varför</b> — switchen skickar bara vidare till rätt port, så vägen data tar följer kabeln</li>
+      <li><b>När det inte hade varit så</b> — ett av de två exemplen, med vad som skiljer</li>
+    </ol>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nivå</th><th>Vad texten gör</th></tr></thead>
+        <tbody>
+          <tr><td><b>E</b></td><td>Säger <b>att</b> bilderna är lika</td></tr>
+          <tr><td><b>C</b></td><td>Säger <b>varför</b>, kopplat till vad switchen gör</td></tr>
+          <tr><td><b>A</b></td><td>Säger också <b>när de inte hade varit lika</b>, med ett konkret exempel — och vad bilden därför <b>inte</b> visar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Den sista halvan av A är den som saknas hos nästan alla</span>
+      <p>Att säga vad en bild <b>inte</b> visar är ett eget resonemang, och det är precis vad A-nivån efterfrågar. Era ritningar visar inte kabelkategorier, inte längder och inte hastigheter — så de säger ingenting om vad nätet klarar. <b>Det är en mening värd att skriva.</b></p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan för motiveringen</span>
+      <p><b>Kan du ge ett exempel där de två bilderna inte hade varit lika?</b> Svaret ska vara hubben eller Token Ring, med vad som skiljer. <b>"Ibland är de olika" är inte ett svar</b> — det är ett påstående utan exempel.</p>
+    </div>
+
+    <h2 id="tracer">8. Packet Tracer</h2>
+
+    <p><b>Packet Tracer</b> är kursens ritbord och simuleringsverktyg för nätverk. Det introduceras här och används sedan genom område 9, 10 och 11 — det finns inget senare pass som lär ut det.</p>
+
+    <p>De sex stegen från den guidade genomgången:</p>
+
+    <ol>
+      <li>Nytt tomt projekt</li>
+      <li><b>Placera en switch</b> från enhetslistan på ytan</li>
+      <li><b>Placera tre datorer</b></li>
+      <li><b>Koppla med kabel</b> från varje dator till en switchport</li>
+      <li><b>Vänta.</b> Punkterna i kabeländarna är orange först och blir gröna — samma sak som länklysdioden, och det tar några sekunder</li>
+      <li><b>Spara filen</b> på ett ställe ni hittar den nästa pass</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Kopian byggs efter portkartan, inte efter minnet</span>
+      <p>Lika många datorer som ni faktiskt har, kabeln till <b>samma portnummer</b> som i verkligheten, och datorerna <b>namngivna som de heter i portkartan</b>. Programmet döper dem till PC0, PC1 och PC2 av sig självt — byt namn, annars går kopian inte att jämföra med något.</p>
+      <p>Det är det som gör kopian till en kopia. En snyggare version av ert nät är inte ert nät.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Vad programmet är och inte är</span>
+      <p>Packet Tracer <b>simulerar</b> ett nät. Det ritar, testar och visar — men <b>en grön punkt i programmet betyder att modellen fungerar, inte att en kabel i verkligheten gör det.</b> Kabeln i handen visar att den gör det.</p>
+    </div>
+
+    <h2 id="missuppfattningar">9. Vanliga missuppfattningar</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: hubb, stjärna, skala" autocomplete="off">
+      <p class="traffar" id="traffar-fel">8 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>Bilderna blir lika, alltså räcker en</td><td>Två frågor, två svar. Den ena visar kablar, den andra vägar — och att de sammanfaller är ett resultat, inte en given utgångspunkt</td></tr>
+          <tr><td>"Fysisk topologi" betyder fysisk plats</td><td>Den visar kabel till port. Inte möbler, inte skala, inte rummet</td></tr>
+          <tr><td>Den logiska kan ritas av från den fysiska</td><td>Ta bort portnumren. Skiljer sig inget mer är det rätt, men det ska vara ett val och inte en avskrift</td></tr>
+          <tr><td>"De är lika" är en färdig motivering</td><td>Det är E-nivå. Varför, och när hade de inte varit det?</td></tr>
+          <tr><td>"Ibland är de olika" duger som exempel</td><td>Hubben eller Token Ring, med vad som skiljer. Ett exempel ska gå att peka på</td></tr>
+          <tr><td>En hubb är en gammal switch</td><td>Den skickade vidare <b>allt till alla portar</b>. Det är inte en långsammare switch, det är ett annat beteende</td></tr>
+          <tr><td>Grön punkt i Packet Tracer betyder att nätet fungerar</td><td>Det betyder att modellen fungerar. Kabeln i handen är det som visar verkligheten</td></tr>
+          <tr><td>Kopian i programmet ersätter ritningarna</td><td>Den är ett komplement. De två ritningarna görs mot verkligheten och portkartan</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">10. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Topologi</b></td><td>Den bild ett nätverk bildar när enheter och förbindelser ritas upp</td></tr>
+          <tr><td><b>Fysisk topologi</b></td><td>Hur kablar och enheter faktiskt sitter. Svarar på: vilken kabel går vart?</td></tr>
+          <tr><td><b>Logisk topologi</b></td><td>Hur nätverket är uppbyggt sett till hur det fungerar. Svarar på: hur färdas data genom nätet?</td></tr>
+          <tr><td><b>Stjärna</b></td><td>Topologi där allt går via en central enhet. Ert labbnät, både fysiskt och logiskt</td></tr>
+          <tr><td><b>Buss</b></td><td>Topologi där alla enheter delar en gemensam ledning</td></tr>
+          <tr><td><b>Ring</b></td><td>Topologi där varje enhet talar med nästa i tur</td></tr>
+          <tr><td><b>Hubb</b></td><td>Äldre central enhet som skickade vidare allt den tog emot till <b>alla</b> portar. Fysiskt en stjärna, logiskt en buss. Engelska: <i>hub</i></td></tr>
+          <tr><td><b>Token Ring</b></td><td>Äldre nätverksteknik kopplad som en stjärna men med portarna i en slinga inuti. Logiskt en ring</td></tr>
+          <tr><td><b>Switchat nät</b></td><td>Ett nät byggt med switch. Där sammanfaller den fysiska och den logiska topologin — ett specialfall</td></tr>
+          <tr><td><b>Packet Tracer</b></td><td>Programmet som ritar och simulerar nätverk. Kursens ritbord genom område 8 till 11</td></tr>
+          <tr><td><b>Simulering</b></td><td>En modell av något verkligt. Den visar hur modellen beter sig, inte hur utrustningen gör det</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 8</a> · <a href="media.html">Nästa: mediet och kabeln</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

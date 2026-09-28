@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ramen, ARP och ICMP – Dator- och nätverksteknik område 9</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-9-ramen">
+
+<header class="topp">
+  <a href="index.html">← Område 9</a>
+  <span class="harifran"><strong>Uppslag</strong> · Ramen, ARP och ICMP</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#mac">1. MAC-adressen</a></li>
+      <li><a href="#ramen">2. Ramen</a></li>
+      <li><a href="#arp">3. ARP</a></li>
+      <li><a href="#arp-kopian">4. ARP i din kopia</a></li>
+      <li><a href="#samma-nat">5. Samma nät eller annat nät</a></li>
+      <li><a href="#noderna">6. Frågan utan brus</a></li>
+      <li><a href="#icmp">7. ICMP</a></li>
+      <li><a href="#tomt">8. Varför Layer 4 är tomt</a></li>
+      <li><a href="#icmp-kopian">9. ICMP-paret i din kopia</a></li>
+      <li><a href="#uteblivet">10. Maskinen som inte svarar</a></li>
+      <li><a href="#meningen">11. Meningen i rapporten</a></li>
+      <li><a href="#missuppfattningar">12. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">13. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 9 · lektion 44 och 45</p>
+    <h1>Ramen, ARP och ICMP</h1>
+    <p class="inledning">Pingen skickade två sorters kuvert, och på lektion 43 öppnades bara det ena. Det första var en fråga maskinen behövde ställa innan pingen alls kunde skickas. Den här sidan ger den frågan sitt namn — ARP — och förklarar vad en MAC-adress är, vad ramen bär och varför det är IP-adressen som avgör om mottagaren finns i samma nät. Sedan protokollet som faktiskt är pingen, ICMP, och förklaringen till de tomma raderna från lektion 43. Sist en maskin som finns, som svarar på ARP — och som ändå inte svarar på ping.</p>
+
+    <h2 id="mac">1. MAC-adressen</h2>
+
+    <p>På lektion 43 stod det <b>Ethernet II Header</b> på Layer 2. Den headern bär två adresser, och de är inte IP-adresser.</p>
+
+    <p>En <b>MAC-adress</b> — <i>Media Access Control</i> — är ett hårdvaru-ID som sitter i varje nätverkskort från fabriken:</p>
+
+    <div class="notis">
+      <span class="rubrik">Exempel</span>
+      <p><code>0001.C7A3.5B12</code></p>
+    </div>
+
+    <p>Du hittar den med <code>ipconfig /all</code> i Command Prompt på en PC i Packet Tracer. Raden heter <b>Physical Address</b>.</p>
+
+    <div class="notis">
+      <span class="rubrik">Samma adress, två skrivsätt</span>
+      <p>Packet Tracer skriver den i Ciscos form, tre grupper om fyra tecken: <code>0001.C7A3.5B12</code>. Windows skriver samma sak som sex grupper om två: <code>00-01-C7-A3-5B-12</code>.</p>
+    </div>
+
+    <p>Två adresser på samma maskin, och de gör olika saker:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>MAC-adress</th><th>IP-adress</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vem sätter den</b></td><td>Tillverkaren, i nätverkskortet</td><td>Du, eller en DHCP-server</td></tr>
+          <tr><td><b>Vad den pekar ut</b></td><td>Ett nätverkskort</td><td>En maskin i ett visst nät</td></tr>
+          <tr><td><b>Hur långt den räcker</b></td><td>Till nästa enhet på samma länk</td><td>Hela vägen till målet</td></tr>
+          <tr><td><b>OSI-lager</b></td><td>2</td><td>3</td></tr>
+          <tr><td><b>I postbilden</b></td><td>Namnet på dörrskylten</td><td>Gatuadressen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ramen">2. Ramen</h2>
+
+    <p><b>Ramen</b> är Layer 2:s kuvert. Fält för fält:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Mål-MAC</th><th>Käll-MAC</th><th>Typ</th><th>Nyttolast</th><th>FCS</th></tr></thead>
+        <tbody>
+          <tr><td>vem den ska till</td><td>vem den kommer från</td><td>vad som ligger i</td><td>IP-paketet</td><td>kontrollsumma</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ul>
+      <li><b>Typ</b> säger vad som ligger i nyttolasten — ett IP-paket, eller något annat. Det är så mottagaren vet vilket kuvert den ska öppna härnäst</li>
+      <li><b>FCS</b> — <i>Frame Check Sequence</i> — är en kontrollsumma. Stämmer den inte när ramen kommer fram har något förvanskats på vägen, och ramen <b>kastas</b></li>
+    </ul>
+
+    <h2 id="arp">3. ARP</h2>
+
+    <p><b>Problemet:</b> maskinen vet mottagarens <b>IP-adress</b> — den skrevs i pingkommandot. Men för att lägga en ram på kabeln behöver den mottagarens <b>MAC-adress</b>. Den har den inte.</p>
+
+    <p><b>ARP</b> — <i>Address Resolution Protocol</i> — löser det i tre steg:</p>
+
+    <ol>
+      <li><b>Frågan, som broadcast:</b> <i>"Vem har <code>192.168.1.11</code>? Svara till <code>192.168.1.10</code>."</i> Ramen skickas till MAC-adressen <code>FFFF.FFFF.FFFF</code>, som betyder <b>alla på det lokala nätet</b></li>
+      <li><b>Svaret, till en enda:</b> den maskin som äger adressen svarar <i>"Det är jag, min MAC är <code>0001.C7A3.5B12</code>."</i> Bara den svarar, och svaret går bara till den som frågade</li>
+      <li><b>Cachen:</b> frågaren sparar svaret. Nästa paket till samma adress skickas direkt, utan fråga</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Broadcast — ett ord som ska sitta</span>
+      <p>En <b>broadcast</b> når <b>alla</b> i det lokala nätet. <code>FFFF.FFFF.FFFF</code> ser ut som en felkod, men det är broadcastadressen: alla ettor betyder alla.</p>
+      <p>Hur långt "det lokala nätet" sträcker sig är en av område 10:s viktigaste frågor.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Alla får frågan — inte pingen</span>
+      <p>ARP-kuvertet går ut på varje switchport. Det betyder att alla får <b>frågan</b>. Bara en svarar, och pingen går sedan bara till den.</p>
+    </div>
+
+    <h2 id="arp-kopian">4. ARP i din kopia</h2>
+
+    <p>Två kommandon i Packet Tracers <b>Command Prompt</b>: <code>arp -a</code> visar cachen, <code>arp -d</code> tömmer den. Så här kan det se ut när grannen redan finns i cachen:</p>
+
+    <pre><code>C:\&gt;arp -a
+  Internet Address      Physical Address      Type
+  192.168.1.11          0001.c7a3.5b12        dynamic
+
+C:\&gt;arp -d</code></pre>
+
+    <p>I parets egen kopia:</p>
+
+    <ol>
+      <li><b>Command Prompt</b> på en PC: <code>arp -a</code>. Skriv upp vad som står</li>
+      <li><code>arp -d</code>, och <code>arp -a</code> igen. Tom</li>
+      <li><b>Simulation</b>, filter på <b>ARP</b> och <b>ICMP</b></li>
+      <li><code>ping</code> till en granne, och <b>Capture/Forward</b> steg för steg. Se ARP-kuvertet gå ut till <b>alla</b> maskiner på switchen, och svaret komma tillbaka till <b>en</b></li>
+      <li><b>Öppna ARP-kuvertet.</b> Vart är det adresserat? Skriv upp mål-MAC:en</li>
+      <li><b>Öppna ICMP-kuvertet.</b> Skriv upp käll-IP, mål-IP, käll-MAC och mål-MAC</li>
+      <li>Tillbaka i Command Prompt: <code>arp -a</code>. Grannen finns nu i cachen</li>
+      <li><b>Pinga samma granne igen.</b> Kommer något ARP-kuvert?</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Två skilda paket</span>
+      <p>I fönstret är det två paket med olika innehåll: <b>först frågan om MAC-adressen, sedan pingen.</b> Det är det du ska kunna peka på.</p>
+      <p>ARP har ingen IP-header runt sig — den ligger direkt i ramen. Titta på vilken Layer-rad Packet Tracer visar den.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Varför kom inget ARP-kuvert andra gången?</b> Kan du svara på det har du förstått cachen.</p>
+      <p>Syns inget ARP-kuvert ens första gången var cachen redan fylld. Kör <code>arp -d</code> först.</p>
+    </div>
+
+    <p><i>Skärmbilderna av de två kuverten, och <code>arp -a</code> före och efter, är ett bevis till labb 9. ARP är ett av de protokoll som kan räknas till kravet på tre.</i></p>
+
+    <h2 id="samma-nat">5. Samma nät eller annat nät</h2>
+
+    <p>På lektion 43 stod det <b>IP Header</b> på Layer 3. Den bär <b>käll-IP</b> och <b>mål-IP</b> — adresserna som sattes för hand på lektion 40.</p>
+
+    <p><b>Frågan som avgör allt:</b> hur vet maskinen om mottagaren finns i samma nät? Den <b>jämför nätdelarna, med nätmasken</b>. Samma regel som på lektion 40, nu med förklaringen till varför den spelar roll:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Mottagaren är…</th><th>Maskinen ARP:ar efter…</th><th>Ramen går till…</th></tr></thead>
+        <tbody>
+          <tr><td><b>I samma nät</b></td><td>Mottagarens egen MAC</td><td>Mottagaren</td></tr>
+          <tr><td><b>I ett annat nät</b></td><td>Routerns MAC</td><td>Routern, som skickar vidare</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">IP-adressen bestämmer, MAC-adressen levererar</span>
+      <p><b>Det är IP-adressen och masken som avgör om mottagaren finns i samma nät. MAC-adressen levererar bara till nästa steg.</b></p>
+      <p>I postbilden: gatuadressen avgör om brevet ska till grannen eller till postkontoret. Dörrskylten är bara vad som står på dörren man faktiskt knackar på.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Här går gränsen mot område 10</span>
+      <p>Ramen når switchen. Paketet kan nå en router. <b>Hur switchen väljer port, och hur routern väljer väg, är område 10.</b></p>
+      <p>Undrar du redan nu är frågan rätt — den besvaras från den 30 mars.</p>
+    </div>
+
+    <h2 id="noderna">6. Frågan utan brus</h2>
+
+    <div class="notis">
+      <span class="rubrik">Pröva det själv</span>
+      <p><b>ComputerExplorer → networking → arp</b> — nodens titel är <i>ARP</i>.</p>
+      <p>Noden visar samma sak som Packet Tracer, utan simulatorns brus: ingen switch, inga andra protokoll — bara frågan och svaret.</p>
+    </div>
+
+    <ol>
+      <li>Välj en värd i <b>A vill nå</b> och tryck <b>Skicka ▸</b>. <b>Logg</b> visar broadcasten och svaret</li>
+      <li>Titta i <b>A:s ARP-cache</b>. Adressen ligger där</li>
+      <li>Skicka till <b>samma värd igen</b>. Nodens förklaring börjar med <b>Cacheträff</b></li>
+      <li>Tryck <b>Töm ARP-cache</b>, och skicka en gång till. Broadcasten kommer tillbaka</li>
+    </ol>
+
+    <div class="notis">
+      <span class="rubrik">Fördjupning: ramens fält</span>
+      <p><b>ComputerExplorer → networking → ethernet-frame</b> — nodens titel är <i>Ethernet-ram</i>.</p>
+      <p>Klicka på varje fält i ramen och läs vad det gör. Tryck sedan <b>Vänd en bit i nyttolasten</b> och se <b>FCS-fel — kasta</b>. Ramen kastas utan att någon får veta det, och det är ett lager högre upp som får skicka om. Vilket lager står på <a href="transporten.html#tcp">transportsidan</a>.</p>
+      <p>Läs också fältet <b>Typ</b> och leta upp värdet för ARP. Det är det fältet som gör att mottagaren vet att det inte är ett IP-paket.</p>
+    </div>
+
+    <h2 id="icmp">7. ICMP</h2>
+
+    <p><b>Ping</b> — <i>Packet Internet Groper</i> — är kommandot. <b>ICMP</b> — <i>Internet Control Message Protocol</i> — är protokollet det använder.</p>
+
+    <p>En lyckad ping består av <b>två meddelanden, och ingenting annat</b>:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Meddelande</th><th>Typ</th><th>Vem skickar</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Echo request</b></td><td>8</td><td>Den som pingar</td><td><i>Är du där?</i></td></tr>
+          <tr><td><b>Echo reply</b></td><td>0</td><td>Den som pingas</td><td><i>Ja.</i></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Typen hittar du i PDU-fönstret under <b>Out Layers</b>, på <b>Layer 3</b>, där både IP-headern och <b>ICMP Message Type</b> står.</p>
+
+    <h2 id="tomt">8. Varför Layer 4 är tomt</h2>
+
+    <p>På lektion 43 var Layer 4 till 7 tomma för pingkuvertet. Så här ser kuverten ut:</p>
+
+    <pre><code>┌─ Layer 2: Ethernet ──────────────────┐
+│  ┌─ Layer 3: IP + ICMP typ 8 ─────┐  │
+│  │  (inget mer)                   │  │
+│  └────────────────────────────────┘  │
+└──────────────────────────────────────┘</code></pre>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det saknades inget — det fanns inget att lägga där</span>
+      <p><b>ICMP ligger i internetlagret, bredvid IP.</b> Det har inget transportlager ovanför sig och <b>inget portnummer</b>, eftersom det inte är ett protokoll för ett enskilt program.</p>
+      <p>Det är <b>nätverkets eget protokoll</b> för att rapportera status och fel: <i>är du där</i>, <i>kom inte fram</i>, <i>för långt bort</i>.</p>
+    </div>
+
+    <p>På <a href="transporten.html">lektion 46</a> fylls Layer 4. TCP och UDP har portnummer.</p>
+
+    <h2 id="icmp-kopian">9. ICMP-paret i din kopia</h2>
+
+    <ol>
+      <li><code>arp -d</code> på den PC som ska pinga, så att hela sekvensen syns</li>
+      <li><b>Simulation</b>, filter på <b>ARP</b> och <b>ICMP</b></li>
+      <li><code>ping</code> till en granne</li>
+      <li><b>Capture/Forward</b> tills echo request ligger vid sändaren. Öppna det: <b>Out Layers</b>, Layer 3. <b>Skriv upp typen</b></li>
+      <li>Klicka fram tills echo reply lämnar mottagaren. Öppna det. <b>Skriv upp typen</b></li>
+      <li>Titta i <b>Event List</b>: i vilken ordning kom ARP-frågan, ARP-svaret, echo request och echo reply?</li>
+    </ol>
+
+    <p>Skriv upp sekvensen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>#</th><th>Protokoll</th><th>Från</th><th>Till</th><th>Typ eller innehåll</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>ARP</td><td>&nbsp;</td><td><code>FFFF.FFFF.FFFF</code></td><td>fråga</td></tr>
+          <tr><td>2</td><td>ARP</td><td>&nbsp;</td><td>&nbsp;</td><td>svar</td></tr>
+          <tr><td>3</td><td>ICMP</td><td>&nbsp;</td><td>&nbsp;</td><td>echo request, typ 8</td></tr>
+          <tr><td>4</td><td>ICMP</td><td>&nbsp;</td><td>&nbsp;</td><td>echo reply, typ 0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Command Prompt skickar <b>fyra pingar, inte en</b>. Det syns i Event List, och i kommandotolken:</p>
+
+    <pre><code>C:\&gt;ping 192.168.1.11
+
+Pinging 192.168.1.11 with 32 bytes of data:
+
+Reply from 192.168.1.11: bytes=32 time&lt;1ms TTL=128</code></pre>
+
+    <p><b>Följ den första hela vägen.</b> De andra tre är likadana, utan ARP.</p>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Vilken Layer-rad står typen på, och varför just där?</b> Letar du efter den på Layer 4 har du missat <a href="#tomt">avsnitt 8</a>.</p>
+    </div>
+
+    <p><b>Skärmbilderna in i rapporten nu:</b> echo request och echo reply, med typen synlig. Det är labb 9:s andra bevis.</p>
+
+    <h2 id="uteblivet">10. Maskinen som inte svarar</h2>
+
+    <p>Tabellen från lektion 41 hade en högerkolumn: vad ett uteblivet svar bevisar. Här prövas den.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Meningen från lektion 41</span>
+      <p><b>Ett uteblivet svar bevisar att maskinen inte svarade på just den frågan — och ingenting mer.</b></p>
+    </div>
+
+    <p>Bygg en maskin som finns men inte svarar på ping. Packet Tracers PC har en egen brandvägg:</p>
+
+    <ol>
+      <li>Pinga en maskin i kopian. Svar</li>
+      <li>Öppna den maskinens <b>Desktop → Firewall</b>, fliken <b>IPv4 Firewall</b>. Slå på den: <b>Service: On</b></li>
+      <li>Lägg till en regel: <b>Action: Deny</b>, <b>Protocol: ICMP</b>, <b>Remote IP:</b> <code>0.0.0.0</code>, <b>Remote Wildcard Mask:</b> <code>255.255.255.255</code>. Tryck <b>Add</b></li>
+      <li><code>arp -d</code> på den PC som ska pinga, och pinga igen</li>
+      <li>Svaret blir <code>Request timed out.</code> — fyra gånger</li>
+      <li><code>arp -a</code> på den som pingade. <b>Brandväggsmaskinens MAC-adress står där</b></li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Steg 6 är beviset</span>
+      <p><b>ARP-frågan besvarades.</b> Maskinen är påslagen, sitter i nätet och har rätt adress — det var den som svarade <i>"det är jag"</i>. Den svarade bara inte på <b>ICMP</b>, eftersom brandväggen säger nej till just det protokollet.</p>
+      <p><b>Två protokoll, två svar, samma maskin.</b></p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Stäng av brandväggen efteråt</span>
+      <p><b>Service: Off</b> igen när du är klar. Står den kvar fungerar inga tjänster på lektion 46.</p>
+      <p>Blockerar brandväggen i din version också ARP, så att MAC-adressen inte syns i steg 6: kontrollera i stället att länken är grön och adressen rätt. Skriv i så fall ner det — det är också ett resultat.</p>
+    </div>
+
+    <p>Ute i verkligheten svarar <b>många servrar inte på ping, med avsikt</b>, men levererar webbsidor och e-post utan problem. En webbserver som inte svarar på ping är inte nere. <b>Den pratar bara inte ICMP med dig.</b></p>
+
+    <div class="notis">
+      <span class="rubrik">Vill du ha mer</span>
+      <p>Pinga en adress som <b>inte finns</b> i kopian. ARP-frågan går ut, men ingen svarar. Vad skiljer det från brandväggsmaskinen?</p>
+      <p>Pinga din egen adress — lämnar kuvertet ens maskinen? Läs IP-headern under Out Layers och hitta <b>TTL</b>: vad tror du att den är till för? Den kommer tillbaka med <code>traceroute</code> i område 11. Och fundera på varför en administratör stänger av ping på en server — det finns ett säkerhetsskäl, och det är värt att formulera själv.</p>
+    </div>
+
+    <h2 id="meningen">11. Meningen i rapporten</h2>
+
+    <p>Skriv en mening i din egen rapport som börjar så här:</p>
+
+    <div class="notis">
+      <span class="rubrik">Början</span>
+      <p><i>Ett uteblivet pingsvar bevisar inte att maskinen är oåtkomlig, eftersom …</i></p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Ett eget exempel — det är skillnaden mellan E och C</span>
+      <p>En mening som bara upprepar regeln är E-nivå. <b>Meningen ska ha ett eget exempel.</b> Brandväggen i kopian är ett. Webbservern som inte svarar på ping är ett annat.</p>
+      <p>Gjorde du brandväggen själv: ta en skärmbild av <code>arp -a</code>. Det är ett starkt felsökningsexempel.</p>
+    </div>
+
+    <p>Fråga dig också: <b>vad mer hade kunnat bevisa att maskinen fanns, om inte ARP?</b> Svaret är vilket annat protokoll som helst som den svarar på. Det är samma tanke som område 11 bygger felsökning på: pröva flera vägar innan du drar en slutsats.</p>
+
+    <div class="notis">
+      <span class="rubrik">Mot A</span>
+      <p>Brandväggsexemplet är ett <b>samband mellan två protokoll</b>: ARP svarade, ICMP inte. Det är den sortens samband mellan nätverkets delar som A-nivån frågar efter — och en rapport som förklarar <b>varför ARP måste komma före ICMP</b> har redan börjat skriva A-meningen.</p>
+    </div>
+
+    <h2 id="missuppfattningar">12. Vanliga missuppfattningar</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: MAC, broadcast, brandvägg" autocomplete="off">
+      <p class="traffar" id="traffar-fel">10 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>MAC-adress och IP-adress är samma sak</td><td>Dörrskylt och gatuadress. MAC till nästa enhet på länken, IP hela vägen</td></tr>
+          <tr><td>MAC-adressen avgör om mottagaren är i samma nät</td><td>Det gör IP-adressen och masken. MAC-adressen levererar bara</td></tr>
+          <tr><td>Inget ARP-kuvert betyder att något är fel</td><td>Cachen var redan fylld. <code>arp -d</code> först — det är poängen, inte ett fel</td></tr>
+          <tr><td>Broadcasten betyder att alla får pingen</td><td>Alla får <b>frågan</b>. Bara en svarar, och pingen går bara till den</td></tr>
+          <tr><td><code>FFFF.FFFF.FFFF</code> är en felkod</td><td>Det är broadcastadressen. Alla ettor betyder alla</td></tr>
+          <tr><td>Packet Tracer och Windows visar olika MAC-adresser</td><td>Samma adress i två skrivsätt: Ciscos och Windows</td></tr>
+          <tr><td>Ping och ICMP är samma sak</td><td>Ping är kommandot. ICMP är protokollet det använder</td></tr>
+          <tr><td>ICMP-typen står på Layer 4</td><td>Den står på Layer 3, med IP-headern. ICMP har inget lager 4</td></tr>
+          <tr><td>Maskinen med brandväggen är trasig</td><td><code>arp -a</code> visar att den svarade på ARP. Den finns</td></tr>
+          <tr><td>Ett uteblivet pingsvar betyder att maskinen är borta</td><td>Det betyder att den inte svarade på just den frågan — och ingenting mer</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">13. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>MAC-adress</b></td><td><i>Media Access Control</i> — hårdvaru-ID:t i varje nätverkskort, satt från fabriken. OSI-lager 2</td></tr>
+          <tr><td><b>Ram</b></td><td>Layer 2:s kuvert: mål-MAC, käll-MAC, typ, nyttolast och FCS</td></tr>
+          <tr><td><b>Nyttolast</b></td><td>Det ramen bär — oftast ett IP-paket</td></tr>
+          <tr><td><b>FCS</b></td><td><i>Frame Check Sequence</i> — ramens kontrollsumma. Stämmer den inte kastas ramen</td></tr>
+          <tr><td><b>ARP</b></td><td><i>Address Resolution Protocol</i> — frågar efter MAC-adressen till en känd IP-adress</td></tr>
+          <tr><td><b>Broadcast</b></td><td>Ett meddelande till alla i det lokala nätet</td></tr>
+          <tr><td><b>Broadcastadress</b></td><td><code>FFFF.FFFF.FFFF</code> — MAC-adressen som betyder alla</td></tr>
+          <tr><td><b>ARP-cache</b></td><td>Där maskinen sparar svaren, så att frågan inte behöver ställas för varje paket. Visas med <code>arp -a</code></td></tr>
+          <tr><td><b>IP-header</b></td><td>Layer 3:s kuvert, med käll-IP och mål-IP</td></tr>
+          <tr><td><b>ICMP</b></td><td><i>Internet Control Message Protocol</i> — nätverkets eget protokoll för status och fel. Det ping använder</td></tr>
+          <tr><td><b>Echo request</b></td><td>ICMP typ 8. Pingens fråga: <i>är du där?</i></td></tr>
+          <tr><td><b>Echo reply</b></td><td>ICMP typ 0. Pingens svar</td></tr>
+          <tr><td><b>Brandvägg</b></td><td>Regler för vilken trafik en maskin tar emot. Kan säga nej till ett protokoll men ja till andra</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 9</a> · <a href="lagren.html">Föregående: lagren</a> · <a href="transporten.html">Nästa: TCP och UDP</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

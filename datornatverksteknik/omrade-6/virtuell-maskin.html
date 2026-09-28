@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Installationen i den virtuella maskinen – Dator- och nätverksteknik område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-6-virtuell-maskin">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Uppslag</strong> · Installationen i den virtuella maskinen</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#skillnaden">1. Vad som skiljer mot lektion 18</a></li>
+      <li><a href="#disklistan">2. Disklistan har bara en disk</a></li>
+      <li><a href="#partitioner">3. En partition blir fyra</a></li>
+      <li><a href="#stegen">4. Alla steg i ordning</a></li>
+      <li><a href="#klart">5. När är du klar?</a></li>
+      <li><a href="#felsokning">6. Felsökning</a></li>
+      <li><a href="#ordlista">7. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 6 · lektion 24</p>
+    <h1>Installationen i den virtuella maskinen</h1>
+    <p class="inledning">Samma fjorton steg som på lektion 18, men inuti ett fönster. Det farligaste steget förra gången är ofarligt nu — och det är därför det här är ett bra ställe att lära sig partitioneringen på.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-12-02">
+        <span class="nar">2 dec</span>
+        <span class="vad">Labb 6 lämnas in kl 23:59
+          <small>Installationen är utförandedelen.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis varna">
+      <span class="rubrik">Det här passet har ingen andra chans</span>
+      <p>Måndag 23/11 är lovdag, så veckan saknar måndagspass. Nästa lektion är tisdag 24/11 — <b>en vecka bort, utan en enda lektion emellan</b>. Den virtuella maskinen ska vara <b>färdiginstallerad och avstängd</b> innan passet slutar. Lektion 25 har tio minuter avsatta för efterhämtning, och det är allt som finns.</p>
+    </div>
+
+    <h2 id="skillnaden">1. Vad som skiljer mot lektion 18</h2>
+    <p>Fyra skillnader. De tre första gör passet lättare, den fjärde är den enda som gör det svårare.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Lektion 18 · fysisk maskin</th><th>Lektion 24 · virtuell maskin</th></tr></thead>
+        <tbody>
+          <tr><td><b>Starta från installationskällan</b></td><td>Startmenytangent, eller bootordningen ändrad och tillbakaställd</td><td><b>Utgår.</b> Maskinen startar mot den monterade ISO-filen direkt</td></tr>
+          <tr><td><b>Disklistan</b></td><td>USB-minnet stod i samma lista. Ett felval kostade hela passet</td><td><b>Bara en disk.</b> Det går inte att göra sönder något</td></tr>
+          <tr><td><b>Om något går fel</b></td><td>Den fysiska diskens data kunde stå på spel</td><td><b>Fem minuter.</b> Ta bort maskinen, skapa en ny</td></tr>
+          <tr><td><b>Tiden</b></td><td>Nästa pass fanns dagen efter</td><td><b>En vecka utan lektion.</b> Enda skillnaden som gör det svårare</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="disklistan">2. Disklistan har bara en disk</h2>
+    <p>På lektion 18 var det här passets farligaste steg: USB-minnet stod i samma lista som den interna disken, och de såg lika ut. Installerade du på USB-minnet installerade du på det du installerade <i>från</i>.</p>
+    <p><b>I en virtuell maskin finns bara den virtuella disken.</b> Steget är identiskt — samma knappar, samma val — men det går inte längre att välja fel. Det är därför det är ett bra ställe att lära sig det på.</p>
+
+    <h2 id="partitioner">3. En partition blir fyra</h2>
+    <p>Är den virtuella disken tom står den som <b>outilldelat utrymme</b>. Markera den, tryck <i>Nytt</i>, godta hela storleken, tryck <i>Verkställ</i>. Windows svarar med en ruta om att det kan komma att skapa ytterligare partitioner för systemfiler. Godta den.</p>
+    <p><b>Den enda partition du skapade blev fyra.</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Partition</th><th>Storlek</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td>Återställning</td><td>~500 MB–1 GB</td><td>Startar återställningsmiljön när Windows inte startar</td></tr>
+          <tr><td><b>EFI-system</b></td><td>~100 MB</td><td>Det UEFI faktiskt läser vid start. <b>Här ligger starthanteraren</b></td></tr>
+          <tr><td>MSR (reserverad)</td><td>~16 MB</td><td>Reserverat utrymme Windows själv använder</td></tr>
+          <tr><td>Primär</td><td>Resten</td><td>Här hamnar Windows, programmen och filerna</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">EFI-partitionen är svaret från lektion 15</span>
+      <p>På lektion 15 var starthanteraren ett steg i en beskrivning: firmware lämnar över till något som läses från startenheten. Här är den en rad i en tabell på din egen skärm — <b>och allt fyra ligger inuti en enda fil på din riktiga disk</b>.</p>
+    </div>
+
+    <h2 id="stegen">4. Alla steg i ordning</h2>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Installationen, steg för steg</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="vm-1"><span>Den virtuella maskinen startad</span></label></li>
+        <li><label><input type="checkbox" id="vm-2"><span>Språk, tid och tangentbord — <b>svenska rakt igenom</b></span></label></li>
+        <li><label><input type="checkbox" id="vm-3"><span><i>Installera nu</i>. Produktnyckelsteget hoppat över</span></label></li>
+        <li><label><input type="checkbox" id="vm-4"><span><b>Anpassad installation</b>, inte uppgradering</span></label></li>
+        <li><label><input type="checkbox" id="vm-5"><span>Det outilldelade utrymmet markerat — <b>det finns bara en disk</b></span></label></li>
+        <li><label><input type="checkbox" id="vm-6"><span><i>Nytt</i> → <i>Verkställ</i> → rutan om ytterligare partitioner godtagen</span></label></li>
+        <li><label><input type="checkbox" id="vm-7"><span>Den stora primära partitionen markerad, <i>Nästa</i></span></label></li>
+        <li><label><input type="checkbox" id="vm-8"><span>Filerna kopierade. <b>Utförandedelen skriven under tiden</b></span></label></li>
+        <li><label><input type="checkbox" id="vm-9"><span>Maskinen har startat om själv</span></label></li>
+        <li><label><input type="checkbox" id="vm-10"><span>Språk, tangentbord, nätverk</span></label></li>
+        <li><label><input type="checkbox" id="vm-11"><span><b>Lokalt konto</b> skapat med namnet och lösenordet från tavlan</span></label></li>
+        <li><label><input type="checkbox" id="vm-12"><span>Sekretessinställningarna avstängda</span></label></li>
+        <li><label><input type="checkbox" id="vm-13"><span>Skrivbordet visas</span></label></li>
+        <li><label><input type="checkbox" id="vm-14"><span><b>Utloggad och inloggad igen</b> — kontot fungerar</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Steg 8 är passets luft — använd den</span>
+      <p>Kopieringen tar tio till tjugo minuter och ingenting händer på skärmen. <b>Skriv utförandedelen medan filerna kopieras:</b> vad du valde i varje steg, vad partitionstabellen visade, hur lång tid det tog. Om en vecka minns du det inte.</p>
+    </div>
+
+    <h2 id="klart">5. När är du klar?</h2>
+    <p>Tre saker ska stämma innan du går, och det tredje är det som räknas:</p>
+    <ol>
+      <li>Skrivbordet visas i den virtuella maskinen</li>
+      <li>Du har loggat ut och in igen med kontot från tavlan</li>
+      <li><b>Maskinen är avstängd via Windows</b> — och startar till inloggningsskärmen av sig själv när du startar den igen</li>
+    </ol>
+    <p><b>Stäng av ordentligt, inte genom att stänga fönstret.</b> En maskin som sparats i ett pausat tillstånd i en vecka kan vakna i ett skick ingen räknat med.</p>
+
+    <h2 id="felsokning">6. Felsökning</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: TPM, startar inte, disklistan" autocomplete="off">
+      <p class="traffar" id="traffar-fel">8 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>"Den här datorn kan inte köra Windows 11"</td><td>EFI, Secure Boot eller TPM 2.0 inte påslaget</td><td>Stäng av maskinen, slå på de tre i inställningarna, starta om. Räck upp handen — läraren har klickvägen</td></tr>
+          <tr><td>Maskinen startar inte alls</td><td>Virtualisering avstängd i just den elevmaskinens firmware</td><td>Säg till. Går det inte att lösa: arbeta på en annan bänk i dag</td></tr>
+          <tr><td>Disklistan är tom</td><td>En virtuell disk skapades aldrig, bara maskinen</td><td>Skapa en virtuell disk i maskinens inställningar. Fem minuter</td></tr>
+          <tr><td>Installationsguiden startar om varje gång</td><td>ISO-filen är kvar och maskinen startar mot den igen</td><td>Koppla bort den virtuella skivan efter första omstarten</td></tr>
+          <tr><td>Installationen verkar ha hängt sig</td><td>Kopieringen pågår och ingenting rör sig på skärmen</td><td>Det är normalt. <b>Vänta.</b> Starta inte om</td></tr>
+          <tr><td>Kommer inte vidare från kontosteget</td><td>Du letar efter en knapp som heter något med "lokalt konto"</td><td><i>Alternativ för inloggning</i> → <i>Anslut till domän i stället</i></td></tr>
+          <tr><td>Vet inte vilket lösenord som gäller</td><td>Kontonamn och lösenord är samma i hela salen</td><td>De står på tavlan. <b>Skriv upp dem</b> — du behöver dem om en vecka</td></tr>
+          <tr><td>Något gick riktigt fel</td><td>Fel partitionsval, avbruten installation</td><td>Ta bort den virtuella maskinen och skapa en ny. <b>Det kostar fem minuter, och det är hela poängen med en virtuell maskin</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">7. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Outilldelat utrymme</b></td><td>Diskutrymme som ännu inte tillhör någon partition</td></tr>
+          <tr><td><b>Partition</b></td><td>En avgränsad del av en disk, som systemet ser som en egen enhet</td></tr>
+          <tr><td><b>EFI-partition</b></td><td>Den lilla partition UEFI läser vid start. Här ligger starthanteraren</td></tr>
+          <tr><td><b>MSR</b></td><td>Microsoft Reserved Partition. Reserverat utrymme Windows själv använder</td></tr>
+          <tr><td><b>Anpassad installation</b></td><td>Installation på tom disk, i stället för uppgradering av ett befintligt system</td></tr>
+          <tr><td><b>Lokalt konto</b></td><td>Ett konto som bara finns på den här maskinen, utan koppling till ett Microsoft-konto</td></tr>
+          <tr><td><b>Ögonblicksbild</b></td><td>Ett sparat läge av en virtuell maskin som du kan gå tillbaka till. Engelska: <i>snapshot</i></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 6</a> · <a href="anvandare.html">Nästa: användare och behörigheter</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

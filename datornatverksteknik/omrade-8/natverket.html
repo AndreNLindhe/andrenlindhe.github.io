@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nätverket och enheterna – Dator- och nätverksteknik område 8</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-8-natverket">
+
+<header class="topp">
+  <a href="index.html">← Område 8</a>
+  <span class="harifran"><strong>Uppslag</strong> · Nätverket och enheterna</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#vad">1. Vad ett nätverk är</a></li>
+      <li><a href="#varfor">2. Varför nätverk finns</a></li>
+      <li><a href="#typerna">3. De fyra nätverkstyperna</a></li>
+      <li><a href="#enheterna">4. De fyra enheterna</a></li>
+      <li><a href="#switch-router">5. Switchen mot routern</a></li>
+      <li><a href="#lanken">6. Vad länken bevisar</a></li>
+      <li><a href="#mork">7. När lysdioden är mörk</a></li>
+      <li><a href="#portkartan">8. Portkartan</a></li>
+      <li><a href="#triangeln">9. Varningstriangeln</a></li>
+      <li><a href="#missuppfattningar">10. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">11. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 8 · lektion 34 och 35</p>
+    <h1>Nätverket och enheterna</h1>
+    <p class="inledning">Hela höstterminen handlade om en maskin. Här kopplas den in i något större. Den här sidan går igenom vad ett nätverk är, varför det finns, hur de fyra nätverkstyperna skiljer sig åt på räckvidd, och vad switch, router, accesspunkt och modem var och en gör. Sedan det praktiska: vad en lysande länklysdiod faktiskt bevisar, vad den inte bevisar, hur portkartan skrivs — och varför varningstriangeln på nätverksikonen ska stå kvar i tre veckor utan att någon felsöker den.</p>
+
+    <h2 id="vad">1. Vad ett nätverk är</h2>
+
+    <div class="notis viktig">
+      <span class="rubrik">Definitionen</span>
+      <p><b>Ett nätverk är två eller fler enheter som är sammankopplade för att dela data och resurser.</b></p>
+    </div>
+
+    <p>Två saker i den meningen är värda att stanna vid. <b>Två eller fler</b> — det finns ingen undre gräns utöver det, ett nät med två maskiner är ett nät. Och <b>dela data och resurser</b> — det är vad hela saken finns för. Ett nätverk som ingen delar något över är bara kablar.</p>
+
+    <p>Bilden som håller hela våren är <b>postsystemet</b>:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>I postsystemet</th><th>I nätverket</th></tr></thead>
+        <tbody>
+          <tr><td>Hus</td><td>Datorer och andra enheter</td></tr>
+          <tr><td>Vägar</td><td>Kablar och radiovågor</td></tr>
+          <tr><td>Brev</td><td>Data</td></tr>
+          <tr><td>Husnummer</td><td><b>Adressen</b> — kommer på lektion 40</td></tr>
+          <tr><td>Gatan</td><td><b>Nätdelen</b> — vilka enheter som ligger i samma nät</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Bilden är sådd för ett skäl: på lektion 40 sätts adresserna, och då är husnumret och gatan de två begrepp allting hänger på.</p>
+
+    <h2 id="varfor">2. Varför nätverk finns</h2>
+
+    <p>Tre skäl, och det är de tre som bär området:</p>
+
+    <ul>
+      <li><b>Dela filer</b> mellan datorer</li>
+      <li><b>Använda gemensamma resurser</b>, som en skrivare</li>
+      <li><b>Nå internet</b>, och kommunicera över det</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Det första prövas konkret</span>
+      <p>På <b>lektion 41</b> delar du en mapp på en av gruppens maskiner och öppnar en fil i den <b>från grannmaskinen</b>. Det är inte en demonstration — det är ett krav i labbrapporten, och det är områdets löfte infriat.</p>
+      <p>Den mappen är också förlagan till slutuppdragets delade resurs på lektion 68.</p>
+    </div>
+
+    <p>Strömning och spel är samma sak sedd från andra hållet: någon annans maskin delar filer med din. Skillnaden mot det du bygger i labbet är avstånd och skala, inte princip.</p>
+
+    <h2 id="typerna">3. De fyra nätverkstyperna</h2>
+
+    <p>Skillnaden mellan dem är <b>räckvidd</b>, inte teknik i grunden. Det är samma sak i olika storlek.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Typ</th><th>Står för</th><th>Räckvidd</th><th>Exempel</th></tr></thead>
+        <tbody>
+          <tr><td><b>LAN</b></td><td>Local Area Network</td><td>Ett rum, en våning, ett hus</td><td><b>Det ni bygger</b></td></tr>
+          <tr><td><b>WLAN</b></td><td>Wireless LAN</td><td>Samma räckvidd, utan kabel</td><td>Skolans WiFi</td></tr>
+          <tr><td><b>MAN</b></td><td>Metropolitan Area Network</td><td>En hel stad</td><td>Ett kommunnät</td></tr>
+          <tr><td><b>WAN</b></td><td>Wide Area Network</td><td>Städer och länder</td><td><b>Internet</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Det ni bygger de närmaste veckorna är ett <b>LAN</b> — det minsta av dem, och det enda som går att ta på.</p>
+
+    <h2 id="enheterna">4. De fyra enheterna</h2>
+
+    <p>Fyra apparater binder samman nätverk. Tabellen tar dem i den ordning du möter dem i kursen, inte i bokstavsordning.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Enhet</th><th>Vad den gör</th><th>När den möts</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Switch</b></td>
+            <td>Kopplar ihop enheter <b>inom samma nätverk</b> och skickar data vidare till rätt port</td>
+            <td><b>Lektion 34.</b> Den ni bygger runt</td>
+          </tr>
+          <tr>
+            <td><b>Accesspunkt</b></td>
+            <td>Ger trådlös anslutning till ett i övrigt trådbundet nät</td>
+            <td>Lektion 38, som en fråga om medium</td>
+          </tr>
+          <tr>
+            <td><b>Router</b></td>
+            <td>Kopplar samman <b>olika nätverk</b> med varandra</td>
+            <td>Område 10</td>
+          </tr>
+          <tr>
+            <td><b>Modem</b></td>
+            <td>Omvandlar signalen från internetleverantören till nätverkstrafik</td>
+            <td>Nämns, används inte i kursen</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Därför känns de fyra som samma sak</span>
+      <p>En <b>hemmarouter</b> är i praktiken ofta alla fyra i en enda låda — router, switch, accesspunkt och modem. Har du bara sett den lådan är det inte konstigt att orden flyter ihop.</p>
+      <p>I labbet är de fyra <b>separata apparater</b>, och det är hela poängen med att göra det här på riktig utrustning i stället för på bild.</p>
+    </div>
+
+    <h2 id="switch-router">5. Switchen mot routern</h2>
+
+    <p>De ser nästan likadana ut och gör helt olika saker. Meningen som ska sitta:</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Skillnaden på en rad</span>
+      <p><b>Switchen kopplar ihop enheter i samma nät. Routern kopplar ihop olika nät.</b></p>
+    </div>
+
+    <p>Det låter enkelt, och det är det — ända tills frågan blir <b>vad "samma nät" betyder</b>. Svaret på den frågan är <b>nätmasken</b>, och den kommer på <a href="adresseringen.html">lektion 40</a>. Hur switchen själv vet vilken port som ska ha trafiken hör till område 10.</p>
+
+    <h2 id="lanken">6. Vad länken bevisar</h2>
+
+    <p>En <b>länklysdiod</b> är den lilla lampan vid switchporten, och ofta vid datorns nätverksuttag också. Lyser eller blinkar den finns det en länk. Det är det mest grundläggande i hela nätverket, och ingenting annat fungerar utan det.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Lysdioden lyser — det bevisar</th><th>Det bevisar <b>inte</b></th></tr></thead>
+        <tbody>
+          <tr><td>Kabeln är hel</td><td>Att maskinerna kan nå varandra</td></tr>
+          <tr><td>Kontakterna sitter i ordentligt i <b>båda</b> ändar</td><td>Att adresserna är rätt</td></tr>
+          <tr><td>Nätverkskortet och switchporten är igång och överens</td><td>Att kabeln är snabb nog för det den ska bära</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>En perfekt satt adress på en maskin med mörk port är värdelös.</b> Det är därför länken kontrolleras först, innan något byggs ovanpå — och det är områdets första beröring med sambandet mellan nätverkets delar, den formulering som bär betyget A senare i kursen.</p>
+
+    <div class="notis">
+      <span class="rubrik">Blinkar den är det inget fel</span>
+      <p>En lysdiod som <b>blinkar</b> i stället för att lysa med fast sken betyder oftast att trafik passerar. Det är ett friskhetstecken, inte ett larm.</p>
+    </div>
+
+    <h2 id="mork">7. När lysdioden är mörk</h2>
+
+    <p>Tre steg, i den här ordningen. Ordningen är inte godtycklig — den börjar med det som är vanligast och billigast att pröva.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Vad du gör</th><th>Vad det utesluter</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td><b>Tryck in kontakten</b> i båda ändar tills det klickar</td><td>En kontakt som aldrig klickade. Områdets allra vanligaste fel</td></tr>
+          <tr><td><b>2</b></td><td><b>Byt kabel</b> innan du felsöker vidare</td><td>En trasig kabel — vanligare än allt annat tillsammans</td></tr>
+          <tr><td><b>3</b></td><td><b>Byt port</b> på switchen</td><td>En trasig port. Nu vet du om felet sitter i porten eller i maskinen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">En mörk lysdiod är ett svar</span>
+      <p>Den betyder inte att nätet är trasigt. Den <b>berättar var felet sitter</b>: någonstans mellan nätverkskortet och switchporten, i just den förbindelsen. Det är mer information än du hade innan.</p>
+    </div>
+
+    <p>De här tre stegen kommer tillbaka på <a href="media.html">lektion 39</a>, när den egna kabeln byts in i nätet. Samma tre steg, samma ordning.</p>
+
+    <h2 id="portkartan">8. Portkartan</h2>
+
+    <p>Ett papper, eller ett stycke i labbrapportens planeringsdel. En rad per maskin:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Maskin</th><th>Switchport</th><th>Länk</th></tr></thead>
+        <tbody>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Namnge maskinerna som de faktiskt heter</b> — datornamnet i Windows, eller märkningen på burken. "Min dator" och "Kalles" duger inte.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Kan någon annan än ni läsa portkartan och koppla om nätet likadant?</b> Är svaret nej saknas ett namn eller ett portnummer.</p>
+      <p>Portkartan är underlaget till den <b>fysiska topologin</b> som ritas på lektion 37. Den går inte att rekonstruera i efterhand utan att krypa under borden och följa kablar med ögat — och kablarna har då suttit i en vecka.</p>
+    </div>
+
+    <h2 id="triangeln">9. Varningstriangeln</h2>
+
+    <p>Från det att din maskin får länk och fram till lektion 40 visar nätverksikonen en <b>varningstriangel</b>. Den står kvar i tre veckor, och den är korrekt.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad som stämmer</th><th>Vad som saknas</th></tr></thead>
+        <tbody>
+          <tr><td>Maskinen sitter i en switch och lysdioden lyser</td><td>En <b>adress</b> som fungerar mot de andra maskinerna</td></tr>
+          <tr><td>Kabeln, kontakten och nätverkskortet hör ihop</td><td>En <b>DHCP-server</b> i nätet som delar ut adresser</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Vad som faktiskt hänt: labbnätet har ingen DHCP-server, så maskinen har efter en stunds väntan <b>tilldelat sig själv en adress</b> ur ett reserverat intervall. Två maskiner som gjort det når inte varandra, eftersom var och en valde sin egen på måfå.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Triangeln är ett bevis på att länken fungerar</span>
+      <p>Vore kabeln ur skulle ikonen se annorlunda ut. Den skulle säga att <b>ingen anslutning finns alls</b> — inte att anslutningen saknar internet. Att den säger det senare betyder att länken är på plats och att bara adressen fattas.</p>
+      <p><b>Felsök den inte.</b> Den försvinner på lektion 40, inom sekunder efter att adressen sparats, och hela förklaringen — intervallet, nätmasken och de tre sätten en adress kan komma till — står på <a href="adresseringen.html">adresseringssidan</a>.</p>
+    </div>
+
+    <h2 id="missuppfattningar">10. Vanliga missuppfattningar</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland missuppfattningarna</label>
+      <input type="search" id="sok-fel" data-sok="tabell-missuppfattningar" data-traffar="traffar-fel"
+             placeholder="till exempel: switch, kabel, triangel" autocomplete="off">
+      <p class="traffar" id="traffar-fel">8 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-missuppfattningar">
+        <thead><tr><th>Man tror ofta</th><th>Men</th></tr></thead>
+        <tbody>
+          <tr><td>Switch och router är samma sak</td><td>Switchen kopplar ihop enheter i <b>samma</b> nät, routern kopplar ihop <b>olika</b> nät. En hemmarouter är båda i en låda, och det är därför de flyter ihop</td></tr>
+          <tr><td>Varningstriangeln betyder att bygget är fel</td><td>Den betyder att adressen saknas. Länken finns — det är just därför ikonen ser ut som den gör</td></tr>
+          <tr><td>Lysande lysdiod betyder att maskinerna når varandra</td><td>Den betyder att kabeln, kontakten och nätverkskortet hör ihop elektriskt. Ingenting om adresser</td></tr>
+          <tr><td>En blinkande lysdiod är ett fel</td><td>Blink betyder oftast att trafik passerar</td></tr>
+          <tr><td>Kabeln sitter i, alltså sitter den i</td><td>En kontakt som inte <b>klickat</b> sitter löst och ger ingen länk. Tryck i båda ändar</td></tr>
+          <tr><td>Portkartan behövs inte, vi minns ju</td><td>Om tre veckor gör ni inte det, och det är då den ska användas till topologiritningen</td></tr>
+          <tr><td>Två maskiner räcker som nät</td><td>Som nätverk, ja. Som labb 8 nej — <b>kravet är minst tre enheter</b>, och det nås genom att två par delar switch</td></tr>
+          <tr><td>WLAN är något annat än ett LAN</td><td>Samma räckvidd, annat medium. Skillnaden mellan nätverkstyperna är hur långt de når, inte vad de i grunden är</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">11. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Nätverk</b></td><td>Två eller fler enheter som är sammankopplade för att dela data och resurser</td></tr>
+          <tr><td><b>LAN</b></td><td><i>Local Area Network</i> — ett lokalt nätverk inom ett rum, en våning eller ett hus. Det ni bygger</td></tr>
+          <tr><td><b>WLAN</b></td><td><i>Wireless LAN</i> — ett lokalt nätverk utan kabel</td></tr>
+          <tr><td><b>MAN</b></td><td><i>Metropolitan Area Network</i> — ett nätverk som täcker en stad</td></tr>
+          <tr><td><b>WAN</b></td><td><i>Wide Area Network</i> — ett nätverk över städer och länder. Internet är det största</td></tr>
+          <tr><td><b>Switch</b></td><td>Kopplar ihop enheter inom samma nätverk och skickar data vidare till rätt port</td></tr>
+          <tr><td><b>Router</b></td><td>Kopplar samman olika nätverk med varandra. Kursens ämne i område 10</td></tr>
+          <tr><td><b>Accesspunkt</b></td><td>Ger trådlös anslutning till ett i övrigt trådbundet nät. Engelska: <i>access point</i></td></tr>
+          <tr><td><b>Modem</b></td><td>Omvandlar signalen från internetleverantören till nätverkstrafik</td></tr>
+          <tr><td><b>Patchkabel</b></td><td>En färdig nätverkskabel med kontakt i båda ändar, till att koppla en enhet till en switchport</td></tr>
+          <tr><td><b>Switchport</b></td><td>En av uttagen på switchen. Numrerade, och numret är det som står i portkartan</td></tr>
+          <tr><td><b>Länk</b></td><td>Att kabeln, kontakten och nätverkskortet hör ihop elektriskt. Det mest grundläggande i ett nätverk</td></tr>
+          <tr><td><b>Länklysdiod</b></td><td>Lampan vid switchporten som visar att länken finns. Fast sken eller blink</td></tr>
+          <tr><td><b>Portkarta</b></td><td>Anteckningen över vilken maskin som sitter i vilken switchport. Underlaget till den fysiska topologin</td></tr>
+          <tr><td><b>Nätverkskort</b></td><td>Datorns egen del för nätverk, med uttaget på baksidan. Engelska: <i>NIC, network interface card</i></td></tr>
+          <tr><td><b>DHCP-server</b></td><td>Den i nätet som delar ut adresser automatiskt. <b>Labbnätet har ingen</b> — därför sätts adresserna för hand</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 8</a> · <a href="topologierna.html">Nästa: topologierna</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 9 – Dator- och nätverksteknik</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-9-start">
+
+<header class="topp">
+  <a href="../index.html">← Kursen</a>
+  <span class="harifran"><strong>Område 9</strong> · Protokoll och dataöverföring</span>
+  <a href="#lektioner">Lektioner</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · v.8–11 · 8 lektioner</p>
+    <h1>Protokoll och dataöverföring</h1>
+    <p class="inledning">Område 8 byggde ett nätverk som fungerade — kablar, adresser, ping som bevis — men lämnade olöst vad som egentligen for genom kablarna. Här förklaras det. Efter åtta pass vet du vad ett <b>protokoll</b> är och varför sändare och mottagare måste vara överens om formen innan något kan tolkas. Du kan koppla TCP/IP-modellens fyra lager — nätverksåtkomst, internet, transport och applikation — till var sin uppgift, och känna igen dem sida vid sida med OSI-modellens sju, som branschen fortfarande använder som gemensamt språk trots att inget riktigt nätverk är byggt i sju lager. Du kan förklara vad <b>ARP</b>, <b>IP</b> och <b>ICMP</b> gör när ett paket blir en ram på väg mot en switch eller router, och du vet att ett uteblivet pingsvar inte bevisar att en maskin är oåtkomlig — bara att den inte svarade på just den frågan. Du kan skilja <b>TCP</b> från <b>UDP</b> utifrån vad som faktiskt skiljer dem, inte en slogan om vem som är snabbast, och du känner igen <b>DHCP</b>, <b>DNS</b>, <b>HTTP</b> och <b>HTTPS</b> som protokoll med var sin uppgift — inklusive vad HTTPS döljer och vad det lämnar synligt. Till sist har du sett <b>kapsling</b> med egna ögon i Packet Tracers simuleringsläge: ett meddelande som slås in lager för lager på väg ut och packas upp i omvänd ordning på väg in.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Labb 9 – Protokoll i praktiken · deadline onsdag 17/3 kl 23:59</span>
+      <p>Kursens åttonde labbrapport. <b>Det nya är riktningen:</b> de sju tidigare beskrev vad du själv gjorde. Den här tolkar ett paket du fångat men inte skapat. Hela uppgiften står på <a href="labb.html">labbsidan</a>.</p>
+      <p><b>Varje labbpass ger ett bevis.</b> Spara skärmbilderna när de tas, så finns underlaget redan på lektion 49. Det är den sista rapporten före påsklovet.</p>
+    </div>
+
+    <h2 id="lektioner">Lektionerna</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Datum</th><th>Vad passet handlar om</th><th>Missade du passet?</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>42</td>
+            <td>mån 22 feb</td>
+            <td>Protokoll, TCP/IP:s fyra lager och OSI:s sju</td>
+            <td><a href="lagren.html">Lagren och kapslingen</a></td>
+          </tr>
+          <tr>
+            <td>43</td>
+            <td>tis 23 feb</td>
+            <td>Parets kopia, och paketet öppnat lager för lager</td>
+            <td><a href="lagren.html">Lagren och kapslingen</a></td>
+          </tr>
+          <tr>
+            <td>44</td>
+            <td>mån 1 mar</td>
+            <td>Ramen, MAC-adressen, ARP och IP</td>
+            <td><a href="ramen.html">Ramen, ARP och ICMP</a></td>
+          </tr>
+          <tr>
+            <td>45</td>
+            <td>tis 2 mar</td>
+            <td>ICMP, och maskinen som inte svarar på ping</td>
+            <td><a href="ramen.html">Ramen, ARP och ICMP</a></td>
+          </tr>
+          <tr>
+            <td>46</td>
+            <td>mån 8 mar</td>
+            <td>Servern läggs till. TCP och UDP</td>
+            <td><a href="transporten.html">TCP och UDP</a></td>
+          </tr>
+          <tr>
+            <td>47</td>
+            <td>tis 9 mar</td>
+            <td>DHCP: adressen som delas ut automatiskt</td>
+            <td><a href="dhcp.html">DHCP</a></td>
+          </tr>
+          <tr>
+            <td>48</td>
+            <td>mån 15 mar</td>
+            <td>DNS, HTTP, HTTPS och kapslingen hela vägen</td>
+            <td><a href="tjansterna.html">DNS, HTTP och HTTPS</a></td>
+          </tr>
+          <tr>
+            <td>49</td>
+            <td>tis 16 mar</td>
+            <td>Välj paket, resultatdelen och inlämning</td>
+            <td><a href="labb.html">Labb 9: kraven och checklistan</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Ni arbetar i par, i parets egen kopia</span>
+      <p>I område 8 delade fyra elever på en switch. Nu är nätet simulerat, och på lektion 43 gör <b>varje par en egen kopia</b> av gruppens Packet Tracer-fil. Det som händer i simuleringen — servern på lektion 46, DHCP på lektion 47 — ska vara ert eget.</p>
+      <p><b>Rapporten skriver var och en själv.</b> Ni får följa samma paket, men förklaringen av vad varje lager tillförde ska vara din.</p>
+    </div>
+
+    <h2>Sidor i det här området</h2>
+
+    <ul class="rutnat">
+      <li>
+        <a class="kort webb" href="lagren.html">
+          <span class="sort">Uppslag · lektion 42 och 43</span>
+          <span class="rubrik">Lagren och kapslingen</span>
+          <p>Vad ett protokoll är, TCP/IP:s fyra lager, OSI:s sju och nodens fem. Parets kopia — och kuvertet som visar sig vara flera, inuti varandra.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort webb" href="ramen.html">
+          <span class="sort">Uppslag · lektion 44 och 45</span>
+          <span class="rubrik">Ramen, ARP och ICMP</span>
+          <p>MAC mot IP, ramens fält, ARP-frågan som broadcast. Ping som ICMP — och maskinen som finns men inte svarar.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort webb" href="transporten.html">
+          <span class="sort">Uppslag · lektion 46</span>
+          <span class="rubrik">TCP och UDP</span>
+          <p>Servern läggs till. TCP:s fyra saker, UDP:s skicka och glöm, varför "snabbare" är fel fråga — och portar som konvention.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort webb" href="dhcp.html">
+          <span class="sort">Uppslag · lektion 47</span>
+          <span class="rubrik">DHCP</span>
+          <p>Fyra meddelanden gör det du gjorde för hand i februari. Varför <code>0.0.0.0</code>, varför broadcast, och varför UDP.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort webb" href="tjansterna.html">
+          <span class="sort">Uppslag · lektion 48</span>
+          <span class="rubrik">DNS, HTTP och HTTPS</span>
+          <p>Namnet slås upp, sidan hämtas, och HTTPS döljer mycket men inte allt. Sist ett paket följt genom alla fyra lagren.</p>
+        </a>
+      </li>
+      <li>
+        <a class="kort gran" href="labb.html">
+          <span class="sort">Uppgift · deadline 17/3</span>
+          <span class="rubrik">Labb 9: Protokoll i praktiken</span>
+          <p>Hur rapporten växer fram pass för pass, vilket paket du ska följa, kolumn fyra — och kraven i E, C och A.</p>
+        </a>
+      </li>
+    </ul>
+
+    <h2>Det centrala innehåll området täcker</h2>
+    <p>Ur Skolverkets ämnesplan för kursen Dator- och nätverksteknik:</p>
+    <ul>
+      <li>Protokoll för dataöverföring via nätverk.</li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Områdets princip</span>
+      <p><b>Kuvertet rör sig innan det förklaras.</b> Varje protokoll ses först i Packet Tracers simuleringsläge — ett paket som faktiskt skickas i ert eget nät — och förklaras sedan. Paketen öppnas och läses, de gissas inte fram.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Varför Packet Tracer</span>
+      <p>Packet Tracer är områdets verktyg. Kapslingen går att klicka fram lager för lager på samma nät som byggdes i område 8, utan skolnätets övriga trafik i vägen. <b>Trafik på ett nät någon annan äger fångar man inte utan tillstånd</b> — det är en yrkesregel, inte en skolregel.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Filen står kvar mellan passen</span>
+      <p>Parets kopia görs på lektion 43 och används <b>varje pass till och med lektion 49</b> — och följer sedan med in i område 10. <b>Spara efter varje pass</b>, där du hittar filen igen.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Vägen till betyget A går genom nätverket</span>
+      <p>A-kriteriet har en mening varken E eller C har: du ska kunna redogöra för <b>sambandet mellan de olika delarna som ingår i nätverkets uppbyggnad</b>. Den prövas på riktigt i labb 10 och en sista gång i slutuppdraget.</p>
+      <p><b>Men lagren är ett samband i sig.</b> Varje lager litar på att lagret under gör sin del. En rapport som förklarar varför ARP måste komma före ICMP, eller varför DHCP inte kan använda TCP, har redan börjat skriva A-meningen.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Efter det här området</span>
+      <p>Efter lektion 49 kommer påsklov och annandag påsk. <b>Område 10 öppnar tisdag 30 mars</b> med frågan som lämnades på lektion 44: hur vet switchen vilken port ramen ska ut på — och hur väljer routern väg?</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="../index.html">Tillbaka till kursens startsida</a> · <a href="../omrade-8/index.html">Område 8</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

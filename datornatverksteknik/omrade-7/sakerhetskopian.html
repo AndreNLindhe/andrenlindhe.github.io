@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Säkerhetskopian – Dator- och nätverksteknik område 7</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-7-sakerhetskopian">
+
+<header class="topp">
+  <a href="index.html">← Område 7</a>
+  <span class="harifran"><strong>Uppslag</strong> · Säkerhetskopian</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#tre-fragor">1. De tre frågorna</a></li>
+      <li><a href="#inte-kopia">2. Det som inte är en kopia</a></li>
+      <li><a href="#tre-tva-ett">3. 3-2-1-regeln</a></li>
+      <li><a href="#full-inkrementell">4. Full och inkrementell</a></li>
+      <li><a href="#principen">5. Principen</a></li>
+      <li><a href="#filhistorik">6. Så gjorde du: Filhistorik</a></li>
+      <li><a href="#missuppfattningar">7. Vanliga missuppfattningar</a></li>
+      <li><a href="#ordlista">8. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 7 · lektion 28</p>
+    <h1>Säkerhetskopian</h1>
+    <p class="inledning">Lagringen minns — tills disken går sönder, tills någon raderar fel fil, eller tills ett program skriver över allt. Det är de tre hoten en säkerhetskopia finns för. Den här sidan går igenom vad som ska kopieras, var kopian ska ligga, hur ofta den ska köras, och varför flera saker som ser ut som säkerhetskopior inte är det.</p>
+
+    <h2 id="tre-fragor">1. De tre frågorna</h2>
+    <p>En säkerhetskopia är svaret på tre frågor. Kan du de tre kan du ämnet.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fråga</th><th>Svaret</th><th>Varför det spelar roll</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Vad ska kopieras?</b></td>
+            <td>Inte allt. Det som inte går att få tillbaka</td>
+            <td>Windows går att installera om på en timme. Tre års foton går inte</td>
+          </tr>
+          <tr>
+            <td><b>Var ska kopian ligga?</b></td>
+            <td>På ett annat medium eller en annan plats än originalet</td>
+            <td>Ligger båda på samma disk försvinner båda när disken dör</td>
+          </tr>
+          <tr>
+            <td><b>Hur ofta?</b></td>
+            <td>Så ofta att du tål att förlora det som hunnit ändras</td>
+            <td>Varje körning kostar tid och utrymme. En månadsgammal kopia skyddar sämre än en dygnsgammal</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Frågan som besvarar "vad"</span>
+      <p><b>Vad på din dator skulle du sakna om disken dog i kväll?</b> Svaret på den frågan är det som ska kopieras. Program går att installera om. Det du själv skapat gör det inte.</p>
+    </div>
+
+    <p>Och frågan som besvarar <b>hur ofta</b> ställs bäst som: <b>hur mycket arbete tål du att förlora?</b> En dag? En vecka? Svaret bestämmer frekvensen.</p>
+
+    <h2 id="inte-kopia">2. Det som inte är en kopia</h2>
+    <p>Fyra saker som ser ut som säkerhetskopior och inte är det. Alla fyra föreslås varje år.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det som föreslås</th><th>Vad som faktiskt gäller</th></tr></thead>
+        <tbody>
+          <tr><td>En kopia i en annan mapp <b>på samma disk</b></td><td>Dör disken dör båda. Det är inte en kopia, det är två filer</td></tr>
+          <tr><td>En extern disk som ligger <b>i samma låda som datorn</b></td><td>Tar det eld brinner de upp tillsammans. Det är därför "annan plats" står i regeln</td></tr>
+          <tr><td><b>RAID</b> — två diskar som speglar varandra</td><td>Skyddar mot en <b>död disk</b>, inte mot en <b>raderad fil</b>. Raderingen speglas i samma ögonblick, till båda diskarna</td></tr>
+          <tr><td>En mapp som <b>synkroniseras till molnet</b></td><td>Molnet är en annan plats — men synkroniseringen går åt båda håll. Raderar du originalet raderas kopian</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">RAID är driftsäkerhet, inte säkerhetskopiering</span>
+      <p>RAID finns för att maskinen ska <b>fortsätta fungera</b> när en disk går sönder. Det är en helt annan sak än att kunna hämta tillbaka något som försvunnit.</p>
+      <p>Se det hända i <code>ComputerExplorer → storage → raid-array</code>: ställ in en nivå med spegling, tryck <b>Skriv ny data</b>, och se den hamna på alla diskar samtidigt. Fråga dig sedan vad som händer om den nya datan är ett skadligt program. <b>Den speglas också.</b></p>
+    </div>
+
+    <h2 id="tre-tva-ett">3. 3-2-1-regeln</h2>
+    <p>Regeln sammanfattar de tre frågorna i tre siffror. Den är värd att kunna utantill.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Siffra</th><th>Betyder</th><th>Skyddar mot</th></tr></thead>
+        <tbody>
+          <tr><td><b>3</b></td><td>Tre kopior av datan — originalet och två till</td><td>Att en kopia visar sig trasig</td></tr>
+          <tr><td><b>2</b></td><td>På två olika typer av media</td><td>Att en hel sorts enhet går sönder samtidigt</td></tr>
+          <tr><td><b>1</b></td><td>Minst en förvaras på annan plats</td><td>Brand, stöld, översvämning</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Den sista siffran är den som brukar saknas</span>
+      <p>Ett USB-minne i samma väska som datorn uppfyller <b>3</b> och <b>2</b> — men inte <b>1</b>. Och det är just <b>1</b> som skyddar mot det som förstör allt på en gång.</p>
+      <p>Övningen ni gör i kursen uppfyller bara <b>2</b>: originalet på elevdatorn, kopian på USB-minnet. Det är avsiktligt — <b>det som ska övas är att kopian fungerar</b>, inte att bygga en fullständig lösning.</p>
+    </div>
+
+    <h2 id="full-inkrementell">4. Full och inkrementell</h2>
+    <p>Det finns två sätt att ta kopian, och de kostar olika saker.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Full</th><th>Inkrementell</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vad som kopieras</b></td><td>Allt, varje gång</td><td>Bara det som ändrats sedan senast</td></tr>
+          <tr><td><b>Tid per körning</b></td><td>Lång</td><td>Kort</td></tr>
+          <tr><td><b>Utrymme</b></td><td>Mycket — varje körning är en hel kopia</td><td>Lite — varje körning är en skillnad</td></tr>
+          <tr><td><b>Att återställa</b></td><td>En kopia att hämta från</td><td>Den fulla plus varje inkrement sedan dess, i ordning</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Inkrementell är billig att ta men dyrare att återställa.</b> Behöver du filen som den såg ut i onsdags måste den fulla kopian plus varje inkrement fram till onsdag läggas ihop. Går ett inkrement i mitten sönder är allt efter det förlorat.</p>
+
+    <p>Filhistorik, som du använder i labben, gör en blandning: den sparar <b>versioner</b> av filer när de ändras. Det är därför USB-minnet behöver plats med marginal — mappen som kopieras plus flera versioner av den.</p>
+
+    <h2 id="principen">5. Principen</h2>
+
+    <div class="notis viktig">
+      <span class="rubrik">Områdets princip</span>
+      <p><b>En säkerhetskopia som aldrig har återställts är inte bevisat en säkerhetskopia. Den är en förhoppning.</b></p>
+    </div>
+
+    <p>En inställd säkerhetskopiering kan vara trasig utan att någon vet det. Tre sätt det händer på, alla vanliga:</p>
+    <ul>
+      <li><b>Fel mapp vald</b> — tjänsten kör, men kopierar något annat än det du tror</li>
+      <li><b>Enheten full sedan tre veckor</b> — körningarna misslyckas tyst</li>
+      <li><b>Tjänsten avstängd av en uppdatering</b> — ingen sa till</li>
+    </ul>
+    <p><b>Allt det upptäcks först när någon behöver kopian, och då är det för sent.</b> Därför tar du bort en fil med avsikt på lektion 29 och hämtar tillbaka den. Det är beviset — och först då är momentet klart. Hur det går till står på <a href="aterstallningen.html">återställningssidan</a>.</p>
+
+    <h2 id="filhistorik">6. Så gjorde du: Filhistorik</h2>
+    <p>Sju steg. Klickvägarna flyttar sig mellan Windows-versioner, så de står på tavlan i salen — men ordningen är densamma.</p>
+
+    <ol>
+      <li><b>Sätt i USB-minnet.</b> Kontrollera att det syns i Utforskaren och hur mycket plats det har</li>
+      <li><b>Öppna Filhistorik</b> i Inställningar</li>
+      <li><b>Välj USB-minnet som enhet.</b> Vägrar den — se notisen nedan</li>
+      <li><b>Välj mappen</b> som ska kopieras. Den ni bestämt, inte hela användarmappen</li>
+      <li><b>Slå på</b>, och kör en första gång. Titta på när den blir klar</li>
+      <li><b>Öppna en fil på USB-minnet</b> och se att den ligger där</li>
+      <li><b>Skriv i planeringsdelen:</b> vilken mapp, hur stor, vilket minne, hur lång tid första körningen tog</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Steg 6 är det som skiljer en konfigurerad kopia från en verklig</span>
+      <p>En grön bock i inställningarna säger att <b>tjänsten är på</b>. Filen du öppnar på USB-minnet säger att den <b>fungerar</b>. Det är inte samma påstående, och det är det andra som räknas.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Om Filhistorik inte accepterar USB-minnet</span>
+      <p>Filhistorik vill spara <b>versioner</b> av filer, och för det behöver den en enhet som är formaterad så att det går. Vissa USB-minnen levereras i ett format den inte accepterar.</p>
+      <p><b>Räck upp handen.</b> Det är ett känt fel som inte löses genom att prova igen. Lösningen är att formatera om minnet till <b>NTFS</b> — men det <b>raderar allt på minnet</b>, så det ska inte göras mitt i passet.</p>
+    </div>
+
+    <h2 id="missuppfattningar">7. Vanliga missuppfattningar</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det som sägs</th><th>Vad som faktiskt gäller</th></tr></thead>
+        <tbody>
+          <tr><td>"Kan jag inte bara dra mappen till USB-minnet?"</td><td>Det är en kopia, inte en säkerhetskopiering. Ingen kör den i morgon, och den sparar inga versioner</td></tr>
+          <tr><td>"Vi har ju allt i molnet"</td><td>Synkronisering går åt båda håll. Raderar du originalet raderas kopian</td></tr>
+          <tr><td>"RAID är väl en säkerhetskopia?"</td><td>Skyddar mot en död disk. Raderingen speglas till båda diskarna</td></tr>
+          <tr><td>"Inkrementell är bättre, den går ju fortare"</td><td>Fortare att <i>ta</i>. Långsammare och känsligare att <i>återställa</i></td></tr>
+          <tr><td>"Det räcker att kopian ligger på en annan disk"</td><td>En annan disk i samma maskin brinner upp i samma brand — och krypteras av samma skadliga program</td></tr>
+          <tr><td>"Inställningen är grön, då är vi klara"</td><td>Bocken säger att tjänsten är på. Öppna en fil på minnet</td></tr>
+          <tr><td>"Vi tar hela användarmappen, det är säkrast"</td><td>Den tar hela passet och fyller minnet. Välj mappen medvetet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">8. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Säkerhetskopia</b></td><td>En kopia av data som finns för att kunna hämtas tillbaka när originalet försvinner. Engelska: <i>backup</i></td></tr>
+          <tr><td><b>Full säkerhetskopiering</b></td><td>Allt kopieras varje gång. Lång att köra, mycket utrymme, enkel att återställa från</td></tr>
+          <tr><td><b>Inkrementell säkerhetskopiering</b></td><td>Bara det som ändrats sedan senast kopieras. Kort att köra, lite utrymme, mer att sätta ihop vid återställning</td></tr>
+          <tr><td><b>3-2-1-regeln</b></td><td>Tre kopior, på två olika sorters media, varav minst en på annan plats</td></tr>
+          <tr><td><b>RAID</b></td><td>Flera diskar som arbetar som en, ofta med samma data på mer än en disk. Ger feltolerans, inte säkerhetskopiering</td></tr>
+          <tr><td><b>Feltolerans</b></td><td>Att något fortsätter fungera trots att en del av det gått sönder</td></tr>
+          <tr><td><b>Driftsäkerhet</b></td><td>Att en maskin eller tjänst är igång när den behövs. Det RAID bidrar till</td></tr>
+          <tr><td><b>Filhistorik</b></td><td>Windows inbyggda funktion som kopierar valda mappar till en extern enhet och sparar versioner av filerna. Engelska: <i>File History</i></td></tr>
+          <tr><td><b>Version</b></td><td>Hur en fil såg ut vid en viss tidpunkt. Filhistorik sparar flera, så att du kan välja vilken du vill ha tillbaka</td></tr>
+          <tr><td><b>NTFS</b></td><td>Windows filsystem. Filhistorik kräver en enhet formaterad så att versioner kan sparas — vissa USB-minnen måste formateras om</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 7</a> · <a href="aterstallningen.html">Nästa: återställningen</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

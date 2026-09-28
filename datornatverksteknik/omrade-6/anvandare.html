@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Användare och behörigheter – Dator- och nätverksteknik område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-6-anvandare">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Uppslag</strong> · Användare och behörigheter</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#kontona">1. Administratör och standardkonto</a></li>
+      <li><a href="#grupper">2. Vad en grupp är</a></li>
+      <li><a href="#klasserna">3. De tre klasserna</a></li>
+      <li><a href="#var">4. Var behörigheten prövas</a></li>
+      <li><a href="#unix">5. Unix och Windows: samma idé, andra ord</a></li>
+      <li><a href="#gora">6. Vad du ska göra</a></li>
+      <li><a href="#felsokning">7. Felsökning</a></li>
+      <li><a href="#ordlista">8. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 6 · lektion 25</p>
+    <h1>Användare och behörigheter</h1>
+    <p class="inledning">I område 5 skapade du <b>ett</b> konto, för att maskinen skulle gå att använda. Här sätter du upp flera i samma maskin, med olika rättigheter — och sidan svarar på frågan varför det ena kontot faktiskt inte kommer åt det andras filer.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-12-02">
+        <span class="nar">2 dec</span>
+        <span class="vad">Labb 6 lämnas in kl 23:59
+          <small>Kontona och de nekade försöken är resultatdelen.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="kontona">1. Administratör och standardkonto</h2>
+    <p><b>Ett administratörskonto får ändra systemet.</b> Installera program, skapa och ta bort användare, ändra andras filer.</p>
+    <p><b>Ett standardkonto får sköta sitt eget</b> — köra program, spara sina egna filer — men inte röra systemet eller andra användare.</p>
+    <p>Varför skulle någon vilja ha ett konto med <i>mindre</i> rättigheter? Svaret är inte misstro utan <b>skadebegränsning</b>: det som kontot inte får göra kan inte heller gå fel av misstag, och kan inte utnyttjas av ett program som kommit in genom kontot.</p>
+
+    <div class="notis">
+      <span class="rubrik">Det kommer tillbaka i område 7</span>
+      <p>Ett utpressningsprogram krypterar varje skrivbar plats det når. Vad kontot det kom in genom <i>inte</i> fick röra, når det inte heller.</p>
+    </div>
+
+    <h2 id="grupper">2. Vad en grupp är</h2>
+    <p><b>En grupp är en påse användare som får rättigheter tillsammans.</b> Skälet är praktiskt: har du fyrtio användare som alla ska åt samma mapp sätter du rättigheten på gruppen <b>en gång</b>, inte fyrtio gånger. Och när någon slutar tar du bort personen ur gruppen i stället för att leta upp fyrtio inställningar.</p>
+    <p>En användare kan vara med i flera grupper samtidigt. I <code>ComputerExplorer → operating-systems → users-groups</code> är <b>carol</b> exemplet — hon är med i både <code>devs</code> och <code>staff</code>.</p>
+
+    <h2 id="klasserna">3. De tre klasserna</h2>
+    <p>När någon försöker öppna en fil prövas <b>tre klasser, i ordning</b>. Den första som stämmer avgör:</p>
+    <ol>
+      <li>Är du <b>ägaren</b> till filen?</li>
+      <li>Annars: är du med i filens <b>grupp</b>?</li>
+      <li>Annars: du är <b>övrig</b></li>
+    </ol>
+    <p>För varje klass finns tre rättigheter: <b>läsa</b>, <b>skriva</b> och <b>köra</b>. I noden <code>permissions</code> ser du dem som bockar, och raden <b>Kärnans beslut</b> visar utfallet.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vem försöker</th><th>Vilken klass</th></tr></thead>
+        <tbody>
+          <tr><td><b>alice</b></td><td>Filens ägare</td></tr>
+          <tr><td><b>carol</b></td><td>Medlem i filens grupp</td></tr>
+          <tr><td><b>bob</b></td><td>Varken ägare eller i gruppen — alltså <b>övrig</b></td></tr>
+          <tr><td><b>root</b></td><td>Superanvändaren. Går förbi allt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="var">4. Var behörigheten prövas</h2>
+    <p>Det här är områdets viktigaste svar, och det går tillbaka till lektion 22.</p>
+    <p>Ett program som vill öppna en fil <b>kan inte göra det själv</b>. Det gör ett <b>systemanrop</b> — ber kärnan om saken. Och det är <b>kärnan</b> som kontrollerar om det är tillåtet.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Vem stoppade dig?</span>
+      <p>Svaret "Windows" är halvfärdigt. Svaret är <b>kärnan, när programmet gjorde sitt systemanrop</b>. Behörigheten prövas där — inte i Utforskaren, inte i programmet som frågade.</p>
+      <p>I labbrapporten är det skillnaden mellan ett konstaterande och ett resonemang.</p>
+    </div>
+
+    <h2 id="unix">5. Unix och Windows: samma idé, andra ord</h2>
+    <p>Noderna <code>permissions</code> och <code>users-groups</code> visar det på <b>Unix-sätt</b>: <code>ls -l</code>, <code>chmod</code>, oktala tal, <code>uid 0</code>, grupper som heter <code>devs</code> och <code>staff</code>. Det du arbetar i på bänken är <b>Windows</b>.</p>
+    <p><b>Orden är olika. Idén är densamma.</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Idén</th><th>I noden</th><th>I Windows</th></tr></thead>
+        <tbody>
+          <tr><td>Vem du är</td><td><code>uid</code>, användarnamn</td><td>Ditt konto</td></tr>
+          <tr><td>Påse med användare</td><td>grupperna <code>devs</code>, <code>staff</code></td><td>Grupperna <b>Administratörer</b> och <b>Användare</b></td></tr>
+          <tr><td>Rättighet på en fil</td><td><code>r</code>, <code>w</code>, <code>x</code> per klass</td><td><b>Läs</b>, <b>Skriv</b>, <b>Ändra</b> i filens säkerhetsflik</td></tr>
+          <tr><td>Kontot som får allt</td><td><code>root</code>, uid 0</td><td>Administratörskontot</td></tr>
+          <tr><td><b>Vem som beslutar</b></td><td><b>Kärnan, vid systemanropet</b></td><td><b>Kärnan, vid systemanropet</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Sista raden är den enda som är identisk — och den viktigaste</span>
+      <p>Mekanismen är samma i båda världarna. Det är bara namnen som skiljer.</p>
+      <p>Och: <b><code>chmod</code> finns inte i Windows.</b> Motsvarigheten sitter i filens egenskaper, under säkerhetsfliken. Den är mer detaljerad — men den prövar samma tre frågor i samma ordning.</p>
+    </div>
+
+    <h2 id="gora">6. Vad du ska göra</h2>
+    <p>Allt sker <b>inne i den virtuella maskinen</b>. Ingenting av det här rör elevdatorns eget Windows.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">Klart när du går från lektion 25</h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="anv-1"><span>Inloggad som <b>administratör</b> — kontot från lektion 24</span></label></li>
+        <li><label><input type="checkbox" id="anv-2"><span>Ett <b>andra konto</b> skapat, med ett namn som visar vad det är</span></label></li>
+        <li><label><input type="checkbox" id="anv-3"><span>Kontot satt som <b>standardanvändare</b> — och kontotypen kontrollerad efteråt</span></label></li>
+        <li><label><input type="checkbox" id="anv-4"><span>Utloggad, och inloggad som det nya kontot</span></label></li>
+        <li><label><input type="checkbox" id="anv-5"><span>Försökt <b>installera ett program</b> — och antecknat vad som hände</span></label></li>
+        <li><label><input type="checkbox" id="anv-6"><span>Försökt <b>öppna administratörskontots mapp</b> — och antecknat vad som hände</span></label></li>
+        <li><label><input type="checkbox" id="anv-7"><span>Meddelandets <b>faktiska ordalydelse</b> nedskriven — inte "det gick inte"</span></label></li>
+        <li><label><input type="checkbox" id="anv-8"><span>Båda kontona kontrollerade: de finns och går att logga in på</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="felsokning">7. Felsökning</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: chmod, kontotyp, lösenord" autocomplete="off">
+      <p class="traffar" id="traffar-fel">7 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Kommer inte in i den virtuella maskinen</td><td>En vecka har gått sedan sist</td><td>Kontonamn och lösenord står på tavlan</td></tr>
+          <tr><td>Maskinen startar i ett oväntat läge</td><td>Den sparades pausad i stället för avstängd</td><td>Stäng av helt och starta om</td></tr>
+          <tr><td>Det andra kontot får installera program</td><td>Det blev administratör — Windows föreslår ofta det</td><td>Ändra kontotypen till standard. Ett andra administratörskonto testar ingenting</td></tr>
+          <tr><td>Hittar inte <code>chmod</code></td><td>Det finns inte i Windows</td><td>Filens egenskaper → säkerhetsfliken. Samma tre frågor, andra ord</td></tr>
+          <tr><td>Hittar inte <code>root</code></td><td>Det heter något annat i Windows</td><td>Administratörskontot är motsvarigheten</td></tr>
+          <tr><td>Testet visar ingenting</td><td>Testet gjordes på elevdatorns eget Windows</td><td>Allt ska ske <b>inne i den virtuella maskinen</b>. Titta på fönsterramen</td></tr>
+          <tr><td>Vet inte vad som ska skrivas i rapporten</td><td>"Det gick inte" känns som ett svar</td><td>Skriv av meddelandet ordagrant, och skriv <b>vem</b> som nekade och <b>när</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">8. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Administratörskonto</b></td><td>Konto som får ändra systemet: installera program, skapa användare, ändra andras filer</td></tr>
+          <tr><td><b>Standardkonto</b></td><td>Konto som får sköta sitt eget, men inte röra systemet eller andra användare</td></tr>
+          <tr><td><b>Grupp</b></td><td>En påse användare som får rättigheter tillsammans</td></tr>
+          <tr><td><b>Ägare</b></td><td>Den användare filen tillhör. Första klassen som prövas</td></tr>
+          <tr><td><b>Övrig</b></td><td>Den som varken är ägare eller med i filens grupp</td></tr>
+          <tr><td><b>Behörighet</b></td><td>Rätten att läsa, skriva eller köra en fil</td></tr>
+          <tr><td><b>Systemanrop</b></td><td>När ett program ber kärnan göra något det inte får göra självt. Det är här behörigheten prövas</td></tr>
+          <tr><td><b>root</b></td><td>Superanvändaren i Unix-system. Motsvarar administratörskontot i Windows</td></tr>
+          <tr><td><b>chmod</b></td><td>Unix-kommandot som sätter behörigheter på en fil. Finns inte i Windows</td></tr>
+          <tr><td><b>Skadebegränsning</b></td><td>Att ge ett konto mindre rättigheter så att mindre kan gå fel — av misstag eller genom ett program som kommit in</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 6</a> · <a href="arbetet.html">Nästa: hur operativsystemet arbetar</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
