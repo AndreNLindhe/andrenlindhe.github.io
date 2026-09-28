@@ -23,81 +23,222 @@
       Planeringen, deadlines och din återkoppling finns i itslearning – det är också
       där du lämnar in.</p>
 
+    <div class="overblick">
+
+    <!-- Fylls i av paket.js utifrån dagens datum och kortens data-fran/data-till.
+         Utan JavaScript förblir rutan dold och sidan ser ut som förut. -->
+    <section class="justnu" aria-labelledby="just-nu" hidden>
+      <h2 id="just-nu">Just nu</h2>
+      <p class="lage"></p>
+      <p class="titel"><a href="#omradena"></a></p>
+
+      <ul class="snabb" data-omrade="1" hidden>
+        <li><a href="omrade-1-igang-med-webben/kom-igang.html">Kom igång</a></li>
+        <li><a href="omrade-1-igang-med-webben/sa-fungerar-webben.html">Så fungerar webben</a></li>
+        <li><a href="omrade-1-igang-med-webben/fran-adress-till-sida.html">Från adress till sida</a></li>
+      </ul>
+      <ul class="snabb" data-omrade="2" hidden>
+        <li><a href="omrade-2-html/html-guiden.html">HTML-guiden</a></li>
+        <li><a href="omrade-2-html/projekt-1.html">Projekt 1</a></li>
+      </ul>
+      <ul class="snabb" data-omrade="3" hidden>
+        <li><a href="omrade-3-css/css-guiden.html">CSS-guiden</a></li>
+        <li><a href="omrade-3-css/projekt-2.html">Projekt 2</a></li>
+      </ul>
+      <ul class="snabb" data-omrade="4" hidden>
+        <li><a href="omrade-4-ux-design-mobil/design-guiden.html">Designguiden</a></li>
+        <li><a href="omrade-4-ux-design-mobil/projekt-3.html">Projekt 3</a></li>
+      </ul>
+      <ul class="snabb" data-omrade="5" hidden>
+        <li><a href="omrade-5-publicering-juridik-sakerhet/gdpr.html">GDPR-guiden</a></li>
+        <li><a href="omrade-5-publicering-juridik-sakerhet/upphovsratt-och-licenser.html">Upphovsrättsguiden</a></li>
+        <li><a href="omrade-5-publicering-juridik-sakerhet/sakerhet.html">Säkerhetsguiden</a></li>
+        <li><a href="omrade-5-publicering-juridik-sakerhet/projekt-4.html">Projekt 4</a></li>
+      </ul>
+      <ul class="snabb" data-omrade="6" hidden>
+        <li><a href="omrade-6-moduler/js-guiden.html">JS-guiden</a></li>
+        <li><a href="omrade-6-moduler/modulbiblioteket.html">Modulbiblioteket</a></li>
+        <li><a href="omrade-6-moduler/projekt-5.html">Projekt 5</a></li>
+      </ul>
+      <ul class="snabb" data-omrade="7" hidden>
+        <li><a href="omrade-7-optimering-diskret/optimeringsguiden.html">Optimeringsguiden</a></li>
+        <li><a href="omrade-7-optimering-diskret/diskret-funktionalitet.html">Diskret funktionalitet</a></li>
+        <li><a href="omrade-7-optimering-diskret/projekt-6.html">Projekt 6</a></li>
+      </ul>
+      <ul class="snabb" data-omrade="8" hidden>
+        <li><a href="omrade-8-slutprojekt/projektguiden.html">Projektguiden</a></li>
+        <li><a href="omrade-8-slutprojekt/kunder.html">Kunderna</a></li>
+        <li><a href="omrade-8-slutprojekt/projekt-7.html">Projekt 7</a></li>
+        <li><a href="omrade-8-slutprojekt/repetition.html">Repetition</a></li>
+      </ul>
+    </section>
+
+    <section class="narmast" aria-labelledby="narmast">
     <h2 id="narmast">Närmast</h2>
-    <ul class="datum">
+    <ul class="datum" data-urval="3">
       <li data-datum="2026-09-04">
         <span class="nar">4 sept</span>
         <span class="vad">Inlämning kl 23:59
-          <small>Område 1 – Så fungerar webben. Länken till ditt repo lämnas i itslearning.</small></span>
+          <small>Område 1 – Så fungerar webben. Länken till ditt publika repo lämnas i itslearning.</small></span>
         <span class="kvar"></span>
       </li>
       <li data-datum="2026-10-02">
         <span class="nar">2 okt</span>
         <span class="vad">Inlämning kl 23:59
-          <small>Område 2 – Projekt 1, flersidig ostilad webbplats.</small></span>
+          <small>Område 2 – Projekt 1 – flersidig ostilad webbplats. Länken till ditt nya publika
+            repo lämnas i itslearning.</small></span>
         <span class="kvar"></span>
       </li>
       <li data-datum="2026-10-05">
         <span class="nar">5 okt</span>
-        <span class="vad">Prov 1 – HTML
-          <small>Skriftligt prov utan dator. Bygger på det du lämnat in.</small></span>
+        <span class="vad">Prov 1 – kodprov HTML
+          <small>Område 2 – Skriftligt prov utan dator. Bygger på det du arbetat med i området.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-11-06">
+        <span class="nar">6 nov</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Område 3 – Projekt 2 – stilsatt webbplats. Samma repo som Projekt 1.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-11-09">
+        <span class="nar">9 nov</span>
+        <span class="vad">Prov 2 – kodprov CSS
+          <small>Område 3 – Skriftligt prov utan dator.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-12-11">
+        <span class="nar">11 dec</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Område 4 – Projekt 3 – repo-länken och Figma-länken lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-12-14">
+        <span class="nar">14 dec</span>
+        <span class="vad">Prov 3 – responsivt, UX och tillgänglighet
+          <small>Område 4 – Skriftligt prov utan dator.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2026-12-22">
+        <span class="nar">22 dec</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Område 5 – Projekt 4 – länken till den publicerade Google Sites-sajten lämnas i itslearning. Inget prov.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-02-05">
+        <span class="nar">5 feb</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Område 6 – Projekt 5 – repo-länken lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-02-08">
+        <span class="nar">8 feb</span>
+        <span class="vad">Prov 4 – läsa och anpassa kod
+          <small>Område 6 – Skriftligt prov utan dator.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-03-12">
+        <span class="nar">12 mars</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Område 7 – Projekt 6 – repo-länken lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-03-15">
+        <span class="nar">15 mars</span>
+        <span class="vad">Prov 5 – optimering och diskret funktionalitet
+          <small>Område 7 – Skriftligt prov utan dator.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-03-19">
+        <span class="nar">19 mars</span>
+        <span class="vad">Delinlämning kl 23:59
+          <small>Område 8 – Kravspecifikation, projektplan och wireframes – länken till projektdokumentet lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-06-07">
+        <span class="nar">7 juni</span>
+        <span class="vad">Slutinlämning kl 23:59
+          <small>Område 8 – Sajten och hela projektdokumentet – repo-länken lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-06-08">
+        <span class="nar">8 juni</span>
+        <span class="vad">Prov 6 – slutprov över hela kursen
+          <small>Område 8 – Skriftligt prov utan dator, följt av kursutvärdering.</small></span>
         <span class="kvar"></span>
       </li>
     </ul>
+    </section>
+
+    </div>
 
     <h2 id="omradena">Kursens åtta områden</h2>
     <div class="rutnat">
 
-      <a class="kort webb" href="omrade-1-igang-med-webben/index.html">
+      <a class="kort webb" data-omrade="1" data-fran="2026-08-17" data-till="2026-09-04"
+        href="omrade-1-igang-med-webben/index.html">
         <span class="sort">Område 1 · v.34–36</span>
         <span class="rubrik">Igång med webben</span>
         <p>Verktygskedjan och en mental modell av webben. GitHub, Codespaces och
           inlämningsflödet.</p>
       </a>
 
-      <a class="kort webb" href="omrade-2-html/index.html">
+      <a class="kort webb" data-omrade="2" data-fran="2026-09-07" data-till="2026-10-05"
+        href="omrade-2-html/index.html">
         <span class="sort">Område 2 · v.37–41</span>
         <span class="rubrik">HTML – innehåll och struktur</span>
         <p>Semantisk och validerad HTML, helt utan CSS. Guiden, Projekt 1 och
           bedömningsmatrisen.</p>
       </a>
 
-      <a class="kort webb" href="omrade-3-css/index.html">
+      <a class="kort webb" data-omrade="3" data-fran="2026-10-06" data-till="2026-11-09"
+        href="omrade-3-css/index.html">
         <span class="sort">Område 3 · v.41–46</span>
         <span class="rubrik">CSS – form, layout och designsystem</span>
         <p>Formge sajten med ett eget designsystem, Flexbox och Grid. Guiden, Projekt 2
           och bedömningsmatrisen.</p>
       </a>
 
-      <div class="kort tom">
+      <a class="kort webb" data-omrade="4" data-fran="2026-11-10" data-till="2026-12-14"
+        href="omrade-4-ux-design-mobil/index.html">
         <span class="sort">Område 4 · v.46–51</span>
         <span class="rubrik">UX, design och mobilanpassning</span>
-        <p>Öppnas i november.</p>
-      </div>
+        <p>Rita sajten innan du bygger den, och bygg den så att den fungerar i en
+          telefon och för den som inte använder mus. Designguiden, Projekt 3 och
+          bedömningsmatrisen.</p>
+      </a>
 
-      <div class="kort tom">
+      <a class="kort webb" data-omrade="5" data-fran="2026-12-15" data-till="2026-12-22"
+        href="omrade-5-publicering-juridik-sakerhet/index.html">
         <span class="sort">Område 5 · v.51–52</span>
         <span class="rubrik">Publicering, juridik och säkerhet</span>
-        <p>Öppnas i december.</p>
-      </div>
+        <p>GDPR, upphovsrätt och säkerhet, förklarade på en sajt du bygger i Google
+          Sites. Tre guider med myndigheterna som källor, och Projekt 4.</p>
+      </a>
 
-      <div class="kort tom">
+      <a class="kort webb" data-omrade="6" data-fran="2027-01-15" data-till="2027-02-08"
+        href="omrade-6-moduler/index.html">
         <span class="sort">Område 6 · v.2–6</span>
         <span class="rubrik">Interaktivitet med moduler</span>
-        <p>Öppnas i januari.</p>
-      </div>
+        <p>JavaScript genom färdig kod som läses, kopplas in och anpassas. JS-guiden,
+          sex moduler att bygga in, och Projekt 5.</p>
+      </a>
 
-      <div class="kort tom">
+      <a class="kort webb" data-omrade="7" data-fran="2027-02-09" data-till="2027-03-15"
+        href="omrade-7-optimering-diskret/index.html">
         <span class="sort">Område 7 · v.6–11</span>
         <span class="rubrik">Optimering och diskret funktionalitet</span>
-        <p>Öppnas i februari.</p>
-      </div>
+        <p>Sajten görs lättare och tåligare: bilder, laddtid, och kod som håller när
+          JavaScript inte gör det. Två guider och Projekt 6.</p>
+      </a>
 
-      <div class="kort tom">
+      <a class="kort webb" data-omrade="8" data-fran="2027-03-16" data-till="2027-06-08"
+        href="omrade-8-slutprojekt/index.html">
         <span class="sort">Område 8 · v.11 + v.20–23</span>
         <span class="rubrik">Slutprojekt</span>
-        <p>Öppnas i mars.</p>
-      </div>
+        <p>En webbplats åt en kund, från kravspec till publicerad och testad sajt.
+          Projektguiden, fem kunder, repetitionen och Projekt 7.</p>
+      </a>
 
     </div>
 

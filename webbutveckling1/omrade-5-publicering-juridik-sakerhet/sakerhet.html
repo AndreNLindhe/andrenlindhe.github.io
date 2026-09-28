@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Säkerhetsguiden – Webbutveckling 1 område 5</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-5-sakerhet">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Guide</strong> · Publicering, juridik och säkerhet</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#hoten">1. Hoten: fem sätt att bli av med sitt konto</a></li>
+      <li><a href="#losenord">2. Lösenord</a></li>
+      <li><a href="#mfa">3. Flerfaktorsautentisering</a></li>
+      <li><a href="#natfiske">4. Känn igen nätfisket</a></li>
+      <li><a href="#uppdateringar">5. Uppdateringar och säkerhetskopior</a></li>
+      <li><a href="#https">6. HTTPS och hänglåset</a></li>
+      <li><a href="#din-sajt">7. Din sajt: vad som kan gå fel</a></li>
+      <li><a href="#repot">8. Hemligheter och repot</a></li>
+      <li><a href="#etik">9. Lösenord och känslig data – det etiska kravet</a></li>
+      <li><a href="#nar-nagot-hant">10. När något hänt</a></li>
+      <li><a href="#langre">11. Ta det längre</a></li>
+      <li><a href="#felsokning">12. Felsökning</a></li>
+      <li><a href="#snabbreferens">13. Snabbreferens</a></li>
+      <li><a href="#ordlista">14. Ordlista</a></li>
+      <li><a href="#kallor">15. Källor</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 5 · guide</p>
+    <h1>Säkerhet på webben</h1>
+    <p class="inledning">Kursplanen kräver två saker av dig i det här ämnet: att du kan <i>"identifiera hot och sårbarheter samt hur attacker kan motverkas"</i>, och att du <i>"hanterar lösenord och annan känslig data på ett etiskt riktigt sätt"</i>. Guiden är byggd efter det. Första halvan handlar om dig som användare – det är där nästan alla angrepp börjar. Andra halvan handlar om dig som bygger en sajt.</p>
+
+    <p>Myndigheterna på området har bytt namn under 2026, och det är viktigt att få rätt i Projekt 4:</p>
+
+    <ul>
+      <li><b>MSB finns inte längre.</b> Sedan 1 januari 2026 heter myndigheten <b>Myndigheten för civilt försvar</b>, MCF. Adressen <code>msb.se</code> skickar vidare till <code>mcf.se</code>.</li>
+      <li><b>CERT-SE</b>, Sveriges nationella funktion för it-incidenter, flyttade 1 juli 2026 från MCF till <b>FRA</b>, Försvarets radioanstalt, och ingår nu i Nationellt cybersäkerhetscenter, NCSC.</li>
+      <li>Råden till privatpersoner ligger på <b>krisinformation.se</b>, som MCF står bakom.</li>
+    </ul>
+
+    <p>Källhänvisningarna är hämtade 11 september 2026.</p>
+
+    <h2 id="efterat">Vad du kan efter guiden</h2>
+    <ul>
+      <li>Räkna upp de fem vanligaste hoten mot en vanlig användare, och känna igen dem.</li>
+      <li>Förklara varför ett långt lösenord slår ett krångligt, och varför varje tjänst ska ha sitt eget.</li>
+      <li>Säga vad flerfaktorsautentisering skyddar mot – och vad den inte skyddar mot.</li>
+      <li>Läsa ett misstänkt meddelande och peka på det som avslöjar det.</li>
+      <li>Förklara vad hänglåset i adressfältet betyder, och vad det inte betyder.</li>
+      <li>Publicera en sajt som inte läcker: HTTPS, inga hemligheter i repot, koll på tredjepartsskript.</li>
+      <li>Veta vart du vänder dig när något hänt.</li>
+    </ul>
+
+    <h2 id="hoten">1. Hoten: fem sätt att bli av med sitt konto</h2>
+    <p>Ordet <i>hot</i> låter som något som riktas mot storföretag. De flesta angrepp riktas mot vanliga människor, i stor skala, med automatik. De fem du kommer att möta:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Hot</th><th>Så går det till</th><th>Vad det utnyttjar</th></tr></thead>
+        <tbody>
+          <tr><td><b>Nätfiske</b> (phishing)</td><td>Ett meddelande som ser ut att komma från banken, skolan, posten eller en kompis, med en länk till en falsk inloggningssida</td><td>Att du litar på avsändaren och har bråttom</td></tr>
+          <tr><td><b>Läckta lösenord</b></td><td>En tjänst du har konto på blir hackad. Ditt lösenord hamnar i en lista som säljs. Angriparen provar samma lösenord på alla andra tjänster</td><td>Att du använder samma lösenord på flera ställen</td></tr>
+          <tr><td><b>Skadlig kod</b> (malware)</td><td>Ett program du lurats installera: en "uppdatering", ett spelfusk, en bilaga. Kan läsa allt du skriver, kryptera dina filer och kräva pengar (<i>ransomware</i>)</td><td>Att du kör något du inte kontrollerat</td></tr>
+          <tr><td><b>Social manipulation</b></td><td>Någon ringer, chattar eller mejlar och får dig att göra något – logga in, godkänna ett BankID, lämna ut en kod</td><td>Hjälpsamhet, stress, respekt för auktoritet</td></tr>
+          <tr><td><b>Gissade eller svaga lösenord</b></td><td>Program provar miljontals vanliga lösenord i sekunden</td><td>Korta lösenord, ord ur ordboken, årtal</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Nätfiske är det största, och CERT-SE beskriver det som <i>"social manipulation för att stjäla känslig information"</i>. Nästan alla stora intrång de senaste åren har börjat med att en enda person klickat på en enda länk.</p>
+
+    <p>Gemensamt för alla fem: <b>de riktar sig mot människan, inte mot tekniken.</b> Det är därför avsnitt 2–5 handlar om vanor, inte om programvara.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Sök på din egen e-postadress på en tjänst som visar kända läckor – <i>Have I Been Pwned</i> är den mest använda, och den drivs av en säkerhetsforskare, inte av en myndighet. Finns din adress med i en läcka har det lösenord du hade där varit ute sedan dess. Använde du samma lösenord någon annanstans?</p>
+
+    <h2 id="losenord">2. Lösenord</h2>
+    <p>Krisinformation.se sammanfattar MCF:s råd i två meningar: <i>"Använd långa lösenord"</i> och <i>"Använd olika lösenord för olika tjänster."</i> Allt annat är detaljer.</p>
+
+    <h3>Långt slår krångligt</h3>
+
+    <p>Ett lösenord knäcks genom att ett program provar. Det som avgör hur lång tid det tar är antalet möjliga kombinationer, och det växer mycket snabbare med längden än med konstigheterna. <code>Tr0mb0n!</code> är åtta tecken och knäcks på timmar. <code>blå traktor äter frukost</code> är tjugofyra tecken och tar längre tid än universum funnits.</p>
+
+    <p>Rådet blir: <b>en lösenordsfras</b>, fyra eller fler ord som du kan komma ihåg men som ingen kan gissa. Inte ett citat, inte en låttitel, inte något som står på din Instagram.</p>
+
+    <h3>Ett per tjänst</h3>
+
+    <p>Läckta lösenord (avsnitt 1) fungerar bara för att folk återanvänder. Har varje tjänst sitt eget lösenord är en läcka hos en tjänst en läcka hos en tjänst – inte hos alla.</p>
+
+    <h3>Lösenordshanteraren gör det möjligt</h3>
+
+    <p>Ingen kan minnas femtio olika långa fraser. Det är inte meningen. En <b>lösenordshanterare</b> är ett program som skapar, sparar och fyller i lösenorden åt dig, bakom ett enda huvudlösenord som du kan. Krisinformation.se rekommenderar det rakt ut. Webbläsarens inbyggda hanterare duger för de flesta; en fristående (Bitwarden, 1Password, KeePass) är bättre om du byter mellan enheter och webbläsare.</p>
+
+    <p>Det enda lösenordet du behöver kunna utantill är då huvudlösenordet – och det ska vara en lång fras.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Lämna aldrig ut det</span>
+      <p>Krisinformation.se: <i>"Lämna aldrig ut din e-legitimation till någon som oväntat kontaktar dig."</i> Samma sak med lösenord och koder. Skolan, banken, Google och Microsoft frågar aldrig efter ditt lösenord – i telefon, i mejl eller i chatt. Den som gör det är angriparen, hur trovärdig hen än låter.</p>
+    </div>
+
+    <h3>Prova själv</h3>
+
+    <p>Öppna lösenordshanteraren i din webbläsare. De flesta har en funktion som visar återanvända och läckta lösenord. Byt de som markeras – börja med e-posten, eftersom den som har din e-post kan återställa allt annat.</p>
+
+    <h2 id="mfa">3. Flerfaktorsautentisering</h2>
+    <p><b>Flerfaktorsautentisering</b>, MFA, betyder att inloggningen kräver mer än en sak: något du <b>vet</b> (lösenordet) plus något du <b>har</b> (telefonen, en säkerhetsnyckel) eller något du <b>är</b> (fingeravtryck, ansikte). Kallas också tvåstegsverifiering eller 2FA.</p>
+
+    <p>Poängen: ett läckt lösenord räcker inte längre. Angriparen som köpt ditt lösenord i en lista har inte din telefon. Krisinformation.se, CERT-SE och MCF säger alla samma sak – slå på det överallt där det går.</p>
+
+    <h3>Tre sorter, olika starka</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sort</th><th>Så fungerar det</th><th>Skyddar mot nätfiske?</th></tr></thead>
+        <tbody>
+          <tr><td><b>Kod via sms</b></td><td>En sexsiffrig kod skickas till ditt nummer</td><td>Delvis. En falsk sida kan be dig om koden och skicka den vidare i realtid</td></tr>
+          <tr><td><b>Autentiseringsapp</b></td><td>En app (Google Authenticator, Microsoft Authenticator, Authy) visar en kod som byts var 30:e sekund</td><td>Delvis, av samma skäl</td></tr>
+          <tr><td><b>Passkey eller säkerhetsnyckel</b></td><td>En nyckel som lagras i telefonen eller på en USB-sticka, knuten till den riktiga sajtens adress</td><td>Ja. Nyckeln fungerar bara på rätt adress, så en falsk sida får ingenting</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>CERT-SE kallar den sista sorten <i>"phishing resistant MFA"</i> och rekommenderar den för allt känsligt. Erbjuder tjänsten passkeys – GitHub, Google, Apple och Microsoft gör det – välj det.</p>
+
+    <h3>Vad MFA inte skyddar mot</h3>
+
+    <p>Att du själv godkänner något. Om du får en push-notis "Godkänn inloggning?" när du inte försöker logga in, är svaret nej. Angriparen har ditt lösenord och hoppas att du trycker ja av vana. Det kallas <i>MFA-trötthet</i> och fungerar oroväckande ofta.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Slå på flerfaktorsautentisering på ditt GitHub-konto, om du inte redan gjort det. GitHub kräver det för de flesta konton sedan 2023. Välj passkey om din telefon stöder det.</p>
+
+    <h2 id="natfiske">4. Känn igen nätfisket</h2>
+    <p>Nätfiske går att känna igen. Det tar tio sekunder, och de tio sekunderna är hela skyddet.</p>
+
+    <h3>Sex tecken</h3>
+
+    <ol>
+      <li><b>Avsändaradressen, inte namnet.</b> CERT-SE: <i>"titta på avsändaradressen och inte bara namnet i misstänkt e-post"</i>. Namnet kan vara "Skatteverket". Adressen är <code>noreply@skatteverket-info.xyz</code>.</li>
+      <li><b>Brådska.</b> "Ditt konto stängs inom 24 timmar." "Paketet returneras i dag." Riktiga tjänster ger dig tid.</li>
+      <li><b>En länk du ska klicka på för att logga in.</b> Håll muspekaren över länken utan att klicka – adressen visas längst ner i webbläsaren. Är den inte den du väntade dig, stäng meddelandet.</li>
+      <li><b>Betalning eller kod.</b> "Betala 19 kr i tull." "Ange koden vi skickade." Små belopp gör att du inte tänker efter.</li>
+      <li><b>Bilagor och QR-koder.</b> En QR-kod är en länk du inte kan läsa. CERT-SE varnar särskilt för dem.</li>
+      <li><b>Något stämmer inte.</b> Fel språk, konstiga tecken, en tjänst du inte har konto på. Krisinformation.se: <i>"Kontrollera meddelandet noga – ser det ut som det ska?"</i></li>
+    </ol>
+
+    <h3>Det enda säkra sättet att logga in</h3>
+
+    <p>Gå <b>själv</b> till tjänsten – skriv adressen, använd bokmärket eller appen. Aldrig via en länk i ett meddelande som säger att du måste. Är det något riktigt ser du det när du loggat in.</p>
+
+    <h3>Realistiskt exempel</h3>
+
+    <p>Ett sms: "Hej! Ditt paket kunde inte levereras. Betala 25 kr i avgift för ny leverans: [länk]". Avsändaren är ett vanligt mobilnummer. Länken går till en adress med ett postföretags namn i, men med <code>.top</code> i slutet. Sidan ser exakt ut som postföretagets, och ber om kortuppgifter. Kortet töms samma kväll.</p>
+
+    <p>Tecken 2, 3, 4 och 1 – alla fyra på tre rader.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Gå igenom skräppostmappen i din e-post. Ta tre meddelanden och pricka av mot de sex tecknen. Vilka tecken hittade du i varje? Det är en övning som passar som konkret exempel i Projekt 4, med skärmbild där du strukit över allt personligt.</p>
+
+    <h2 id="uppdateringar">5. Uppdateringar och säkerhetskopior</h2>
+    <p>Två vanor som skyddar mot skadlig kod, och som inte kräver att du känner igen något.</p>
+
+    <h3>Uppdatera</h3>
+
+    <p>Skadlig kod tar sig in genom <b>sårbarheter</b> – fel i program som någon hittat och lärt sig utnyttja. När felet blir känt släpper tillverkaren en rättelse, och från det ögonblicket är alla som inte uppdaterat lätta mål: angriparna vet exakt vilket fel de ska leta efter. MCF:s råd: håll <i>"datorer, mobiler och wifi-routrar uppdaterade"</i>. Slå på automatiska uppdateringar på allt. Routern glöms oftast.</p>
+
+    <h3>Säkerhetskopiera</h3>
+
+    <p>Ransomware krypterar dina filer och kräver pengar för nyckeln. Skyddet är att inte behöva nyckeln: en kopia som angriparen inte når. Krisinformation.se: <i>"Säkerhetskopiera ofta – då minskar du risken att din säkerhetskopia smittas av virus."</i> MCF lägger till att kopian ska hållas <i>"frånkopplad från datorn och internet"</i>.</p>
+
+    <p>Din kod på GitHub är en säkerhetskopia. Dina bilder, dina dokument och din Figma-fil är det inte, om de bara finns på en dator.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Ta reda på när din dator, din telefon och hemmets router senast uppdaterades. Hitta inställningen för automatisk uppdatering på var och en och slå på den.</p>
+
+    <h2 id="https">6. HTTPS och hänglåset</h2>
+    <p>Den här är viktig för att nästan alla har fått den förklarad fel.</p>
+
+    <p><b>HTTP</b> är det protokoll webbläsaren och servern pratar med varandra genom (område 1). <b>HTTPS</b> är samma sak med <b>kryptering</b>: allt som skickas mellan din webbläsare och servern är oläsligt för den som sitter emellan – på kaféets wifi, hos internetleverantören, på vägen. Krypteringen bygger på ett <b>certifikat</b> som servern visar upp, och som webbläsaren kontrollerar mot en lista över betrodda utfärdare.</p>
+
+    <p>Hänglåset i adressfältet betyder <b>ett</b> enda: <i>förbindelsen är krypterad, och certifikatet stämmer med adressen du ser.</i></p>
+
+    <p>Det betyder <b>inte</b> att sajten är ärlig. Certifikat är gratis sedan flera år, och nätfiskesajter har hänglås precis som alla andra. Ett hänglås på <code>skatteverket-info.xyz</code> säger att din förbindelse till bedragaren är säker.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Hänglåset säger</th><th>Hänglåset säger inte</th></tr></thead>
+        <tbody>
+          <tr><td>Ingen mellan dig och servern kan läsa trafiken</td><td>Att servern tillhör den den påstår sig vara</td></tr>
+          <tr><td>Adressen i fältet är den servern har certifikat för</td><td>Att sajten är säker att lämna uppgifter på</td></tr>
+          <tr><td>Sidan har inte ändrats på vägen</td><td>Att sidan inte försöker lura dig</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Läs alltså <b>adressen</b>, inte hänglåset.</p>
+
+    <h3>Din sajt ska ha HTTPS</h3>
+
+    <p>GitHub Pages ger din sajt ett certifikat automatiskt. Kontrollera att <i>Enforce HTTPS</i> är förkryssat under repots <i>Settings → Pages</i> – då skickas den som skriver <code>http://</code> vidare till <code>https://</code>. Google Sites har HTTPS alltid, utan inställning.</p>
+
+    <p>En sajt utan HTTPS får en varning i webbläsaren, och sökmotorerna rankar den lägre. Det finns inget skäl att sakna det 2026.</p>
+
+<pre><code>http://exempel.se      → varning: "Inte säker". Trafiken går i klartext.
+https://exempel.se     → hänglås. Trafiken är krypterad.</code></pre>
+
+    <h3>Prova själv</h3>
+
+    <p>Klicka på hänglåset på din egen sajt. Webbläsaren visar certifikatet: vem som utfärdat det, för vilken adress, och hur länge det gäller. Gör samma sak på en banks sajt och jämför.</p>
+
+    <h2 id="din-sajt">7. Din sajt: vad som kan gå fel</h2>
+    <p>En <b>statisk sajt</b> – HTML, CSS och bilder, som din på GitHub Pages – har en liten <b>angreppsyta</b>. Det finns ingen databas att stjäla, ingen inloggning att knäcka, ingen kod som körs på servern. Det är en av de största fördelarna med att bygga så.</p>
+
+    <p>Men liten är inte noll. Fyra saker att ha koll på:</p>
+
+    <h3>Formuläret</h3>
+
+    <p>Ett formulär utan <code>action</code> skickar ingenting. Kopplar du det till en tjänst som tar emot svaren – Formspree, Netlify Forms, ett Google-formulär – är det den tjänsten som lagrar det besökaren skriver. Då gäller GDPR-guidens avsnitt 6, och du ska veta vilken tjänst det är, var den lagrar och hur länge.</p>
+
+    <h3>Tredjepartsskript</h3>
+
+    <p>Varje <code>&lt;script src="https://någon-annans-server/…"&gt;</code> du lägger in är kod du inte skrivit, som körs hos varje besökare med full tillgång till sidan. Blir den servern hackad – det har hänt flera stora leverantörer – körs angriparens kod på din sajt.</p>
+
+<pre><code>&lt;!-- Kod från någon annans server, som körs hos alla dina besökare --&gt;
+&lt;script src="https://cdn.exempel.net/widget.js"&gt;&lt;/script&gt;</code></pre>
+
+    <p>Regeln: bara skript du behöver, från leverantörer du har skäl att lita på. Och helst en kopia i ditt eget repo i stället för en länk till deras server – då ändras koden inte utan att du ser det. Kursens moduler i område 6 ligger i ditt repo av det skälet.</p>
+
+    <h3>Inbäddningar</h3>
+
+    <p>En <code>iframe</code> med YouTube, en karta, ett inlägg från sociala medier. De är säkrare än skript – innehållet är inlåst i sin ruta – men de skickar besökarens IP-adress till leverantören och sätter ofta kakor. Det är en GDPR-fråga mer än en säkerhetsfråga, men den hör hemma i samma lista.</p>
+
+    <h3>Det du skriver in själv</h3>
+
+    <p>Har du JavaScript som tar text från besökaren – ett sökfält, ett formulär vars svar visas på sidan – och lägger in den i sidan med <code>innerHTML</code>, kan besökaren skriva HTML och skript i stället för text. Det kallas <b>XSS</b> (<i>cross-site scripting</i>), och det är det vanligaste säkerhetsfelet på webben. Skyddet: använd <code>textContent</code> när det är text, och lita aldrig på det som kommer utifrån. Det här blir konkret i område 6.</p>
+
+    <h2 id="repot">8. Hemligheter och repot</h2>
+    <p>Ditt repo är <b>publikt</b>. Det är ett krav i kursen, och det är rätt – men det betyder att allt du någonsin lagt i det kan läsas av vem som helst, inklusive det du sedan tagit bort. Git glömmer inte. Historiken finns kvar.</p>
+
+    <h3>Vad som aldrig ska in i ett repo</h3>
+
+    <ul>
+      <li>Lösenord, i någon form</li>
+      <li>API-nycklar och tokens – de långa strängarna en tjänst ger dig för att få anropa den</li>
+      <li>Personuppgifter om andra</li>
+      <li>Filer med hemligheter, ofta <code>.env</code> eller <code>config</code> med känsligt innehåll</li>
+    </ul>
+
+    <p>Det låter självklart tills du bygger något som behöver en nyckel – en kart-API, en formulärtjänst – och det enklaste är att skriva in den i koden. Automatiska program söker igenom GitHub dygnet runt efter just sådana nycklar, och en nyckel som läckt används inom minuter. GitHub varnar dig om de känner igen mönstret, men inte för allt.</p>
+
+    <h3><code>.gitignore</code></h3>
+
+    <p>Filen <code>.gitignore</code> i repots rot säger åt git vilka filer som <b>inte</b> ska följa med. En rad räcker:</p>
+
+<pre><code>.env</code></pre>
+
+    <p>Filen finns kvar på din dator och i Codespace, men pushas aldrig.</p>
+
+    <h3>När det redan hänt</h3>
+
+    <p>Har du råkat pusha en nyckel hjälper det <b>inte</b> att ta bort den i nästa commit – den finns kvar i historiken. Det som hjälper är att <b>byta ut nyckeln</b> hos tjänsten som gav dig den, så att den läckta blir värdelös. Gör det direkt, städa sedan.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Gå igenom ditt repo på GitHub. Sök på <code>password</code>, <code>token</code>, <code>key</code> och <code>@</code> i koden. Hittar du något som inte hör hemma där? Tänk också på <code>README.md</code> – det är lätt att skriva in sin mejladress där utan att tänka på att den blir publik.</p>
+
+    <h2 id="etik">9. Lösenord och känslig data – det etiska kravet</h2>
+    <p>Kursplanen säger att du ska hantera <i>"lösenord och annan känslig data på ett etiskt riktigt sätt"</i>. Det är ett krav på ditt omdöme, inte bara din teknik. Fyra regler:</p>
+
+    <ol>
+      <li><b>Ett lösenord är personligt.</b> Du lånar inte ut ditt, och du ber inte om någon annans. Inte till en kompis, inte "bara den här gången". Den som delar sitt konto kan inte längre säga vem som gjorde vad.</li>
+      <li><b>Det du får se är inte ditt att sprida.</b> Sitter du vid någons upplåsta dator, får du ett mejl som inte var till dig, ser du en lista i ett delat dokument – du har sett det, och där stannar det.</li>
+      <li><b>Lagra aldrig lösenord i klartext.</b> Bygger du något som tar emot lösenord – det gör du inte i den här kursen, men principen ska sitta – sparas de aldrig som de är. De <b>hashas</b>: körs genom en envägsfunktion, så att systemet kan kontrollera ett lösenord utan att kunna läsa det. En tjänst som kan mejla dig ditt gamla lösenord i klartext lagrar det fel.</li>
+      <li><b>Samla inte in det du inte behöver.</b> Uppgiftsminimeringen från GDPR-guiden, tillämpad på säkerhet: det du inte har kan inte läcka.</li>
+    </ol>
+
+    <p>Det finns en femte, som inte står i kursplanen men som varje person som arbetar med säkerhet lever efter: <b>hittar du ett hål, säger du till – du använder det inte.</b> Att testa om man kommer in på någon annans konto, sajt eller system utan lov är ett brott (dataintrång, brottsbalken 4 kap. 9 c §), även om avsikten var god.</p>
+
+    <h2 id="nar-nagot-hant">10. När något hänt</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Gör så här</th></tr></thead>
+        <tbody>
+          <tr><td>Du klickade på en länk och skrev in ditt lösenord</td><td>Byt lösenordet <b>nu</b>, från en enhet du litar på. Byt på alla tjänster där du använt samma. Slå på MFA</td></tr>
+          <tr><td>Du godkände ett BankID eller en kod du inte förstod</td><td>Ring banken direkt. Spärra</td></tr>
+          <tr><td>Pengar har försvunnit</td><td>Banken först, sedan polisanmälan på <code>polisen.se</code></td></tr>
+          <tr><td>Du fått ett bluff-sms</td><td>Vidarebefordra till <b>7726</b> (CERT-SE:s och operatörernas gemensamma nummer), radera</td></tr>
+          <tr><td>Skolkontot verkar kapat</td><td>It-support på skolan, direkt</td></tr>
+          <tr><td>Din sajt har blivit ändrad utan att du gjort det</td><td>Byt GitHub-lösenordet, slå på MFA, granska repots historik och <i>Settings → Collaborators</i></td></tr>
+          <tr><td>Personuppgifter om andra har läckt från något du driver</td><td>GDPR: anmälan till IMY inom 72 timmar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Krisinformation.se sammanfattar: polisanmäl bedrägerier och kontakta din bank om du blivit drabbad. Skäms inte – de som arbetar med detta ser samma sak varje dag, och det enda som gör det värre är att vänta.</p>
+
+    <h2 id="langre">11. Ta det längre</h2>
+    <h3>Testa din egen sajt</h3>
+
+    <p>Öppna din sajt, tryck F12 och gå till <i>Network</i>. Ladda om. Lista varje anrop som inte går till din egen adress. För varje rad: vad är det, varför finns det, kan det tas bort eller flyttas in i repot? Skriv upp resultatet på Projekt 4-sajten som ett eget exempel. Det är en riktig säkerhetsgranskning i miniatyr.</p>
+
+    <h3>Subresource Integrity</h3>
+
+    <p>Måste du hämta ett skript från någon annans server finns ett skydd: attributet <code>integrity</code> på <code>&lt;script&gt;</code>-taggen innehåller ett kontrollvärde, och webbläsaren vägrar köra filen om den ändrats. Ta reda på hur det fungerar och hur man räknar fram värdet. Det är A-spårets sätt att använda tredjepartskod.</p>
+
+    <h3>Passkeys – vad som faktiskt händer</h3>
+
+    <p>Ta reda på hur en passkey fungerar tekniskt: vad som lagras var, varför den inte går att fiska, och varför den bara fungerar på rätt adress. Förklara det på sajten med en egen figur. Den som kan det förstår också varför sms-koder inte räcker.</p>
+
+    <h3>Ett aktuellt intrång</h3>
+
+    <p>CERT-SE publicerar veckobrev och varningar. Välj en händelse från det senaste halvåret, läs vad som hände och koppla den till hoten i avsnitt 1. Vilken sårbarhet utnyttjades, och vilken av motåtgärderna i guiden hade stoppat det?</p>
+
+    <h2 id="felsokning">12. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: hänglås, lösenord, sms" autocomplete="off">
+      <p class="traffar" id="traffar-fel">10 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Webbläsaren säger "Inte säker" på din sajt</td><td>Sidan hämtas över <code>http://</code>, eller <i>Enforce HTTPS</i> är avstängt</td><td>Repots <i>Settings → Pages → Enforce HTTPS</i>. Kontrollera att alla länkar in till sajten börjar med <code>https://</code></td></tr>
+          <tr><td>Hänglås, men varning om "blandat innehåll"</td><td>En bild, ett skript eller ett typsnitt hämtas via <code>http://</code> på en <code>https://</code>-sida</td><td>Sök i koden efter <code>http://</code> och byt till <code>https://</code> eller till en relativ sökväg</td></tr>
+          <tr><td>GitHub mejlar om en "exposed secret"</td><td>En nyckel eller token har pushats</td><td>Byt ut nyckeln hos tjänsten först. Ta sedan bort den ur koden och lägg filen i <code>.gitignore</code></td></tr>
+          <tr><td>Push-notiser "Godkänn inloggning?" som du inte bett om</td><td>Någon har ditt lösenord och försöker logga in</td><td>Tryck <b>nej</b>. Byt lösenordet. Behåll MFA</td></tr>
+          <tr><td>Kontot loggar ut dig, mejladressen har ändrats</td><td>Kontot är kapat</td><td>Tjänstens återställning för kapade konton, direkt. Byt lösenord på e-posten först</td></tr>
+          <tr><td>Sms om paket, avgift, kod</td><td>Nätfiske</td><td>Radera. Vidarebefordra till 7726 om du vill hjälpa till</td></tr>
+          <tr><td>Ett program vill ha administratörsrättigheter för att "uppdatera"</td><td>Skadlig kod</td><td>Avbryt. Uppdateringar kommer via systemets egen funktion, inte via nedladdade filer</td></tr>
+          <tr><td>Lösenordshanteraren fyller inte i på en inloggningssida</td><td>Adressen matchar inte den sparade – ofta för att sidan är falsk</td><td>Stanna. Kontrollera adressen tecken för tecken</td></tr>
+          <tr><td>Sajten fungerar men F12 → <i>Network</i> visar anrop till adresser du inte känner igen</td><td>Ett tredjepartsskript eller en inbäddning hämtar mer än du trodde</td><td>Ta reda på vad varje anrop är. Ta bort det du inte behöver</td></tr>
+          <tr><td>Ett formulär på sajten "skickar" men inget kommer fram</td><td>Formuläret saknar <code>action</code>, eller pekar på en tjänst som inte är uppsatt</td><td>Bestäm om sajten ska ha ett formulär alls. Ska det, välj tjänst och läs dess villkor</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="snabbreferens">13. Snabbreferens</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Begrepp</th><th>Kort</th></tr></thead>
+        <tbody>
+          <tr><td>Nätfiske (phishing)</td><td>Falska meddelanden som lurar dig att logga in eller betala. Kontrollera avsändaradressen, klicka inte, gå själv till tjänsten</td></tr>
+          <tr><td>Läckta lösenord</td><td>En tjänst hackas, lösenordet provas överallt. Skydd: ett lösenord per tjänst</td></tr>
+          <tr><td>Skadlig kod (malware)</td><td>Program du lurats köra. Skydd: uppdatera, kör inte okända filer, säkerhetskopiera</td></tr>
+          <tr><td>Ransomware</td><td>Skadlig kod som krypterar dina filer mot lösen. Skydd: frånkopplad säkerhetskopia</td></tr>
+          <tr><td>Social manipulation</td><td>Att bli lurad av en människa, inte av teknik. Skydd: lämna aldrig ut koder eller lösenord</td></tr>
+          <tr><td>Lösenordsfras</td><td>Fyra eller fler ord. Långt slår krångligt</td></tr>
+          <tr><td>Lösenordshanterare</td><td>Program som skapar och sparar unika lösenord. Ett huvudlösenord att kunna</td></tr>
+          <tr><td>MFA / 2FA</td><td>Lösenord plus något du har. Passkey är starkast, sms svagast</td></tr>
+          <tr><td>Passkey</td><td>Nyckel bunden till rätt adress. Går inte att fiska</td></tr>
+          <tr><td>MFA-trötthet</td><td>Att godkänna en push-notis av vana. Svara nej på det du inte bett om</td></tr>
+          <tr><td>Sårbarhet</td><td>Ett fel i ett program som går att utnyttja. Stängs med uppdatering</td></tr>
+          <tr><td>HTTPS</td><td>HTTP med kryptering. Hänglåset = krypterad förbindelse, inte ärlig sajt</td></tr>
+          <tr><td>Certifikat</td><td>Det servern visar upp för att bevisa vilken adress den har. Gratis, även för bedragare</td></tr>
+          <tr><td>Enforce HTTPS</td><td>GitHub Pages-inställningen som skickar <code>http://</code> vidare till <code>https://</code></td></tr>
+          <tr><td>Statisk sajt</td><td>HTML, CSS och bilder utan serverkod. Liten angreppsyta</td></tr>
+          <tr><td>Tredjepartsskript</td><td>Kod från någon annans server som körs hos dina besökare. Minimera, kopiera in i repot</td></tr>
+          <tr><td>XSS</td><td>Besökare får in skript i sidan via text som visas oskyddat. Skydd: <code>textContent</code>, inte <code>innerHTML</code></td></tr>
+          <tr><td><code>.gitignore</code></td><td>Filen som säger vad git inte ska ta med. <code>.env</code> ska stå där</td></tr>
+          <tr><td>Läckt nyckel</td><td>Byt nyckeln hos tjänsten. Att radera i koden räcker inte, historiken minns</td></tr>
+          <tr><td>Hashning</td><td>Envägsfunktion för lösenord: systemet kan kontrollera men inte läsa</td></tr>
+          <tr><td>Dataintrång</td><td>Att ta sig in utan lov. Brott, även med god avsikt</td></tr>
+          <tr><td>7726</td><td>Numret bluff-sms vidarebefordras till</td></tr>
+          <tr><td>72 timmar</td><td>Tiden en läcka av personuppgifter ska anmälas till IMY inom</td></tr>
+          <tr><td>MCF</td><td>Myndigheten för civilt försvar, tidigare MSB. Sedan 1 januari 2026</td></tr>
+          <tr><td>CERT-SE</td><td>Nationell it-incidentfunktion. Hos FRA sedan 1 juli 2026</td></tr>
+          <tr><td>NCSC</td><td>Nationellt cybersäkerhetscenter. Driver <i>Tänk säkert</i> från 2026</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">14. Ordlista</h2>
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>hot</b></td><td>Något som kan skada: en angripare, ett program, en metod</td></tr>
+          <tr><td><b>sårbarhet</b></td><td>Ett fel eller en svaghet som ett hot kan utnyttja</td></tr>
+          <tr><td><b>angreppsyta</b></td><td>Allt på ett system som går att angripa. Mindre är bättre</td></tr>
+          <tr><td><b>nätfiske (phishing)</b></td><td>Meddelanden som lurar dig att lämna ut uppgifter eller logga in på en falsk sida</td></tr>
+          <tr><td><b>social manipulation</b></td><td>Att lura en människa i stället för att knäcka teknik</td></tr>
+          <tr><td><b>skadlig kod (malware)</b></td><td>Program som gör skada: stjäl, spionerar, krypterar</td></tr>
+          <tr><td><b>ransomware</b></td><td>Skadlig kod som krypterar filer och kräver pengar för nyckeln</td></tr>
+          <tr><td><b>lösenordsfras</b></td><td>Ett lösenord av flera ord. Långt, lätt att minnas, svårt att gissa</td></tr>
+          <tr><td><b>lösenordshanterare</b></td><td>Program som sparar och fyller i lösenord bakom ett huvudlösenord</td></tr>
+          <tr><td><b>flerfaktorsautentisering (MFA)</b></td><td>Inloggning med mer än en faktor: vet, har, är</td></tr>
+          <tr><td><b>passkey</b></td><td>Inloggningsnyckel lagrad i enheten, bunden till rätt adress. Fiskesäker</td></tr>
+          <tr><td><b>autentisering</b></td><td>Att bevisa vem man är</td></tr>
+          <tr><td><b>kryptering</b></td><td>Att göra data oläslig för alla utan nyckeln</td></tr>
+          <tr><td><b>HTTPS</b></td><td>Krypterad HTTP. Hänglåset i adressfältet</td></tr>
+          <tr><td><b>certifikat</b></td><td>Serverns bevis på att den har rätt adress, utfärdat av en betrodd part</td></tr>
+          <tr><td><b>statisk sajt</b></td><td>Sajt av färdiga filer, utan kod som körs på servern</td></tr>
+          <tr><td><b>tredjepartsskript</b></td><td>Skript som hämtas från någon annans server</td></tr>
+          <tr><td><b>XSS</b></td><td>Cross-site scripting: främmande skript smugglas in via text på sidan</td></tr>
+          <tr><td><b><code>.gitignore</code></b></td><td>Fil som listar vad git inte ska följa med</td></tr>
+          <tr><td><b>token / API-nyckel</b></td><td>Lång sträng som ger tillgång till en tjänst. Hemlig som ett lösenord</td></tr>
+          <tr><td><b>hashning</b></td><td>Envägsomvandling. Lösenord lagras som hash, aldrig i klartext</td></tr>
+          <tr><td><b>klartext</b></td><td>Oskyddad, läsbar text. Där lösenord aldrig ska ligga</td></tr>
+          <tr><td><b>dataintrång</b></td><td>Brottet att ta sig in i ett system utan lov</td></tr>
+          <tr><td><b>incident</b></td><td>En händelse som skadat eller kunnat skada säkerheten</td></tr>
+          <tr><td><b>säkerhetskopia</b></td><td>En kopia av data på ett annat ställe, helst frånkopplat</td></tr>
+          <tr><td><b>MCF</b></td><td>Myndigheten för civilt försvar, det som tidigare hette MSB</td></tr>
+          <tr><td><b>CERT-SE</b></td><td>Sveriges nationella funktion för it-incidenter, sedan juli 2026 hos FRA</td></tr>
+          <tr><td><b>NCSC</b></td><td>Nationellt cybersäkerhetscenter</td></tr>
+          <tr><td><b>FRA</b></td><td>Försvarets radioanstalt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kallor">15. Källor</h2>
+    <p>Alla hämtade 11 september 2026. Myndigheterna på området har omorganiserats under 2026, så kontrollera att sidan fortfarande finns innan du hänvisar till den, och ange datumet du läste.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Källa</th><th>Vad du hittar där</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://www.krisinformation.se/forbered-dig/internetsakerhet/din-egen-informationssakerhet/">Krisinformation.se – Din egen digitala säkerhet</a></td><td>MCF:s råd till privatpersoner: lösenord, MFA, nätfiske, säkerhetskopior. Uppdaterad juni 2026</td></tr>
+          <tr><td><a href="https://www.cert.se/tema/natfiske/">CERT-SE – Hantera nätfiske</a></td><td>Hur nätfiske känns igen och hanteras. Uppdaterad juli 2026</td></tr>
+          <tr><td><a href="https://www.cert.se/tema/ransomware/">CERT-SE – Hantera utpressningsangrepp</a></td><td>Ransomware: vad det är och hur man skyddar sig</td></tr>
+          <tr><td><a href="https://www.cert.se/">CERT-SE – startsida</a></td><td>Aktuella varningar och veckobrev. Där står också att CERT-SE sedan 1 juli 2026 hör till FRA</td></tr>
+          <tr><td><a href="https://www.mcf.se/sv/om-oss/vart-uppdrag/msb-ar-myndigheten-for-civilt-forsvar/">MCF – MSB är Myndigheten för civilt försvar</a></td><td>Namnbytet 1 januari 2026</td></tr>
+          <tr><td><a href="https://www.ncsc.se/sv/radgivning-och-stod/risk-och-sarbarheter-inom-cybersakerhet-och-cyberfysiska-system/sakerhetsatgarder-mot-cyberangrepp/">NCSC – Säkerhetsåtgärder mot cyberangrepp</a></td><td>Rekommenderade åtgärder, riktade till verksamheter. Låg hos MCF fram till sommaren 2026</td></tr>
+          <tr><td><a href="https://polisen.se/utsatt-for-brott/polisanmalan/bedragerier/tank-sakert--informationssakerhetsmanad/">Polisen – Tänk säkert</a></td><td>Kampanjen i oktober, från 2026 ledd av NCSC med Polisen</td></tr>
+          <tr><td><a href="https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/personuppgiftsincidenter/">IMY – Personuppgiftsincidenter</a></td><td>72-timmarsregeln</td></tr>
+          <tr><td><a href="https://syllabuswebb.skolverket.se/subject/WEU/1/pdf">Skolverket – ämnesplan Webbutveckling</a></td><td>Kursplanens formuleringar om säkerhet och etik</td></tr>
+          <tr><td><a href="https://internetkunskap.se/">Internetkunskap – Internetstiftelsen</a></td><td>Förklaringar av HTTPS, lösenord och säker surfning. En stiftelse, inte en myndighet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 5</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Optimeringsguiden – Webbutveckling 1 område 7</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-7-optimeringsguiden">
+
+<header class="topp">
+  <a href="index.html">← Område 7</a>
+  <span class="harifran"><strong>Guide</strong> · Optimering och diskret funktionalitet</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#varfor">1. Varför vikten spelar roll</a></li>
+      <li><a href="#format">2. De fyra bildformaten</a></li>
+      <li><a href="#komprimering">3. Komprimering: kvalitet mot kilobyte</a></li>
+      <li><a href="#dimensioner">4. Rätt dimensioner</a></li>
+      <li><a href="#matt">5. <code>width</code> och <code>height</code> – texten som hoppar</a></li>
+      <li><a href="#srcset">6. <code>srcset</code> och <code>sizes</code></a></li>
+      <li><a href="#picture">7. <code>picture</code> – flera format</a></li>
+      <li><a href="#svg">8. SVG när det passar</a></li>
+      <li><a href="#lazy">9. <code>loading="lazy"</code></a></li>
+      <li><a href="#antal">10. Antal filer</a></li>
+      <li><a href="#natverksfliken">11. Mät själv: nätverksfliken</a></li>
+      <li><a href="#lighthouse">12. Lighthouse</a></li>
+      <li><a href="#typsnitt">13. Typsnitt</a></li>
+      <li><a href="#cache">14. Cache, kort</a></li>
+      <li><a href="#langre">15. Ta det längre</a></li>
+      <li><a href="#felsokning">16. Felsökning</a></li>
+      <li><a href="#snabbreferens">17. Snabbreferens</a></li>
+      <li><a href="#ordlista">18. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 7 · guide</p>
+    <h1>Optimering: bilder, filer och laddtid</h1>
+    <p class="inledning">Alla exempel och alla siffror är hämtade ur <code>referensprojekt/</code> – Vikstadssajten i två versioner. Den optimerade heter <code>diskret/</code>, den ooptimerade <code>hardkodad/</code>. Du kan öppna båda och mäta själv; det är meningen.</p>
+
+    <p>Det här området handlar inte om att lägga till något. Det handlar om att ta bort: kilobyte, filer och väntan. Sajten ska se likadan ut efteråt – den ska bara komma fram fortare.</p>
+
+    <h2 id="efterat">Vad du kan efter guiden</h2>
+    <ul>
+      <li>Säga vilket bildformat som passar till vad, och varför.</li>
+      <li>Spara samma bild i flera format och storlekar och jämföra filstorlekarna.</li>
+      <li>Skriva <code>srcset</code> och <code>sizes</code> så att en telefon hämtar en liten bild.</li>
+      <li>Skriva <code>picture</code> så att den som kan AVIF får AVIF och alla andra får JPEG.</li>
+      <li>Sätta <code>width</code> och <code>height</code> på varje bild och förklara vad det löser.</li>
+      <li>Skjuta upp bilder som ligger långt ned med <code>loading="lazy"</code>.</li>
+      <li>Öppna nätverksfliken, läsa antal requests och total vikt, och mäta om efteråt.</li>
+      <li>Köra Lighthouse på din publicerade sajt och förstå de fyra siffrorna.</li>
+      <li>Svara på frågan "hur mycket väger min startsida?" med ett tal.</li>
+    </ul>
+
+    <h2 id="varfor">1. Varför vikten spelar roll</h2>
+    <p>Din sajt ligger på GitHub Pages och öppnas på skolans wifi. Den känns snabb. Det säger ingenting om hur den känns på en telefon med två streck täckning utanför Vikstad.</p>
+
+    <p>En sida som väger 1 MB tar ungefär tio sekunder att ladda på en dålig mobiluppkoppling. Samma sida på 50 kB tar under en sekund. Skillnaden mellan de två är oftast <b>en enda bild</b>.</p>
+
+    <p>Så här ser reservatets startsida ut i de två versionerna, mätt vid 1280 pixlars bredd:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Optimerad</th><th>Ooptimerad</th></tr></thead>
+        <tbody>
+          <tr><td>HTML</td><td>6,0 kB</td><td>4,0 kB</td></tr>
+          <tr><td>CSS</td><td>24,9 kB</td><td>24,9 kB</td></tr>
+          <tr><td>JavaScript</td><td>6,4 kB</td><td>6,3 kB</td></tr>
+          <tr><td>Bilden</td><td><b>10,9 kB</b></td><td><b>1 125 kB</b></td></tr>
+          <tr><td>Kartan (SVG)</td><td>3,1 kB</td><td>3,1 kB</td></tr>
+          <tr><td><b>Totalt</b></td><td><b>51 kB</b></td><td><b>1 163 kB</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Tjugotre gånger tyngre. HTML:en, CSS:en och skripten är i praktiken lika stora i båda – det är bilden som bär hela skillnaden, och det är därför den här guiden lägger nio av fjorton avsnitt på bilder.</p>
+
+    <p><b>Det finns en andra anledning.</b> Den som sitter på mobildata betalar för varje megabyte. En sajt som skickar en bild på 1 MB när 11 kB hade räckt har inte bara gjort besökaren otålig, den har gjort av med hens pengar.</p>
+
+    <h2 id="format">2. De fyra bildformaten</h2>
+    <p>Samma foto, samma bredd på 800 pixlar, sparat fyra gånger:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Format</th><th>Storlek</th><th>Vad det är bra på</th></tr></thead>
+        <tbody>
+          <tr><td>PNG</td><td>459 kB</td><td>Skarpa kanter, få färger, genomskinlighet</td></tr>
+          <tr><td>JPEG</td><td>27 kB</td><td>Foton. Kan alla webbläsare, alltid</td></tr>
+          <tr><td>WebP</td><td>13 kB</td><td>Foton och grafik. Kan alla webbläsare sedan 2020</td></tr>
+          <tr><td>AVIF</td><td>11 kB</td><td>Foton. Bäst kompression, nyast</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>PNG är <b>fyrtiotvå gånger större</b> än AVIF på det här motivet. Det är inte för att PNG är dåligt – det är för att PNG är gjort för fel sorts bild.</p>
+
+    <h3>Varför skillnaden är så stor</h3>
+
+    <p>PNG sparar varje pixel exakt. Det kallas <b>förlustfri</b> kompression: öppnar du filen får du tillbaka precis det du sparade. På en skärmdump av en meny, eller en logotyp med fem färger, är det både litet och rätt.</p>
+
+    <p>JPEG, WebP och AVIF sparar ungefär rätt. Det kallas <b>förstörande</b> kompression: de kastar bort detaljer som ögat ändå inte ser – små färgskiftningar i en himmel, till exempel. På ett foto, där nästan varje pixel är lite annorlunda än sin granne, blir vinsten enorm. På en logotyp blir resultatet suddiga kanter.</p>
+
+    <h3>Vilket ska du välja</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Du har</th><th>Välj</th></tr></thead>
+        <tbody>
+          <tr><td>Ett foto</td><td>AVIF och WebP, med JPEG som reserv. Avsnitt 7 visar hur</td></tr>
+          <tr><td>En logotyp, ett diagram, en ikon</td><td>SVG om du har den. Annars PNG</td></tr>
+          <tr><td>En skärmdump med text i</td><td>PNG</td></tr>
+          <tr><td>En bild som behöver genomskinlig bakgrund</td><td>PNG eller WebP</td></tr>
+          <tr><td>En animation</td><td>Video, inte GIF. En GIF på tio sekunder väger mer än videon</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Prova själv</h3>
+
+    <p>Öppna <code>referensprojekt/diskret/bilder/</code> i utforskaren och sortera på storlek. Jämför <code>mossen-800.png</code> med <code>mossen-800.avif</code>. Öppna båda i webbläsaren och titta efter skillnaden. Du hittar den inte.</p>
+
+    <h2 id="komprimering">3. Komprimering: kvalitet mot kilobyte</h2>
+    <p>När du sparar en JPEG, WebP eller AVIF får du välja kvalitet, oftast på en skala 0–100. Det är inte en skala från "dålig" till "bra" – det är en skala från "litet" till "stort".</p>
+
+    <p>Bilderna i referensprojektet är sparade med kvalitet 72 för JPEG och WebP, och 50 för AVIF. AVIF:s skala är inte samma skala: 50 där motsvarar ungefär 75 i JPEG.</p>
+
+    <p><b>Regeln som fungerar:</b> börja på 75. Titta på bilden i full storlek. Ser du inget fel, gå ner till 65 och titta igen. Den punkt där du börjar se fyrkantiga fält i mjuka ytor – himmel, hud, dimma – är för långt. Gå tillbaka ett steg.</p>
+
+    <p>De fält du ser när du gått för långt kallas <b>artefakter</b>. De syns först i ytor med mjuka övergångar, sist i ytor med mycket detaljer.</p>
+
+    <h3>Vad du komprimerar med</h3>
+
+    <p>Du behöver inget program. Två vägar räcker för den här kursen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Verktyg</th><th>Så här</th></tr></thead>
+        <tbody>
+          <tr><td><b>Squoosh</b> (<code>squoosh.app</code>)</td><td>Dra in bilden i webbläsaren, välj format till höger, dra kvalitetsreglaget, ladda ner. Visar före och efter sida vid sida</td></tr>
+          <tr><td><b>GIMP</b>, Photoshop, Paint.NET</td><td>Spara som / Exportera som, välj kvalitet i rutan som kommer upp</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Squoosh räknar om filstorleken medan du drar. Det är det snabbaste sättet att få känsla för var gränsen går.</p>
+
+    <p><b>Spara aldrig om en JPEG många gånger.</b> Varje sparning kastar bort mer. Utgå från originalet varje gång du gör en ny version.</p>
+
+    <h2 id="dimensioner">4. Rätt dimensioner</h2>
+    <p>Det här är den vanligaste och dyraste missen, och den syns inte på skärmen.</p>
+
+    <p>En bild från en telefonkamera är ungefär 4000 pixlar bred. Lägger du in den på en sajt där den visas 640 pixlar bred kommer webbläsaren att skala ner den – efter att ha hämtat hela filen. Besökaren har betalat för 4000 pixlar och fått se 640.</p>
+
+    <p>Den hårdkodade versionen gör exakt det:</p>
+
+<pre><code class="sprak-html">&lt;img src="bilder/mossen-original.jpg" style="width: 100%"
+     alt="Näckrosmossen strax före soluppgången."&gt;</code></pre>
+
+    <p>Filen är 2400 pixlar bred och väger 1 125 kB. Rutan den visas i är 640 pixlar. <code>style="width: 100%"</code> gör att det <i>ser</i> rätt ut – och det är därför felet lever vidare i så många sajter.</p>
+
+    <p><b>Skala ner bilden till den storlek den faktiskt visas i, innan du lägger in den.</b> Är du osäker på vilken storlek det är: se avsnitt 11, nätverksfliken säger det.</p>
+
+    <p>Behöver du bilden i flera storlekar för att sajten är responsiv, ska du inte välja en – då är <code>srcset</code> svaret, och det står i avsnitt 6.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Öppna <code>hardkodad/index.html</code>, högerklicka på fotot och välj <i>Öppna bild i ny flik</i>. Titta på hur stor den är. Gör samma sak i <code>diskret/index.html</code>.</p>
+
+    <h2 id="matt">5. <code>width</code> och <code>height</code> – texten som hoppar</h2>
+    <p>Du har sett det: du börjar läsa, en bild laddas in ovanför, och texten hoppar nedåt så att du tappar raden. Det heter <b>layout shift</b> och beror på att webbläsaren inte visste hur hög bilden skulle bli.</p>
+
+    <p>Lösningen är två attribut:</p>
+
+<pre><code class="sprak-html">&lt;img src="bilder/karta.svg" width="640" height="400"
+     alt="Karta över reservatet."&gt;</code></pre>
+
+    <p><code>width</code> och <code>height</code> är inte storleken bilden visas i – CSS bestämmer den. De är <b>bildens proportioner</b>, och de räcker för att webbläsaren ska kunna räkna ut hur hög rutan blir vid vilken bredd som helst. Rutan reserveras direkt, och ingenting hoppar.</p>
+
+    <p>Talen skrivs utan enhet. <code>width="640px"</code> är fel och gör att validatorn klagar.</p>
+
+    <p>I stilmallen hör de här två raderna ihop med attributen:</p>
+
+<pre><code class="sprak-css">.foto img {
+  width: 100%;
+  height: auto;
+}</code></pre>
+
+    <p><code>width: 100%</code> gör att bilden fyller sin ruta, <code>height: auto</code> att proportionerna behålls. Utan <code>height: auto</code> sträcks bilden ut.</p>
+
+    <p>Referensprojektet lägger till en tredje rad som gör samma jobb ännu tydligare:</p>
+
+<pre><code class="sprak-css">.foto img {
+  aspect-ratio: 3 / 2;
+}</code></pre>
+
+    <p>Den säger rakt ut vilket förhållande rutan har, oavsett vad som ligger i den.</p>
+
+    <h2 id="srcset">6. <code>srcset</code> och <code>sizes</code></h2>
+    <p>Nu kommer det som gör skillnad på riktigt. En telefon ska hämta en liten bild, en stor skärm en stor. Samma HTML, olika filer.</p>
+
+<pre><code class="sprak-html">&lt;img src="bilder/mossen-800.jpg"
+     srcset="bilder/mossen-400.jpg 400w,
+             bilder/mossen-800.jpg 800w,
+             bilder/mossen-1600.jpg 1600w"
+     sizes="(min-width: 60rem) 640px, 94vw"
+     width="1600" height="1067"
+     alt="Näckrosmossen strax före soluppgången."&gt;</code></pre>
+
+    <p>Fyra saker händer här:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad den säger</th></tr></thead>
+        <tbody>
+          <tr><td><code>src</code></td><td>Bilden att ta om webbläsaren är gammal och inte förstår resten</td></tr>
+          <tr><td><code>srcset</code></td><td>Vilka filer som finns, och <b>hur breda de är i pixlar</b> – det är vad <code>400w</code> betyder</td></tr>
+          <tr><td><code>sizes</code></td><td><b>Hur bred bilden blir i din layout</b>, vid olika skärmbredder</td></tr>
+          <tr><td><code>width</code> / <code>height</code></td><td>Proportionerna, som i avsnitt 5. Här den största filens mått</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><code>srcset</code> säger vad som finns. <code>sizes</code> säger vad som behövs. Webbläsaren väljer.</p>
+
+    <h3><code>sizes</code> är ett löfte du måste hålla</h3>
+
+    <p><code>sizes="(min-width: 60rem) 640px, 94vw"</code> läses så här: <i>är fönstret minst 60rem brett blir bilden 640 pixlar, annars 94 % av fönsterbredden.</i></p>
+
+    <p>Det är inte något webbläsaren kontrollerar – det är något du lovar. Och det måste stämma med din CSS:</p>
+
+<pre><code class="sprak-css">.foto {
+  max-width: 40rem;
+}</code></pre>
+
+    <p>40rem är 640 pixlar. Ändrar du den raden utan att ändra <code>sizes</code> hämtar webbläsaren fel storlek, och hela poängen är borta.</p>
+
+    <p><b>Kontrollera att löftet håller:</b> öppna sidan, högerklicka på bilden, <i>Inspektera</i>, och titta på <code>Rendered size</code> i rutan som kommer upp. Den ska vara samma tal som <code>sizes</code> lovade.</p>
+
+    <p>Vid 1280 pixlars fönsterbredd väljer webbläsaren <code>mossen-800</code> ur exemplet ovan – det minsta alternativet som är minst 640 pixlar brett – och lägger ut det på exakt 640 pixlar. Vid 400 pixlars bredd tas <code>mossen-400</code>.</p>
+
+    <h3>Varför inte bara den största</h3>
+
+    <p>Därför att den väger 83 kB och den lilla 9 kB, och telefonen ser ingen skillnad.</p>
+
+    <h2 id="picture">7. <code>picture</code> – flera format</h2>
+    <p><code>srcset</code> löser storleken. <code>picture</code> löser formatet: den som kan AVIF ska få AVIF, och alla andra ska få något som fungerar.</p>
+
+<pre><code class="sprak-html">&lt;picture&gt;
+  &lt;source type="image/avif"
+          srcset="bilder/mossen-800.avif 800w,
+                  bilder/mossen-1600.avif 1600w"
+          sizes="(min-width: 60rem) 640px, 94vw"&gt;
+  &lt;source type="image/webp"
+          srcset="bilder/mossen-800.webp 800w,
+                  bilder/mossen-1600.webp 1600w"
+          sizes="(min-width: 60rem) 640px, 94vw"&gt;
+  &lt;img src="bilder/mossen-800.jpg"
+       srcset="bilder/mossen-800.jpg 800w,
+               bilder/mossen-1600.jpg 1600w"
+       sizes="(min-width: 60rem) 640px, 94vw"
+       width="1600" height="1067" decoding="async"
+       alt="Näckrosmossen strax före soluppgången."&gt;
+&lt;/picture&gt;</code></pre>
+
+    <p>Regeln: <b>webbläsaren tar första <code>source</code> den förstår, uppifrån och ner.</b> Därför står AVIF först och WebP sedan. Förstår den ingen av dem, eller är det en gammal webbläsare som inte kan <code>picture</code> alls, landar den på <code>img</code> längst ned.</p>
+
+    <p>Tre saker att hålla reda på:</p>
+
+    <ol>
+      <li><code>img</code> är <b>obligatorisk</b> och ska ligga sist. <code>alt</code>, <code>width</code> och <code>height</code> skrivs på den, inte på <code>source</code>.</li>
+      <li>Ordningen är avgörande. Står JPEG först får ingen någonsin AVIF.</li>
+      <li><code>sizes</code> upprepas på varje rad. Det är tjatigt och det ska det vara.</li>
+    </ol>
+
+    <h3>När du inte behöver <code>picture</code></h3>
+
+    <p>Har du bara ett format – och JPEG räcker långt – hoppa över <code>picture</code> och skriv bara <code>img</code> med <code>srcset</code>, som i avsnitt 6. Det är bättre att göra storlekarna rätt och strunta i formaten än tvärtom: vinsten i avsnitt 6 är större.</p>
+
+    <h2 id="svg">8. SVG när det passar</h2>
+    <p>Reservatets karta är en SVG på 3,1 kB. Samma karta som PNG i den bredd den visas skulle väga runt 60 kB, och bli suddig på en skärm med hög upplösning.</p>
+
+    <p><b>SVG är ritinstruktioner, inte pixlar.</b> Filen säger "en linje härifrån dit, ett fält i den här gröna" och webbläsaren ritar upp den i den storlek som behövs. Därför är en SVG lika skarp på en telefon som på en 4K-skärm, och därför behöver den varken <code>srcset</code> eller flera storlekar.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Passar för SVG</th><th>Passar inte</th></tr></thead>
+        <tbody>
+          <tr><td>Logotyper, ikoner</td><td>Foton</td></tr>
+          <tr><td>Kartor, diagram, grafer</td><td>Skärmdumpar</td></tr>
+          <tr><td>Enkla illustrationer med färgfält</td><td>Bilder med mjuka färgövergångar överallt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Du har redan gjort SVG:er i område 2. Det som är nytt här är att veta <i>när</i> det är rätt val – och att en SVG med tusen detaljer kan väga mer än ett foto.</p>
+
+    <p><code>width</code> och <code>height</code> gäller för SVG också, av samma skäl som i avsnitt 5.</p>
+
+    <h2 id="lazy">9. <code>loading="lazy"</code></h2>
+    <p>En bild långt ned på sidan behöver inte hämtas förrän någon skrollar dit.</p>
+
+<pre><code class="sprak-html">&lt;img src="bilder/trana.svg" width="480" height="360" loading="lazy"
+     alt="En trana i profil."&gt;</code></pre>
+
+    <p>Ett attribut. Webbläsaren gör resten, och gör det bra.</p>
+
+    <p><b>Men inte på den översta bilden.</b> Den som syns direkt när sidan öppnas ska hämtas direkt. <code>loading="lazy"</code> på den gör tvärtom vad du vill: den kommer senare, och det är just den bilden besökaren väntar på.</p>
+
+    <p>Regeln i referensprojektet är därför:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Bild</th><th>Attribut</th></tr></thead>
+        <tbody>
+          <tr><td>Fotot överst på startsidan</td><td>inget <code>loading</code> – hämtas direkt</td></tr>
+          <tr><td>Kartan längre ned</td><td><code>loading="lazy"</code></td></tr>
+          <tr><td>Artbilderna på <code>djur-och-vaxter.html</code></td><td><code>loading="lazy"</code></td></tr>
+          <tr><td>Stigbilderna på <code>stigar.html</code></td><td><code>loading="lazy"</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><code>decoding="async"</code> står på fotot i exemplet. Den säger att webbläsaren får rita upp resten av sidan medan bilden packas upp. Den är liten, ofarlig och sällan avgörande – ta med den om du vill, hoppa över den om den förvirrar.</p>
+
+    <h2 id="antal">10. Antal filer</h2>
+    <p>Vikten är den ena halvan. Den andra är hur många gånger webbläsaren måste fråga servern om något. Varje fil är en <b>request</b>, och varje request kostar tid även om filen är liten.</p>
+
+    <p>Reservatets startsida hämtar fem filer: HTML, CSS, två skript och en bild. Det är lite. En sajt med ett CSS-ramverk, tre typsnitt, ett ikonbibliotek och fem skript kan hämta femtio.</p>
+
+    <p>Vad du kan göra i den här kursen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Gör</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td><b>En stilmall, inte fem</b></td><td>Du har redan det. Behåll det</td></tr>
+          <tr><td><b>Ingen CSS i <code>&lt;style&gt;</code>-taggar</b> ute i sidorna</td><td>Den kan inte cachas och upprepas på varje sida</td></tr>
+          <tr><td><b>Bara de moduler du faktiskt använder</b></td><td>Ett skript du kopierade in och inte längre behöver är en request för ingenting</td></tr>
+          <tr><td><b>Inga bibliotek</b></td><td>Projekt 5 och 6 förbjuder dem, och det här är en av anledningarna</td></tr>
+          <tr><td><b>Ta bort filer du inte använder</b></td><td>Gamla bilder i <code>bilder/</code> hämtas inte, men de ligger i repot och förvirrar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Det du inte ska göra:</b> klistra ihop dina moduler till en enda fil för att spara requests. Vinsten är några hundradelar, och du förlorar det som gör dem läsbara. Riktiga sajter gör det med ett byggsteg som skriver ihop filerna automatiskt – och byggsteg är inte den här kursen.</p>
+
+    <h2 id="natverksfliken">11. Mät själv: nätverksfliken</h2>
+    <p>Allt ovanför är gissningar tills du mätt. Nätverksfliken i webbläsaren säger exakt vad din sajt skickar.</p>
+
+    <ol>
+      <li>Öppna din publicerade sajt.</li>
+      <li>Högerklicka, <i>Inspektera</i>. Välj fliken <b>Nätverk</b> (Network).</li>
+      <li><b>Ladda om sidan med fliken öppen.</b> Det här steget glöms alltid bort – utan det är listan tom.</li>
+      <li>Läs raden längst ned: antal requests och överförd mängd data.</li>
+    </ol>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kolumn</th><th>Vad den säger</th></tr></thead>
+        <tbody>
+          <tr><td><b>Name</b></td><td>Filen. Klicka för detaljer</td></tr>
+          <tr><td><b>Type</b></td><td>Sort: <code>document</code>, <code>stylesheet</code>, <code>script</code>, <code>png</code>, <code>avif</code></td></tr>
+          <tr><td><b>Size</b></td><td>Vad som överfördes. <code>(disk cache)</code> betyder att den inte hämtades alls</td></tr>
+          <tr><td><b>Time</b></td><td>Hur lång tid filen tog</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Två inställningar som ändrar vad du ser</h3>
+
+    <p><b>Disable cache</b> (kryssrutan överst) tvingar webbläsaren att hämta allt på nytt. Utan den mäter du en sida som redan ligger i din egen dator, och siffrorna blir orimligt bra. Kryssa i den när du mäter.</p>
+
+    <p><b>Strypningen</b> (rullgardinen som står på <i>No throttling</i>) låtsas att du sitter på en långsam uppkoppling. Välj <i>Slow 4G</i> och ladda om. Det är i den vyn skillnaden mellan 51 kB och 1 163 kB blir något du känner, inte något du läser.</p>
+
+    <h3>Sortera på storlek</h3>
+
+    <p>Klicka på <b>Size</b>-rubriken. Den tyngsta filen hamnar överst, och det är nästan alltid en bild. <b>Den raden är din uppgift.</b></p>
+
+    <h3>Prova själv</h3>
+
+    <p>Mät <b>din egen publicerade sajt</b>, med <i>Disable cache</i> i och <i>Slow 4G</i> valt. Skriv ner antal requests, total vikt och tid. Det är den mätningen Projekt 6 vill se, och den du ska kunna jämföra med i mars.</p>
+
+    <p><b>Exempelsajten går inte att mäta så här</b>, och det är i sig värt att veta: en sida som du öppnar från en mapp är inte hämtad över nätet. Storlekarna blir filstorlekar, strypningen gör ingenting och Lighthouse vägrar köra. Skillnaden mellan de två versionerna ser du i stället på filstorlekarna i <code>bilder/</code>, som i avsnitt 2 – eller genom att starta en liten server i mappen:</p>
+
+<pre><code>python -m http.server 8000</code></pre>
+
+    <p>Då ligger sajten på <code>http://localhost:8000/</code> och beter sig som en riktig sajt.</p>
+
+    <h2 id="lighthouse">12. Lighthouse</h2>
+    <p>Lighthouse är ett verktyg som är inbyggt i Chrome och Edge. Det laddar din sida, mäter, och ger fyra betyg på 0–100.</p>
+
+    <ol>
+      <li><i>Inspektera</i>, fliken <b>Lighthouse</b>.</li>
+      <li>Välj <b>Mobile</b>, kryssa i alla fyra kategorierna.</li>
+      <li><b>Analyze page load</b>. Det tar ungefär en halv minut.</li>
+    </ol>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kategori</th><th>Vad den mäter</th></tr></thead>
+        <tbody>
+          <tr><td><b>Performance</b></td><td>Hur fort sidan blir användbar</td></tr>
+          <tr><td><b>Accessibility</b></td><td>Tillgänglighet – samma sorts kontroll som WAVE i område 4</td></tr>
+          <tr><td><b>Best Practices</b></td><td>Gammal kod, osäkra länkar, bilder med fel proportioner</td></tr>
+          <tr><td><b>SEO</b></td><td>Om sökmotorer kan förstå sidan</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Kör det på den publicerade adressen, inte på filen i Codespaces.</b> En sida som öppnas från en mapp beter sig inte som en sida på en server.</p>
+
+    <h3>Läs listan, inte siffran</h3>
+
+    <p>Under betyget står <i>Opportunities</i> och <i>Diagnostics</i>. Där står vad som är fel, med hur många kilobyte eller millisekunder det kostar. De vanligaste för en sajt i den här kursen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Står det</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><i>Properly size images</i></td><td>Avsnitt 4. Bilden är större än rutan</td></tr>
+          <tr><td><i>Serve images in next-gen formats</i></td><td>Avsnitt 2 och 7. Byt till WebP eller AVIF</td></tr>
+          <tr><td><i>Image elements do not have explicit width and height</i></td><td>Avsnitt 5</td></tr>
+          <tr><td><i>Defer offscreen images</i></td><td>Avsnitt 9. <code>loading="lazy"</code> saknas</td></tr>
+          <tr><td><i>Eliminate render-blocking resources</i></td><td>Något i <code>&lt;head&gt;</code> stoppar upp ritandet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Jaga inte 100.</b> En statisk sajt på GitHub Pages med optimerade bilder landar normalt på 90–100 i Performance, och de sista poängen kostar mer än de smakar. Det som betyder något är att listan över <i>Opportunities</i> är tom på de fem raderna ovan.</p>
+
+    <h2 id="typsnitt">13. Typsnitt</h2>
+    <p>Ett typsnitt är en fil som ska hämtas som vilken annan fil som helst. Tre teckensnittsvikter från Google Fonts är tre filer på omkring 20–40 kB var, och de hämtas innan texten kan ritas ut.</p>
+
+    <p>Reservatets stilmall använder <b>systemtypsnitt</b>: de som redan finns i besökarens dator eller telefon. De kostar noll kilobyte och noll väntan.</p>
+
+<pre><code class="sprak-css">--typsnitt: "Segoe UI", system-ui, -apple-system, sans-serif;</code></pre>
+
+    <p>Vill du ha ett eget typsnitt ändå – och det är ett rimligt designval – håll dig till reglerna:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Regel</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td><b>Högst två typsnitt</b></td><td>Ett för rubriker, ett för text. Fler syns inte, de bara väger</td></tr>
+          <tr><td><b>Högst två vikter per typsnitt</b></td><td>Normal och fet. <i>Kursiv fet halvbred</i> är en fil till</td></tr>
+          <tr><td><b>Bara de tecken du behöver</b></td><td>Google Fonts kan leverera bara latinska tecken. Det halverar filen</td></tr>
+          <tr><td><b><code>font-display: swap</code></b></td><td>Texten visas i ett reservtypsnitt direkt och byts när filen kommit. Utan den står sidan tom och väntar</td></tr>
+          <tr><td><b>Alltid en reservlista</b></td><td><code>font-family: Inter, system-ui, sans-serif</code>. Kommer filen inte fram syns texten ändå</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="cache">14. Cache, kort</h2>
+    <p>När webbläsaren hämtat en fil sparar den den lokalt ett tag. Nästa sida på samma sajt som använder samma <code>stil.css</code> hämtar inte om den – den tar sin kopia. Det är därför en sajts <b>andra</b> sida alltid känns snabbare än den första.</p>
+
+    <p>Tre konsekvenser som gäller dig:</p>
+
+    <ol>
+      <li><b>En delad stilmall är billigare än stil i varje sida.</b> Den hämtas en gång och används på alla sidorna. Det är ytterligare ett skäl till regeln från område 3.</li>
+      <li><b>Du kan inte lita på din egen webbläsare när du mäter.</b> Kryssa i <i>Disable cache</i>, annars mäter du din cache och inte din sajt.</li>
+      <li><b>Du styr inte cachen på GitHub Pages.</b> Servern bestämmer hur länge filerna sparas. Byter du ut en bild men behåller filnamnet kan besökare få den gamla ett tag. Nytt innehåll, nytt filnamn är den enkla lösningen.</li>
+    </ol>
+
+    <p>Det räcker för den här kursen. Cache-styrning på riktigt är serverkonfiguration, och det ligger i nästa kurs.</p>
+
+    <h2 id="langre">15. Ta det längre</h2>
+    <p>För dig som vill mot C och A.</p>
+
+    <h3>Mät före och efter, och skriv ner det</h3>
+
+    <p>Projekt 6 vill ha en mätning före och en efter. Gör den i nätverksfliken med <i>Disable cache</i> i, på den publicerade adressen, på samma sida båda gångerna. Skriv i <code>README.md</code>:</p>
+
+<pre><code>Startsidan, mätt med Disable cache och Slow 4G:
+  Före:  14 requests, 2,1 MB, 9,8 s
+  Efter:  9 requests, 180 kB, 1,4 s
+Största posten före: hero.jpg, 1,8 MB (4032 px bred, visas i 640 px)</code></pre>
+
+    <p>Tre rader som säger mer än en sida text. <b>Det som bedöms är att du kan förklara varför siffran ändrades</b>, inte att den ändrades mycket.</p>
+
+    <h3>Kontrollera att <code>sizes</code> stämmer på riktigt</h3>
+
+    <p>Öppna nätverksfliken, sätt fönstret smalt, ladda om, och titta på vilken av dina filer som faktiskt hämtades. Dra ut fönstret brett, ladda om, titta igen. Hämtas samma fil båda gångerna stämmer inte <code>sizes</code> med din CSS.</p>
+
+    <h3>Bildens förhållande i två storlekar</h3>
+
+    <p>Behöver din bild vara stående på telefon och liggande på desktop är <code>picture</code> med <code>media</code> svaret – två olika beskärningar, inte bara två storlekar:</p>
+
+<pre><code class="sprak-html">&lt;picture&gt;
+  &lt;source media="(max-width: 40rem)"
+          srcset="bilder/hero-staende.jpg"&gt;
+  &lt;img src="bilder/hero-liggande.jpg" width="1600" height="900"
+       alt="..."&gt;
+&lt;/picture&gt;</code></pre>
+
+    <p>Det kallas <b>art direction</b> och är det enda fallet där <code>media</code> hör hemma i <code>picture</code>. För vanlig storleksväxling är det <code>sizes</code> som gäller.</p>
+
+    <h3>Ett ord om verktyg som gör det åt dig</h3>
+
+    <p>Riktiga sajter genererar sina bildstorlekar automatiskt vid bygget. Det referensprojektet gör med <code>verktyg/gor-bilder.py</code> är samma idé i liten skala: ett skript, en källbild, elva filer ut. Titta gärna i det – det är bara två sidor Python, och kvalitetsvärdena du läste om i avsnitt 3 står överst.</p>
+
+    <h2 id="felsokning">16. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: bild, cache, srcset" autocomplete="off">
+      <p class="traffar" id="traffar-fel">15 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symtom</th><th>Trolig orsak</th><th>Gör så här</th></tr></thead>
+        <tbody>
+          <tr><td>Bilden syns inte alls</td><td>Fel sökväg eller fel filändelse</td><td>Titta i konsolen. 404 betyder att filen inte finns där du sa</td></tr>
+          <tr><td>Bilden är suddig</td><td>En liten fil visas stor</td><td>Du behöver en större variant, inte ett annat format</td></tr>
+          <tr><td>Bilden är skarp men sidan är långsam</td><td>En stor fil visas liten</td><td>Avsnitt 4. Skala ner</td></tr>
+          <tr><td>Texten hoppar när sidan laddas</td><td><code>width</code> och <code>height</code> saknas</td><td>Avsnitt 5</td></tr>
+          <tr><td><code>srcset</code> verkar inte göra något</td><td>Du mäter med cache på</td><td>Kryssa i <i>Disable cache</i> och ladda om</td></tr>
+          <tr><td>Samma fil hämtas oavsett fönsterbredd</td><td><code>sizes</code> stämmer inte med CSS:en</td><td>Avsnitt 6. Jämför talet i <code>sizes</code> med <code>max-width</code> i din stilmall</td></tr>
+          <tr><td>AVIF-filen hämtas aldrig</td><td><code>source</code>-ordningen är fel</td><td>AVIF ska ligga överst i <code>picture</code></td></tr>
+          <tr><td>Validatorn klagar på <code>width="640px"</code></td><td>Enhet i attributet</td><td>Ta bort <code>px</code>. Bara talet</td></tr>
+          <tr><td>Bilden under <code>picture</code> ignorerar <code>alt</code></td><td><code>alt</code> står på <code>source</code></td><td><code>alt</code>, <code>width</code> och <code>height</code> hör på <code>img</code></td></tr>
+          <tr><td>Lighthouse ger olika betyg varje gång</td><td>Normalt</td><td>Kör tre gånger, använd mittensiffran</td></tr>
+          <tr><td>Nätverksfliken är tom</td><td>Du öppnade den efter laddningen</td><td>Ladda om med fliken öppen</td></tr>
+          <tr><td>Allt står <code>(disk cache)</code></td><td>Cachen</td><td><i>Disable cache</i></td></tr>
+          <tr><td>Sidan är snabb hos dig, långsam hos andra</td><td>Du mäter på skolans wifi</td><td><i>Slow 4G</i> i strypningen</td></tr>
+          <tr><td>Bilden ser bra ut men filen är 4 MB</td><td>Kameraoriginal</td><td>Skala ner och komprimera. Avsnitt 3 och 4</td></tr>
+          <tr><td>GIF:en väger 8 MB</td><td>GIF är inte ett videoformat</td><td>Gör om till mp4, eller ta bort</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="snabbreferens">17. Snabbreferens</h2>
+    <p><b>Bild med flera storlekar</b></p>
+
+<pre><code class="sprak-html">&lt;img src="bild-800.jpg"
+     srcset="bild-400.jpg 400w,
+             bild-800.jpg 800w,
+             bild-1600.jpg 1600w"
+     sizes="(min-width: 60rem) 640px, 94vw"
+     width="1600" height="1067" alt="Beskrivning"&gt;</code></pre>
+
+    <p><b>Bild med flera format</b></p>
+
+<pre><code class="sprak-html">&lt;picture&gt;
+  &lt;source type="image/avif" srcset="bild-800.avif"&gt;
+  &lt;source type="image/webp" srcset="bild-800.webp"&gt;
+  &lt;img src="bild-800.jpg" width="800" height="533"
+       alt="Beskrivning"&gt;
+&lt;/picture&gt;</code></pre>
+
+    <p><b>Bild långt ned på sidan</b></p>
+
+<pre><code class="sprak-html">&lt;img src="bild.jpg" width="480" height="360" loading="lazy"
+     alt="Beskrivning"&gt;</code></pre>
+
+    <p><b>Rutan som inte hoppar</b></p>
+
+<pre><code class="sprak-css">.foto img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+}</code></pre>
+
+    <p><b>Formaten</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Format</th><th>Till</th></tr></thead>
+        <tbody>
+          <tr><td>AVIF</td><td>Foton, minst</td></tr>
+          <tr><td>WebP</td><td>Foton, näst minst, säkrare</td></tr>
+          <tr><td>JPEG</td><td>Foton, reserv som alltid fungerar</td></tr>
+          <tr><td>PNG</td><td>Skarpa kanter, genomskinlighet</td></tr>
+          <tr><td>SVG</td><td>Logotyper, ikoner, kartor, diagram</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Mätningen</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Publicerad adress, inte lokal fil</td></tr>
+          <tr><td>2</td><td><i>Inspektera</i> → <b>Nätverk</b></td></tr>
+          <tr><td>3</td><td><i>Disable cache</i> i, strypning <i>Slow 4G</i></td></tr>
+          <tr><td>4</td><td>Ladda om</td></tr>
+          <tr><td>5</td><td>Läs antal requests och total vikt längst ned</td></tr>
+          <tr><td>6</td><td>Sortera på <b>Size</b>. Översta raden är din uppgift</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">18. Ordlista</h2>
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>artefakt</b></td><td>Fyrkantiga fält eller ringar i en bild som komprimerats för hårt</td></tr>
+          <tr><td><b>art direction</b></td><td>Att visa olika beskärningar av en bild på olika skärmar, inte bara olika storlekar</td></tr>
+          <tr><td><b>AVIF</b></td><td>Nyaste bildformatet för foton. Minsta filerna</td></tr>
+          <tr><td><b>cache</b></td><td>Webbläsarens lokala kopia av filer den redan hämtat</td></tr>
+          <tr><td><b>decoding</b></td><td>Attribut som säger om sidan får ritas klart medan bilden packas upp</td></tr>
+          <tr><td><b>DPR</b></td><td><i>Device pixel ratio</i>. Hur många fysiska pixlar skärmen har per CSS-pixel. En telefon har ofta 2 eller 3</td></tr>
+          <tr><td><b>förlustfri</b></td><td>Kompression som sparar varje pixel exakt. PNG, SVG</td></tr>
+          <tr><td><b>förstörande</b></td><td>Kompression som kastar detaljer för att spara plats. JPEG, WebP, AVIF</td></tr>
+          <tr><td><b>lazy loading</b></td><td>Att hämta en bild först när den behövs</td></tr>
+          <tr><td><b>layout shift</b></td><td>Att innehåll hoppar när något laddas in ovanför</td></tr>
+          <tr><td><b>Lighthouse</b></td><td>Mätverktyg i Chrome och Edge. Fyra betyg på 0–100</td></tr>
+          <tr><td><b>nätverksfliken</b></td><td>Fliken i <i>Inspektera</i> som listar allt sidan hämtar</td></tr>
+          <tr><td><b>optimering</b></td><td>Att göra sidan lättare utan att den blir sämre</td></tr>
+          <tr><td><b>picture</b></td><td>HTML-element som låter webbläsaren välja bildformat</td></tr>
+          <tr><td><b>PNG</b></td><td>Förlustfritt bildformat. Bra på skarpa kanter, dåligt på foton</td></tr>
+          <tr><td><b>request</b></td><td>En fråga till servern om en fil. Varje fil är en request</td></tr>
+          <tr><td><b>sizes</b></td><td>Attribut som säger hur bred bilden blir i layouten</td></tr>
+          <tr><td><b>srcset</b></td><td>Attribut som listar vilka filstorlekar som finns</td></tr>
+          <tr><td><b>strypning</b></td><td>Att låtsas ha långsam uppkoppling när man mäter</td></tr>
+          <tr><td><b>SVG</b></td><td>Bildformat av ritinstruktioner. Skarpt i alla storlekar</td></tr>
+          <tr><td><b>systemtypsnitt</b></td><td>Typsnitt som redan finns i besökarens enhet. Väger noll</td></tr>
+          <tr><td><b>WebP</b></td><td>Bildformat för foton. Mindre än JPEG, förstås av alla sedan 2020</td></tr>
+          <tr><td><b>w-deskriptor</b></td><td>Talet <code>800w</code> i <code>srcset</code> – filens bredd i pixlar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 7</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

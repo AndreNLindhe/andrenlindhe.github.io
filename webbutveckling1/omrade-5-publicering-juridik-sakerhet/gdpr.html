@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GDPR-guiden – Webbutveckling 1 område 5</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-5-gdpr">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Guide</strong> · Publicering, juridik och säkerhet</span>
+  <a href="#missuppfattningar">Missuppfattningar</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#pul">1. Lagen kursplanen nämner finns inte längre</a></li>
+      <li><a href="#personuppgift">2. Vad är en personuppgift?</a></li>
+      <li><a href="#principerna">3. De sju principerna</a></li>
+      <li><a href="#rattigheter">4. Dina rättigheter</a></li>
+      <li><a href="#tretton">5. 13-årsgränsen</a></li>
+      <li><a href="#egen-sajt">6. Din egen sajt – är du personuppgiftsansvarig?</a></li>
+      <li><a href="#kakor">7. Kakor och samtycke</a></li>
+      <li><a href="#nar-det-gar-fel">8. När det går fel</a></li>
+      <li><a href="#langre">9. Ta det längre</a></li>
+      <li><a href="#missuppfattningar">10. Vanliga missuppfattningar</a></li>
+      <li><a href="#snabbreferens">11. Snabbreferens</a></li>
+      <li><a href="#ordlista">12. Ordlista</a></li>
+      <li><a href="#kallor">13. Källor</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 5 · guide</p>
+    <h1>GDPR – personuppgifter på webben</h1>
+    <p class="inledning">Guiden är en av tre som Projekt 4 bygger på. Den ska räcka för att skriva sajtens GDPR-del utan att googla – men den ska inte skrivas av. Kravet i uppgiften är egna formuleringar och egna exempel, och det som gör guiden användbar är att den pekar på var den korrekta informationen finns: hos Integritetsskyddsmyndigheten, IMY, som är den myndighet som övervakar att lagen följs i Sverige.</p>
+
+    <p>Alla källhänvisningar i guiden är hämtade 11 september 2026. Lagtexten ändras sällan, men myndigheternas sidor flyttar. Går en länk inte, sök på sidans rubrik hos <code>imy.se</code>.</p>
+
+    <h2 id="efterat">Vad du kan efter guiden</h2>
+    <ul>
+      <li>Säga vad en personuppgift är, och ge tre exempel som inte är namn.</li>
+      <li>Förklara vad GDPR kräver av den som samlar in uppgifter, i sju punkter.</li>
+      <li>Räkna upp vilka rättigheter du själv har mot ett företag som har dina uppgifter.</li>
+      <li>Avgöra om din egen sajt behandlar personuppgifter – och vad det i så fall kräver av dig.</li>
+      <li>Förklara varför nästan varje sajt frågar om kakor, och vad ett giltigt svar är.</li>
+      <li>Ge ett konkret exempel på när lagen bröts, och vad det kostade.</li>
+    </ul>
+
+    <h2 id="pul">1. Lagen kursplanen nämner finns inte längre</h2>
+    <p>Kursplanen för Webbutveckling 1 säger att du ska känna till <i>"lagar och andra bestämmelser som styr digital information, till exempel personuppgiftslagen och lagen om elektronisk kommunikation"</i>. Personuppgiftslagen – PUL – upphörde 25 maj 2018. Den ersattes av <b>dataskyddsförordningen</b>, som nästan alla kallar <b>GDPR</b> efter det engelska namnet <i>General Data Protection Regulation</i>.</p>
+
+    <p>Skillnaden är inte bara namnet. PUL var en svensk lag. GDPR är en EU-förordning, och en förordning gäller direkt i alla EU-länder utan att varje land skriver en egen lag. Det betyder att samma regler gäller för en sajt i Sverige, i Spanien och i Finland – och för ett amerikanskt företag som riktar sig till användare i EU.</p>
+
+    <p>Sverige har en kompletterande lag, dataskyddslagen (2018:218), som fyller i de luckor förordningen lämnar åt varje land. 13-årsgränsen i avsnitt 5 är ett sådant tillägg.</p>
+
+    <p>Den andra lagen kursplanen nämner, <b>lagen om elektronisk kommunikation</b> (LEK), gäller fortfarande. Det är den som styr kakorna i avsnitt 7.</p>
+
+    <div class="notis">
+      <span class="rubrik">Två myndigheter att kunna</span>
+      <p><b>IMY</b>, Integritetsskyddsmyndigheten, övervakar GDPR i Sverige. Dit anmäler du ett företag som inte sköter dina uppgifter, och dit måste ett företag anmäla när uppgifter läckt. <b>PTS</b>, Post- och telestyrelsen, övervakar lagen om elektronisk kommunikation, alltså bland annat kakorna.</p>
+    </div>
+
+    <h2 id="personuppgift">2. Vad är en personuppgift?</h2>
+    <p>IMY:s definition: <i>"varje upplysning som avser en identifierad eller identifierbar fysisk person"</i>. Avgörande är att uppgiften, ensam eller tillsammans med andra uppgifter, går att knyta till en <b>levande</b> person.</p>
+
+    <p>Det är bredare än de flesta tror. Personuppgifter är:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Uppenbara</th><th>Mindre uppenbara</th></tr></thead>
+        <tbody>
+          <tr><td>Namn, personnummer, adress</td><td>En bild eller film där du går att känna igen</td></tr>
+          <tr><td>E-postadress, telefonnummer</td><td>En röstinspelning</td></tr>
+          <tr><td>Användarnamn på ett konto</td><td>En IP-adress, eftersom den kan knytas till ett abonnemang</td></tr>
+          <tr><td></td><td>Registreringsnumret på en bil</td></tr>
+          <tr><td></td><td>"Läraren i webbutveckling på skolan X" – ingen nämns vid namn, men alla vet vem</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Sista raden är poängen. En uppgift behöver inte innehålla ett namn för att vara en personuppgift. Det räcker att någon kan lista ut vem det handlar om.</p>
+
+    <p>Det finns också en känsligare kategori, som lagen kallar <b>särskilda kategorier</b>: hälsa, etniskt ursprung, politiska åsikter, religion, sexuell läggning, fackligt medlemskap, biometri och genetik. De får som huvudregel inte behandlas alls, med några uttryckliga undantag.</p>
+
+    <h3>Realistiskt exempel</h3>
+
+    <p>Du lägger upp en bild från klassens friluftsdag på din sajt. Fem klasskamrater syns tydligt. Du har publicerat fem personuppgifter – bilderna – och för den som har en mössa med skolans logga också en uppgift om var de går i skolan. Det är inte förbjudet, men det är en behandling av personuppgifter, och avsnitt 6 handlar om vad det kräver av dig.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Öppna din egen sajt från Projekt 3. Gå igenom varje sida och skriv ner varje personuppgift du hittar – om dig själv och om andra. Räkna in bilder. De flesta hittar fler än de trodde.</p>
+
+    <h2 id="principerna">3. De sju principerna</h2>
+    <p>GDPR har 99 artiklar, och du behöver inte kunna dem. Kärnan är sju principer i artikel 5, och IMY beskriver dem som <i>"de yttersta ramarna för vad som är en tillåten behandling"</i>. Kan du de sju kan du förklara nästan vilket GDPR-krav som helst.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Princip</th><th>Betyder</th><th>Så ser det ut i praktiken</th></tr></thead>
+        <tbody>
+          <tr><td><b>Laglighet, korrekthet och öppenhet</b></td><td>Du måste ha ett lagligt skäl, och personen ska veta vad som händer</td><td>En sajt som samlar e-postadresser berättar vad de ska användas till</td></tr>
+          <tr><td><b>Ändamålsbegränsning</b></td><td>Uppgifter samlas in för ett bestämt syfte och används inte till annat</td><td>E-postadressen du gav för att få ett kvitto får inte bli nyhetsbrev</td></tr>
+          <tr><td><b>Uppgiftsminimering</b></td><td>Samla inte in mer än vad syftet kräver</td><td>Ett kontaktformulär behöver inte ditt personnummer</td></tr>
+          <tr><td><b>Riktighet</b></td><td>Uppgifterna ska vara korrekta och uppdaterade</td><td>Fel adress ska rättas när du säger till</td></tr>
+          <tr><td><b>Lagringsminimering</b></td><td>Radera när syftet är uppfyllt</td><td>Konton som inte använts på flera år tas bort</td></tr>
+          <tr><td><b>Integritet och konfidentialitet</b></td><td>Uppgifterna ska skyddas mot obehöriga</td><td>Lösenord lagras krypterat, inte i klartext</td></tr>
+          <tr><td><b>Ansvarsskyldighet</b></td><td>Den som behandlar uppgifter ska kunna <b>visa</b> att reglerna följs</td><td>Dokumentation över vad som samlas in, varför och hur länge</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Den sista principen är den som skiljer GDPR från det mesta annat. Det räcker inte att göra rätt – du ska kunna visa att du gör rätt.</p>
+
+    <h3>Rättslig grund – det lagliga skälet</h3>
+
+    <p>Den första principen kräver ett lagligt skäl, och lagen listar sex. De tre du stöter på oftast:</p>
+
+    <ul>
+      <li><b>Samtycke.</b> Personen har sagt ja, aktivt och frivilligt, och kan ångra sig.</li>
+      <li><b>Avtal.</b> Uppgifterna behövs för att fullgöra något personen beställt – en webbshop behöver din adress för att skicka paketet.</li>
+      <li><b>Intresseavvägning.</b> Den som samlar in har ett berättigat intresse som väger tyngre än intrånget i personens integritet. Kräver att man faktiskt gjort avvägningen.</li>
+    </ul>
+
+    <p>Samtycke är inte den enda grunden, och ofta inte den bästa. Ett samtycke kan tas tillbaka när som helst, och då försvinner grunden.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Ta ett formulär du fyllt i nyligen – ett konto, en beställning, en anmälan. Vilka fält hade det? Fanns det något fält som inte behövdes för syftet? Det är uppgiftsminimeringen som prövas.</p>
+
+    <h2 id="rattigheter">4. Dina rättigheter</h2>
+    <p>Lagen ger dig som registrerad åtta rättigheter. IMY listar dem så här:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rättighet</th><th>Innebär</th></tr></thead>
+        <tbody>
+          <tr><td><b>Rätt till information</b></td><td>Du ska få veta vad som samlas in, varför och hur länge, i klartext</td></tr>
+          <tr><td><b>Rätt till tillgång</b></td><td>Du kan begära ett registerutdrag – en kopia av allt de har om dig</td></tr>
+          <tr><td><b>Rätt till rättelse</b></td><td>Felaktiga uppgifter ska rättas</td></tr>
+          <tr><td><b>Rätt till radering</b></td><td>"Rätten att bli bortglömd". Gäller bland annat när syftet är uppfyllt eller samtycket tagits tillbaka</td></tr>
+          <tr><td><b>Rätt till begränsning</b></td><td>Under en tvist kan du kräva att uppgifterna fryses – lagras men inte används</td></tr>
+          <tr><td><b>Rätt att flytta dina uppgifter</b></td><td>Dataportabilitet: få ut dina uppgifter i ett format som går att ta med till en annan tjänst</td></tr>
+          <tr><td><b>Rätt att göra invändningar</b></td><td>Du kan säga nej till viss behandling, till exempel direktmarknadsföring</td></tr>
+          <tr><td><b>Automatiserade beslut</b></td><td>Du har rätt att slippa beslut som fattas helt av en maskin om de får stora följder för dig, och att få ett sådant beslut prövat av en människa</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Rättigheterna är inte teori. Ett registerutdrag är en riktig begäran du kan skicka till vilket företag som helst, och de har som huvudregel en månad på sig att svara.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Välj en tjänst du använder dagligen. Leta upp var i inställningarna du kan ladda ner dina uppgifter – de flesta stora tjänster har en sådan funktion just för att lagen kräver det. Titta på vad som kommer. Det är rätten till tillgång i praktiken.</p>
+
+    <h2 id="tretton">5. 13-årsgränsen</h2>
+    <p>GDPR säger att barn under 16 inte själva kan samtycka till att sociala medier och liknande tjänster behandlar deras uppgifter – men låter varje land sänka gränsen till lägst 13. Sverige valde 13, i dataskyddslagen.</p>
+
+    <p>IMY: <i>"Barn över 13 år kan enligt dataskyddsreglerna samtycka till att deras personuppgifter används vid användning av informationssamhällets tjänster."</i> Exempel på sådana tjänster: sociala medier, bloggar, forum, videoplattformar, chattprogram, onlinespel och appar.</p>
+
+    <p>Under 13 krävs vårdnadshavarens samtycke. Det är därför de flesta stora plattformar har 13 som åldersgräns – inte för att de bestämt det själva, utan för att lagen tvingar dem att annars hämta samtycke från en förälder, vilket är krångligt.</p>
+
+    <p>Gränsen gäller <b>samtycke som rättslig grund</b>. Ett barn har alla åtta rättigheterna i avsnitt 4 oavsett ålder, och lagen säger uttryckligen att barns uppgifter förtjänar särskilt skydd.</p>
+
+    <h3>Realistiskt exempel</h3>
+
+    <p>En tjänst frågar om födelsedatum vid registrering. Om du skriver ett datum som gör dig yngre än 13 stoppas du, eller så begärs en förälders e-postadress. Det är inte tjänsten som är petig. Det är dataskyddslagen 2 kap. 4 § som tillämpas.</p>
+
+    <h2 id="egen-sajt">6. Din egen sajt – är du personuppgiftsansvarig?</h2>
+    <p>Här blir det konkret. Du har en publicerad sajt. Gäller GDPR dig?</p>
+
+    <p>GDPR har ett undantag för <i>"rent privat"</i> användning – din egen kontaktlista i telefonen faller utanför. Men en <b>publicerad webbplats är inte privat</b>, och det slogs fast redan innan GDPR fanns, i ett svenskt fall. En kvinna i Alseda publicerade en sida om sina kollegor i församlingen, med namn, telefonnummer och att en av dem hade skadat foten. EU-domstolen kom fram till att det var behandling av personuppgifter, och att en privatperson som publicerar på en sajt alla kan nå inte omfattas av privatundantaget (mål C-101/01, Lindqvist, 2003). Domen citeras än i dag.</p>
+
+    <p>Så: publicerar du uppgifter om andra på din sajt är du <b>personuppgiftsansvarig</b>. Det är den som bestämmer varför och hur uppgifter behandlas. Det låter tungt, men i praktiken betyder det tre saker för en sajt som din:</p>
+
+    <ol>
+      <li><b>Uppgifter om andra kräver ett skäl.</b> Bilden på klasskamraterna kräver att de har sagt ja, eller att du kan motivera en intresseavvägning. Fråga. Ta bort om någon inte vill.</li>
+      <li><b>Ett formulär gör dig till insamlare.</b> Har din sajt ett kontaktformulär som faktiskt skickar något, samlar du in namn och e-postadress. Då ska besökaren få veta vad du gör med det – en mening bredvid formuläret räcker.</li>
+      <li><b>Du ska veta vart uppgifterna tar vägen.</b> Ett formulär på GitHub Pages skickar ingenting av sig självt. Kopplar du det till en tjänst som Formspree eller ett Google-formulär är det ett företag i USA som får uppgifterna, och då är det du som ska ha koll på att det är i sin ordning.</li>
+    </ol>
+
+    <h3>Det du inte ser: vad sajten skickar</h3>
+
+    <p>Även utan formulär skickar en sajt uppgifter, och det är lätt att missa:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Du lägger in</th><th>Vad som händer</th></tr></thead>
+        <tbody>
+          <tr><td>Ett inbäddat YouTube-klipp</td><td>Besökarens IP-adress och kakor går till Google innan hen tryckt play</td></tr>
+          <tr><td>Ett typsnitt från Google Fonts</td><td>Varje sidvisning gör ett anrop till Googles servrar med besökarens IP</td></tr>
+          <tr><td>En karta från Google Maps</td><td>Samma sak</td></tr>
+          <tr><td>Statistik som Google Analytics</td><td>Kakor sätts och besökaren spåras – kräver samtycke, se avsnitt 7</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Inget av det är förbjudet. Men den som driver sajten ska veta om det, och kunna berätta det. Alternativet finns ofta: ladda ner typsnittet och lägg det i repot, så går inget anrop någonstans.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Personuppgiftsansvarig och personuppgiftsbiträde</span>
+      <p><b>Ansvarig</b> är den som bestämmer varför uppgifterna behandlas – du, för din sajt. <b>Biträde</b> är den som behandlar uppgifterna åt den ansvarige – tjänsten som tar emot formuläret. Biträdet gör bara det den ansvarige säger, men ansvaret för att välja ett biträde som sköter sig ligger på den ansvarige. Vill du använda ordet rätt i Projekt 4 är det den här skillnaden du ska få fram.</p>
+    </div>
+
+    <h3>Prova själv</h3>
+
+    <p>Öppna din sajt och tryck F12. Under fliken <i>Network</i> (Nätverk), ladda om sidan. Varje rad är ett anrop. Ser du någon adress som inte är din egen – <code>fonts.googleapis.com</code>, <code>youtube.com</code>, något annat? Det är dit besökarens IP-adress går.</p>
+
+    <h2 id="kakor">7. Kakor och samtycke</h2>
+    <p>En <b>kaka</b> (cookie) är en liten textfil sajten sparar i din webbläsare, och som webbläsaren skickar tillbaka nästa gång du besöker samma sajt. Det är så en sajt kommer ihåg att du är inloggad, vad du har i varukorgen – eller vilka sajter du besökt tidigare, om kakan sätts av ett reklamnätverk som finns på många sajter.</p>
+
+    <p>Reglerna om kakor står inte i GDPR utan i <b>lagen om elektronisk kommunikation</b>, och tillsynen sköts av PTS. Men samtycket ska uppfylla GDPR:s krav, så lagarna hakar i varandra.</p>
+
+    <h3>Vad PTS kräver</h3>
+
+    <ul>
+      <li><b>Samtycke först.</b> Kakor som inte är nödvändiga får inte sättas förrän besökaren sagt ja.</li>
+      <li><b>Aktivt.</b> Förkryssade rutor gäller inte. Att fortsätta surfa är inte ett ja.</li>
+      <li><b>Lika lätt att säga nej.</b> PTS: <i>"Det ska vara lika enkelt att tacka ja som nej till kakor"</i> – i samma vy, med lika tydliga knappar. En stor grön "Acceptera" och en liten grå länk till "Inställningar" uppfyller inte kravet.</li>
+      <li><b>Information.</b> Vilka kakor, vad de gör, hur länge de lagras, och om de kommer från tredje part.</li>
+      <li><b>Går att ångra.</b> Besökaren ska kunna ta tillbaka sitt ja.</li>
+    </ul>
+
+    <h3>Nödvändiga kakor är undantagna</h3>
+
+    <p>Kakor som krävs för att sajten ska fungera som besökaren förväntar sig – varukorgen, inloggningen, språkvalet du just gjorde – kräver inget samtycke. PTS: <i>"Nödvändiga kakor är de som måste finnas för att webbplatsen ska fungera som det är tänkt."</i></p>
+
+    <p>Det betyder att en sajt som bara använder nödvändiga kakor inte behöver någon kakbanner alls. Bannern finns för att sajten vill göra något mer: mäta, spåra eller sälja reklam.</p>
+
+    <h3>Din sajt</h3>
+
+    <p>En statisk sajt på GitHub Pages med egen HTML och CSS sätter inga kakor. Du behöver ingen banner. Lägger du in Google Analytics, ett inbäddat klipp eller en kommentarsfunktion från tredje part sätts kakor – och då gäller reglerna dig.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Gå till tre sajter du använder och titta på kakbannern med PTS-kraven i handen. Är nej lika lätt som ja? I samma vy? Skriv ner vilka som klarar det. Det är ett exempel du kan använda i Projekt 4, med skärmbild.</p>
+
+    <h2 id="nar-det-gar-fel">8. När det går fel</h2>
+    <p><b>Personuppgiftsincident</b> är lagens ord för en läcka: uppgifter har kommit bort, förstörts eller hamnat hos någon obehörig. Den som är ansvarig ska anmäla incidenten till IMY inom <b>72 timmar</b>, och om risken för personerna är hög ska de själva informeras.</p>
+
+    <p>Bryter ett företag mot lagen kan IMY besluta om en <b>sanktionsavgift</b> på upp till 20 miljoner euro, eller 4 procent av den globala årsomsättningen om det blir mer. För myndigheter är taket 10 miljoner kronor. Avgifterna används, och IMY publicerar sina beslut på <code>imy.se</code> under <i>Tillsyner och beslut</i> – länk i källorna.</p>
+
+    <h3>Realistiskt exempel</h3>
+
+    <p>Att söka på IMY:s beslut är det enklaste sättet att hitta ett konkret, svenskt och aktuellt exempel till Projekt 4. Välj ett beslut från det senaste året, läs vad företaget gjorde fel, vilken princip i avsnitt 3 som bröts, och vad det kostade. Ange beslutets datum och diarienummer som källa.</p>
+
+    <h2 id="langre">9. Ta det längre</h2>
+    <p>För C och A i Projekt 4 räcker det inte att återge reglerna. Här är tre spår att fördjupa i.</p>
+
+    <h3>Integritetspolicyn – skriv en för din egen sajt</h3>
+
+    <p>Ta reda på vad din sajt faktiskt samlar in (avsnitt 6, <i>Prova själv</i>) och skriv en integritetspolicy på högst tio meningar: vad, varför, hur länge, vem som får det, och hur besökaren kontaktar dig. Publicera den på sajten. Den som kan skriva en korrekt policy för en liten sajt förstår lagen bättre än den som kan citera artikel 5.</p>
+
+    <h3>Jämför två kakbanners mot PTS-kraven</h3>
+
+    <p>Ta skärmbilder av två banners – en som klarar kraven och en som inte gör det – och förklara punkt för punkt vad som skiljer. Det tränar exakt den bedömning PTS gör i sin tillsyn, och PTS publicerar egna vägledande beslut du kan jämföra med.</p>
+
+    <h3>Dataportabilitet i praktiken</h3>
+
+    <p>Begär ut dina uppgifter från en tjänst (avsnitt 4, <i>Prova själv</i>) och beskriv vad du fick: format, omfattning, hur lång tid det tog. Var det något du inte visste att de hade? Det ger ett eget exempel ingen annan i klassen har.</p>
+
+    <h2 id="missuppfattningar">10. Vanliga missuppfattningar</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det låter så här</th><th>Så är det</th><th>Vad du gör i stället</th></tr></thead>
+        <tbody>
+          <tr><td>"Det är bara namn och personnummer som är personuppgifter"</td><td>Bilder, röster, IP-adresser och indirekta beskrivningar räknas också</td><td>Utgå från frågan <i>kan någon lista ut vem det är?</i></td></tr>
+          <tr><td>"Min sajt är privat, GDPR gäller inte mig"</td><td>En publicerad sajt är inte privat. Lindqvist-domen slog fast det 2003</td><td>Behandla uppgifter om andra som om ett företag gjorde det: fråga, informera, ta bort på begäran</td></tr>
+          <tr><td>"Jag behöver samtycke för allt"</td><td>Samtycke är en av sex rättsliga grunder, och ofta inte den lämpligaste</td><td>Läs de tre vanligaste grunderna i avsnitt 3</td></tr>
+          <tr><td>"Kakbannern är ett GDPR-krav"</td><td>Den kommer ur lagen om elektronisk kommunikation. GDPR styr hur samtycket ska se ut</td><td>Nämn båda lagarna, och PTS som tillsynsmyndighet för kakorna</td></tr>
+          <tr><td>"Sätter jag bara kakbannern så är det lugnt"</td><td>Bannern är giltig bara om nej är lika lätt som ja</td><td>Kontrollera mot PTS fem krav i avsnitt 7</td></tr>
+          <tr><td>"Under 13 får man inte vara på nätet"</td><td>Gränsen gäller samtycke till tjänster som sociala medier. Barn har alla rättigheter oavsett ålder</td><td>Skriv "får inte själv samtycka", inte "får inte använda"</td></tr>
+          <tr><td>"GDPR gäller inte amerikanska företag"</td><td>Den gäller alla som riktar sig till användare i EU</td><td>Det är därför Google, Meta och TikTok fått avgifter av EU-ländernas tillsynsmyndigheter</td></tr>
+          <tr><td>"Läckan var inte vårt fel, så den behöver inte anmälas"</td><td>Anmälningsplikten gäller oavsett vems felet var</td><td>72 timmar från att incidenten upptäcktes</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="snabbreferens">11. Snabbreferens</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Begrepp</th><th>Kort</th></tr></thead>
+        <tbody>
+          <tr><td>GDPR</td><td>EU-förordning 2016/679. Gäller sedan 25 maj 2018, direkt i alla EU-länder</td></tr>
+          <tr><td>Dataskyddslagen</td><td>Sveriges kompletterande lag (2018:218). Bland annat 13-årsgränsen</td></tr>
+          <tr><td>PUL</td><td>Personuppgiftslagen, upphävd 2018. Nämns fortfarande i kursplanen</td></tr>
+          <tr><td>LEK</td><td>Lagen om elektronisk kommunikation. Kakreglerna. Tillsyn: PTS</td></tr>
+          <tr><td>Personuppgift</td><td>Varje uppgift som går att knyta till en levande person, direkt eller indirekt</td></tr>
+          <tr><td>Särskilda kategorier</td><td>Hälsa, etnicitet, religion, politik, sexuell läggning med mera. Som huvudregel förbjudet att behandla</td></tr>
+          <tr><td>Behandling</td><td>Allt man gör med uppgifter: samla in, lagra, publicera, radera</td></tr>
+          <tr><td>Personuppgiftsansvarig</td><td>Den som bestämmer varför och hur. Du, för din sajt</td></tr>
+          <tr><td>Personuppgiftsbiträde</td><td>Den som behandlar åt den ansvarige, på uppdrag</td></tr>
+          <tr><td>Rättslig grund</td><td>Det lagliga skälet. Sex stycken; samtycke, avtal och intresseavvägning är de vanligaste</td></tr>
+          <tr><td>De sju principerna</td><td>Laglighet/korrekthet/öppenhet · ändamålsbegränsning · uppgiftsminimering · riktighet · lagringsminimering · integritet/konfidentialitet · ansvarsskyldighet</td></tr>
+          <tr><td>De åtta rättigheterna</td><td>Information · tillgång · rättelse · radering · begränsning · dataportabilitet · invändning · automatiserade beslut</td></tr>
+          <tr><td>Registerutdrag</td><td>Din begäran om att få se allt de har om dig. Svar inom en månad</td></tr>
+          <tr><td>Personuppgiftsincident</td><td>En läcka. Anmäls till IMY inom 72 timmar</td></tr>
+          <tr><td>Sanktionsavgift</td><td>Upp till 20 miljoner euro eller 4 % av global omsättning</td></tr>
+          <tr><td>13-årsgränsen</td><td>Under 13 krävs vårdnadshavarens samtycke till sociala medier och liknande</td></tr>
+          <tr><td>IMY</td><td>Integritetsskyddsmyndigheten. Tillsyn över GDPR i Sverige</td></tr>
+          <tr><td>PTS</td><td>Post- och telestyrelsen. Tillsyn över kakreglerna</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">12. Ordlista</h2>
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>personuppgift</b></td><td>Uppgift som går att knyta till en levande person – även bild, röst och IP-adress</td></tr>
+          <tr><td><b>behandling</b></td><td>Allt man gör med en personuppgift: samla in, lagra, visa, skicka vidare, radera</td></tr>
+          <tr><td><b>registrerad</b></td><td>Personen uppgifterna handlar om. Du, när ett företag har dina uppgifter</td></tr>
+          <tr><td><b>personuppgiftsansvarig</b></td><td>Den som bestämmer varför och hur uppgifter behandlas</td></tr>
+          <tr><td><b>personuppgiftsbiträde</b></td><td>Den som behandlar uppgifter åt någon annan, på uppdrag</td></tr>
+          <tr><td><b>rättslig grund</b></td><td>Det lagliga skälet till en behandling. Krävs alltid</td></tr>
+          <tr><td><b>samtycke</b></td><td>Ett aktivt, frivilligt ja som går att ta tillbaka</td></tr>
+          <tr><td><b>intresseavvägning</b></td><td>Rättslig grund där insamlarens intresse vägs mot personens integritet</td></tr>
+          <tr><td><b>uppgiftsminimering</b></td><td>Principen att inte samla in mer än syftet kräver</td></tr>
+          <tr><td><b>registerutdrag</b></td><td>Kopian av dina uppgifter du har rätt att begära ut</td></tr>
+          <tr><td><b>dataportabilitet</b></td><td>Rätten att få ut dina uppgifter i ett format som går att flytta</td></tr>
+          <tr><td><b>personuppgiftsincident</b></td><td>En läcka eller förlust av uppgifter. Anmäls till IMY inom 72 timmar</td></tr>
+          <tr><td><b>sanktionsavgift</b></td><td>Avgiften IMY kan besluta om vid överträdelser</td></tr>
+          <tr><td><b>kaka (cookie)</b></td><td>Liten textfil sajten sparar i webbläsaren och läser vid nästa besök</td></tr>
+          <tr><td><b>tredjepartskaka</b></td><td>Kaka som sätts av någon annan än sajten du besöker, oftast för reklam</td></tr>
+          <tr><td><b>nödvändig kaka</b></td><td>Kaka som krävs för att sajten ska fungera. Undantagen från samtyckeskravet</td></tr>
+          <tr><td><b>förordning</b></td><td>EU-lag som gäller direkt i alla medlemsländer, utan nationell lag emellan</td></tr>
+          <tr><td><b>IMY</b></td><td>Integritetsskyddsmyndigheten, tillsynsmyndighet för GDPR i Sverige</td></tr>
+          <tr><td><b>PTS</b></td><td>Post- och telestyrelsen, tillsynsmyndighet för lagen om elektronisk kommunikation</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kallor">13. Källor</h2>
+    <p>Alla hämtade 11 september 2026. Använd dem som källor i Projekt 4 – ange sidans rubrik, myndigheten och datumet du läste den.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Källa</th><th>Vad du hittar där</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/grundlaggande-principer/">IMY – Grundläggande principer</a></td><td>De sju principerna, med IMY:s egna formuleringar</td></tr>
+          <tr><td><a href="https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/introduktion-till-gdpr/personuppgifter/">IMY – Personuppgifter</a></td><td>Definitionen och exemplen</td></tr>
+          <tr><td><a href="https://www.imy.se/privatperson/dataskydd/dina-rattigheter/">IMY – Dina rättigheter</a></td><td>De åtta rättigheterna</td></tr>
+          <tr><td><a href="https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/introduktion-till-gdpr/personuppgifter/personuppgifter-om-barn/">IMY – Personuppgifter om barn</a></td><td>13-årsgränsen</td></tr>
+          <tr><td><a href="https://www.imy.se/privatperson/dataskydd/dataskydd-for-dig-som-ar-ung/for-dig-som-ar-ung/fa-koll-pa-vad-som-galler/">IMY – För dig som är ung</a></td><td>Reglerna förklarade för dig, uppdaterad juli 2026</td></tr>
+          <tr><td><a href="https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/rattslig-grund/">IMY – Rättslig grund</a></td><td>De sex grunderna</td></tr>
+          <tr><td><a href="https://www.imy.se/tillsyner/">IMY – Tillsyner och beslut</a></td><td>Riktiga beslut med datum, organisation och avgift. Exemplen till Projekt 4 ligger här</td></tr>
+          <tr><td><a href="https://pts.se/internet-och-telefoni/kakor-cookies/">PTS – Kakor (cookies)</a></td><td>Kraven på samtycke och information</td></tr>
+          <tr><td><a href="https://pts.se/internet-och-telefoni/kakor-cookies/vagledande-beslut/">PTS – Vägledande beslut om kakor</a></td><td>Riktiga tillsynsbeslut att jämföra med</td></tr>
+          <tr><td><a href="https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/introduktion-till-gdpr/dataskyddsforordningen-i-fulltext/">Dataskyddsförordningen i fulltext</a></td><td>Lagtexten, via IMY. Artikel 5 är principerna, 15–22 rättigheterna</td></tr>
+          <tr><td><a href="https://syllabuswebb.skolverket.se/subject/WEU/1/pdf">Skolverket – ämnesplan Webbutveckling</a></td><td>Kursplanen som fortfarande nämner personuppgiftslagen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 5</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,811 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JS-guiden – Webbutveckling 1 område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-6-js-guiden">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Guide</strong> · Interaktivitet med moduler</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#vad-js-gor">1. Vad JavaScript gör</a></li>
+      <li><a href="#byggstenar">2. De fem byggstenarna</a></li>
+      <li><a href="#hitta">3. Hitta element på sidan</a></li>
+      <li><a href="#andra">4. Ändra sidan</a></li>
+      <li><a href="#handelser">5. Händelser</a></li>
+      <li><a href="#villkor">6. Villkor</a></li>
+      <li><a href="#listor">7. Listor och loopar</a></li>
+      <li><a href="#koppla-in">8. Koppla in en modul</a></li>
+      <li><a href="#konsolen">9. Konsolen</a></li>
+      <li><a href="#anpassa">10. Anpassa en modul</a></li>
+      <li><a href="#las-modul">11. Läs en hel modul: <code>meny.js</code></a></li>
+      <li><a href="#langre">12. Ta det längre</a></li>
+      <li><a href="#felsokning">13. Felsökning</a></li>
+      <li><a href="#snabbreferens">14. Snabbreferens</a></li>
+      <li><a href="#ordlista">15. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 6 · guide</p>
+    <h1>JavaScript: läsa, koppla in, anpassa</h1>
+    <p class="inledning">Guiden är områdets uppslagsbok. Den ska fungera för den som var borta, och den ska gå att slå i mitt under ett arbetspass. Alla exempel är hämtade ur <code>referensprojekt/</code> – Vikstadssajten med sex moduler inbyggda – så att koden i guiden och koden i förlagan är samma kod.</p>
+
+    <p><b>Målet i den här kursen är inte att du ska kunna programmera från grunden.</b> Det är att du ska kunna läsa färdig kod, förstå vad den gör, koppla in den och anpassa den. Det är så det mesta av webbutveckling ser ut i verkligheten, och det är det Projekt 5 kräver.</p>
+
+    <h2 id="efterat">Vad du kan efter guiden</h2>
+    <ul>
+      <li>Säga vad JavaScript gör som HTML och CSS inte kan.</li>
+      <li>Läsa en modul rad för rad och förklara vad varje rad gör.</li>
+      <li>Känna igen de fem byggstenarna: variabel, funktion, händelse, villkor och lista.</li>
+      <li>Koppla in en modul i din egen sajt – rätt fil, rätt plats, rätt sökväg.</li>
+      <li>Öppna konsolen, läsa ett felmeddelande och hitta raden det handlar om.</li>
+      <li>Ändra en modul utan att ha den sönder: veta vad som är säkert och vad som inte är det.</li>
+      <li>Byta klassnamn i en modul så att den passar din HTML.</li>
+      <li>Svara på frågan "vad händer om JavaScript inte körs?" för varje modul du byggt in.</li>
+    </ul>
+
+    <h2 id="vad-js-gor">1. Vad JavaScript gör</h2>
+    <p>Du kan redan två språk, och de gör var sin sak:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Språk</th><th>Svarar på frågan</th></tr></thead>
+        <tbody>
+          <tr><td><b>HTML</b></td><td>Vad är det här? En rubrik, en länk, ett formulärfält</td></tr>
+          <tr><td><b>CSS</b></td><td>Hur ser det ut? Grönt, 16 pixlar, i en spalt</td></tr>
+          <tr><td><b>JavaScript</b></td><td>Vad händer när någon gör något?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Den tredje frågan är den nya. HTML och CSS beskriver en sida som den är. JavaScript låter sidan <b>ändra sig</b> medan besökaren är kvar på den: en meny öppnas, ett filter gömmer hälften av innehållet, ett formulär säger vad som är fel innan det skickas.</p>
+
+    <h3>Vad det inte gör</h3>
+
+    <p>JavaScript i den här kursen körs i <b>besökarens webbläsare</b>. Det betyder tre saker:</p>
+
+    <ul>
+      <li>Det kan inte spara något på en server. Inga konton, inga databaser, ingen e-post som skickas.</li>
+      <li>Besökaren kan stänga av det, och några gör det. Sajten ska fungera ändå – det är hela område 7.</li>
+      <li>All kod du skriver är synlig för besökaren. Lägg aldrig något hemligt i den.</li>
+    </ul>
+
+    <h3>Var koden bor</h3>
+
+    <p>I en egen fil med ändelsen <code>.js</code>, som du kopplar in i HTML:en med en <code>script</code>-tagg. Aldrig inuti HTML-elementen: en sajt där <code>onclick="…"</code> står utspritt i markupen är en sajt där ingen hittar felet. Samma princip som när stilarna flyttade ut ur <code>style</code>-attributen i område 3.</p>
+
+<pre><code class="sprak-html">&lt;script src="js/meny.js" defer&gt;&lt;/script&gt;</code></pre>
+
+    <h3>Prova själv</h3>
+
+    <p>Öppna <code>referensprojekt/index.html</code> i webbläsaren, tryck <code>F12</code> och gå till fliken <b>Console</b>. Skriv <code>document.title</code> och tryck <code>Enter</code>. Webbläsaren svarar med sidans titel. Du har just läst av sidan med JavaScript.</p>
+
+    <h2 id="byggstenar">2. De fem byggstenarna</h2>
+    <p>Nästan all kod du kommer att läsa i den här kursen är byggd av fem saker. Kan du känna igen dem kan du läsa en modul.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Byggsten</th><th>Vad den är</th><th>Ser ut så här</th></tr></thead>
+        <tbody>
+          <tr><td><b>Variabel</b></td><td>Ett namn på ett värde</td><td><code>const knapp = …</code></td></tr>
+          <tr><td><b>Funktion</b></td><td>Ett namn på några rader kod som ska köras ihop</td><td><code>function oppna() { … }</code></td></tr>
+          <tr><td><b>Händelse</b></td><td>Något besökaren gör, och koden som ska svara</td><td><code>knapp.addEventListener("click", …)</code></td></tr>
+          <tr><td><b>Villkor</b></td><td>Kör det här bara om något stämmer</td><td><code>if (arOppen) { … }</code></td></tr>
+          <tr><td><b>Lista</b></td><td>Flera värden i en, som går att gå igenom</td><td><code>bilder.forEach(…)</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Variabler: <code>const</code> och <code>let</code></h3>
+
+    <p>En variabel är ett namn på ett värde, så att du slipper skriva om värdet varje gång.</p>
+
+<pre><code class="sprak-js">const KNAPP = ".menyknapp";
+let aktuell = 0;</code></pre>
+
+    <p>Skillnaden: <b><code>const</code></b> betyder att namnet aldrig ska peka på något annat. <b><code>let</code></b> betyder att värdet kommer att ändras. I <code>karusell.js</code> är <code>aktuell</code> en <code>let</code> för att den räknar upp när man bläddrar; allt annat är <code>const</code>.</p>
+
+    <div class="notis">
+      <span class="rubrik"><code>var</code> finns också – använd den inte</span>
+      <p>Du kommer att se <code>var</code> i äldre kod och i äldre guider på nätet. Den fungerar, men den har regler som överraskar. <code>const</code> som standard, <code>let</code> när värdet ska ändras.</p>
+    </div>
+
+    <p><b>Namnet spelar roll.</b> <code>const KNAPP</code> i versaler betyder "det här är en inställning som inte ändras under körningen" – det är så modulerna märker sin ÄNDRA HÄR-zon. Vanliga variabler skrivs med små bokstäver: <code>knapp</code>, <code>lista</code>, <code>aktuell</code>.</p>
+
+    <h3>Funktioner</h3>
+
+    <p>En funktion är några rader kod som fått ett namn, så att de går att köra när man vill och flera gånger.</p>
+
+<pre><code class="sprak-js">function stang() {
+  knapp.setAttribute("aria-expanded", "false");
+  knapp.textContent = TEXT_STANGD;
+}</code></pre>
+
+    <p>Raderna körs <b>inte</b> när funktionen skrivs. De körs när någon <b>anropar</b> den, genom att skriva namnet med parenteser: <code>stang()</code>. Parenteserna är det som säger "kör nu".</p>
+
+    <p>En funktion kan ta emot värden, som kallas <b>parametrar</b>:</p>
+
+<pre><code class="sprak-js">function visa(index) {      // index är parametern
+  aktuell = index;
+  …
+}
+
+visa(0);                    // anrop med värdet 0</code></pre>
+
+    <h3>Prova själv</h3>
+
+    <p>Öppna <code>js/meny.js</code> – i referensprojektet, eller på modulbibliotekets sida där hela koden står. Leta upp en <code>const</code>, en <code>let</code> om det finns någon, och två funktioner. Skriv ner vad varje funktion gör i en mening.</p>
+
+    <h2 id="hitta">3. Hitta element på sidan</h2>
+    <p>Innan koden kan ändra något på sidan måste den hitta det. Det kallas <b>DOM-selektion</b> – DOM är webbläsarens modell av sidan, och selektion är att välja ut en del av den.</p>
+
+<pre><code class="sprak-js">const knapp = document.querySelector(".menyknapp");</code></pre>
+
+    <p><code>document</code> är hela sidan. <code>querySelector</code> letar upp <b>det första</b> elementet som matchar, och det som står inom parentesen är en <b>CSS-selektor</b> – exakt samma sorts selektor som du skriver i stilmallen.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad du vill ha</th><th>Så skriver du</th></tr></thead>
+        <tbody>
+          <tr><td>Elementet med <code>class="menyknapp"</code></td><td><code>document.querySelector(".menyknapp")</code></td></tr>
+          <tr><td>Elementet med <code>id="innehall"</code></td><td><code>document.querySelector("#innehall")</code></td></tr>
+          <tr><td>Elementet med <code>id="innehall"</code>, kortare</td><td><code>document.getElementById("innehall")</code></td></tr>
+          <tr><td>Första <code>button</code> på sidan</td><td><code>document.querySelector("button")</code></td></tr>
+          <tr><td><b>Alla</b> element med <code>data-grupp</code></td><td><code>document.querySelectorAll("[data-grupp]")</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Skillnaden mellan de två sista är viktig: <code>querySelector</code> ger <b>ett</b> element, <code>querySelectorAll</code> ger <b>alla</b> som en lista. Ska du göra något med flera element behöver du den senare, och sedan en loop (avsnitt 7).</p>
+
+    <h3>Hittar den inget?</h3>
+
+    <p>Då får du <code>null</code> – ordet för "ingenting". Och försöker du använda <code>null</code> kraschar koden med felet <code>Cannot read properties of null</code>. Det är webbens vanligaste felmeddelande, och avsnitt 9 handlar om det.</p>
+
+    <p>Därför börjar varje modul i biblioteket med samma sorts rad:</p>
+
+<pre><code class="sprak-js">const knapp = document.querySelector(KNAPP);
+const lista = document.querySelector(LISTA);
+if (!knapp || !lista) { return; }</code></pre>
+
+    <p>Läs den högt: <i>"om knappen inte finns, eller listan inte finns – avsluta."</i> Utropstecknet betyder "inte". Två streck <code>||</code> betyder "eller". <code>return</code> avslutar funktionen direkt.</p>
+
+    <p>Det är den raden som gör att du kan lägga in <code>meny.js</code> på en sida som saknar meny utan att något går sönder.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Öppna referensprojektets startsida, tryck <code>F12</code> → <b>Console</b>, och skriv:</p>
+
+<pre><code>document.querySelector(".menyknapp")</code></pre>
+
+    <p>Webbläsaren svarar med elementet. Skriv sedan <code>document.querySelector(".finns-inte")</code> – svaret blir <code>null</code>.</p>
+
+    <h2 id="andra">4. Ändra sidan</h2>
+    <p>När koden hittat ett element kan den ändra det. Fyra sätt räcker för hela modulbiblioteket.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad du vill ändra</th><th>Så skriver du</th><th>Exempel ur biblioteket</th></tr></thead>
+        <tbody>
+          <tr><td>Texten i ett element</td><td><code>element.textContent = "…"</code></td><td><code>knapp.textContent = TEXT_OPPEN;</code></td></tr>
+          <tr><td>En klass på elementet</td><td><code>element.classList.add("…")</code></td><td><code>karusell.classList.add("karusell-igang");</code></td></tr>
+          <tr><td>Ett attribut</td><td><code>element.setAttribute("namn", "värde")</code></td><td><code>knapp.setAttribute("aria-expanded", "true");</code></td></tr>
+          <tr><td>Göm eller visa</td><td><code>element.hidden = true</code> / <code>false</code></td><td><code>del.hidden = true;</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3><code>textContent</code>, inte <code>innerHTML</code></h3>
+
+    <p>Det finns ett annat sätt att sätta text: <code>innerHTML</code>. Det tolkar innehållet som HTML, vilket betyder att text som kommer utifrån – från ett formulär, från en adress – kan innehålla taggar och skript som körs. Det är webbens vanligaste säkerhetshål, och det heter <b>XSS</b> (säkerhetsguiden i område 5, avsnitt 7).</p>
+
+    <p><b>Regeln: är det text, använd <code>textContent</code>.</b> Modulbiblioteket använder <code>innerHTML</code> noll gånger.</p>
+
+    <h3><code>classList</code> – fyra metoder</h3>
+
+<pre><code class="sprak-js">element.classList.add("klar");       // lägg till
+element.classList.remove("klar");    // ta bort
+element.classList.toggle("klar");    // finns den? ta bort. Annars lägg till
+element.classList.contains("klar");  // frågar: finns den? svarar true eller false</code></pre>
+
+    <p><code>toggle</code> kan också ta ett andra värde som säger vad resultatet ska bli:</p>
+
+<pre><code class="sprak-js">fraga.classList.toggle("quiz-ratt", arRatt);   // sätt klassen om arRatt är true</code></pre>
+
+    <p>Det är den raden <code>quiz.js</code> använder för att märka varje fråga som rätt eller fel.</p>
+
+    <h3>Attribut som betyder något</h3>
+
+    <p>Tre attribut återkommer i modulerna, och de gör dubbel nytta:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Attribut</th><th>Säger till skärmläsaren</th><th>Används av CSS:en</th></tr></thead>
+        <tbody>
+          <tr><td><code>aria-expanded</code></td><td>om menyn är öppen</td><td>visar eller gömmer listan</td></tr>
+          <tr><td><code>aria-pressed</code></td><td>om knappen är vald</td><td>färgar den valda filterknappen</td></tr>
+          <tr><td><code>aria-invalid</code></td><td>att fältet har ett fel</td><td>röd ram runt fältet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Det här är <b>mönstret hela biblioteket bygger på</b>: skriptet byter ett attribut, stilmallen reagerar på attributet. Ingen modul sätter färger eller storlekar direkt i koden. Det gör att du kan ändra utseendet i CSS:en utan att röra JavaScript.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>I konsolen på referensprojektets startsida:</p>
+
+<pre><code>document.querySelector("h1").textContent = "Min rubrik"</code></pre>
+
+    <p>Rubriken byts. Ladda om sidan – den är tillbaka. Allt du gör i konsolen gäller bara tills sidan laddas om, vilket gör konsolen ofarlig att experimentera i.</p>
+
+    <h2 id="handelser">5. Händelser</h2>
+    <p>En <b>händelse</b> är något som sker: ett klick, en tangenttryckning, ett formulär som skickas. Att lyssna på en händelse är att säga <i>"när det här händer, kör den här funktionen"</i>.</p>
+
+<pre><code class="sprak-js">knapp.addEventListener("click", function () {
+  // det som ska hända
+});</code></pre>
+
+    <p>Tre delar: <b>elementet</b> som ska lyssna, <b>vilken händelse</b>, och <b>funktionen</b> som körs. Funktionen har inget namn här – den skrivs direkt på plats, och det är vanligt. Den kan också ha ett namn:</p>
+
+<pre><code class="sprak-js">forra.addEventListener("click", bakat);</code></pre>
+
+    <p>Här står <code>bakat</code> utan parenteser. Det är med avsikt: du ger funktionen <b>som värde</b> till lyssnaren, du anropar den inte. <code>bakat()</code> med parenteser hade kört funktionen direkt när raden lästes – ett vanligt fel.</p>
+
+    <h3>De fem händelser du behöver</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Händelse</th><th>Sker när</th><th>Var i biblioteket</th></tr></thead>
+        <tbody>
+          <tr><td><code>click</code></td><td>någon klickar, eller trycker Enter på en knapp</td><td>meny, galleri, karusell, mörkt läge</td></tr>
+          <tr><td><code>keydown</code></td><td>en tangent trycks ner</td><td>meny (Escape), karusell (pilar)</td></tr>
+          <tr><td><code>submit</code></td><td>ett formulär skickas</td><td>validering, quiz</td></tr>
+          <tr><td><code>input</code></td><td>någon skriver i ett fält</td><td>validering</td></tr>
+          <tr><td><code>change</code></td><td>ett fält får ett nytt värde och lämnas</td><td>–</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Händelseobjektet</h3>
+
+    <p>Funktionen får ett värde: själva händelsen. I biblioteket heter den <code>handelse</code>.</p>
+
+<pre><code class="sprak-js">document.addEventListener("keydown", function (handelse) {
+  if (handelse.key === "Escape") { … }
+});</code></pre>
+
+    <p><code>handelse.key</code> är vilken tangent det var. <code>handelse.target</code> är elementet händelsen kom från. Och <code>handelse.preventDefault()</code> stoppar det webbläsaren annars hade gjort – det är den som hindrar ett formulär från att skickas:</p>
+
+<pre><code class="sprak-js">quiz.addEventListener("submit", function (handelse) {
+  handelse.preventDefault();
+  ratta();
+});</code></pre>
+
+    <h3>En lyssnare i stället för många</h3>
+
+    <p><code>galleri.js</code> har en enda lyssnare på hela filterraden, inte en per knapp:</p>
+
+<pre><code class="sprak-js">filterrad.addEventListener("click", function (handelse) {
+  const knapp = handelse.target.closest("button");
+  if (!knapp) { return; }
+  filtrera(knapp.dataset.valj);
+});</code></pre>
+
+    <p>Klicket "bubblar" upp från knappen till raden, och <code>closest("button")</code> letar uppåt efter närmaste knapp. Det kallas <b>händelsedelegering</b>, och det behövs här för att knapparna skapas av skriptet – de fanns inte när lyssnaren sattes.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>I konsolen, på vilken sida som helst:</p>
+
+<pre><code>document.querySelector("h1").addEventListener("click", function () { alert("Hej"); })</code></pre>
+
+    <p>Klicka sedan på rubriken.</p>
+
+    <h2 id="villkor">6. Villkor</h2>
+    <p>Ett villkor kör kod bara när något stämmer.</p>
+
+<pre><code class="sprak-js">if (arOppen) {
+  stang();
+} else {
+  oppna();
+}</code></pre>
+
+    <p>Det som står i parentesen ska vara <b>sant eller falskt</b> – <code>true</code> eller <code>false</code>.</p>
+
+    <h3>Jämförelser</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Skrivs</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><code>===</code></td><td>är exakt lika med</td></tr>
+          <tr><td><code>!==</code></td><td>är inte lika med</td></tr>
+          <tr><td><code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code></td><td>större än, mindre än, och med "eller lika"</td></tr>
+          <tr><td><code>&amp;&amp;</code></td><td>och – båda måste stämma</td></tr>
+          <tr><td><code>||</code></td><td>eller – minst en måste stämma</td></tr>
+          <tr><td><code>!</code></td><td>inte – vänder sant till falskt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Tre likhetstecken, inte två.</b> <code>==</code> finns och gör nästan samma sak, men den jämför slarvigt: <code>"1" == 1</code> är sant med två tecken och falskt med tre. Använd alltid <code>===</code>.</p>
+
+    <h3>Sanning och falskhet</h3>
+
+    <p>Allt går att använda som villkor, även det som inte är <code>true</code> eller <code>false</code>. Då gäller en enkel regel: <b>tomt är falskt, allt annat är sant.</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Falskt</th><th>Sant</th></tr></thead>
+        <tbody>
+          <tr><td><code>false</code>, <code>0</code>, <code>""</code> (tom text), <code>null</code>, <code>undefined</code></td><td>Alla andra värden – även <code>"0"</code> och en tom lista</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Det är därför <code>if (!knapp) { return; }</code> fungerar: hittades ingen knapp är värdet <code>null</code>, alltså falskt, och <code>!null</code> blir sant.</p>
+
+    <h3>Kortformen som finns i biblioteket</h3>
+
+<pre><code class="sprak-js">knapp.textContent = arMork ? TEXT_TILL_LJUS : TEXT_TILL_MORK;</code></pre>
+
+    <p>Frågetecknet läses som ett <code>if</code>: <i>"är <code>arMork</code> sant? ta det före kolonet. Annars det efter."</i> Den kallas <b>ternär</b> och är praktisk när båda grenarna är korta. Är de långa, skriv ett vanligt <code>if</code>.</p>
+
+    <h2 id="listor">7. Listor och loopar</h2>
+    <p><code>querySelectorAll</code> ger en lista med element. För att göra något med varje element behöver du gå igenom listan.</p>
+
+<pre><code class="sprak-js">delar.forEach(function (del) {
+  del.hidden = true;
+});</code></pre>
+
+    <p><code>forEach</code> betyder "för varje". Funktionen körs en gång per element, och <code>del</code> är det element som är i tur. Namnet väljer du själv.</p>
+
+    <p>Vill du veta vilket nummer i ordningen elementet har får du det som ett andra värde:</p>
+
+<pre><code class="sprak-js">bilder.forEach(function (bild, i) {
+  bild.hidden = i !== aktuell;
+});</code></pre>
+
+    <p><code>i</code> är <b>index</b>, och det börjar på <b>0</b>. Första bilden är 0, andra är 1. Det är därför <code>karusell.js</code> skriver <code>aktuell + 1</code> när den visar "Bild 1 av 3" för människor.</p>
+
+    <h3>Den andra loopen: <code>for</code></h3>
+
+    <p>Du ser också den här formen, och <code>quiz.js</code> använder den:</p>
+
+<pre><code class="sprak-js">for (let i = 0; i &lt; fragor.length; i++) {
+  const fraga = fragor[i];
+  …
+}</code></pre>
+
+    <p>Tre delar i parentesen: börja på 0 · fortsätt så länge <code>i</code> är mindre än antalet · öka <code>i</code> med ett varje varv. <code>.length</code> är hur många, och <code>fragor[i]</code> är elementet på plats <code>i</code>.</p>
+
+    <p><b>Varför två sorter?</b> <code>forEach</code> är lättare att läsa, men går inte att avbryta i förtid. <code>quiz.js</code> måste kunna avbryta när den hittar en obesvarad fråga, och därför använder den <code>for</code>. Det är hela skillnaden.</p>
+
+    <h3>Objekt: en lista med namn i stället för nummer</h3>
+
+    <p><code>FACIT</code> i <code>quiz.js</code> ser ut så här:</p>
+
+<pre><code class="sprak-js">const FACIT = {
+  f1: "b",
+  f2: "c",
+  f3: "a"
+};</code></pre>
+
+    <p>Det är ett <b>objekt</b>: värden som hämtas med ett namn i stället för ett nummer. <code>FACIT.f1</code> eller <code>FACIT["f1"]</code> ger <code>"b"</code>. Du behöver inte kunna bygga objekt i den här kursen, men du ska känna igen dem – två av modulerna har sitt facit eller sina etiketter i ett.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>I konsolen på artsidan:</p>
+
+<pre><code>document.querySelectorAll("[data-grupp]").length</code></pre>
+
+    <p>Svaret är hur många sektioner som går att filtrera.</p>
+
+    <h2 id="koppla-in">8. Koppla in en modul</h2>
+    <p>Det här avsnittet är lektion 53, och det är de fem stegen du gör varje gång.</p>
+
+    <h3>1. Lägg filen i <code>js/</code></h3>
+
+    <p>Skapa mappen <code>js</code> i ditt repo om den inte finns, och lägg modulens <code>.js</code>-fil där. Filnamnet får du behålla. Gemener, bindestreck, ingen å ä ö i filnamn – samma regler som för bilder och sidor.</p>
+
+    <h3>2. Lägg in <code>script</code>-taggen</h3>
+
+    <p>Sist i <code>body</code>, precis före <code>&lt;/body&gt;</code>, på <b>varje sida</b> där modulen ska användas:</p>
+
+<pre><code class="sprak-html">    &lt;script src="js/meny.js" defer&gt;&lt;/script&gt;
+
+  &lt;/body&gt;</code></pre>
+
+    <h3>3. Kontrollera sökvägen</h3>
+
+    <p><code>src="js/meny.js"</code> betyder <i>"mappen js, i samma mapp som den här HTML-filen"</i>. Ligger sidan i en undermapp blir det <code>../js/meny.js</code>. Det är samma regler som för <code>&lt;link rel="stylesheet"&gt;</code> och för bilder – och det är fortfarande det vanligaste felet.</p>
+
+    <h3>4. Lägg in den HTML modulen kräver</h3>
+
+    <p>Varje modul säger överst i filen exakt vilken HTML den behöver. Den HTML:en måste finnas, annars avslutar modulen tyst (avsnitt 3). Kopiera från modulbibliotekets sida, eller från demosidan i <code>referensprojekt/demo/</code>.</p>
+
+    <h3>5. Ta med CSS:en</h3>
+
+    <p>Modulen har ett avsnitt i <code>stil.css</code> – 13a till 13f. Kopiera hela avsnittet, kommentarer och allt, och klistra in sist i din egen stilmall.</p>
+
+    <h3>Vad <code>defer</code> gör, och varför det måste stå där</h3>
+
+    <p>Utan <code>defer</code> läser webbläsaren HTML:en uppifrån och ner och <b>stannar</b> när den möter en <code>script</code>-tagg: hämtar filen, kör den, och fortsätter sedan. Ett skript som körs innan sidan är färdigläst hittar inte de element det letar efter.</p>
+
+    <p>Med <code>defer</code> hämtas filen parallellt och körs <b>när hela HTML:en finns</b>. Resultatet: sidan laddas snabbare, och skriptet hittar alltid sina element.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Så här</th><th>Vad som händer</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;script src="…"&gt;</code> i <code>head</code></td><td>Kör för tidigt. <code>querySelector</code> ger <code>null</code></td></tr>
+          <tr><td><code>&lt;script src="…"&gt;</code> sist i <code>body</code></td><td>Fungerar, men blockerar inläsningen</td></tr>
+          <tr><td><code>&lt;script src="…" defer&gt;</code></td><td><b>Rätt.</b> Hämtas parallellt, körs när HTML:en är klar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Flera moduler på samma sida</h3>
+
+    <p>Lägg en <code>script</code>-tagg per modul. Ordningen spelar ingen roll – varje modul är inkapslad och vet ingenting om de andra.</p>
+
+<pre><code class="sprak-html">&lt;script src="js/meny.js" defer&gt;&lt;/script&gt;
+&lt;script src="js/morkt-lage.js" defer&gt;&lt;/script&gt;
+&lt;script src="js/galleri.js" defer&gt;&lt;/script&gt;</code></pre>
+
+    <h3>Prova själv</h3>
+
+    <p>Öppna din egen sajt, lägg in <code>meny.js</code> enligt de fem stegen, och ladda om. Fungerar det inte: gå till avsnitt 9 innan du ändrar något i koden.</p>
+
+    <h2 id="konsolen">9. Konsolen</h2>
+    <p>Konsolen är webbläsarens meddelanderuta, och den är ditt viktigaste verktyg i det här området. <b>Öppna den innan du felsöker, inte efter.</b></p>
+
+    <p><code>F12</code>, eller högerklick → <i>Granska</i>, sedan fliken <b>Console</b>.</p>
+
+    <h3>Läs felet uppifrån</h3>
+
+    <p>Ett felmeddelande har tre delar, och alla tre behövs:</p>
+
+<pre><code>Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')
+    at meny.js:48</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad den säger</th></tr></thead>
+        <tbody>
+          <tr><td><code>TypeError</code></td><td>Vilken sorts fel</td></tr>
+          <tr><td><code>Cannot read properties of null</code></td><td>Vad som gick fel</td></tr>
+          <tr><td><code>at meny.js:48</code></td><td><b>Vilken fil och vilken rad</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Sista raden är den du ska börja med. Klicka på den – webbläsaren öppnar filen på rätt rad.</p>
+
+    <h3>De fem fel du kommer att få</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Meddelandet säger</th><th>Vad det betyder</th><th>Vad du gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>Failed to load resource: 404</code></td><td>Filen hittades inte</td><td>Fel sökväg i <code>src</code>, eller fel filnamn. Kontrollera stavningen, inklusive stora och små bokstäver</td></tr>
+          <tr><td><code>Cannot read properties of null</code></td><td>Skriptet hittade inte elementet</td><td>Klassnamnet i koden och i HTML:en stämmer inte. Eller skriptet kördes för tidigt – saknas <code>defer</code>?</td></tr>
+          <tr><td><code>X is not defined</code></td><td>Ett namn som inte finns</td><td>Stavfel i ett variabelnamn</td></tr>
+          <tr><td><code>X is not a function</code></td><td>Namnet finns, men är inte en funktion</td><td>Stavfel i ett metodnamn: <code>querySelectorAll</code> med litet s, <code>addEventlistener</code> med litet l</td></tr>
+          <tr><td><code>Unexpected token</code></td><td>Koden går inte att läsa</td><td>En parentes, klammer eller ett citattecken som saknas. Ofta raden <b>före</b> den som anges</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Filen kördes inte alls</h3>
+
+    <p>Ser du inget fel men inget händer? Kontrollera att filen verkligen hämtades: fliken <b>Network</b> i samma verktyg, ladda om, och leta efter din <code>.js</code>-fil i listan. Står det <code>404</code> där är det steg 3 i förra avsnittet som är fel.</p>
+
+    <h3><code>console.log</code> – när du vill veta vad koden gör</h3>
+
+<pre><code class="sprak-js">console.log("Här är jag", knapp);</code></pre>
+
+    <p>Skriv raden där du vill veta om koden kommer fram, och vad ett värde är just då. Utskriften hamnar i konsolen.</p>
+
+    <p><b>Ta bort dem när du är klar.</b> En konsol full av dina egna utskrifter är en konsol där du inte ser felen. Modulbiblioteket innehåller noll <code>console.log</code>.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Öppna referensprojektets startsida, konsolen, och skriv <code>dokument.title</code> (med k). Läs felet. Rätta till <code>document.title</code>.</p>
+
+    <h2 id="anpassa">10. Anpassa en modul</h2>
+    <p>Det här är lektion 54, och det är gränsen som gör hela biblioteket användbart.</p>
+
+    <p>Varje modul har en zon överst:</p>
+
+<pre><code class="sprak-js">  /* ===== ÄNDRA HÄR ====================================================== */
+
+  const KNAPP = ".menyknapp";
+  const LISTA = "#huvudmeny-lista";
+  const TEXT_STANGD = "Meny";
+  const TEXT_OPPEN = "Stäng";
+
+  /* ===== SLUT PÅ ÄNDRA HÄR – nedanför behöver ingenting ändras ========= */</code></pre>
+
+    <p><b>Allt i zonen är ditt. Allt under är inte det.</b></p>
+
+    <h3>Vad du får ändra</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sort</th><th>Exempel</th><th>Vad du ska tänka på</th></tr></thead>
+        <tbody>
+          <tr><td><b>Texter</b></td><td><code>TEXT_STANGD = "Meny"</code></td><td>Vad som helst. Behåll citattecknen</td></tr>
+          <tr><td><b>Klassnamn och id</b></td><td><code>KNAPP = ".menyknapp"</code></td><td>Måste stämma <b>exakt</b> med din HTML. Punkt för klass, brädgård för id</td></tr>
+          <tr><td><b>Inställningar</b></td><td><code>BORJA_OM = true</code></td><td>Läs kommentaren bredvid – den säger vad värdena betyder</td></tr>
+          <tr><td><b>Innehåll i objekt</b></td><td><code>FACIT</code>, <code>GRUPPNAMN</code></td><td>Lägg till eller ta bort rader. Behåll kommatecknen mellan raderna</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Att byta klassnamn – gör det på två ställen</h3>
+
+    <p>Vill du att din knapp ska heta <code>.oppna-meny</code> i stället för <code>.menyknapp</code> måste <b>båda</b> ändras:</p>
+
+<pre><code class="sprak-js">const KNAPP = ".oppna-meny";     // i modulen</code></pre>
+
+<pre><code class="sprak-html">&lt;button type="button" class="oppna-meny" hidden …&gt;   &lt;!-- i HTML:en --&gt;</code></pre>
+
+<pre><code class="sprak-css">.oppna-meny { … }                /* och i CSS:en */</code></pre>
+
+    <p>Missar du ett av de tre hittar skriptet ingenting, och du får <code>null</code> i konsolen. <b>Enklare väg: behåll modulens klassnamn och ändra din HTML i stället.</b> Då är det ett ställe mindre att glömma.</p>
+
+    <h3>Vad du inte ska röra</h3>
+
+    <p>Allt under zonen. Om du ändå vill – och det gör du i A-spåret – gäller två regler:</p>
+
+    <ol>
+      <li><b>Ändra en sak i taget och ladda om.</b> Går det sönder vet du vad det var.</li>
+      <li><b>Ha originalet kvar.</b> Kopiera filen innan du börjar, eller committa först. Git är till för precis det här.</li>
+    </ol>
+
+    <h3>Kontrollen: fungerar sidan utan modulen?</h3>
+
+    <p>När du byggt in en modul, gör det här en gång:</p>
+
+    <ol>
+      <li>Kommentera bort <code>script</code>-taggen: <code>&lt;!-- &lt;script src="js/meny.js" defer&gt;&lt;/script&gt; --&gt;</code></li>
+      <li>Ladda om.</li>
+      <li>Fungerar sidan? Går menyn att använda, syns innehållet?</li>
+    </ol>
+
+    <p>Svaret ska vara ja, och orsaken är att det som bara fungerar med skript har <code>hidden</code> i HTML:en. Det här är inte ett krav i Projekt 5 – men det är hela område 7, och det är mycket lättare att bygga rätt från början än att laga i efterhand.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Öppna <code>js/morkt-lage.js</code> – i referensprojektet, eller läs den på modulbibliotekets sida. Byt <code>TEXT_TILL_MORK</code> till något eget, ladda om sidan och se knappens text ändras. Byt sedan <code>NYCKEL</code> och ladda om – ditt sparade val är borta, för modulen letar under ett nytt namn.</p>
+
+    <h2 id="las-modul">11. Läs en hel modul: <code>meny.js</code></h2>
+    <p>Det här är lektion 52:s moment, och det står här så att du kan göra om det själv. Modulen är 75 rader; nedan är de som gör något, i ordning.</p>
+
+<pre><code class="sprak-js">(function () {
+  "use strict";</code></pre>
+
+    <p><b>Kapseln.</b> Allt inuti är privat för den här filen. Sex moduler på samma sida kan alla ha en variabel som heter <code>knapp</code> utan att krocka. <code>"use strict"</code> gör att ett stavfel i ett variabelnamn blir ett fel i konsolen i stället för att tyst skapa en ny variabel.</p>
+
+<pre><code class="sprak-js">  const KNAPP = ".menyknapp";
+  const LISTA = "#huvudmeny-lista";
+  const TEXT_STANGD = "Meny";
+  const TEXT_OPPEN = "Stäng";</code></pre>
+
+    <p><b>Inställningarna.</b> Avsnitt 10.</p>
+
+<pre><code class="sprak-js">  const knapp = document.querySelector(KNAPP);
+  const lista = document.querySelector(LISTA);
+  if (!knapp || !lista) { return; }</code></pre>
+
+    <p><b>Hitta elementen, avbryt om de inte finns.</b> Avsnitt 3.</p>
+
+<pre><code class="sprak-js">  knapp.hidden = false;
+  knapp.textContent = TEXT_STANGD;</code></pre>
+
+    <p><b>Nu får knappen synas.</b> Den hade <code>hidden</code> i HTML:en. Kommer skriptet hit fungerar det, och då – och bara då – visas knappen. Det är den rad som gör modulen diskret.</p>
+
+<pre><code class="sprak-js">  function oppna() {
+    knapp.setAttribute("aria-expanded", "true");
+    knapp.textContent = TEXT_OPPEN;
+  }
+
+  function stang() {
+    knapp.setAttribute("aria-expanded", "false");
+    knapp.textContent = TEXT_STANGD;
+  }</code></pre>
+
+    <p><b>Två funktioner som gör var sin sak.</b> Lägg märke till att ingen av dem gömmer eller visar listan – de byter bara ett attribut. Det är CSS:en i avsnitt 13a som reagerar.</p>
+
+<pre><code class="sprak-js">  knapp.addEventListener("click", function () {
+    const arOppen = knapp.getAttribute("aria-expanded") === "true";
+    if (arOppen) {
+      stang();
+    } else {
+      oppna();
+    }
+  });</code></pre>
+
+    <p><b>Klicket.</b> Läs av attributet, jämför med <code>"true"</code>, och gör motsatsen mot det som är. Modulen behöver ingen egen variabel för att minnas om menyn är öppen – <b>attributet är minnet</b>, och det är samma attribut som skärmläsaren läser.</p>
+
+<pre><code class="sprak-js">  document.addEventListener("keydown", function (handelse) {
+    if (handelse.key === "Escape" &amp;&amp; knapp.getAttribute("aria-expanded") === "true") {
+      stang();
+      knapp.focus();
+    }
+  });</code></pre>
+
+    <p><b>Escape.</b> Lyssnaren sitter på <code>document</code>, inte på knappen, för tangenttrycket ska fungera var som helst på sidan. <code>&amp;&amp;</code> betyder att båda villkoren måste stämma: det ska vara Escape <b>och</b> menyn ska vara öppen. <code>knapp.focus()</code> flyttar fokus tillbaka, så att den som navigerar med tangentbord vet var hen är.</p>
+
+<pre><code class="sprak-js">})();</code></pre>
+
+    <p><b>Kapseln stängs och körs.</b> Parenteserna sist är det som startar hela funktionen.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Gör samma sak med <code>js/morkt-lage.js</code>, som står i sin helhet på modulbibliotekets sida. Den har en sak <code>meny.js</code> inte har: <code>try</code> och <code>catch</code> runt <code>localStorage</code>. Varför? Svaret står i kommentaren.</p>
+
+    <h2 id="langre">12. Ta det längre</h2>
+    <p>För C och A i Projekt 5 räcker det inte att modulen fungerar. Här är tre spår.</p>
+
+    <h3>Anpassa på riktigt – ändra beteendet, inte bara texten</h3>
+
+    <p>Ta en modul och ändra något under ÄNDRA HÄR-zonen, medvetet och dokumenterat. Exempel som är lagom stora:</p>
+
+    <ul>
+      <li><b>Karusellen:</b> låt piltangenterna Home och End hoppa till första och sista bilden.</li>
+      <li><b>Filtret:</b> låt knappen som redan är vald stänga av filtret igen när man klickar på den.</li>
+      <li><b>Mörkt läge:</b> lägg till ett tredje läge, "följ systemet", så att besökaren kan ta tillbaka sitt val.</li>
+    </ul>
+
+    <p>Skriv i <code>README.md</code> vad du ändrade och varför. Det är den motiveringen C-nivån frågar efter.</p>
+
+    <h3>Skriv modulen själv – A-spåret</h3>
+
+    <p>Varje modul på modulbibliotekets sida har ett avsnitt <b>Skriv den själv</b>: en kravlista i tre till fem punkter, utan kod. Välj en modul, läs kraven, och skriv den från grunden utan att titta på originalet. Jämför sedan.</p>
+
+    <p>Det är inte samma sak som att kopiera och byta namn, och det är det A-spåret mäter: att du kan gå från krav till kod.</p>
+
+    <h3>Gör modulen tillgänglig i det du redan byggt</h3>
+
+    <p>Ta en modul du byggt in och gå igenom den med område 4:s verktyg: tabba genom den, kontrollera att fokus syns och följer läsordningen, kör WAVE. Hittar du något – rätta det och skriv ner vad det var. En modul som bryter tangentbordsnavigationen är en modul som gjort sajten sämre.</p>
+
+    <h2 id="felsokning">13. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: 404, null, defer" autocomplete="off">
+      <p class="traffar" id="traffar-fel">16 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Ingenting händer, inget fel i konsolen</td><td>Filen hämtades aldrig</td><td>Fliken Network, leta efter din <code>.js</code>-fil. Står det 404 är sökvägen fel</td></tr>
+          <tr><td><code>404</code> på <code>.js</code>-filen</td><td>Fel sökväg eller fel filnamn</td><td>Ligger filen i <code>js/</code>? Stämmer stora och små bokstäver? GitHub Pages skiljer på dem, din dator kanske inte</td></tr>
+          <tr><td><code>Cannot read properties of null</code></td><td>Elementet hittades inte</td><td>Jämför klassnamnet i modulens ÄNDRA HÄR-zon med din HTML, tecken för tecken</td></tr>
+          <tr><td>Samma fel, men HTML:en ser rätt ut</td><td>Skriptet kördes för tidigt</td><td>Saknas <code>defer</code> i <code>script</code>-taggen?</td></tr>
+          <tr><td>Modulen fungerar på en sida men inte en annan</td><td><code>script</code>-taggen saknas på den andra sidan</td><td>Varje sida behöver sin egen <code>script</code>-tagg</td></tr>
+          <tr><td>Modulen fungerar lokalt men inte på GitHub Pages</td><td>Stora och små bokstäver i filnamnet</td><td><code>Meny.js</code> och <code>meny.js</code> är olika filer på servern</td></tr>
+          <tr><td>Knappen syns aldrig</td><td>Skriptet kom aldrig fram till raden som tar bort <code>hidden</code></td><td>Titta i konsolen. Det finns ett fel ovanför</td></tr>
+          <tr><td>Knappen syns men gör inget</td><td>Lyssnaren sattes på fel element</td><td>Kontrollera att <code>KNAPP</code> pekar på knappen, inte på något runt omkring</td></tr>
+          <tr><td>Menyn går inte att stänga</td><td>Två <code>script</code>-taggar för samma fil</td><td>Sök i HTML:en. Modulen kördes två gånger och lyssnar två gånger</td></tr>
+          <tr><td>Filtret visar inga knappar</td><td>Inget element har <code>data-grupp</code></td><td>Attributet ska sitta på det som ska filtreras, inte på filterraden</td></tr>
+          <tr><td>Karusellen visar alla bilder</td><td>Färre än två bilder, eller <code>karusell-styr</code> saknas</td><td>Modulen avslutar om något saknas. Jämför med demosidan</td></tr>
+          <tr><td>Formuläret skickas trots fel</td><td><code>novalidate</code> sattes men lyssnaren kraschade</td><td>Läs konsolen. Ett fel i <code>submit</code>-funktionen stoppar <code>preventDefault</code></td></tr>
+          <tr><td>Quizet säger "inte svarat" fast jag svarat</td><td><code>data-fraga</code> och <code>name</code> hör inte ihop</td><td>Varje <code>fieldset</code> behöver <code>data-fraga</code>, och alla knappar i den samma <code>name</code></td></tr>
+          <tr><td>Mörkt läge glöms bort</td><td>Privat fönster, eller <code>NYCKEL</code> ändrad</td><td><code>try/catch</code> gör att det inte kraschar – men lagringen fungerar inte i alla lägen</td></tr>
+          <tr><td>Något ändras i konsolen men inte i filen</td><td>Konsolen ändrar bara den laddade sidan</td><td>Alla ändringar i konsolen försvinner vid omladdning. Skriv i filen</td></tr>
+          <tr><td><code>Unexpected token</code></td><td>Tecken saknas</td><td>Titta på raden <b>före</b> den som anges. Oftast en <code>}</code> eller en <code>)</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="snabbreferens">14. Snabbreferens</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Så skriver du</th></tr></thead>
+        <tbody>
+          <tr><td>Hitta ett element</td><td><code>document.querySelector(".klass")</code></td></tr>
+          <tr><td>Hitta alla</td><td><code>document.querySelectorAll("[data-grupp]")</code></td></tr>
+          <tr><td>Hitta på id</td><td><code>document.getElementById("innehall")</code></td></tr>
+          <tr><td>Leta uppåt efter närmaste</td><td><code>element.closest("button")</code></td></tr>
+          <tr><td>Byta text</td><td><code>element.textContent = "…"</code></td></tr>
+          <tr><td>Lägga till klass</td><td><code>element.classList.add("klar")</code></td></tr>
+          <tr><td>Ta bort klass</td><td><code>element.classList.remove("klar")</code></td></tr>
+          <tr><td>Växla klass</td><td><code>element.classList.toggle("klar")</code></td></tr>
+          <tr><td>Växla efter villkor</td><td><code>element.classList.toggle("klar", arRatt)</code></td></tr>
+          <tr><td>Sätta attribut</td><td><code>element.setAttribute("aria-expanded", "true")</code></td></tr>
+          <tr><td>Läsa attribut</td><td><code>element.getAttribute("aria-expanded")</code></td></tr>
+          <tr><td>Ta bort attribut</td><td><code>element.removeAttribute("aria-invalid")</code></td></tr>
+          <tr><td>Läsa <code>data-</code>-attribut</td><td><code>element.dataset.grupp</code></td></tr>
+          <tr><td>Göm / visa</td><td><code>element.hidden = true</code> / <code>false</code></td></tr>
+          <tr><td>Flytta fokus</td><td><code>element.focus()</code></td></tr>
+          <tr><td>Lyssna på händelse</td><td><code>element.addEventListener("click", function () { … })</code></td></tr>
+          <tr><td>Stoppa standardbeteendet</td><td><code>handelse.preventDefault()</code></td></tr>
+          <tr><td>Vilken tangent</td><td><code>handelse.key === "Escape"</code></td></tr>
+          <tr><td>Varifrån händelsen kom</td><td><code>handelse.target</code></td></tr>
+          <tr><td>Gå igenom en lista</td><td><code>lista.forEach(function (del) { … })</code></td></tr>
+          <tr><td>Gå igenom med index</td><td><code>lista.forEach(function (del, i) { … })</code></td></tr>
+          <tr><td>Antal i en lista</td><td><code>lista.length</code></td></tr>
+          <tr><td>Villkor</td><td><code>if (villkor) { … } else { … }</code></td></tr>
+          <tr><td>Lika med</td><td><code>===</code></td></tr>
+          <tr><td>Inte</td><td><code>!</code> · Och: <code>&amp;&amp;</code> · Eller: <code>||</code></td></tr>
+          <tr><td>Skriva ut i konsolen</td><td><code>console.log("text", varde)</code></td></tr>
+          <tr><td>Koppla in filen</td><td><code>&lt;script src="js/fil.js" defer&gt;&lt;/script&gt;</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">15. Ordlista</h2>
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>JavaScript</b></td><td>Programmeringsspråket som körs i webbläsaren och gör sidan interaktiv</td></tr>
+          <tr><td><b>modul</b></td><td>En färdig funktion i en egen fil, att koppla in och anpassa</td></tr>
+          <tr><td><b>DOM</b></td><td>Webbläsarens modell av sidan, som JavaScript läser och ändrar</td></tr>
+          <tr><td><b>selektor</b></td><td>Mönstret som pekar ut ett element: <code>.klass</code>, <code>#id</code>, <code>[attribut]</code></td></tr>
+          <tr><td><b>element</b></td><td>En del av sidan: en knapp, ett stycke, en bild</td></tr>
+          <tr><td><b>variabel</b></td><td>Ett namn på ett värde</td></tr>
+          <tr><td><b><code>const</code></b></td><td>Variabel vars namn aldrig pekar på något annat</td></tr>
+          <tr><td><b><code>let</code></b></td><td>Variabel vars värde kommer att ändras</td></tr>
+          <tr><td><b>funktion</b></td><td>Några rader kod som fått ett namn och kan köras när man vill</td></tr>
+          <tr><td><b>anropa</b></td><td>Att köra en funktion, genom att skriva dess namn med parenteser</td></tr>
+          <tr><td><b>parameter</b></td><td>Ett värde en funktion tar emot</td></tr>
+          <tr><td><b>händelse</b></td><td>Något som sker: ett klick, en tangent, ett formulär som skickas</td></tr>
+          <tr><td><b>händelselyssnare</b></td><td>Kod som väntar på en händelse och svarar på den</td></tr>
+          <tr><td><b>händelsedelegering</b></td><td>Att lyssna på en förälder i stället för på varje barn</td></tr>
+          <tr><td><b>villkor</b></td><td>Kod som bara körs när något stämmer</td></tr>
+          <tr><td><b>loop</b></td><td>Kod som körs en gång per element i en lista</td></tr>
+          <tr><td><b>index</b></td><td>Ett elements plats i en lista. Börjar på 0</td></tr>
+          <tr><td><b>objekt</b></td><td>Värden som hämtas med namn i stället för nummer</td></tr>
+          <tr><td><b><code>null</code></b></td><td>Ingenting. Det <code>querySelector</code> ger när den inte hittar något</td></tr>
+          <tr><td><b><code>true</code> / <code>false</code></b></td><td>Sant och falskt</td></tr>
+          <tr><td><b>kapsel</b></td><td><code>(function () { … })();</code> – gör allt inuti privat för filen</td></tr>
+          <tr><td><b><code>"use strict"</code></b></td><td>Gör att stavfel blir fel i konsolen i stället för tysta buggar</td></tr>
+          <tr><td><b><code>defer</code></b></td><td>Attribut på <code>script</code> som gör att koden körs när HTML:en är klar</td></tr>
+          <tr><td><b>konsolen</b></td><td>Webbläsarens meddelanderuta. <code>F12</code> → Console</td></tr>
+          <tr><td><b><code>console.log</code></b></td><td>Skriver ut ett värde i konsolen. Tas bort när du är klar</td></tr>
+          <tr><td><b><code>localStorage</code></b></td><td>Litet lagringsutrymme i webbläsaren, kvar mellan besök</td></tr>
+          <tr><td><b>XSS</b></td><td>Säkerhetshålet som uppstår när text från utsidan tolkas som HTML</td></tr>
+          <tr><td><b>diskret funktionalitet</b></td><td>Att sidan fungerar utan JavaScript, och skripten förbättrar. Område 7</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 6</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

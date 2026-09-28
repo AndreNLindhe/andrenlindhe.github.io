@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projekt 6 – Webbutveckling 1 område 7</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-7-projekt-6">
+
+<header class="topp">
+  <a href="index.html">← Område 7</a>
+  <span class="harifran"><strong>Uppgift</strong> · Optimering och diskret funktionalitet</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#sajten">2. Vilken sajt gäller det?</a></li>
+      <li><a href="#halvorna">3. De två halvorna</a></li>
+      <li><a href="#kraven">4. Kraven</a></li>
+      <li><a href="#tekniska-krav">5. Tekniska krav</a></li>
+      <li><a href="#matrisen">6. Bedömningsmatris</a></li>
+      <li><a href="#kom-igang">7. Kom igång – de tre första sakerna</a></li>
+      <li><a href="#tiden">8. Så ligger tiden</a></li>
+      <li><a href="#checklista">9. Checklista innan du lämnar in</a></li>
+      <li><a href="#felsokning">10. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 7 · uppgift</p>
+    <h1>Projekt 6 – Optimerad och diskret sajt</h1>
+    <p class="inledning">Det här är områdets kravdokument. Optimeringsguiden, fördjupningsguiden och genomgångarna ska stödja kraven nedan – inte tvärtom.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-03-12">
+        <span class="nar">12 mars</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Projekt 6 – repo-länken lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+    <p>Du ska göra din sajt <b>lättare</b> och <b>tåligare</b>. Lättare: bilderna ska väga en bråkdel av vad de väger nu, och du ska kunna visa hur mycket med en mätning före och efter. Tåligare: sajten ska fungera även när JavaScript inte gör det.</p>
+
+    <p>Ingenting nytt ska byggas. Sajten ska se likadan ut när du är klar – den ska bara komma fram fortare och hålla bättre.</p>
+
+    <p>Det är den sista uppgiften före slutprojektet, och den är därför också en genomgång av allt du byggt: område 2:s struktur, 3:s form, 4:s tillgänglighet och 6:s moduler ska alla stå pall när du mäter och stänger av.</p>
+
+    <h2 id="sajten">2. Vilken sajt gäller det?</h2>
+    <p>Samma sajt som i Projekt 5, i samma repo.</p>
+
+    <p>Har du av något skäl ingen fungerande sajt med moduler: hämta <code>referensprojekt/</code> ur områdets material och arbeta med den. Säg till innan du gör det, så att vi vet att du gör det medvetet. Den vägen ger E och C – A kräver att du arbetar i något du byggt själv.</p>
+
+    <h2 id="halvorna">3. De två halvorna</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Lektion</th><th>Handlar om</th></tr></thead>
+        <tbody>
+          <tr><td><b>Optimering</b></td><td>63–64</td><td>Bilder, filer, laddtid. Mätbart i kilobyte och sekunder</td></tr>
+          <tr><td><b>Diskret funktionalitet</b></td><td>65–66</td><td>Att sajten fungerar utan JavaScript</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>De är olika sorters arbete. Optimeringen är mekanisk och går fort när du vet hur. Den diskreta delen kräver att du läser din egen kod och tänker om på några ställen.</p>
+
+    <p><b>Börja med optimeringen.</b> Den går att göra klart före sportlovet, och då har du de tre sista veckorna på den andra halvan.</p>
+
+    <h2 id="kraven">4. Kraven</h2>
+    <p>Kryssa av allt eftersom. Kryssen sparas i din webbläsare.</p>
+
+    <p>Alla elva ska vara uppfyllda.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span><b>Varje bild på sajten är skalad till den storlek den visas i.</b> Ingen bild är mer än dubbelt så bred som sin ruta.</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span><b>Foton ligger i WebP eller AVIF</b>, med JPEG som reserv där du använder <code>picture</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span><b>Varje <code>img</code> har <code>width</code> och <code>height</code></b> – utan enhet.</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span><b>Varje <code>img</code> har en <code>alt</code>-text</b> som säger vad bilden visar. Gällde redan i område 2 och gäller fortfarande.</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span><b>Bilder som ligger under första skärmen har <code>loading="lazy"</code>.</b> Den översta har det inte.</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span><b>En mätning före och en efter</b> står i <code>README.md</code>: antal requests, total vikt och laddtid, mätt i nätverksfliken med <i>Disable cache</i> i.</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span><b>Ingen sida kraschar utan JavaScript.</b> Allt innehåll – text, bilder, länkar – finns kvar.</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span><b>Ingen död kontroll.</b> Ingen knapp eller länk som syns men inte gör något när JavaScript är av.</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span><b>Inget <code>onclick</code>, <code>onchange</code> eller <code>href="javascript:"</code> i HTML:en.</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span><b>Formulären fungerar utan JavaScript</b>, med <code>required</code> och <code>type</code> i HTML:en.</span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span><b>HTML och CSS validerar utan fel</b>, och konsolen är tom på varje sida.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— mot nivå C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span><b>Bilderna finns i flera storlekar</b> och väljs med <code>srcset</code> och <code>sizes</code>.</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span><b><code>sizes</code> stämmer med din CSS.</b> Du kan visa vilken fil som hämtas vid smal och bred skärm, och varför.</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span><b>Minst en modul är ombyggd så att den förbättrar något som redan fungerar</b> utan den. Du kan säga vad besökaren har utan skriptet och vad hen får med det.</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span><b>Mätningen är kommenterad</b>: du skriver vad som var tyngst, vad du gjorde, och varför siffran ändrades så mycket som den gjorde.</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span><b>Lighthouse har körts på den publicerade adressen</b>, och de bildrelaterade raderna under <i>Opportunities</i> är åtgärdade.</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span><b>Ett test med JavaScript avstängt är dokumenterat i <code>README.md</code></b>, sida för sida.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— mot nivå A</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utmaning-1"><span><b>En egen diskret funktion</b>, skriven av dig ur reglerna i fördjupningsguiden: kapsel, <code>"use strict"</code>, ÄNDRA HÄR-zon, kontroll av att elementen finns, <code>hidden</code>-mönstret.</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-2"><span><b>Formulärvalidering som förstärker HTML:ens i stället för att ersätta den</b> – <code>novalidate</code> sätts av skriptet, och <code>checkValidity()</code> avgör vad som är fel.</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-3"><span><b>Statusmeddelanden med <code>aria-live</code></b> där skriptet ändrar något som inte syns av sig självt.</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-4"><span><b>Allt degraderar snyggt</b>: du kan gå igenom sajten med JavaScript av och förklara för varje funktion om besökaren förlorar en genväg eller ett innehåll.</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-5"><span><b>Ett avsnitt i <code>README.md</code></b> som jämför hur funktionen är byggd med hur den skulle sett ut hårdkodad – och varför skillnaden spelar roll.</span></label></li>
+      </ul>
+    </section>
+    <p><button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="tekniska-krav">5. Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td>Inga bibliotek, inga ramverk</td><td>Samma regel som i Projekt 5</td></tr>
+          <tr><td>Inga <code>style=</code>-attribut i HTML:en</td><td>Stil hör i stilmallen. Gällde från område 3</td></tr>
+          <tr><td>Inget <code>innerHTML</code> för text som kommer utifrån</td><td>Säkerhetsregeln från Projekt 5</td></tr>
+          <tr><td>Relativa sökvägar, gemener i filnamn</td><td>Sajten ska fungera publicerad</td></tr>
+          <tr><td>Originalbilderna sparas <b>utanför</b> repot</td><td>Ett repo ska inte innehålla 40 MB kameraoriginal</td></tr>
+          <tr><td>Bilder du inte använder tas bort ur <code>bilder/</code></td><td>Skräp förvirrar den som rättar, och dig själv</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Det här lämnas in</h3>
+
+    <p>I itslearning: <b>länken till ditt publika GitHub-repo</b>. Inget annat, och inte koden.</p>
+
+    <p>I repot ska finnas:</p>
+
+<pre><code>index.html och dina övriga sidor
+stil.css
+js/
+bilder/          bara de bilder sajten använder, i rätt storlekar
+README.md        med mätningen och testet</code></pre>
+
+    <h3>Så kan mätavsnittet se ut</h3>
+
+    <p>Två rubriker i <code>README.md</code>. Det här är lydelsen som bedöms, och den behöver inte vara längre än så här:</p>
+
+<pre><code>## Mätning
+
+Startsidan, nätverksfliken med Disable cache och Slow 4G,
+på den publicerade adressen:
+
+  Före:  12 requests, 3,4 MB, 14,2 s
+  Efter:  9 requests, 210 kB,  1,6 s
+
+Tyngsta filen före var hero.jpg: 2,9 MB, 4032 px bred,
+visades i 640 px. Den är nu tre filer – 400, 800 och
+1600 px – i WebP med JPEG som reserv, och den som hämtas
+på min telefon väger 18 kB. Resten av minskningen är de
+fyra bilderna på galleri.html, som fick loading="lazy"
+och halverad bredd.
+
+## Testat utan JavaScript
+
+Avstängt i Inspektera 4 mars, alla fem sidorna:
+
+  index.html      OK. Allt innehåll finns, inga döda knappar
+  galleri.html    OK. Filterraden gömd, alla bilder syns
+  kontakt.html    OK. required kvar, webbläsaren validerar själv
+  om.html         OK
+  quiz.html    Knappen "Rätta" syns och gör inget.
+               Medvetet: den är type="submit", sidan
+               laddas om. Frågorna finns kvar</code></pre>
+
+    <h2 id="matrisen">6. Bedömningsmatris</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><b>Bildstorlek</b></td><td>Bilderna är skalade till sin ruta och ligger i ett modernt format</td><td>Flera storlekar med <code>srcset</code> och <code>sizes</code> som stämmer med CSS:en</td><td><code>picture</code> med formatfallback, och valen går att motivera per bild</td></tr>
+          <tr><td><b>Mätning</b></td><td>En mätning före och efter finns</td><td>Mätningen är kommenterad: vad som var tyngst och varför siffran ändrades</td><td>Lighthouse-listan är genomgången och kvarvarande rader är förklarade</td></tr>
+          <tr><td><b>Utan JavaScript</b></td><td>Ingenting kraschar, inget innehåll försvinner, inga döda kontroller</td><td>Minst en modul förbättrar något som redan fungerar utan den</td><td>Hela sajten degraderar medvetet, och du kan förklara varje funktion</td></tr>
+          <tr><td><b>Egen kod</b></td><td>–</td><td>Modulernas anpassningar är gjorda i ÄNDRA HÄR-zonen</td><td>Egen diskret funktion skriven ur reglerna, med kapsel och kontroller</td></tr>
+          <tr><td><b>Tillgänglighet</b></td><td><code>alt</code> på varje bild, <code>label</code> på varje fält</td><td>Formuläret validerar i HTML och skriptet förbättrar</td><td><code>aria-live</code> där något ändras, och <code>checkValidity()</code> styr felen</td></tr>
+          <tr><td><b>Dokumentation</b></td><td>Mätningen står i <code>README.md</code></td><td>Testet utan JavaScript är dokumenterat sida för sida</td><td>Jämförelsen diskret mot hårdkodad finns och håller</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Matrisen läses vågrätt: en A-kolumn förutsätter att E och C i samma rad är gjorda.</p>
+
+    <h2 id="kom-igang">7. Kom igång – de tre första sakerna</h2>
+    <ol>
+      <li><b>Mät innan du ändrar något.</b> Öppna din publicerade sajt, nätverksfliken, <i>Disable cache</i>, ladda om. Skriv av talen. Du kan inte visa en förbättring du inte har ett före-värde till.</li>
+      <li><b>Sortera på Size och titta på översta raden.</b> Det är nästan alltid en bild, och det är nästan alltid över hälften av hela sidans vikt.</li>
+      <li><b>Gör om den ena bilden.</b> Skala, komprimera, byt format, lägg in <code>width</code> och <code>height</code>. Mät igen. Nu vet du hur mycket en bild är värd, och resten är samma sak en gång till.</li>
+    </ol>
+
+    <h2 id="tiden">8. Så ligger tiden</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vecka</th><th>Lektioner</th><th>Bör vara klart</th></tr></thead>
+        <tbody>
+          <tr><td>v.6</td><td>63 tis 9/2 · 64 fre 12/2</td><td>Mätningen före är gjord. Den tyngsta bilden är åtgärdad</td></tr>
+          <tr><td>v.7</td><td>sportlov</td><td>–</td></tr>
+          <tr><td>v.8</td><td>65 mån 22/2 · 66 tis 23/2 · 67 fre 26/2</td><td>Alla bilder klara. Du vet vad som går sönder utan JavaScript</td></tr>
+          <tr><td>v.9</td><td>68 mån 1/3 · 69 tis 2/3</td><td>Ska-kraven 7–10 är uppfyllda. Mätningen efter är gjord</td></tr>
+          <tr><td>v.10</td><td>70 mån 8/3 · 71 tis 9/3 · 72 fre 12/3</td><td>Bör-kraven, A-spårets egen funktion, <code>README.md</code>. <b>Deadline fredag 12/3 23:59</b></td></tr>
+          <tr><td>v.11</td><td>73 mån 15/3</td><td>Prov 5</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Fredag 5 mars är ledig, så vecka 9 har bara två lektioner. Veckan efter sportlovet är den viktigaste: det är då den diskreta halvan ska landa, och den tar längre tid än optimeringen.</p>
+
+    <h3>Prov måndag 15 mars</h3>
+
+    <p>Provet bygger på <b>områdets exempelsajt i två versioner</b>, inte på din egen. Det kommer att fråga om skillnaden mellan dem.</p>
+
+    <h2 id="checklista">9. Checklista innan du lämnar in</h2>
+    <p><b>Bilderna</b></p>
+
+    <ol>
+      <li>Ingen bild är mer än dubbelt så bred som rutan den visas i</li>
+      <li>Foton ligger i WebP eller AVIF</li>
+      <li><code>width</code> och <code>height</code> på varje <code>img</code>, utan <code>px</code></li>
+      <li><code>alt</code> på varje <code>img</code></li>
+      <li><code>loading="lazy"</code> på allt under första skärmen, men inte på den översta bilden</li>
+      <li>Oanvända bilder är borta ur <code>bilder/</code></li>
+    </ol>
+
+    <p><b>Mätningen</b></p>
+
+    <ol>
+      <li>Före och efter står i <code>README.md</code></li>
+      <li>Mätt på den publicerade adressen, med <i>Disable cache</i></li>
+      <li>Samma sida mätt båda gångerna</li>
+    </ol>
+
+    <p><b>Utan JavaScript</b></p>
+
+    <ol>
+      <li>Avstängt i Inspektera, varje sida öppnad</li>
+      <li>All text och alla bilder finns</li>
+      <li>Ingen knapp eller länk som syns men inte gör något</li>
+      <li>Formulären går att fylla i, <code>required</code> finns kvar</li>
+      <li>Resultatet nerskrivet i <code>README.md</code></li>
+    </ol>
+
+    <p><b>Det vanliga</b></p>
+
+    <ol>
+      <li>HTML validerar</li>
+      <li>CSS validerar</li>
+      <li>Konsolen är tom på varje sida</li>
+      <li>Repot är publikt</li>
+      <li>Länken inlämnad i itslearning</li>
+    </ol>
+
+    <h2 id="felsokning">10. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: bild, sizes, knapp" autocomplete="off">
+      <p class="traffar" id="traffar-fel">12 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Problem</th><th>Trolig orsak</th><th>Gör så här</th></tr></thead>
+        <tbody>
+          <tr><td>Mätningen visar samma siffra efteråt</td><td>Cachen</td><td><i>Disable cache</i> i, ladda om</td></tr>
+          <tr><td>Bilden är suddig efter optimeringen</td><td>För hårt komprimerad, eller för liten fil</td><td>Gå upp i kvalitet, eller lägg till en större storlek</td></tr>
+          <tr><td><code>srcset</code> verkar inte göra något</td><td>Fönstret är lika brett båda gångerna</td><td>Testa vid 400 px och vid 1400 px</td></tr>
+          <tr><td>Alltid samma fil hämtas</td><td><code>sizes</code> stämmer inte med CSS:en</td><td>Jämför talet i <code>sizes</code> med <code>max-width</code> i stilmallen</td></tr>
+          <tr><td>Validatorn klagar på <code>width="800px"</code></td><td>Enhet i attributet</td><td>Ta bort <code>px</code></td></tr>
+          <tr><td>Knappen syns utan JavaScript</td><td><code>hidden</code> saknas</td><td>Lägg till <code>hidden</code>, låt skriptet ta bort det</td></tr>
+          <tr><td>Knappen syns fast <code>hidden</code> står där</td><td>En <code>display</code>-regel i CSS:en</td><td>Skriv <code>:not([hidden])</code> på regeln</td></tr>
+          <tr><td>Bilder försvinner utan JavaScript</td><td>Skriptet skriver in dem</td><td>Flytta dem till HTML:en</td></tr>
+          <tr><td>Formuläret går att skicka tomt</td><td><code>novalidate</code> i HTML:en, eller <code>required</code> saknas</td><td><code>required</code> i HTML:en, <code>novalidate</code> bara från skriptet</td></tr>
+          <tr><td>Sajten fungerar lokalt men inte publicerad</td><td>Stor bokstav i ett filnamn, eller absolut sökväg</td><td>Gemener, relativa sökvägar</td></tr>
+          <tr><td>Lighthouse ger 60 i Performance</td><td>Nästan alltid bilderna</td><td>Läs <i>Opportunities</i> uppifrån</td></tr>
+          <tr><td>Konsolen har ett rött fel efter optimeringen</td><td>En bild bytte namn men inte i HTML:en</td><td>404-raden säger vilken</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 7</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

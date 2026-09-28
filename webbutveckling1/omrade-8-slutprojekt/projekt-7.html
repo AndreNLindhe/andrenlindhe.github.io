@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projekt 7 – Webbutveckling 1 område 8</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-8-projekt-7">
+
+<header class="topp">
+  <a href="index.html">← Område 8</a>
+  <span class="harifran"><strong>Uppgift</strong> · Slutprojekt</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#inlamningarna">2. Två inlämningar</a></li>
+      <li><a href="#dokumentet">3. Projektdokumentet</a></li>
+      <li><a href="#kunden">4. Välja kund</a></li>
+      <li><a href="#kraven">5. Kraven</a></li>
+      <li><a href="#tekniska-krav">6. Tekniska krav</a></li>
+      <li><a href="#par">7. Arbeta i par</a></li>
+      <li><a href="#matrisen">8. Bedömningsmatris</a></li>
+      <li><a href="#kom-igang">9. Kom igång – de tre första sakerna</a></li>
+      <li><a href="#tiden">10. Så ligger tiden</a></li>
+      <li><a href="#checklista">11. Checklistor inför inlämning</a></li>
+      <li><a href="#felsokning">12. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 8 · uppgift</p>
+    <h1>Projekt 7 – Webbplats åt en kund</h1>
+    <p class="inledning">Det här är områdets kravdokument. Projektguiden, repetitionssidan och passen ska stödja kraven nedan – inte tvärtom.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-03-19">
+        <span class="nar">19 mars</span>
+        <span class="vad">Delinlämning kl 23:59
+          <small>Kravspec, projektplan och wireframes – länken till projektdokumentet lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-06-07">
+        <span class="nar">7 juni</span>
+        <span class="vad">Slutinlämning kl 23:59
+          <small>Sajten och projektdokumentet – repo-länken lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-06-08">
+        <span class="nar">8 juni</span>
+        <span class="vad">Prov 6
+          <small>Slutprov över hela kursen, skriftligt utan dator.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+    <p>Du ska bygga en komplett webbplats åt en kund, från första frågan till publicerad och testad sajt. Kunden väljer du bland fem fiktiva kunder, eller så tar du med en riktig. Du får arbeta ensam eller i par.</p>
+
+    <p>Det här är kursens sista projekt, och det är det första där <b>du</b> bestämmer vad som ska byggas. Därför är halva uppgiften att ta reda på vad kunden behöver, skriva ner det, planera och i efterhand jämföra med vad det blev. Den andra halvan är sajten, och den ska visa allt du kan: struktur, form, anpassning, tillgänglighet, interaktivitet och optimering.</p>
+
+    <p>Sajten byggs från grunden i ett nytt repo. Ingenting återanvänds från din kurssajt, utom det du har lärt dig.</p>
+
+    <h2 id="inlamningarna">2. Två inlämningar</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>När</th><th>Vad</th><th>Lämnas som</th></tr></thead>
+        <tbody>
+          <tr><td><b>Delinlämning</b></td><td>fredag 19 mars 23:59</td><td>Kravspecifikation, projektplan och wireframes</td><td>Länken till ditt projektdokument i Google Docs</td></tr>
+          <tr><td><b>Slutinlämning</b></td><td>måndag 7 juni 23:59</td><td>Sajten och hela projektdokumentet</td><td>Länken till ditt publika GitHub-repo</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Mellan dem ligger uppehållet, vecka 12–19. Planen du lämnar 19 mars är den du bygger efter i maj, så skriv den så att du förstår den själv när du kommer tillbaka.</p>
+
+    <h2 id="dokumentet">3. Projektdokumentet</h2>
+    <p>Allt som inte är kod skriver du i <b>ett enda dokument i Google Docs</b>, i fyra delar:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Skrivs</th><th>Innehåller</th></tr></thead>
+        <tbody>
+          <tr><td>1. Kravspecifikation</td><td>pass 74</td><td>Kunden, syftet, målgruppen, innehållet, kraven och avgränsningen</td></tr>
+          <tr><td>2. Projektplan</td><td>pass 75</td><td>Mål, sitemap, wireframes, tidsplan, milstolpar och risker</td></tr>
+          <tr><td>3. Testprotokoll</td><td>pass 83</td><td>Webbläsare och enheter, validering, WAVE, test utan JavaScript, buggrapporter</td></tr>
+          <tr><td>4. Uppföljning</td><td>pass 84</td><td>Vad som blev som planerat, vad som inte blev det, och varför</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Mallen ligger i itslearning och på områdets startsida. Länken ger dig <b>en egen kopia</b> med ett klick – skriv aldrig i originalet. Varje avsnitt i mallen har en kort instruktion i kursiv stil; ta bort den när du har fyllt i avsnittet.</p>
+
+    <p>Arbetar ni i par har ni ett gemensamt dokument. Den ena gör kopian och delar den med den andra.</p>
+
+    <h2 id="kunden">4. Välja kund</h2>
+    <p>Läs <a href="kunder.html">kundbeskrivningarna</a> och välj en. De är olika stora med flit: frisörsalongen och hunddagiset är tydliga och avgränsade, bandet är friast och kräver mest av dig själv. Välj efter vad du vill visa, inte efter vad som verkar lättast.</p>
+
+    <p><b>En riktig kund</b> går bra, men det är mer arbete. Du sköter kontakten själv, du måste få kundens texter och bilder, och du behöver kundens tillstånd att publicera dem. <a href="kunder.html#riktig-kund">Villkoren</a> står sist i kundbeskrivningarna. Säg till på pass 74, så godkänns kunden senast med projektplanen 19 mars.</p>
+
+    <h2 id="kraven">5. Kraven</h2>
+    <p>Kryssa av allt eftersom. Kryssen sparas i din webbläsare.</p>
+
+    <p>Alla tolv ska vara uppfyllda. De första fyra gäller processen, de åtta sista sajten.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span><b>Kravspecifikationen är ifylld</b> – kund, syfte, målgrupp, innehåll, krav och avgränsning – och lämnad med delinlämningen 19 mars.</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span><b>Projektplanen är ifylld</b> – mål, sitemap, tidsplan, milstolpar och risker – och har wireframes för mobil och desktop. Lämnad 19 mars.</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span><b>Testprotokollet är ifyllt</b>: minst två webbläsare och en telefon, W3C, WAVE och ett test med JavaScript avstängt.</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span><b>Uppföljningen är ifylld</b>: varje mål och varje ska-krav i din kravspec är markerat som uppfyllt eller inte.</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span><b>Minst fyra sidor</b>, sammanlänkade som i din sitemap, med kravspecens innehåll på plats. Ingen platshållartext kvar.</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span><b>Semantisk HTML och en extern stilmall med designsystem i CSS-variabler.</b> HTML och CSS validerar utan fel, konsolen är tom.</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span><b>Fungerar från 320 px till desktop.</b> Ingen vågrät rullning vid någon bredd.</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span><b>Tillgänglig</b>: <code>alt</code> på varje bild, <code>label</code> på varje fält, går att använda med tangentbordet, WAVE visar inga fel.</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span><b>Minst en funktion som tillför verklig nytta för kunden.</b> En modul ur modulbiblioteket duger. Sajten fungerar när JavaScript är avstängt.</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span><b>Bilderna är optimerade</b>: skalade till sin ruta, i WebP eller AVIF, med <code>width</code> och <code>height</code>.</span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span><b>Publicerad på GitHub Pages</b> från ett publikt repo.</span></label></li>
+        <li><label><input type="checkbox" id="ska-12"><span><b><code>README.md</code></b> säger vad sajten är och för vilken kund, och länkar till den publicerade sajten och till projektdokumentet. I par står det vem som gjort vad.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— mot nivå C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span><b>Valen är motiverade i projektdokumentet</b>: färger, typsnitt och struktur kopplade till kundens målgrupp.</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span><b>Funktionen är anpassad till kunden</b> och förbättrar något som fungerar även utan den.</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span><b>Bilderna finns i flera storlekar</b> och väljs med <code>srcset</code> och <code>sizes</code>.</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span><b>Lighthouse före och efter optimeringen</b> står i testprotokollet, kommenterat.</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span><b>Varje fel i testprotokollet har en åtgärd</b> – rättat, eller förklarat varför inte.</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span><b>Uppföljningen förklarar varför</b> planen ändrades där den ändrades.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— mot nivå A</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utmaning-1"><span><b>En egen diskret funktion</b> skriven av dig ur reglerna i <a href="../omrade-7-optimering-diskret/diskret-funktionalitet.html">fördjupningsguiden om diskret funktionalitet</a>.</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-2"><span><b><code>aria-live</code></b> där skriptet ändrar något som inte syns av sig självt.</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-3"><span><b>Kraven i kravspecen är mätbara</b> – till exempel <i>”öppettiderna syns utan att scrolla på en telefon”</i> – och uppföljningen prövar dem ett i taget.</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-4"><span><b>Uppföljningen drar slutsatser om processen</b>: vad du skulle planera annorlunda nästa gång, och varför.</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-5"><span><b>Korstestets buggrapporter är besvarade</b> i protokollet, med vad du ändrade.</span></label></li>
+      </ul>
+    </section>
+    <p><button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="tekniska-krav">6. Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td>Nytt repo från kursens template-repo, publikt</td><td>Slutprojektet är en ny sajt. Privat repo går inte att rätta</td></tr>
+          <tr><td>Inga bibliotek, inga ramverk, inga byggverktyg</td><td>Samma regel som hela kursen</td></tr>
+          <tr><td>Inga <code>style=</code>-attribut, inget <code>onclick</code> i HTML:en</td><td>Struktur, stil och beteende hålls isär</td></tr>
+          <tr><td>Inget <code>innerHTML</code> för text som kommer utifrån</td><td>Säkerhetsregeln från Projekt 5</td></tr>
+          <tr><td>Gemener i filnamn, bindestreck i stället för mellanslag, relativa sökvägar</td><td>Sajten ska fungera publicerad</td></tr>
+          <tr><td>Bilder du inte har rätt till används inte</td><td>Egna foton, egna SVG:er, eller fritt licensierade med TASL-hänvisning</td></tr>
+          <tr><td>Inga riktiga personuppgifter utan samtycke</td><td>Gäller särskilt den som har en riktig kund</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Det här lämnas in</h3>
+
+    <p><b>19 mars</b>, i itslearning-uppgiften <i>Projektplan</i>: <b>länken till projektdokumentet</b>. Dokumentet ska vara delat så att läraren kan läsa och kommentera det.</p>
+
+    <p><b>7 juni</b>, i itslearning-uppgiften <i>Slutprojekt</i>: <b>länken till ditt publika GitHub-repo</b>. Inget annat, och inte koden. Arbetar ni i par lämnar ni båda in samma länk.</p>
+
+    <p>I repot ska finnas:</p>
+
+<pre><code>index.html och dina övriga sidor
+stil.css
+js/              om sajten har skript
+bilder/          bara de bilder sajten använder
+README.md        med länk till sajten och projektdokumentet</code></pre>
+
+    <h3 id="dela">Så delar du projektdokumentet</h3>
+    <ol>
+      <li><b>Dela</b> uppe till höger i Google Docs.</li>
+      <li>Under <i>Allmän åtkomst</i>: välj skolan, så att alla i skolan som har länken kan öppna dokumentet. Sätt rollen till <b>Kommentator</b>.</li>
+      <li><b>Kopiera länken</b> och klistra in den i itslearning.</li>
+      <li><b>Pröva länken</b>: be någon bredvid dig öppna den. Kommer de inte in, kommer inte läraren in heller.</li>
+    </ol>
+
+    <div class="notis varna">
+      <span class="rubrik">Det vanligaste felet</span>
+      <p>Ett dokument som inte är delat är samma fel som ett privat repo – det går inte att bedöma.</p>
+    </div>
+
+    <h2 id="par">7. Arbeta i par</h2>
+    <p>Ni har <b>ett repo och ett projektdokument</b>. Den ena äger repot, den andra läggs till som <i>collaborator</i> – en medarbetare med rätt att pusha.</p>
+
+    <ol>
+      <li>Ägaren: repot → <b>Settings</b> → <b>Collaborators</b> → <b>Add people</b>, och skriver in den andras GitHub-namn.</li>
+      <li>Den andra: godkänner inbjudan, i mejlet eller på github.com.</li>
+      <li>Båda: öppnar var sin Codespace på samma repo.</li>
+    </ol>
+
+    <p>Två regler gör att ni inte skriver över varandra:</p>
+
+    <ul>
+      <li><b><code>git pull</code> först varje pass</b>, innan du ändrar något. Då har du den andras senaste ändringar.</li>
+      <li><b>Dela upp arbetet per fil.</b> Ni kan båda ha varsin sida, men inte samma sida samtidigt. <code>stil.css</code> har en ägare, och den andra säger till innan hen ändrar i den.</li>
+    </ul>
+
+    <p>Säger <code>git push</code> <i>rejected</i>, har den andra pushat sedan du senast hämtade. Kör <code>git pull</code>, sedan <code>git push</code> igen. Står det <i>conflict</i> efter <code>git pull</code>, fråga läraren innan du gör något mer.</p>
+
+    <p><b>Ni bedöms var för sig.</b> Commit-historiken visar vem som skrivit vad, och båda ska kunna förklara hela sajten, inte bara sin halva.</p>
+
+    <h2 id="matrisen">8. Bedömningsmatris</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><b>Planering</b></td><td>Kravspec och projektplan är ifyllda och inlämnade i tid</td><td>Valen är motiverade mot kundens målgrupp</td><td>Kraven är mätbara och planen har realistiska risker med åtgärder</td></tr>
+          <tr><td><b>Struktur och kod</b></td><td>Semantisk HTML, extern stilmall, validerar, tom konsol</td><td>Designsystem i variabler som används konsekvent på alla sidor</td><td>Koden är lätt att läsa och följa – struktur, stil och beteende är helt åtskilda</td></tr>
+          <tr><td><b>Layout och responsivitet</b></td><td>Fungerar från 320 px till desktop</td><td>Brytpunkterna är motiverade av innehållet</td><td>Layouten fungerar vid varje bredd utan specialfall</td></tr>
+          <tr><td><b>Tillgänglighet</b></td><td><code>alt</code>, <code>label</code>, tangentbord, WAVE utan fel</td><td>Kontrast och fokusmarkering är genomtänkta</td><td><code>aria-live</code> där något ändras, och allt fungerar med skärmläsare</td></tr>
+          <tr><td><b>Interaktivitet</b></td><td>En fungerande funktion, sajten fungerar utan JavaScript</td><td>Funktionen är anpassad och förbättrar något som redan fungerar</td><td>Egen diskret funktion skriven ur reglerna</td></tr>
+          <tr><td><b>Optimering</b></td><td>Bilderna är skalade och i modernt format</td><td><code>srcset</code> och <code>sizes</code>, Lighthouse före och efter</td><td>Mätningen är analyserad och kvarvarande problem förklarade</td></tr>
+          <tr><td><b>Test och uppföljning</b></td><td>Testprotokollet och uppföljningen är ifyllda</td><td>Varje fel har en åtgärd, och ändringar mot planen är förklarade</td><td>Uppföljningen drar slutsatser om processen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Matrisen läses vågrätt: en A-kolumn förutsätter att E och C i samma rad är gjorda.</p>
+
+    <h2 id="kom-igang">9. Kom igång – de tre första sakerna</h2>
+    <ol>
+      <li><b>Välj kund.</b> Läs alla fem beskrivningarna innan du väljer. Tänk på vad du vill visa att du kan.</li>
+      <li><b>Gör din kopia av mallen</b> och döp den till kundens namn. Arbetar ni i par: den ena gör kopian och delar den med den andra.</li>
+      <li><b>Skriv kravspecens första avsnitt</b>: vem kunden är och varför de behöver en sajt. Kan du inte svara på det i tre meningar vet du inte tillräckligt om kunden än – läs beskrivningen igen.</li>
+    </ol>
+
+    <h2 id="tiden">10. Så ligger tiden</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vecka</th><th>Lektioner</th><th>Bör vara klart</th></tr></thead>
+        <tbody>
+          <tr><td>v.11</td><td>74 tis 16/3 · 75 fre 19/3</td><td>Kund vald, kravspec och projektplan klara, wireframes ritade. <b>Delinlämning fredag 19/3 23:59</b></td></tr>
+          <tr><td>v.12–19</td><td>uppehåll</td><td>–</td></tr>
+          <tr><td>v.20</td><td>76 mån 17/5 · 77 tis 18/5 · 78 fre 21/5</td><td>Planen godkänd, repot skapat. <b>Milstolpe 1: all HTML på plats och validerar</b></td></tr>
+          <tr><td>v.21</td><td>79 mån 24/5 · 80 tis 25/5 · 81 fre 28/5</td><td>Layouten klar. <b>Milstolpe 2: fungerar från 320 px till desktop.</b> <b>Milstolpe 3: funktionen fungerar, och sajten fungerar utan den</b></td></tr>
+          <tr><td>v.22</td><td>82 mån 31/5 · 83 tis 1/6 · 84 fre 4/6</td><td>Optimerad och testad. <b>Milstolpe 4: testad, publicerad och dokumenterad</b> – testprotokoll, <code>README.md</code> och uppföljning</td></tr>
+          <tr><td>v.23</td><td>85 mån 7/6</td><td>Finputs. <b>Deadline måndag 7/6 23:59</b></td></tr>
+          <tr><td>v.23</td><td>86 tis 8/6</td><td>Prov 6 och kursavslut</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Varje vecka i maj och juni har tre pass. Milstolparna är hållpunkter, inte inlämningar: läraren tittar på dem under passet, och ligger du efter är det då vi pratar om det.</p>
+
+    <p><b>Betygssamtalen</b> förs under byggpassen 77–85, ett i taget vid din dator.</p>
+
+    <h3>Prov tisdag 8 juni</h3>
+
+    <p>Slutprovet är skriftligt, utan dator, och täcker hela kursen. Det bygger på ett anonymiserat slutprojekt från klassen och har också frågor om juridik, etik och säkerhet från område 5. Repetitionssidan på områdets startsida går igenom kursen område för område.</p>
+
+    <h2 id="checklista">11. Checklistor inför inlämning</h2>
+    <p>En checklista per inlämning. Kryssen sparas, precis som kraven.</p>
+
+    <section class="kravblock">
+      <div class="huvud">
+        <h3 id="checklista-mars">19 mars – projektplanen</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="mars-1"><span>Kravspecifikationen är ifylld i alla avsnitt</span></label></li>
+        <li><label><input type="checkbox" id="mars-2"><span>Projektplanen är ifylld, med tidsplan för passen 76–85</span></label></li>
+        <li><label><input type="checkbox" id="mars-3"><span>Wireframes för mobil och desktop, länkade från projektplanen</span></label></li>
+        <li><label><input type="checkbox" id="mars-4"><span>Figma-filen är delad så att den som har länken kan se den</span></label></li>
+        <li><label><input type="checkbox" id="mars-5"><span>Dokumentet är delat och länken prövad av någon annan</span></label></li>
+        <li><label><input type="checkbox" id="mars-6"><span>Länken inlämnad i itslearning</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock">
+      <div class="huvud">
+        <h3 id="checklista-sajten">7 juni – sajten</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="juni-sajt-1"><span>Alla sidor i sitemapen finns, ingen platshållartext kvar</span></label></li>
+        <li><label><input type="checkbox" id="juni-sajt-2"><span>HTML och CSS validerar</span></label></li>
+        <li><label><input type="checkbox" id="juni-sajt-3"><span>Konsolen är tom på varje sida</span></label></li>
+        <li><label><input type="checkbox" id="juni-sajt-4"><span>Provad vid 320 px och på desktop</span></label></li>
+        <li><label><input type="checkbox" id="juni-sajt-5"><span>WAVE utan fel</span></label></li>
+        <li><label><input type="checkbox" id="juni-sajt-6"><span>Provad med JavaScript avstängt</span></label></li>
+        <li><label><input type="checkbox" id="juni-sajt-7"><span>Bilderna skalade och i WebP eller AVIF</span></label></li>
+        <li><label><input type="checkbox" id="juni-sajt-8"><span>Publicerad, och den publicerade adressen fungerar</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock">
+      <div class="huvud">
+        <h3 id="checklista-dokumentet">7 juni – dokumentet</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="juni-dok-1"><span>Testprotokollet är ifyllt</span></label></li>
+        <li><label><input type="checkbox" id="juni-dok-2"><span>Uppföljningen är ifylld</span></label></li>
+        <li><label><input type="checkbox" id="juni-dok-3"><span><code>README.md</code> länkar till sajten och till projektdokumentet</span></label></li>
+        <li><label><input type="checkbox" id="juni-dok-4"><span>Repot är publikt</span></label></li>
+        <li><label><input type="checkbox" id="juni-dok-5"><span>Länken till repot inlämnad i itslearning</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="felsokning">12. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: dela, push, Figma" autocomplete="off">
+      <p class="traffar" id="traffar-fel">10 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Problem</th><th>Trolig orsak</th><th>Gör så här</th></tr></thead>
+        <tbody>
+          <tr><td>Läraren kommer inte in i dokumentet</td><td>Dokumentet är inte delat, eller bara med dig</td><td>Dela → Allmän åtkomst → skolan, Kommentator</td></tr>
+          <tr><td>Du skrev i mallen i stället för i en kopia</td><td>Du öppnade originallänken med <code>/edit</code></td><td>Arkiv → Gör en kopia, och fortsätt i kopian</td></tr>
+          <tr><td>Figma-länken visar <i>Request access</i></td><td>Figma-filen är inte delad</td><td>Share → <i>Anyone with the link</i> → <i>can view</i></td></tr>
+          <tr><td>Du vet inte vad kunden vill ha</td><td>Kravspecen är för tunn</td><td>Läs kundbeskrivningen igen och skriv upp vad kunden säger ordagrant</td></tr>
+          <tr><td>Tidsplanen håller inte</td><td>Planen var för optimistisk</td><td>Skriv ner avvikelsen i tidsplanen nu, inte i efterhand. Stryk ett bör-krav hellre än att missa ett ska-krav</td></tr>
+          <tr><td><code>git push</code> säger <i>rejected</i></td><td>Den andra i paret har pushat</td><td><code>git pull</code>, sedan <code>git push</code></td></tr>
+          <tr><td><code>git pull</code> säger <i>conflict</i></td><td>Ni har ändrat samma rader</td><td>Fråga läraren innan du gör något mer</td></tr>
+          <tr><td>Kunden har inte skickat sina bilder</td><td>Riktig kund, och det dröjer</td><td>Bygg med egna platshållarbilder i rätt storlek och byt ut dem när materialet kommer</td></tr>
+          <tr><td>Sajten fungerar lokalt men inte publicerad</td><td>Stor bokstav i ett filnamn, eller absolut sökväg</td><td>Gemener, relativa sökvägar</td></tr>
+          <tr><td>Du hittar inga fel att skriva i testprotokollet</td><td>Du har testat det du vet fungerar</td><td>Låt någon annan testa, eller följ protokollets rader en i taget</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 8</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

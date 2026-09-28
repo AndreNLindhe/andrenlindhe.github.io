@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interaktivitet med moduler – Webbutveckling 1 område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-6-start">
+
+<header class="topp">
+  <a href="../index.html">← Kursen</a>
+  <span class="harifran"><strong>Område 6</strong> · Interaktivitet med moduler</span>
+  <a href="modulbiblioteket.html">Modulerna</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 6 · v.2–6</p>
+    <h1>Interaktivitet med moduler</h1>
+    <p class="inledning">Elva lektioner där sajten får JavaScript. Tre genomgångar och
+      sju arbetspass. Målet är inte att du ska kunna programmera från grunden – det är
+      att du ska kunna läsa färdig kod, koppla in den, och ändra det som ska ändras
+      utan att ha den sönder.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-01-22">
+        <span class="nar">22 jan</span>
+        <span class="vad">Första modulen ska fungera
+          <small>Ingen inlämning – men den som fastnat här fastnar på något litet, och det är lättare att laga nu.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-02-05">
+        <span class="nar">5 feb</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Projekt 5 – repo-länken lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-02-08">
+        <span class="nar">8 feb</span>
+        <span class="vad">Prov 4 – läsa och anpassa kod
+          <small>Skriftligt prov utan dator.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="material">Material</h2>
+    <div class="rutnat">
+      <a class="kort webb" href="js-guiden.html">
+        <span class="sort">Guide</span>
+        <span class="rubrik">JS-guiden</span>
+        <p>Områdets uppslagsbok. Femton avsnitt från vad JavaScript gör till hur man
+          läser ett felmeddelande, med felsökning, snabbreferens och ordträning.</p>
+      </a>
+      <a class="kort webb" href="modulbiblioteket.html">
+        <span class="sort">Bibliotek</span>
+        <span class="rubrik">Modulbiblioteket</span>
+        <p>De sex modulerna. Vad var och en gör, HTML:en den kräver, koden att kopiera,
+          vad du får ändra – och kraven om du vill skriva den själv.</p>
+      </a>
+      <a class="kort gran" href="projekt-5.html">
+        <span class="sort">Uppgift</span>
+        <span class="rubrik">Projekt 5</span>
+        <p>Områdets projekt. Minst två moduler inbyggda och anpassade i din egen sajt.
+          Kraven i tre nivåer och matrisen. Deadline 5 februari.</p>
+      </a>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Kodblocken beter sig olika</span>
+      <p>I <b>guiden</b> går koden inte att markera – den är till för att skrivas av, och
+        avskrivningen är en del av att lära sig läsa kod.</p>
+      <p>I <b>modulbiblioteket</b> går den att kopiera. Modulerna ska du använda, inte
+        träna på att skriva.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Öppna konsolen innan du felsöker</span>
+      <p><kbd>F12</kbd>, fliken <b>Console</b>. Nästan varje fel du kommer att få står
+        där, med filnamn och radnummer. JS-guiden avsnitt 9 säger hur du läser det.</p>
+    </div>
+
+    <h2 id="lektionerna">Lektionerna</h2>
+    <p>Missade du ett pass? Sista kolumnen pekar på det du behöver läsa för att komma
+      ikapp.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Datum</th><th>Vad vi gör</th><th>Missade du passet?</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>fre 15/1</td>
+            <td><b>Vad JavaScript gör.</b> Vi läser en modul tillsammans och förklarar vad varje rad gör. Variabel, funktion, händelse, villkor. Uppgiften delas ut.</td>
+            <td><a href="js-guiden.html#vad-js-gor">Guiden 1–7</a></td>
+          </tr>
+          <tr>
+            <td>mån 18/1</td>
+            <td><b>Koppla in en modul.</b> Script-taggen, defer, var filen ligger och varför sökvägen spelar roll. Konsolen som felsökningsverktyg.</td>
+            <td><a href="js-guiden.html#koppla-in">Guiden 8–9</a></td>
+          </tr>
+          <tr>
+            <td>tis 19/1</td>
+            <td><b>Anpassa en modul.</b> Vad som är säkert att ändra och vad man inte ska röra. Vi bygger in mörkt läge tillsammans.</td>
+            <td><a href="js-guiden.html#anpassa">Guiden 10–11</a></td>
+          </tr>
+          <tr>
+            <td>fre 22/1</td>
+            <td><b>Arbetspass.</b> Eget projekt med handledning. <b>Första modulen ska fungera här.</b></td>
+            <td><a href="modulbiblioteket.html#anvanda">Modulbiblioteket</a></td>
+          </tr>
+          <tr>
+            <td>mån 25/1</td>
+            <td><b>Arbetspass.</b> Andra modulen byggs in.</td>
+            <td><a href="modulbiblioteket.html#valja">Vilken ska du välja?</a></td>
+          </tr>
+          <tr>
+            <td>tis 26/1</td>
+            <td><b>Arbetspass.</b> Anpassningen: texter, klassnamn och inställningar som hör hemma i din sajt.</td>
+            <td><a href="js-guiden.html#anpassa">Guiden 10</a></td>
+          </tr>
+          <tr>
+            <td>fre 29/1</td>
+            <td><b>Arbetspass.</b> Tangentbordstest och mobil. Fungerar modulerna för den som inte använder mus?</td>
+            <td><a href="projekt-5.html#kraven">Kraven</a></td>
+          </tr>
+          <tr>
+            <td>mån 1/2</td>
+            <td><b>Arbetspass.</b> A-spåret: skriv en egen modul ur kravlistan, utan att titta på originalet.</td>
+            <td><a href="modulbiblioteket.html#meny">Skriv den själv</a></td>
+          </tr>
+          <tr>
+            <td>tis 2/2</td>
+            <td><b>Arbetspass.</b> <code>README.md</code>: vilka moduler, var, och varför just de.</td>
+            <td><a href="projekt-5.html#kraven">Kraven</a></td>
+          </tr>
+          <tr>
+            <td>fre 5/2</td>
+            <td><b>Sista finputs.</b> Validera, testa i två webbläsare, kontrollera att konsolen är tom. <b>Deadline 23:59.</b></td>
+            <td><a href="projekt-5.html#checklista">Innan du lämnar in</a></td>
+          </tr>
+          <tr>
+            <td>mån 8/2</td>
+            <td><b>Prov 4.</b> Läsa och anpassa kod. Skriftligt utan dator.</td>
+            <td><a href="js-guiden.html#snabbreferens">Snabbreferensen</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="efterat">Vad du kan efter området</h2>
+    <ul>
+      <li>Säga vad JavaScript gör som HTML och CSS inte kan.</li>
+      <li>Läsa en modul rad för rad och förklara vad varje rad gör.</li>
+      <li>Känna igen de fem byggstenarna: variabel, funktion, händelse, villkor och
+        lista.</li>
+      <li>Koppla in en modul i din egen sajt – rätt fil, rätt plats, rätt sökväg.</li>
+      <li>Öppna konsolen, läsa ett felmeddelande och hitta raden det handlar om.</li>
+      <li>Ändra en modul utan att ha den sönder.</li>
+      <li>Byta klassnamn i en modul så att den passar din HTML.</li>
+      <li>Svara på frågan "vad händer om JavaScript inte körs?" för varje modul du
+        byggt in.</li>
+    </ul>
+
+    <footer class="fot">
+      <p><a href="../index.html">Tillbaka till kursen</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

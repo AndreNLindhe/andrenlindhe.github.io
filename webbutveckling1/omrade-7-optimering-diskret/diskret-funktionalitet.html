@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diskret funktionalitet – Webbutveckling 1 område 7</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-7-diskret-funktionalitet">
+
+<header class="topp">
+  <a href="index.html">← Område 7</a>
+  <span class="harifran"><strong>Fördjupning</strong> · Optimering och diskret funktionalitet</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#vad">1. Vad diskret betyder</a></li>
+      <li><a href="#lagren">2. De tre lagren</a></li>
+      <li><a href="#inte-i-html">3. Beteende hör inte hemma i HTML</a></li>
+      <li><a href="#utan-js">4. Vad som ska fungera utan JavaScript</a></li>
+      <li><a href="#hidden">5. <code>hidden</code>-mönstret</a></li>
+      <li><a href="#steg">6. Progressive enhancement, steg för steg</a></li>
+      <li><a href="#formular">7. Formulär: HTML först, skript sedan</a></li>
+      <li><a href="#aria-live">8. Säg det som händer: <code>aria-live</code></a></li>
+      <li><a href="#degradation">9. Graceful degradation</a></li>
+      <li><a href="#egen">10. Skriv en egen diskret funktion</a></li>
+      <li><a href="#testa">11. Testa med JavaScript avstängt</a></li>
+      <li><a href="#langre">12. Ta det längre</a></li>
+      <li><a href="#felsokning">13. Felsökning</a></li>
+      <li><a href="#snabbreferens">14. Snabbreferens</a></li>
+      <li><a href="#ordlista">15. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 7 · fördjupning</p>
+    <h1>Diskret funktionalitet: sajter som håller även när något fattas</h1>
+    <p class="inledning">Den här guiden går längre än de andra. Den är skriven för dig som siktar mot A, men avsnitt 1–6 gäller alla: <b>att sajten inte ska krascha utan JavaScript är ett ska-krav i Projekt 6</b>, inte en utmaning.</p>
+
+    <p>Exemplen kommer ur <code>referensprojekt/</code>. Den rätta versionen heter <code>diskret/</code>, den avskräckande <code>hardkodad/</code>. Koden i den här guiden är samma kod som ligger där.</p>
+
+    <p>Kraven guiden stödjer står i <code>uppgift/projekt-6.md</code>.</p>
+
+    <h2 id="efterat">Vad du kan efter guiden</h2>
+    <ul>
+      <li>Förklara vad <i>diskret</i> betyder och varför det är A-spårets kärna.</li>
+      <li>Skilja på de tre lagren struktur, stil och beteende – och se när de blandats.</li>
+      <li>Säga varför <code>onclick</code> i HTML:en är fel, med ett skäl som inte är "det är fult".</li>
+      <li>Bygga en funktion som fungerar utan JavaScript och blir bättre med.</li>
+      <li>Använda <code>hidden</code>-mönstret utan att gå i CSS-fällan.</li>
+      <li>Skriva ett formulär där HTML validerar och skriptet bara förbättrar.</li>
+      <li>Tala om för en skärmläsare att något ändrats, med <code>aria-live</code>.</li>
+      <li>Stänga av JavaScript i din webbläsare och bedöma vad du ser.</li>
+      <li>Skriva en egen modul som följer reglerna, inte bara kopiera en.</li>
+    </ul>
+
+    <h2 id="vad">1. Vad diskret betyder</h2>
+    <p><b>Diskret</b> (på engelska <i>unobtrusive</i>) betyder att JavaScript lägger sig ovanpå en sida som redan fungerar, i stället för att bära den.</p>
+
+    <p>Tänk på en hiss i ett hus med trappa. Fungerar hissen tar du hissen. Står den stilla går du i trappan – du kommer fortfarande upp. Ett hus där hissen är enda vägen är ett sämre hus, hur bra hissen än är.</p>
+
+    <p>Din sajt är huset. HTML och CSS är trappan. JavaScript är hissen.</p>
+
+    <h3>Varför någon skulle sakna JavaScript</h3>
+
+    <p>Frågan kommer alltid, och den är rimlig. Nästan alla har JavaScript på. Men:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Situation</th><th>Hur ofta</th></tr></thead>
+        <tbody>
+          <tr><td>Skriptet hann inte laddas innan besökaren klickade</td><td>Varje dag, på varje sajt</td></tr>
+          <tr><td>Uppkopplingen bröts mitt i hämtningen</td><td>Tunnelbana, hiss, landsbygd</td></tr>
+          <tr><td>Ett fel i en annan del av koden stoppade allt</td><td>Oftare än du tror</td></tr>
+          <tr><td>Företagets brandvägg blockerar externa skript</td><td>Vanligt på arbetsplatser</td></tr>
+          <tr><td>Webbläsartillägg som blockerar skript</td><td>Ett par procent av alla besökare</td></tr>
+          <tr><td>Sökmotorn som indexerar sidan</td><td>Googles robot kör JavaScript, andra gör det inte</td></tr>
+          <tr><td>Skärmläsare och äldre hjälpmedel</td><td>Klarar ofta inte dynamiskt innehåll</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Den vanligaste är den första, och den drabbar alla. <b>Mellan att HTML:en är ritad och att skripten körts finns en lucka.</b> Är knappen klickbar i den luckan och gör ingenting, ser sajten trasig ut – för alla, varje gång.</p>
+
+    <h3>Det är inte "för säkerhets skull"</h3>
+
+    <p>En diskret sajt blir också enklare att läsa, enklare att felsöka, bättre för skärmläsare och lättare att flytta. Att den dessutom överlever utan JavaScript är resultatet, inte syftet.</p>
+
+    <h2 id="lagren">2. De tre lagren</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Lager</th><th>Fil</th><th>Svarar på</th></tr></thead>
+        <tbody>
+          <tr><td><b>Struktur</b></td><td><code>.html</code></td><td>Vad är det här? En rubrik, en lista, ett formulär</td></tr>
+          <tr><td><b>Stil</b></td><td><code>.css</code></td><td>Hur ser det ut?</td></tr>
+          <tr><td><b>Beteende</b></td><td><code>.js</code></td><td>Vad händer när någon gör något?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Regeln är att varje lager ska gå att ta bort underifrån och uppåt. Ta bort JavaScript: sidan ser likadan ut och innehållet finns. Ta bort CSS:en också: sidan blir ful men fullt läsbar. Kvar finns strukturen, och den bär allt.</p>
+
+    <p>Du har redan sett vad som händer när lagren blandas. I område 3 lärde du dig att inte skriva <code>style=</code> ute i HTML:en. Det här är samma regel, ett steg upp.</p>
+
+    <h3>Så ser en blandning ut</h3>
+
+    <p>Ur <code>hardkodad/</code>:</p>
+
+<pre><code class="sprak-html">&lt;button type="button" class="lagesknapp"
+        onclick="byteLage()"&gt;Mörkt läge&lt;/button&gt;</code></pre>
+
+    <p>Ett element som är tre saker samtidigt: struktur (en knapp), utseende (klassen) och beteende (<code>onclick</code>). Ur <code>diskret/</code>:</p>
+
+<pre><code class="sprak-html">&lt;button type="button" class="lagesknapp" hidden
+        aria-pressed="false"&gt;Mörkt läge&lt;/button&gt;</code></pre>
+
+    <p>Struktur och en klass. Beteendet ligger i <code>js/morkt-lage.js</code>, som letar upp knappen själv.</p>
+
+    <h2 id="inte-i-html">3. Beteende hör inte hemma i HTML</h2>
+    <p>"Det är fult" är inget skäl. Här är fyra som är det.</p>
+
+    <p><b>1. Du hittar det aldrig igen.</b> Ett <code>onclick</code> på rad 48 i en av fem sidor syns inte när du söker i <code>js/</code>-mappen. Skriptet däremot står på ett ställe.</p>
+
+    <p><b>2. Bara en funktion per händelse.</b> <code>onclick</code> kan hålla ett anrop. Behöver du två saker vid ett klick får du skriva om. <code>addEventListener</code> kan sätta hur många lyssnare som helst på samma element, oberoende av varandra.</p>
+
+    <p><b>3. Funktionen måste vara global.</b> <code>onclick="byteLage()"</code> kräver att <code>byteLage</code> finns i fönstrets globala namnrymd. Det är därför <code>hardkodad/js/sidan.js</code> inte kan använda kapseln <code>(function () { … })();</code> som alla moduler i område 6 har – och därmed kan två skript skriva över varandras variabler utan att någon märker det.</p>
+
+    <p><b>4. Knappen ljuger i luckan.</b> Står <code>onclick</code> i HTML:en är knappen klickbar redan innan skriptet laddats. Klickar någon då händer ingenting, och felet syns inte någonstans.</p>
+
+    <h3>Samma sak gäller länkar</h3>
+
+<pre><code class="sprak-html">&lt;a href="javascript:visa('faglar')"&gt;Fåglar&lt;/a&gt;</code></pre>
+
+    <p>En länk som inte leder någonstans. Utan JavaScript är den helt död: den går inte att öppna i ny flik, den betyder ingenting för en sökmotor, och en skärmläsare säger att det är en länk fast det inte är det. Är det en knapp ska det vara en <code>&lt;button&gt;</code>. Leder den någonstans ska <code>href</code> vara den adressen.</p>
+
+<pre><code class="sprak-html">&lt;a href="#faglar"&gt;Fåglar&lt;/a&gt;</code></pre>
+
+    <p>Den här fungerar utan skript – den hoppar till avsnittet. Ett skript får gärna fånga klicket och göra något finare i stället.</p>
+
+    <h2 id="utan-js">4. Vad som ska fungera utan JavaScript</h2>
+    <p>Kravet är inte att allt ska fungera. Det är att <b>innehållet ska finnas och ingenting ska se trasigt ut</b>.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ska fungera utan JavaScript</th><th>Får sluta fungera</th></tr></thead>
+        <tbody>
+          <tr><td>All text och alla bilder syns</td><td>Filtrering och sortering</td></tr>
+          <tr><td>Alla länkar leder rätt</td><td>Bildspel som bläddrar automatiskt</td></tr>
+          <tr><td>Menyn går att använda</td><td>Att menyn fälls ihop till en hamburgare</td></tr>
+          <tr><td>Formuläret går att fylla i och skicka</td><td>Felmeddelanden under fälten medan du skriver</td></tr>
+          <tr><td>Rubrikerna och strukturen står kvar</td><td>Mörkt läge som sparas till nästa gång</td></tr>
+          <tr><td>Tabeller och listor är kompletta</td><td>Quizet som rättar sig självt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Det avgörande är <b>vem som äger innehållet</b>. Står texten i HTML:en finns den alltid. Skrivs den in av ett skript finns den bara ibland.</p>
+
+    <p>Jämför de två versionerna av stigsidan utan skript:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th><code>diskret/</code></th><th><code>hardkodad/</code></th></tr></thead>
+        <tbody>
+          <tr><td>Bilder på sidan</td><td><b>3</b></td><td><b>0</b></td></tr>
+          <tr><td>Knappar som inte gör något</td><td>0</td><td>3</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Den hårdkodade sidan bygger sina bilder ur en lista i <code>sidan.js</code>. Utan skript finns listan inte, och då finns inte bilderna. Den diskreta har dem i HTML:en och låter skriptet göra om dem till en karusell.</p>
+
+    <h2 id="hidden">5. <code>hidden</code>-mönstret</h2>
+    <p>Mönstret som bär alla sex modulerna i område 6, i tre rader:</p>
+
+    <p><b>1. Det som bara fungerar med skript är gömt i HTML:en.</b></p>
+
+<pre><code class="sprak-html">&lt;button type="button" class="menyknapp" hidden
+        aria-expanded="false"
+        aria-controls="huvudmeny-lista"&gt;Meny&lt;/button&gt;</code></pre>
+
+    <p><b>2. Skriptet kontrollerar att elementet finns.</b></p>
+
+<pre><code class="sprak-js">const knapp = document.querySelector(KNAPP);
+const lista = document.querySelector(LISTA);
+if (!knapp || !lista) { return; }</code></pre>
+
+    <p><b>3. Först när skriptet vet att det fungerar tar det bort <code>hidden</code>.</b></p>
+
+<pre><code class="sprak-js">knapp.hidden = false;</code></pre>
+
+    <p>Läs ordningen igen: knappen syns <b>inte</b> förrän skriptet som styr den är igång. Därför kan det aldrig finnas en död knapp på sidan. Utan skript stannar <code>hidden</code> kvar, och menyn visas som en vanlig lista med länkar – som på en sida i område 4.</p>
+
+    <h3>Fällan: CSS slår ut <code>hidden</code></h3>
+
+    <p>Det här kostade tid när området byggdes, och det är värt att kunna.</p>
+
+    <p>Attributet <code>hidden</code> sätter <code>display: none</code> – men i <b>webbläsarens egen stilmall</b>, och den är svagare än din. Skriver du någonstans i <code>stil.css</code>:</p>
+
+<pre><code class="sprak-css">.karusell-styr {
+  display: flex;
+}</code></pre>
+
+    <p>…så syns raden ändå, med <code>hidden</code> och allt. Sidan ser rätt ut så länge JavaScript körs, eftersom skriptet tar bort attributet. Med JavaScript av står tre döda knappar kvar, och du får aldrig veta om det förrän någon säger till.</p>
+
+    <p>Lösningen är att låta regeln gälla bara när elementet inte är gömt:</p>
+
+<pre><code class="sprak-css">.karusell-styr:not([hidden]) {
+  display: flex;
+}</code></pre>
+
+    <p><b>Regeln att komma ihåg:</b> sätter du <code>display</code> på något som också kan ha <code>hidden</code>, skriv <code>:not([hidden])</code>. Det gäller <code>display: flex</code>, <code>display: grid</code> och <code>display: block</code> lika mycket.</p>
+
+    <h2 id="steg">6. Progressive enhancement, steg för steg</h2>
+    <p><i>Progressive enhancement</i> betyder ungefär "förbättra stegvis". Arbetsordningen är hela idén, och den är tvärtom mot hur de flesta börjar.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Du bygger</th><th>Du kontrollerar</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>HTML som fungerar helt utan stil och skript</td><td>Läs sidan utan CSS. Går innehållet att förstå?</td></tr>
+          <tr><td>2</td><td>CSS som gör den läsbar och responsiv</td><td>Sidan är färdig att lämna in. Den är <i>klar</i> här</td></tr>
+          <tr><td>3</td><td>JavaScript som gör något bättre</td><td>Stäng av skriptet. Är du tillbaka på steg 2?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Steg 2 är den viktiga raden i tabellen: <b>en sajt utan JavaScript ska vara en färdig sajt, inte en trasig.</b></p>
+
+    <h3>Ett exempel hela vägen</h3>
+
+    <p>Reservatets artsida ska gå att filtrera på grupp.</p>
+
+    <p><b>Steg 1, HTML.</b> Tre avsnitt med <code>id</code> och en innehållsförteckning som länkar till dem. Filterraden ligger där, tom och gömd:</p>
+
+<pre><code class="sprak-html">&lt;nav class="pasidan" aria-label="Innehåll på sidan"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#faglar"&gt;Fåglar&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#daggdjur"&gt;Däggdjur&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;div class="filter" role="group" aria-label="Visa" hidden&gt;&lt;/div&gt;
+
+&lt;section id="faglar" data-grupp="faglar"&gt; … &lt;/section&gt;</code></pre>
+
+    <p>Utan skript har besökaren en innehållsförteckning som hoppar till rätt avsnitt. Det är inte filtrering, men det löser samma problem: att hitta.</p>
+
+    <p><b>Steg 2, CSS.</b> Avsnitten staplas, innehållsförteckningen blir en sidospalt på bred skärm. Filterraden får <code>display: flex</code> – med <code>:not([hidden])</code>, enligt avsnitt 5.</p>
+
+    <p><b>Steg 3, JavaScript.</b> <code>galleri.js</code> läser vilka <code>data-grupp</code> som finns, bygger en knapp per grupp, tar bort <code>hidden</code> och gömmer det som inte valts.</p>
+
+    <p>Tre lager, tre filer, och varje steg fungerar utan det ovanför.</p>
+
+    <h3>Testet som avgör</h3>
+
+    <p>Fråga dig: <b>om jag tar bort det här skriptet, förlorar besökaren en genväg eller förlorar hen innehållet?</b></p>
+
+    <p>Genväg är rätt svar. Innehåll är fel.</p>
+
+    <h2 id="formular">7. Formulär: HTML först, skript sedan</h2>
+    <p>Formulär är där det här blir konkret, och där skillnaden mellan E och A syns tydligast.</p>
+
+    <h3>Vad HTML gör alldeles själv</h3>
+
+<pre><code class="sprak-html">&lt;p&gt;
+  &lt;label for="epost"&gt;E-postadress&lt;/label&gt;
+  &lt;input type="email" id="epost" name="epost"
+         autocomplete="email" required&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;label for="antal"&gt;Antal personer&lt;/label&gt;
+  &lt;input type="number" id="antal" name="antal"
+         min="1" max="15" value="1" required&gt;
+&lt;/p&gt;</code></pre>
+
+    <p>Fyra attribut gör fyra jobb utan en rad JavaScript: <code>required</code> kräver ett svar, <code>type="email"</code> kräver ett snabel-a, <code>min</code> och <code>max</code> kräver ett rimligt tal, och <code>autocomplete</code> gör att telefonen fyller i åt besökaren. Webbläsaren stoppar sändningen och visar ett meddelande, på besökarens eget språk.</p>
+
+    <p>Den hårdkodade versionen slänger bort allt det:</p>
+
+<pre><code class="sprak-html">&lt;form novalidate&gt;
+  &lt;input type="text" id="namn" name="namn" autocomplete="name"&gt;
+  …
+  &lt;button type="button"
+          onclick="skickaAnmalan()"&gt;Skicka anmälan&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <p><code>novalidate</code> stänger av webbläsarens kontroll. <code>type="button"</code> gör att knappen inte skickar något. Utan JavaScript går formuläret att skicka tomt – nej, värre: det går inte att skicka alls, för knappen gör ingenting.</p>
+
+    <h3>Så gör modulen i stället</h3>
+
+    <p>Det här är kärnan i hela guiden, och det står på tre rader i <code>validering.js</code>:</p>
+
+<pre><code class="sprak-js">const formular = document.querySelector(FORMULAR);
+if (!formular) { return; }
+
+formular.setAttribute("novalidate", "");</code></pre>
+
+    <p>Läs den sista raden igen. <b><code>novalidate</code> sätts av skriptet</b>, inte i HTML:en.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Utan JavaScript</th><th>Med JavaScript</th></tr></thead>
+        <tbody>
+          <tr><td><code>novalidate</code> finns?</td><td>Nej</td><td>Ja, skriptet satte det</td></tr>
+          <tr><td>Vem kontrollerar?</td><td>Webbläsaren</td><td>Skriptet</td></tr>
+          <tr><td>Hur visas fel?</td><td>Webbläsarens egen bubbla</td><td><code>&lt;p class="fel"&gt;</code> under fältet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Sidan har alltså alltid validering. Den byts bara ut mot en bättre när det går.</p>
+
+    <h3>Skriptet bestämmer inte vad som är fel</h3>
+
+    <p>Ett misstag som ser ut som ambition: att skriva egna regler i JavaScript för vad som är en giltig e-postadress. Modulen gör tvärtom – den frågar webbläsaren:</p>
+
+<pre><code class="sprak-js">if (falt.checkValidity()) {
+  taBortFel(falt);
+} else {
+  visaFel(falt);
+}</code></pre>
+
+    <p><code>checkValidity()</code> returnerar sant eller falskt utifrån <code>required</code>, <code>type</code>, <code>min</code> och <code>max</code> <b>i HTML:en</b>. Objektet <code>falt.validity</code> säger sedan vilket av felen det var: <code>valueMissing</code>, <code>typeMismatch</code>, <code>rangeUnderflow</code>, <code>rangeOverflow</code>.</p>
+
+    <p>Vinsten är att reglerna bara finns på ett ställe. Lägger du till <code>required</code> på ett fält behöver skriptet inte ändras alls.</p>
+
+    <h3>Och sändningen</h3>
+
+<pre><code class="sprak-js">formular.addEventListener("submit", function (handelse) {
+  const forstaFel = kontrollera();
+  if (forstaFel) {
+    handelse.preventDefault();
+    forstaFel.focus();
+  }
+});</code></pre>
+
+    <p>Lyssnaren ligger på <code>submit</code>, inte på knappens <code>click</code>. Det är skillnaden mellan ett formulär som fungerar och ett som bara ser ut att göra det: <code>submit</code> utlöses också av Enter i ett textfält, och av alla sätt att skicka ett formulär som du inte tänkt på.</p>
+
+    <p><code>preventDefault()</code> stoppar sändningen – <b>men bara när det finns fel.</b> Är allt rätt gör skriptet ingenting, och formuläret skickas som vanligt.</p>
+
+    <h2 id="aria-live">8. Säg det som händer: <code>aria-live</code></h2>
+    <p>När ett skript ändrar något på sidan ser du det. Den som använder skärmläsare gör det inte – uppläsningen står där den står.</p>
+
+    <p><code>aria-live</code> löser det. Ett element med det attributet läses upp när innehållet ändras, utan att fokus flyttas.</p>
+
+<pre><code class="sprak-html">&lt;div class="karusell-styr" hidden&gt;
+  &lt;button type="button" class="karusell-forra"&gt;Föregående&lt;/button&gt;
+  &lt;p class="karusell-lage" aria-live="polite"&gt;&lt;/p&gt;
+  &lt;button type="button" class="karusell-nasta"&gt;Nästa&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+    <p>Skriptet skriver "Bild 2 av 3" i stycket varje gång någon bläddrar, och skärmläsaren säger det.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Värde</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><code>polite</code></td><td>Läses när användaren är tyst. <b>Det du ska använda</b></td></tr>
+          <tr><td><code>assertive</code></td><td>Avbryter mitt i. Bara för fel som måste stoppa något</td></tr>
+          <tr><td><code>off</code></td><td>Standard. Läses inte</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Tre regler:</p>
+
+    <ol>
+      <li><b>Elementet ska finnas i HTML:en från början</b>, tomt. Skapar skriptet det samtidigt som det fyller det hinner skärmläsaren inte uppfatta ändringen.</li>
+      <li><b>Skriv kort.</b> "Bild 2 av 3" är bra. Ett helt stycke blir tjat.</li>
+      <li><b>En i taget.</b> Fem <code>aria-live</code> på samma sida pratar i munnen på varandra.</li>
+    </ol>
+
+    <p>Referensprojektet har två: karusellens lägesrad och quizets resultat. Båda är tomma i HTML:en, båda är <code>polite</code>.</p>
+
+    <p><code>aria-live</code> är det tillgänglighetsverktyg du inte hade i område 4, och det är just för att det hör ihop med skript som ändrar saker.</p>
+
+    <h2 id="degradation">9. Graceful degradation</h2>
+    <p><i>Graceful degradation</i> betyder att det ska bli sämre, inte trasigt, när något fattas. Det är samma mål som progressive enhancement, sett från andra hållet: där börjar man nerifrån och bygger uppåt, här börjar man med det färdiga och frågar vad som händer när delar faller bort.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Faller bort</th><th>Snyggt</th><th>Trasigt</th></tr></thead>
+        <tbody>
+          <tr><td>JavaScript</td><td>Menyn är en vanlig lista</td><td>Knapp som inte gör något</td></tr>
+          <tr><td>En bildfil</td><td><code>alt</code>-texten står där bilden skulle varit</td><td>En tom ruta utan förklaring</td></tr>
+          <tr><td>Ett typsnitt</td><td>Texten visas i reservtypsnittet</td><td>Sidan står tom och väntar</td></tr>
+          <tr><td><code>localStorage</code> (privat läge)</td><td>Läget gäller den här sidan, glöms sedan</td><td>Skriptet kraschar och menyn slutar fungera</td></tr>
+          <tr><td>En CSS-egenskap webbläsaren inte kan</td><td>Något enklare visas i stället</td><td>Layouten faller isär</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Den fjärde raden är verklig. <code>localStorage</code> kastar ett fel i privat läge i vissa webbläsare, och ett fel som inte fångas stoppar resten av filen. Därför ser <code>morkt-lage.js</code> ut så här:</p>
+
+<pre><code class="sprak-js">function spara(lage) {
+  try {
+    localStorage.setItem(NYCKEL, lage);
+  } catch (fel) {
+    // Går inte att spara. Läget gäller ändå tills sidan laddas om.
+  }
+}</code></pre>
+
+    <p><code>try/catch</code> betyder "försök – går det inte, gör det här i stället". Den tomma <code>catch</code>-satsen är ett medvetet val, och kommentaren finns för att en tom <code>catch</code> annars ser ut som ett misstag.</p>
+
+    <h2 id="egen">10. Skriv en egen diskret funktion</h2>
+    <p>A-spåret i Projekt 6 vill ha en funktion du skrivit själv. Här är reglerna och ett helt exempel.</p>
+
+    <h3>Reglerna</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Regel</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td>Allt i <code>(function () { "use strict"; … })();</code></td><td>Ingen global variabel, inga krockar</td></tr>
+          <tr><td>Zon <i>ÄNDRA HÄR</i> överst med klassnamn och texter</td><td>Den som använder modulen ska slippa läsa resten</td></tr>
+          <tr><td>Leta upp elementen, <code>return</code> om de saknas</td><td>Ett skript ska aldrig krascha en sida</td></tr>
+          <tr><td>Det som bara fungerar med skript har <code>hidden</code></td><td>Inga döda knappar</td></tr>
+          <tr><td>Byt attribut och klasser – CSS:en gör resten</td><td>Beteende och utseende hålls isär</td></tr>
+          <tr><td><code>addEventListener</code>, aldrig <code>onclick</code> i HTML</td><td>Avsnitt 3</td></tr>
+          <tr><td><code>textContent</code>, inte <code>innerHTML</code>, för text</td><td>Säkerhet och enkelhet</td></tr>
+          <tr><td>Inga <code>console.log</code> kvar</td><td>Konsolen ska vara tom när det fungerar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Ett helt exempel: visa mer</h3>
+
+    <p>Funktionen: ett långt avsnitt kortas av, och en knapp fäller ut resten. Utan skript står hela texten där.</p>
+
+    <p>HTML – hela texten finns, knappen är gömd:</p>
+
+<pre><code class="sprak-html">&lt;section class="fallbar"&gt;
+  &lt;h2&gt;Reservatets historia&lt;/h2&gt;
+  &lt;div class="fallbar-text" id="historia-text"&gt;
+    &lt;p&gt;Mossen dikades ut första gången 1912 …&lt;/p&gt;
+    &lt;p&gt;Kommunen köpte marken 1984 …&lt;/p&gt;
+    &lt;p&gt;Reservatet bildades 1987 …&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button type="button" class="fallbar-knapp" hidden
+          aria-expanded="false"
+          aria-controls="historia-text"&gt;Visa mer&lt;/button&gt;
+&lt;/section&gt;</code></pre>
+
+    <p>CSS – korta av bara när skriptet är igång:</p>
+
+<pre><code class="sprak-css">.fallbar-knapp:not([hidden]) {
+  display: inline-block;
+}
+
+.fallbar:has(.fallbar-knapp[aria-expanded="false"]) .fallbar-text {
+  max-height: 8rem;
+  overflow: hidden;
+}</code></pre>
+
+    <p><code>:has()</code> läser "ett <code>.fallbar</code> som innehåller en knapp med <code>aria-expanded="false"</code>". Knappen står efter texten i HTML:en, och en vanlig väljare kan bara peka framåt – <code>:has()</code> är det som låter regeln peka bakåt. Den fungerar i alla webbläsare sedan 2023.</p>
+
+    <p>JavaScript:</p>
+
+<pre><code class="sprak-js">(function () {
+  "use strict";
+
+  /* ===== ÄNDRA HÄR ========================================== */
+  const KNAPP = ".fallbar-knapp";
+  const TEXT_MER = "Visa mer";
+  const TEXT_MINDRE = "Visa mindre";
+  /* ===== SLUT PÅ ÄNDRA HÄR ================================== */
+
+  const knapp = document.querySelector(KNAPP);
+  if (!knapp) { return; }
+
+  const id = knapp.getAttribute("aria-controls");
+  const text = document.getElementById(id);
+  if (!text) { return; }
+
+  knapp.hidden = false;
+  knapp.textContent = TEXT_MER;
+
+  knapp.addEventListener("click", function () {
+    const utfalld = knapp.getAttribute("aria-expanded") === "true";
+    knapp.setAttribute("aria-expanded", utfalld ? "false" : "true");
+    knapp.textContent = utfalld ? TEXT_MER : TEXT_MINDRE;
+  });
+
+})();</code></pre>
+
+    <p>Gå igenom den mot reglerna: kapsel, zon, två kontroller med <code>return</code>, <code>hidden</code> bort först när allt hittats, attributbyte i stället för <code>style</code>, <code>textContent</code>.</p>
+
+    <p>Notera <code>.fallbar-text</code> i CSS:en: det är <code>aria-expanded</code> på knappen som styr höjden, inte en klass skriptet sätter. Skriptet ändrar <b>ett</b> attribut, och CSS:en gör tre saker av det.</p>
+
+    <h3>Vad du kan bygga</h3>
+
+    <p>Förslag som är lagom stora och lätta att göra diskreta:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Idé</th><th>Utan skript</th></tr></thead>
+        <tbody>
+          <tr><td>Visa mer / visa mindre</td><td>Hela texten syns</td></tr>
+          <tr><td>Tillbaka till toppen-knapp</td><td>Sidan går att skrolla</td></tr>
+          <tr><td>Kopiera adressen-knapp</td><td>Adressen står som text bredvid</td></tr>
+          <tr><td>Räknare för tecken kvar i ett textfält</td><td><code>maxlength</code> i HTML:en gör jobbet</td></tr>
+          <tr><td>Filtrera en tabell</td><td>Tabellen är komplett och sorterad</td></tr>
+          <tr><td>Bekräfta innan en länk öppnas i ny flik</td><td>Länken fungerar som vanligt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="testa">11. Testa med JavaScript avstängt</h2>
+    <p>Ett krav du inte provat är ett krav du inte uppfyllt.</p>
+
+    <h3>Så stänger du av</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Webbläsare</th><th>Väg</th></tr></thead>
+        <tbody>
+          <tr><td><b>Chrome, Edge</b></td><td><i>Inspektera</i> → <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> → skriv <i>javascript</i> → <b>Disable JavaScript</b>. Gäller så länge Inspektera är öppen</td></tr>
+          <tr><td><b>Firefox</b></td><td>Skriv <code>about:config</code> i adressfältet, sök <code>javascript.enabled</code>, sätt till <code>false</code>. <b>Kom ihåg att sätta tillbaka den</b></td></tr>
+          <tr><td><b>Alla</b></td><td>Ett tillägg som NoScript. Onödigt för det här</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Chrome-vägen är den att använda: den slås av när du stänger Inspektera, så du kan inte glömma den.</p>
+
+    <h3>Vad du ska titta efter</h3>
+
+    <p>Gå igenom varje sida och fråga i den här ordningen:</p>
+
+    <ol>
+      <li><b>Finns all text och alla bilder?</b> Saknas något skrivs det in av ett skript och ska flyttas till HTML:en.</li>
+      <li><b>Syns någon knapp eller kontroll som inte gör något?</b> Då saknas <code>hidden</code>, eller så slår CSS:en ut det – avsnitt 5.</li>
+      <li><b>Går menyn att använda?</b> Alla länkar ska nås.</li>
+      <li><b>Går formuläret att fylla i och skicka?</b> Med <code>required</code> kvar?</li>
+      <li><b>Ser sidan trasig ut?</b> Tomma rutor, halva layouter, avhuggna avsnitt.</li>
+      <li><b>Står det något som ljuger?</b> "Klicka för att rätta" när knappen är död.</li>
+    </ol>
+
+    <h3>Skriv ner resultatet</h3>
+
+    <p>I <code>README.md</code>, under en rubrik. Det är det som bedöms – inte att allt fungerar, utan att du vet vad som inte gör det:</p>
+
+<pre><code>Testat med JavaScript avstängt 4 mars:
+  Startsidan       OK. Allt innehåll finns, inga döda knappar
+  Galleriet        OK. Filterraden gömd, alla bilder syns
+  Kontakt          OK. required kvar, webbläsaren validerar själv
+  Quizsidan     Knappen "Rätta" syns och gör inget när den
+                trycks. Medvetet: den är type="submit" och
+                sidan laddas om. Frågorna finns kvar.</code></pre>
+
+    <p>Sista raden är den som visar att du förstått skillnaden mellan <i>degraderad</i> och <i>trasig</i>.</p>
+
+    <h2 id="langre">12. Ta det längre</h2>
+    <h3><code>&lt;noscript&gt;</code> – nästan aldrig svaret</h3>
+
+<pre><code class="sprak-html">&lt;noscript&gt;Den här sidan kräver JavaScript.&lt;/noscript&gt;</code></pre>
+
+    <p>Taggen visas bara när JavaScript är av. Frestelsen är att lösa hela guiden med den. Det är fel väg: <b>den förklarar varför sidan är trasig i stället för att låta bli att vara trasig.</b></p>
+
+    <p>Det finns ett rimligt bruk: att säga att en <i>specifik</i> funktion inte är tillgänglig, när innehållet ändå finns. "Kartan visas inte utan JavaScript. Adressen står under."</p>
+
+    <h3><code>:has()</code> på fler ställen</h3>
+
+    <p>Du såg <code>:has()</code> i avsnitt 10. Det gör samma tjänst i större delar av sidan:</p>
+
+<pre><code class="sprak-css">.karusell:has(.karusell-styr:not([hidden])) .karusell-bilder {
+  max-height: 20rem;
+  overflow: hidden;
+}</code></pre>
+
+    <p>"Ser karusellen att dess knappar är synliga, alltså att skriptet är igång, så beter sig listan som en karusell." Samma idé som <code>hidden</code>-mönstret, utan att skriptet behöver sätta en klass.</p>
+
+    <h3>En klass på <code>&lt;html&gt;</code> i stället</h3>
+
+    <p>Ett vanligt mönster på riktiga sajter: det första skriptet på sidan sätter en klass, och CSS:en kan då skilja på de två världarna.</p>
+
+<pre><code class="sprak-js">document.documentElement.classList.add("js");</code></pre>
+
+<pre><code class="sprak-css">.js .bara-utan-js { display: none; }</code></pre>
+
+    <p>Det fungerar, och det är värt att känna igen. <code>hidden</code>-mönstret är ändå att föredra i den här kursen: det håller ihop element och beteende, och det kräver ingenting av <code>&lt;head&gt;</code>.</p>
+
+    <h3>Läs modulerna som förlagor</h3>
+
+    <p>De sex modulerna i <code>diskret/js/</code> är skrivna efter reglerna i avsnitt 10. <code>meny.js</code> är kortast och lättast att läsa. <code>validering.js</code> är den som lär ut mest.</p>
+
+    <h2 id="felsokning">13. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: hidden, knapp, formulär" autocomplete="off">
+      <p class="traffar" id="traffar-fel">14 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symtom</th><th>Trolig orsak</th><th>Gör så här</th></tr></thead>
+        <tbody>
+          <tr><td>Knappen syns utan JavaScript</td><td><code>hidden</code> saknas i HTML:en</td><td>Lägg till det. Skriptet tar bort det</td></tr>
+          <tr><td>Knappen syns fast <code>hidden</code> står där</td><td>En <code>display</code>-regel i CSS:en</td><td><code>:not([hidden])</code> på regeln. Avsnitt 5</td></tr>
+          <tr><td>Knappen syns aldrig, inte ens med JavaScript</td><td>Skriptet hittar inte sitt element och avslutar</td><td>Jämför klassnamnet i HTML och i zonen</td></tr>
+          <tr><td>Innehåll försvinner utan JavaScript</td><td>Skriptet skriver in det med <code>innerHTML</code></td><td>Flytta texten till HTML:en</td></tr>
+          <tr><td>Formuläret går att skicka tomt</td><td><code>novalidate</code> står i HTML:en</td><td>Ta bort det. Skriptet sätter det själv</td></tr>
+          <tr><td>Formuläret skickas fast fält är fel</td><td>Lyssnaren ligger på knappens <code>click</code></td><td>Lyssna på <code>submit</code> i stället</td></tr>
+          <tr><td>Enter i ett fält gör inget</td><td><code>type="button"</code> på knappen</td><td><code>type="submit"</code></td></tr>
+          <tr><td>Felmeddelandet läses inte upp</td><td><code>aria-live</code> saknas, eller elementet skapades nyss</td><td>Ha ett tomt element i HTML:en från början</td></tr>
+          <tr><td>Skärmläsaren läser samma sak om och om</td><td><code>assertive</code> där <code>polite</code> räcker</td><td>Byt</td></tr>
+          <tr><td>Allt slutar fungera i privat läge</td><td><code>localStorage</code> utan <code>try/catch</code></td><td>Avsnitt 9</td></tr>
+          <tr><td>Ett skript stoppar de andra</td><td>Fel i en fil som körs innan</td><td>Konsolen. Röda raden säger fil och radnummer</td></tr>
+          <tr><td>Sidan fungerar lokalt men inte publicerad</td><td>Sökväg med stor bokstav, eller absolut sökväg</td><td>Relativa sökvägar, gemener</td></tr>
+          <tr><td><code>aria-expanded</code> ändras men inget händer</td><td>CSS:en lyssnar på en klass, inte attributet</td><td>Välj ett av dem och håll dig till det</td></tr>
+          <tr><td>Länken gör inget utan JavaScript</td><td><code>href="javascript:…"</code> eller <code>href="#"</code></td><td>Ge den en riktig adress, eller gör den till en <code>button</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="snabbreferens">14. Snabbreferens</h2>
+    <p><b><code>hidden</code>-mönstret</b></p>
+
+<pre><code class="sprak-html">&lt;button type="button" class="knapp" hidden
+        aria-expanded="false"&gt;Text&lt;/button&gt;</code></pre>
+
+<pre><code class="sprak-js">const knapp = document.querySelector(".knapp");
+if (!knapp) { return; }
+knapp.hidden = false;</code></pre>
+
+<pre><code class="sprak-css">.knapp:not([hidden]) { display: inline-block; }</code></pre>
+
+    <p><b>Formulär som validerar i båda världarna</b></p>
+
+<pre><code class="sprak-html">&lt;input type="email" id="epost" required&gt;</code></pre>
+
+<pre><code class="sprak-js">formular.setAttribute("novalidate", "");
+if (falt.checkValidity()) { /* rätt */ } else { /* fel */ }</code></pre>
+
+    <p><b>Meddelande som läses upp</b></p>
+
+<pre><code class="sprak-html">&lt;p class="status" aria-live="polite"&gt;&lt;/p&gt;</code></pre>
+
+    <p><b>Checklistan före inlämning</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th></th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Stäng av JavaScript i Inspektera</td></tr>
+          <tr><td>2</td><td>Öppna varje sida</td></tr>
+          <tr><td>3</td><td>Finns all text och alla bilder?</td></tr>
+          <tr><td>4</td><td>Syns någon kontroll som inte gör något?</td></tr>
+          <tr><td>5</td><td>Går formuläret att skicka, med <code>required</code> kvar?</td></tr>
+          <tr><td>6</td><td>Skriv ner resultatet i <code>README.md</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Tre saker som aldrig hör hemma i HTML</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th></th></tr></thead>
+        <tbody>
+          <tr><td><code>onclick="…"</code></td><td>Använd <code>addEventListener</code></td></tr>
+          <tr><td><code>href="javascript:…"</code></td><td>Använd <code>button</code>, eller en riktig <code>href</code></td></tr>
+          <tr><td><code>novalidate</code></td><td>Låt skriptet sätta det</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">15. Ordlista</h2>
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>aria-live</b></td><td>Attribut som gör att ändringar i ett element läses upp av skärmläsare</td></tr>
+          <tr><td><b>assertive</b></td><td><code>aria-live</code>-värde som avbryter uppläsningen. Används sällan</td></tr>
+          <tr><td><b>checkValidity()</b></td><td>Metod som frågar webbläsaren om ett fält är korrekt ifyllt</td></tr>
+          <tr><td><b>degraderad</b></td><td>Fungerar sämre men inte trasigt när något fattas</td></tr>
+          <tr><td><b>diskret</b></td><td>Om skript: lägger sig ovanpå en sida som redan fungerar</td></tr>
+          <tr><td><b>global</b></td><td>Variabel eller funktion som syns i hela fönstret. Krockar lätt</td></tr>
+          <tr><td><b>graceful degradation</b></td><td>Att det blir sämre, inte trasigt, när delar faller bort</td></tr>
+          <tr><td><b>hidden</b></td><td>HTML-attribut som gömmer ett element tills ett skript tar bort det</td></tr>
+          <tr><td><b>inline-attribut</b></td><td>Beteende skrivet i HTML:en, som <code>onclick</code>. Undviks</td></tr>
+          <tr><td><b>kapsel</b></td><td><code>(function () { … })();</code> – håller variabler för sig själva</td></tr>
+          <tr><td><b>lucka</b></td><td>Tiden mellan att HTML:en ritats och att skripten körts</td></tr>
+          <tr><td><b>noscript</b></td><td>Tagg vars innehåll bara visas när JavaScript är av</td></tr>
+          <tr><td><b>novalidate</b></td><td>Attribut som stänger av webbläsarens formulärkontroll</td></tr>
+          <tr><td><b>polite</b></td><td><code>aria-live</code>-värde som väntar tills användaren är tyst</td></tr>
+          <tr><td><b>preventDefault()</b></td><td>Stoppar det webbläsaren annars skulle gjort, till exempel skicka ett formulär</td></tr>
+          <tr><td><b>progressive enhancement</b></td><td>Att bygga nerifrån: HTML, sedan CSS, sedan JavaScript</td></tr>
+          <tr><td><b>submit</b></td><td>Händelsen när ett formulär skickas, oavsett hur</td></tr>
+          <tr><td><b>try/catch</b></td><td>"Försök – går det inte, gör det här i stället"</td></tr>
+          <tr><td><b>unobtrusive</b></td><td>Engelska för diskret</td></tr>
+          <tr><td><b>validity</b></td><td>Objekt som säger vilket fel ett fält har</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 7</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projekt 5 – Webbutveckling 1 område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-6-projekt-5">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Uppgift</strong> · Interaktivitet med moduler</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#sajten">2. Vilken sajt gäller det?</a></li>
+      <li><a href="#modulerna">3. Modulerna</a></li>
+      <li><a href="#kraven">4. Kraven</a></li>
+      <li><a href="#tekniska-krav">5. Tekniska krav</a></li>
+      <li><a href="#matrisen">6. Bedömningsmatris</a></li>
+      <li><a href="#kom-igang">7. Kom igång – de tre första sakerna</a></li>
+      <li><a href="#tiden">8. Så ligger tiden</a></li>
+      <li><a href="#checklista">9. Checklista innan du lämnar in</a></li>
+      <li><a href="#felsokning">10. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 6 · uppgift</p>
+    <h1>Projekt 5 – Moduler i din egen sajt</h1>
+
+    <ul class="datum">
+      <li data-datum="2027-02-05">
+        <span class="nar">5 feb</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Projekt 5 – repo-länken lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+    <p>Du ska bygga in <b>minst två moduler</b> ur modulbiblioteket i din egen sajt, anpassa dem så att de hör hemma där, och kunna förklara vad koden gör.</p>
+
+    <p>Det är inte en uppgift i att skriva JavaScript från grunden. Det är en uppgift i att läsa färdig kod, koppla in den rätt, ändra det som ska ändras – och låta bli det som inte ska ändras. Så ser det mesta av webbutveckling ut, och det är därför området är byggt så.</p>
+
+    <p>Sajten är samma som förut: den du byggde i Projekt 3 och som växt sedan område 2. Nu lägger den ett lager till.</p>
+
+    <h2 id="sajten">2. Vilken sajt gäller det?</h2>
+    <p>Samma regel som i Projekt 3, och samma två vägar.</p>
+
+    <p><b>Bygg vidare.</b> Din sajt från Projekt 3, i samma repo. Det är vägen de flesta tar, och den som ger mest: modulerna hamnar i en sajt som redan är responsiv och tillgänglig, och du ser direkt om de passar.</p>
+
+    <p><b>Börja om.</b> Har du ingen sajt att bygga vidare på – börja med områdets exempelsajt som förlaga, i ett nytt publikt repo. Du får mer arbete, men du hamnar inte efter. Säg till mig vilken väg du tar innan du börjar.</p>
+
+    <p>Båda vägarna bedöms med samma matris.</p>
+
+    <h2 id="modulerna">3. Modulerna</h2>
+    <p>Sex finns i modulbiblioteket:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Modul</th><th>Fil</th><th>Passar när</th></tr></thead>
+        <tbody>
+          <tr><td>Hamburgermeny</td><td><code>meny.js</code></td><td>menyn har fler än fyra länkar</td></tr>
+          <tr><td>Mörkt läge med sparat val</td><td><code>morkt-lage.js</code></td><td>sajten har ett mörkt schema sedan område 3</td></tr>
+          <tr><td>Filtrerbart galleri</td><td><code>galleri.js</code></td><td>du har en samling i tydliga kategorier</td></tr>
+          <tr><td>Bildkarusell</td><td><code>karusell.js</code></td><td>tre eller fler bilder hör ihop</td></tr>
+          <tr><td>Formulärvalidering</td><td><code>validering.js</code></td><td>du har ett formulär med flera fält</td></tr>
+          <tr><td>Quiz med rättning</td><td><code>quiz.js</code></td><td>besökaren kan testa sig på ditt ämne</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Välj efter vad din sajt behöver</b>, inte efter vilken som ser enklast ut. En hamburgermeny på en sajt med tre menylänkar är en modul som gör sajten sämre, och det syns i matrisen.</p>
+
+    <p>Vill du använda en modul som inte finns i biblioteket: fråga mig först. Kravet är att du kan förklara varje rad i den, och det blir svårt med kod från nätet.</p>
+
+    <h2 id="kraven">4. Kraven</h2>
+    <p>Kryssa av allt eftersom. Kryssen sparas i din webbläsare.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span><b>Minst två moduler</b> ur biblioteket är inbyggda i din sajt och fungerar</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Varje modul ligger som en <b>egen fil i <code>js/</code></b>, med filnamnet den hade</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Varje modul kopplas in med <code>&lt;script src="js/fil.js" defer&gt;&lt;/script&gt;</code> <b>sist i <code>body</code></b>, på varje sida där den används</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Modulernas <b>CSS-avsnitt</b> (13a–13f) är kopierade till din stilmall</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Du har ändrat <b>minst en rad i ÄNDRA HÄR-zonen</b> i varje modul, så att den passar din sajt – klassnamn eller texter</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span><b>Konsolen är tom</b> när sidan laddas: inga fel, inga egna <code>console.log</code> kvar</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>HTML och CSS <b>validerar utan fel</b>, som vanligt</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Sajten fungerar fortfarande på mobil, och modulerna går att använda där</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>En rubrik <b>Moduler</b> i din <code>README.md</code> som listar vilka du byggt in och på vilka sidor</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>Sajten är publicerad, och repo-länken är inlämnad senast fredag 5 februari 23:59</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— mot nivå C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span><b>Modulvalet är motiverat</b> i <code>README.md</code>: varför just de här två på just den här sajten, i två–tre meningar per modul</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Modulerna är <b>anpassade, inte bara inkopplade</b>: texter, klassnamn och inställningar hör hemma i din sajt, och inget heter kvar "Vikstad" eller "menyknapp" om resten av sajten inte gör det</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Minst en modul är ändrad <b>under</b> ÄNDRA HÄR-zonen, medvetet, och ändringen är beskriven i <code>README.md</code> – vad du ändrade, var, och varför</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Hela sajten går att använda med <b>enbart tangentbord</b>, modulerna inräknade: du når knapparna, fokus syns, och Escape stänger det som går att stänga</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>En <b>tredje modul</b>, eller en modul inbyggd på flera sidor där det är motiverat</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Du kan gå igenom en av dina moduler rad för rad och förklara vad varje del gör</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— mot nivå A</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utmaning-1"><span><b>Du har skrivit en av modulerna själv</b>, från kravlistan <i>Skriv den själv</i> i modulbiblioteket, utan att utgå från originalkoden. Din version ligger i <code>js/</code> med ett eget filnamn</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-2"><span>Din egen modul följer bibliotekets regler: en kapsel med <code>"use strict"</code>, en ÄNDRA HÄR-zon, kontroll av att elementen finns, och attribut i stället för direkta stilar</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-3"><span>I <code>README.md</code> finns en <b>jämförelse</b> mellan din version och bibliotekets: vad du löste annorlunda, och vad du skulle ändra om du gjorde om det</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-4"><span><b>Sajten fungerar med JavaScript avstängt.</b> Ingen sida är tom, ingen funktion är oåtkomlig, ingen knapp gör ingenting. Du har provat på riktigt och skrivit ner resultatet</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-5"><span>Ingen modul sätter stilar direkt i koden – allt utseende ligger i stilmallen</span></label></li>
+      </ul>
+    </section>
+    <p><button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="tekniska-krav">5. Tekniska krav</h2>
+    <ul>
+      <li><b>Filstruktur:</b> <code>js/</code> i repots rot, en fil per modul. Gemener, bindestreck, inga å ä ö i filnamn.</li>
+      <li><b><code>defer</code> på varje <code>script</code>-tagg</b>, sist i <code>body</code>. Aldrig i <code>head</code> utan <code>defer</code>.</li>
+      <li><b>Inget <code>onclick</code> eller annat beteende i HTML-attribut.</b> Beteende hör hemma i <code>.js</code>-filen – samma princip som när stilarna flyttade ut ur <code>style</code>-attributen i område 3.</li>
+      <li><b>Ingen <code>innerHTML</code></b> för text som kommer utifrån. Är det text, använd <code>textContent</code>.</li>
+      <li><b>Inga bibliotek.</b> Ingen jQuery, ingen Bootstrap, inget hämtat från en CDN. Modulerna är byggda för att klara sig utan.</li>
+      <li><b>Validering:</b> HTML hos <code>validator.w3.org</code>, CSS hos <code>jigsaw.w3.org/css-validator</code>. Noll fel.</li>
+      <li><b>Två webbläsare.</b> Testa i Chrome eller Edge, och i Firefox eller Safari. Det görs på lektion 61.</li>
+      <li><b>Mobil.</b> Öppna den publicerade adressen i telefonen innan du lämnar in.</li>
+    </ul>
+
+    <h3>Det här lämnas in</h3>
+
+    <p><b>Repo-länken</b>, i itslearning-uppgiften <i>Projekt 5</i>, senast fredag 5 februari 23:59. Repot ska vara publikt och sajten publicerad. Kontrollera adressen i ett privat fönster innan du lämnar in.</p>
+
+    <p><code>README.md</code> är en del av inlämningen, inte ett tillägg. Det är där modulvalet, anpassningarna och – för A – jämförelsen står.</p>
+
+    <h3>Så kan README-avsnittet se ut</h3>
+
+    <p>Två till tre meningar per modul räcker. Det här är inte en uppsats – det är en anteckning till den som ska förstå dina val.</p>
+
+<pre><code>## Moduler
+
+**Mörkt läge** (js/morkt-lage.js) – alla sidor.
+Sajten hade redan ett mörkt färgschema från område 3, men besökaren kunde inte
+välja själv. Nu går det, och valet finns kvar nästa besök. Jag bytte NYCKEL till
+"cykelklubben-lage" så att den inte krockar med andra sajter.
+
+**Filtrerbart galleri** (js/galleri.js) – turer.html.
+Sidan har fjorton turer i tre kategorier, och man fick scrolla förbi allt för att
+hitta en dagstur. Knapparna byggs ur data-grupp, så jag slipper uppdatera skriptet
+när jag lägger till en tur.
+
+Ändrat under ÄNDRA HÄR-zonen: i galleri.js stänger ett klick på den redan valda
+knappen av filtret igen, så att man kommer tillbaka till alla turer utan att leta
+efter "Alla". Två rader i filtrera().</code></pre>
+
+    <p>Lägg avsnittet sist i din <code>README.md</code>, under det som redan står där.</p>
+
+    <h2 id="matrisen">6. Bedömningsmatris</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><b>Inbyggnad</b></td><td>Två moduler fungerar på den publicerade sajten. Filerna ligger i <code>js/</code>, inkopplade med <code>defer</code></td><td>Modulerna sitter där de hör hemma och stör inget annat på sidan. CSS:en är inlagd på rätt ställe i stilmallen</td><td>Sajten fungerar med JavaScript avstängt: inget tomt, inget oåtkomligt, ingen död knapp</td></tr>
+          <tr><td><b>Modulval</b></td><td>Två moduler ur biblioteket</td><td>Valet är motiverat utifrån vad sajten innehåller, och motiveringen håller</td><td>Modulerna löser ett problem sajten faktiskt hade, och du kan säga vilket</td></tr>
+          <tr><td><b>Anpassning</b></td><td>Minst en rad ändrad i ÄNDRA HÄR-zonen per modul</td><td>Texter och klassnamn hör hemma i din sajt. Minst en medveten ändring under zonen, beskriven i <code>README.md</code></td><td>En modul skriven från kravlistan, efter bibliotekets regler, med en jämförelse mot originalet</td></tr>
+          <tr><td><b>Kodförståelse</b></td><td>Du vet vilken fil som gör vad</td><td>Du kan gå igenom en modul rad för rad och förklara varje del</td><td>Du kan förklara varför modulen är byggd som den är – och peka på ett val du hade gjort annorlunda</td></tr>
+          <tr><td><b>Kvalitet</b></td><td>Konsolen är tom. HTML och CSS validerar</td><td>Inget beteende i HTML-attribut, inga stilar i JavaScript, inga kvarglömda <code>console.log</code></td><td>Din egen kod håller samma nivå som bibliotekets: kapsel, kontroller, attribut i stället för stilar</td></tr>
+          <tr><td><b>Tillgänglighet</b></td><td>Modulerna går att använda med mus och på mobil</td><td>Hela sajten går att nå med enbart tangentbord, fokus syns, Escape stänger det som går att stänga</td><td>Modulerna förbättrar tillgängligheten i stället för att kosta den: <code>aria-live</code> där något ändras, fokus som flyttas dit det ska</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>E kräver alla ska-krav. C kräver E plus bör-kraven. A kräver C plus utmaningarna. Ett kriterium på hög nivå kompenserar inte ett som saknas.</p>
+
+    <h2 id="kom-igang">7. Kom igång – de tre första sakerna</h2>
+    <ol>
+      <li><b>Välj en modul och bygg in den i dag.</b> Ta den lättaste som passar din sajt – mörkt läge eller formulärvalidering kräver minst ny HTML. Följ de fem stegen i JS-guiden avsnitt 8.</li>
+      <li><b>Öppna konsolen och kontrollera att den är tom.</b> <code>F12</code> → Console. Är den inte tom, laga det innan du går vidare. Ett fel som ligger kvar blir tre fel på fredag.</li>
+      <li>**Skriv <code>README.md</code>-rubriken <i>Moduler</i> med en gång**, med den modul du just byggde in och på vilken sida. Två rader nu är en färdig fil på deadlinedagen.</li>
+    </ol>
+
+    <h2 id="tiden">8. Så ligger tiden</h2>
+    <p>Sju arbetspass. Det är mindre än område 4 hade, och modulerna är färdiga – tiden går till inbyggnad, anpassning och test.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Datum</th><th>Vad</th></tr></thead>
+        <tbody>
+          <tr><td>52</td><td>fre 15/1</td><td>Genomgång: vad JavaScript gör. <b>Uppgiften delas ut</b></td></tr>
+          <tr><td>53</td><td>mån 18/1</td><td>Genomgång: koppla in en modul. Konsolen</td></tr>
+          <tr><td>54</td><td>tis 19/1</td><td>Genomgång: anpassa en modul. Vad som är säkert att ändra</td></tr>
+          <tr><td>55</td><td>fre 22/1</td><td>Arbetspass. <b>Första modulen inbyggd och fungerande</b></td></tr>
+          <tr><td>56</td><td>mån 25/1</td><td>Arbetspass. Andra modulen</td></tr>
+          <tr><td>57</td><td>tis 26/1</td><td>Arbetspass. Anpassningen: texter, klassnamn, inställningar</td></tr>
+          <tr><td>58</td><td>fre 29/1</td><td>Arbetspass. Tangentbordstest och mobil</td></tr>
+          <tr><td>59</td><td>mån 1/2</td><td>Arbetspass. <b>A-spåret: skriv din egen modul</b></td></tr>
+          <tr><td>60</td><td>tis 2/2</td><td>Arbetspass. <code>README.md</code>, motiveringarna</td></tr>
+          <tr><td>61</td><td>fre 5/2</td><td>Sista finputs. Validering, två webbläsare. <b>Deadline 23:59</b></td></tr>
+          <tr><td>62</td><td>mån 8/2</td><td>Prov 4 – läsa och anpassa kod</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Första modulen ska fungera på lektion 55</h3>
+
+    <p>Det är uppgiftens enda hållpunkt före deadline, och den finns av ett skäl: den som inte fått igång någon modul efter tre genomgångar och ett arbetspass har fastnat på något litet – en sökväg, ett klassnamn – och det är enklare att laga på fredagen den 22:a än veckan efter.</p>
+
+    <h2 id="checklista">9. Checklista innan du lämnar in</h2>
+    <ol>
+      <li>Båda modulerna fungerar på den <b>publicerade</b> adressen, inte bara lokalt</li>
+      <li>Konsolen är tom på varje sida</li>
+      <li><code>js/</code>-filerna ligger i repot och har rätt namn, med små bokstäver</li>
+      <li>CSS-avsnitten är med i stilmallen</li>
+      <li>Du har ändrat något i ÄNDRA HÄR-zonen i varje modul</li>
+      <li>Hela sajten går att nå med <kbd>Tab</kbd>, och fokus syns</li>
+      <li>Testad i två webbläsare</li>
+      <li>Öppnad i telefonen</li>
+      <li>HTML och CSS validerar utan fel</li>
+      <li><code>README.md</code> har rubriken <b>Moduler</b> med vilka, var och varför</li>
+      <li>Allt committat och synkat, adressen fungerar i ett privat fönster</li>
+      <li>Repo-länken inlämnad i itslearning</li>
+    </ol>
+
+    <h2 id="felsokning">10. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: konsolen, sökväg, script" autocomplete="off">
+      <p class="traffar" id="traffar-fel">11 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Ingenting händer, inget fel i konsolen</td><td>Filen hämtades aldrig</td><td>Fliken Network, ladda om, leta efter din <code>.js</code>-fil. <code>404</code> betyder fel sökväg</td></tr>
+          <tr><td><code>Cannot read properties of null</code></td><td>Skriptet hittade inte elementet</td><td>Jämför klassnamnet i ÄNDRA HÄR-zonen med din HTML, tecken för tecken</td></tr>
+          <tr><td>Fungerar lokalt men inte på GitHub Pages</td><td>Stora och små bokstäver i filnamnet</td><td><code>Meny.js</code> och <code>meny.js</code> är olika filer på servern</td></tr>
+          <tr><td>Modulen fungerar på en sida men inte på en annan</td><td><code>script</code>-taggen saknas där</td><td>Varje sida behöver sin egen</td></tr>
+          <tr><td>Knappen syns aldrig</td><td>Skriptet kom aldrig till raden som tar bort <code>hidden</code></td><td>Det finns ett fel högre upp i konsolen</td></tr>
+          <tr><td>Modulen körs två gånger</td><td>Två <code>script</code>-taggar för samma fil</td><td>Sök i HTML:en</td></tr>
+          <tr><td>Allt ser fel ut fast skriptet fungerar</td><td>CSS-avsnittet saknas</td><td>Kopiera 13a–13f ur exempelsajtens <code>stil.css</code></td></tr>
+          <tr><td>Mörkt läge fungerar men färgerna är fel</td><td>Din sajt saknar det mörka schemat från område 3</td><td>Bygg <code>prefers-color-scheme</code> först, modulen sedan</td></tr>
+          <tr><td>Validatorn klagar på <code>hidden</code></td><td>Den gör den inte – <code>hidden</code> är giltig HTML</td><td>Läs meddelandet igen, felet är något annat på raden</td></tr>
+          <tr><td>Jag vågar inte ändra i modulen</td><td>Du har git</td><td>Committa först. Går det sönder: <code>git restore js/fil.js</code></td></tr>
+          <tr><td>Två moduler krockar</td><td>De gör de inte – varje modul är inkapslad</td><td>Leta efter samma <code>id</code> använt två gånger i din HTML</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 6</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

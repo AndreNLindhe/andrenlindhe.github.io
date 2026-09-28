@@ -1,0 +1,1096 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modulbiblioteket – Webbutveckling 1 område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-6-modulbiblioteket">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Bibliotek</strong> · Interaktivitet med moduler</span>
+  <a href="#valja">Vilken ska du välja?</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#anvanda">Så använder du sidan</a></li>
+      <li><a href="#meny">1. Hamburgermeny</a></li>
+      <li><a href="#morkt-lage">2. Mörkt läge med sparat val</a></li>
+      <li><a href="#galleri">3. Filtrerbart galleri</a></li>
+      <li><a href="#karusell">4. Bildkarusell</a></li>
+      <li><a href="#validering">5. Formulärvalidering</a></li>
+      <li><a href="#quiz">6. Quiz med rättning</a></li>
+      <li><a href="#valja">Vilken ska du välja?</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 6 · bibliotek</p>
+    <h1>Modulbiblioteket</h1>
+    <p class="inledning">Sex moduler. Alla sex är inbyggda i områdets exempelsajt, och varje modul har en egen demosida med den minsta HTML den behöver.</p>
+
+    <p>Du väljer <b>minst två</b> till Projekt 5. Hur du väljer står i uppgiften – men välj efter vad din sajt behöver, inte efter vilken som ser enklast ut.</p>
+
+    <h2 id="anvanda">Så använder du sidan</h2>
+    <p>Varje modul har fem delar:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad du gör med den</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vad den gör</b></td><td>Läs först. Passar modulen din sajt?</td></tr>
+          <tr><td><b>HTML:en du behöver</b></td><td>Kopiera in i din sida, på rätt plats</td></tr>
+          <tr><td><b>Koden</b></td><td>Kopiera hela filen till <code>js/</code> i ditt repo</td></tr>
+          <tr><td><b>Ändra här</b></td><td>De rader du får byta. Allt annat lämnar du</td></tr>
+          <tr><td><b>Skriv den själv</b></td><td>A-spåret: kraven, utan kod</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kodblocken på den här sidan går att <b>markera och kopiera</b> – till skillnad från guidens, som är till för att skrivas av. Det är med avsikt: modulerna ska du använda, inte träna på att skriva.</p>
+
+    <p>Glöm inte CSS:en. Varje modul har ett avsnitt i <code>referensprojekt/stil.css</code>, märkt 13a till 13f, och det ska med.</p>
+
+    <p>Fem steg för inkopplingen står i <b>JS-guiden avsnitt 8</b>. Fastnar du: <b>avsnitt 9, konsolen</b>, innan du ändrar något.</p>
+
+    <h2 id="meny">1. Hamburgermeny</h2>
+    <p><b>Fil:</b> <code>js/meny.js</code> · <b>CSS:</b> avsnitt 13a · <b>Demo:</b> <code>demo/meny.html</code> · <b>På exempelsajten:</b> alla sidor</p>
+
+    <h3>Vad den gör</h3>
+
+    <p>På smala skärmar göms menyn bakom en knapp, och knappen öppnar och stänger den. På breda skärmar syns menyn som vanligt och knappen är borta – det sköter CSS:en, inte skriptet. Escape stänger menyn och flyttar fokus tillbaka till knappen.</p>
+
+    <p><b>Utan JavaScript:</b> knappen har <code>hidden</code> i HTML:en och menyn syns som vanligt. Sidan fungerar, den har bara ingen hamburgermeny.</p>
+
+    <p><b>Passar när</b> din meny har fler än tre–fyra länkar och tar för mycket plats på mobil.</p>
+
+    <h3>HTML:en du behöver</h3>
+
+<pre class="fri"><code>&lt;nav class="huvudmeny" aria-label="Huvudmeny"&gt;
+  &lt;button type="button" class="menyknapp" hidden
+          aria-expanded="false" aria-controls="huvudmeny-lista"&gt;Meny&lt;/button&gt;
+  &lt;ul id="huvudmeny-lista"&gt;
+    &lt;li&gt;&lt;a href="index.html"&gt;Start&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="om.html"&gt;Om oss&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+
+    <p><code>hidden</code> på knappen är inte ett misstag – det är det som gör att sidan fungerar utan skriptet. Ta inte bort det.</p>
+
+    <h3>Koden</h3>
+
+<pre class="fri"><code>/* ==========================================================================
+   Hamburgermeny – modul 1 av 6
+   Modulbiblioteket, Webbutveckling 1 område 6
+
+   Vad den gör: på smala skärmar göms menyn bakom en knapp. Knappen öppnar
+   och stänger den. På breda skärmar syns menyn som vanligt och knappen är
+   borta – det sköter CSS:en, inte skriptet.
+
+   Utan JavaScript: knappen har attributet hidden i HTML:en och menyn syns
+   som vanligt. Sidan fungerar, den har bara ingen hamburgermeny.
+
+   Kräver i HTML:
+     &lt;nav class="huvudmeny"&gt;
+       &lt;button type="button" class="menyknapp" hidden
+               aria-expanded="false"
+               aria-controls="huvudmeny-lista"&gt;Meny&lt;/button&gt;
+       &lt;ul id="huvudmeny-lista"&gt; … &lt;/ul&gt;
+     &lt;/nav&gt;
+
+   Kräver i CSS: avsnittet "13a. Hamburgermenyn" i stil.css.
+   ======================================================================= */
+
+(function () {
+  "use strict";
+
+  /* ===== ÄNDRA HÄR ======================================================
+     Det här är de rader du kan behöva byta när du flyttar modulen till din
+     egen sajt. Klassnamn ska stämma med din HTML, texterna får vara vad du
+     vill. Ingenting annat i filen behöver röras.
+     ====================================================================== */
+
+  const KNAPP = ".menyknapp";        // knappen som öppnar och stänger
+  const LISTA = "#huvudmeny-lista";  // listan som göms och visas
+  const TEXT_STANGD = "Meny";        // knappens text när menyn är stängd
+  const TEXT_OPPEN = "Stäng";        // knappens text när menyn är öppen
+
+  /* ===== SLUT PÅ ÄNDRA HÄR – nedanför behöver ingenting ändras ========= */
+
+  // Leta upp knappen och listan. Finns de inte på sidan avslutar vi tyst –
+  // ett skript ska aldrig krascha för att sidan saknar det det väntar sig.
+  const knapp = document.querySelector(KNAPP);
+  const lista = document.querySelector(LISTA);
+  if (!knapp || !lista) { return; }
+
+  // Skriptet fungerar, så nu får knappen synas. Utan skript stannar hidden
+  // kvar och menyn visas som vanligt – det är det som gör modulen diskret.
+  knapp.hidden = false;
+  knapp.textContent = TEXT_STANGD;
+
+  // aria-expanded säger både för skärmläsaren och för CSS:en om menyn är
+  // öppen. CSS:en visar listan när värdet är "true" – skriptet ändrar bara
+  // attributet och låter stilmallen göra resten.
+  function oppna() {
+    knapp.setAttribute("aria-expanded", "true");
+    knapp.textContent = TEXT_OPPEN;
+  }
+
+  function stang() {
+    knapp.setAttribute("aria-expanded", "false");
+    knapp.textContent = TEXT_STANGD;
+  }
+
+  // Ett klick på knappen växlar: öppen blir stängd, stängd blir öppen.
+  knapp.addEventListener("click", function () {
+    const arOppen = knapp.getAttribute("aria-expanded") === "true";
+    if (arOppen) {
+      stang();
+    } else {
+      oppna();
+    }
+  });
+
+  // Escape stänger menyn och lägger fokus tillbaka på knappen, så att den
+  // som navigerar med tangentbord vet var hen är.
+  document.addEventListener("keydown", function (handelse) {
+    const arOppen = knapp.getAttribute("aria-expanded") === "true";
+    if (handelse.key === "Escape" &amp;&amp; arOppen) {
+      stang();
+      knapp.focus();
+    }
+  });
+
+})();</code></pre>
+
+    <h3>Ändra här</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Vad du byter till</th></tr></thead>
+        <tbody>
+          <tr><td><code>KNAPP</code></td><td>Klassen på din knapp, med punkt först</td></tr>
+          <tr><td><code>LISTA</code></td><td>Id:t på din lista, med brädgård först</td></tr>
+          <tr><td><code>TEXT_STANGD</code></td><td>Vad knappen ska säga när menyn är stängd</td></tr>
+          <tr><td><code>TEXT_OPPEN</code></td><td>Vad den ska säga när menyn är öppen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Byter du <code>LISTA</code> måste du byta <code>id</code> i HTML:en <b>och</b> <code>aria-controls</code> på knappen.</p>
+
+    <h3>Skriv den själv</h3>
+
+    <p>Kraven, utan kod. Skriv modulen från grunden och jämför sedan.</p>
+
+    <ol>
+      <li>Hitta knappen och listan. Avsluta tyst om någon av dem saknas.</li>
+      <li>Ta bort <code>hidden</code> från knappen när skriptet körs, och sätt dess text.</li>
+      <li>Ett klick växlar <code>aria-expanded</code> mellan <code>"true"</code> och <code>"false"</code> och byter knappens text därefter. Skriptet ska inte gömma eller visa listan självt – CSS:en gör det utifrån attributet.</li>
+      <li>Escape stänger menyn om den är öppen, och flyttar fokus till knappen.</li>
+    </ol>
+
+    <h2 id="morkt-lage">2. Mörkt läge med sparat val</h2>
+    <p><b>Fil:</b> <code>js/morkt-lage.js</code> · <b>CSS:</b> avsnitt 13b · <b>Demo:</b> <code>demo/morkt-lage.html</code> · <b>På exempelsajten:</b> alla sidor</p>
+
+    <h3>Vad den gör</h3>
+
+    <p>En knapp växlar mellan ljust och mörkt läge, och valet sparas i webbläsaren så att det gäller nästa gång också. Har besökaren inte valt följer sidan systemets inställning, precis som förut.</p>
+
+    <p>Skriptet sätter <code>data-lage="mork"</code> eller <code>data-lage="ljus"</code> på <code>html</code>. Stilmallen har ett färgschema för vardera värdet. <b>Skriptet vet ingenting om färger</b> – det byter ett attribut och låter stilmallen göra resten.</p>
+
+    <p><b>Utan JavaScript:</b> knappen är gömd, och <code>@media (prefers-color-scheme)</code> i stilmallen styr som vanligt.</p>
+
+    <p><b>Passar när</b> din sajt redan har ett mörkt schema via <code>prefers-color-scheme</code> från område 3. Har den inte det är det den delen du ska bygga först.</p>
+
+    <h3>HTML:en du behöver</h3>
+
+<pre class="fri"><code>&lt;button type="button" class="lagesknapp" hidden aria-pressed="false"&gt;Mörkt läge&lt;/button&gt;</code></pre>
+
+    <p>Lägg den i <code>header</code>, eller där den syns på varje sida.</p>
+
+    <h3>Koden</h3>
+
+<pre class="fri"><code>/* ==========================================================================
+   Mörkt läge med sparat val – modul 2 av 6
+   Modulbiblioteket, Webbutveckling 1 område 6
+
+   Vad den gör: en knapp växlar mellan ljust och mörkt läge, och valet sparas
+   i webbläsaren så att det gäller nästa gång också. Har besökaren inte valt
+   följer sidan systemets inställning, precis som förut.
+
+   Så hänger det ihop med CSS:en: skriptet sätter data-lage="mork" eller
+   data-lage="ljus" på &lt;html&gt;. Stilmallen har ett färgschema för vardera
+   värdet. Skriptet vet ingenting om färger – det byter ett attribut och
+   låter stilmallen göra resten.
+
+   Utan JavaScript: knappen är hidden, och @media (prefers-color-scheme)
+   i stilmallen styr som vanligt.
+
+   Kräver i HTML:
+     &lt;button type="button" class="lagesknapp" hidden
+             aria-pressed="false"&gt;Mörkt läge&lt;/button&gt;
+
+   Kräver i CSS: avsnittet "13b. Mörkt läge" i stil.css.
+   ======================================================================= */
+
+(function () {
+  "use strict";
+
+  /* ===== ÄNDRA HÄR ====================================================== */
+
+  const KNAPP = ".lagesknapp";       // knappen som växlar
+  // Namnet valet sparas under. Byt till din sajts namn:
+  const NYCKEL = "vikstad-lage";
+  const TEXT_TILL_MORK = "Mörkt läge";   // knappens text när sidan är ljus
+  const TEXT_TILL_LJUS = "Ljust läge";   // knappens text när sidan är mörk
+
+  /* ===== SLUT PÅ ÄNDRA HÄR ============================================== */
+
+  const knapp = document.querySelector(KNAPP);
+  if (!knapp) { return; }
+
+  const rot = document.documentElement;   // &lt;html&gt;
+
+  // localStorage kastar ett fel i vissa lägen – privat fönster, en fil
+  // öppnad från en mapp, en webbläsare som blockerar lagring. try/catch gör
+  // att sidan fungerar ändå; valet sparas bara inte.
+  function lasSparat() {
+    try {
+      return localStorage.getItem(NYCKEL);
+    } catch (fel) {
+      return null;
+    }
+  }
+
+  function spara(lage) {
+    try {
+      localStorage.setItem(NYCKEL, lage);
+    } catch (fel) {
+      // Går inte att spara. Läget gäller ändå tills sidan laddas om.
+    }
+  }
+
+  // Vilket läge har sidan just nu? Har besökaren valt gäller valet. Annars
+  // frågar vi systemet: matchMedia svarar på samma fråga som CSS:ens
+  // @media (prefers-color-scheme: dark).
+  function aktuelltLage() {
+    const sparat = lasSparat();
+    if (sparat === "mork" || sparat === "ljus") { return sparat; }
+    const morkt = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return morkt ? "mork" : "ljus";
+  }
+
+  // Sätt attributet på &lt;html&gt; och uppdatera knappen så att den säger vad ett
+  // klick kommer att göra – inte vad läget är just nu.
+  function visa(lage) {
+    rot.dataset.lage = lage;
+    const arMork = lage === "mork";
+    knapp.textContent = arMork ? TEXT_TILL_LJUS : TEXT_TILL_MORK;
+    knapp.setAttribute("aria-pressed", arMork ? "true" : "false");
+  }
+
+  // Starta: visa rätt läge direkt, och först därefter visa knappen.
+  visa(aktuelltLage());
+  knapp.hidden = false;
+
+  knapp.addEventListener("click", function () {
+    const nytt = rot.dataset.lage === "mork" ? "ljus" : "mork";
+    visa(nytt);
+    spara(nytt);
+  });
+
+})();</code></pre>
+
+    <h3>Ändra här</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Vad du byter till</th></tr></thead>
+        <tbody>
+          <tr><td><code>KNAPP</code></td><td>Klassen på din knapp</td></tr>
+          <tr><td><code>NYCKEL</code></td><td>Namnet valet sparas under. <b>Byt till din sajts namn</b> – annars delar två sajter på samma dator samma val</td></tr>
+          <tr><td><code>TEXT_TILL_MORK</code></td><td>Knappens text när sidan är ljus</td></tr>
+          <tr><td><code>TEXT_TILL_LJUS</code></td><td>Knappens text när sidan är mörk</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Varför <code>try</code> och <code>catch</code>?</h3>
+
+    <p><code>localStorage</code> kastar ett fel i vissa lägen: privat fönster, en fil öppnad direkt från en mapp, en webbläsare som blockerar lagring. Utan <code>try/catch</code> hade hela modulen kraschat där. Med den fungerar läget ändå – valet sparas bara inte.</p>
+
+    <h3>Skriv den själv</h3>
+
+    <ol>
+      <li>Hitta knappen. Avsluta tyst om den saknas.</li>
+      <li>Avgör vilket läge som gäller: besökarens sparade val om det finns, annars systemets (<code>window.matchMedia("(prefers-color-scheme: dark)").matches</code>).</li>
+      <li>Sätt <code>data-lage</code> på <code>document.documentElement</code>, uppdatera knappens text och <code>aria-pressed</code>, och visa knappen.</li>
+      <li>Ett klick byter läge, visar det nya och sparar det.</li>
+      <li>All läsning och skrivning till <code>localStorage</code> ska ligga i <code>try/catch</code>.</li>
+    </ol>
+
+    <h2 id="galleri">3. Filtrerbart galleri</h2>
+    <p><b>Fil:</b> <code>js/galleri.js</code> · <b>CSS:</b> avsnitt 13c · <b>Demo:</b> <code>demo/galleri.html</code> · <b>På exempelsajten:</b> <code>djur-och-vaxter.html</code></p>
+
+    <h3>Vad den gör</h3>
+
+    <p>En rad knappar filtrerar innehållet. Varje del som ska kunna filtreras har ett <code>data-grupp</code>-attribut, och ett klick på en knapp visar bara de delar som hör till den gruppen. "Alla" visar allt igen.</p>
+
+    <p><b>Knapparna byggs av skriptet</b>, ur de grupper som faktiskt finns i HTML:en. Lägger du till en ny grupp kommer en ny knapp av sig själv – men den behöver en text i <code>GRUPPNAMN</code>.</p>
+
+    <p><b>Utan JavaScript:</b> allt innehåll visas, och ingen filterrad finns. Det är rätt: utan skript ska besökaren se allt, inte ingenting.</p>
+
+    <p><b>Passar när</b> du har en samling av samma sorts innehåll i tydliga kategorier: bilder, recept, projekt, arter.</p>
+
+    <h3>HTML:en du behöver</h3>
+
+<pre class="fri"><code>&lt;div class="filter" role="group" aria-label="Visa" hidden&gt;&lt;/div&gt;
+
+&lt;section data-grupp="faglar"&gt;
+  &lt;h2&gt;Fåglar&lt;/h2&gt;
+  &lt;p&gt;…&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section data-grupp="daggdjur"&gt;
+  &lt;h2&gt;Däggdjur&lt;/h2&gt;
+  &lt;p&gt;…&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+
+    <p>Filterraden är <b>tom</b> – skriptet fyller den. <code>data-grupp</code> sitter på det som ska filtreras, inte på raden.</p>
+
+    <h3>Koden</h3>
+
+<pre class="fri"><code>/* ==========================================================================
+   Filtrerbart galleri – modul 3 av 6
+   Modulbiblioteket, Webbutveckling 1 område 6
+
+   Vad den gör: en rad knappar filtrerar innehållet. Varje del av innehållet
+   har ett data-grupp-attribut, och ett klick på en knapp visar bara de delar
+   som hör till den gruppen. "Alla" visar allt igen.
+
+   Knapparna byggs av skriptet, ur de grupper som faktiskt finns i HTML:en.
+   Lägger du till en ny grupp i HTML:en kommer en ny knapp av sig själv –
+   men den behöver en text, se ÄNDRA HÄR.
+
+   Utan JavaScript: allt innehåll visas, och ingen filterrad finns. Det är
+   rätt: utan skript ska besökaren se allt, inte ingenting.
+
+   Kräver i HTML:
+     &lt;div class="filter" role="group" aria-label="Visa" hidden&gt;&lt;/div&gt;
+     …                                      ← skriptet fyller den
+     …
+     &lt;section data-grupp="faglar"&gt; … &lt;/section&gt;
+     &lt;section data-grupp="daggdjur"&gt; … &lt;/section&gt;
+
+   Kräver i CSS: avsnittet "13c. Filtret" i stil.css.
+   ======================================================================= */
+
+(function () {
+  "use strict";
+
+  /* ===== ÄNDRA HÄR ====================================================== */
+
+  const FILTERRAD = ".filter";            // behållaren knapparna hamnar i
+  const INNEHALL = "[data-grupp]";        // allt som ska kunna filtreras
+  const TEXT_ALLA = "Alla";               // texten på knappen som visar allt
+
+  // Texten på varje gruppknapp. Nyckeln är värdet i data-grupp i HTML:en.
+  // Saknas en grupp här får knappen gruppens namn som det står i HTML:en.
+  const GRUPPNAMN = {
+    faglar: "Fåglar",
+    daggdjur: "Däggdjur",
+    vaxter: "Växter"
+  };
+
+  /* ===== SLUT PÅ ÄNDRA HÄR ============================================== */
+
+  const filterrad = document.querySelector(FILTERRAD);
+  const delar = document.querySelectorAll(INNEHALL);
+  if (!filterrad || delar.length === 0) { return; }
+
+  // Vilka grupper finns? Vi går igenom innehållet och samlar varje värde
+  // en gång. Ordningen blir den ordning grupperna dyker upp i på sidan.
+  const grupper = [];
+  delar.forEach(function (del) {
+    const grupp = del.dataset.grupp;
+    if (grupper.indexOf(grupp) === -1) {
+      grupper.push(grupp);
+    }
+  });
+
+  // En knapp per grupp, plus "Alla" först. aria-pressed säger vilken som är
+  // vald – för skärmläsaren och för CSS:en, som färgar den valda knappen.
+  function skapaKnapp(varde, text) {
+    const knapp = document.createElement("button");
+    knapp.type = "button";
+    knapp.textContent = text;
+    knapp.dataset.valj = varde;
+    knapp.setAttribute("aria-pressed", varde === "alla" ? "true" : "false");
+    filterrad.appendChild(knapp);
+    return knapp;
+  }
+
+  skapaKnapp("alla", TEXT_ALLA);
+  grupper.forEach(function (grupp) {
+    skapaKnapp(grupp, GRUPPNAMN[grupp] || grupp);
+  });
+
+  // Själva filtreringen: göm allt som inte hör till gruppen. hidden är ett
+  // vanligt HTML-attribut, så CSS:en behöver inte känna till skriptet.
+  function filtrera(grupp) {
+    delar.forEach(function (del) {
+      del.hidden = grupp !== "alla" &amp;&amp; del.dataset.grupp !== grupp;
+    });
+    filterrad.querySelectorAll("button").forEach(function (knapp) {
+      const vald = knapp.dataset.valj === grupp;
+      knapp.setAttribute("aria-pressed", vald ? "true" : "false");
+    });
+  }
+
+  // Ett lyssnare på hela raden räcker. Klicket "bubblar" upp från knappen,
+  // och vi läser av vilken knapp det var. Det kallas händelsedelegering.
+  filterrad.addEventListener("click", function (handelse) {
+    const knapp = handelse.target.closest("button");
+    if (!knapp) { return; }
+    filtrera(knapp.dataset.valj);
+  });
+
+  // Knapparna finns, så nu får raden synas.
+  filterrad.hidden = false;
+
+})();</code></pre>
+
+    <h3>Ändra här</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Vad du byter till</th></tr></thead>
+        <tbody>
+          <tr><td><code>FILTERRAD</code></td><td>Klassen på din tomma div</td></tr>
+          <tr><td><code>INNEHALL</code></td><td>Selektorn för det som ska filtreras. <code>[data-grupp]</code> fungerar oftast som den är</td></tr>
+          <tr><td><code>TEXT_ALLA</code></td><td>Texten på knappen som visar allt</td></tr>
+          <tr><td><code>GRUPPNAMN</code></td><td>En rad per grupp: <code>nyckel: "Text på knappen"</code>. Nyckeln är värdet i <code>data-grupp</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Saknas en grupp i <code>GRUPPNAMN</code> får knappen gruppens namn rakt av, som det står i HTML:en. Det fungerar, men blir sällan snyggt.</p>
+
+    <h3>Skriv den själv</h3>
+
+    <ol>
+      <li>Hitta filterraden och allt med <code>data-grupp</code>. Avsluta tyst om något saknas.</li>
+      <li>Samla ihop vilka grupper som finns, <b>en gång per unikt värde</b>, i den ordning de dyker upp.</li>
+      <li>Skapa en knapp per grupp plus en "Alla" först. Den valda knappen ska ha <code>aria-pressed="true"</code>, de andra <code>"false"</code>.</li>
+      <li>Ett klick gömmer allt som inte hör till gruppen, med <code>hidden</code>, och flyttar <code>aria-pressed</code>.</li>
+      <li>Använd <b>en</b> lyssnare på raden, inte en per knapp.</li>
+    </ol>
+
+    <h2 id="karusell">4. Bildkarusell</h2>
+    <p><b>Fil:</b> <code>js/karusell.js</code> · <b>CSS:</b> avsnitt 13d · <b>Demo:</b> <code>demo/karusell.html</code> · <b>På exempelsajten:</b> <code>stigar.html</code></p>
+
+    <h3>Vad den gör</h3>
+
+    <p>Visar en bild i taget ur en lista, med knappar för föregående och nästa, piltangenter, och en rad som säger "Bild 2 av 3".</p>
+
+    <p><b>Den bläddrar aldrig av sig själv.</b> En karusell som rör sig utan att någon bett om det är ett tillgänglighetsproblem, inte en funktion: den som läser långsamt hinner inte, och den som slagit på "minska rörelse" har bett om att slippa det.</p>
+
+    <p><b>Utan JavaScript:</b> alla bilder visas efter varandra, som en vanlig lista med figurer. Ingenting saknas, det tar bara mer plats.</p>
+
+    <p><b>Passar när</b> du har tre till sju bilder som hör ihop och tar för mycket höjd var för sig. Har du två räcker det att visa båda.</p>
+
+    <h3>HTML:en du behöver</h3>
+
+<pre class="fri"><code>&lt;div class="karusell" role="group" aria-label="Bilder"&gt;
+  &lt;ul class="karusell-bilder"&gt;
+    &lt;li&gt;
+      &lt;figure&gt;
+        &lt;img src="bilder/ett.jpg" width="480" height="300" alt="Beskriv bilden"&gt;
+        &lt;figcaption&gt;Bildtext.&lt;/figcaption&gt;
+      &lt;/figure&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;figure&gt;
+        &lt;img src="bilder/tva.jpg" width="480" height="300" alt="Beskriv bilden"&gt;
+        &lt;figcaption&gt;Bildtext.&lt;/figcaption&gt;
+      &lt;/figure&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;div class="karusell-styr" hidden&gt;
+    &lt;button type="button" class="karusell-forra"&gt;Föregående&lt;/button&gt;
+    &lt;p class="karusell-lage" aria-live="polite"&gt;&lt;/p&gt;
+    &lt;button type="button" class="karusell-nasta"&gt;Nästa&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <p><code>aria-live="polite"</code> på lägesraden gör att en skärmläsare läser upp "Bild 2 av 3" när texten byts, utan att avbryta det som just lästes.</p>
+
+    <h3>Koden</h3>
+
+<pre class="fri"><code>/* ==========================================================================
+   Bildkarusell – modul 4 av 6
+   Modulbiblioteket, Webbutveckling 1 område 6
+
+   Vad den gör: visar en bild i taget ur en lista, med knappar för föregående
+   och nästa, piltangenter, och en rad som säger "Bild 2 av 3". Den bläddrar
+   aldrig av sig själv – en karusell som rör sig utan att någon bett om det
+   är ett tillgänglighetsproblem, inte en funktion.
+
+   Utan JavaScript: alla bilder visas efter varandra, som en vanlig lista med
+   figurer. Ingenting saknas, det tar bara mer plats.
+
+   Kräver i HTML:
+     &lt;div class="karusell" role="group" aria-label="Bilder"&gt;
+       &lt;ul class="karusell-bilder"&gt;
+         &lt;li&gt;&lt;figure&gt; … &lt;/figure&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;figure&gt; … &lt;/figure&gt;&lt;/li&gt;
+       &lt;/ul&gt;
+       &lt;div class="karusell-styr" hidden&gt;
+         &lt;button type="button" class="karusell-forra"&gt;Föregående&lt;/button&gt;
+         &lt;p class="karusell-lage" aria-live="polite"&gt;&lt;/p&gt;
+         &lt;button type="button" class="karusell-nasta"&gt;Nästa&lt;/button&gt;
+       &lt;/div&gt;
+     &lt;/div&gt;
+
+   Kräver i CSS: avsnittet "13d. Karusellen" i stil.css.
+   ======================================================================= */
+
+(function () {
+  "use strict";
+
+  /* ===== ÄNDRA HÄR ====================================================== */
+
+  const KARUSELL = ".karusell";
+  const BILDER = ".karusell-bilder &gt; li";
+  const STYR = ".karusell-styr";
+  const FORRA = ".karusell-forra";
+  const NASTA = ".karusell-nasta";
+  const LAGE = ".karusell-lage";
+  // {nr} och {antal} byts ut av skriptet:
+  const LAGETEXT = "Bild {nr} av {antal}";
+  // true: efter sista bilden kommer första igen. false: stanna vid kanten.
+  const BORJA_OM = true;
+
+  /* ===== SLUT PÅ ÄNDRA HÄR ============================================== */
+
+  const karusell = document.querySelector(KARUSELL);
+  if (!karusell) { return; }
+
+  const bilder = karusell.querySelectorAll(BILDER);
+  const styr = karusell.querySelector(STYR);
+  const forra = karusell.querySelector(FORRA);
+  const nasta = karusell.querySelector(NASTA);
+  const lage = karusell.querySelector(LAGE);
+  if (bilder.length &lt; 2 || !styr || !forra || !nasta || !lage) { return; }
+
+  let aktuell = 0;   // index på bilden som visas. Första bilden är 0
+
+  // Visa en bild och göm de andra. Lägesraden uppdateras – och eftersom den
+  // har aria-live läser skärmläsaren upp den nya texten av sig själv.
+  function visa(index) {
+    aktuell = index;
+    bilder.forEach(function (bild, i) {
+      bild.hidden = i !== aktuell;
+    });
+    lage.textContent = LAGETEXT
+      .replace("{nr}", aktuell + 1)
+      .replace("{antal}", bilder.length);
+
+    // Utan BORJA_OM ska knapparna sluta fungera vid kanterna. disabled tar
+    // bort dem ur tabbordningen också, vilket är vad man vill.
+    if (!BORJA_OM) {
+      forra.disabled = aktuell === 0;
+      nasta.disabled = aktuell === bilder.length - 1;
+    }
+  }
+
+  function bakat() {
+    if (aktuell &gt; 0) {
+      visa(aktuell - 1);
+    } else if (BORJA_OM) {
+      visa(bilder.length - 1);
+    }
+  }
+
+  function framat() {
+    if (aktuell &lt; bilder.length - 1) {
+      visa(aktuell + 1);
+    } else if (BORJA_OM) {
+      visa(0);
+    }
+  }
+
+  forra.addEventListener("click", bakat);
+  nasta.addEventListener("click", framat);
+
+  // Piltangenterna fungerar när karusellen eller något i den har fokus.
+  // tabindex gör att själva karusellen går att tabba till.
+  karusell.tabIndex = 0;
+  karusell.addEventListener("keydown", function (handelse) {
+    if (handelse.key === "ArrowLeft") { bakat(); }
+    if (handelse.key === "ArrowRight") { framat(); }
+  });
+
+  // Klassen säger åt CSS:en att karusellen är igång – bilderna ska ligga i
+  // en ruta i stället för under varandra. Sedan visar vi första bilden och
+  // knapparna.
+  karusell.classList.add("karusell-igang");
+  visa(0);
+  styr.hidden = false;
+
+})();</code></pre>
+
+    <h3>Ändra här</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Vad du byter till</th></tr></thead>
+        <tbody>
+          <tr><td><code>KARUSELL</code>, <code>BILDER</code>, <code>STYR</code>, <code>FORRA</code>, <code>NASTA</code>, <code>LAGE</code></td><td>Dina klassnamn, om du inte behåller modulens</td></tr>
+          <tr><td><code>LAGETEXT</code></td><td>Texten i lägesraden. <code>{nr}</code> och <code>{antal}</code> byts ut av skriptet</td></tr>
+          <tr><td><code>BORJA_OM</code></td><td><code>true</code>: efter sista bilden kommer första igen. <code>false</code>: knapparna slutar fungera vid kanterna</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><code>BORJA_OM = false</code> är rimligare när ordningen betyder något – en instruktion i steg, till exempel.</p>
+
+    <h3>Skriv den själv</h3>
+
+    <ol>
+      <li>Hitta karusellen och dess delar. Avsluta tyst om det är färre än två bilder.</li>
+      <li>Visa en bild i taget med <code>hidden</code> och håll reda på vilken med en <code>let</code>.</li>
+      <li>Uppdatera lägesraden. Kom ihåg att index börjar på 0 men människor räknar från 1.</li>
+      <li>Knapparna och piltangenterna bläddrar. Bestäm själv vad som händer vid kanterna, och gör det till en inställning.</li>
+      <li>Visa styrningen och sätt en klass på karusellen <b>först när skriptet körts</b> – det är den klassen CSS:en använder för att lägga bilderna i en ruta.</li>
+    </ol>
+
+    <h2 id="validering">5. Formulärvalidering</h2>
+    <p><b>Fil:</b> <code>js/validering.js</code> · <b>CSS:</b> avsnitt 13e · <b>Demo:</b> <code>demo/validering.html</code> · <b>På exempelsajten:</b> <code>besok.html</code></p>
+
+    <h3>Vad den gör</h3>
+
+    <p>När formuläret skickas kontrolleras fälten, och varje fel får ett meddelande i klartext under fältet. Fältet märks med <code>aria-invalid</code> och kopplas till meddelandet med <code>aria-describedby</code>, så att en skärmläsare läser upp felet när fältet får fokus. Första felaktiga fältet får fokus.</p>
+
+    <p><b>Modulen ersätter inte HTML:s egen validering – den bygger på den.</b> Vad som är fel avgörs av <code>required</code>, <code>type="email"</code>, <code>min</code> och <code>max</code> i din HTML, via fältets <code>checkValidity()</code>. Skriptet gör bara meddelandena bättre och lägger dem där de syns.</p>
+
+    <p><b>Utan JavaScript:</b> webbläsarens inbyggda validering gäller, med dess egna meddelanden. Formuläret fungerar precis som förut.</p>
+
+    <p><b>Passar när</b> du har ett formulär med mer än två–tre fält. Den kräver ingen extra markup alls – bara att formuläret är rätt byggt från område 2.</p>
+
+    <h3>HTML:en du behöver</h3>
+
+    <p>Ingen ny. Modulen kräver bara att formuläret är som det ska vara:</p>
+
+<pre class="fri"><code>&lt;form&gt;
+  &lt;p&gt;
+    &lt;label for="namn"&gt;Namn&lt;/label&gt;
+    &lt;input type="text" id="namn" name="namn" required&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;label for="epost"&gt;E-postadress&lt;/label&gt;
+    &lt;input type="email" id="epost" name="epost" required&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;button type="submit"&gt;Skicka&lt;/button&gt;
+  &lt;/p&gt;
+&lt;/form&gt;</code></pre>
+
+    <p>Varje fält behöver ett <code>id</code> och en <code>label</code> med <code>for</code> som pekar på det. Det är den etiketten modulen använder när den skriver "Fyll i namn."</p>
+
+    <h3>Koden</h3>
+
+<pre class="fri"><code>/* ==========================================================================
+   Formulärvalidering med tillgängliga felmeddelanden – modul 5 av 6
+   Modulbiblioteket, Webbutveckling 1 område 6
+
+   Vad den gör: när formuläret skickas kontrolleras fälten, och varje fel
+   får ett meddelande i klartext under fältet. Fältet märks med aria-invalid
+   och kopplas till meddelandet med aria-describedby, så att en skärmläsare
+   läser upp felet när fältet får fokus. Första felaktiga fältet får fokus.
+
+   Modulen ersätter inte HTML:s egen validering – den bygger på den. Vad som
+   är fel avgörs av required, type="email", min och max i HTML:en, via
+   fältets checkValidity(). Skriptet gör bara meddelandena bättre och lägger
+   dem där de syns.
+
+   Utan JavaScript: webbläsarens inbyggda validering gäller, med dess egna
+   meddelanden. Formuläret fungerar precis som förut.
+
+   Kräver i HTML: ett vanligt formulär med label kopplad till varje fält, och
+   required / type / min / max där det behövs. Ingenting mer.
+
+   Kräver i CSS: avsnittet "13e. Felmeddelanden" i stil.css.
+   ======================================================================= */
+
+(function () {
+  "use strict";
+
+  /* ===== ÄNDRA HÄR ====================================================== */
+
+  // Vilket formulär. Har sidan flera: ge ditt ett id och skriv "#idet".
+  const FORMULAR = "form";
+
+  // Meddelandena. {namn} byts ut mot fältets etikett (texten i dess label).
+  const TEXT_TOMT = "Fyll i {namn}.";
+  const TEXT_EPOST = "Skriv en e-postadress med @ och punkt, "
+    + "till exempel namn@exempel.se.";
+  const TEXT_FOR_LITET = "{namn} måste vara minst {min}.";
+  const TEXT_FOR_STORT = "{namn} får vara högst {max}.";
+  const TEXT_OVRIGT = "Kontrollera {namn}.";
+
+  /* ===== SLUT PÅ ÄNDRA HÄR ============================================== */
+
+  const formular = document.querySelector(FORMULAR);
+  if (!formular) { return; }
+
+  // novalidate stänger av webbläsarens egna felrutor – men bara när skriptet
+  // körs. Utan skript finns attributet inte, och webbläsaren validerar själv.
+  formular.setAttribute("novalidate", "");
+
+  // Fältets namn i klartext: texten i dess label, med gemener och utan
+  // parentesen "(frivilligt)" och liknande.
+  function namnPa(falt) {
+    const etikett = formular.querySelector('label[for="' + falt.id + '"]');
+    if (!etikett) { return "fältet"; }
+    return etikett.textContent.replace(/\(.*?\)/, "").trim().toLowerCase();
+  }
+
+  // Vilket meddelande? validity är webbläsarens egen bedömning – vi läser av
+  // den och väljer text. Ordningen spelar roll: ett tomt fält är tomt först.
+  function meddelande(falt) {
+    const v = falt.validity;
+    const namn = namnPa(falt);
+    let text;
+    if (v.valueMissing) { text = TEXT_TOMT.replace("{namn}", namn); }
+    else if (v.typeMismatch &amp;&amp; falt.type === "email") { text = TEXT_EPOST; }
+    else if (v.rangeUnderflow) {
+      text = TEXT_FOR_LITET.replace("{namn}", namn).replace("{min}", falt.min);
+    }
+    else if (v.rangeOverflow) {
+      text = TEXT_FOR_STORT.replace("{namn}", namn).replace("{max}", falt.max);
+    }
+    else { text = TEXT_OVRIGT.replace("{namn}", namn); }
+    // Stor bokstav först, även när meddelandet börjar med fältets namn.
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
+  // Varje fält får ett eget felelement, skapat första gången det behövs och
+  // återanvänt sedan. id:t behövs för aria-describedby.
+  function felElement(falt) {
+    const id = "fel-" + falt.id;
+    let fel = document.getElementById(id);
+    if (!fel) {
+      fel = document.createElement("p");
+      fel.id = id;
+      fel.className = "fel";
+      falt.insertAdjacentElement("afterend", fel);
+    }
+    return fel;
+  }
+
+  function visaFel(falt) {
+    const fel = felElement(falt);
+    fel.textContent = meddelande(falt);
+    falt.setAttribute("aria-invalid", "true");
+    falt.setAttribute("aria-describedby", fel.id);
+  }
+
+  function taBortFel(falt) {
+    const fel = document.getElementById("fel-" + falt.id);
+    if (fel) { fel.textContent = ""; }
+    falt.removeAttribute("aria-invalid");
+    falt.removeAttribute("aria-describedby");
+  }
+
+  // Kontrollera alla fält. Returnerar första felaktiga fältet, eller null.
+  function kontrollera() {
+    let forsta = null;
+    const falten = formular.querySelectorAll("input, select, textarea");
+    falten.forEach(function (falt) {
+      if (falt.checkValidity()) {
+        taBortFel(falt);
+      } else {
+        visaFel(falt);
+        if (!forsta) { forsta = falt; }
+      }
+    });
+    return forsta;
+  }
+
+  // Vid sändning: finns fel stoppar vi sändningen och flyttar fokus till det
+  // första felet. preventDefault är det som hindrar formuläret att skickas.
+  formular.addEventListener("submit", function (handelse) {
+    const forstaFel = kontrollera();
+    if (forstaFel) {
+      handelse.preventDefault();
+      forstaFel.focus();
+    }
+  });
+
+  // När besökaren rättar ett fält ska felet försvinna så fort det är rätt –
+  // men inte dyka upp medan hen fortfarande skriver. Därför lyssnar vi på
+  // input bara på fält som redan har ett fel.
+  formular.addEventListener("input", function (handelse) {
+    const falt = handelse.target;
+    if (falt.getAttribute("aria-invalid") === "true" &amp;&amp; falt.checkValidity()) {
+      taBortFel(falt);
+    }
+  });
+
+})();</code></pre>
+
+    <h3>Ändra här</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Vad du byter till</th></tr></thead>
+        <tbody>
+          <tr><td><code>FORMULAR</code></td><td><code>"form"</code> räcker om sidan har ett formulär. Har den flera: ge ditt ett <code>id</code> och skriv <code>"#idet"</code></td></tr>
+          <tr><td><code>TEXT_TOMT</code></td><td>Meddelandet för ett tomt fält. <code>{namn}</code> byts mot fältets etikett</td></tr>
+          <tr><td><code>TEXT_EPOST</code></td><td>Meddelandet för en felaktig e-postadress</td></tr>
+          <tr><td><code>TEXT_FOR_LITET</code>, <code>TEXT_FOR_STORT</code></td><td>För tal utanför <code>min</code> och <code>max</code>. <code>{min}</code> och <code>{max}</code> byts ut</td></tr>
+          <tr><td><code>TEXT_OVRIGT</code></td><td>När inget av de andra passar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Meddelandet får automatiskt stor bokstav, även när det börjar med fältets namn.</p>
+
+    <h3>Skriv den själv</h3>
+
+    <ol>
+      <li>Hitta formuläret. Sätt <code>novalidate</code> på det – men bara från skriptet, aldrig i HTML:en.</li>
+      <li>Vid sändning: gå igenom alla fält och använd <code>checkValidity()</code>. Avgör vad som är fel med fältets <code>validity</code>-objekt.</li>
+      <li>Skriv felet i ett eget element efter fältet. Elementet ska ha ett <code>id</code>, och fältet ska peka på det med <code>aria-describedby</code> och märkas med <code>aria-invalid="true"</code>.</li>
+      <li>Finns fel: stoppa sändningen och flytta fokus till det första.</li>
+      <li>Ta bort felet när besökaren rättat fältet – men först när det faktiskt är rätt, inte medan hen skriver.</li>
+    </ol>
+
+    <h2 id="quiz">6. Quiz med rättning</h2>
+    <p><b>Fil:</b> <code>js/quiz.js</code> · <b>CSS:</b> avsnitt 13f · <b>Demo:</b> <code>demo/quiz.html</code> · <b>På exempelsajten:</b> <code>quiz.html</code></p>
+
+    <h3>Vad den gör</h3>
+
+    <p>Frågorna står i HTML:en som ett vanligt formulär med alternativknappar. När besökaren trycker "Rätta" jämför skriptet svaren med facit, märker varje fråga som rätt eller fel, och skriver ut resultatet. Är någon fråga obesvarad säger den vilken och stannar där.</p>
+
+    <p><b>Facit ligger i skriptet, inte i HTML:en.</b> Det är ingen säkerhet – vem som helst kan öppna filen och läsa svaren – men det håller HTML:en ren, och ett quiz på en skolsajt behöver inte mer.</p>
+
+    <p><b>Utan JavaScript:</b> frågorna syns och går att besvara, men ingenting rättas. Det är en rimlig nivå: innehållet finns, funktionen saknas.</p>
+
+    <p><b>Passar när</b> din sajt har ett ämne besökaren kan testa sig på. Det är den modul som kräver mest eget innehåll – räkna med att skriva frågorna själv.</p>
+
+    <h3>HTML:en du behöver</h3>
+
+<pre class="fri"><code>&lt;form class="quiz"&gt;
+  &lt;fieldset data-fraga="f1"&gt;
+    &lt;legend&gt;1. Frågan?&lt;/legend&gt;
+    &lt;p&gt;
+      &lt;input type="radio" id="f1a" name="f1" value="a"&gt;
+      &lt;label for="f1a"&gt;Första alternativet&lt;/label&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+      &lt;input type="radio" id="f1b" name="f1" value="b"&gt;
+      &lt;label for="f1b"&gt;Andra alternativet&lt;/label&gt;
+    &lt;/p&gt;
+  &lt;/fieldset&gt;
+
+  &lt;p&gt;
+    &lt;button type="submit"&gt;Rätta&lt;/button&gt;
+  &lt;/p&gt;
+
+  &lt;p class="quiz-resultat" aria-live="polite"&gt;&lt;/p&gt;
+&lt;/form&gt;</code></pre>
+
+    <p>Tre saker måste stämma: varje <code>fieldset</code> har ett eget <code>data-fraga</code>, alla knappar i samma fråga har samma <code>name</code>, och varje knapp har ett unikt <code>id</code> med en <code>label</code> som pekar på det.</p>
+
+    <h3>Koden</h3>
+
+<pre class="fri"><code>/* ==========================================================================
+   Quiz med rättning – modul 6 av 6
+   Modulbiblioteket, Webbutveckling 1 område 6
+
+   Vad den gör: frågorna står i HTML:en som ett vanligt formulär med
+   alternativknappar. När besökaren trycker "Rätta" jämför skriptet svaren
+   med facit, märker varje fråga som rätt eller fel, och skriver ut
+   resultatet. Facit ligger i skriptet, inte i HTML:en.
+
+   Utan JavaScript: frågorna syns och går att besvara, men ingenting rättas –
+   knappen gör inget. Det är en rimlig nivå: innehållet finns, funktionen
+   saknas.
+
+   Kräver i HTML:
+     &lt;form class="quiz"&gt;
+       &lt;fieldset data-fraga="f1"&gt;
+         &lt;legend&gt;Frågan?&lt;/legend&gt;
+         &lt;p&gt;&lt;input type="radio" id="f1a" name="f1" value="a"&gt;
+            &lt;label for="f1a"&gt;…&lt;/label&gt;&lt;/p&gt;
+         …
+       &lt;/fieldset&gt;
+       …
+       &lt;p&gt;&lt;button type="submit"&gt;Rätta&lt;/button&gt;&lt;/p&gt;
+       &lt;p class="quiz-resultat" aria-live="polite"&gt;&lt;/p&gt;
+     &lt;/form&gt;
+
+   Kräver i CSS: avsnittet "13f. Quizet" i stil.css.
+   ======================================================================= */
+
+(function () {
+  "use strict";
+
+  /* ===== ÄNDRA HÄR ====================================================== */
+
+  const QUIZ = ".quiz";
+
+  // Facit. Nyckeln är fieldsetets data-fraga, värdet är value på det rätta
+  // alternativet. Lägger du till en fråga i HTML:en lägger du till en rad här.
+  const FACIT = {
+    f1: "b",
+    f2: "c",
+    f3: "a",
+    f4: "c",
+    f5: "b"
+  };
+
+  const TEXT_RESULTAT = "Du fick {ratt} av {antal} rätt.";
+  const TEXT_ALLA_RATT = "Alla rätt. Du kan reservatet.";
+  const TEXT_OBESVARAD = "Du har inte svarat på alla. Kolla fråga {nr}.";
+  const TEXT_RATT = "Rätt";
+  const TEXT_FEL = "Fel";
+
+  /* ===== SLUT PÅ ÄNDRA HÄR ============================================== */
+
+  const quiz = document.querySelector(QUIZ);
+  if (!quiz) { return; }
+
+  const fragor = quiz.querySelectorAll("fieldset[data-fraga]");
+  const resultat = quiz.querySelector(".quiz-resultat");
+  if (fragor.length === 0 || !resultat) { return; }
+
+  // Varje fråga får ett litet element där "Rätt" eller "Fel" skrivs. Det
+  // skapas här, en gång, så att rättningen sedan bara byter text.
+  fragor.forEach(function (fraga) {
+    const domare = document.createElement("p");
+    domare.className = "quiz-domare";
+    fraga.appendChild(domare);
+  });
+
+  // Rätta: gå igenom frågorna, läs det ikryssade alternativet och jämför
+  // med facit. Klasserna quiz-ratt och quiz-fel är det CSS:en färgar på.
+  function ratta() {
+    let antalRatt = 0;
+
+    for (let i = 0; i &lt; fragor.length; i++) {
+      const fraga = fragor[i];
+      const nyckel = fraga.dataset.fraga;
+      const valt = fraga.querySelector("input:checked");
+      const domare = fraga.querySelector(".quiz-domare");
+
+      // Obesvarad fråga: avbryt, säg vilken, och lägg fokus där.
+      if (!valt) {
+        resultat.textContent = TEXT_OBESVARAD.replace("{nr}", i + 1);
+        fraga.querySelector("input").focus();
+        return;
+      }
+
+      const arRatt = valt.value === FACIT[nyckel];
+      fraga.classList.toggle("quiz-ratt", arRatt);
+      fraga.classList.toggle("quiz-fel", !arRatt);
+      domare.textContent = arRatt ? TEXT_RATT : TEXT_FEL;
+      if (arRatt) { antalRatt++; }
+    }
+
+    if (antalRatt === fragor.length) {
+      resultat.textContent = TEXT_ALLA_RATT;
+    } else {
+      resultat.textContent = TEXT_RESULTAT
+        .replace("{ratt}", antalRatt)
+        .replace("{antal}", fragor.length);
+    }
+  }
+
+  // Formuläret får inte skickas – det finns ingen server att skicka till.
+  // preventDefault stoppar sändningen, och sedan rättar vi i stället.
+  quiz.addEventListener("submit", function (handelse) {
+    handelse.preventDefault();
+    ratta();
+  });
+
+})();</code></pre>
+
+    <h3>Ändra här</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Vad du byter till</th></tr></thead>
+        <tbody>
+          <tr><td><code>QUIZ</code></td><td>Klassen på ditt formulär</td></tr>
+          <tr><td><code>FACIT</code></td><td>En rad per fråga: <code>f1: "b"</code>. Nyckeln är <code>data-fraga</code>, värdet är <code>value</code> på det rätta alternativet</td></tr>
+          <tr><td><code>TEXT_RESULTAT</code></td><td><code>{ratt}</code> och <code>{antal}</code> byts ut av skriptet</td></tr>
+          <tr><td><code>TEXT_ALLA_RATT</code></td><td>Vad som sägs vid full pott</td></tr>
+          <tr><td><code>TEXT_OBESVARAD</code></td><td><code>{nr}</code> byts mot frågans nummer</td></tr>
+          <tr><td><code>TEXT_RATT</code>, <code>TEXT_FEL</code></td><td>Vad som står vid varje fråga efter rättningen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Lägger du till en fråga i HTML:en måste du lägga till en rad i <code>FACIT</code>. Glömmer du det blir frågan alltid fel.</p>
+
+    <h3>Skriv den själv</h3>
+
+    <ol>
+      <li>Hitta formuläret, frågorna och resultatraden. Avsluta tyst om något saknas.</li>
+      <li>Skapa ett element per fråga där rättningen ska skrivas.</li>
+      <li>Vid sändning: stoppa sändningen, gå igenom frågorna och läs det ikryssade alternativet.</li>
+      <li>Är en fråga obesvarad: säg vilken, flytta fokus dit och avbryt rättningen.</li>
+      <li>Jämför med facit, märk varje fråga, räkna ihop och skriv resultatet. Resultatraden ska ha <code>aria-live</code> så att den läses upp.</li>
+    </ol>
+
+    <h2 id="valja">Vilken ska du välja?</h2>
+    <p>Minst två moduler, och de ska höra hemma på din sajt.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Din sajt har</th><th>Välj</th></tr></thead>
+        <tbody>
+          <tr><td>Fler än fyra länkar i menyn</td><td>Hamburgermeny</td></tr>
+          <tr><td>Ett mörkt färgschema från område 3</td><td>Mörkt läge</td></tr>
+          <tr><td>En samling i tydliga kategorier</td><td>Filtrerbart galleri</td></tr>
+          <tr><td>Tre eller fler bilder som hör ihop</td><td>Bildkarusell</td></tr>
+          <tr><td>Ett formulär med flera fält</td><td>Formulärvalidering</td></tr>
+          <tr><td>Ett ämne besökaren kan testa sig på</td><td>Quiz</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Svårighetsgrad att koppla in</b>, från lättast:</p>
+
+    <ol>
+      <li><b>Mörkt läge</b> – en knapp, ingen annan HTML</li>
+      <li><b>Formulärvalidering</b> – ingen ny HTML alls, om formuläret redan är rätt byggt</li>
+      <li><b>Hamburgermeny</b> – en knapp och ett <code>id</code> på listan</li>
+      <li><b>Filtrerbart galleri</b> – ett attribut per del som ska filtreras</li>
+      <li><b>Bildkarusell</b> – en struktur runt bilderna</li>
+      <li><b>Quiz</b> – kräver att du skriver frågorna</li>
+    </ol>
+
+    <p>Det är inte en rangordning av betyg. Två väl inbyggda och anpassade moduler är bättre än fyra inklistrade.</p>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 6</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

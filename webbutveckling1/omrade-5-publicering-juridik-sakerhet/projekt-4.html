@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projekt 4 – Webbutveckling 1 område 5</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-5-projekt-4">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Uppgift</strong> · Publicering, juridik och säkerhet</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#sidorna">2. Så är sajten uppbyggd</a></li>
+      <li><a href="#publiceringssystem">3. Google Sites – ett publiceringssystem</a></li>
+      <li><a href="#fordjupningen">4. Fördjupningen – ett ämne per elev</a></li>
+      <li><a href="#kraven">5. Kraven</a></li>
+      <li><a href="#tekniska-krav">6. Tekniska krav</a></li>
+      <li><a href="#matrisen">7. Bedömningsmatris</a></li>
+      <li><a href="#kom-igang">8. Kom igång – de tre första sakerna</a></li>
+      <li><a href="#tiden">9. Så ligger tiden</a></li>
+      <li><a href="#kallkritik">10. Källkritik – vad som räknas som en källa</a></li>
+      <li><a href="#checklista">11. Checklista innan du lämnar in</a></li>
+      <li><a href="#felsokning">12. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 5 · uppgift</p>
+    <h1>Projekt 4 – Sajten som förklarar reglerna</h1>
+    <p class="inledning">Det här är områdets kravdokument. De tre guiderna ska stödja kraven nedan – inte tvärtom. Ändras kraven ska guiderna läsas om.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-12-22">
+        <span class="nar">22 dec</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Länken till den publicerade Google Sites-sajten lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+    <p>Du ska bygga en webbplats i <b>Google Sites</b> som förklarar tre saker för någon som just ska publicera sin första sajt: vad GDPR kräver, vad upphovsrätten säger om bilder och texter, och hur man skyddar sig och sin sajt. Tre sidor, en per ämne, med egna ord och egna exempel.</p>
+
+    <p>Sajten är områdets kunskapsredovisning. Det finns inget prov – det du skriver på sajten är det som bedöms, och tre eller fyra frågor om innehållet återkommer i kursens slutprov i juni.</p>
+
+    <p>Det är också första gången i kursen du bygger utan att skriva kod. Google Sites är ett <b>publiceringssystem</b>: du skriver, det bygger HTML:en. Du ska efteråt kunna säga vad det gav dig och vad det tog ifrån dig, jämfört med det du gjort i tre områden.</p>
+
+    <h2 id="sidorna">2. Så är sajten uppbyggd</h2>
+    <p>Fem sidor. Inte fler, inte färre för E.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sida</th><th>Innehåll</th></tr></thead>
+        <tbody>
+          <tr><td><b>Start</b></td><td>Vem sajten är till för och vad den förklarar. Fyra–fem meningar</td></tr>
+          <tr><td><b>GDPR</b></td><td>Vad en personuppgift är, vad lagen kräver, vad det betyder för den som publicerar. Ett konkret exempel</td></tr>
+          <tr><td><b>Upphovsrätt</b></td><td>Vad som är skyddat, vad man får göra ändå, hur man använder andras bilder rätt. Ett konkret exempel</td></tr>
+          <tr><td><b>Säkerhet</b></td><td>De vanligaste hoten, hur man skyddar sig, vad en publicerad sajt ska ha. Ett konkret exempel</td></tr>
+          <tr><td><b>Källor</b></td><td>Varje källa du använt, med myndighet, sidans rubrik, länk och datumet du läste den</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Varje ämnessida ska gå att läsa på tre–fyra minuter. Det är inte en uppsats. Det är en förklaring till någon som har bråttom och vill göra rätt.</p>
+
+    <h2 id="publiceringssystem">3. Google Sites – ett publiceringssystem</h2>
+    <p>Fram till nu har du skrivit varje rad HTML själv och publicerat med GitHub Pages: du äger filerna, du bestämmer allt, och du lagar allt. Ett <b>publiceringssystem</b> (på engelska <i>CMS</i>, content management system) vänder på det: du skriver innehållet i ett gränssnitt, och systemet skriver HTML:en, CSS:en och navigationen åt dig. WordPress, Squarespace, Wix och Google Sites är alla publiceringssystem. De driver en mycket stor del av webben.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>GitHub Pages med egen kod</th><th>Google Sites</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vem skriver HTML:en</b></td><td>Du</td><td>Systemet</td></tr>
+          <tr><td><b>Vad du styr</b></td><td>Allt: struktur, stil, tillgänglighet, prestanda</td><td>Innehåll, sidordning, tema inom givna ramar</td></tr>
+          <tr><td><b>Tid till första sidan</b></td><td>Timmar, om du kan koden</td><td>Minuter</td></tr>
+          <tr><td><b>När något ser fel ut</b></td><td>Du felsöker koden</td><td>Du provar en annan inställning, eller lever med det</td></tr>
+          <tr><td><b>Tillgänglighet</b></td><td>Så bra som du gör den</td><td>Så bra som systemet gör den – kontrollera med WAVE</td></tr>
+          <tr><td><b>Kostnad och beroende</b></td><td>Gratis, filerna är dina, går att flytta var som helst</td><td>Gratis med skolkontot. Innehållet ligger hos Google, i Googles format</td></tr>
+          <tr><td><b>Passar för</b></td><td>Sajter där formen och prestandan är poängen, och för att lära sig hur webben fungerar</td><td>Sajter där innehållet är poängen och som ska finnas i morgon</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Ingen av dem är "rätt". Det är det som är lektion 49: att kunna säga när du ska välja vilket, utifrån vad du själv erfarit av båda. Bör-kravet <i>Publiceringssystem eller egen kod?</i> är den jämförelsen, skriven med dina egna exempel.</p>
+
+    <h3>Google Sites på fem minuter</h3>
+
+    <ol>
+      <li><code>sites.google.com</code>, inloggad med skolkontot. <i>Tom</i> eller en mall – tom är enklare att få ordning på.</li>
+      <li><b>Sidor</b> i panelen till höger: plustecknet skapar en sida. Fem sidor, namnen ur tabellen ovan. Navigationen byggs automatiskt ur listan.</li>
+      <li><b>Infoga</b>: textruta, bild, tabell. Rubriknivåerna finns i textrutans meny – använd dem, precis som <code>h1</code>–<code>h3</code> i HTML. En rubrik per sida.</li>
+      <li><b>Bild</b>: <i>Infoga → Bilder → Ladda upp</i> för egna. Klicka på bilden och välj <i>Lägg till bildtext</i> – där skriver du upphovsperson, källa och licens.</li>
+      <li><b>Tema</b> uppe till höger: färger och typsnitt för hela sajten. Välj en gång, byt inte varje pass.</li>
+      <li><b>Publicera</b> uppe till höger. Första gången: välj webbadress och vem som får se sajten. Varje gång efter det: tryck <i>Publicera</i> igen, annars syns inte ändringarna.</li>
+      <li><b>Länken</b>: <i>Publicera → Kopiera länk till publicerad webbplats</i>. Den, inte adressen i adressfältet, är den du lämnar in.</li>
+    </ol>
+
+    <p>Det du kommer att sakna: att kunna sätta en exakt marginal, styra fokusmarkeringen, välja hur navigationen byggs. Det är ett av svaren på jämförelsen. Det du kommer att uppskatta: att sajten är responsiv och publicerad innan du skrivit ett ord. Det är det andra.</p>
+
+    <h2 id="fordjupningen">4. Fördjupningen – ett ämne per elev</h2>
+    <p>För C och A väljer du <b>ett</b> av de tre ämnena och går längre i det, på en sjätte sida eller som ett tydligt avsnitt på ämnessidan. Ämnena fördelas i klassen på lektion 48 så att alla tre blir täckta; säg vilket du vill ha, men räkna med att bli placerad om alla vill ha samma.</p>
+
+    <p>Guidernas avsnitt <i>Ta det längre</i> ger tre eller fyra förslag per ämne. Du får välja ett av dem eller ett eget, så länge det är konkret: något du gjort, mätt, jämfört eller skrivit – inte bara läst mer om.</p>
+
+    <h2 id="kraven">5. Kraven</h2>
+    <p>Kryssa av allt eftersom. Kryssen sparas i din webbläsare.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 id="ska">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Sajten är byggd i Google Sites och <b>publicerad</b>, så att den går att öppna via länken utan att logga in</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Fem sidor: Start, GDPR, Upphovsrätt, Säkerhet, Källor – med en navigation som når alla</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Varje ämnessida förklarar ämnet <b>med egna ord</b> – inga stycken kopierade ur guiden eller från en myndighet</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Varje ämnessida har <b>minst ett konkret exempel</b>: ett fall, en händelse, en sajt, något du själv provat</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Varje ämnessida bygger på <b>minst en myndighetskälla</b> (IMY, PTS, PRV, MCF, CERT-SE, krisinformation.se, Skolverket) som står på källsidan</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Källorna är angivna med myndighet, sidans rubrik, länk och lästdatum</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Sajten följer själv reglerna den förklarar: <b>varje bild har upphovsperson, källa och licens</b> i bildtexten, eller är din egen och står som det</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Inga personuppgifter om andra – inga bilder på klasskamrater, inga namn – utan att de sagt ja</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>Länken till den publicerade sajten är inlämnad i itslearning</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 id="bor">Bör-krav <span style="color:var(--dov);font-weight:400">— mot nivå C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Fördjupningen: ett ämne, ett eget arbete enligt <i>Ta det längre</i> i guiden, redovisat på sajten</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Exemplen är <b>dina egna</b>: inte guidens exempel återberättade, utan något du hittat eller gjort – ett IMY-beslut, en kakbanner du jämfört, ett nätfiskemeddelande du analyserat</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Minst ett citat, korrekt återgivet enligt citaträtten: citattecken, källa, länk, motiverat av vad du vill visa</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Sajten har ett eget uttryck: du har gjort val i Google Sites tema, typsnitt och färger och kan säga varför</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>En sida eller ett avsnitt <b>Publiceringssystem eller egen kod?</b> där du jämför Google Sites med det du byggt själv i område 2–4: två fördelar och två nackdelar med vardera, från din egen erfarenhet</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 id="utmaning">Utmaning <span style="color:var(--dov);font-weight:400">— mot nivå A</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utmaning-1"><span>Fördjupningen innehåller något du <b>gjort</b>, inte bara beskrivit: en integritetspolicy för din egen sajt, en bildpolicy i ditt repo, en säkerhetsgranskning av din sajt med F12</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-2"><span>Du kopplar ämnena till varandra: var kakor möter GDPR, var upphovsrätt möter din <code>README</code>, var säkerhet möter personuppgifter</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-3"><span>Du kan visa på <b>din egen sajt från Projekt 3</b> att den nu följer det du skrivit: bilderna är rätt angivna, inga anrop går dit du inte vet, HTTPS är påslaget</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-4"><span>Jämförelsen publiceringssystem–egen kod tar upp tillgänglighet och prestanda, inte bara bekvämlighet, och du har kontrollerat Google Sites-sajten med WAVE eller Lighthouse och redovisar resultatet</span></label></li>
+      </ul>
+    </section>
+    <p><button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="tekniska-krav">6. Tekniska krav</h2>
+    <ul>
+      <li><b>Google Sites</b> via ditt skolkonto. Inte Wix, inte WordPress, inte egen kod – poängen med området är att pröva ett publiceringssystem.</li>
+      <li><b>Publicerad</b>, inte bara delad. <i>Publicera</i> uppe till höger, och under <i>Vem kan visa min webbplats</i> ska den vara öppen för alla med länken. Tillåter skolans inställningar inte det: öppen för alla inom skolan, och säg till mig.</li>
+      <li><b>Navigationen</b> genereras av Google Sites ur sidorna. Kontrollera att alla fem sidor syns i den.</li>
+      <li><b>Bilder</b>: egna, eller med licens som tillåter användning, och med bildtext enligt TASL (upphovsrättsguiden avsnitt 9). En sajt om upphovsrätt med en stulen bild bedöms därefter.</li>
+      <li><b>Texten är din.</b> Jag jämför med guiderna och med myndighetssidorna. Kopierade stycken räknas inte som gjorda.</li>
+      <li><b>Mobil</b>: öppna sajten i telefonen innan du lämnar in. Google Sites sköter det mesta, men bilder du gjort stora och tabeller kan spricka.</li>
+    </ul>
+
+    <h3>Det här lämnas in</h3>
+
+    <p>En sak: <b>länken till den publicerade sajten</b>, i itslearning-uppgiften <i>Projekt 4</i>, senast tisdag 22 december 23:59. Kontrollera länken i ett privat fönster innan du lämnar in – öppnas sajten där, öppnas den för mig.</p>
+
+    <h2 id="matrisen">7. Bedömningsmatris</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><b>GDPR</b></td><td>Personuppgift, lagens krav och vad det betyder för en som publicerar, korrekt och med egna ord. Ett exempel</td><td>Skillnaden mellan rättslig grund och samtycke, eller mellan ansvarig och biträde, förklarad så att den går att använda. Eget exempel</td><td>Tillämpat på din egen sajt: vad den samlar in, vart det går, och en policy som stämmer</td></tr>
+          <tr><td><b>Upphovsrätt</b></td><td>Vad som skyddas, undantagen, hur man använder andras bilder rätt. Ett exempel</td><td>Licenser lästa och tillämpade: du kan säga vad varje CC-bokstav kräver och visar det i egna bildtexter. Ett korrekt citat</td><td>Din egen kod och dina egna bilder har fått en licens och en policy, motiverat</td></tr>
+          <tr><td><b>Säkerhet</b></td><td>Hoten mot en användare, motåtgärderna, och vad en publicerad sajt ska ha. Ett exempel</td><td>Skillnaden mellan vad hänglåset säger och inte säger, eller mellan MFA-sorterna, förklarad korrekt. Eget exempel</td><td>Din sajt granskad: anrop, HTTPS, repo utan hemligheter – redovisat med resultat</td></tr>
+          <tr><td><b>Källor och egna ord</b></td><td>Minst en myndighetskälla per ämne, angiven med rubrik, länk och datum. Texten är din</td><td>Källorna är valda med omdöme och du säger vad du hämtat var. Citaten är korrekta</td><td>Du visar var källorna säger olika saker eller var kursplanen är föråldrad, och tar ställning</td></tr>
+          <tr><td><b>Sajten själv</b></td><td>Fem sidor, navigation, publicerad, bilder rätt angivna, inga personuppgifter om andra</td><td>Medvetna val i tema och form. Jämförelsen publiceringssystem–egen kod ur egen erfarenhet</td><td>Jämförelsen tar upp tillgänglighet och prestanda med mätning. Sajten följer allt den själv säger</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>E kräver alla ska-krav. C kräver E plus bör-kraven. A kräver C plus utmaningarna. Ett kriterium på hög nivå kompenserar inte ett som saknas – det är helheten som bedöms, och den som skrivit tre korrekta sidor med egna exempel har gjort det området kräver.</p>
+
+    <h2 id="kom-igang">8. Kom igång – de tre första sakerna</h2>
+    <ol>
+      <li><b>Skapa sajten.</b> <code>sites.google.com</code> med skolkontot, <i>Tom</i>, ge den ett namn. Skapa de fem sidorna direkt under <i>Sidor</i> till höger, tomma. Nu finns strukturen och navigationen, och du kan se hur sajten kommer att se ut.</li>
+      <li><b>Skriv källsidan först.</b> Öppna de tre guidernas källistor och välj den sida per ämne du tänker utgå ifrån. Skriv in dem med rubrik, myndighet, länk och dagens datum. Nu har du något att läsa, och du vet vad du får skriva under.</li>
+      <li><b>Skriv GDPR-sidan i ett svep</b>, utan att titta i guiden, utifrån vad du minns från lektion 48. Rätta mot guiden efteråt. Det som blev fel är det du behöver läsa på; det som blev rätt är redan ditt.</li>
+    </ol>
+
+    <h2 id="tiden">9. Så ligger tiden</h2>
+    <p>Fyra lektioner, och den sista är deadlinedagen. Det är kursens kortaste område, och det är avsiktligt: sajten ska bli klar före lovet, inte hänga över det.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Datum</th><th>Vad</th></tr></thead>
+        <tbody>
+          <tr><td>48</td><td>tis 15/12</td><td>Genomgång: de tre ämnena. Guiderna delas ut. Fördjupningsämnena fördelas</td></tr>
+          <tr><td>49</td><td>fre 18/12</td><td>Genomgång: publicering – GitHub Pages mot Google Sites. Projektet delas ut. Skapa sajten, välj källor</td></tr>
+          <tr><td>50</td><td>mån 21/12</td><td>Arbetspass. De tre ämnessidorna</td></tr>
+          <tr><td>51</td><td>tis 22/12</td><td>Arbetspass och inlämning. Källsidan, bildtexterna, publiceringen. <b>Deadline 23:59</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Guiderna innan sajten</h3>
+
+    <p>Det går inte att skriva med egna ord om något man inte läst. Räkna med att läsa alla tre guiderna mellan tisdag och fredag i vecka 51 – de är långa, men de är byggda för att slå i, inte för att läsas från början till slut. Avsnittet <i>Vad du kan efter guiden</i> överst i varje guide är listan över det sajten ska visa att du kan.</p>
+
+    <h2 id="kallkritik">10. Källkritik – vad som räknas som en källa</h2>
+    <p>Kravet är <b>myndighetskällor</b>, och skälet är enkelt: det är myndigheterna som tillämpar lagarna, och deras sidor är skrivna för att vara korrekta, inte för att sälja något.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ämne</th><th>Myndigheten</th><th>Varför just den</th></tr></thead>
+        <tbody>
+          <tr><td>GDPR</td><td><b>IMY</b>, Integritetsskyddsmyndigheten</td><td>Tillsynsmyndighet för dataskyddet i Sverige</td></tr>
+          <tr><td>Kakor</td><td><b>PTS</b>, Post- och telestyrelsen</td><td>Tillsyn över lagen om elektronisk kommunikation</td></tr>
+          <tr><td>Upphovsrätt</td><td><b>PRV</b>, Patent- och registreringsverket</td><td>Statens informationsansvar för upphovsrätten</td></tr>
+          <tr><td>Säkerhet</td><td><b>MCF</b> via krisinformation.se, <b>CERT-SE</b> (FRA)</td><td>Nationella råd till privatpersoner respektive it-incidenthantering</td></tr>
+          <tr><td>Kursplanen</td><td><b>Skolverket</b></td><td>Den som skrivit vad kursen ska innehålla</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Andra källor får användas <b>utöver</b> myndighetskällan, om du säger vad de är. En nyhetsartikel om ett IMY-beslut är en bra källa till exemplet – beslutet självt är källan till vad som gällde. Wikipedia är en bra väg till källorna, men inte en källa. Creative Commons och Internetstiftelsen är seriösa organisationer, men de är inte myndigheter, så de uppfyller inte ska-kravet ensamma.</p>
+
+    <p><b>Datumet</b> du läste sidan är obligatoriskt. Myndigheterna på säkerhetsområdet bytte namn och adress under 2026, och den som läser din sajt senare ska kunna se när du hämtade det du skrev.</p>
+
+    <h2 id="checklista">11. Checklista innan du lämnar in</h2>
+    <ol>
+      <li>Sajten är <b>publicerad</b> – testad i ett privat fönster, öppnas utan inloggning</li>
+      <li>Alla fem sidor syns i navigationen</li>
+      <li>Varje ämnessida har ett konkret exempel</li>
+      <li>Varje bild har bildtext med upphovsperson, källa och licens, eller "egen bild"</li>
+      <li>Källsidan har minst tre myndighetskällor, med datum</li>
+      <li>Inget stycke är kopierat</li>
+      <li>Inga personuppgifter om andra utan lov</li>
+      <li>Öppnad i telefonen</li>
+      <li>Länken inlämnad i itslearning</li>
+    </ol>
+
+    <h2 id="felsokning">12. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: publicera, bild, länk" autocomplete="off">
+      <p class="traffar" id="traffar-fel">9 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Läraren får "Du behöver behörighet" när länken öppnas</td><td>Sajten är delad men inte publicerad, eller publicerad bara för dig</td><td><i>Publicera</i> → <i>Hantera</i> → <i>Vem kan visa min webbplats</i> → alla med länken (eller skolan)</td></tr>
+          <tr><td>Länken går till redigeringsläget</td><td>Du kopierade adressen ur adressfältet i stället för den publicerade</td><td><i>Publicera</i> → <i>Kopiera länk till publicerad webbplats</i></td></tr>
+          <tr><td>En sida saknas i menyn</td><td>Sidan är dold i navigationen</td><td><i>Sidor</i> → sidans tre prickar → <i>Dölj i navigeringen</i> ska vara av</td></tr>
+          <tr><td>Ändringar syns inte på den publicerade sajten</td><td>Google Sites publicerar inte automatiskt</td><td>Tryck <i>Publicera</i> igen efter varje ändring</td></tr>
+          <tr><td>Bildtexten går inte att lägga till</td><td>Bilden är infogad som bakgrund eller i ett kollage</td><td>Infoga bilden som en vanlig bild, klicka på den, <i>Lägg till bildtext</i></td></tr>
+          <tr><td>Sajten ser trasig ut i telefonen</td><td>En bild eller tabell är bredare än skärmen</td><td>Minska bilden, eller byt tabellen mot en lista</td></tr>
+          <tr><td>Bilden jag hittade har ingen licens</td><td>Då är den skyddad med alla rättigheter förbehållna</td><td>Byt bild: egen, Wikimedia Commons eller en bildbank med licens. Guiden avsnitt 5–6</td></tr>
+          <tr><td>Jag hittar inget bra exempel</td><td>Du letar i guiden i stället för hos myndigheten</td><td>IMY:s tillsynsbeslut, PTS vägledande beslut, CERT-SE:s veckobrev – där ligger exemplen</td></tr>
+          <tr><td>Texten blev en kopia av guiden</td><td>Du skrev med guiden öppen</td><td>Stäng guiden, skriv ur minnet, rätta efteråt. Kom-igång-steg 3</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 5</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

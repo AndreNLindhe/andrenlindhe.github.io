@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Optimering och diskret funktionalitet – Webbutveckling 1 område 7</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-7-start">
+
+<header class="topp">
+  <a href="../index.html">← Kursen</a>
+  <span class="harifran"><strong>Område 7</strong> · Optimering och diskret funktionalitet</span>
+  <a href="projekt-6.html">Uppgiften</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 7 · v.6–11</p>
+    <h1>Optimering och diskret funktionalitet</h1>
+    <p class="inledning">Elva lektioner där ingenting nytt byggs. Din sajt ska bli
+      lättare och tåligare: bilderna ska väga en bråkdel av vad de väger nu, och
+      sidorna ska fungera även när JavaScript inte gör det. Det är den sista
+      uppgiften före slutprojektet, och den prövar allt du byggt hittills.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-02-12">
+        <span class="nar">12 feb</span>
+        <span class="vad">Mätningen före ska vara gjord
+          <small>Ingen inlämning – men utan ett före-värde går det inte att visa någon förbättring, och sajten hinner ändras över sportlovet.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-03-12">
+        <span class="nar">12 mars</span>
+        <span class="vad">Inlämning kl 23:59
+          <small>Projekt 6 – repo-länken lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-03-15">
+        <span class="nar">15 mars</span>
+        <span class="vad">Prov 5 – optimering och diskret funktionalitet
+          <small>Skriftligt prov utan dator.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="material">Material</h2>
+    <div class="rutnat">
+      <a class="kort webb" href="optimeringsguiden.html">
+        <span class="sort">Guide</span>
+        <span class="rubrik">Optimeringsguiden</span>
+        <p>Områdets uppslagsbok. Arton avsnitt om bildformat, komprimering,
+          <code>srcset</code>, lazy loading och hur du mäter din sajt i
+          nätverksfliken. Med felsökning, snabbreferens och ordträning.</p>
+      </a>
+      <a class="kort webb" href="diskret-funktionalitet.html">
+        <span class="sort">Fördjupning</span>
+        <span class="rubrik">Diskret funktionalitet</span>
+        <p>Hur man skriver JavaScript som lägger sig ovanpå en sida som redan
+          fungerar. <code>hidden</code>-mönstret, formulär som validerar utan skript,
+          <code>aria-live</code> – och hur du testar med JavaScript avstängt.</p>
+      </a>
+      <a class="kort gran" href="projekt-6.html">
+        <span class="sort">Uppgift</span>
+        <span class="rubrik">Projekt 6</span>
+        <p>Områdets projekt. Optimera sajtens bilder och överföringar, och se till att
+          ingenting kraschar utan JavaScript. Kraven i tre nivåer och matrisen.
+          Deadline 12 mars.</p>
+      </a>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Fördjupningsguiden är inte bara för A</span>
+      <p>Avsnitt 1–6 gäller alla: <b>att sajten inte ska krascha utan JavaScript är ett
+        ska-krav</b>, inte en utmaning. Det är avsnitt 10 och framåt – att skriva en egen
+        diskret funktion – som hör till A-spåret.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Exempelsajten ligger i itslearning</span>
+      <p>Guiderna hänvisar till <b>områdets exempelsajt</b> – Vikstads naturreservat i
+        två versioner, <code>diskret/</code> och <code>hardkodad/</code>. Den ligger som
+        en zip i itslearning under område 7. Packa upp den och öppna båda versionerna i
+        webbläsaren: flera av guidens <i>Prova själv</i> går ut på att jämföra dem och
+        mäta skillnaden.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Mät innan du ändrar något</span>
+      <p>Öppna din publicerade sajt, tryck <kbd>F12</kbd>, välj fliken <b>Network</b>,
+        kryssa i <b>Disable cache</b> och ladda om. Skriv av antal requests och total
+        vikt. Du kan inte visa en förbättring du inte har ett före-värde till, och
+        efteråt går det inte att mäta i efterhand.</p>
+    </div>
+
+    <h2 id="lektionerna">Lektionerna</h2>
+    <p>Sportlovet ligger mitt i området, mellan 12 och 22 februari, och fredag 5 mars
+      är ledig. Missade du ett pass? Sista kolumnen pekar på det du behöver läsa för
+      att komma ikapp.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Datum</th><th>Vad vi gör</th><th>Missade du passet?</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>tis 9/2</td>
+            <td><b>Bildoptimering.</b> Samma bild i fyra format med filstorleken uppe på projektorn. Format, komprimering, rätt dimensioner, <code>srcset</code> och <code>picture</code>. Uppgiften delas ut.</td>
+            <td><a href="optimeringsguiden.html#varfor">Guiden 1–9</a></td>
+          </tr>
+          <tr>
+            <td>fre 12/2</td>
+            <td><b>Överföringar och laddtid.</b> Nätverksfliken på din egen sajt: antal requests och total vikt. Lighthouse, lazy loading, typsnitt och cache.</td>
+            <td><a href="optimeringsguiden.html#antal">Guiden 10–14</a></td>
+          </tr>
+          <tr>
+            <td>mån 22/2</td>
+            <td><b>Diskret funktionalitet.</b> Vi stänger av JavaScript och ser vad som går sönder. De tre lagren, och vad som ska fungera utan skript.</td>
+            <td><a href="diskret-funktionalitet.html#vad">Fördjupningen 1–5</a></td>
+          </tr>
+          <tr>
+            <td>tis 23/2</td>
+            <td><b>Progressive enhancement.</b> Bygg basfunktionen i HTML och CSS, lägg skriptet ovanpå. Formulär som fungerar utan JavaScript, och <code>aria-live</code>.</td>
+            <td><a href="diskret-funktionalitet.html#steg">Fördjupningen 6–9</a></td>
+          </tr>
+          <tr>
+            <td>fre 26/2</td>
+            <td><b>Arbetspass.</b> Mätningen före, och den tyngsta bilden åtgärdad.</td>
+            <td><a href="optimeringsguiden.html#natverksfliken">Guiden 11</a></td>
+          </tr>
+          <tr>
+            <td>mån 1/3</td>
+            <td><b>Arbetspass.</b> Resten av bilderna: flera storlekar, <code>srcset</code> och <code>sizes</code>.</td>
+            <td><a href="optimeringsguiden.html#srcset">Guiden 6–7</a></td>
+          </tr>
+          <tr>
+            <td>tis 2/3</td>
+            <td><b>Arbetspass.</b> Stäng av JavaScript på din egen sajt och skriv ner allt som går sönder.</td>
+            <td><a href="diskret-funktionalitet.html#testa">Fördjupningen 11</a></td>
+          </tr>
+          <tr>
+            <td>mån 8/3</td>
+            <td><b>Arbetspass.</b> Laga det: <code>hidden</code>-mönstret och formulären. A-spåret börjar på sin egen funktion.</td>
+            <td><a href="diskret-funktionalitet.html#hidden">Fördjupningen 5 och 7</a></td>
+          </tr>
+          <tr>
+            <td>tis 9/3</td>
+            <td><b>Arbetspass.</b> Mätningen efter, Lighthouse, och <code>README.md</code>.</td>
+            <td><a href="projekt-6.html#kraven">Kraven</a></td>
+          </tr>
+          <tr>
+            <td>fre 12/3</td>
+            <td><b>Sista finputs.</b> Validera, kontrollera konsolen, gå igenom checklistan. <b>Deadline 23:59.</b></td>
+            <td><a href="projekt-6.html#checklista">Innan du lämnar in</a></td>
+          </tr>
+          <tr>
+            <td>mån 15/3</td>
+            <td><b>Prov 5.</b> Optimering och diskret funktionalitet. Skriftligt utan dator.</td>
+            <td><a href="optimeringsguiden.html#snabbreferens">Snabbreferensen</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="efterat">Vad du kan efter området</h2>
+    <ul>
+      <li>Säga vilket bildformat som passar till vad, och varför.</li>
+      <li>Skala och komprimera en bild till den storlek den faktiskt visas i.</li>
+      <li>Skriva <code>srcset</code>, <code>sizes</code> och <code>picture</code> så att
+        varje skärm får rätt fil.</li>
+      <li>Mäta din sajt i nätverksfliken och säga vad den väger.</li>
+      <li>Köra Lighthouse och läsa listan över vad som går att förbättra.</li>
+      <li>Förklara vad diskret funktionalitet är och varför det är A-spårets kärna.</li>
+      <li>Stänga av JavaScript och bedöma om sidan är degraderad eller trasig.</li>
+      <li>Bygga en funktion som fungerar utan skript och blir bättre med.</li>
+    </ul>
+
+    <footer class="fot">
+      <p><a href="../index.html">Tillbaka till kursen</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

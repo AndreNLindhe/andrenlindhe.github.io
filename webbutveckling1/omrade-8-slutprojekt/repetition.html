@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Repetition – Webbutveckling 1 område 8</title>
+  <link rel="stylesheet" href="../stil.css">
+  <style>
+    /* Svaren i Testa dig själv. Egen regel här – skalet har ingen för details. */
+    details.svar { margin: -0.4rem 0 1.4rem; max-width: var(--las, 40rem); }
+    details.svar summary { cursor: pointer; font-weight: 600; color: var(--webb); }
+    details.svar[open] summary { margin-bottom: 0.4rem; }
+    details.svar p { margin: 0; }
+  </style>
+</head>
+<body data-nyckel="WebbIND-1-8-repetition">
+
+<header class="topp">
+  <a href="index.html">← Område 8</a>
+  <span class="harifran"><strong>Repetition</strong> · Slutprojekt</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#sa-anvander-du">Så använder du sidan</a></li>
+      <li><a href="#omrade-1">1. Igång med webben</a></li>
+      <li><a href="#omrade-2">2. HTML: innehåll och struktur</a></li>
+      <li><a href="#omrade-3">3. CSS: form, layout och designsystem</a></li>
+      <li><a href="#omrade-4">4. UX, design och mobilanpassning</a></li>
+      <li><a href="#omrade-5">5. Publicering, juridik och säkerhet</a></li>
+      <li><a href="#omrade-6">6. Interaktivitet med moduler</a></li>
+      <li><a href="#omrade-7">7. Optimering och diskret funktionalitet</a></li>
+      <li><a href="#hur-hanger-det-ihop">8. Hur hänger det ihop?</a></li>
+      <li><a href="#ordlista">9. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 8 · inför pass 76 och slutprovet</p>
+    <h1>Repetition: kursen på en sida</h1>
+    <p class="inledning">Kursen område för område: det viktigaste, frågor att pröva dig själv på, och var i guiden du läser vidare.</p>
+
+    <p>Åtta veckor har gått sedan pass 75, och det mesta du ska kunna lärde du dig i höstas. Sidan samlar kursen område för område: det viktigaste, frågor att pröva dig själv på, och var i guiden du läser vidare. Den ersätter inte guiderna – den visar var du behöver dem.</p>
+
+    <h2 id="sa-anvander-du">Så använder du sidan</h2>
+
+    <p><b>Inför pass 76.</b> Passet börjar med ett quiz i lag över hela kursen, med frågor av samma slag som under <i>Testa dig själv</i>. Läs <i>Det viktigaste</i> för varje område innan.</p>
+
+    <p><b>Inför slutprovet.</b> Provet skrivs utan dator och täcker hela kursen. Det bygger på ett anonymiserat slutprojekt från klassen och har också frågor om juridik, etik och säkerhet från område 5. Du kommer att läsa kod på papper, hitta fel och skriva kod för hand.</p>
+
+    <p>Arbeta ett område i taget:</p>
+
+    <ol>
+
+      <li><b>Läs det viktigaste.</b> Stryk under det du inte känner igen.</li>
+
+      <li><b>Testa dig själv.</b> Täck över svaret, svara på papper och jämför sedan.</li>
+
+      <li><b>Gå till guiden där det tar stopp.</b> Under <i>Läs mer</i> står vilka avsnitt som hör till frågorna. Läs avsnittet, inte hela guiden.</li>
+
+    </ol>
+
+    <p>Avsnitt 1–7 följer kursens områden. Avsnitt 8 visar hur de hänger ihop, och 9 är en ordlista med kursens viktigaste ord.</p>
+
+    <h2 id="omrade-1">1. Igång med webben</h2>
+
+    <h3>Det viktigaste</h3>
+
+    <ul>
+
+      <li>Kursen har tre verktyg: <b>itslearning</b> för uppgifter, guider, deadlines, återkoppling och inlämning, <b>GitHub</b> för koden och den publicerade sajten, <b>Codespaces</b> för att skriva koden. Koden till GitHub, länken till itslearning – och repot ska vara <b>publikt</b>, annars ger länken 404 för alla utom dig.</li>
+
+      <li>En <b>commit</b> är en sparad punkt i historiken, med ett meddelande om vad du gjorde. En <b>push</b> skickar dina commits till GitHub. I VS Code är det <b>Sync Changes</b> som skickar – hoppar du över det är GitHub fortfarande tomt.</li>
+
+      <li><b>Internet</b> är näten och kablarna, vägarna. <b>Webben</b> är en av tjänsterna som åker på dem. E-post och spel använder samma vägar utan att vara webben.</li>
+
+      <li><b>Klienten</b> (webbläsaren) frågar, <b>servern</b> svarar, och <b>HTTP</b> är reglerna för hur frågan och svaret ser ut. En sida är ett dokument plus allt det i sin tur ber om – bilder, stilmallar och skript, var och en med sitt eget anrop.</li>
+
+      <li>Varje svar börjar med en <b>statuskod</b>: 200 (här är den), 301 (sidan har flyttat), 404 (servern har ingen sådan sida) och 500 (servern kraschade).</li>
+
+      <li><b>DNS</b> översätter ett namn som <code>google.com</code> till en IP-adress. DNS hämtar ingen sida, och svaret sparas i flera lager så att uppslagningen sällan behöver göras på nytt.</li>
+
+      <li>Adressens delar: protokoll, subdomän, domännamn, toppdomän, sökväg, filnamn, frågesträng och fragment. <code>index.html</code> är förvalet när filnamnet saknas, och fragmentet (delen efter <code>#</code>) skickas aldrig till servern.</li>
+
+      <li><b>HTTPS</b> är samma HTTP, krypterat på vägen. Hänglåset betyder att ingen kan tjuvlyssna, inte att den som äger sajten är ärlig.</li>
+
+    </ul>
+
+    <h3>Testa dig själv</h3>
+
+    <p><b>1.</b> Du har ändrat i <code>index.html</code>, skrivit ett meddelande och klickat på <b>Commit</b>. Ändringen syns ändå inte på <code>github.com</code>. Vad har du glömt?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Att klicka <b>Sync Changes</b>. Commiten ligger bara i ditt Codespace tills den skickats upp med en push.</p></details>
+
+    <p><b>2.</b> Vad är skillnaden mellan internet och webben?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Internet är näten och kablarna som datorer pratar över. Webben är sidorna och länkarna som åker på internet – en tjänst bland flera.</p></details>
+
+    <p><b>3.</b> Titta på adressen <code>https://www.example.se/kurser/index.html?niva=1#krav</code>. Vilken del skickas aldrig till servern, och vad heter den?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p><code>#krav</code>, fragmentet. Det pekar ut en plats på sidan, och det är webbläsaren som scrollar dit.</p></details>
+
+    <p><b>4.</b> Du skriver fel i adressen till en av dina egna sidor och får 404. En klasskamrat får 500 på en helt annan sajt. Vems fel är det i de två fallen?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>404 är ditt: servern svarade men hittade ingen sådan sida, oftast en felstavad sökväg eller en fil som saknas. 500 är serverns fel, och där kan du inte göra något.</p></details>
+
+    <h3>Läs mer</h3>
+
+    <ul>
+
+      <li><a href="../omrade-1-igang-med-webben/kom-igang.html">Kom igång</a>: avsnitt 1 <i>Tre verktyg, tre jobb</i>, 4 <i>Ändra något och spara det</i> och 5 <i>Lämna in</i>.</li>
+
+      <li><a href="../omrade-1-igang-med-webben/fran-adress-till-sida.html">Från adress till sida</a>: avsnitt 1–4 om internet, klient och server, DNS och adressens delar.</li>
+
+    </ul>
+
+    <h2 id="omrade-2">2. HTML: innehåll och struktur</h2>
+
+    <h3>Det viktigaste</h3>
+
+    <ul>
+
+      <li>En <b>tagg</b> står mellan vinkelparenteser, ett <b>element</b> är starttagg, innehåll och sluttagg tillsammans, och ett <b>attribut</b> står i starttaggen, som <code>href</code>. <code>img</code>, <code>meta</code>, <code>link</code>, <code>br</code> och <code>hr</code> har ingen sluttagg.</li>
+
+      <li>Varje sida har samma skelett: <code>&lt;!doctype html&gt;</code>, <code>&lt;html lang="sv"&gt;</code>, <code>head</code> och <code>body</code>. <code>&lt;meta charset="utf-8"&gt;</code> ska stå först i <code>head</code> – annars blir åäö konstiga tecken. <code>title</code> syns i fliken, <code>h1</code> syns på sidan.</li>
+
+      <li><b>Semantik</b> betyder att elementet säger vad innehållet är, inte hur det ser ut: <code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>article</code>, <code>aside</code>, <code>footer</code>. <code>main</code> finns exakt en gång per sida, och <code>div</code> är sista utvägen.</li>
+
+      <li><code>section</code> ska ha en rubrik. <code>article</code> är innehåll som går att klippa ut och fortfarande förstå. Rubrikerna bygger sidans innehållsförteckning: en <code>h1</code> per sida, och inga hopp från <code>h2</code> till <code>h4</code>.</li>
+
+      <li><code>ul</code> när ordningen inte spelar roll, <code>ol</code> när den gör det, <code>dl</code> med <code>dt</code> och <code>dd</code> för term och förklaring. Bara <code>li</code> får ligga direkt i <code>ul</code> och <code>ol</code>.</li>
+
+      <li>Använd <b>relativa sökvägar</b> (<code>stigar.html</code>, <code>bilder/karta.svg</code>, <code>../index.html</code>), aldrig ett inledande snedstreck. Gemener och bindestreck i filnamn. En ankarlänk <code>href="#vaxter"</code> hoppar till <code>id="vaxter"</code>, och ett <code>id</code> får bara finnas en gång.</li>
+
+      <li><code>alt</code> beskriver vad bilden <b>visar</b>. Dekorativ bild får <code>alt=""</code>, men <code>alt</code> får aldrig saknas. <code>width</code> och <code>height</code> anges utan enhet, och <code>figcaption</code> ligger inuti <code>figure</code>. Foto blir JPG eller WebP, ritad figur blir SVG.</li>
+
+      <li>En tabell är för data i rader och kolumner, aldrig för layout. <code>caption</code> ligger först, och rubrikceller är <code>th</code> med <code>scope="col"</code> eller <code>scope="row"</code>.</li>
+
+      <li>Varje formulärfält har en <code>label</code> vars <code>for</code> är <b>exakt samma sträng</b> som fältets <code>id</code>. <code>placeholder</code> är ingen etikett. Alternativknappar i samma grupp har samma <code>name</code> men olika <code>id</code>, och <code>fieldset</code> med <code>legend</code> säger vad frågan var.</li>
+
+      <li>Validera varje sida på <code>validator.w3.org</code> och rätta det <b>översta</b> felet först – ett tidigt fel skapar många följdfel. E-nivån är noll Error, C-nivån noll Error och noll Warning.</li>
+
+    </ul>
+
+    <h3>Testa dig själv</h3>
+
+    <p><b>1.</b> Vad är fel i den här koden?</p>
+
+<pre><code>&lt;ul&gt;
+  &lt;li&gt;Du får plocka bär och matsvamp.&lt;/li&gt;
+  &lt;p&gt;Hundar ska vara kopplade.&lt;/p&gt;
+  &lt;li&gt;Du får inte göra upp eld.&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Ett <code>p</code> ligger direkt i <code>ul</code>. Bara <code>li</code> får ligga där. Gör stycket till ett <code>li</code>, eller lägg det inuti ett.</p></details>
+
+    <p><b>2.</b> Vad är skillnaden mellan <code>title</code> och <code>h1</code>?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p><code>title</code> står i <code>head</code> och syns i fliken, i bokmärken och i sökresultat. <code>h1</code> står i <code>body</code> och är rubriken på själva sidan.</p></details>
+
+    <p><b>3.</b> En sida om fåglar har ett avsnitt "Fåglar" med en text om tranan och en om fiskgjusen. Vilket element får avsnittet, och vilket får varje art?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Avsnittet blir <code>section</code> och varje art <code>article</code>. Texten om tranan går att lyfta ut och förstå för sig själv. Avsnittet, som bara samlar artiklarna, gör det inte.</p></details>
+
+    <p><b>4.</b> Varför ska den första cellen i varje rad vara <code>&lt;th scope="row"&gt;</code> och inte <code>td</code>?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Då vet skärmläsaren att cellen är rubrik för raden. Den kan läsa upp "Strandleden, Längd, 4,1 km" i stället för bara "4,1 km".</p></details>
+
+    <h3>Läs mer</h3>
+
+    <p><a href="../omrade-2-html/html-guiden.html">HTML-guiden</a>: avsnitt 1 <i>Dokumentets grund</i>, 3 <i>Semantiska element</i>, 5 <i>Länkar och sökvägar</i>, 6 <i>Bilder</i>, 8 <i>Tabeller</i>, 9 <i>Formulär</i> och 10 <i>Validering och webbläsartest</i>. Felsökningstabellen i avsnitt 12 är bra att läsa inför provets hitta felet-frågor.</p>
+
+    <h2 id="omrade-3">3. CSS: form, layout och designsystem</h2>
+
+    <h3>Det viktigaste</h3>
+
+    <ul>
+
+      <li>CSS skrivs i en extern stilmall, inkopplad med <code>&lt;link rel="stylesheet" href="stil.css"&gt;</code> i <code>head</code> på <b>varje</b> sida. <code>style</code>-attribut i HTML:en används inte – de går inte att återanvända och är nästan omöjliga att skriva över.</li>
+
+      <li>En <b>regel</b> är selektor plus deklarationsblock. Varje deklaration är egenskap och värde och avslutas med semikolon. Glömmer du ett syns felet på raden efter. Kommentarer skrivs bara <code>/* så här */</code>.</li>
+
+      <li>Använd <b>klasser</b>. Element-selektorn träffar allt, och id-selektorn är så specifik att den blir svår att skriva över. Mellanslag betyder <i>någonstans inuti</i>, <code>&gt;</code> betyder <i>direkt barn</i>, och <code>a[aria-current="page"]</code> är en attributselektor.</li>
+
+      <li>När två regler krockar frågar webbläsaren: gäller regeln alls, vilken är mest specifik, vilken står sist? <b>Specificitet</b> räknas som id-klass-element, och 0-1-0 slår 0-0-9. <code>!important</code> löser ett problem och skapar nästa.</li>
+
+      <li>Det som handlar om text ärvs (<code>color</code>, <code>font-family</code>, <code>line-height</code>), det som handlar om lådan ärvs inte (<code>margin</code>, <code>padding</code>, <code>background</code>). Formulärfält behöver <code>font: inherit</code>.</li>
+
+      <li><b>Boxmodellen</b> är content, padding, border och margin. <code>box-sizing: border-box</code> gör att <code>width: 300px</code> betyder 300 pixlar, med padding och border inräknade. Två lodräta marginaler som möts slås ihop till den största.</li>
+
+      <li><code>rem</code> till typografi och avstånd, eftersom den följer besökarens inställda textstorlek. <code>px</code> till kanter. <code>line-height</code> skrivs utan enhet, och en typsnittsstack slutar med en generisk familj som <code>sans-serif</code>.</li>
+
+      <li><b>Flexbox</b> är en riktning: <code>display: flex</code> på behållaren, <code>flex-wrap: wrap</code> så att barnen radbryter, <code>gap</code> mellan dem. <code>justify-content</code> fördelar längs riktningen, <code>align-items</code> placerar tvärs.</li>
+
+      <li><b>Grid</b> är två riktningar. <code>repeat(auto-fit, minmax(16rem, 1fr))</code> ger ett rutnät som väljer antal kolumner själv. <code>fr</code> är en andel av det som blir över, och <code>grid-column: 1 / -1</code> sträcker ett barn över alla kolumner.</li>
+
+      <li>Ett <b>designsystem</b> samlar färg, typografi och avstånd i variabler på <code>:root</code>, som <code>--accent: #2f6f5e</code>, och hämtar dem med <code>var(--accent)</code>. Namnge efter roll, inte efter värde. Mörkt läge med <code>prefers-color-scheme</code> byter då bara värdena.</li>
+
+    </ul>
+
+    <h3>Testa dig själv</h3>
+
+    <p><b>1.</b> Texten i ingressen får varken rätt färg eller rätt storlek. Vad är fel?</p>
+
+<pre><code>.ingress {
+  color: var(--dov)
+  font-size: 1.25rem;
+}</code></pre>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Semikolon saknas efter <code>var(--dov)</code>. De två raderna läses då som en enda trasig deklaration, och felet märks på raden efter den som saknar semikolon.</p></details>
+
+    <p><b>2.</b> Stilmallen har <code>.kortrutnat p { max-width: none; }</code> högt upp och <code>p { max-width: 34rem; }</code> längre ned. Vilken gäller för ett stycke i kortrutnätet?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p><code>.kortrutnat p</code>. Den har specificiteten 0-1-1 mot 0-0-1, och specificiteten avgörs innan ordningen i filen spelar någon roll.</p></details>
+
+    <p><b>3.</b> Ett element har <code>width: 300px</code>, <code>padding: 20px</code> och <code>border: 1px solid</code>. Hur brett blir det utan <code>box-sizing: border-box</code>, och hur brett med?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Utan: 342 pixlar, eftersom padding och border läggs utanpå. Med: 300 pixlar.</p></details>
+
+    <p><b>4.</b> Du ska bygga en meny som radbryter och ett galleri med kort. Flexbox eller Grid, och varför?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Menyn i Flexbox, eftersom den ligger i en riktning. Galleriet i Grid med <code>auto-fit</code>, eftersom korten ska ligga i linje åt två håll.</p></details>
+
+    <h3>Läs mer</h3>
+
+    <p><a href="../omrade-3-css/css-guiden.html">CSS-guiden</a>: avsnitt 2 <i>Selektorer</i>, 3 <i>Kaskaden, specificitet och arv</i>, 5 <i>Boxmodellen</i>, 7 <i>Typografi och enheter</i>, 8 <i>Flexbox</i>, 9 <i>Grid</i> och 10 <i>CSS-variabler och designsystem</i>.</p>
+
+    <h2 id="omrade-4">4. UX, design och mobilanpassning</h2>
+
+    <h3>Det viktigaste</h3>
+
+    <ul>
+
+      <li><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code> ska finnas på varje sida. Utan den låtsas telefonen vara ungefär 980 pixlar bred, zoomar ut allt, och dina media queries löser aldrig ut.</li>
+
+      <li><b>Mobile first</b>: grundreglerna gäller den smala skärmen, och <code>@media (min-width: …)</code> lägger till för de breda. Det är lättare att lägga till än att ta bort.</li>
+
+      <li>Relativa enheter (<code>rem</code>, <code>%</code>, <code>fr</code>, <code>vw</code>, <code>ch</code>) gör att layouten anpassar sig själv. Sätt aldrig <code>font-size</code> på <code>html</code>. <code>vw</code> ensam saknar gränser – <code>clamp(1.9rem, 1.2rem + 2.4vw, 2.8rem)</code> ger minst, önskat och högst.</li>
+
+      <li><b>Brytpunkter</b> läggs där innehållet slutar fungera, inte där en telefonmodell råkar vara, och anges i <code>rem</code>. <code>flex-wrap</code>, <code>auto-fit</code>, <code>clamp()</code> och <code>max-width: 100%</code> klarar sig utan brytpunkt. Att byta riktning eller lägga till en sidospalt gör det inte.</li>
+
+      <li>En <b>wireframe</b> visar var innehållet ligger och hur viktigt det är, i gråskala. Du ritar mobil (375 px) och desktop (1280 px) med <b>samma innehåll</b>, omflyttat. HTML:en skrivs en gång, efter mobilramen.</li>
+
+      <li>Tangentbordet och skärmläsaren följer filen, inte layouten. Flyttar du ett block visuellt förbi något annat hoppar fokus när man tabbar.</li>
+
+      <li>UX: det viktigaste ska ligga högst upp och se viktigast ut. Hierarki skapas med storlek, position och kontrast. Bryt inte konventioner utan skäl – logotypen leder till startsidan, menyn ligger högst upp, aktuell sida är markerad.</li>
+
+      <li>Klickbara ytor är minst <b>44 × 44 pixlar</b>. Sidan ska svara: <code>:hover</code>, <code>:focus-visible</code>, <code>:active</code> och <code>aria-current="page"</code> talar om vad som händer och var du är.</li>
+
+      <li>Semantiken gör grovjobbet för tillgängligheten. En <code>&lt;button&gt;</code> går att nå med tangentbordet, en <code>&lt;div onclick&gt;</code> gör det inte. Hopplänken göms ovanför skärmkanten, aldrig med <code>display: none</code>.</li>
+
+      <li>Tangentbordstestet: ser du var du är, följer ordningen läsordningen, når du allt? Kontrasten ska vara 4,5:1 för brödtext och 3:1 för stor text. WAVE behöver en publicerad adress, och varken WAVE eller Lighthouse kan avgöra om en <code>alt</code>-text är bra.</li>
+
+    </ul>
+
+    <h3>Testa dig själv</h3>
+
+    <p><b>1.</b> Hopplänken ska synas när den får fokus, men den går inte att nå med <code>Tab</code>. Vad är fel?</p>
+
+<pre><code>.hoppa {
+  display: none;
+}
+
+.hoppa:focus {
+  display: block;
+}</code></pre>
+
+    <details class="svar"><summary>Visa svaret</summary><p><code>display: none</code> tar bort länken ur tabbordningen, så den kan aldrig få fokus. Göm den i stället ovanför skärmkanten med <code>position: absolute</code> och <code>top: -4rem</code>, och sätt <code>top: 0</code> vid <code>:focus</code>.</p></details>
+
+    <p><b>2.</b> Varför ska en brytpunkt skrivas <code>@media (min-width: 40rem)</code> och inte med <code>px</code>?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>En brytpunkt i <code>rem</code> flyttar sig när besökaren förstorar texten. Den som läser med större text får desktoplayouten senare, när texten faktiskt får plats.</p></details>
+
+    <p><b>3.</b> Vilken av de här tre behöver en media query: en meny som ska radbryta, ett kortrutnät som ska få färre kolumner, eller en sidospalt som ska komma till på bred skärm?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Sidospalten. Menyn klarar sig med <code>flex-wrap: wrap</code> och rutnätet med <code>repeat(auto-fit, minmax(16rem, 1fr))</code>, men Grid kan inte veta när det finns plats för en spalt till.</p></details>
+
+    <p><b>4.</b> Vilka tre saker kontrollerar du när du tangentbordstestar en sida?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Att du ser var fokus är, att ordningen följer läsordningen, och att du når allt som är klickbart.</p></details>
+
+    <h3>Läs mer</h3>
+
+    <p><a href="../omrade-4-ux-design-mobil/design-guiden.html">Designguiden</a>: avsnitt 1 <i>Viewport-taggen och mobile first</i>, 2 <i>Relativa enheter</i>, 3 <i>Media queries</i>, 4 och 6 om wireframen och vägen till kod, 7–8 om hierarki och klickbarhet, samt 10–12 om tillgänglighet, tangentbord och WAVE.</p>
+
+    <h2 id="omrade-5">5. Publicering, juridik och säkerhet</h2>
+
+    <p>Område 5 hade inget prov – Google Sites-sajten var redovisningen. Nu kommer det tillbaka.</p>
+
+    <h3>GDPR – det viktigaste</h3>
+
+    <ul>
+
+      <li>Personuppgiftslagen upphörde 2018. I stället gäller <b>GDPR</b>, en EU-förordning som gäller direkt i alla EU-länder. <b>IMY</b> har tillsyn över GDPR i Sverige, och <b>PTS</b> över kakreglerna i lagen om elektronisk kommunikation.</li>
+
+      <li>En <b>personuppgift</b> är allt som går att knyta till en levande person – även en bild, en röst, en IP-adress eller en beskrivning där ingen nämns vid namn.</li>
+
+      <li>GDPR bygger på sju principer: laglighet, korrekthet och öppenhet · ändamålsbegränsning · uppgiftsminimering · riktighet · lagringsminimering · integritet och konfidentialitet · ansvarsskyldighet. Den sista betyder att du ska kunna <b>visa</b> att du följer reglerna.</li>
+
+      <li>Varje behandling kräver en <b>rättslig grund</b>. Av sex är samtycke, avtal och intresseavvägning de vanligaste. Ett samtycke kan tas tillbaka när som helst.</li>
+
+      <li>En publicerad sajt är inte privat. Publicerar du uppgifter om andra är du <b>personuppgiftsansvarig</b>, och en tjänst som tar emot ditt formulär är <b>personuppgiftsbiträde</b>. Inbäddade klipp och typsnitt från Google skickar besökarens IP-adress vidare.</li>
+
+      <li>Kakor som inte är nödvändiga kräver samtycke först, aktivt, lika lätt att säga nej till som ja, med information, och möjligt att ångra. En statisk sajt på GitHub Pages sätter inga kakor och behöver ingen banner.</li>
+
+      <li>En läcka – en <b>personuppgiftsincident</b> – ska anmälas till IMY inom 72 timmar.</li>
+
+    </ul>
+
+    <h3>Upphovsrätt – det viktigaste</h3>
+
+    <ul>
+
+      <li>Upphovsrätten uppstår <b>automatiskt</b> när verket skapas, utan registrering och utan ©-symbol. Verket behöver <b>verkshöjd</b>, och tröskeln är låg. Idéer skyddas inte, bara uttrycket. Kod, foton och webbsidor är verk.</li>
+
+      <li>Den <b>ekonomiska rätten</b> – att kopiera och göra tillgängligt – går att sälja och licensiera. Den <b>ideella rätten</b> – namnangivelse och respekt för verket – går inte att sälja.</li>
+
+      <li>Skyddet gäller upphovspersonens livstid plus 70 år, räknat till årsskiftet efter dödsåret. En fotografisk bild utan verkshöjd skyddas i 50 år efter det år den togs.</li>
+
+      <li>Citat är tillåtna ur offentliggjorda verk, enligt god sed och i motiverad omfattning, med källa – men gäller i praktiken inte bilder. Att <b>länka</b> till öppet material är tillåtet. Att <b>bädda in</b> någon annans bild kan vara intrång.</li>
+
+      <li>Att en bild går att hitta på Google säger ingenting om vad du får göra med den. Gå till källan och leta efter en licens. Står ingen: fråga, eller välj en annan bild.</li>
+
+      <li><b>Creative Commons</b>: BY kräver erkännande, SA att du delar under samma licens, NC att användningen inte är kommersiell, ND att verket inte ändras. CC0 har inga villkor. Erkännandet skrivs som <b>TASL</b> – titel, upphovsperson, källa, licens – i <code>figcaption</code>.</li>
+
+      <li>Ett repo utan <code>LICENSE</code>-fil har alla rättigheter förbehållna. En helt AI-genererad bild har troligen ingen upphovsperson, men ska märkas som AI-genererad.</li>
+
+    </ul>
+
+    <h3>Säkerhet – det viktigaste</h3>
+
+    <ul>
+
+      <li>De fem vanligaste hoten är nätfiske, läckta lösenord, skadlig kod, social manipulation och gissade lösenord. Alla fem riktar sig mot människan, inte mot tekniken.</li>
+
+      <li>Långt slår krångligt: en <b>lösenordsfras</b> på fyra eller fler ord. Ett lösenord per tjänst, och en <b>lösenordshanterare</b> som minns dem åt dig.</li>
+
+      <li><b>Flerfaktorsautentisering</b> kräver något du vet plus något du har eller är. En passkey fungerar bara på rätt adress och går inte att fiska. Får du en inloggningsnotis du inte bett om är svaret nej.</li>
+
+      <li>Nätfiske avslöjas av avsändaradressen, brådska, en länk för att logga in, krav på betalning eller kod, bilagor och QR-koder, och att något inte stämmer. Gå själv till tjänsten i stället för att följa länken.</li>
+
+      <li>Hänglåset betyder att förbindelsen är krypterad och att certifikatet stämmer med adressen – inte att sajten är ärlig. Kryssa i <i>Enforce HTTPS</i> under <i>Settings → Pages</i>.</li>
+
+      <li>En statisk sajt har liten angreppsyta. Ett tredjepartsskript körs däremot med full tillgång hos varje besökare. Text från besökaren läggs in med <code>textContent</code>, aldrig <code>innerHTML</code> – annars öppnar du för <b>XSS</b>.</li>
+
+      <li>Lösenord, API-nycklar och <code>.env</code>-filer hör aldrig hemma i ett publikt repo. Lägg <code>.env</code> i <code>.gitignore</code>. Har en nyckel läckt byter du ut den hos tjänsten – historiken minns.</li>
+
+      <li>Ett lösenord är personligt och lagras aldrig i klartext, utan hashat. Hittar du ett hål säger du till: att ta sig in utan lov är dataintrång, även med god avsikt. MSB heter sedan 2026 Myndigheten för civilt försvar, och CERT-SE hör till FRA.</li>
+
+    </ul>
+
+    <h3>Testa dig själv</h3>
+
+    <p><b>1.</b> En förening vill skicka ett nyhetsbrev och frågar i sitt formulär efter namn, e-postadress, personnummer och skostorlek. Vilken princip bryter de mot, och hur?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Uppgiftsminimeringen. För att skicka ett nyhetsbrev behövs e-postadressen, kanske namnet – aldrig personnumret eller skostorleken.</p></details>
+
+    <p><b>2.</b> Din sajt ligger på GitHub Pages och har bara egen HTML och CSS. Behöver du en kakbanner? Vad ändras om du länkar in ett typsnitt från Google Fonts?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Nej, en statisk sajt med egen HTML och CSS sätter inga kakor. Med Google Fonts gör varje sidvisning ett anrop till Googles servrar med besökarens IP-adress, som är en personuppgift. Det ska du veta om och kunna berätta – eller undvika genom att lägga typsnittet i repot.</p></details>
+
+    <p><b>3.</b> En bild har licensen CC BY-ND 4.0. Får du beskära den och lägga den på din sajt?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Du får använda den med erkännande, men inte beskära den. ND betyder inga bearbetningar – verket ska användas som det är.</p></details>
+
+    <p><b>4.</b> Ett porträtt togs 1950. Fotografen dog 1960. Är bilden fri att använda 2027?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Har bilden verkshöjd är den skyddad till utgången av 2030, alltså 70 år efter dödsåret, och blir fri 1 januari 2031. Saknar den verkshöjd gick skyddet ut 50 år efter att den togs. Är du osäker ska du utgå från att den har verkshöjd.</p></details>
+
+    <p><b>5.</b> Vad är det för fel i koden, ur säkerhetssynpunkt?</p>
+
+<pre><code>const falt = document.querySelector("#sok");
+const utskrift = document.querySelector(".sokord");
+utskrift.innerHTML = falt.value;</code></pre>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Det besökaren skriver tolkas som HTML. Då kan hen skriva in taggar och skript som körs – det kallas XSS. Använd <code>utskrift.textContent = falt.value;</code>.</p></details>
+
+    <p><b>6.</b> Du upptäcker att en API-nyckel ligger i en fil du pushat till ditt publika repo. Du tar bort raden och committar igen. Är problemet löst?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Nej. Nyckeln finns kvar i historiken. Byt ut den hos tjänsten som gav dig den, så att den läckta blir värdelös, och lägg filen med hemligheter i <code>.gitignore</code>.</p></details>
+
+    <h3>Läs mer</h3>
+
+    <ul>
+
+      <li><a href="../omrade-5-publicering-juridik-sakerhet/gdpr.html">GDPR</a>: avsnitt 2–3, 6 <i>Din egen sajt</i>, 7 <i>Kakor och samtycke</i> och 10 <i>Vanliga missuppfattningar</i>.</li>
+
+      <li><a href="../omrade-5-publicering-juridik-sakerhet/upphovsratt-och-licenser.html">Upphovsrätt och licenser</a>: avsnitt 1–5, 7 <i>Creative Commons bokstav för bokstav</i>, 8 <i>Kod, typsnitt och AI-bilder</i> och 9 <i>Så anger du källa</i>.</li>
+
+      <li><a href="../omrade-5-publicering-juridik-sakerhet/sakerhet.html">Säkerhet</a>: avsnitt 1–4 om hot, lösenord, MFA och nätfiske, 6 <i>HTTPS och hänglåset</i>, 7 <i>Din sajt</i>, 8 <i>Hemligheter och repot</i> och 9 om det etiska kravet.</li>
+
+    </ul>
+
+    <h2 id="omrade-6">6. Interaktivitet med moduler</h2>
+
+    <h3>Det viktigaste</h3>
+
+    <ul>
+
+      <li>HTML svarar på <i>vad är det här?</i>, CSS på <i>hur ser det ut?</i> och JavaScript på <i>vad händer när någon gör något?</i> JavaScript i kursen körs i besökarens webbläsare: det sparar inget på en server, det kan stängas av, och koden syns för alla.</li>
+
+      <li>Koden ligger i en egen <code>.js</code>-fil, inkopplad med <code>&lt;script src="js/meny.js" defer&gt;&lt;/script&gt;</code> sist i <code>body</code> på varje sida där den ska användas. <code>defer</code> gör att filen hämtas parallellt och körs när hela HTML:en är klar.</li>
+
+      <li>Fem byggstenar: <b>variabel</b> (<code>const</code> som standard, <code>let</code> när värdet ska ändras), <b>funktion</b> (körs först när den anropas, med parenteser), <b>händelse</b>, <b>villkor</b> och <b>lista</b>.</li>
+
+      <li><code>document.querySelector(".menyknapp")</code> ger det första elementet som matchar, eller <code>null</code> om inget finns. <code>querySelectorAll</code> ger alla som en lista. I parentesen står en vanlig CSS-selektor. Därför börjar varje modul med <code>if (!knapp || !lista) { return; }</code> – saknas elementen avslutar den tyst i stället för att krascha sidan.</li>
+
+      <li>Sidan ändras med <code>textContent</code>, <code>classList.add</code>/<code>remove</code>/<code>toggle</code>/<code>contains</code>, <code>setAttribute</code> och <code>hidden</code>. För text används <code>textContent</code>, inte <code>innerHTML</code>.</li>
+
+      <li>Mönstret i hela modulbiblioteket: skriptet byter ett attribut som <code>aria-expanded</code>, <code>aria-pressed</code> eller <code>aria-invalid</code>, och stilmallen reagerar på det. Ingen modul sätter färger i koden.</li>
+
+      <li><code>knapp.addEventListener("click", stang)</code> – en namngiven funktion ges utan parenteser. Vanliga händelser är <code>click</code>, <code>keydown</code>, <code>submit</code> och <code>input</code>, och <code>handelse.preventDefault()</code> stoppar det webbläsaren annars hade gjort.</li>
+
+      <li>Jämför med <code>===</code>, aldrig <code>==</code>. <code>&amp;&amp;</code> är och, <code>||</code> är eller, <code>!</code> är inte. <code>false</code>, <code>0</code>, <code>""</code>, <code>null</code> och <code>undefined</code> räknas som falskt. Index i en lista börjar på 0.</li>
+
+      <li>Felsök i konsolen (<code>F12</code> → <b>Console</b>) och börja med fil och radnummer. <code>404</code> betyder fel sökväg, <code>Cannot read properties of null</code> att elementet inte hittades, och <code>is not defined</code> eller <code>is not a function</code> ett stavfel.</li>
+
+      <li>Allt i modulens <b>ÄNDRA HÄR</b>-zon är ditt, resten rör du inte. Byter du ett klassnamn måste det ändras i modulen, i HTML:en och i CSS:en.</li>
+
+    </ul>
+
+    <h3>Testa dig själv</h3>
+
+    <p><b>1.</b> Menyn öppnas direkt när sidan laddas, och sedan händer ingenting när du klickar. Vad är fel?</p>
+
+<pre><code>const knapp = document.querySelector(".menyknapp");
+knapp.addEventListener("click", oppna());</code></pre>
+
+    <details class="svar"><summary>Visa svaret</summary><p><code>oppna()</code> med parenteser anropar funktionen direkt när raden läses. Lyssnaren ska få funktionen som värde: <code>knapp.addEventListener("click", oppna);</code>.</p></details>
+
+    <p><b>2.</b> Konsolen säger <code>Cannot read properties of null (reading 'addEventListener')</code> och <code>at meny.js:48</code>. Vilka är de två vanligaste orsakerna?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Att klassnamnet i modulen inte stämmer med det i HTML:en, eller att skriptet kördes innan HTML:en var klar för att <code>defer</code> saknas i <code>script</code>-taggen.</p></details>
+
+    <p><b>3.</b> Vad är skillnaden mellan <code>querySelector</code> och <code>querySelectorAll</code>?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p><code>querySelector</code> ger det första elementet som matchar, eller <code>null</code>. <code>querySelectorAll</code> ger alla som matchar, som en lista du går igenom med till exempel <code>forEach</code>.</p></details>
+
+    <p><b>4.</b> Karusellen skriver "Bild 1 av 3" när variabeln <code>aktuell</code> är 0. Varför står det <code>aktuell + 1</code> i koden?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Index i en lista börjar på 0, men människor räknar från 1.</p></details>
+
+    <h3>Läs mer</h3>
+
+    <ul>
+
+      <li><a href="../omrade-6-moduler/js-guiden.html">JS-guiden</a>: avsnitt 2 <i>De fem byggstenarna</i>, 3 <i>Hitta element på sidan</i>, 4 <i>Ändra sidan</i>, 5 <i>Händelser</i>, 8 <i>Koppla in en modul</i>, 9 <i>Konsolen</i> och 10 <i>Anpassa en modul</i>. Avsnitt 11 läser en hel modul rad för rad.</li>
+
+      <li><a href="../omrade-6-moduler/modulbiblioteket.html">Modulbiblioteket</a>: <i>Så använder du sidan</i> och <i>Vilken ska du välja?</i> – användbart igen när slutprojektet ska få sin funktion.</li>
+
+    </ul>
+
+    <h2 id="omrade-7">7. Optimering och diskret funktionalitet</h2>
+
+    <h3>Det viktigaste</h3>
+
+    <ul>
+
+      <li>Bilden bär nästan hela vikten. Reservatets startsida väger 51 kB optimerad och 1 163 kB ooptimerad, och skillnaden är en enda bild.</li>
+
+      <li>Foto blir AVIF och WebP med JPEG som reserv. Logotyp, ikon, karta och diagram blir SVG. En skärmdump med text blir PNG. PNG är <b>förlustfri</b>, JPEG, WebP och AVIF är <b>förstörande</b>.</li>
+
+      <li>Skala ner bilden till den storlek den visas i innan du lägger in den. Komprimera från kvalitet 75 och gå nedåt tills du ser <b>artefakter</b> – gå då tillbaka ett steg.</li>
+
+      <li><code>width</code> och <code>height</code> på <code>img</code>, utan enhet, ger webbläsaren bildens proportioner. Då reserveras rutan direkt och texten hoppar inte (<b>layout shift</b>). I CSS:en hör <code>width: 100%</code> och <code>height: auto</code> ihop med attributen.</li>
+
+      <li><code>srcset</code> listar vilka filer som finns och hur breda de är (<code>800w</code>). <code>sizes</code> lovar hur bred bilden blir i layouten, och löftet måste stämma med CSS:en. I <code>picture</code> tar webbläsaren första <code>source</code> den förstår, och <code>img</code> med <code>alt</code> ligger sist.</li>
+
+      <li><code>loading="lazy"</code> på bilder längre ned på sidan, aldrig på den översta. Mät i nätverksfliken med <i>Disable cache</i> och <i>Slow 4G</i>, och kör Lighthouse på den publicerade adressen. Läs listan, inte siffran.</li>
+
+      <li><b>Diskret</b> betyder att JavaScript lägger sig ovanpå en sida som redan fungerar. Struktur, stil och beteende ligger i var sin fil, och <code>onclick</code> i HTML:en används aldrig. Att sajten inte kraschar utan JavaScript är ett E-krav – egen diskret funktionalitet är A-spårets kärna.</li>
+
+      <li><b><code>hidden</code>-mönstret</b>: det som bara fungerar med skript har <code>hidden</code> i HTML:en, skriptet kontrollerar att elementen finns och tar sedan bort <code>hidden</code>. Sätter du <code>display</code> på något som kan vara gömt, skriv <code>:not([hidden])</code>.</li>
+
+      <li><b>Progressive enhancement</b>: HTML som fungerar, CSS som gör sidan färdig, JavaScript som gör den bättre. Testfrågan är om besökaren förlorar en genväg eller innehållet när skriptet saknas.</li>
+
+      <li>Formuläret validerar redan i HTML:en med <code>required</code>, <code>type="email"</code>, <code>min</code> och <code>max</code>. Skriptet sätter <code>novalidate</code> själv, lyssnar på <code>submit</code> och frågar <code>checkValidity()</code>. Ett tomt element med <code>aria-live="polite"</code> läser upp det som ändras.</li>
+
+    </ul>
+
+    <h3>Testa dig själv</h3>
+
+    <p><b>1.</b> Webbläsaren kan AVIF, men hämtar ändå WebP-filen. Vad är fel?</p>
+
+<pre><code>&lt;picture&gt;
+  &lt;source type="image/webp" srcset="bilder/mossen-800.webp"&gt;
+  &lt;source type="image/avif" srcset="bilder/mossen-800.avif"&gt;
+  &lt;img src="bilder/mossen-800.jpg" width="800" height="533"
+       alt="Näckrosmossen strax före soluppgången."&gt;
+&lt;/picture&gt;</code></pre>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Ordningen. Webbläsaren tar första <code>source</code> den förstår, uppifrån och ner. AVIF ska stå först och WebP efter.</p></details>
+
+    <p><b>2.</b> Med JavaScript avstängt syns karusellens knapprad, fast den har <code>hidden</code> i HTML:en. Stilmallen har <code>.karusell-styr { display: flex; }</code>. Förklara, och rätta regeln.</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p><code>hidden</code> gömmer elementet med <code>display: none</code> i webbläsarens egen stilmall, och din regel är starkare. Skriv <code>.karusell-styr:not([hidden]) { display: flex; }</code>.</p></details>
+
+    <p><b>3.</b> Ett formulär har <code>novalidate</code> i HTML:en, och ett skript sköter valideringen. Vad händer när JavaScript inte körs?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Då kontrollerar ingen formuläret, och det går att skicka tomt. <code>novalidate</code> ska inte stå i HTML:en – skriptet sätter det själv när det vet att det kan ta över.</p></details>
+
+    <p><b>4.</b> Vad betyder <code>sizes="(min-width: 60rem) 640px, 94vw"</code>?</p>
+
+    <details class="svar"><summary>Visa svaret</summary><p>Är fönstret minst 60rem brett blir bilden 640 pixlar bred, annars 94 procent av fönsterbredden. Webbläsaren väljer fil ur <code>srcset</code> utifrån det, så talet måste stämma med bildens bredd i CSS:en.</p></details>
+
+    <h3>Läs mer</h3>
+
+    <ul>
+
+      <li><a href="../omrade-7-optimering-diskret/optimeringsguiden.html">Optimeringsguiden</a>: avsnitt 2 <i>De fyra bildformaten</i>, 4 <i>Rätt dimensioner</i>, 5 <i><code>width</code> och <code>height</code></i>, 6 <i><code>srcset</code> och <code>sizes</code></i>, 7 <i><code>picture</code></i>, 9 <i><code>loading="lazy"</code></i>, 11 <i>Nätverksfliken</i> och 12 <i>Lighthouse</i>.</li>
+
+      <li><a href="../omrade-7-optimering-diskret/diskret-funktionalitet.html">Diskret funktionalitet</a>: avsnitt 1–6 gäller alla, särskilt 5 <i><code>hidden</code>-mönstret</i>. Avsnitt 7 <i>Formulär</i> och 8 <i><code>aria-live</code></i> hör till C- och A-spåret, och 11 visar hur du testar med JavaScript avstängt.</li>
+
+    </ul>
+
+    <h2 id="hur-hanger-det-ihop">8. Hur hänger det ihop?</h2>
+
+    <p>Den första webbplatsen 1991 var bara text och länkar – ingen CSS, ingen JavaScript. Kursen har följt samma ordning, och din sajt växte i lager:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Lager</th><th>Område</th><th>Frågan lagret svarar på</th></tr></thead>
+        <tbody>
+          <tr><td>Struktur</td><td>2</td><td>Vad är det här?</td></tr>
+          <tr><td>Form</td><td>3</td><td>Hur ser det ut?</td></tr>
+          <tr><td>Anpassning och tillgänglighet</td><td>4</td><td>Fungerar det på alla skärmar och för alla besökare?</td></tr>
+          <tr><td>Interaktivitet</td><td>6</td><td>Vad händer när någon gör något?</td></tr>
+          <tr><td>Optimering</td><td>7</td><td>Kommer det fram fort, och håller det när något fattas?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Område 1 gav dig verktygen, och område 5 reglerna för att publicera: vems bilder, vems uppgifter, vems lösenord. Ordningen är densamma som progressive enhancement i område 7: HTML som bär innehållet, CSS som gör sidan färdig, JavaScript som förbättrar.</p>
+
+    <p><b>Slutprojektet använder allt, i samma ordning.</b> Byggpassen följer lagren – struktur (pass 77–78), layout (79), responsivitet (80), interaktivitet (81) och optimering (82) – och sedan testning, publicering och dokumentation. Varje pass hänvisar till samma guider som står under <i>Läs mer</i> ovan.</p>
+
+    <h2 id="ordlista">9. Ordlista</h2>
+
+    <p>Hämtad ur guidernas ordlistor. Orden används i kursen utan att förklaras om.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>commit</b></td><td>En sparad punkt i historiken, med ett meddelande om vad du gjorde</td></tr>
+          <tr><td><b>push</b></td><td>Att skicka dina commits upp till GitHub</td></tr>
+          <tr><td><b>statuskod</b></td><td>Numret svaret börjar med: 200, 301, 404, 500</td></tr>
+          <tr><td><b>DNS</b></td><td>Uppslagningen som översätter ett namn till ett nummer</td></tr>
+          <tr><td><b>element</b></td><td>Starttagg, innehåll och sluttagg tillsammans</td></tr>
+          <tr><td><b>attribut</b></td><td>Extra information i starttaggen, som <code>href="..."</code></td></tr>
+          <tr><td><b>semantik</b></td><td>Att elementet säger vad innehållet är, inte hur det ser ut</td></tr>
+          <tr><td><b>alt-text</b></td><td>Texten som ersätter en bild för den som inte ser den</td></tr>
+          <tr><td><b>validering</b></td><td>Att kontrollera att koden följer standarden</td></tr>
+          <tr><td><b>landmärke</b></td><td>Ett semantiskt block, som <code>main</code> eller <code>nav</code>, som går att hoppa till</td></tr>
+          <tr><td><b>selektor</b></td><td>Det som säger vad regeln träffar</td></tr>
+          <tr><td><b>specificitet</b></td><td>Hur exakt en selektor är, räknad som id-klass-element</td></tr>
+          <tr><td><b>boxmodellen</b></td><td>Content, padding, border, margin</td></tr>
+          <tr><td><b>flexbox</b></td><td>Layout i en riktning</td></tr>
+          <tr><td><b>grid</b></td><td>Layout i två riktningar</td></tr>
+          <tr><td><b>designsystem</b></td><td>De återkommande värdena, samlade och namngivna</td></tr>
+          <tr><td><b>viewport</b></td><td>Den yta i webbläsaren där sidan visas</td></tr>
+          <tr><td><b>mobile first</b></td><td>Grundreglerna gäller smal skärm, media queries lägger till för breda</td></tr>
+          <tr><td><b>brytpunkt</b></td><td>Bredden där en media query börjar gälla</td></tr>
+          <tr><td><b>wireframe</b></td><td>Skiss som visar var innehållet ligger, utan färg och form</td></tr>
+          <tr><td><b>WCAG</b></td><td>Regelverket för webbtillgänglighet</td></tr>
+          <tr><td><b>personuppgift</b></td><td>Uppgift som går att knyta till en levande person – även bild, röst och IP-adress</td></tr>
+          <tr><td><b>rättslig grund</b></td><td>Det lagliga skälet till en behandling. Krävs alltid</td></tr>
+          <tr><td><b>verkshöjd</b></td><td>Kravet på originalitet: verket ska vara resultatet av egna, fria val</td></tr>
+          <tr><td><b>nätfiske</b></td><td>Meddelanden som lurar dig att lämna ut uppgifter eller logga in på en falsk sida</td></tr>
+          <tr><td><b>DOM</b></td><td>Webbläsarens modell av sidan, som JavaScript läser och ändrar</td></tr>
+          <tr><td><b>händelselyssnare</b></td><td>Kod som väntar på en händelse och svarar på den</td></tr>
+          <tr><td><b><code>defer</code></b></td><td>Attribut på <code>script</code> som gör att koden körs när HTML:en är klar</td></tr>
+          <tr><td><b>srcset</b></td><td>Attribut som listar vilka filstorlekar som finns</td></tr>
+          <tr><td><b>diskret</b></td><td>Om skript: lägger sig ovanpå en sida som redan fungerar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="projekt-7.html">Till Projekt 7</a> · <a href="index.html">Tillbaka till område 8</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

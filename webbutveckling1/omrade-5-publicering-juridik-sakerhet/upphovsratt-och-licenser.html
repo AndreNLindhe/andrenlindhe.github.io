@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Upphovsrättsguiden – Webbutveckling 1 område 5</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-5-upphovsratt">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Guide</strong> · Publicering, juridik och säkerhet</span>
+  <a href="#missuppfattningar">Missuppfattningar</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#skyddet">1. Vad upphovsrätten skyddar</a></li>
+      <li><a href="#tva-ratter">2. Två rätter: den ekonomiska och den ideella</a></li>
+      <li><a href="#skyddstid">3. Hur länge skyddet gäller</a></li>
+      <li><a href="#undantagen">4. Undantagen: citat, länkar och privat bruk</a></li>
+      <li><a href="#google">5. "Jag hittade den på Google"</a></li>
+      <li><a href="#licenser">6. Licenser: när upphovspersonen redan sagt ja</a></li>
+      <li><a href="#cc">7. Creative Commons bokstav för bokstav</a></li>
+      <li><a href="#kod-typsnitt-ai">8. Kod, typsnitt och AI-bilder</a></li>
+      <li><a href="#kalla">9. Så anger du källa</a></li>
+      <li><a href="#nar-det-gar-fel">10. När det går fel</a></li>
+      <li><a href="#langre">11. Ta det längre</a></li>
+      <li><a href="#missuppfattningar">12. Vanliga missuppfattningar</a></li>
+      <li><a href="#snabbreferens">13. Snabbreferens</a></li>
+      <li><a href="#ordlista">14. Ordlista</a></li>
+      <li><a href="#kallor">15. Källor</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 5 · guide</p>
+    <h1>Upphovsrätt och licenser</h1>
+    <p class="inledning">Den här guiden handlar om det du redan gjort många gånger utan att tänka på det: lagt in en bild du hittat, använt ett typsnitt, kopierat ett kodstycke. Varje gång var det någon annans verk, och lagen säger något om vad du fick göra med det. Guiden säger vad – och visar hur du gör rätt utan att det blir krångligt.</p>
+
+    <p>Myndigheten som förklarar upphovsrätten i Sverige är Patent- och registreringsverket, PRV. Källhänvisningarna i guiden är hämtade 11 september 2026.</p>
+
+    <h2 id="efterat">Vad du kan efter guiden</h2>
+    <ul>
+      <li>Säga vad upphovsrätten skyddar, hur den uppstår och hur länge den gäller.</li>
+      <li>Skilja på ekonomisk och ideell rätt, och förklara varför den ideella inte går att sälja.</li>
+      <li>Avgöra om du får använda en bild, en text eller ett kodstycke du hittat på nätet.</li>
+      <li>Läsa en Creative Commons-licens och veta vad var och en av bokstäverna kräver av dig.</li>
+      <li>Ange källa och licens korrekt i en bildtext och i ett <code>README</code>.</li>
+      <li>Förklara vad som händer om man bryter mot upphovsrätten.</li>
+    </ul>
+
+    <h2 id="skyddet">1. Vad upphovsrätten skyddar</h2>
+    <p>Lagen heter <i>lag (1960:729) om upphovsrätt till litterära och konstnärliga verk</i>, och första paragrafen säger det mesta: <i>"Den som har skapat ett litterärt eller konstnärligt verk har upphovsrätt till verket."</i></p>
+
+    <p><b>Verk</b> är ett brett ord. Lagen räknar upp texter, datorprogram, musik, film, fotografier, bildkonst, byggnadskonst och brukskonst – och lägger till <i>"eller verk som har kommit till uttryck på något annat sätt"</i>. En webbsida är ett verk. Din CSS kan vara ett verk. Bilden du tog med mobilen är ett verk.</p>
+
+    <p>Tre saker att ha klart för sig:</p>
+
+    <ul>
+      <li><b>Skyddet uppstår automatiskt.</b> I samma ögonblick som verket skapas. Ingen registrering, ingen ©-symbol, inget formulär. PRV: <i>"Det krävs ingen registrering eller formell ansökan."</i></li>
+      <li><b>Det krävs originalitet.</b> Lagen kallar det <i>verkshöjd</i>: verket ska vara resultatet av upphovspersonens egna, fria val. Tröskeln är låg. En vanlig semesterbild klarar den oftast. En lista över öppettider gör det inte.</li>
+      <li><b>Idéer skyddas inte, bara uttrycket.</b> Idén att göra en sajt om Vikstad är fri. Texten någon skrev om Vikstad är skyddad.</li>
+    </ul>
+
+    <h3>Realistiskt exempel</h3>
+
+    <p>Du skriver tre stycken om GDPR på din sajt i Projekt 4. De är skyddade av upphovsrätten från det att du sparade dem. Ingen får kopiera dem till sin sajt utan att fråga dig. Det gäller åt andra hållet också: du får inte kopiera IMY:s text till din sajt, och det är därför uppgiften kräver egna formuleringar.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Titta på tre saker på din egen sajt: en text du skrivit, en bild du tagit och din <code>stil.css</code>. Vilka av dem har du fattat egna, fria val i? Alla tre är sannolikt verk.</p>
+
+    <h2 id="tva-ratter">2. Två rätter: den ekonomiska och den ideella</h2>
+    <p>Upphovsrätten är egentligen två knippen av rättigheter.</p>
+
+    <h3>Den ekonomiska rätten</h3>
+
+    <p>Ensamrätten att <b>framställa exemplar</b> av verket och att <b>göra det tillgängligt för allmänheten</b>. Lägga upp en bild på en webbsida är båda delarna: filen kopieras till servern, och alla som besöker sidan kan se den. PRV: <i>"endast den som har skapat bilden, upphovspersonen, har rätt att bestämma hur bilden får användas, kopieras, delas eller säljas."</i></p>
+
+    <p>Den ekonomiska rätten går att sälja, ge bort och licensiera. Det är den ett förlag köper av en författare, och den en fotograf ger dig en bit av när du köper en bild.</p>
+
+    <h3>Den ideella rätten</h3>
+
+    <p>Två saker, i lagens 3 §:</p>
+
+    <ul>
+      <li><b>Namnangivelse.</b> Upphovspersonen ska anges <i>"i den omfattning och på det sätt god sed kräver"</i> när verket används. Det är därför "Foto: Anna Berg" står under bilden i tidningen.</li>
+      <li><b>Respekträtten.</b> Verket får inte ändras eller visas i ett sammanhang som är kränkande för upphovspersonen.</li>
+    </ul>
+
+    <p>Den ideella rätten går <b>inte</b> att sälja. PRV: <i>"Denna slags ideella rätt kan som huvudregel inte skrivas bort i avtal."</i> Även när en fotograf sålt alla ekonomiska rättigheter har hen kvar rätten att bli namngiven. Det är därför du ska ange upphovsperson också på bilder du har lov att använda – lovet gällde den ekonomiska rätten, inte den ideella.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Leta upp en bild på en nyhetssajt. Hitta namnangivelsen. Den finns nästan alltid, ofta i litet grått typsnitt i bildens kant – och den är där för att lagen kräver det, inte för att tidningen är artig.</p>
+
+    <h2 id="skyddstid">3. Hur länge skyddet gäller</h2>
+    <p><b>Huvudregeln: upphovspersonens livstid plus 70 år.</b> Lagens 43 §: skyddet gäller <i>"till utgången av sjuttionde året efter det år då upphovsmannen avled"</i>. Efter det är verket <b>fritt</b> – det tillhör allmänheten, och vem som helst får använda det.</p>
+
+    <p>Räkna alltid från årsskiftet efter dödsåret. Astrid Lindgren dog 2002. Hennes texter blir fria 1 januari 2073.</p>
+
+    <h3>Fotografier har två skyddstider</h3>
+
+    <p>Här finns en särregel som är lätt att missa. Lagen skiljer på:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Skydd</th><th>Hur länge</th></tr></thead>
+        <tbody>
+          <tr><td><b>Fotografiskt verk</b></td><td>Bild med verkshöjd – fotografens egna val syns i bilden</td><td>Livstid + 70 år (43 §)</td></tr>
+          <tr><td><b>Fotografisk bild</b></td><td>Bild utan verkshöjd – en rak dokumentation, en bild från en övervakningskamera, ett passfoto</td><td>50 år efter det år bilden togs (49 a §)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Skillnaden spelar roll för gamla bilder. Ett fotografi från 1960-talet utan verkshöjd är fritt i dag. Ett fotografiskt verk från samma tid är skyddat till 70 år efter att fotografen dör – och lever fotografen fortfarande har skyddet inte ens börjat räknas.</p>
+
+    <p>Är du osäker på om en bild har verkshöjd: utgå från att den har det. Tröskeln är låg.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Hitta ett konstverk eller en text du gillar av någon som är död. Slå upp dödsåret. Räkna ut när verket blir – eller blev – fritt. Wikimedia Commons har många gamla verk just för att skyddstiden gått ut, och anger ofta varför bilden är fri.</p>
+
+    <h2 id="undantagen">4. Undantagen: citat, länkar och privat bruk</h2>
+    <p>Ensamrätten har hål, och lagen räknar upp dem. Tre av dem behöver du kunna.</p>
+
+    <h3>Citat (22 §)</h3>
+
+    <p><i>"Var och en får citera ur offentliggjorda verk i överensstämmelse med god sed och i den omfattning som motiveras av ändamålet."</i></p>
+
+    <p>Fyra villkor ligger i den meningen:</p>
+
+    <ol>
+      <li><b>Offentliggjort.</b> Du får citera ur en publicerad bok, inte ur någons opublicerade anteckningar.</li>
+      <li><b>God sed.</b> Källa och upphovsperson anges. Citatet återges korrekt.</li>
+      <li><b>Motiverat av ändamålet.</b> Du citerar för att diskutera, kritisera eller belägga något – inte för att fylla ut din sida med någon annans text.</li>
+      <li><b>Omfattning.</b> Så mycket som ändamålet kräver, inte mer. Ett stycke för att visa vad IMY säger om samtycke är ett citat. Hela IMY-sidan är en kopia.</li>
+    </ol>
+
+    <p><b>Citaträtten gäller i praktiken inte bilder.</b> En bild går inte att "citera en del av" – tar du med den tar du med hela. Lagen har ett snävt undantag för bilder i kritiska och vetenskapliga framställningar (23 §), men en skolsajt faller sällan under det. Utgå från att du behöver lov, eller en licens, för varje bild.</p>
+
+    <h3>Länkar</h3>
+
+    <p>Att <b>länka</b> till en sida som redan ligger öppet på nätet är tillåtet. Det slogs fast av EU-domstolen i ett svenskt mål: journalister på Göteborgs-Posten stämde en tjänst som länkade till deras artiklar, och domstolen svarade att en länk till material som redan är fritt tillgängligt inte är ett nytt tillgängliggörande (mål C-466/12, Svensson, 2014).</p>
+
+    <p>Att <b>bädda in</b> – visa någon annans bild eller film direkt på din sida med <code>&lt;img src="https://…"&gt;</code> eller en <code>iframe</code> – är en annan sak. Materialet ser ut att vara ditt, och ligger det där utan upphovspersonens tillstånd kan inbäddningen vara ett intrång. Länka hellre. Vill du visa, be om lov eller använd material med licens.</p>
+
+    <h3>Privat bruk (12 §)</h3>
+
+    <p>Du får kopiera ett offentliggjort verk för <b>privat bruk</b> – spara en bild på din dator, skriva ut en artikel, göra en kopia åt en vän. Men en webbsida är inte privat: den som lägger upp kopian på en sajt gör den tillgänglig för allmänheten, och då gäller undantaget inte längre. Samma sak som i GDPR-guidens avsnitt om Lindqvist-domen.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Ta ett stycke ur PRV:s frågor och svar (länk i källorna) och citera det korrekt på en testsida: citattecken, PRV som källa, länk. Skriv sedan en mening om vad citatet visar. Nu uppfyller du alla fyra villkoren.</p>
+
+    <h2 id="google">5. "Jag hittade den på Google"</h2>
+    <p>Det här är den vanligaste missuppfattningen i hela området, och den förtjänar ett eget avsnitt.</p>
+
+    <p>Google Bilder är en sökmotor. Den visar bilder som ligger på andra sajter. Att bilden går att hitta säger ingenting om vad du får göra med den. PRV: skyddet gäller <i>"oavsett om verket publiceras på internet eller sprids på annat sätt"</i>.</p>
+
+    <p>Samma sak gäller Pinterest, Instagram, Tumblr och skärmbilder ur YouTube. Att något är lätt att kopiera gör det inte fritt att kopiera.</p>
+
+    <p>Så här tar du reda på vad som gäller för en bild du hittat:</p>
+
+    <ol>
+      <li><b>Gå till källan.</b> Klicka dig fram till sidan där bilden ligger, inte sökresultatet.</li>
+      <li><b>Leta efter en licens.</b> Står det Creative Commons, CC0, "public domain" eller "fri att använda"? Då gäller den licensen – läs vad den kräver, avsnitt 7.</li>
+      <li><b>Står inget?</b> Då är bilden skyddad med alla rättigheter förbehållna. Du behöver fråga upphovspersonen. Ett mejl räcker ofta, och många säger ja till en skolsajt om de blir namngivna.</li>
+      <li><b>Får du inget svar?</b> Använd en annan bild.</li>
+    </ol>
+
+    <p>Det snabbaste sättet att slippa hela problemet: <b>ta bilden själv</b>, eller rita den. Då är du upphovsperson och behöver inte fråga någon.</p>
+
+    <h2 id="licenser">6. Licenser: när upphovspersonen redan sagt ja</h2>
+    <p>En <b>licens</b> är ett tillstånd i förväg. Upphovspersonen har bestämt på vilka villkor vem som helst får använda verket, och skrivit ner det, så att du inte behöver fråga.</p>
+
+    <p>Licensen tar inte bort upphovsrätten. Upphovspersonen har den kvar, och har valt att ge bort en del av den ekonomiska rätten på vissa villkor. Bryter du mot villkoren faller licensen, och då är du tillbaka i ett vanligt intrång.</p>
+
+    <p>Var du hittar licensierat material:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Källa</th><th>Vad</th><th>Licens</th></tr></thead>
+        <tbody>
+          <tr><td>Wikimedia Commons</td><td>Bilder, ljud, kartor</td><td>Varje fil har sin egen, står under bilden. Ofta CC BY-SA eller fri på grund av ålder</td></tr>
+          <tr><td>Unsplash, Pexels, Pixabay</td><td>Fotografier</td><td>Egna licenser: fri användning, men läs villkoren – Unsplash förbjuder till exempel att sälja bilderna vidare oförändrade</td></tr>
+          <tr><td>Openverse</td><td>Sökmotor för CC-licensierat material</td><td>Visar licensen i sökresultatet</td></tr>
+          <tr><td>Google Fonts</td><td>Typsnitt</td><td>Nästan alla under SIL Open Font License</td></tr>
+          <tr><td>Riksarkivet, Digitalt museum</td><td>Historiska bilder</td><td>Anges per bild. Många är fria på grund av ålder</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kolla licensen <b>varje gång</b>, även på sajter du litar på. Wikimedia Commons har bilder under flera olika licenser, och Pixabay har bytt villkor mer än en gång.</p>
+
+    <h2 id="cc">7. Creative Commons bokstav för bokstav</h2>
+    <p><b>Creative Commons</b> (CC) är en uppsättning färdiga licenser som en ideell organisation tagit fram, och som blivit standard för att dela bilder, texter och läromedel öppet. En CC-licens består av bokstäver, och varje bokstav är ett villkor.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Bokstäver</th><th>Villkor</th><th>Du måste</th></tr></thead>
+        <tbody>
+          <tr><td><b>BY</b></td><td>Erkännande (<i>attribution</i>)</td><td>Ange upphovsperson, källa, licens och om du ändrat något. Ingår i alla CC-licenser utom CC0</td></tr>
+          <tr><td><b>SA</b></td><td>Dela lika (<i>share alike</i>)</td><td>Publicera det du gör med verket under samma licens</td></tr>
+          <tr><td><b>NC</b></td><td>Icke-kommersiell (<i>non-commercial</i>)</td><td>Inte tjäna pengar på användningen. En skolsajt är inte kommersiell</td></tr>
+          <tr><td><b>ND</b></td><td>Inga bearbetningar (<i>no derivatives</i>)</td><td>Använda verket som det är – inte beskära, färga om eller översätta</td></tr>
+          <tr><td><b>CC0</b></td><td>Inga villkor alls</td><td>Ingenting. Upphovspersonen har avstått från allt hen kan avstå från</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Bokstäverna kombineras: <b>CC BY 4.0</b> kräver bara erkännande. <b>CC BY-NC-SA 4.0</b> kräver erkännande, förbjuder kommersiell användning, och kräver att du delar under samma licens. Siffran är versionen; 4.0 är den aktuella.</p>
+
+    <p><b>Erkännandet – det du faktiskt skriver.</b> Creative Commons rekommenderar fyra delar, och de förkortar det <i>TASL</i>: <b>T</b>itel, <b>A</b>uthor (upphovsperson), <b>S</b>ource (länk till källan), <b>L</b>icense (licensen, med länk). Avsnitt 9 visar hur det ser ut i HTML.</p>
+
+    <div class="notis">
+      <span class="rubrik">Även CC0 förtjänar ett namn</span>
+      <p>CC0 kräver inget erkännande, men den ideella rätten till namnangivelse går enligt svensk lag inte att avstå från helt. Ange upphovsperson ändå när du vet vem det är. Det kostar dig en rad och är alltid rätt.</p>
+    </div>
+
+    <h3>Prova själv</h3>
+
+    <p>Sök en bild på Wikimedia Commons på något som passar din sajt. Hitta licensen under bilden. Skriv ner de fyra TASL-delarna. Bestäm om du får beskära bilden – det står i bokstäverna.</p>
+
+    <h2 id="kod-typsnitt-ai">8. Kod, typsnitt och AI-bilder</h2>
+    <p>Tre fall som är vanliga i kursen och där reglerna ser lite annorlunda ut.</p>
+
+    <h3>Kod</h3>
+
+    <p>Datorprogram är verk enligt 1 §. Det gäller kod på GitHub, på Stack Overflow och i kodgenomgångar. Två saker att veta:</p>
+
+    <ul>
+      <li><b>Ett repo utan licensfil är "alla rättigheter förbehållna".</b> Att koden ligger öppet på GitHub betyder att du får läsa den, inte att du får kopiera den. GitHub säger det själva i sina hjälpsidor. Vill man att andra ska få använda koden lägger man till en <code>LICENSE</code>-fil.</li>
+      <li><b>Öppen källkod har licenser med olika krav.</b> <b>MIT</b> och liknande: gör vad du vill, behåll upphovsnotisen. <b>GPL</b>: får användas, men det du bygger med den måste också släppas under GPL. Det finns fler, men de två visar spannet.</li>
+    </ul>
+
+    <p>Kursens modulbibliotek i område 6 kommer med licens. Det du hittar på egen hand måste du kontrollera.</p>
+
+    <p>Att <b>skriva av</b> ett kort kodstycke för att lära sig hur något fungerar – som du gör i kursens guider – är inte intrånget. Att klistra in någon annans hela stilmall i sitt repo och lämna in det som sitt eget är två fel på en gång: ett upphovsrättsligt och ett mot skolans regler om fusk.</p>
+
+    <h3>Typsnitt</h3>
+
+    <p>Ett typsnitt är ett datorprogram och skyddas som ett. Google Fonts typsnitt ligger nästan alla under <b>SIL Open Font License</b>, som tillåter användning på sajter, inbäddning och till och med ändring – men inte att du säljer typsnittet självt. Laddar du ner ett typsnitt från någon annan sajt: läs licensen. "Gratis för privat bruk" är vanligt, och en publicerad sajt är inte privat bruk.</p>
+
+    <h3>AI-genererade bilder</h3>
+
+    <p>Reglerna är nya och delvis oprövade, så guiden säger bara det som är säkert:</p>
+
+    <ul>
+      <li>Upphovsrätt förutsätter en människa som skapat verket. En bild som helt genererats av ett AI-verktyg utifrån en prompt har enligt de flesta bedömare <b>ingen upphovsperson</b>, och därmed ingen upphovsrätt – ingen kan hindra andra från att använda den, men du kan inte heller hävda att den är din.</li>
+      <li>AI-verktygens egna villkor gäller ändå. Läs vad tjänsten säger om användning.</li>
+      <li>Ber du verktyget härma en namngiven fotograf eller konstnär, eller reproducera ett känt verk, kan resultatet göra intrång i det verket.</li>
+      <li>Skriv ut att bilden är AI-genererad och med vilket verktyg. Det är god sed, och det är vad läsaren vill veta.</li>
+    </ul>
+
+    <p>Använder du AI-bilder i Projekt 4 räknas de inte som egna bilder i matrisen, och de ska märkas.</p>
+
+    <h2 id="kalla">9. Så anger du källa</h2>
+    <p>Källhänvisningen gör två saker på en gång: uppfyller den ideella rätten (namnangivelse) och licensens krav (erkännande). Den ska stå <b>vid</b> verket, inte på en separat sida ingen hittar.</p>
+
+    <h3>Bild i HTML</h3>
+
+    <p>Bildtexten hör hemma i <code>figcaption</code>, och den ska innehålla TASL: titel, upphovsperson, källa, licens.</p>
+
+<pre><code>&lt;figure&gt;
+  &lt;img src="bilder/torget.jpg" alt="Vikstads torg en sommarmorgon, sett från kyrktrappan"&gt;
+  &lt;figcaption&gt;
+    &lt;a href="https://commons.wikimedia.org/"&gt;Vikstad torg&lt;/a&gt;
+    av Anna Berg, via Wikimedia Commons,
+    &lt;a href="https://creativecommons.org/licenses/by-sa/4.0/"&gt;CC BY-SA 4.0&lt;/a&gt;. Beskuren.
+  &lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+    <p>"Beskuren" är ordet som säger att du ändrat verket. Det kräver BY-licensen, och det är respekträtten som gör det till en artighet även utan licens.</p>
+
+    <h3>Bild i Google Sites</h3>
+
+    <p>Samma fyra delar, i bildtexten under bilden. Google Sites har en bildtextfunktion i bildens meny; går det inte att länka därifrån, skriv adressen i klartext.</p>
+
+    <h3>Alla bildkällor i README</h3>
+
+    <p>I ett kodprojekt är det god sed att också lista bildkällorna på ett ställe, så att den som tar över repot vet vad som gäller:</p>
+
+<pre><code>## Bilder
+
+- bilder/torget.jpg – "Vikstad torg" av Anna Berg, Wikimedia Commons, CC BY-SA 4.0, beskuren
+- bilder/karta.svg – egen
+- bilder/kyrkan.jpg – foto av mig, 2026</code></pre>
+
+    <h3>Text du citerar</h3>
+
+    <p>Citattecken, upphovsperson eller utgivare, och var det står. På webben: en länk.</p>
+
+    <blockquote><p><i>"Nödvändiga kakor är de som måste finnas för att webbplatsen ska fungera som det är tänkt."</i> – PTS, <a href="https://pts.se/internet-och-telefoni/kakor-cookies/">Kakor (cookies)</a>, läst 11 september 2026.</p></blockquote>
+
+    <p>Datumet är inte pynt. Myndighetssidor uppdateras, och den som läser din sajt om två år ska kunna se att citatet stämde när du hämtade det.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Välj en bild på din nuvarande sajt som inte är din. Skriv om bildtexten till en korrekt TASL-hänvisning. Saknar bilden licens och du inte vet vem som tagit den: byt ut den. Det är kravet i Projekt 4, och det är lika bra att göra det nu.</p>
+
+    <h2 id="nar-det-gar-fel">10. När det går fel</h2>
+    <p>Upphovsrättsintrång är ett brott. Lagens 53 § ger <b>böter eller fängelse i högst två år</b> för den som med uppsåt eller av grov oaktsamhet gör intrång. Fängelse är sällsynt och kräver stor skala, men böter och framför allt <b>skadestånd</b> enligt 54 § är verkliga: den som använt ett verk utan lov ska betala en skälig ersättning för användningen – i praktiken vad en licens hade kostat – och därutöver ersättning för den skada intrånget orsakat.</p>
+
+    <p>Så här ser det oftast ut i praktiken för en liten sajt:</p>
+
+    <ol>
+      <li>Ett brev från en fotograf, en bildbyrå eller ett ombud: "Ni använder vår bild utan licens. Ta bort den och betala X kronor." Beloppen för en enda bild ligger ofta i spannet några tusen till tiotusentals kronor.</li>
+      <li>Ignoreras brevet kan det bli ett krav i domstol.</li>
+    </ol>
+
+    <p>Bildbyråer använder automatisk bildsökning som hittar deras bilder på sajter oavsett hur små sajterna är. "Ingen kommer att märka det" stämmer inte längre.</p>
+
+    <p>PRV bedömer inte tvister – de förklarar reglerna. Tvister <i>"prövas av domstol"</i>.</p>
+
+    <h3>Realistiskt exempel</h3>
+
+    <p>Sök på "skadestånd bild webbplats" hos en juridisk nyhetssajt och du hittar svenska domar där en privatperson eller ett litet företag dömts att betala för en enda bild hämtad från nätet. Ett sådant fall, med årtal, belopp och vad som gick fel, är ett konkret exempel som passar Projekt 4 väl.</p>
+
+    <h2 id="langre">11. Ta det längre</h2>
+    <h3>Skriv en bildpolicy för din sajt</h3>
+
+    <p>Bestäm vilka bilder som får finnas på din sajt – egna, CC-licensierade, köpta – och hur varje bild ska anges. Gå igenom hela sajten och gör den korrekt. Lägg policyn som ett avsnitt i <code>README.md</code>. Den som kan göra det har förstått avsnitt 5–9 i praktiken.</p>
+
+    <h3>Välj en licens för ditt eget verk</h3>
+
+    <p>Ditt repo saknar troligen <code>LICENSE</code>. Bestäm om du vill att andra ska få använda din kod och dina texter, och på vilka villkor. Lägg till licensen och förklara i Projekt 4 varför du valde som du gjorde. Det vänder på perspektivet: från vad du får göra med andras verk till vad andra får göra med ditt.</p>
+
+    <h3>Ett fall från EU-domstolen</h3>
+
+    <p>Svensson (länkar) och Lindqvist (privat sajt) är två svenska mål som format hela EU:s tillämpning. Läs sammanfattningen av ett av dem – de finns på svenska på EU-domstolens sajt – och förklara på din sajt vad frågan var, vad domstolen svarade och vad det betyder för dig som publicerar.</p>
+
+    <h2 id="missuppfattningar">12. Vanliga missuppfattningar</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det låter så här</th><th>Så är det</th><th>Vad du gör i stället</th></tr></thead>
+        <tbody>
+          <tr><td>"Bilden låg på Google, så den är fri"</td><td>Google visar bilder som ligger på andras sajter. Skyddet gäller oavsett</td><td>Gå till källan och leta efter licensen</td></tr>
+          <tr><td>"Det står ingen © så den är inte skyddad"</td><td>Skyddet uppstår automatiskt. Symbolen betyder ingenting juridiskt i Sverige</td><td>Utgå från att allt är skyddat tills du sett en licens</td></tr>
+          <tr><td>"Jag skrev 'källa: internet'"</td><td>Det är ingen källa. Namnangivelse kräver upphovspersonen</td><td>TASL: titel, upphovsperson, källa, licens</td></tr>
+          <tr><td>"Jag ändrade lite, så nu är den min"</td><td>Bearbetningar kräver lov från originalets upphovsperson (4 §)</td><td>Fråga, eller använd en licens som tillåter bearbetning – inte ND</td></tr>
+          <tr><td>"Det är en skolsajt, så det är tillåtet"</td><td>Skolans avtal om kopiering gäller i klassrummet, inte på en publik sajt</td><td>Behandla sajten som vilken publicerad sajt som helst</td></tr>
+          <tr><td>"Jag citerade bara bilden"</td><td>Citaträtten gäller i praktiken bara text</td><td>Lov eller licens för varje bild</td></tr>
+          <tr><td>"Koden låg öppet på GitHub"</td><td>Öppet betyder läsbart. Utan <code>LICENSE</code> är alla rättigheter förbehållna</td><td>Leta efter licensfilen; saknas den, fråga eller skriv egen kod</td></tr>
+          <tr><td>"Typsnittet var gratis"</td><td>Gratis för privat bruk är vanligt, och en sajt är inte privat bruk</td><td>Läs licensen. Google Fonts är säkra</td></tr>
+          <tr><td>"Ingen märker en liten sajt"</td><td>Bildbyråer söker automatiskt</td><td>Räkna med att det märks</td></tr>
+          <tr><td>"AI-bilden är min, jag skrev prompten"</td><td>Utan mänsklig skapande insats finns troligen ingen upphovsrätt alls</td><td>Märk bilden som AI-genererad, räkna den inte som egen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="snabbreferens">13. Snabbreferens</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fråga</th><th>Svar</th><th>Paragraf</th></tr></thead>
+        <tbody>
+          <tr><td>Vad skyddas?</td><td>Litterära och konstnärliga verk med verkshöjd, inklusive kod, foto och webbsidor</td><td>1 §</td></tr>
+          <tr><td>När uppstår skyddet?</td><td>Automatiskt när verket skapas</td><td>–</td></tr>
+          <tr><td>Vad är den ekonomiska rätten?</td><td>Ensamrätt att kopiera och göra tillgängligt för allmänheten</td><td>2 §</td></tr>
+          <tr><td>Vad är den ideella rätten?</td><td>Namnangivelse och respekt för verket. Går inte att avtala bort</td><td>3 §</td></tr>
+          <tr><td>Hur länge?</td><td>Livstid + 70 år</td><td>43 §</td></tr>
+          <tr><td>Fotografisk bild utan verkshöjd?</td><td>50 år efter det år bilden togs</td><td>49 a §</td></tr>
+          <tr><td>Får jag citera?</td><td>Ja, ur offentliggjorda verk, enligt god sed, i motiverad omfattning, med källa</td><td>22 §</td></tr>
+          <tr><td>Får jag citera bilder?</td><td>I praktiken nej</td><td>23 § är snävt</td></tr>
+          <tr><td>Får jag länka?</td><td>Ja, till sådant som redan är öppet</td><td>C-466/12</td></tr>
+          <tr><td>Får jag kopiera för eget bruk?</td><td>Ja, men en sajt är inte eget bruk</td><td>12 §</td></tr>
+          <tr><td>Vad händer vid intrång?</td><td>Böter eller fängelse högst två år, plus skadestånd</td><td>53–54 §</td></tr>
+          <tr><td>CC BY</td><td>Ange upphovsperson, källa, licens, ändringar</td><td>–</td></tr>
+          <tr><td>CC BY-SA</td><td>Som BY, och dela under samma licens</td><td>–</td></tr>
+          <tr><td>CC BY-NC</td><td>Som BY, inte kommersiellt</td><td>–</td></tr>
+          <tr><td>CC BY-ND</td><td>Som BY, inga ändringar</td><td>–</td></tr>
+          <tr><td>CC0</td><td>Inga villkor. Ange namn ändå</td><td>–</td></tr>
+          <tr><td>TASL</td><td>Titel · upphovsperson (Author) · källa (Source) · licens (License)</td><td>–</td></tr>
+          <tr><td>Repo utan LICENSE</td><td>Alla rättigheter förbehållna</td><td>–</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">14. Ordlista</h2>
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>verk</b></td><td>Det upphovsrätten skyddar: en text, bild, film, låt, kod – allt med verkshöjd</td></tr>
+          <tr><td><b>verkshöjd</b></td><td>Kravet på originalitet: verket ska vara resultatet av egna, fria val</td></tr>
+          <tr><td><b>upphovsperson</b></td><td>Den som skapat verket. Lagen säger fortfarande "upphovsman"</td></tr>
+          <tr><td><b>ekonomisk rätt</b></td><td>Ensamrätten att kopiera verket och göra det tillgängligt. Går att sälja</td></tr>
+          <tr><td><b>ideell rätt</b></td><td>Rätten att bli namngiven och att verket inte kränks. Går inte att sälja</td></tr>
+          <tr><td><b>exemplarframställning</b></td><td>Kopiering, i vilken form som helst – även till en server</td></tr>
+          <tr><td><b>tillgängliggörande</b></td><td>Att visa, sprida eller framföra verket för allmänheten</td></tr>
+          <tr><td><b>skyddstid</b></td><td>Tiden skyddet gäller. Efter den är verket fritt</td></tr>
+          <tr><td><b>fritt verk</b></td><td>Verk vars skyddstid gått ut. Kallas på engelska <i>public domain</i></td></tr>
+          <tr><td><b>citaträtt</b></td><td>Undantaget som tillåter korta, motiverade citat med källa</td></tr>
+          <tr><td><b>bearbetning</b></td><td>En ändrad version av ett verk: översättning, beskärning, remix. Kräver lov</td></tr>
+          <tr><td><b>licens</b></td><td>Tillstånd i förväg på skrivna villkor</td></tr>
+          <tr><td><b>Creative Commons</b></td><td>Färdiga, standardiserade licenser för öppen delning</td></tr>
+          <tr><td><b>erkännande</b></td><td>Att ange upphovsperson, källa och licens. <i>Attribution</i> på engelska</td></tr>
+          <tr><td><b>TASL</b></td><td>Minnesregel för ett komplett erkännande: Title, Author, Source, License</td></tr>
+          <tr><td><b>öppen källkod</b></td><td>Kod med en licens som tillåter användning och ändring, till exempel MIT eller GPL</td></tr>
+          <tr><td><b>intrång</b></td><td>Att använda ett verk utan lov och utan undantag</td></tr>
+          <tr><td><b>skadestånd</b></td><td>Ersättningen den som gjort intrång ska betala</td></tr>
+          <tr><td><b>PRV</b></td><td>Patent- och registreringsverket. Förklarar upphovsrätten, avgör inte tvister</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kallor">15. Källor</h2>
+    <p>Alla hämtade 11 september 2026.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Källa</th><th>Vad du hittar där</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://www.prv.se/sv/upphovsratt/om-upphovsratt/">PRV – Om upphovsrätt</a></td><td>Grunderna: vad som skyddas, hur skyddet uppstår</td></tr>
+          <tr><td><a href="https://www.prv.se/sv/upphovsratt/om-upphovsratt/fragor-och-svar-om-upphovsratt/">PRV – Frågor och svar om upphovsrätt</a></td><td>Citat, skyddstid, "är det fritt för att det ligger på nätet"</td></tr>
+          <tr><td><a href="https://www.prv.se/sv/upphovsratt/for-anvandare/upphovsratt-pa-bilder/">PRV – Upphovsrätt på bilder</a></td><td>Ekonomisk och ideell rätt för bilder</td></tr>
+          <tr><td><a href="https://www.prv.se/sv/kurser/prv-skolan-online/upphovsratt/">PRV-skolan – Upphovsrätt</a></td><td>Kort kurs i upphovsrätt, från PRV</td></tr>
+          <tr><td><a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/lag-1960729-om-upphovsratt-till-litterara-och_sfs-1960-729/">Upphovsrättslagen i fulltext</a></td><td>Lagtexten hos riksdagen. 1, 3, 12, 22, 43, 49 a, 53 och 54 § är de guiden bygger på</td></tr>
+          <tr><td><a href="https://creativecommons.org/cc-licenses/">Creative Commons – Om licenserna</a></td><td>Bokstäverna förklarade av organisationen bakom dem. Inte en myndighet</td></tr>
+          <tr><td><a href="https://commons.wikimedia.org/">Wikimedia Commons</a></td><td>Licensierade bilder med licensen angiven per fil</td></tr>
+          <tr><td><a href="https://openverse.org/">Openverse</a></td><td>Sökmotor för CC-licensierat material</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 5</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

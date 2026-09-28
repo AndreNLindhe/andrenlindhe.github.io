@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projektguiden – Webbutveckling 1 område 8</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="WebbIND-1-8-projektguiden">
+
+<header class="topp">
+  <a href="index.html">← Område 8</a>
+  <span class="harifran"><strong>Guide</strong> · Slutprojekt</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#processen">1. Processen i sex steg</a></li>
+      <li><a href="#kravspec">2. Från kund till kravspecifikation</a></li>
+      <li><a href="#avgransning">3. Avgränsningen</a></li>
+      <li><a href="#plan">4. Projektplanen: mål, tidsplan och milstolpar</a></li>
+      <li><a href="#risker">5. Risker</a></li>
+      <li><a href="#wireframe">6. Sitemap och wireframes</a></li>
+      <li><a href="#bygget">7. Bygget i fyra milstolpar</a></li>
+      <li><a href="#par">8. Två i samma repo</a></li>
+      <li><a href="#test">9. Testprotokollet</a></li>
+      <li><a href="#readme">10. <code>README.md</code></a></li>
+      <li><a href="#uppfoljning">11. Uppföljningen</a></li>
+      <li><a href="#langre">12. Ta det längre</a></li>
+      <li><a href="#felsokning">13. Felsökning</a></li>
+      <li><a href="#snabbreferens">14. Snabbreferens</a></li>
+      <li><a href="#ordlista">15. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 8 · guide</p>
+    <h1>Projektguiden: från kund till färdig sajt</h1>
+    <p class="inledning">Processen steg för steg – krav, plan, bygge, test och uppföljning. Exemplen kommer från Ekerverkstan, en påhittad cykelverkstad i Vikstad.</p>
+
+    <p>Slutprojektet lär dig ingen ny kod. Det du ska lära dig är <b>processen</b>: att ta reda på vad någon behöver, skriva ner det, planera, bygga, testa och i efterhand jämföra med planen. Den här guiden går igenom processen steg för steg. Koden står i guiderna från område 2–7, och den här guiden säger när du ska slå upp dem.</p>
+
+    <p>Exemplen kommer från <b>Ekerverkstan</b>, en påhittad cykelverkstad i Vikstad. Hela dess projektdokument är ifyllt, och sajten är byggd efter det. Du får låna arbetssättet, inte innehållet.</p>
+
+    <p>Kraven guiden stödjer står i <a href="projekt-7.html">Projekt 7</a>.</p>
+
+    <h2 id="efterat">Vad du kan efter guiden</h2>
+
+    <ul>
+
+      <li>Göra om det en kund säger till krav som går att pröva.</li>
+
+      <li>Skilja på ska-krav, bör-krav och det som inte ingår.</li>
+
+      <li>Skriva mål som går att svara ja eller nej på efteråt.</li>
+
+      <li>Göra en tidsplan mot de pass du faktiskt har, och se när den inte håller.</li>
+
+      <li>Förutse vad som kan gå fel och bestämma i förväg vad du gör då.</li>
+
+      <li>Rita en sitemap och veta vilka wireframes som behövs.</li>
+
+      <li>Arbeta två i samma repo utan att skriva över varandra.</li>
+
+      <li>Testa en sajt systematiskt och skriva en buggrapport som går att använda.</li>
+
+      <li>Skriva en <code>README.md</code> och en uppföljning som förklarar, inte bara räknar upp.</li>
+
+    </ul>
+
+    <p>Avsnitt 1–3 hör till lektion 74, 4–6 till lektion 75, 7–8 till bygget från lektion 76, 9 till lektion 83 och 10–11 till lektion 84.</p>
+
+    <h2 id="processen">1. Processen i sex steg</h2>
+
+    <p>Varje webbprojekt, stort eller litet, går igenom samma steg. De har olika namn på olika arbetsplatser, men ordningen är densamma:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Frågan</th><th>I ditt projekt</th><th>Del i dokumentet</th></tr></thead>
+        <tbody>
+          <tr><td>1. Krav</td><td>Vad behöver kunden?</td><td>Lektion 74</td><td>1. Kravspecifikation</td></tr>
+          <tr><td>2. Plan</td><td>Hur och när ska det byggas?</td><td>Lektion 75</td><td>2. Projektplan</td></tr>
+          <tr><td>3. Bygge</td><td>–</td><td>Lektion 76–82</td><td>2.4 Tidsplan, kolumnen <i>Gjort</i></td></tr>
+          <tr><td>4. Test</td><td>Fungerar det, för alla?</td><td>Lektion 83</td><td>3. Testprotokoll</td></tr>
+          <tr><td>5. Leverans</td><td>Är det publicerat och beskrivet?</td><td>Lektion 84</td><td><code>README.md</code></td></tr>
+          <tr><td>6. Uppföljning</td><td>Blev det som planerat?</td><td>Lektion 84</td><td>4. Uppföljning</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Två saker är värda att se redan nu.</p>
+
+    <p><b>Steg 1 och 2 görs före uppehållet</b>, steg 3–6 efter. När du kommer tillbaka i maj har du glömt det mesta av vad du tänkte i mars. Det du skrev ner finns kvar. Skriv därför planen så att någon annan skulle kunna bygga efter den – den någon annan är du själv, åtta veckor senare.</p>
+
+    <p><b>Steg 6 jämför med steg 1 och 2.</b> Uppföljningen går bara att skriva om kraven och målen var tydliga från början. Ett krav som <i>"sajten ska vara snygg"</i> går inte att följa upp. Därför lägger du mest tid på det första steget.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Läs Ekerverkstans projektdokument från början till slut innan du skriver något eget. Det tar tio minuter och visar hur de fyra delarna hänger ihop.</p>
+
+    <h2 id="kravspec">2. Från kund till kravspecifikation</h2>
+
+    <p>En <b>kravspecifikation</b> (ofta förkortat <i>kravspec</i>) är en lista över vad sajten ska göra, skriven så att både du och kunden kan hålla med om den. Den är det du bygger efter, och det du bedöms mot.</p>
+
+    <h3>Börja med vad kunden säger</h3>
+
+    <p>Kundbeskrivningen har ett stycke som heter <i>Kunden säger</i>. Det är kundens egna ord, och de är ofta oprecisa. Så här lät Ekerverkstan:</p>
+
+    <blockquote><p>"På våren står telefonen aldrig still. Vad kostar en service, hur lång väntetid, lagar ni elcyklar. Vi vill att folk ska kunna se det själva."</p></blockquote>
+
+    <p>Tre frågor, ett problem. Kravspecens första avsnitt, <b>1.1 Kunden och syftet</b>, blev:</p>
+
+    <blockquote><p>Problemet är telefonen. På våren ringer den hela dagarna med samma tre frågor: vad en service kostar, hur lång väntetiden är och om de lagar elcyklar. Sajten ska svara på de frågorna, så att telefonen används till att boka.</p></blockquote>
+
+    <p>Lägg märke till att syftet inte är <i>"en snygg hemsida"</i>. Syftet är att telefonen ska ringa mindre. Allt annat i kravspecen går att pröva mot det.</p>
+
+    <h3>Målgruppen och scenarierna</h3>
+
+    <p><b>Målgruppen</b> är de som besöker sajten. Skriv ålder, vilken skärm de oftast har, och vad de vill få gjort. Har kunden flera grupper, skriv om var och en.</p>
+
+    <p>Ett <b>scenario</b> är en påhittad besökare med ett ärende. Det gör målgruppen konkret:</p>
+
+    <blockquote><p><b>Amir, 29</b>, har fått punktering på väg till jobbet. Han står vid cykeln och vill veta om verkstaden har öppet nu och vad det kostar. Han har telefonen i handen.</p></blockquote>
+
+    <p>Ur det scenariot kommer ett krav nästan av sig självt: öppettiderna ska synas direkt, på en telefon, utan att Amir behöver leta.</p>
+
+    <h3>Krav som går att pröva</h3>
+
+    <p>Det här är avsnittets viktigaste del. Ett krav är bara användbart om du efteråt kan svara ja eller nej på om det är uppfyllt.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Går inte att pröva</th><th>Går att pröva</th></tr></thead>
+        <tbody>
+          <tr><td>Sajten ska vara snygg</td><td>Kontrasten är minst 4,5:1 i både ljust och mörkt läge</td></tr>
+          <tr><td>Öppettiderna ska synas tydligt</td><td>Öppettider och telefon syns utan att scrolla på startsidan i en telefon</td></tr>
+          <tr><td>Sajten ska vara snabb</td><td>Startsidan väger under 300 kB på en telefon</td></tr>
+          <tr><td>Priserna ska vara lätta att hitta</td><td>Priset nås med högst två tryck från startsidan</td></tr>
+          <tr><td>Formuläret ska vara bra</td><td>Formuläret går att skicka med och utan JavaScript och säger vad som är fel</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Mallens kravtabell har kolumnen <b>Så prövar jag det</b>. Fyll i den för varje krav. Kan du inte skriva hur du ska pröva kravet, är kravet för vagt – skriv om det.</p>
+
+    <h3>Ska och bör</h3>
+
+    <p>Kundbeskrivningen har två listor: <i>Måste finnas</i> och <i>Gärna</i>. De blir dina ska- och bör-krav.</p>
+
+    <ul>
+
+      <li><b>Ska-krav</b> måste vara uppfyllda när du lämnar in. Stryk inget ska-krav utan att prata med läraren.</li>
+
+      <li><b>Bör-krav</b> gör du om tiden räcker. När tidsplanen spricker är det bör-kraven du stryker, i en ordning du har bestämt i förväg.</li>
+
+    </ul>
+
+    <p>Ekerverkstan har sex ska-krav och två bör-krav. Sex till åtta krav totalt är en rimlig storlek för fyra till sex sidor.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Ta din kunds <i>Måste finnas</i>-lista. Skriv om varje punkt till ett krav som går att pröva, och skriv hur du prövar det. Jämför med tabellen ovan: står det <i>snygg</i>, <i>tydlig</i>, <i>bra</i> eller <i>lätt</i> någonstans, är du inte klar.</p>
+
+    <h2 id="avgransning">3. Avgränsningen</h2>
+
+    <p><b>Avgränsningen</b> säger vad som <i>inte</i> ingår. Den skyddar dig från ett projekt som växer tills det inte blir klart.</p>
+
+    <p>Skriv det som kunden kanske tror att hen får, men som du inte bygger:</p>
+
+    <blockquote><ul><li>Riktig bokning med kalender ingår inte. Formuläret är en förfrågan, och verkstaden ringer upp.</li><li>Formuläret skickar ingenting. Att ta emot uppgifter kräver en server, och det ligger utanför kursen.</li><li>Ingen webbshop och ingen inloggning.</li></ul></blockquote>
+
+    <p>Den andra punkten gäller alla i klassen. Din sajt ligger på GitHub Pages, som bara skickar ut filer och inte kan ta emot något. Ett formulär på din sajt kan se ut och bete sig som ett riktigt – det validerar, det visar fel – men ingenting skickas. Skriv det i avgränsningen, så vet både kunden och läraren att du vet det.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Läs din kunds <i>Gärna</i>-lista och fråga dig för varje punkt: hinner jag det, och kan det alls byggas med HTML, CSS och JavaScript utan server? Det som svarar nej på någon av frågorna hör hemma i avgränsningen.</p>
+
+    <h2 id="plan">4. Projektplanen: mål, tidsplan och milstolpar</h2>
+
+    <p>Kravspecen säger <b>vad</b>. Projektplanen säger <b>hur och när</b>.</p>
+
+    <h3>Mål</h3>
+
+    <p>Ett <b>mål</b> säger vad som ska vara sant när projektet är klart. Det liknar ett krav, men handlar om vad besökaren kan göra, inte om vad sajten innehåller.</p>
+
+    <blockquote><p>1. Den som ringer för att fråga om pris hittar priset själv, med högst två tryck från startsidan. 2. En bokningsförfrågan går att fylla i på en telefon utan att zooma. 3. Sajten fungerar från 320 px till desktop. 4. Sajten fungerar utan JavaScript.</p></blockquote>
+
+    <p>Tre till fem mål räcker. I uppföljningen svarar du ja eller nej på vart och ett.</p>
+
+    <h3>Tidsplanen</h3>
+
+    <p>Mallen har en rad per pass, från 76 till 85. Kolumnen <b>Planerat</b> fyller du i nu. Kolumnen <b>Gjort</b> fyller du i efter varje pass under bygget.</p>
+
+    <p>Tre råd när du planerar:</p>
+
+    <ul>
+
+      <li><b>Planera efter milstolparna.</b> De fyra milstolparna i avsnitt 7 ger ramarna. Fyll i passen mellan dem.</li>
+
+      <li><b>Formulär tar längre tid än du tror.</b> Varje fält behöver <code>label</code>, rätt <code>type</code>, <code>required</code> där det behövs, och formuläret ska fungera med och utan skript. Ekerverkstan planerade ett pass för formuläret och behövde ett och ett halvt.</li>
+
+      <li><b>Lämna luft före deadline.</b> Pass 85 är finputs, inte bygge. Det som inte är klart på pass 84 ska strykas eller skjutas till uppföljningen, inte klämmas in.</li>
+
+    </ul>
+
+    <h3>Fyll i Gjort efter varje pass</h3>
+
+    <p>Det tar en minut, och det är den minuten som gör uppföljningen lätt. Så här såg Ekerverkstans rader ut när planen sprack:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Pass</th><th>Datum</th><th>Planerat</th><th>Gjort</th></tr></thead>
+        <tbody>
+          <tr><td>78</td><td>fre 21/5</td><td>Boka och Hitta hit i HTML, allt validerar</td><td>Formuläret tog hela passet. Hitta hit flyttad till 79</td></tr>
+          <tr><td>79</td><td>mån 24/5</td><td>Designsystem och layout</td><td>Hitta hit i HTML först, sedan designsystemet. Layouten inte klar</td></tr>
+          <tr><td>80</td><td>tis 25/5</td><td>Responsivitet, 320 px till desktop</td><td>Layouten klar. Bara en brytpunkt behövdes</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>En plan som spricker är inget fel. En plan som spricker utan att det syns någonstans är det.</p>
+
+    <h2 id="risker">5. Risker</h2>
+
+    <p>En <b>risk</b> är något som kan gå fel. Poängen med att skriva ner den är att bestämma vad du gör <b>innan</b> det händer, när du fortfarande kan tänka lugnt.</p>
+
+    <p>Mallens tabell har fyra kolumner:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Risk</th><th>Hur troligt</th><th>Vad händer då</th><th>Vad jag gör åt det</th></tr></thead>
+        <tbody>
+          <tr><td>Formuläret tar längre tid än planerat</td><td>Troligt</td><td>Hitta hit blir sen</td><td>Hitta hit är den enklaste sidan och kan göras på halva passet 79</td></tr>
+          <tr><td>Inga egna foton av en cykelverkstad</td><td>Säkert</td><td>Sajten blir tom</td><td>Ett eget foto från en verkstad jag får fotografera i, annars en egen illustration</td></tr>
+          <tr><td>Jag är sjuk en vecka i maj</td><td>Möjligt</td><td>Tre pass försvinner</td><td>Stryk bör-kraven i ordningen 8, 7</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Tänk på fyra sorters risker:</p>
+
+    <ul>
+
+      <li><b>Tid</b> – något tar längre tid än du tror, eller du är borta.</li>
+
+      <li><b>Teknik</b> – något går inte att bygga som du tänkt dig.</li>
+
+      <li><b>Material</b> – du saknar bilder eller texter. Gäller särskilt den som har en riktig kund.</li>
+
+      <li><b>Samarbete</b> – i par: den andra är borta, eller ni är oense.</li>
+
+    </ul>
+
+    <p>Den första risken i exemplet inträffade. Eftersom åtgärden stod i planen blev det en rad i tidsplanen, inte ett problem.</p>
+
+    <h3>Prova själv</h3>
+
+    <p>Skriv ner den risk du tror är mest sannolik för just ditt projekt. Skriv sedan en åtgärd som du kan göra själv, utan att fråga någon. <i>"Fråga läraren"</i> är ingen åtgärd.</p>
+
+    <h2 id="wireframe">6. Sitemap och wireframes</h2>
+
+    <h3>Sitemap</h3>
+
+    <p>En <b>sitemap</b> visar alla sidor och hur de hänger ihop. För en sajt med fyra till sex sidor räcker en lista med indrag:</p>
+
+<pre><code>Startsida
+  Service och priser
+  Boka service
+  Hitta hit</code></pre>
+
+    <p>Fråga dig för varje sida: vilket scenario i kravspecen behöver den? En sida som inget scenario behöver kan strykas. Ett scenario utan sida betyder att en sida saknas.</p>
+
+    <h3>Wireframes</h3>
+
+    <p>Wireframes ritar du i Figma-mallen från område 4. Hur du ritar dem står i designguiden, avsnitt 4–6. Här gäller bara vilka du behöver:</p>
+
+    <ul>
+
+      <li><b>Startsidan i mobil och desktop.</b> Den viktigaste sidan, och den som ändras mest mellan bredderna.</li>
+
+      <li><b>Minst en undersida i mobil och desktop.</b> Välj den som är svårast – ofta den med en tabell eller ett formulär.</li>
+
+    </ul>
+
+    <p>Rita mobilen först. Det som får plats ovanför skärmkanten på en telefon är det viktigaste på sidan, och det ska stämma med kravspecen. Ekerverkstans krav 1 säger att öppettiderna syns utan att scrolla – då ska de stå ovanför kanten i wireframen.</p>
+
+    <h3>Dela Figma-filen</h3>
+
+    <p>Wireframen lämnas in som en länk i projektplanen. Figma-filer är privata från början. Välj <b>Share</b> → <i>Anyone with the link</i> → <i>can view</i>, och pröva länken i ett privat fönster innan du lämnar in.</p>
+
+    <h2 id="bygget">7. Bygget i fyra milstolpar</h2>
+
+    <p>Bygget går lektion 76–84. Det är samma ordning som kursen gått i: struktur, form, anpassning, interaktivitet, optimering. Fyra <b>milstolpar</b> delar upp det:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Milstolpe</th><th>Senast</th><th>Klart när</th><th>Slå upp i</th></tr></thead>
+        <tbody>
+          <tr><td>1. Struktur</td><td>fre 21/5</td><td>All HTML på plats, allt innehåll, validerar utan fel</td><td>HTML-guiden</td></tr>
+          <tr><td>2. Responsivitet</td><td>tis 25/5</td><td>Designsystem i variabler, layouten fungerar från 320 px till desktop</td><td>CSS-guiden, designguiden</td></tr>
+          <tr><td>3. Interaktivitet</td><td>fre 28/5</td><td>Funktionen fungerar, och sajten fungerar utan den</td><td>Modulbiblioteket, fördjupningsguiden om diskret funktionalitet</td></tr>
+          <tr><td>4. Klart</td><td>fre 4/6</td><td>Optimerad, testad, publicerad, dokumenterad</td><td>Optimeringsguiden, avsnitt 9–11 här</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Milstolparna är hållpunkter, inte inlämningar. Läraren tittar på dem under passet.</p>
+
+    <h3>Milstolpe 1: struktur</h3>
+
+    <p>Bygg all HTML för alla sidor innan du skriver en rad CSS. Det känns fel, eftersom sidorna ser tråkiga ut länge. Men det tvingar fram rätt ordning: semantiken bestäms av innehållet, inte av hur det ska se ut.</p>
+
+    <ul>
+
+      <li>Samma <code>header</code>, <code>nav</code> och <code>footer</code> på varje sida.</li>
+
+      <li>En <code>h1</code> per sida, rubrikerna i ordning utan hopp.</li>
+
+      <li><code>label</code> på varje fält, <code>alt</code> på varje bild.</li>
+
+      <li>Validera varje sida. Noll fel.</li>
+
+    </ul>
+
+    <p><b>Slå på GitHub Pages första passet</b>, så fort <code>index.html</code> finns: repot → <b>Settings</b> → <b>Pages</b> → <i>Deploy from a branch</i> → <code>main</code> → <b>Save</b>. Skriv adressen i <code>README.md</code> och högst upp i projektdokumentet. Då finns den publicerade adressen hela bygget – validatorn tar den direkt, telefonen kan öppna den, och Lighthouse på lektion 82 mäter på riktigt. Den som väntar till sista veckan upptäcker på deadlinekvällen att Pages aldrig slogs på.</p>
+
+    <h3>Milstolpe 2: responsivitet</h3>
+
+    <p>Börja med designsystemet: färger, typsnitt och avstånd som variabler i <code>:root</code>. Bygg sedan layouten för telefonen först, och lägg till brytpunkter bara där innehållet behöver dem.</p>
+
+    <p>Ekerverkstan behövde en enda brytpunkt. Kortgalleriet klarar sig med <code>repeat(auto-fit, minmax(15rem, 1fr))</code>, och tabellerna ligger i en ruta som scrollar själv. Färre brytpunkter betyder färre saker som kan gå sönder.</p>
+
+    <h3>Milstolpe 3: interaktivitet</h3>
+
+    <p>Minst en funktion som tillför verklig nytta för kunden. Välj den ur kundens behov, inte ur modulbiblioteket. Fråga: vad skulle besökaren sakna?</p>
+
+    <p>Ekerverkstan har tre skript:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Skript</th><th>Varifrån</th><th>Nytta</th></tr></thead>
+        <tbody>
+          <tr><td><code>meny.js</code></td><td>Modul 1, oförändrad</td><td>Menyn tar mindre plats på telefonen</td></tr>
+          <tr><td><code>validering.js</code></td><td>Modul 5, en rad ändrad i ÄNDRA HÄR</td><td>Felen visas vid fältet, i klartext</td></tr>
+          <tr><td><code>prisuppskattning.js</code></td><td>Egen, skriven efter reglerna</td><td>Besökaren ser vad det kostar innan hen skickar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Den tredje finns inte i modulbiblioteket. Den kom ur kravspecen: kunden ville att folk skulle se priset själva. Priset står i varje etikett, så utan skript kan besökaren räkna själv. Skriptet gör det åt hen.</p>
+
+    <p>Testa milstolpen med JavaScript avstängt. Hur det går till står i fördjupningsguiden, avsnitt 11.</p>
+
+    <h3>Milstolpe 4: klart</h3>
+
+    <p>Optimera bilderna, mät före och efter, testa, publicera, skriv <code>README.md</code> och uppföljningen. Avsnitt 9–11 i den här guiden.</p>
+
+    <h2 id="par">8. Två i samma repo</h2>
+
+    <p>Arbetar ni i par har ni ett repo. Den ena äger det, den andra läggs till som <b>collaborator</b> – en medarbetare med rätt att pusha.</p>
+
+    <h3>Sätta upp repot</h3>
+
+    <ol>
+
+      <li>Ägaren skapar repot från kursens template-repo, som vanligt.</li>
+
+      <li>Ägaren: repot → <b>Settings</b> → <b>Collaborators</b> → <b>Add people</b>, och skriver in den andras GitHub-namn.</li>
+
+      <li>Den andra godkänner inbjudan, i mejlet eller på github.com.</li>
+
+      <li>Båda öppnar var sin Codespace på samma repo.</li>
+
+    </ol>
+
+    <h3>Varje pass</h3>
+
+    <p>Git har ingen aning om att ni är två. Den vet bara vilka ändringar som finns i din Codespace och vilka som finns på GitHub. Därför samma rytm varje pass:</p>
+
+<pre><code>git pull                         när passet börjar
+git add . &amp;&amp; git commit -m "…"   när en sak är klar
+git push                         direkt efter</code></pre>
+
+    <p><code>git pull</code> hämtar den andras ändringar. Gör du det inte, arbetar du på en gammal version, och det är då det blir problem.</p>
+
+    <h3>Dela upp arbetet per fil</h3>
+
+    <p>Två personer som ändrar samma rader i samma fil är det som ger en konflikt. Det enklaste sättet att undvika det är att aldrig göra det:</p>
+
+    <ul>
+
+      <li>Varsin sida. Den ena gör <code>service.html</code>, den andra <code>boka.html</code>.</li>
+
+      <li><code>stil.css</code> har <b>en ägare</b>. Den andra säger till innan hen ändrar i den.</li>
+
+      <li>Skriv fördelningen i projektplanen, avsnitt 2.7.</li>
+
+    </ul>
+
+    <h3>När det säger nej</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Git säger</th><th>Det betyder</th><th>Gör så här</th></tr></thead>
+        <tbody>
+          <tr><td><code>rejected</code> vid <code>git push</code></td><td>Den andra har pushat sedan du senast hämtade</td><td><code>git pull</code>, sedan <code>git push</code> igen</td></tr>
+          <tr><td><code>CONFLICT</code> vid <code>git pull</code></td><td>Ni har ändrat samma rader</td><td>Fråga läraren innan du gör något mer</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Den första är ofarlig och händer ofta. Den andra går att lösa, men inte på egen hand första gången.</p>
+
+    <h3>Ni bedöms var för sig</h3>
+
+    <p>Commit-historiken visar vem som skrivit vad. Båda ska ha commits, och båda ska kunna förklara hela sajten – inte bara sin halva. Det kommer upp i betygssamtalet.</p>
+
+    <h2 id="test">9. Testprotokollet</h2>
+
+    <p>Att testa är inte att klicka runt och se att det ser bra ut. Det är att gå igenom en lista och skriva ner vad du såg, också det som fungerade.</p>
+
+    <h3>Vad protokollet täcker</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Hur</th><th>Slå upp i</th></tr></thead>
+        <tbody>
+          <tr><td>3.1 Webbläsare och enheter</td><td>Minst två webbläsare på dator och en riktig telefon. Öppna varje sida</td><td>HTML-guiden, avsnitt 10</td></tr>
+          <tr><td>3.2 Validering</td><td>W3C för HTML och CSS, varje sida</td><td>HTML-guiden, avsnitt 10</td></tr>
+          <tr><td>3.3 Tillgänglighet</td><td>WAVE, hela sajten med bara tangentbordet, kontrasten</td><td>Designguiden, avsnitt 10–12</td></tr>
+          <tr><td>3.4 Utan JavaScript</td><td>Stäng av i Inspektera, öppna varje sida</td><td>Fördjupningsguiden, avsnitt 11</td></tr>
+          <tr><td>3.5 Lighthouse</td><td>Publicerad adress, före och efter optimeringen</td><td>Optimeringsguiden, avsnitt 12</td></tr>
+          <tr><td>3.6 Buggrapporter</td><td>Någon annan testar din sajt</td><td>Nedan</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Skriv vad du <b>såg</b>, inte bara <i>ja</i>. <i>"Menyknappen öppnar och stänger. Öppettiderna slutar på 634 px av 812"</i> går att kontrollera. <i>"Funkar"</i> gör det inte.</p>
+
+    <h3>Korstestet</h3>
+
+    <p>På lektion 83 testar du en annan elevs sajt, och någon annan testar din. Du hittar fel i andras kod som du aldrig hittar i din egen, eftersom du vet hur din egen är tänkt att användas.</p>
+
+    <p>Så testar du någon annans sajt:</p>
+
+    <ol>
+
+      <li>Läs deras kravspec först. Du testar mot den, inte mot din smak.</li>
+
+      <li>Pröva varje ska-krav på det sätt de skrivit.</li>
+
+      <li>Gör sedan det en besökare gör: klicka fel, skicka tomt, ändra bredden.</li>
+
+      <li>Skriv en buggrapport för varje fel, direkt i deras protokoll, i läget <b>Föreslå</b>.</li>
+
+    </ol>
+
+    <p>Dokumentet är delat med dig som <i>Kommentator</i>, så du kan inte skriva i tabellen direkt. Men du kan föreslå: pennan uppe till höger i Google Docs → <b>Föreslå</b>. Det du skriver syns i färg, och ägaren godkänner det med ett klick. Ingen behöver ändra sin delning.</p>
+
+    <h3>En buggrapport som går att använda</h3>
+
+    <p>En bra buggrapport säger var, vad som händer och vad som borde hända. Den säger inte vad som är fel i koden – det är den andras jobb att ta reda på.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Dålig</th><th>Bra</th></tr></thead>
+        <tbody>
+          <tr><td>Formuläret är konstigt</td><td><b>Sida:</b> Boka service. <b>Händer:</b> skickar man tomt står det <i>"Fyll i vilken sorts cykel."</i> <b>Borde:</b> ett felmeddelande som går att läsa</td></tr>
+          <tr><td>Kartan funkar inte på mobil</td><td><b>Sida:</b> Hitta hit. <b>Händer:</b> i 320 px är kartan liten och texten går inte att läsa. <b>Borde:</b> kartan fyller bredden</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Båda rapporterna är äkta – de hittades i Ekerverkstan. Den första visade sig bero på att valideringsmodulen bygger felmeddelandet av etikettens text. Etiketten <i>Vilken sorts cykel</i> blev <i>Cykeltyp</i>, och meddelandet blev <i>"Fyll i cykeltyp."</i></p>
+
+    <p>Den som äger sajten fyller i <b>Åtgärd</b> och <b>Status</b>. <i>Rättat</i> eller <i>Inte rättat, eftersom …</i> – båda är godkända svar. Ett fel utan åtgärd är det inte.</p>
+
+    <h2 id="readme">10. <code>README.md</code></h2>
+
+    <p><code>README.md</code> är det första som syns när någon öppnar ditt repo. Den ska svara på vad det här är, var det finns och vem som gjort det. Den behöver inte vara lång.</p>
+
+<pre class="fri"><code># Ekerverkstan
+
+Webbplats åt Ekerverkstan, en cykelverkstad i Vikstad.
+Slutprojekt i Webbutveckling 1.
+
+Publicerad: https://användarnamn.github.io/ekerverkstan/
+Projektdokument: (länken till Google Docs)
+
+## Sidorna
+
+- index.html – startsidan, öppettider och vad vi gör
+- service.html – servicepaket och priser
+- boka.html – formulär för bokningsförfrågan
+- hitta-hit.html – karta och kontakt
+
+## Skript
+
+- js/meny.js – modul 1 ur modulbiblioteket
+- js/validering.js – modul 5, anpassad
+- js/prisuppskattning.js – egen, räknar ihop valda tjänster
+
+## Gjort av
+
+Förnamn Efternamn. I par: vem som gjort vilka sidor.</code></pre>
+
+    <p>Länken till projektdokumentet måste fungera för den som rättar. Pröva den på samma sätt som på delinlämningen.</p>
+
+    <h2 id="uppfoljning">11. Uppföljningen</h2>
+
+    <p>Uppföljningen är där du jämför planen med vad det blev. Den är kort, men den är det som skiljer E från A i matrisens sista rad.</p>
+
+    <h3>4.1 och 4.2: målen och kraven</h3>
+
+    <p>Gå igenom dem ett i taget och pröva dem på det sätt du skrev i kravspecen. Svara ja eller nej, och skriv hur du vet:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nr</th><th>Uppfyllt?</th><th>Kommentar</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Ja</td><td>Rutan slutar på 634 px av 812</td></tr>
+          <tr><td>8</td><td>Ja</td><td>31 kB, en tiondel av gränsen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Ett <i>nej</i> är inget misslyckande, om du kan förklara det. Ett <i>ja</i> utan kommentar säger ingenting.</p>
+
+    <h3>4.3 och 4.4: tidsplanen och ändringarna</h3>
+
+    <p>Jämför kolumnerna <i>Planerat</i> och <i>Gjort</i>. Var hamnade du efter, och varför? Vad ändrades mot planen?</p>
+
+    <blockquote><p>Jag låg ett halvt pass efter från pass 78 till 80. Formuläret tog längre tid än jag trodde, eftersom varje fält behövde en <code>label</code> och formuläret skulle fungera både med och utan skript. Risken stod i planen, och åtgärden fungerade.</p></blockquote>
+
+    <p>Ändringar är inte fel. Oförklarade ändringar är det.</p>
+
+    <h3>4.5: nästa gång</h3>
+
+    <p>Det här är avsnittet som visar att du lärt dig något om processen, inte bara om koden. Skriv vad du skulle göra annorlunda – och varför.</p>
+
+    <blockquote><p>Jag skulle korstesta tidigare. Båda felen i 3.6 hittades av någon annan på pass 83, och båda hade varit lättare att rätta i pass 80, när layouten gjordes.</p></blockquote>
+
+    <p>Ett konkret svar med ett skäl slår tre allmänna. <i>"Planera bättre"</i> säger ingenting. <i>"Planera formulär som två pass"</i> säger något.</p>
+
+    <h2 id="langre">12. Ta det längre</h2>
+
+    <h3>Mät målen på riktiga människor</h3>
+
+    <p>Ekerverkstans första mål var att priset ska gå att hitta med högst två tryck. Det prövades genom att räkna tryck. Ännu bättre är att ge sajten till någon som inte sett den, säga <i>"ta reda på vad en stor service kostar"</i>, och ta tid. Det kallas ett <b>användartest</b>, och det hittar saker som inget protokoll gör.</p>
+
+    <h3>Prioritera med MoSCoW</h3>
+
+    <p>Ska och bör räcker långt. I större projekt används ofta fyra nivåer: <b>Must</b>, <b>Should</b>, <b>Could</b> och <b>Won't</b> – på svenska ungefär måste, bör, kan och inte nu. <i>Won't</i> är avgränsningen, skriven som krav.</p>
+
+    <h3>Skriv en ändringslogg</h3>
+
+    <p>Längst ner i <code>README.md</code> kan du ha en rubrik <i>Ändringar</i> med datum och vad som ändrades. Den gör commit-historiken läsbar för någon som inte kan git – till exempel kunden.</p>
+
+    <h2 id="felsokning">13. Felsökning</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: krav, git, Figma" autocomplete="off">
+      <p class="traffar" id="traffar-fel">11 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Problem</th><th>Trolig orsak</th><th>Gör så här</th></tr></thead>
+        <tbody>
+          <tr><td>Du vet inte vad du ska skriva i kravspecen</td><td>Du har inte läst kunden noga</td><td>Skriv av <i>Kunden säger</i> ordagrant och stryk under varje sak kunden vill</td></tr>
+          <tr><td>Kraven låter som reklam</td><td>Orden <i>snygg</i>, <i>tydlig</i>, <i>enkel</i></td><td>Skriv hur du prövar kravet. Går det inte, skriv om kravet</td></tr>
+          <tr><td>Du har femton krav</td><td>Allt från <i>Gärna</i> blev ska-krav</td><td>Flytta allt som inte är <i>Måste finnas</i> till bör eller avgränsning</td></tr>
+          <tr><td>Tidsplanen har tomma rader</td><td>Du vet inte vad som tar tid</td><td>Utgå från milstolparna och fyll i passen mellan dem</td></tr>
+          <tr><td>Tidsplanen håller inte</td><td>Planen var för optimistisk</td><td>Skriv avvikelsen i <i>Gjort</i> nu. Stryk ett bör-krav hellre än att missa ett ska-krav</td></tr>
+          <tr><td>Wireframen stämmer inte med kravspecen</td><td>Ritad före kraven</td><td>Kontrollera att varje ska-krav syns någonstans i en wireframe</td></tr>
+          <tr><td>Figma-länken visar <i>Request access</i></td><td>Filen är inte delad</td><td>Share → <i>Anyone with the link</i> → <i>can view</i></td></tr>
+          <tr><td><code>git push</code> säger <i>rejected</i></td><td>Den andra i paret har pushat</td><td><code>git pull</code>, sedan <code>git push</code></td></tr>
+          <tr><td><code>git pull</code> säger <i>CONFLICT</i></td><td>Ni har ändrat samma rader</td><td>Fråga läraren innan du gör något mer</td></tr>
+          <tr><td>Du hittar inga fel att skriva i protokollet</td><td>Du testar det du vet fungerar</td><td>Låt någon annan testa, eller följ protokollets rader en i taget</td></tr>
+          <tr><td>Uppföljningen blir en rad</td><td>Du jämför inte med planen</td><td>Öppna del 1 och 2 bredvid, och gå igenom varje mål och krav</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="snabbreferens">14. Snabbreferens</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Lektion</th><th>Steg</th><th>Det här ska vara gjort</th><th>Del i dokumentet</th></tr></thead>
+        <tbody>
+          <tr><td>74</td><td>Krav</td><td>Kund vald, kravspec skriven</td><td>1.1–1.6</td></tr>
+          <tr><td>75</td><td>Plan</td><td>Mål, sitemap, wireframes, tidsplan, risker. <b>Delinlämning 19/3</b></td><td>2.1–2.7</td></tr>
+          <tr><td>76</td><td>Återstart</td><td>Planen godkänd, repot skapat</td><td>2.4, första raden</td></tr>
+          <tr><td>77–78</td><td>Bygge</td><td>Milstolpe 1: struktur</td><td>2.4, <i>Gjort</i></td></tr>
+          <tr><td>79–80</td><td>Bygge</td><td>Milstolpe 2: responsivitet</td><td>2.4, <i>Gjort</i></td></tr>
+          <tr><td>81</td><td>Bygge</td><td>Milstolpe 3: interaktivitet</td><td>2.4, <i>Gjort</i></td></tr>
+          <tr><td>82</td><td>Bygge</td><td>Optimering, mätning före och efter</td><td>3.5</td></tr>
+          <tr><td>83</td><td>Test</td><td>Testprotokollet och korstestet</td><td>3.1–3.6</td></tr>
+          <tr><td>84</td><td>Leverans</td><td>Publicerat, <code>README.md</code>, uppföljning. Milstolpe 4</td><td>4.1–4.5</td></tr>
+          <tr><td>85</td><td>Finputs</td><td><b>Deadline 7/6 23:59</b></td><td>Checklistorna i Projekt 7</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ordlista">15. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Kravspecifikation</b></td><td>Lista över vad sajten ska göra, skriven så att den går att pröva. Kallas ofta kravspec</td></tr>
+          <tr><td><b>Ska-krav</b></td><td>Krav som måste vara uppfyllt när projektet lämnas</td></tr>
+          <tr><td><b>Bör-krav</b></td><td>Krav som uppfylls om tiden räcker. Det första som stryks</td></tr>
+          <tr><td><b>Avgränsning</b></td><td>Det som uttryckligen inte ingår i projektet</td></tr>
+          <tr><td><b>Målgrupp</b></td><td>De som ska använda sajten</td></tr>
+          <tr><td><b>Scenario</b></td><td>En påhittad besökare med ett ärende. Gör målgruppen konkret</td></tr>
+          <tr><td><b>Mål</b></td><td>Det som ska vara sant när projektet är klart, formulerat så att det går att svara ja eller nej på</td></tr>
+          <tr><td><b>Milstolpe</b></td><td>En hållpunkt i bygget: ett datum och något som ska vara klart då</td></tr>
+          <tr><td><b>Risk</b></td><td>Något som kan gå fel, med en åtgärd bestämd i förväg</td></tr>
+          <tr><td><b>Sitemap</b></td><td>Alla sidor och hur de hänger ihop</td></tr>
+          <tr><td><b>Wireframe</b></td><td>En enkel skiss av en sida, utan färg och bilder, som visar vad som står var</td></tr>
+          <tr><td><b>Collaborator</b></td><td>En medarbetare i ett GitHub-repo, med rätt att pusha</td></tr>
+          <tr><td><b>Konflikt</b></td><td>När två har ändrat samma rader och git inte kan avgöra vilken ändring som gäller</td></tr>
+          <tr><td><b>Testprotokoll</b></td><td>En ifylld lista över vad som testats, hur och med vilket resultat</td></tr>
+          <tr><td><b>Korstest</b></td><td>När någon annan än den som byggt sajten testar den</td></tr>
+          <tr><td><b>Buggrapport</b></td><td>En beskrivning av ett fel: var, vad som händer, vad som borde hända</td></tr>
+          <tr><td><b>Användartest</b></td><td>När en riktig person får en uppgift att lösa på sajten medan någon tittar på</td></tr>
+          <tr><td><b>Uppföljning</b></td><td>Jämförelsen mellan planen och resultatet, efter projektet</td></tr>
+          <tr><td><b><code>README.md</code></b></td><td>Textfilen som visas först i ett repo. Säger vad projektet är och var det finns</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="projekt-7.html">Till Projekt 7</a> · <a href="index.html">Tillbaka till område 8</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
