@@ -1,0 +1,1802 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide: Filmarkivet – datadriven applikation</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o6-guide">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Guide</strong> · Filmarkivet</span>
+  <a href="#fel">När något går fel</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#bygger">Vad du bygger här</a></li>
+      <li><a href="#sjalv">Vad du ska göra själv efteråt</a></li>
+      <li><a href="#innan">Innan du börjar</a></li>
+      <li><a href="#begrepp">Begreppen i det här momentet</a></li>
+      <li><a href="#steg-1">Steg 1 – Två operationer saknas</a></li>
+      <li><a href="#steg-2">Steg 2 – Listvyn, sorterad och i sidor</a></li>
+      <li><a href="#steg-3">Steg 3 – Ändra: samma formulär, en befintlig post</a></li>
+      <li><a href="#steg-4">Steg 4 – Ta bort: aldrig på en GET</a></li>
+      <li><a href="#steg-5">Steg 5 – Genren och den främmande nyckeln</a></li>
+      <li><a href="#steg-6">Steg 6 – Migrationen som kan gå sönder</a></li>
+      <li><a href="#steg-7">Steg 7 – `Include`: relationen fylls inte av sig själv</a></li>
+      <li><a href="#steg-8">Steg 8 – Genresidan och en egen tjänst</a></li>
+      <li><a href="#steg-9">Steg 9 – Genren i formulären och i listvyn</a></li>
+      <li><a href="#steg-10">Steg 10 – Se den SQL som körs</a></li>
+      <li><a href="#steg-11">Steg 11 – Sökningen flyttar in i databasen</a></li>
+      <li><a href="#steg-12">Steg 12 – Databasen kan inte svenska</a></li>
+      <li><a href="#steg-13">Steg 13 – Statistiken räknas där datan finns</a></li>
+      <li><a href="#steg-14">Steg 14 – Ett eget valideringsattribut</a></li>
+      <li><a href="#steg-15">Steg 15 – En regel över två fält</a></li>
+      <li><a href="#steg-16">Steg 16 – En regel som kräver databasen</a></li>
+      <li><a href="#steg-17">Steg 17 – Identity i contextet</a></li>
+      <li><a href="#steg-18">Steg 18 – Registreringen</a></li>
+      <li><a href="#steg-19">Steg 19 – Den första användaren</a></li>
+      <li><a href="#steg-20">Steg 20 – Inloggningssidan</a></li>
+      <li><a href="#steg-21">Steg 21 – Att dölja länken skyddar ingenting</a></li>
+      <li><a href="#steg-22">Steg 22 – Att skydda sidan</a></li>
+      <li><a href="#steg-23">Steg 23 – Utloggningen</a></li>
+      <li><a href="#steg-24">Steg 24 – Koden någon annan ska läsa</a></li>
+      <li><a href="#steg-25">Steg 25 – Tabellen vars knappar inte gör något</a></li>
+      <li><a href="#steg-26">Steg 26 – En rad till</a></li>
+      <li><a href="#fel">När något går fel</a></li>
+      <li><a href="#missa">Det som är lätt att missa när du gör det själv</a></li>
+      <li><a href="#checklista">Checklista</a></li>
+      <li><a href="#mer">Vill du mer</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 6 · guide</p>
+    <h1>Filmarkivet – datadriven applikation: CRUD, relationer och inloggning</h1>
+    <p class="inledning">Tjugosex steg som gör Filmarkivet till en applikation som går
+      att förvalta utan att öppna en kodfil. Filmerna går att ändra och ta bort, varje
+      film hör till en genre, sökningen görs av databasen, och allt som ändrar något
+      ligger bakom en inloggning. Guiden är uppdelad efter lektionerna, så att du kan
+      slå upp den del du behöver.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du en lektion?</span>
+      <p>Guiden går att följa på egen hand. Så här hänger stegen ihop med passen, och
+        ungefär hur lång tid de tar om du gör dem själv:</p>
+      <ul>
+        <li><b>Lektion 36</b> (tis 19 jan) – <a href="#steg-1">steg 1</a> till
+          <a href="#steg-4">steg 4</a>, ungefär 90 minuter. Ändra och ta bort, och
+          listvyn med sortering och sidor. <a href="#steg-3">Steg 3</a> har två fällor
+          som ser ut att fungera fast de inte gör det – läs det stycket två gånger.</li>
+        <li><b>Lektion 37</b> (ons 20 jan) – <a href="#steg-5">steg 5</a> till
+          <a href="#steg-9">steg 9</a>, ungefär 75 minuter. Genren och relationen. I
+          <a href="#steg-6">steg 6</a> kan migrationen avbrytas på din egen databas –
+          det är väntat, och steget säger vad du gör.</li>
+        <li><b>Lektion 38</b> (tis 26 jan) – <a href="#steg-10">steg 10</a> till
+          <a href="#steg-13">steg 13</a>, ungefär 60 minuter. Slå på SQL-loggningen
+          först – resten av stegen går inte att förstå utan den.</li>
+        <li><b>Lektion 39</b> (ons 27 jan) – <a href="#steg-14">steg 14</a> till
+          <a href="#steg-16">steg 16</a>, ungefär 45 minuter. Tre sorters validering.
+          Skriv ditt eget attribut för en regel i din egen domän.</li>
+        <li><b>Lektion 40</b> (tis 2 feb) – <a href="#steg-17">steg 17</a> till
+          <a href="#steg-23">steg 23</a>, ungefär 90 minuter. Inloggningen. Hoppa inte
+          över <a href="#steg-21">steg 21</a>: där ser du att en dold länk inte skyddar
+          något.</li>
+        <li><b>Lektion 41</b> (ons 3 feb) – <a href="#steg-24">steg 24</a>, ungefär 20
+          minuter, och granskningen i <a href="uppgift.html#etapp-4">uppgiftens etapp
+          4</a>. Be någon granska din kod, även om du missade passet.</li>
+        <li><b>Lektion 43</b> (ons 10 feb) – <a href="#steg-25">steg 25</a> och
+          <a href="#steg-26">steg 26</a>, ungefär 30 minuter. Prova i ett testprojekt,
+          inte i ditt eget.</li>
+        <li><b>Arbetspassen 42 och 44–47</b> – <a href="uppgift.html">uppgiften</a>,
+          etapp för etapp. Varje etapp har en kontroll du gör själv.</li>
+      </ul>
+      <p>Stegen bygger på varandra, men följer inte en rak linje genom ditt projekt:
+        ändra- och ta bort-sidorna i steg 3 och 4 byggs utan genre, och får sin rullista
+        i <a href="#steg-9">steg 9</a>.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Två fel som inte syns</span>
+      <p>Det här området har fler fel än något tidigare som inte ger något
+        felmeddelande alls: en ändring som inte sparas, en genre som inte visas, en
+        sida som svarar fast länken är borta, en utloggning som går igenom utan token.
+        Sidan ser rätt ut, terminalen är tyst.</p>
+      <p>Därför har varje steg en <b>Kontrollera</b>-rad. Gör den, också när allt ser
+        ut att fungera. Tabellen <a href="#fel">När något går fel</a> har de tysta
+        felen med.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Koden går inte att kopiera</span>
+      <p>Kodblocken på den här sidan går inte att markera, och det är med flit. Att
+        skriva av koden för hand är där en stor del av inlärningen sker: du läser
+        raden, håller den i huvudet och upptäcker vid tangentbordet vad du inte
+        förstod. Klistrar du in den hoppar du över precis det steget.
+        Terminalkommandon och SQL är undantag – de är figurer, inte kod att öva på.</p>
+    </div>
+
+    <p><em>Guide · Område 6 · Webbserverprogrammering 1</em></p>
+    <h2 id="bygger">Vad du bygger här</h2>
+    <p>Filmarkivet blir en applikation som går att förvalta utan att öppna en kodfil.</p>
+    <p>Efter område 5 kan man lägga till en film. När den här guiden är slut kan man också <strong>ändra</strong> och <strong>ta bort</strong> filmer, varje film <strong>hör till en genre</strong>, listan går att <strong>sortera och bläddra i</strong>, sökningen görs <strong>av databasen</strong>, och allt som ändrar något ligger <strong>bakom en inloggning</strong>.</p>
+    <pre><code>Filmarkivet
+├── /admin/filmer            Alla filmer, sorterbara, fyra per sida        🔒
+├── /filmer/ny               Formuläret från område 5, nu med genre        🔒
+├── /filmer/andra/{id}       Samma formulär mot en befintlig film          🔒
+├── /filmer/tabort/{id}      Bekräftelse, och en POST som tar bort         🔒
+├── /genrer/{id}             En genre och alla dess filmer
+├── /linq                    Samma sökning på två sätt
+├── /konto/logga-in          Inloggningen
+└── /renderingslagen/…       Två tabeller som bara skiljer sig på en rad</code></pre>
+    <p>🔒 betyder att sidan kräver inloggning. Det färdiga projektet ligger i <code>referensprojekt/Filmarkivet</code>.</p>
+    <p><strong>Det här området sätter ihop allt du byggt under hösten.</strong> Komponenterna från område 3 visar. Tjänsterna från område 4 gör arbetet. Databasen från område 5 minns. Ingen av de delarna byts ut. Det som tillkommer lägger sig i lagret där det hör hemma, och i nästan varje steg kan du peka ut vilket lager det är.</p>
+    <p>Guiden är lång, eftersom området är sju genomgångar. Den är uppdelad efter lektionerna, så att du kan slå upp den del du behöver:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Lektion</th><th>Vad</th><th>Steg</th></tr></thead>
+    <tbody>
+    <tr><td>36</td><td>CRUD i praktiken</td><td>1–4</td></tr>
+    <tr><td>37</td><td>Relationer i code-first</td><td>5–9</td></tr>
+    <tr><td>38</td><td>LINQ: filtrera, sortera och söka</td><td>10–13</td></tr>
+    <tr><td>39</td><td>Egen validering</td><td>14–16</td></tr>
+    <tr><td>40</td><td>Inloggning och behörighet</td><td>17–23</td></tr>
+    <tr><td>41</td><td>Kodningsstandard och dokumentation</td><td>24</td></tr>
+    <tr><td>43</td><td>Renderingslägen</td><td>25–26</td></tr>
+    </tbody></table></div>
+    <h2 id="sjalv">Vad du ska göra själv efteråt</h2>
+    <p>Samma sak i ditt projekt. Det är <strong>Projekt 1</strong>, och kraven per betygsnivå står i uppgiften. Det här är vad guiden går igenom:</p>
+    <ul><li>Alla fyra CRUD-operationerna, <strong>hela vägen genom tjänstelagret</strong></li><li>En listvy med <strong>sortering och sidindelning</strong> i adressen</li><li>Din <strong>kategorientitet</strong> i en en-till-många-relation, med egen migration</li><li>En sida som visar data <strong>från båda tabellerna</strong>, hämtad med <code>Include</code></li><li>En <strong>sökning som görs i databasen</strong>, och ett motiverat beslut om var sorteringen görs</li><li>Ett <strong>eget valideringsattribut</strong>, en regel över <strong>två fält</strong>, och en regel som <strong>kräver databasen</strong></li><li><strong>Inloggning</strong> med Identity, och sidorna som ändrar data <strong>skyddade</strong>, inte bara dolda</li></ul>
+    <h3>Översättningstabellen</h3>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Filmarkivet</th><th>Ditt projekt</th></tr></thead>
+    <tbody>
+    <tr><td><code>Film</code></td><td>din huvudentitet</td></tr>
+    <tr><td><code>Genre</code></td><td>din kategorientitet</td></tr>
+    <tr><td><code>GenreId</code> och <code>Genre</code> på <code>Film</code></td><td>främmande nyckel och navigationsegenskap på din huvudentitet</td></tr>
+    <tr><td><code>List&lt;Film&gt; Filmer</code> på <code>Genre</code></td><td>listan åt andra hållet, på din kategori</td></tr>
+    <tr><td><code>DbSet&lt;Genre&gt; Genrer</code></td><td>ditt andra <code>DbSet</code>, i plural</td></tr>
+    <tr><td><code>GenreOchRelation</code></td><td>namnet på din andra migration</td></tr>
+    <tr><td><code>UppdateraAsync</code>, <code>TaBortAsync</code></td><td>dina metoder som ändrar och tar bort</td></tr>
+    <tr><td><code>HamtaMedGenreAsync</code></td><td>din metod som hämtar med <code>Include</code></td></tr>
+    <tr><td><code>IGenreService</code> / <code>GenreService</code></td><td>tjänsten för din kategori</td></tr>
+    <tr><td><code>/admin/filmer</code></td><td>din listvy</td></tr>
+    <tr><td><code>/filmer/andra/{id}</code>, <code>/filmer/tabort/{id}</code></td><td>dina sidor för att ändra och ta bort</td></tr>
+    <tr><td><code>/genrer/{id}</code></td><td>sidan för en kategori</td></tr>
+    <tr><td><code>?sortera=titel</code>, <code>ar</code>, <code>betyg</code>, <code>genre</code></td><td>dina sorteringsfält – minst tre</td></tr>
+    <tr><td><code>SokAsync</code> på <code>Titel</code></td><td>din sökning, på ditt sökbara fält</td></tr>
+    <tr><td><code>RimligtUtgivningsarAttribute</code></td><td>ditt eget attribut, för en regel som hör till din domän</td></tr>
+    <tr><td><code>Validate</code> i <code>Film</code></td><td>din regel över två fält</td></tr>
+    <tr><td><code>TitelFinnsAsync</code></td><td>din kontroll mot databasen</td></tr>
+    <tr><td><code>admin@filmarkivet.se</code></td><td>din första användare</td></tr>
+    <tr><td><code>/konto/logga-in</code></td><td>samma adress – den behöver inte bytas</td></tr>
+    </tbody></table></div>
+    <p>Fyll i högerkolumnen innan du börjar koda. Hittar du ingen regel över två fält eller ingen regel som kräver databasen i din domän är det värt att fundera en stund. De finns nästan alltid, och det är du som känner domänen.</p>
+    <h2 id="innan">Innan du börjar</h2>
+    <p>Ditt projekt från område 5: en entitet med valideringsattribut, en <code>DbContext</code>, en migration, en tjänst som läser databasen bakom ett gränssnitt, och ett <code>EditForm</code> som skapar nya poster.</p>
+    <p>Kontrollen tar tio sekunder:</p>
+    <pre><code>dotnet run</code></pre>
+    <p>Lägg till en post via formuläret, stoppa servern, starta den igen. Finns posten kvar är du redo. Gör den inte det är det område 5 som ska bli klart först.</p>
+    <p><strong>Du har minst en egen rad i databasen</strong>, eftersom område 5:s uppgift kräver det. Det spelar roll i steg 6, där en migration kan gå sönder just på grund av den raden.</p>
+    <h2 id="begrepp">Begreppen i det här momentet</h2>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Begrepp</th><th>Vad det är</th></tr></thead>
+    <tbody>
+    <tr><td><em>CRUD</em></td><td><em>Create, Read, Update, Delete</em> – de fyra sakerna man gör med data</td></tr>
+    <tr><td>Främmande nyckel</td><td>En kolumn som pekar på en rad i en annan tabell. <code>GenreId</code> pekar på en genre</td></tr>
+    <tr><td>Navigationsegenskap</td><td>En egenskap som håller det relaterade objektet, <code>Genre</code> på <code>Film</code>. Ligger inte i någon kolumn</td></tr>
+    <tr><td>En-till-många</td><td>Många filmer hör till en genre. En genre har många filmer</td></tr>
+    <tr><td><code>Include</code></td><td>Säger åt EF Core att hämta relaterad data i samma fråga</td></tr>
+    <tr><td><em>Cascade delete</em></td><td>När en genre tas bort följer dess filmer med</td></tr>
+    <tr><td>LINQ</td><td>Metoderna <code>Where</code>, <code>OrderBy</code>, <code>Select</code> med flera – samma i C# och mot databasen</td></tr>
+    <tr><td><code>IQueryable&lt;T&gt;</code></td><td>En fråga som inte körts än. Den går till databasen först vid <code>ToListAsync</code></td></tr>
+    <tr><td>Frågesträng</td><td>Delen av adressen efter <code>?</code>, till exempel <code>?sortera=titel&amp;sida=2</code></td></tr>
+    <tr><td><code>ValidationAttribute</code></td><td>Basklassen för <code>[Required]</code>, <code>[Range]</code> – och för dina egna attribut</td></tr>
+    <tr><td><code>IValidatableObject</code></td><td>Ett gränssnitt för regler som gäller hela objektet</td></tr>
+    <tr><td><em>Identity</em></td><td>ASP.NET Cores system för användare, lösenord och inloggning</td></tr>
+    <tr><td>Hash</td><td>En envägsomvandling av lösenordet. Det som lagras, i stället för lösenordet</td></tr>
+    <tr><td>Autentisering</td><td>Att ta reda på <strong>vem</strong> du är. Inloggningen</td></tr>
+    <tr><td>Auktorisering</td><td>Att avgöra vad du <strong>får</strong> göra. <code>[Authorize]</code></td></tr>
+    <tr><td><em>Endpoint</em></td><td>En adress som svarar på förfrågningar utan att vara en sida</td></tr>
+    <tr><td>Renderingsläge</td><td>Om en komponent renderas en gång på servern, eller hålls levande över en uppkoppling</td></tr>
+    <tr><td>Förrendering</td><td>Att en interaktiv komponent först renderas statiskt, så att något syns direkt</td></tr>
+    </tbody></table></div>
+    <p>---</p>
+    <h2 id="steg-1">Steg 1 – Två operationer saknas</h2>
+    <p><strong>Vad vi gör.</strong> Ger tjänsten de två operationer den inte har.</p>
+    <p>Räkna vad <code>IFilmService</code> kan i dag. Den kan <strong>läsa</strong> – <code>HamtaAllaAsync</code> och <code>HamtaAsync</code>. Sedan område 5 kan den <strong>skapa</strong> – <code>SkapaAsync</code>. Den kan inte <strong>ändra</strong> och inte <strong>ta bort</strong>. Två av fyra bokstäver i CRUD saknas.</p>
+    <p><strong>Filen.</strong> <code>Services/IFilmService.cs</code>, sist i gränssnittet:</p>
+    <pre><code class="sprak-csharp">    // Nya i område 6. Med dem är alla fyra CRUD-operationerna på plats:
+    // HamtaAllaAsync/HamtaAsync läser, SkapaAsync skapar, UppdateraAsync
+    // ändrar, TaBortAsync tar bort.
+    Task UppdateraAsync(Film film);
+
+    Task TaBortAsync(int id);</code></pre>
+    <p><strong>Filen.</strong> <code>Services/FilmService.cs</code>, två nya metoder:</p>
+    <pre><code class="sprak-csharp">    // Update säger åt contextet att hela objektet ska skrivas tillbaka. Filmen
+    // kommer från formuläret och är inte spårad av det här contextet - därför
+    // Update och inte bara SaveChangesAsync.
+    public async Task UppdateraAsync(Film film)
+    {
+        using var db = await _fabrik.CreateDbContextAsync();
+        db.Filmer.Update(film);
+        await db.SaveChangesAsync();
+
+        _logg.LogInformation("Film ändrad: {Titel} (id {Id})", film.Titel, film.Id);
+    }
+
+    public async Task TaBortAsync(int id)
+    {
+        using var db = await _fabrik.CreateDbContextAsync();
+        Film? film = await db.Filmer.FindAsync(id);
+
+        if (film is null)
+        {
+            _logg.LogWarning("Försökte ta bort film {Id} som inte finns", id);
+            return;
+        }
+
+        db.Filmer.Remove(film);
+        await db.SaveChangesAsync();
+
+        _logg.LogInformation("Film borttagen: {Titel} (id {Id})", film.Titel, id);
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Båda metoderna följer mönstret från <code>SkapaAsync</code>: ett eget context från fabriken, en ändring, <code>SaveChangesAsync</code>. Det är skillnaden mellan dem som är intressant.</p>
+    <p>**<code>Update</code> tar emot en hel film.** Objektet kommer från formuläret i steg 3 och har aldrig varit i det här contextet. Contextet vet alltså ingenting om det, och <code>SaveChangesAsync</code> ensamt hade inte sparat någonting. <code>Update</code> säger: <em>det här objektet finns redan i databasen, skriv tillbaka alla fält.</em> EF Core letar upp raden med hjälp av <code>Id</code>. Det är därför id:t måste följa med formuläret, och det kommer att spela roll i steg 3.</p>
+    <p>**<code>TaBortAsync</code> tar emot bara ett id.** För att ta bort räcker det att veta vilken rad. Metoden hämtar filmen först, av två skäl: den kan redan vara borttagen, och loggraden vill ha titeln. Finns filmen inte loggas det och metoden gör ingenting. Att ta bort något som inte finns är inte ett fel värt att krascha för.</p>
+    <p><strong>Gränssnittet växer av funktionalitet, inte av teknik.</strong> Samma sak som med <code>SkapaAsync</code> i område 5. Det står ingenting om databaser i <code>IFilmService</code>, och det ska det inte göra.</p>
+    <p><strong>Kontrollera.</strong> <code>dotnet build</code>. Noll fel. Ingenting syns ännu – det finns ingen sida som anropar metoderna. Det är nästa steg.</p>
+    <p><strong>I ditt projekt.</strong> Samma två metoder i ditt gränssnitt och din implementation, med dina namn. Parametertyperna följer samma mönster: hela objektet för att ändra, bara id för att ta bort.</p>
+    <h2 id="steg-2">Steg 2 – Listvyn, sorterad och i sidor</h2>
+    <p><strong>Vad vi gör.</strong> Bygger administrationens startpunkt: en tabell med alla filmer, där varje rad har länkar till <em>Ändra</em> och <em>Ta bort</em>.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/AdminFilmer.razor</code>:</p>
+    <pre><code class="sprak-razor">@page "/admin/filmer"
+@inject IFilmService Arkivet
+
+&lt;PageTitle&gt;Alla filmer – Filmarkivet&lt;/PageTitle&gt;
+
+&lt;h1&gt;Alla filmer&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href="filmer/ny"&gt;Lägg till en film&lt;/a&gt;&lt;/p&gt;
+
+@* Kolumnrubrikerna är länkar, inte knappar. Sorteringen ligger i adressen,
+   och därför fungerar den utan interaktivt renderingsläge - sidan hämtas om
+   med ett nytt värde i frågesträngen. Samma sak som sökningen i område 3. *@
+&lt;div class="tabellsvep"&gt;
+    &lt;table class="tabell"&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th scope="col"&gt;&lt;a href="admin/filmer?sortera=titel"&gt;Titel&lt;/a&gt;&lt;/th&gt;
+                &lt;th scope="col"&gt;&lt;a href="admin/filmer?sortera=ar"&gt;År&lt;/a&gt;&lt;/th&gt;
+                &lt;th scope="col"&gt;&lt;a href="admin/filmer?sortera=betyg"&gt;Betyg&lt;/a&gt;&lt;/th&gt;
+                &lt;th scope="col"&gt;Ändra&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            @foreach (var film in sidan)
+            {
+                &lt;tr&gt;
+                    &lt;td&gt;&lt;a href="filmer/@film.Id"&gt;@film.Titel&lt;/a&gt;&lt;/td&gt;
+                    &lt;td&gt;@film.Ar&lt;/td&gt;
+                    &lt;td&gt;@film.Betyg&lt;/td&gt;
+                    &lt;td&gt;
+                        &lt;a href="filmer/andra/@film.Id"&gt;Ändra&lt;/a&gt; ·
+                        &lt;a href="filmer/tabort/@film.Id"&gt;Ta bort&lt;/a&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            }
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+&lt;/div&gt;
+
+&lt;p class="tomt"&gt;
+    Sida @sida av @antalSidor · @antal filmer totalt
+    @if (Sortera is not null)
+    {
+        &lt;text&gt; · sorterat på @Sortera&lt;/text&gt;
+    }
+&lt;/p&gt;
+
+&lt;p&gt;
+    @if (sida &gt; 1)
+    {
+        &lt;a href="admin/filmer?sortera=@Sortera&amp;sida=@(sida - 1)"&gt;&amp;larr; Föregående&lt;/a&gt;
+    }
+    @if (sida &lt; antalSidor)
+    {
+        &lt;a href="admin/filmer?sortera=@Sortera&amp;sida=@(sida + 1)"&gt;Nästa &amp;rarr;&lt;/a&gt;
+    }
+&lt;/p&gt;
+
+@code {
+    [SupplyParameterFromQuery(Name = "sortera")]
+    public string? Sortera { get; set; }
+
+    // En sträng och inte int?. Ett int? som får ?sida=abc kastar ett
+    // undantag innan komponenten ens körs, och besökaren får en 500.
+    [SupplyParameterFromQuery(Name = "sida")]
+    public string? SidaFraga { get; set; }
+
+    private const int PerSida = 4;
+
+    private List&lt;Film&gt; sidan = new();
+    private int antal;
+    private int antalSidor = 1;
+
+    // Sidan som visas. Den kommer ur adressen, och adressen kan vem som helst
+    // skriva: ?sida=99 och ?sida=-3 ska ge en sida som finns, inte en tom tabell.
+    private int sida = 1;
+
+    // OnParametersSetAsync och inte OnInitializedAsync: värdena kommer ur
+    // adressen, och adressen ändras när man klickar på en kolumnrubrik.
+    protected override async Task OnParametersSetAsync()
+    {
+        List&lt;Film&gt; alla = await Arkivet.HamtaAllaAsync();
+
+        IEnumerable&lt;Film&gt; ordnade = Sortera switch
+        {
+            "titel" =&gt; alla.OrderBy(f =&gt; f.Titel),
+            "ar" =&gt; alla.OrderBy(f =&gt; f.Ar),
+            "betyg" =&gt; alla.OrderByDescending(f =&gt; f.Betyg),
+            _ =&gt; alla.OrderBy(f =&gt; f.Id)
+        };
+
+        antal = alla.Count;
+        antalSidor = Math.Max(1, (int)Math.Ceiling(antal / (double)PerSida));
+        // TryParse från område 2. Misslyckas den blir talet 0, och Clamp
+        // gör 0 till 1.
+        int.TryParse(SidaFraga, out int onskad);
+        sida = Math.Clamp(onskad, 1, antalSidor);
+        sidan = ordnade.Skip((sida - 1) * PerSida).Take(PerSida).ToList();
+    }
+}</code></pre>
+    <p><strong>Filen.</strong> <code>Components/Layout/NavMenu.razor</code>, en länk till efter <em>Ny film</em>:</p>
+    <pre><code class="sprak-razor">&lt;div class="nav-item px-3"&gt;
+    &lt;NavLink class="nav-link" href="admin/filmer"&gt;Administrera&lt;/NavLink&gt;
+&lt;/div&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Det är mycket på en gång, så ta det i tre delar.</p>
+    <p><strong>En egen sida för administrationen.</strong> <code>/filmer</code> är besökarens lista, med kort och stjärnor. <code>/admin/filmer</code> är redaktörens: en tät tabell där varje rad går att ändra. Två sidor mot samma tjänst, med olika syften. I steg 22 får bara den ena kräva inloggning. Det hade inte gått om de varit samma sida.</p>
+    <p><strong>Sorteringen ligger i adressen.</strong> Kolumnrubrikerna är vanliga länkar till <code>?sortera=titel</code>, och <code>[SupplyParameterFromQuery]</code> läser värdet – samma sak som <code>?sok=</code> i område 3. Den närliggande tanken är en knapp med <code>@onclick</code>, men under statisk serverrendering finns det ingen som tar emot klicket. Sidan har renderats färdigt och skickats. En länk fungerar alltid, för den gör en ny förfrågan. Varför knappen inte fungerar är en hel lektion, och den kommer i steg 25.</p>
+    <p>Att sorteringen står i adressen har en bieffekt som är värd något: den går att bokmärka och skicka till någon annan.</p>
+    <p>**<code>switch</code>-uttrycket väljer ordning.** Det är samma <code>switch</code> som i område 2, i den korta formen som ger ett värde. <code>_</code> fångar allt annat, också <code>null</code> och <code>?sortera=hittepa</code>. Ett okänt värde ger standardordningen, inte ett fel.</p>
+    <p>**Sidindelningen är två metoder: <code>Skip</code> och <code>Take</code>.** Sida 2 med fyra per sida betyder: hoppa över fyra, ta fyra. <code>(sida - 1) * PerSida</code> är hela uträkningen.</p>
+    <p><strong>Sidnumret går inte att lita på.</strong> Adressen skriver besökaren själv, och <code>?sida=99</code>, <code>?sida=-3</code> och <code>?sida=abc</code> är lika lätta att skriva som <code>?sida=2</code>. Därför läses numret som en sträng och tolkas med <code>int.TryParse</code>, och <code>Math.Clamp</code> håller det mellan 1 och sista sidan. Hade parametern varit <code>int?</code> hade <code>?sida=abc</code> gett en 500 med <em>Cannot parse the value 'abc'</em> – innan en enda rad av din kod körts.</p>
+    <blockquote><p>Allt som kommer ur adressen är något besökaren har skrivit. Behandla det så.</p></blockquote>
+    <p>**<code>OnParametersSetAsync</code>, inte <code>OnInitializedAsync</code>.** Samma val som på detaljsidan i område 3. Klickar man på en kolumnrubrik är det samma sida med nya parametrar, och det är <code>OnParametersSetAsync</code> som körs då.</p>
+    <p><strong>Sorteringen görs i C#, inte i databasen.</strong> Tjänsten hämtar alla filmer och sidan ordnar dem. Det är ett medvetet val, och det är lektion 38 som reder ut varför. Här räcker det att veta att det finns ett skäl.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/admin/filmer</code>. Sex filmer, fyra på första sidan. Klicka på <em>Titel</em> – adressen blir <code>?sortera=titel</code> och ordningen ändras. Klicka på <em>Nästa</em>. Skriv sedan <code>?sida=99</code> i adressfältet för hand. Du ska hamna på sista sidan, inte på en tom tabell.</p>
+    <p><strong>I ditt projekt.</strong> Din listvy med minst tre sorterbara kolumner. Välj en som är text, en som är ett tal och en till. <code>PerSida</code> får du bestämma, men välj ett tal som ger minst två sidor med din frödata – annars syns inte sidindelningen.</p>
+    <h2 id="steg-3">Steg 3 – Ändra: samma formulär, en befintlig post</h2>
+    <p><strong>Vad vi gör.</strong> Bygger sidan som ändrar en film.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/AndraFilm.razor</code>:</p>
+    <pre><code class="sprak-razor">@page "/filmer/andra/{id:int}"
+@inject IFilmService Arkivet
+@inject NavigationManager Navigering
+
+&lt;PageTitle&gt;@(Film?.Titel ?? "Ändra film") – Filmarkivet&lt;/PageTitle&gt;
+
+@if (Film is null)
+{
+    &lt;p class="tomt"&gt;Filmen finns inte.&lt;/p&gt;
+}
+else
+{
+    &lt;p class="brodsmula"&gt;&lt;a href="admin/filmer"&gt;&amp;larr; Alla filmer&lt;/a&gt;&lt;/p&gt;
+
+    &lt;h1&gt;Ändra @Film.Titel&lt;/h1&gt;
+
+    @* Samma EditForm som NyFilm.razor. Skillnaden är att objektet hämtas ur
+       databasen först, och att det har ett Id som följer med i ett dolt fält. *@
+    &lt;EditForm Model="Film" OnValidSubmit="Spara" FormName="andrafilm"&gt;
+        &lt;DataAnnotationsValidator /&gt;
+        &lt;ValidationSummary /&gt;
+
+        &lt;input type="hidden" name="Film.Id" value="@Film.Id" /&gt;
+
+        &lt;p&gt;
+            &lt;label&gt;Titel&lt;br /&gt;
+                &lt;InputText @bind-Value="Film.Titel" /&gt;&lt;/label&gt;
+            &lt;ValidationMessage For="() =&gt; Film.Titel" /&gt;
+        &lt;/p&gt;
+
+        &lt;p&gt;
+            &lt;label&gt;År&lt;br /&gt;
+                &lt;InputNumber @bind-Value="Film.Ar" /&gt;&lt;/label&gt;
+            &lt;ValidationMessage For="() =&gt; Film.Ar" /&gt;
+        &lt;/p&gt;
+
+        &lt;p&gt;
+            &lt;label&gt;Längd i minuter&lt;br /&gt;
+                &lt;InputNumber @bind-Value="Film.LangdMinuter" /&gt;&lt;/label&gt;
+            &lt;ValidationMessage For="() =&gt; Film.LangdMinuter" /&gt;
+        &lt;/p&gt;
+
+        &lt;p&gt;
+            &lt;label&gt;Betyg 1–5&lt;br /&gt;
+                &lt;InputNumber @bind-Value="Film.Betyg" /&gt;&lt;/label&gt;
+            &lt;ValidationMessage For="() =&gt; Film.Betyg" /&gt;
+        &lt;/p&gt;
+
+        &lt;p&gt;
+            &lt;label&gt;Beskrivning&lt;br /&gt;
+                &lt;InputTextArea @bind-Value="Film.Beskrivning" rows="4" /&gt;&lt;/label&gt;
+            &lt;ValidationMessage For="() =&gt; Film.Beskrivning" /&gt;
+        &lt;/p&gt;
+
+        &lt;p&gt;
+            &lt;label&gt;&lt;InputCheckbox @bind-Value="Film.Tillganglig" /&gt; Tillgänglig&lt;/label&gt;
+        &lt;/p&gt;
+
+        &lt;button type="submit"&gt;Spara ändringen&lt;/button&gt;
+        &lt;a href="admin/filmer"&gt;Avbryt&lt;/a&gt;
+    &lt;/EditForm&gt;
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    // Vid en GET är den null och fylls ur databasen. Vid en POST fyller
+    // ramverket den ur formuläret, och då ska den inte hämtas om - annars
+    // skrivs ändringarna över med det som redan står i databasen.
+    [SupplyParameterFromForm]
+    private Film? Film { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Film ??= await Arkivet.HamtaAsync(Id);
+    }
+
+    private async Task Spara()
+    {
+        await Arkivet.UppdateraAsync(Film!);
+        Navigering.NavigateTo("admin/filmer");
+    }
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Jämför med <code>NyFilm.razor</code>. Formuläret är nästan identiskt – samma <code>EditForm</code>, samma <code>DataAnnotationsValidator</code>, samma fält. Det är poängen: attributen på <code>Film</code> gäller oavsett om filmen är ny eller gammal, och de är skrivna en gång.</p>
+    <p>Tre saker skiljer, och alla tre är lätta att få fel.</p>
+    <p>**Sidan anropas två gånger, och <code>??=</code> håller isär dem.** Första gången är en GET: man klickar på <em>Ändra</em>. <code>Film</code> är <code>null</code>, och <code>??=</code> hämtar filmen ur databasen så att fälten fylls i. Andra gången är en POST: man trycker <em>Spara</em>. Nu har ramverket redan fyllt <code>Film</code> med det som stod i formuläret, och <code>??=</code> gör ingenting.</p>
+    <p>Skriv <code>=</code> i stället för <code>??=</code> och ingenting ser fel ut. Sidan svarar, du kommer tillbaka till listan. Men ändringen är borta. Filmen hämtades om ur databasen <strong>ovanpå</strong> det du skrev, och det som sparades var det gamla. Kontrollerat i Filmarkivet: med <code>=</code> står titeln oförändrad efter en lyckad sparning.</p>
+    <p><strong>Id:t följer med i ett dolt fält.</strong> <code>&lt;input type="hidden" name="Film.Id"&gt;</code> står inte på skärmen men skickas med formuläret. Utan det kommer filmen tillbaka med <code>Id = 0</code>, och <code>Update</code> tolkar det som en ny film. Kontrollerat: utan det dolda fältet blir ändringen en <strong>sjunde film</strong> i stället för en ändrad sjätte. Inget felmeddelande.</p>
+    <p>Namnet <code>Film.Id</code> är inte godtyckligt. Det är så <code>EditForm</code> namnger sina fält – egenskapens namn, en punkt, fältets namn. Titta i sidkällan så ser du <code>name="Film.Titel"</code> på de andra fälten.</p>
+    <p><strong>Efter sparningen går sidan vidare.</strong> <code>NavigateTo</code> skickar tillbaka till listan, så att man ser resultatet. Under statisk serverrendering blir det en <strong>302</strong> – webbläsaren får ett svar som säger <em>gå dit i stället</em>. Det är också det som gör att en omladdning av sidan inte skickar formuläret en gång till.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/admin/filmer</code>, klicka <em>Ändra</em> på en film, byt titeln och spara. Du ska hamna på listan med den nya titeln. Prova sedan <code>/filmer/andra/99</code> – <em>Filmen finns inte</em>.</p>
+    <p><strong>I ditt projekt.</strong> Kopiera inte formuläret från din <code>Ny</code>-sida rakt av. Gå igenom de tre skillnaderna ovan en i taget, och kontrollera var och en: <code>??=</code>, det dolda fältet, och vart sidan går efteråt.</p>
+    <h2 id="steg-4">Steg 4 – Ta bort: aldrig på en GET</h2>
+    <p><strong>Vad vi gör.</strong> Bygger en bekräftelsesida med ett formulär som tar bort.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/TaBortFilm.razor</code>:</p>
+    <pre><code class="sprak-razor">@page "/filmer/tabort/{id:int}"
+@inject IFilmService Arkivet
+@inject NavigationManager Navigering
+
+&lt;PageTitle&gt;Ta bort – Filmarkivet&lt;/PageTitle&gt;
+
+@if (film is null)
+{
+    &lt;p class="tomt"&gt;Filmen finns inte, eller är redan borttagen.&lt;/p&gt;
+    &lt;p&gt;&lt;a href="admin/filmer"&gt;Tillbaka till listan&lt;/a&gt;&lt;/p&gt;
+}
+else
+{
+    &lt;h1&gt;Ta bort @film.Titel?&lt;/h1&gt;
+
+    @* Borttagning är oåterkallelig och får aldrig ske på en GET. En länk
+       räcker för att visa den här sidan; det som tar bort är formuläret,
+       och det skickar POST med antiforgery-token. *@
+    &lt;div class="notis varna"&gt;
+        &lt;p&gt;
+            &lt;b&gt;@film.Titel&lt;/b&gt; (@film.Ar) tas bort ur databasen. Det går inte att
+            ångra.
+        &lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;EditForm Model="film" OnValidSubmit="TaBort" FormName="tabortfilm"&gt;
+        &lt;button type="submit"&gt;Ja, ta bort&lt;/button&gt;
+        &lt;a href="admin/filmer"&gt;Avbryt&lt;/a&gt;
+    &lt;/EditForm&gt;
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Film? film;
+
+    protected override async Task OnInitializedAsync()
+    {
+        film = await Arkivet.HamtaAsync(Id);
+    }
+
+    private async Task TaBort()
+    {
+        await Arkivet.TaBortAsync(Id);
+        Navigering.NavigateTo("admin/filmer");
+    }
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Det enklaste hade varit att låta länken <em>Ta bort</em> i listan göra jobbet direkt. Gör inte det. Det finns två skäl, och båda handlar om vad en GET är.</p>
+    <p><strong>En GET ska inte ändra något.</strong> Det är en regel i HTTP, och andra program litar på den. Webbläsare hämtar länkar i förväg för att sidor ska gå snabbare. Sökmotorer följer varenda länk de hittar. En länk som tar bort en film kan alltså tömma databasen utan att någon klickat på den.</p>
+    <p><strong>En GET saknar antiforgery-token.</strong> Formuläret skickar en POST, och <code>EditForm</code> lägger in token själv – samma skydd som visningslistans formulär i område 4. Kontrollerat: en POST till <code>/filmer/tabort/5</code> utan token svarar <strong>400</strong>, och filmen finns kvar. En länk hade inte haft något sådant skydd. Vem som helst hade kunnat lägga den på en annan sajt.</p>
+    <p><code>EditForm</code> här har inga fält och ingen validator – det är bara en knapp. Den är ändå <code>EditForm</code> och inte <code>&lt;form&gt;</code>, för att få token och <code>FormName</code> utan att skriva dem själv.</p>
+    <p><strong>Kontrollera.</strong> Klicka <em>Ta bort</em> på en film. Bekräftelsesidan visas och filmen finns kvar i listan – att <strong>visa</strong> sidan tar inte bort något. Tryck <em>Ja, ta bort</em>. Nu är den borta. Ladda om <code>/filmer/tabort/</code> med samma id: <em>Filmen finns inte, eller är redan borttagen</em>.</p>
+    <p><strong>I ditt projekt.</strong> Samma mönster. Det som är värt att tänka på är texten i varningen: vad behöver användaren se för att vara säker på att det är rätt post? Titeln räcker inte alltid – två recept kan heta <em>Pannkakor</em>.</p>
+    <h2 id="steg-5">Steg 5 – Genren och den främmande nyckeln</h2>
+    <p><strong>Vad vi gör.</strong> Lägger till en ny entitet och kopplar ihop den med <code>Film</code>.</p>
+    <p><strong>Filen.</strong> <code>Models/Genre.cs</code> – ny:</p>
+    <pre><code class="sprak-csharp">using System.ComponentModel.DataAnnotations;
+
+namespace Filmarkivet.Models;
+
+// Kategorientiteten, ny i område 6. Många filmer hör till en genre – det är en
+// en-till-många-relation, och den syns från båda hållen: Film har GenreId och
+// Genre, Genre har listan Filmer.
+public class Genre
+{
+    public int Id { get; set; }
+
+    [Required(ErrorMessage = "Genren måste ha ett namn.")]
+    [StringLength(50, ErrorMessage = "Namnet får vara högst 50 tecken.")]
+    public string Namn { get; set; } = "";
+
+    [StringLength(200, ErrorMessage = "Beskrivningen får vara högst 200 tecken.")]
+    public string Beskrivning { get; set; } = "";
+
+    // Navigationsegenskapen åt andra hållet. Den ligger inte i någon kolumn –
+    // EF Core fyller den när man ber om det med Include.
+    public List&lt;Film&gt; Filmer { get; set; } = new();
+}</code></pre>
+    <p><strong>Filen.</strong> <code>Models/Film.cs</code>, två egenskaper till efter <code>Tillganglig</code>:</p>
+    <pre><code class="sprak-csharp">    // Främmande nyckel, ny i område 6. Namnet GenreId gör att EF Core förstår
+    // att den hör ihop med navigationsegenskapen nedan – ingen konfiguration
+    // behövs.
+    [Range(1, int.MaxValue, ErrorMessage = "Välj en genre.")]
+    public int GenreId { get; set; }
+
+    // Navigationsegenskapen. Ligger inte i någon kolumn: den fylls när man
+    // hämtar filmen med Include, och är null annars.
+    public Genre? Genre { get; set; }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> En relation i code-first är <strong>tre egenskaper</strong>, och de har tre olika uppgifter:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Egenskap</th><th>Var</th><th>I databasen</th><th>Vad den är till för</th></tr></thead>
+    <tbody>
+    <tr><td><code>int GenreId</code></td><td><code>Film</code></td><td>en kolumn i <code>Filmer</code></td><td>Talet som pekar ut genren. Det är det som sparas</td></tr>
+    <tr><td><code>Genre? Genre</code></td><td><code>Film</code></td><td>ingenting</td><td>Så att koden kan skriva <code>film.Genre.Namn</code></td></tr>
+    <tr><td><code>List&lt;Film&gt; Filmer</code></td><td><code>Genre</code></td><td>ingenting</td><td>Så att koden kan gå åt andra hållet</td></tr>
+    </tbody></table></div>
+    <p>Bara den första blir en kolumn. De andra två är till för C#, och de är tomma tills någon ber EF Core fylla dem. Det är steg 7.</p>
+    <p><strong>Namnet gör jobbet.</strong> <code>GenreId</code> bredvid en egenskap <code>Genre</code> av typen <code>Genre</code> – EF Core ser mönstret och förstår att det är en främmande nyckel. Samma sorts konvention som gjorde <code>Id</code> till primärnyckel i område 5. Du skriver ingen konfiguration, bara rätt namn.</p>
+    <p>**<code>GenreId</code> är <code>int</code>, inte <code>int?</code>.<strong> Det betyder att varje film </strong>måste** ha en genre. Hade det varit <code>int?</code> hade filmer utan genre varit tillåtna. Det är ett beslut om domänen, inte om tekniken.</p>
+    <p>**<code>[Range(1, int.MaxValue)]</code> på en främmande nyckel ser konstigt ut.** Den behövs för formuläret. En rullista som inte valts skickar <code>0</code>, och <code>0</code> är ett giltigt <code>int</code>. Utan attributet hade valideringen släppt igenom det, och databasen hade svarat med ett fel. Med attributet får användaren <em>Välj en genre.</em></p>
+    <p>**<code>Genre?</code> med frågetecken.** Navigationsegenskapen är <code>null</code> så fort den inte hämtats – och det är för det mesta. Frågetecknet säger det rakt ut, och kompilatorn varnar om du glömmer.</p>
+    <p><strong>Kontrollera.</strong> <code>dotnet build</code>. Noll fel. Databasen vet ännu ingenting om genrer.</p>
+    <p><strong>I ditt projekt.</strong> Din kategorientitet med minst ett namn och en beskrivning, och de två egenskaperna på din huvudentitet. Namnet på den främmande nyckeln ska vara **navigationsegenskapens namn plus <code>Id</code>**: <code>KategoriId</code> och <code>Kategori</code>, <code>KokId</code> och <code>Kok</code>. Bryter du mönstret förstår EF Core inte att de hör ihop.</p>
+    <h2 id="steg-6">Steg 6 – Migrationen som kan gå sönder</h2>
+    <p><strong>Vad vi gör.</strong> Ger contextet den nya tabellen, frödata och en rad som räddar befintliga databaser. Sedan migrationen.</p>
+    <p><strong>Filen.</strong> <code>Data/FilmarkivetContext.cs</code>, ett <code>DbSet</code> till:</p>
+    <pre><code class="sprak-csharp">    public DbSet&lt;Genre&gt; Genrer =&gt; Set&lt;Genre&gt;();</code></pre>
+    <p>I <code>OnModelCreating</code>, före filmernas <code>HasData</code>:</p>
+    <pre><code class="sprak-csharp">        // Befintliga rader får GenreId 1 när kolumnen läggs till. Utan den
+        // här raden blir standardvärdet 0, som inte pekar på någon genre, och
+        // migrationen avbryts med FOREIGN KEY constraint failed på varje
+        // databas som redan har filmer.
+        byggare.Entity&lt;Film&gt;()
+            .Property(f =&gt; f.GenreId)
+            .HasDefaultValue(1);
+
+        byggare.Entity&lt;Genre&gt;().HasData(
+            new Genre { Id = 1, Namn = "Drama", Beskrivning = "Berättelser där konflikten är mellan människor." },
+            new Genre { Id = 2, Namn = "Äventyr", Beskrivning = "Resan är större än den som gör den." },
+            new Genre { Id = 3, Namn = "Skräck", Beskrivning = "Det som är obehagligt just för att det är nästan vanligt." }
+        );</code></pre>
+    <p>Och varje film i frödatan får sin genre, sist på raden:</p>
+    <pre><code class="sprak-csharp">            new Film { Id = 1, Titel = "Nyckeln till frihet", Ar = 1994, LangdMinuter = 142, Betyg = 5, Beskrivning = "En bankman döms för ett mord han inte begått och bygger under nitton år i Shawshank en vänskap som bär honom.", Tillganglig = true, GenreId = 1 },</code></pre>
+    <p>Sedan migrationen:</p>
+    <pre><code>dotnet ef migrations add GenreOchRelation
+dotnet ef database update</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>HasDefaultValue(1)</code> är raden som är värd hela steget.</p>
+    <p>Tänk på vad migrationen ska göra med din databas. Tabellen <code>Filmer</code> har rader. Nu ska den få en ny kolumn, <code>GenreId</code>, som inte får vara tom. <strong>Vad ska det stå i den på raderna som redan finns?</strong> Frödatans sex filmer har fått ett <code>GenreId</code> i koden, och de uppdateras. Men den film du själv lade till via formuläret i område 5 finns inte i koden. Den får standardvärdet.</p>
+    <p>Utan <code>HasDefaultValue</code> är standardvärdet för en <code>int</code> <code>0</code>. Det finns ingen genre med id 0, och den främmande nyckeln vägrar:</p>
+    <pre><code>SQLite Error 19: 'FOREIGN KEY constraint failed'</code></pre>
+    <p>Migrationen avbryts, och databasen står kvar där den stod. Kontrollerat åt båda hållen: utan raden avbryts uppgraderingen, med den behåller en databas med sju filmer alla sju. Den sjunde hamnar i <em>Drama</em>, och det kan du ändra efteråt på ändringssidan.</p>
+    <p><strong>Här gör databasen det attributen inte gjorde.</strong> Minns steg 8 i område 5: <code>[Range]</code> blev ingenting i schemat, och betyget 99 gick rakt in. En främmande nyckel är annorlunda. Titta på vad migrationen skapade:</p>
+    <pre><code>dotnet ef migrations script ForstaMigrationen GenreOchRelation</code></pre>
+    <pre><code>CREATE TABLE "ef_temp_Filmer" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Filmer" PRIMARY KEY AUTOINCREMENT,
+    "Ar" INTEGER NOT NULL,
+    "Beskrivning" TEXT NOT NULL,
+    "Betyg" INTEGER NOT NULL,
+    "GenreId" INTEGER NOT NULL DEFAULT 1,
+    "LangdMinuter" INTEGER NOT NULL,
+    "Tillganglig" INTEGER NOT NULL,
+    "Titel" TEXT NOT NULL,
+    CONSTRAINT "FK_Filmer_Genrer_GenreId" FOREIGN KEY ("GenreId") REFERENCES "Genrer" ("Id") ON DELETE CASCADE
+);</code></pre>
+    <p><code>CONSTRAINT … FOREIGN KEY</code> är ett villkor som databasen själv håller. Försök spara en film med <code>GenreId = 99</code> och det är databasen som säger nej, inte C#.</p>
+    <p>Två saker till i utskriften:</p>
+    <p>**<code>ef_temp_Filmer</code>.** SQLite kan inte lägga till en främmande nyckel i en befintlig tabell. EF Core bygger därför en ny tabell, kopierar över raderna och byter namn. Du behöver inte göra något åt det, men det förklarar varför migrationen är längre än du väntat dig.</p>
+    <p>**<code>ON DELETE CASCADE</code>.<strong> Det här betyder: </strong>tas en genre bort, tas alla dess filmer bort också.** EF Core väljer det själv för en obligatorisk främmande nyckel. Kontrollerat i Filmarkivet: en raderad <em>Drama</em> tog med sig fem av sju filmer, utan fråga.</p>
+    <p>Det går att välja något annat – <code>DeleteBehavior.Restrict</code> i <code>OnModelCreating</code> får databasen att vägra ta bort en genre som har filmer. Filmarkivet löser det enklare: det finns ingen sida som tar bort genrer. Det är ett beslut, och det är värt att fatta det med vett och vilja i stället för att upptäcka det.</p>
+    <p><strong>Kontrollera.</strong> <code>dotnet ef database update</code> ska sluta med <code>Done.</code> Filmlistan fungerar som förut. Genren syns inte någonstans ännu, och det är inte ett fel – det är nästa steg.</p>
+    <p>Försök inte skapa en film ännu. Formuläret har inget fält för genre, så det skickar <code>GenreId = 0</code>, och <code>ValidationSummary</code> säger <em>Välj en genre.</em> Det rättas i steg 9.</p>
+    <p><strong>I ditt projekt.</strong> Samma tre delar: <code>DbSet</code>, <code>HasDefaultValue</code> med id:t på en kategori som finns i frödatan, och frödata för minst tre kategorier. Glöm inte att ge <strong>varje</strong> rad i huvudentitetens frödata en kategori. Kör sedan <code>migrations script</code> och leta upp <code>ON DELETE CASCADE</code> i din egen utskrift.</p>
+    <h2 id="steg-7">Steg 7 – `Include`: relationen fylls inte av sig själv</h2>
+    <p><strong>Vad vi gör.</strong> Visar genren på filmens detaljsida.</p>
+    <p><strong>Filen.</strong> <code>Services/IFilmService.cs</code>, två metoder till:</p>
+    <pre><code class="sprak-csharp">    // Filmen med sin genre ifylld. Egen metod, för Include kostar en join och
+    // de flesta anrop behöver den inte.
+    Task&lt;Film?&gt; HamtaMedGenreAsync(int id);
+
+    Task&lt;List&lt;Film&gt;&gt; HamtaAllaMedGenreAsync();</code></pre>
+    <p><strong>Filen.</strong> <code>Services/FilmService.cs</code>:</p>
+    <pre><code class="sprak-csharp">    // Include hämtar genren i samma fråga. Utan den är Genre null, och sidan
+    // som skriver ut @film.Genre?.Namn visar ingenting - utan felmeddelande.
+    public async Task&lt;Film?&gt; HamtaMedGenreAsync(int id)
+    {
+        using var db = await _fabrik.CreateDbContextAsync();
+
+        return await db.Filmer
+            .Include(f =&gt; f.Genre)
+            .FirstOrDefaultAsync(f =&gt; f.Id == id);
+    }
+
+    public async Task&lt;List&lt;Film&gt;&gt; HamtaAllaMedGenreAsync()
+    {
+        using var db = await _fabrik.CreateDbContextAsync();
+
+        return await db.Filmer
+            .Include(f =&gt; f.Genre)
+            .ToListAsync();
+    }</code></pre>
+    <p><strong>Filen.</strong> <code>Components/Pages/Filmdetalj.razor</code>. Metoden byts i <code>OnParametersSetAsync</code>:</p>
+    <pre><code class="sprak-csharp">        film = await Arkivet.HamtaMedGenreAsync(Id);</code></pre>
+    <p>och faktaraden får genren, som en länk:</p>
+    <pre><code class="sprak-razor">    &lt;p class="filmkort-fakta"&gt;
+        @film.Ar &amp;middot; @film.LangdMinuter minuter
+        @if (film.Genre is not null)
+        {
+            &lt;text&gt;&amp;middot; &lt;a href="genrer/@film.GenreId"&gt;@film.Genre.Namn&lt;/a&gt;&lt;/text&gt;
+        }
+    &lt;/p&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Prova först att <strong>bara</strong> ändra faktaraden och behålla <code>HamtaAsync</code>. Starta och gå till <code>/filmer/1</code>. Ingen genre. Inget fel, ingen varning, ingen rad i terminalen. Faktaraden ser ut som förut.</p>
+    <p>Det är relationens vanligaste fallgrop, och den är tyst. <code>HamtaAsync</code> gör <code>FindAsync</code>, som hämtar raden ur <code>Filmer</code> – och i den raden står <code>GenreId = 1</code>, inte genren. <code>film.Genre</code> är <code>null</code>, och <code>@if</code> hoppar över den.</p>
+    <p><code>Include</code> säger åt EF Core: <em>hämta genren också, i samma fråga.</em> Slå på SQL-loggningen (steg 10) så ser du vad det blir:</p>
+    <pre><code>SELECT "f"."Id", "f"."Ar", … "g"."Id", "g"."Beskrivning", "g"."Namn"
+FROM "Filmer" AS "f"
+INNER JOIN "Genrer" AS "g" ON "f"."GenreId" = "g"."Id"
+WHERE "f"."Id" = @id
+LIMIT 1</code></pre>
+    <p>En <code>JOIN</code>. Två tabeller i en fråga.</p>
+    <p>**Varför egna metoder och inte <code>Include</code> överallt?** Därför att en <code>JOIN</code> inte är gratis, och de flesta anrop behöver den inte. Filmlistan visar inte genren. Statistiken bryr sig inte om den. Att relaterad data ska med är något man <strong>beställer</strong>, och när det är en egen metod i gränssnittet syns beställningen i koden. Det är ett sätt att göra fallgropen synlig.</p>
+    <p><code>FirstOrDefaultAsync</code> i stället för <code>FindAsync</code>: <code>FindAsync</code> går inte att kombinera med <code>Include</code>. Den gör en sak – letar på primärnyckeln – och tar inte emot några tillägg.</p>
+    <p><strong>Kontrollera.</strong> <code>/filmer/1</code> visar <em>Drama</em> i faktaraden. Länken går till <code>/genrer/1</code>, som inte finns ännu. Det är nästa steg.</p>
+    <p><strong>I ditt projekt.</strong> Gör försöket ovan: ändra faktaraden först och se att ingenting syns. Byt sedan metod. Det tar en minut och är värt det, för nästa gång det händer i ditt projekt vet du var du ska leta.</p>
+    <h2 id="steg-8">Steg 8 – Genresidan och en egen tjänst</h2>
+    <p><strong>Vad vi gör.</strong> Bygger sidan som visar en genre och alla dess filmer – relationen från andra hållet.</p>
+    <p><strong>Filen.</strong> <code>Services/IGenreService.cs</code> – ny:</p>
+    <pre><code class="sprak-csharp">using Filmarkivet.Models;
+
+namespace Filmarkivet.Services;
+
+// Kategorientiteten får en egen tjänst, av samma skäl som filmerna fick en i
+// område 4: komponenten ska inte veta var genrerna kommer ifrån.
+public interface IGenreService
+{
+    Task&lt;List&lt;Genre&gt;&gt; HamtaAllaAsync();
+
+    Task&lt;Genre?&gt; HamtaAsync(int id);
+
+    // Med filmerna ifyllda. Egen metod, för de flesta anrop behöver dem inte
+    // och Include kostar en join.
+    Task&lt;Genre?&gt; HamtaMedFilmerAsync(int id);
+}</code></pre>
+    <p><strong>Filen.</strong> <code>Services/GenreService.cs</code> – ny:</p>
+    <pre><code class="sprak-csharp">using Filmarkivet.Data;
+using Filmarkivet.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace Filmarkivet.Services;
+
+public class GenreService : IGenreService
+{
+    private readonly IDbContextFactory&lt;FilmarkivetContext&gt; _fabrik;
+
+    public GenreService(IDbContextFactory&lt;FilmarkivetContext&gt; fabrik)
+    {
+        _fabrik = fabrik;
+    }
+
+    public async Task&lt;List&lt;Genre&gt;&gt; HamtaAllaAsync()
+    {
+        using var db = await _fabrik.CreateDbContextAsync();
+        return await db.Genrer.OrderBy(g =&gt; g.Namn).ToListAsync();
+    }
+
+    public async Task&lt;Genre?&gt; HamtaAsync(int id)
+    {
+        using var db = await _fabrik.CreateDbContextAsync();
+        return await db.Genrer.FindAsync(id);
+    }
+
+    // Include säger åt EF Core att hämta de relaterade filmerna i samma fråga.
+    // Utan den är Filmer en tom lista – navigationsegenskaper fylls inte av sig
+    // själva.
+    public async Task&lt;Genre?&gt; HamtaMedFilmerAsync(int id)
+    {
+        using var db = await _fabrik.CreateDbContextAsync();
+
+        return await db.Genrer
+            .Include(g =&gt; g.Filmer)
+            .FirstOrDefaultAsync(g =&gt; g.Id == id);
+    }
+}</code></pre>
+    <p><strong>Filen.</strong> <code>Program.cs</code>, bredvid de andra registreringarna:</p>
+    <pre><code class="sprak-csharp">builder.Services.AddScoped&lt;IGenreService, GenreService&gt;();</code></pre>
+    <p><strong>Filen.</strong> <code>Components/Pages/Genresidan.razor</code> – ny:</p>
+    <pre><code class="sprak-razor">@page "/genrer/{id:int}"
+@inject IGenreService Genrer
+@inject NavigationManager Navigering
+
+&lt;PageTitle&gt;@(genre?.Namn ?? "Genren finns inte") – Filmarkivet&lt;/PageTitle&gt;
+
+@if (genre is not null)
+{
+    &lt;p class="brodsmula"&gt;&lt;a href="filmer"&gt;&amp;larr; Alla filmer&lt;/a&gt;&lt;/p&gt;
+
+    &lt;h1&gt;@genre.Namn&lt;/h1&gt;
+    &lt;p class="beskrivning"&gt;@genre.Beskrivning&lt;/p&gt;
+
+    @* genre.Filmer är fylld eftersom tjänsten hämtade den med Include. Hade
+       vi använt HamtaAsync i stället hade listan varit tom - utan fel, utan
+       varning. Det är relationens vanligaste fallgrop. *@
+    &lt;h2&gt;@genre.Filmer.Count filmer i den här genren&lt;/h2&gt;
+
+    &lt;ul class="filmlista"&gt;
+        @foreach (var film in genre.Filmer.OrderBy(f =&gt; f.Titel))
+        {
+            &lt;li&gt;&lt;a href="filmer/@film.Id"&gt;@film.Titel&lt;/a&gt; (@film.Ar)&lt;/li&gt;
+        }
+    &lt;/ul&gt;
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Genre? genre;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        genre = await Genrer.HamtaMedFilmerAsync(Id);
+
+        // Samma sak som på detaljsidan i område 3: en genre som inte finns
+        // ska svara 404, inte en sida som säger att den inte finns.
+        if (genre is null)
+        {
+            Navigering.NotFound();
+        }
+    }
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <strong>En tjänst per entitet</strong> är samma resonemang som i område 4. <code>Genresidan</code> ska inte veta att genrerna ligger i SQLite, och den ska inte ha ett <code>DbContext</code>. Det hade gått att lägga genremetoderna i <code>IFilmService</code> – men då växer den till en klass som gör allt, och det var precis det område 4 ville undvika.</p>
+    <p>Tjänsten behöver ingen logg och är kortare än <code>FilmService</code>. Den behöver inte vara lika stor för att vara värd att skilja ut.</p>
+    <p>**<code>Include(g =&gt; g.Filmer)</code> går åt andra hållet.** I steg 7 hämtade en film sin genre. Här hämtar en genre sina filmer. SQL:en visar skillnaden:</p>
+    <pre><code>SELECT "g0"."Id", "g0"."Beskrivning", "g0"."Namn", "f"."Id", "f"."Ar", …
+FROM (
+    SELECT "g"."Id", "g"."Beskrivning", "g"."Namn"
+    FROM "Genrer" AS "g"
+    WHERE "g"."Id" = @id
+    LIMIT 1
+) AS "g0"
+LEFT JOIN "Filmer" AS "f" ON "g0"."Id" = "f"."GenreId"</code></pre>
+    <p><code>LEFT JOIN</code> och inte <code>INNER JOIN</code>. En genre utan filmer ska ändå hittas – den får bara en tom lista. En film utan genre finns däremot inte, för <code>GenreId</code> är obligatorisk, så i steg 7 räckte <code>INNER JOIN</code>. EF Core väljer åt dig, utifrån hur relationen är beskriven.</p>
+    <p>**<code>genre.Filmer.OrderBy(…)</code> i markupen.** Sorteringen görs i C# på en lista som redan är hämtad, och den är liten. Det är samma avvägning som i listvyn, och lektion 38 säger mer om den.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/filmer/1</code> och klicka på <em>Drama</em>. Genresidan visar fyra filmer – fem, om du har en egen som hamnade där i steg 6. Klicka dig vidare till en film och tillbaka. <code>/genrer/99</code> ska ge sidan för 404, precis som <code>/filmer/99</code>.</p>
+    <p><strong>I ditt projekt.</strong> Din kategoritjänst och din kategorisida. Det här är lektion 37:s aktivitet: data från <strong>båda</strong> tabellerna i samma vy.</p>
+    <h2 id="steg-9">Steg 9 – Genren i formulären och i listvyn</h2>
+    <p><strong>Vad vi gör.</strong> Låter användaren välja genre när en film skapas och ändras, och visar genren i administrationens tabell.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/NyFilm.razor</code>. En injektion till överst:</p>
+    <pre><code class="sprak-razor">@inject IGenreService Genrer</code></pre>
+    <p>ett fält bland de andra i formuläret:</p>
+    <pre><code class="sprak-razor">    &lt;p&gt;
+        &lt;label&gt;Genre&lt;br /&gt;
+            &lt;InputSelect @bind-Value="Film!.GenreId"&gt;
+                &lt;option value="0"&gt;— välj genre —&lt;/option&gt;
+                @foreach (var genre in genrer)
+                {
+                    &lt;option value="@genre.Id"&gt;@genre.Namn&lt;/option&gt;
+                }
+            &lt;/InputSelect&gt;&lt;/label&gt;
+        &lt;ValidationMessage For="() =&gt; Film!.GenreId" /&gt;
+    &lt;/p&gt;</code></pre>
+    <p>och genrerna hämtas när sidan initieras:</p>
+    <pre><code class="sprak-csharp">    private List&lt;Genre&gt; genrer = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        genrer = await Genrer.HamtaAllaAsync();
+        Film ??= new Film();
+    }</code></pre>
+    <p><code>AndraFilm.razor</code> får samma tre tillägg. Där heter fältet <code>Film.GenreId</code> utan utropstecken, precis som de andra fälten på den sidan.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/AdminFilmer.razor</code>. En kolumn till i tabellhuvudet:</p>
+    <pre><code class="sprak-razor">                &lt;th scope="col"&gt;&lt;a href="admin/filmer?sortera=genre"&gt;Genre&lt;/a&gt;&lt;/th&gt;</code></pre>
+    <p>en cell till i raden:</p>
+    <pre><code class="sprak-razor">                    &lt;td&gt;@(film.Genre?.Namn ?? "—")&lt;/td&gt;</code></pre>
+    <p>och i <code>OnParametersSetAsync</code> byts metoden, och sorteringen får ett fall till:</p>
+    <pre><code class="sprak-csharp">        List&lt;Film&gt; alla = await Arkivet.HamtaAllaMedGenreAsync();
+
+        IEnumerable&lt;Film&gt; ordnade = Sortera switch
+        {
+            "titel" =&gt; alla.OrderBy(f =&gt; f.Titel),
+            "ar" =&gt; alla.OrderBy(f =&gt; f.Ar),
+            "betyg" =&gt; alla.OrderByDescending(f =&gt; f.Betyg),
+            "genre" =&gt; alla.OrderBy(f =&gt; f.Genre!.Namn).ThenBy(f =&gt; f.Titel),
+            _ =&gt; alla.OrderBy(f =&gt; f.Id)
+        };</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <strong>Rullistan skickar ett tal, inte ett namn.</strong> Det som står på skärmen är <em>Äventyr</em>, men det som följer med formuläret är <code>2</code>. Det är precis det som ska sparas – <code>GenreId</code> är en siffra – och det gör att en genre kan byta namn utan att en enda film behöver ändras.</p>
+    <p>**Första alternativet har värdet <code>0</code>.** Det är dit <code>[Range(1, int.MaxValue)]</code> från steg 5 pekar. Väljer användaren ingenting skickas <code>0</code>, attributet säger nej, och <em>Välj en genre.</em> står under rullistan. Kontrollerat.</p>
+    <p>Försöker någon lura formuläret med <code>GenreId = 99</code>, en genre som inte finns, går den förbi attributet – 99 är större än 1. Då är det databasens främmande nyckel från steg 6 som stoppar posten, och ingen film sparas. Kontrollerat. Men besökaren får en <strong>500</strong> i stället för ett felmeddelande, och det är inte snyggt. Att fånga det ordentligt är område 7:s sak. Här räcker det att veta att databasen håller.</p>
+    <p>**Listvyn behöver <code>Include</code>**, annars är genrekolumnen tom. Det är fallgropen från steg 7 igen, och den här gången syns den som en kolumn full av streck.</p>
+    <p>**<code>Genre!.Namn</code> i sorteringen.** Utropstecknet säger åt kompilatorn att genren inte är <code>null</code>. Det stämmer, för <code>HamtaAllaMedGenreAsync</code> har <code>Include</code>, och <code>GenreId</code> är obligatorisk. <code>ThenBy</code> sorterar filmerna inom samma genre på titel, så att ordningen blir densamma varje gång.</p>
+    <p><strong>Kontrollera.</strong> Skapa en film och välj <em>Skräck</em>. Den ska dyka upp på <code>/genrer/3</code>. Ändra en films genre och se den flytta. I <code>/admin/filmer</code>, klicka på <em>Genre</em> – filmerna ska ligga i genreordning, och i bokstavsordning inom varje genre.</p>
+    <p><strong>I ditt projekt.</strong> Samma tre ändringar. Kontrollera sedan listvyns fjärde sorteringskolumn: sorterar du på kategorins namn behöver du både <code>Include</code> och <code>!</code>, och en <code>ThenBy</code> för att ordningen ska vara stabil.</p>
+    <h2 id="steg-10">Steg 10 – Se den SQL som körs</h2>
+    <p><strong>Vad vi gör.</strong> Slår på loggningen av den SQL som EF Core skickar till databasen.</p>
+    <p><strong>Filen.</strong> <code>appsettings.Development.json</code>:</p>
+    <pre><code class="sprak-json">{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.EntityFrameworkCore.Database.Command": "Information"
+    }
+  }
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Allt du skrivit mot databasen hittills har varit C#. <code>ToListAsync</code>, <code>FindAsync</code>, <code>Include</code>. Någonstans blir det SQL, och det är EF Core som skriver den. Den här raden låter dig läsa vad den skrev.</p>
+    <p>Loggningen styrs per kategori. <code>Microsoft.EntityFrameworkCore.Database.Command</code> är kategorin för <em>en fråga som skickats till databasen</em>, och <code>Information</code> betyder att varje fråga skrivs ut. Det är samma <code>ILogger</code> som du använde i område 4 – EF Core loggar genom den, precis som din tjänst.</p>
+    <p>**Varför i <code>appsettings.Development.json</code> och inte i <code>appsettings.json</code>?** För att den ska gälla bara på din dator. En driftsatt applikation med den här raden skriver en logg per databasanrop, och det vill man inte betala för. Område 8 driftsätter, och då är raden automatiskt borta.</p>
+    <p><strong>Kontrollera.</strong> Starta om och gå till <code>/filmer</code>. I terminalen:</p>
+    <pre><code>info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "f"."Id", "f"."Ar", "f"."Beskrivning", "f"."Betyg", "f"."GenreId", "f"."LangdMinuter", "f"."Tillganglig", "f"."Titel"
+      FROM "Filmer" AS "f"</code></pre>
+    <p>Gå till <code>/filmer/1</code> och leta efter <code>INNER JOIN</code>. Det är <code>Include</code> från steg 7.</p>
+    <p><strong>I ditt projekt.</strong> Samma rad. Låt den stå kvar under resten av området – nästa tre steg går inte att förstå utan den.</p>
+    <h2 id="steg-11">Steg 11 – Sökningen flyttar in i databasen</h2>
+    <p><strong>Vad vi gör.</strong> Skriver om sökningen så att databasen gör urvalet, och bygger en sida som jämför den gamla varianten med den nya.</p>
+    <p>Sökningen från område 3 och 4 ser ut ungefär så här. Den finns kvar i tjänsten, under ett nytt namn:</p>
+    <p><strong>Filen.</strong> <code>Services/FilmService.cs</code>:</p>
+    <pre><code class="sprak-csharp">    // Variant A, från område 4: hämta allt och gå igenom det i C#.
+    // Fungerar, och gör fel sak. Behålls som jämförelse till lektion 38.
+    public async Task&lt;List&lt;Film&gt;&gt; SokIMinnetAsync(string? sok)
+    {
+        List&lt;Film&gt; alla = await HamtaAllaAsync();
+        List&lt;Film&gt; traffar = new();
+
+        foreach (var film in alla)
+        {
+            if (string.IsNullOrWhiteSpace(sok)
+                || film.Titel.Contains(sok, StringComparison.OrdinalIgnoreCase))
+            {
+                traffar.Add(film);
+            }
+        }
+
+        return traffar;
+    }
+
+    // Variant B: samma svar, men urvalet görs av databasen. Where läggs på
+    // frågan innan ToListAsync körs - och det är först där den går till
+    // databasen.
+    public async Task&lt;List&lt;Film&gt;&gt; SokAsync(string? sok)
+    {
+        _logg.LogInformation("Sökning på {Sok}",
+            string.IsNullOrWhiteSpace(sok) ? "(allt)" : sok);
+
+        using var db = await _fabrik.CreateDbContextAsync();
+
+        IQueryable&lt;Film&gt; fraga = db.Filmer;
+
+        if (!string.IsNullOrWhiteSpace(sok))
+        {
+            fraga = fraga.Where(f =&gt; EF.Functions.Like(f.Titel, $"%{sok}%"));
+        }
+
+        return await fraga.OrderBy(f =&gt; f.Titel).ToListAsync();
+    }</code></pre>
+    <p><strong>Filen.</strong> <code>Services/IFilmService.cs</code>, efter <code>SokAsync</code>:</p>
+    <pre><code class="sprak-csharp">    // Bara till jämförelsen i lektion 38. Samma svar som SokAsync, men
+    // urvalet görs i C# efter att allt hämtats.
+    Task&lt;List&lt;Film&gt;&gt; SokIMinnetAsync(string? sok);</code></pre>
+    <p><strong>Filen.</strong> <code>Components/Pages/Linq.razor</code> – ny:</p>
+    <pre><code class="sprak-razor">@page "/linq"
+@inject IFilmService Arkivet
+
+&lt;PageTitle&gt;Två sökningar – Filmarkivet&lt;/PageTitle&gt;
+
+&lt;h1&gt;Samma svar, två sätt att komma fram&lt;/h1&gt;
+
+&lt;form method="get"&gt;
+    &lt;label&gt;Sök på titel
+        &lt;input name="sok" value="@Sok" /&gt;&lt;/label&gt;
+    &lt;button type="submit"&gt;Sök&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;p class="tomt"&gt;Titta i terminalen medan du söker. Där står den SQL som
+    faktiskt kördes.&lt;/p&gt;
+
+&lt;h2&gt;I minnet: hämta allt, gå igenom i C#&lt;/h2&gt;
+&lt;p&gt;@iMinnet.Count träffar&lt;/p&gt;
+&lt;ul&gt;
+    @foreach (var film in iMinnet)
+    {
+        &lt;li&gt;@film.Titel&lt;/li&gt;
+    }
+&lt;/ul&gt;
+
+&lt;h2&gt;I databasen: &lt;code&gt;Where&lt;/code&gt; på frågan&lt;/h2&gt;
+&lt;p&gt;@iDatabasen.Count träffar&lt;/p&gt;
+&lt;ul&gt;
+    @foreach (var film in iDatabasen)
+    {
+        &lt;li&gt;@film.Titel&lt;/li&gt;
+    }
+&lt;/ul&gt;
+
+@code {
+    [SupplyParameterFromQuery(Name = "sok")]
+    public string? Sok { get; set; }
+
+    private List&lt;Film&gt; iMinnet = new();
+    private List&lt;Film&gt; iDatabasen = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        iMinnet = await Arkivet.SokIMinnetAsync(Sok);
+        iDatabasen = await Arkivet.SokAsync(Sok);
+    }
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Sök på <code>kel</code> och läs terminalen. Två frågor:</p>
+    <pre><code>-- SokIMinnetAsync
+SELECT "f"."Id", "f"."Ar", "f"."Beskrivning", … FROM "Filmer" AS "f"
+
+-- SokAsync
+SELECT "f"."Id", "f"."Ar", "f"."Beskrivning", … FROM "Filmer" AS "f"
+WHERE "f"."Titel" LIKE @Format
+ORDER BY "f"."Titel"</code></pre>
+    <p>Samma två träffar på skärmen. Men den första frågan hämtade <strong>alla</strong> filmer över till C#, och slängde sedan de flesta. Den andra lät databasen välja och hämtade bara det som skulle visas. Med sex filmer är skillnaden ingenting. Med sex hunderttusen är den allt.</p>
+    <p>**<code>IQueryable&lt;Film&gt;</code> är en fråga som inte körts.** <code>db.Filmer</code> hämtar ingenting. <code>fraga.Where(…)</code> hämtar ingenting. De bygger bara på en beskrivning. Det är först <code>ToListAsync</code> som gör om beskrivningen till SQL och skickar den. Det är därför <code>Where</code> kan läggas till i en <code>if</code>: frågan byggs i steg, och körs en gång.</p>
+    <p>Jämför med <code>SokIMinnetAsync</code>, där <code>HamtaAllaAsync</code> redan har kört <code>ToListAsync</code>. Efter det finns det ingen fråga kvar att bygga på, bara en lista.</p>
+    <p>**<code>EF.Functions.Like</code> blir <code>LIKE</code> i SQL.** Procenttecknen betyder <em>vad som helst före och efter</em>, så <code>%kel%</code> hittar <em>Cykeltjuven</em>. <code>LIKE</code> i SQLite skiljer inte på versaler och gemener, så <code>CYKEL</code> hittar den också.</p>
+    <p>**Sökordet är en parameter, <code>@Format</code>.** Det står inte inklistrat i SQL:en – det skickas bredvid. Hade det klistrats in hade någon kunnat skriva SQL i sökrutan och få den körd. Det heter <em>SQL-injektion</em>, och det är det första område 7 handlar om. EF Core skyddar dig mot det så länge du skriver LINQ.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/linq?sok=kel</code>. Båda listorna visar samma två filmer. Terminalen visar två olika frågor.</p>
+    <p><strong>I ditt projekt.</strong> Din sökning på ditt sökbara fält, med <code>Where</code> på en <code>IQueryable</code>. Behåll den gamla varianten under ett annat namn tills du gjort nästa steg. Du behöver båda för att se vad som skiljer.</p>
+    <h2 id="steg-12">Steg 12 – Databasen kan inte svenska</h2>
+    <p><strong>Vad vi gör.</strong> Hittar var de två sökningarna ger <strong>olika</strong> svar, och bestämmer var urvalet och sorteringen ska göras.</p>
+    <p>Sök på <code>gökboet</code> på <code>/linq</code>. Båda hittar <em>Gökboet</em>. Sök sedan på <code>GÖKBOET</code>.</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Söker på</th><th><code>SokIMinnetAsync</code></th><th><code>SokAsync</code></th></tr></thead>
+    <tbody>
+    <tr><td><code>gökboet</code></td><td>Gökboet</td><td>Gökboet</td></tr>
+    <tr><td><code>GÖKBOET</code></td><td>Gökboet</td><td><strong>inget</strong></td></tr>
+    <tr><td><code>CYKEL</code></td><td>Cykeltjuven</td><td>Cykeltjuven</td></tr>
+    </tbody></table></div>
+    <p><strong>Varför det ser ut så.</strong> SQLite viker bara <strong>A till Z</strong> mellan versaler och gemener. <code>C</code> och <code>c</code> räknas som samma bokstav. <code>Ö</code> och <code>ö</code> gör det inte. Det gäller <code>LIKE</code>, och det gäller de inbyggda funktionerna:</p>
+    <ul><li><code>lower('GÖKBOET')</code> ger <code>gÖkboet</code></li><li><code>COLLATE NOCASE</code> gör samma sak</li></ul>
+    <p>C# har inte det problemet. <code>StringComparison.OrdinalIgnoreCase</code> vet att Ö och ö hör ihop.</p>
+    <p>Sorteringen har samma problem, åt två håll. Med fyra filmer till i databasen – <em>apans år</em>, <em>Åkes bil</em>, <em>Änglagård</em> och <em>Övermodet</em> – blir ordningen:</p>
+    <pre><code>C# OrderBy      apans år · Cykeltjuven · … · Åkes bil · Änglagård · Övermodet
+SQL ORDER BY    Cykeltjuven · … · apans år · Änglagård · Åkes bil · Övermodet</code></pre>
+    <p>I SQLite hamnar gemener efter alla versaler, och Ä kommer före Å. Det är inte svensk ordning, och det går inte att rätta med en inställning.</p>
+    <p><strong>Så var ska det göras?</strong> Det finns inget svar som gäller alltid. I Filmarkivet ligger de två olika, med avsikt:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th></th><th>Var</th><th>Varför</th></tr></thead>
+    <tbody>
+    <tr><td><strong>Sökningen</strong></td><td>i databasen, <code>SokAsync</code></td><td>Den ska fungera också när arkivet är stort. Att <code>GÖKBOET</code> med versaler inte hittas är ett pris värt att betala</td></tr>
+    <tr><td><strong>Sorteringen i listvyn</strong></td><td>i C#, <code>AdminFilmer.razor</code></td><td>Listan är liten, och ordningen ska vara rätt på svenska. En redaktör som ser Ä före Å tror att något är trasigt</td></tr>
+    </tbody></table></div>
+    <p>Det är avvägningen lektion 38 ska landa i. Regeln är inte <em>alltid i databasen</em>. Den är: <strong>vet var det görs, och varför.</strong></p>
+    <p>Identity, som kommer i steg 17, löser samma problem på ett tredje sätt. Den lagrar en versaliserad kopia av e-postadressen i en egen kolumn, gjord i C# där Ö blir Ö, och söker mot den. Det fungerar, men det är mer än området behöver.</p>
+    <p><strong>Kontrollera.</strong> Gör försöket i tabellen. Leta sedan upp en titel med Å, Ä eller Ö i din egen data och gör samma sak.</p>
+    <p><strong>I ditt projekt.</strong> Det här är aktiviteten på lektion 38. Logga SQL:en, jämför de två varianterna <strong>med din egen data</strong>, och bestäm var sökningen och sorteringen ska göras. Skriv beslutet och skälet i <code>README.md</code>. Har din domän inga svenska tecken i sökfältet är det också ett svar – men skriv det.</p>
+    <h2 id="steg-13">Steg 13 – Statistiken räknas där datan finns</h2>
+    <p><strong>Vad vi gör.</strong> Skriver om statistiken så att databasen räknar.</p>
+    <p><strong>Filen.</strong> <code>Services/FilmService.cs</code>:</p>
+    <pre><code class="sprak-csharp">    // Område 4 hämtade hela listan och loopade. Nu räknar databasen, och
+    // svaret som kommer tillbaka över nätverket är fem tal i stället för
+    // alla rader. Skillnaden syns i SQL:en: COUNT, AVG och MAX i stället för
+    // SELECT *.
+    public async Task&lt;Arkivstatistik&gt; HamtaStatistikAsync()
+    {
+        using var db = await _fabrik.CreateDbContextAsync();
+
+        if (!await db.Filmer.AnyAsync())
+        {
+            return new Arkivstatistik();
+        }
+
+        int antal = await db.Filmer.CountAsync();
+        double snitt = await db.Filmer.AverageAsync(f =&gt; (double)f.Betyg);
+        int tillgangliga = await db.Filmer.CountAsync(f =&gt; f.Tillganglig);
+        int langsta = await db.Filmer.MaxAsync(f =&gt; f.LangdMinuter);
+
+        // Titeln på den längsta kräver en rad till: MAX ger talet, inte
+        // filmen det hörde till.
+        string titel = await db.Filmer
+            .Where(f =&gt; f.LangdMinuter == langsta)
+            .Select(f =&gt; f.Titel)
+            .FirstAsync();
+
+        return new Arkivstatistik
+        {
+            Antal = antal,
+            Snittbetyg = snitt,
+            LangstaTitel = titel,
+            LangstaMinuter = langsta,
+            AntalTillgangliga = tillgangliga
+        };
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Loopen från område 4 är borta. Varje rad är en fråga som databasen svarar på med ett enda tal:</p>
+    <pre><code>SELECT COUNT(*) FROM "Filmer"
+SELECT AVG(CAST("f"."Betyg" AS REAL)) FROM "Filmer" AS "f"
+SELECT COUNT(*) FROM "Filmer" AS "f" WHERE "f"."Tillganglig"
+SELECT MAX("f"."LangdMinuter") FROM "Filmer" AS "f"</code></pre>
+    <p>**<code>AnyAsync</code> först.** <code>AverageAsync</code> och <code>MaxAsync</code> på en tom tabell kastar ett undantag – det finns inget snitt av ingenting. Frågan <em>finns det några filmer alls</em> ställs därför innan.</p>
+    <p>**<code>(double)f.Betyg</code>.** Betyget är ett heltal, och snittet av heltal är inte ett heltal. Utan omvandlingen hade 4,5 blivit 4. Det syns i SQL:en som <code>CAST … AS REAL</code>.</p>
+    <p>**<code>Select(f =&gt; f.Titel)</code> hämtar bara titeln.** Inte hela filmen, bara den kolumn som behövs. Det är LINQ:s <code>Select</code> – samma namn som i SQL, fast det står sist.</p>
+    <p><strong>Var ärlig om vad det kostade.</strong> Fem tal över nätverket i stället för alla rader – men <strong>sex frågor i stället för en</strong>. Med sex filmer var loopen snabbare. Med sextusen är frågorna det. Det finns ett sätt att få allt i en enda fråga, med <code>GroupBy</code>, men det är svårare att läsa, och det skrivs i område 8.</p>
+    <p><strong>Kontrollera.</strong> Startsidan visar samma siffror som förut. Terminalen visar <code>COUNT</code>, <code>AVG</code> och <code>MAX</code> i stället för en <code>SELECT</code> av alla kolumner.</p>
+    <p><strong>I ditt projekt.</strong> Skriv om din statistik på samma sätt. Räkna frågorna i terminalen, och fundera på om det blev bättre. Det är inte säkert att det blev det, och det är en bra sak att kunna säga.</p>
+    <h2 id="steg-14">Steg 14 – Ett eget valideringsattribut</h2>
+    <p><strong>Vad vi gör.</strong> Skriver ett attribut för en regel som <code>[Range]</code> inte kan uttrycka.</p>
+    <p>Utgivningsåret har <code>[Range(1888, 2100)]</code> sedan område 5. Tvåtusenetthundra är orimligt långt fram. Det man vill säga är <em>högst ett par år fram i tiden</em> – och det går inte med <code>[Range]</code>.</p>
+    <p><strong>Filen.</strong> <code>Validering/RimligtUtgivningsarAttribute.cs</code> – ny mapp, ny fil:</p>
+    <pre><code class="sprak-csharp">using System.ComponentModel.DataAnnotations;
+
+namespace Filmarkivet.Validering;
+
+// Ett eget valideringsattribut, nytt i område 6.
+//
+// Varför inte [Range(1888, 2100)]? Därför att argumenten till ett attribut
+// måste vara konstanter - de skrivs in i den kompilerade filen. Regeln här
+// beror på vilket år det är när koden körs, och det vet kompilatorn inte.
+//
+// Attributet ärver ValidationAttribute och skriver över IsValid. Resten -
+// när det körs, hur felet visas - sköter DataAnnotationsValidator, precis
+// som för de inbyggda attributen.
+public class RimligtUtgivningsarAttribute : ValidationAttribute
+{
+    public int Tidigast { get; set; } = 1888;
+
+    // Hur många år fram i tiden som accepteras. Filmer annonseras i förväg,
+    // så ett par år är rimligt.
+    public int ArFramat { get; set; } = 2;
+
+    protected override ValidationResult? IsValid(object? varde, ValidationContext sammanhang)
+    {
+        // Tomt fält är inte den här regelns ansvar. [Required] avgör om
+        // fältet måste fyllas i; vi säger bara om det som står är rimligt.
+        if (varde is null)
+        {
+            return ValidationResult.Success;
+        }
+
+        if (varde is not int ar)
+        {
+            return new ValidationResult("Året måste vara ett tal.",
+                new[] { sammanhang.MemberName! });
+        }
+
+        int senast = DateTime.Now.Year + ArFramat;
+
+        if (ar &lt; Tidigast || ar &gt; senast)
+        {
+            return new ValidationResult(
+                $"Året måste ligga mellan {Tidigast} och {senast}.",
+                new[] { sammanhang.MemberName! });
+        }
+
+        return ValidationResult.Success;
+    }
+}</code></pre>
+    <p><strong>Filen.</strong> <code>Models/Film.cs</code>. <code>[Range]</code> på <code>Ar</code> byts mot det nya attributet, och en <code>using</code> till överst:</p>
+    <pre><code class="sprak-csharp">using Filmarkivet.Validering;</code></pre>
+    <pre><code class="sprak-csharp">    // Eget attribut i stället för [Range]: den övre gränsen beror på vilket
+    // år det är, och ett attributargument måste vara en konstant.
+    [RimligtUtgivningsar]
+    public int Ar { get; set; }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Skriv <code>[Range(1888, DateTime.Now.Year + 2)]</code> och se vad kompilatorn säger. Den vägrar: <em>An attribute argument must be a constant expression</em>. Allt inom attributets parentes skrivs in i den kompilerade filen, och vilket år det är vet man inte förrän koden körs.</p>
+    <p>Ett eget attribut löser det genom att flytta uträkningen <strong>in i en metod</strong> som körs vid valideringen.</p>
+    <p>**Klassen ärver <code>ValidationAttribute</code>.** Det är samma basklass som <code>[Required]</code> och <code>[Range]</code> har. Därför vet <code>DataAnnotationsValidator</code> redan hur den ska köras, och felet hamnar i <code>ValidationSummary</code> och intill fältet utan att du gör något mer.</p>
+    <p>**Namnet slutar på <code>Attribute</code>, men skrivs utan.** Det är en C#-konvention: klassen heter <code>RimligtUtgivningsarAttribute</code>, och ovanför egenskapen skriver du <code>[RimligtUtgivningsar]</code>. Kompilatorn lägger till resten.</p>
+    <p>**<code>IsValid</code> svarar på en fråga.** <code>ValidationResult.Success</code> betyder godkänt. Ett <code>ValidationResult</code> med en text betyder underkänt, och texten är det användaren ser. <code>sammanhang.MemberName</code> är namnet på egenskapen – <code>Ar</code> – och det är det som gör att felet hamnar intill rätt fält.</p>
+    <p>**<code>null</code> är inte attributets ansvar.** Det är en konvention som alla inbyggda attribut följer: <code>[Range]</code> godkänner ett tomt fält, och <code>[Required]</code> är det som säger nej. Blandar du ihop dem blir det svårt att förstå vilket attribut som gav vilket fel.</p>
+    <p><strong>Kontrollerat hösten 2026:</strong> 1800 och 2031 avvisas, 2028 godkänns, och felmeddelandet räknar ut gränsen själv: <em>Året måste ligga mellan 1888 och 2028.</em></p>
+    <p><strong>Kontrollera.</strong> Försök skapa en film från år 2040. Felet ska stå intill årsfältet, med rätt årtal i texten.</p>
+    <p><strong>I ditt projekt.</strong> Ett attribut för en regel som hör till <strong>din</strong> domän – inte en kopia av det här. Regeln ska vara något <code>[Range]</code>, <code>[StringLength]</code> och <code>[Required]</code> inte klarar. Beror den på något som ändras – dagens datum, ett värde i konfigurationen – är det ett gott tecken.</p>
+    <h2 id="steg-15">Steg 15 – En regel över två fält</h2>
+    <p><strong>Vad vi gör.</strong> Skriver en regel som varken hör till <code>Ar</code> eller till <code>Tillganglig</code>, utan till båda.</p>
+    <p><strong>Filen.</strong> <code>Models/Film.cs</code>. Klassen får ett gränssnitt:</p>
+    <pre><code class="sprak-csharp">public class Film : IValidatableObject</code></pre>
+    <p>och en metod, sist i klassen:</p>
+    <pre><code class="sprak-csharp">    // En regel som spänner över två fält kan inte ligga på något av dem.
+    // IValidatableObject körs efter att attributen körts, och får se hela
+    // objektet.
+    public IEnumerable&lt;ValidationResult&gt; Validate(ValidationContext sammanhang)
+    {
+        if (Tillganglig &amp;&amp; Ar &gt; DateTime.Now.Year)
+        {
+            yield return new ValidationResult(
+                "En film som inte kommit ut kan inte vara tillgänglig.",
+                new[] { nameof(Tillganglig), nameof(Ar) });
+        }
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Regeln är: <em>en film från nästa år kan inte vara tillgänglig i dag.</em> Var ska den stå? Inte på <code>Ar</code> – år 2027 är ett helt godkänt år. Inte på <code>Tillganglig</code> – <code>true</code> är ett helt godkänt värde. Det är <strong>kombinationen</strong> som är fel.</p>
+    <p>Ett attribut ser bara sitt eget fält. <code>IValidatableObject</code> ser hela objektet.</p>
+    <p>**<code>DataAnnotationsValidator</code> hittar metoden själv.** Klassen implementerar gränssnittet, och validatorn anropar <code>Validate</code> efter att attributen körts. Du behöver inte registrera något.</p>
+    <p><strong>Efter attributen – och bara om de gick igenom.</strong> Kontrollerat: en film med tom titel, år 2028 och <em>Tillgänglig</em> ikryssad får <strong>ett</strong> fel, <em>Titeln måste fyllas i.</em> Fyll i titeln och skicka igen, så kommer det andra. Det kan se ut som att regeln inte fungerar första gången, men den körs bara på ett objekt vars fält var för sig är giltiga. Det är avsiktligt: det är ingen mening att jämföra två fält om ett av dem är trasigt.</p>
+    <p>**<code>yield return</code>** lämnar ifrån sig ett fel i taget. Har klassen flera regler blir det en <code>if</code> per regel, och alla fel som hittas kommer med. Det är samma <code>yield</code> som i en iterator, om du stött på det. Här räcker det att veta att det är så man returnerar noll, ett eller flera resultat.</p>
+    <p>**<code>nameof(Tillganglig)</code>** i stället för strängen <code>"Tillganglig"</code>. Byter du namn på egenskapen följer <code>nameof</code> med. En sträng hade blivit fel utan att någon märkte det.</p>
+    <p><strong>Kontrollera.</strong> Skapa en film från 2028, kryssa i <em>Tillgänglig</em> och spara. Du ska få <em>En film som inte kommit ut kan inte vara tillgänglig.</em> Ta bort krysset – nu går det.</p>
+    <p><strong>I ditt projekt.</strong> En regel över två fält i din domän. Ett slutdatum som inte får vara före ett startdatum. Ett pris som måste vara noll om varan är gratis. En tillagningstid som måste vara längre än förberedelsetiden. Tänk på fält som betyder något <strong>tillsammans</strong>.</p>
+    <h2 id="steg-16">Steg 16 – En regel som kräver databasen</h2>
+    <p><strong>Vad vi gör.</strong> Hindrar att två filmer får samma titel.</p>
+    <p><strong>Filen.</strong> <code>Services/IFilmService.cs</code>:</p>
+    <pre><code class="sprak-csharp">    /// &lt;summary&gt;
+    /// Svarar på om en annan film redan har exakt den här titeln.
+    /// &lt;/summary&gt;
+    /// &lt;param name="titel"&gt;Titeln som ska kontrolleras. Jämförs exakt,
+    /// med skiftläge och mellanslag.&lt;/param&gt;
+    /// &lt;param name="utomId"&gt;Id på en film som inte räknas. Ange filmens eget
+    /// id när den ändras, så att den inte krockar med sig själv.&lt;/param&gt;
+    /// &lt;returns&gt;&lt;c&gt;true&lt;/c&gt; om titeln är upptagen.&lt;/returns&gt;
+    Task&lt;bool&gt; TitelFinnsAsync(string titel, int utomId = 0);</code></pre>
+    <p><strong>Filen.</strong> <code>Services/FilmService.cs</code>:</p>
+    <pre><code class="sprak-csharp">    public async Task&lt;bool&gt; TitelFinnsAsync(string titel, int utomId = 0)
+    {
+        using var db = await _fabrik.CreateDbContextAsync();
+
+        return await db.Filmer
+            .AnyAsync(f =&gt; f.Titel == titel &amp;&amp; f.Id != utomId);
+    }</code></pre>
+    <p><strong>Filen.</strong> <code>Components/Pages/NyFilm.razor</code>. <code>EditForm</code> får en referens:</p>
+    <pre><code class="sprak-razor">&lt;EditForm Model="Film" OnValidSubmit="Spara" FormName="nyfilm" @ref="formularet"&gt;</code></pre>
+    <p>och <code>Spara</code> kontrollerar innan den sparar:</p>
+    <pre><code class="sprak-csharp">    private EditForm? formularet;
+
+    // Den tredje sortens validering: den som kräver databasen. Attributen
+    // och IValidatableObject har redan godkänt objektet när vi kommer hit -
+    // men de kan inte veta vad som redan står i tabellen.
+    //
+    // Felet läggs i en ValidationMessageStore, samma ställe som
+    // DataAnnotationsValidator skriver till. Då hamnar det i
+    // ValidationSummary och intill fältet, precis som de andra felen.
+    private async Task Spara()
+    {
+        if (await Arkivet.TitelFinnsAsync(Film!.Titel))
+        {
+            var sammanhang = formularet!.EditContext!;
+            var meddelanden = new ValidationMessageStore(sammanhang);
+            meddelanden.Add(() =&gt; Film!.Titel, "Det finns redan en film med den titeln.");
+            sammanhang.NotifyValidationStateChanged();
+            return;
+        }
+
+        await Arkivet.SkapaAsync(Film!);
+        sparad = true;
+        Film = new Film();
+    }</code></pre>
+    <p><strong>Filen.</strong> <code>Components/Pages/AndraFilm.razor</code> får samma <code>@ref</code>, och en <code>Spara</code> som skickar med filmens eget id:</p>
+    <pre><code class="sprak-csharp">    private EditForm? formularet;
+
+    // Samma kontroll som i NyFilm.razor, med en skillnad: filmens eget id
+    // skickas med. Annars krockar den med sig själv och går aldrig att spara.
+    private async Task Spara()
+    {
+        if (await Arkivet.TitelFinnsAsync(Film!.Titel, Film.Id))
+        {
+            var sammanhang = formularet!.EditContext!;
+            var meddelanden = new ValidationMessageStore(sammanhang);
+            meddelanden.Add(() =&gt; Film!.Titel, "Det finns redan en film med den titeln.");
+            sammanhang.NotifyValidationStateChanged();
+            return;
+        }
+
+        await Arkivet.UppdateraAsync(Film);
+        Navigering.NavigateTo("admin/filmer");
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Tre sorters validering, och de svarar på tre olika frågor:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Sort</th><th>Frågan den svarar på</th><th>Ser</th></tr></thead>
+    <tbody>
+    <tr><td>Attribut</td><td>Är <strong>fältet</strong> rimligt?</td><td>ett fält</td></tr>
+    <tr><td><code>IValidatableObject</code></td><td>Hänger <strong>objektet</strong> ihop?</td><td>hela objektet</td></tr>
+    <tr><td>Mot databasen</td><td>Stämmer det med <strong>det som redan finns</strong>?</td><td>hela tabellen</td></tr>
+    </tbody></table></div>
+    <p>Den tredje kan inte ligga i ett attribut, för ett attribut kan inte fråga databasen. Den kan inte ligga i entiteten heller, av samma skäl. Den hör hemma i tjänsten, där databasen finns, och frågan ställs från sidan.</p>
+    <p>**<code>AnyAsync</code> svarar ja eller nej.** Det blir <code>SELECT EXISTS (…)</code> i SQL – ingen film hämtas, databasen svarar bara om det finns en.</p>
+    <p>**<code>utomId</code> behövs när man ändrar.** Ändrar du beskrivningen på <em>Gökboet</em> och sparar, finns det redan en film som heter <em>Gökboet</em> – den du håller på med. Utan <code>utomId</code> hade den krockat med sig själv, och ingen film hade gått att ändra utan att byta titel. Kontrollerat: med <code>utomId</code> går det att spara under samma titel, men inte under en annan films titel.</p>
+    <p>**<code>ValidationMessageStore</code> är dit felen går.** <code>DataAnnotationsValidator</code> lägger sina fel i en sådan, knuten till formulärets <code>EditContext</code>. Lägger du ditt fel på samma ställe behandlas det som alla andra: det står i <code>ValidationSummary</code>, under titelfältet, och sidan visas igen med det som skrevs kvar. <code>@ref</code> är det som ger dig tag i formuläret och därmed i dess <code>EditContext</code>.</p>
+    <p><strong>Kontrollen är exakt, och det står i XML-kommentaren.</strong> <code>Gökboet</code> avvisas. Men <code>gökboet</code>, <code>GÖKBOET</code> och <code>Gökboet </code> med ett mellanslag på slutet går igenom – kontrollerat. <code>==</code> blir <code>=</code> i SQL, och SQLite jämför tecken för tecken. Att göra jämförelsen okänslig för skiftläge stöter på samma Å, Ä och Ö som i steg 12. Begränsningen är inte dold. Den står i dokumentationen till metoden, där nästa programmerare ser den. Mer om sådana kommentarer i steg 24.</p>
+    <p><strong>Kontrollera.</strong> Försök skapa en film som heter <em>Gökboet</em>. <em>Det finns redan en film med den titeln.</em> står under fältet. Ändra <em>Sju samurajer</em> och spara utan att byta titel – det ska gå. Försök döpa om den till <em>Gökboet</em> – det ska inte gå.</p>
+    <p><strong>I ditt projekt.</strong> En regel som kräver databasen. Unikhet är det vanligaste, men det finns fler: att en kategori inte får tas bort om den har poster, att ett datum inte får krocka med en annan bokning. Glöm inte <code>utomId</code> om regeln gäller också när man ändrar.</p>
+    <h2 id="steg-17">Steg 17 – Identity i contextet</h2>
+    <p><strong>Vad vi gör.</strong> Ger databasen tabeller för användare, utan att skriva en enda av dem.</p>
+    <pre><code>dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 10.0.12</code></pre>
+    <p>Versionen står utskriven med avsikt. Utan den hämtas den senaste, och när en ny huvudversion av .NET kommit ut passar den inte ihop med ett projekt för .NET 10.</p>
+    <p><strong>Filen.</strong> <code>Data/FilmarkivetContext.cs</code>. Två <code>using</code> till, en ny basklass, och en rad först i <code>OnModelCreating</code>:</p>
+    <pre><code class="sprak-csharp">using Filmarkivet.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace Filmarkivet.Data;
+
+// Kopplingen mellan klasserna och databasen. Ett DbSet per entitet.
+//
+// Från område 6 ärver den IdentityDbContext i stället för DbContext. Då får
+// den med sig Identitys egna tabeller - användare, roller och några till -
+// utan att vi skriver en enda av dem.
+public class FilmarkivetContext : IdentityDbContext&lt;IdentityUser&gt;
+{</code></pre>
+    <pre><code class="sprak-csharp">    protected override void OnModelCreating(ModelBuilder byggare)
+    {
+        // Måste anropas först. Det är basklassen som beskriver Identitys
+        // tabeller, och utan raden byggs de inte.
+        base.OnModelCreating(byggare);</code></pre>
+    <p>Sedan migrationen:</p>
+    <pre><code>dotnet ef migrations add Identity
+dotnet ef database update</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <strong>Skriv aldrig din egen användartabell.</strong> Det låter enkelt – ett namn, en e-post, ett lösenord – men lösenordet är det svåra. Det ska inte lagras, det ska <strong>hashas</strong>: omvandlas till något som går att jämföra med men inte att räkna tillbaka. Det ska saltas, så att två användare med samma lösenord får olika hash. Det ska ta tid att räkna ut, så att den som stjäl databasen inte kan prova en miljard lösenord i sekunden. Identity gör allt det, och den som skriver det själv gör fel på minst en punkt.</p>
+    <p>**<code>IdentityDbContext&lt;IdentityUser&gt;</code>** är en <code>DbContext</code> som redan har användare, roller och det som hör till. Du ärver från den i stället för från <code>DbContext</code>, och dina egna <code>DbSet</code> står kvar precis som förut.</p>
+    <p>Migrationen skapar sju tabeller:</p>
+    <pre><code>AspNetUsers        AspNetRoles        AspNetUserRoles
+AspNetUserClaims   AspNetRoleClaims   AspNetUserLogins   AspNetUserTokens</code></pre>
+    <p>Bara <code>AspNetUsers</code> spelar roll i kursen. De andra finns för roller, inloggning via andra tjänster och liknande. <code>AspNetUsers</code> har femton kolumner, och de som betyder något här är <code>UserName</code>, <code>Email</code>, <code>PasswordHash</code>, <code>LockoutEnd</code> och <code>AccessFailedCount</code>.</p>
+    <p>**<code>base.OnModelCreating(byggare)</code> först.** Det är basklassens metod som beskriver de sju tabellerna. Du skriver över den med din egen, och utan anropet försvinner basklassens beskrivning. Felet är inte självklart att tolka:</p>
+    <pre><code>The entity type 'IdentityPasskeyData' requires a primary key to be defined.</code></pre>
+    <p><code>IdentityPasskeyData</code> har du aldrig skrivit, och det är just poängen. Det är en av Identitys typer, och den blev aldrig beskriven.</p>
+    <p><strong>Kontrollera.</strong> <code>dotnet ef database update</code> ska sluta med <code>Done.</code> Applikationen startar och fungerar som förut. Ingenting syns ännu.</p>
+    <p><strong>I ditt projekt.</strong> Samma paket, samma basklass, samma rad. <strong>Rita ingen egen användarentitet</strong> i din datamodell – användarna är Identitys.</p>
+    <h2 id="steg-18">Steg 18 – Registreringen</h2>
+    <p><strong>Vad vi gör.</strong> Kopplar in Identity i <code>Program.cs</code>.</p>
+    <p><strong>Filen.</strong> <code>Program.cs</code>, efter de andra registreringarna:</p>
+    <pre><code class="sprak-csharp">// Identity: användare, lösenordshashning och inloggningscookien.
+builder.Services.AddIdentityCore&lt;IdentityUser&gt;(alternativ =&gt;
+    {
+        alternativ.Password.RequiredLength = 8;
+        alternativ.Password.RequireNonAlphanumeric = false;
+        alternativ.User.RequireUniqueEmail = true;
+    })
+    .AddEntityFrameworkStores&lt;FilmarkivetContext&gt;()
+    .AddSignInManager();
+
+builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+    .AddIdentityCookies();
+
+// Utan de här raderna skickar Identity den utloggade till /Account/Login,
+// som inte finns i det här projektet - och eleven får en 404 i stället för
+// inloggningssidan.
+builder.Services.ConfigureApplicationCookie(alternativ =&gt;
+{
+    alternativ.LoginPath = "/konto/logga-in";
+    alternativ.AccessDeniedPath = "/konto/logga-in";
+    alternativ.ReturnUrlParameter = "tillbaka";
+});
+
+builder.Services.AddAuthorization();
+builder.Services.AddCascadingAuthenticationState();</code></pre>
+    <p>Bland <code>Use</code>-raderna, efter <code>UseSession</code> och före <code>UseAntiforgery</code>:</p>
+    <pre><code class="sprak-csharp">app.UseAuthentication();
+app.UseAuthorization();</code></pre>
+    <p>Överst i filen:</p>
+    <pre><code class="sprak-csharp">using Microsoft.AspNetCore.Identity;</code></pre>
+    <p><strong>Filen.</strong> <code>Components/_Imports.razor</code>, en rad till:</p>
+    <pre><code class="sprak-razor">@using Microsoft.AspNetCore.Components.Authorization</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Det är många rader, men de gör fyra saker:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Rader</th><th>Vad de gör</th></tr></thead>
+    <tbody>
+    <tr><td><code>AddIdentityCore</code> … <code>AddSignInManager</code></td><td>Användarna, lösenordsreglerna, var de lagras, och tjänsten som loggar in</td></tr>
+    <tr><td><code>AddAuthentication</code> … <code>AddIdentityCookies</code></td><td>Att inloggningen sparas i en cookie</td></tr>
+    <tr><td><code>ConfigureApplicationCookie</code></td><td>Var den som inte är inloggad ska skickas</td></tr>
+    <tr><td><code>AddAuthorization</code>, <code>AddCascadingAuthenticationState</code></td><td>Att sidor kan kräva inloggning, och att komponenter kan fråga vem som är inloggad</td></tr>
+    </tbody></table></div>
+    <p><strong>Lösenordsreglerna.</strong> Åtta tecken, men inga krav på specialtecken. Det är närmare vad som faktiskt gör ett lösenord starkt – längden – än Identitys standard, som kräver en blandning av allt.</p>
+    <p>**<code>AddEntityFrameworkStores&lt;FilmarkivetContext&gt;</code>.** Användarna lagras i ditt context, i tabellerna från steg 17. Samma databas som filmerna.</p>
+    <p>**<code>ConfigureApplicationCookie</code> är den rad man glömmer.** Utan den skickar Identity den som inte är inloggad till <code>/Account/Login</code> – det är den engelska standardadressen. Den finns inte i ditt projekt, och användaren får en <strong>404</strong> i stället för en inloggningssida. Kontrollerat. <code>ReturnUrlParameter</code> byter namnet på parametern som säger vart användaren ska tillbaka, från <code>ReturnUrl</code> till <code>tillbaka</code>.</p>
+    <p>**Ordningen på <code>Use</code>-raderna spelar roll.** <code>UseAuthentication</code> ska stå före <code>UseAuthorization</code>: först ta reda på vem det är, sedan avgöra vad de får göra.</p>
+    <p>**<code>AddCascadingAuthenticationState</code>** gör inloggningen tillgänglig för varje komponent. Den behövs först i steg 21, när menyn får en <code>AuthorizeView</code>. Utan den svarar då <strong>varje</strong> sida med en 500, eftersom menyn finns på alla: <em>Authorization requires a cascading parameter of type Task&amp;lt;AuthenticationState&amp;gt;.</em> Kontrollerat.</p>
+    <p><strong>Kontrollera.</strong> <code>dotnet build</code> och starta. Allt fungerar som förut. Det finns ännu ingen användare och ingen sida att logga in på.</p>
+    <p><strong>I ditt projekt.</strong> Samma rader, med ditt context. Adresserna i <code>ConfigureApplicationCookie</code> behåller du som de är.</p>
+    <h2 id="steg-19">Steg 19 – Den första användaren</h2>
+    <p><strong>Vad vi gör.</strong> Lägger in en användare när applikationen startar.</p>
+    <p><strong>Filen.</strong> <code>Program.cs</code>, efter <code>MapRazorComponents</code> och före <code>app.Run()</code>:</p>
+    <pre><code class="sprak-csharp">// Den första användaren måste komma någonstans ifrån. Lösenord kan inte
+// ligga i en migration - de ska hashas, och det gör UserManager.
+using (var omfang = app.Services.CreateScope())
+{
+    var anvandare = omfang.ServiceProvider.GetRequiredService&lt;UserManager&lt;IdentityUser&gt;&gt;();
+
+    if (await anvandare.FindByEmailAsync("admin@filmarkivet.se") is null)
+    {
+        var admin = new IdentityUser
+        {
+            UserName = "admin@filmarkivet.se",
+            Email = "admin@filmarkivet.se",
+            EmailConfirmed = true
+        };
+
+        await anvandare.CreateAsync(admin, "Filmarkivet1");
+    }
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Filmerna och genrerna kom in som frödata med <code>HasData</code>. Varför inte användaren?</p>
+    <p>För att <code>HasData</code> skriver värdena <strong>som de står</strong> in i migrationen. Ett lösenord måste hashas först, och det är <code>UserManager</code> som gör det. Den finns bara när applikationen kör. Därför görs det här, vid start, och bara om användaren inte redan finns.</p>
+    <p>**<code>CreateScope</code>** är nytt. <code>UserManager</code> är en scoped tjänst, och i område 4 såg du att scoped betyder <em>en per förfrågan</em>. Vid start finns det ingen förfrågan. <code>CreateScope</code> skapar ett eget omfång, bara för det här, och <code>using</code> städar bort det efteråt.</p>
+    <p>**Lösenordet står i klartext i <code>Program.cs</code>.** Det är en förenkling, och den ska sägas rakt ut: ett lösenord i koden hamnar i Git, och den som ser repot ser lösenordet. Det är ett av de hot område 7 tar upp, och det är där det flyttar ut ur koden. Så länge applikationen bara kör på din dator är det ett medvetet val.</p>
+    <p><strong>Kontrollera.</strong> Starta applikationen. Ingenting syns på sidan. Men öppna databasen och titta i <code>AspNetUsers</code>: en rad. <code>PasswordHash</code> börjar med <code>AQAAAAIAAYag…</code> och fortsätter en god bit. Någonstans i den strängen finns <code>Filmarkivet1</code>, och det går inte att få ut det.</p>
+    <p><strong>I ditt projekt.</strong> Din första användare, med din adress och ett eget lösenord. Skriv inloggningsuppgifterna i <code>README.md</code> – den som ska bedöma ditt projekt måste kunna logga in.</p>
+    <h2 id="steg-20">Steg 20 – Inloggningssidan</h2>
+    <p><strong>Vad vi gör.</strong> Bygger sidan där man loggar in.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/LoggaIn.razor</code>:</p>
+    <pre><code class="sprak-razor">@page "/konto/logga-in"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager&lt;IdentityUser&gt; Inloggning
+@inject NavigationManager Navigering
+
+&lt;PageTitle&gt;Logga in – Filmarkivet&lt;/PageTitle&gt;
+
+&lt;h1&gt;Logga in&lt;/h1&gt;
+
+&lt;EditForm Model="Formular" OnValidSubmit="Skicka" FormName="loggain"&gt;
+    &lt;DataAnnotationsValidator /&gt;
+    &lt;ValidationSummary /&gt;
+
+    &lt;p&gt;
+        &lt;label&gt;E-post&lt;br /&gt;
+            &lt;InputText @bind-Value="Formular!.Epost" autocomplete="username" /&gt;&lt;/label&gt;
+        &lt;ValidationMessage For="() =&gt; Formular!.Epost" /&gt;
+    &lt;/p&gt;
+
+    &lt;p&gt;
+        &lt;label&gt;Lösenord&lt;br /&gt;
+            &lt;InputText type="password" @bind-Value="Formular!.Losenord"
+                       autocomplete="current-password" /&gt;&lt;/label&gt;
+        &lt;ValidationMessage For="() =&gt; Formular!.Losenord" /&gt;
+    &lt;/p&gt;
+
+    &lt;button type="submit"&gt;Logga in&lt;/button&gt;
+&lt;/EditForm&gt;
+
+@if (fel is not null)
+{
+    &lt;p class="tomt"&gt;&lt;b&gt;@fel&lt;/b&gt;&lt;/p&gt;
+}
+
+@code {
+    [SupplyParameterFromForm]
+    private Inloggningsuppgifter? Formular { get; set; }
+
+    [SupplyParameterFromQuery(Name = "tillbaka")]
+    public string? Tillbaka { get; set; }
+
+    private string? fel;
+
+    protected override void OnInitialized()
+    {
+        Formular ??= new Inloggningsuppgifter();
+    }
+
+    private async Task Skicka()
+    {
+        // PasswordSignInAsync hashar det inskrivna lösenordet och jämför med
+        // hashen i AspNetUsers. Stämmer det skrivs inloggningscookien.
+        var resultat = await Inloggning.PasswordSignInAsync(
+            Formular!.Epost, Formular.Losenord, isPersistent: false,
+            lockoutOnFailure: true);
+
+        if (resultat.Succeeded)
+        {
+            Navigering.NavigateTo(Vidare());
+            return;
+        }
+
+        // Ett enda meddelande för både fel användare och fel lösenord. Skulle
+        // de skilja sig går det att lista ut vilka adresser som finns.
+        fel = resultat.IsLockedOut
+            ? "Kontot är låst en stund efter för många försök."
+            : "Fel e-post eller lösenord.";
+    }
+
+    // Adressen kommer utifrån, ur frågesträngen, och får därför inte följas
+    // blint: en adress till en annan sajt hade gjort inloggningssidan till en
+    // vidarebefordran åt vem som helst. Bara adresser inom sajten släpps
+    // igenom. Område 7 heter det här open redirect.
+    private string Vidare()
+    {
+        if (string.IsNullOrEmpty(Tillbaka))
+        {
+            return "admin/filmer";
+        }
+
+        return Navigering.ToAbsoluteUri(Tillbaka).Host == Navigering.ToAbsoluteUri(Navigering.BaseUri).Host
+            ? Tillbaka
+            : "admin/filmer";
+    }
+
+    public class Inloggningsuppgifter
+    {
+        [Required(ErrorMessage = "Fyll i din e-post.")]
+        [EmailAddress(ErrorMessage = "Det där ser inte ut som en e-postadress.")]
+        public string Epost { get; set; } = "";
+
+        [Required(ErrorMessage = "Fyll i ditt lösenord.")]
+        public string Losenord { get; set; } = "";
+    }
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Formuläret är ett vanligt <code>EditForm</code> mot en modell med attribut – samma mönster som <code>NyFilm.razor</code>. Modellen är en liten klass <strong>inuti</strong> sidan, för den används ingen annanstans och ska inte sparas i databasen.</p>
+    <p>**<code>PasswordSignInAsync</code> gör allt det svåra.** Den letar upp användaren, hashar det inskrivna lösenordet på samma sätt som när kontot skapades, och jämför med <code>PasswordHash</code>. Stämmer det skriver den inloggningscookien. Lösenordet i klartext lämnar aldrig metoden.</p>
+    <p>**<code>lockoutOnFailure: true</code>** räknar misslyckade försök i <code>AccessFailedCount</code>. Efter fem låses kontot i fem minuter, och <code>LockoutEnd</code> får ett datum. Under den tiden hjälper inte ens rätt lösenord. Det gör det dyrt att gissa. Kontrollerat: det femte felet ger <em>Kontot är låst en stund efter för många försök.</em></p>
+    <p><strong>Samma felmeddelande för fel adress och fel lösenord.</strong> Kontrollerat: båda ger <em>Fel e-post eller lösenord.</em> Hade sidan sagt <em>Användaren finns inte</em> hade den som försökte kunna lista ut vilka adresser som finns registrerade, en i taget. Det är ett litet hål, och det är lätt att öppna av misstag genom att vara hjälpsam.</p>
+    <p><strong>Men läs de två meddelandena i koden igen.</strong> Efter fem fel på en adress som finns säger sidan <em>Kontot är låst</em>. Fem fel på en adress som inte finns ger fortfarande <em>Fel e-post eller lösenord.</em> Kontrollerat. Så går det ändå att lista ut vilka adresser som finns, bara långsammare. Den frågan lämnar vi öppen här – den är en av de första område 7 tar upp.</p>
+    <p>**<code>tillbaka</code> följs inte blint.** När <code>[Authorize]</code> skickar hit någon följer adressen de försökte nå med, som <code>?tillbaka=/admin/filmer</code>. Efter inloggningen skickas de dit. Men adressen står i frågesträngen, och den kan vem som helst skriva. <code>?tillbaka=https://example.com/</code> hade gjort din inloggningssida till en länk som ser ut att gå till Filmarkivet men landar någon annanstans. Det heter <em>open redirect</em>. <code>Vidare</code> släpper bara igenom adresser på samma värd. Kontrollerat: <code>?tillbaka=/filmer/ny</code> följs, <code>?tillbaka=https://example.com/kapat</code> ignoreras.</p>
+    <p>**<code>autocomplete="username"</code> och <code>"current-password"</code>** talar om för webbläsarens lösenordshanterare vad fälten är. Det gör att den kan fylla i dem, och det gör att användaren kan ha ett långt lösenord utan att skriva det.</p>
+    <p><strong>Kontrollera.</strong> Gå till <code>/konto/logga-in</code>. Prova ett fel lösenord först – felmeddelandet. Logga sedan in med <code>admin@filmarkivet.se</code> och <code>Filmarkivet1</code>. Du ska hamna på <code>/admin/filmer</code>. Öppna DevTools, fliken <strong>Application</strong>, och titta under <strong>Cookies</strong>: <code>.AspNetCore.Identity.Application</code>. Det är inloggningen.</p>
+    <p><strong>I ditt projekt.</strong> Samma sida. Den behöver inte översättas – adressen, fälten och meddelandena är desamma i ditt projekt. Det enda du byter är vart användaren ska efter inloggningen, om din listvy heter något annat.</p>
+    <h2 id="steg-21">Steg 21 – Att dölja länken skyddar ingenting</h2>
+    <p><strong>Vad vi gör.</strong> Döljer administrationslänkarna för den som inte är inloggad – och ser sedan varför det inte räcker.</p>
+    <p><strong>Filen.</strong> <code>Components/Layout/NavMenu.razor</code>. Länkarna till <em>Ny film</em> och <em>Administrera</em> flyttar in i en <code>AuthorizeView</code>:</p>
+    <pre><code class="sprak-razor">        @* AuthorizeView visar innehållet bara för den som är inloggad.
+           Lägg märke till vad det INTE gör: sidan finns kvar på sin adress. *@
+        &lt;AuthorizeView&gt;
+            &lt;Authorized&gt;
+                &lt;div class="nav-item px-3"&gt;
+                    &lt;NavLink class="nav-link" href="filmer/ny"&gt;Ny film&lt;/NavLink&gt;
+                &lt;/div&gt;
+                &lt;div class="nav-item px-3"&gt;
+                    &lt;NavLink class="nav-link" href="admin/filmer"&gt;Administrera&lt;/NavLink&gt;
+                &lt;/div&gt;
+            &lt;/Authorized&gt;
+            &lt;NotAuthorized&gt;
+                &lt;div class="nav-item px-3"&gt;
+                    &lt;NavLink class="nav-link" href="konto/logga-in"&gt;Logga in&lt;/NavLink&gt;
+                &lt;/div&gt;
+            &lt;/NotAuthorized&gt;
+        &lt;/AuthorizeView&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>AuthorizeView</code> visar <code>&lt;Authorized&gt;</code> för den som är inloggad och <code>&lt;NotAuthorized&gt;</code> för alla andra. Den som inte är inloggad ser <em>Logga in</em> i stället för administrationen. Det ser ut som att sidan är skyddad.</p>
+    <p><strong>Den är inte det.</strong> Gör så här:</p>
+    <ol><li>Logga ut. Utloggningen kommer i steg 23 – till dess stänger du webbläsaren,</li></ol>
+    <p>eller tar bort cookien i DevTools.</p>
+    <ol><li>Kontrollera att <em>Administrera</em> är borta ur menyn.</li><li>Skriv <code>/admin/filmer</code> i adressfältet.</li></ol>
+    <p>Sidan visas. Alla filmer, med länkar till <em>Ändra</em> och <em>Ta bort</em>. Servern svarar <strong>200</strong>. Kontrollerat.</p>
+    <p><code>AuthorizeView</code> bestämmer vad som <strong>ritas</strong>. Den bestämmer inte vad som <strong>går att nå</strong>. Adressen finns kvar, och den som vet den – eller gissar den – kommer in. <code>/admin/filmer</code> är inte svår att gissa.</p>
+    <blockquote><p>Att dölja en länk är inte att skydda något. Det är att hoppas att ingen letar.</p></blockquote>
+    <p><strong>Kontrollera.</strong> Gör de tre stegen ovan. Det är viktigt att du <strong>ser</strong> det här, inte bara läser det.</p>
+    <p><strong>I ditt projekt.</strong> Samma <code>AuthorizeView</code> runt dina administrationslänkar. Gör sedan samma försök mot din egen listvy.</p>
+    <h2 id="steg-22">Steg 22 – Att skydda sidan</h2>
+    <p><strong>Vad vi gör.</strong> Kräver inloggning på de fyra sidorna som ändrar data.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/AdminFilmer.razor</code>, <code>NyFilm.razor</code>, <code>AndraFilm.razor</code> och <code>TaBortFilm.razor</code>. En rad i var och en, bland de andra direktiven överst:</p>
+    <pre><code class="sprak-razor">@attribute [Microsoft.AspNetCore.Authorization.Authorize]</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>@attribute</code> sätter ett attribut på hela komponentklassen. <code>[Authorize]</code> betyder: <em>den här sidan kräver en inloggad användare.</em> Gör om försöket från steg 21:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th></th><th>Menylänken</th><th><code>/admin/filmer</code> utloggad</th></tr></thead>
+    <tbody>
+    <tr><td>Bara <code>AuthorizeView</code></td><td>borta</td><td><strong>200</strong>, filmerna visas</td></tr>
+    <tr><td><code>AuthorizeView</code> + <code>[Authorize]</code></td><td>borta</td><td><strong>302</strong> till <code>/konto/logga-in?tillbaka=%2Fadmin%2Ffilmer</code></td></tr>
+    <tr><td>Inloggad</td><td>synlig</td><td>200</td></tr>
+    </tbody></table></div>
+    <p>Nu skyddas sidan av <strong>servern</strong>, innan den ens börjat rendera. Det är auktorisering: inte vad användaren ser, utan vad användaren får.</p>
+    <p><strong>Alla fyra sidorna, inte bara listan.</strong> Listvyn är ingången, men <code>/filmer/tabort/3</code> är en adress i sig. Skyddar du bara listan kan den som vet adressen till borttagningssidan fortfarande ta bort filmer. Varje sida som <strong>ändrar</strong> något ska ha raden. <code>/filmer</code>, <code>/filmer/{id}</code> och <code>/genrer/{id}</code> ska inte ha den – det är besökarens sidor.</p>
+    <p><strong>Det fullständiga namnet.</strong> <code>Microsoft.AspNetCore.Authorization.Authorize</code> är långt. Det går att lägga <code>@using Microsoft.AspNetCore.Authorization</code> i <code>_Imports.razor</code> och skriva <code>[Authorize]</code>, men då ser man inte på sidan var attributet kommer ifrån. Här står det fullt ut, på de fyra ställen där det används.</p>
+    <p>**<code>Routes.razor</code> behöver inte ändras.** I många exempel på nätet ser du <code>AuthorizeRouteView</code> i stället för <code>RouteView</code>. Det behövs i interaktiva renderingslägen. Under statisk serverrendering är det <code>MapRazorComponents</code> som läser <code>[Authorize]</code> och skickar vidare till inloggningen – kontrollerat med <code>RouteView</code> kvar.</p>
+    <p><strong>Kontrollera.</strong> Utloggad: <code>/admin/filmer</code>, <code>/filmer/ny</code>, <code>/filmer/andra/1</code> och <code>/filmer/tabort/1</code> ska alla skicka dig till inloggningen. Logga in – du ska hamna på sidan du försökte nå, inte på startsidan.</p>
+    <p><strong>I ditt projekt.</strong> Gå igenom <strong>varje</strong> sida och avgör: ändrar den något? Då ska den ha raden. Gör sedan försöket mot varje adress, utloggad.</p>
+    <h2 id="steg-23">Steg 23 – Utloggningen</h2>
+    <p><strong>Vad vi gör.</strong> Ger den inloggade en knapp för att logga ut.</p>
+    <p><strong>Filen.</strong> <code>Program.cs</code>, efter den första användaren och före <code>app.Run()</code>:</p>
+    <pre><code class="sprak-csharp">// Utloggningen är en endpoint och inte en sida. Knappen ligger i menyn, som
+// finns på varje sida, och formuläret behöver en adress som är densamma
+// oavsett vilken sida man står på.
+//
+// En endpoint kontrollerar inte antiforgery-token av sig själv – det gör bara
+// Blazors sidor och EditForm. Utan kontrollen nedan kan vilken sajt som helst
+// logga ut besökaren med ett eget formulär.
+app.MapPost("/konto/logga-ut", async (HttpContext http, IAntiforgery antiforgery,
+                                      SignInManager&lt;IdentityUser&gt; inloggning) =&gt;
+{
+    if (!await antiforgery.IsRequestValidAsync(http))
+    {
+        return Results.BadRequest();
+    }
+
+    await inloggning.SignOutAsync();
+    return Results.Redirect("/");
+});</code></pre>
+    <p>Överst i filen, bredvid den från steg 18:</p>
+    <pre><code class="sprak-csharp">using Microsoft.AspNetCore.Antiforgery;</code></pre>
+    <p><strong>Filen.</strong> <code>Components/Layout/NavMenu.razor</code>, sist i <code>&lt;Authorized&gt;</code>:</p>
+    <pre><code class="sprak-razor">                &lt;div class="nav-item px-3"&gt;
+                    &lt;form method="post" action="/konto/logga-ut"&gt;
+                        &lt;AntiforgeryToken /&gt;
+                        &lt;button type="submit" class="nav-link"&gt;Logga ut&lt;/button&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Utloggning är att ta bort cookien, och det gör <code>SignOutAsync</code>. Frågan är var den ska anropas.</p>
+    <p>Inloggningen i steg 20 är en sida med ett eget formulär. Utloggningen är en knapp i <strong>menyn</strong>, och menyn finns på varje sida. Ett formulär i en komponent skickar tillbaka till sidan det står på – så står man på <code>/genrer/2</code> skulle knappen skicka dit, och på <code>/filmer/5</code> dit. Utloggningen behöver ett mål som är detsamma var man än står.</p>
+    <p>Därför är den en <em>endpoint</em>: en adress som svarar med kod, utan att vara en sida. Formuläret har <code>action="/konto/logga-ut"</code>, och det pekar alltid på samma ställe.</p>
+    <p><code>app.MapPost</code> är nytt. Den säger: *en POST till <code>/konto/logga-ut</code> ska köra den här metoden.* Metoden får <code>SignInManager</code> genom <em>dependency injection</em> – samma mekanism som <code>@inject</code>, fast i en parameter. Den loggar ut och skickar vidare till startsidan.</p>
+    <p><strong>POST, inte GET.</strong> Samma skäl som i steg 4. En länk till <code>/konto/logga-ut</code> hade kunnat läggas på en annan sajt, och den som klickade hade loggats ut hos dig.</p>
+    <p><strong>Men en POST räcker inte, och det här är stegets viktigaste stycke.</strong> Formuläret i menyn har <code>&lt;AntiforgeryToken /&gt;</code>, precis som visningslistans i område 4. Skriv endpointen utan <code>if</code>-satsen, logga in, och ta bort det dolda fältet <code>__RequestVerificationToken</code> ur menyns formulär i DevTools. Tryck <em>Logga ut</em>. Webbläsaren skickar cookien men ingen token – precis som ett formulär på en annan sajt hade gjort. Användaren loggas ut. Kontrollerat.</p>
+    <p>Token fanns i formuläret, men ingen krävde den. Blazors sidor och <code>EditForm</code> kontrollerar token åt dig. En endpoint från <code>app.MapPost</code> gör det inte, och <code>app.UseAntiforgery()</code> i <code>Program.cs</code> ändrar inte på det. Därför frågar endpointen själv: <code>IAntiforgery.IsRequestValidAsync</code> svarar på om token fanns och stämde. Gör den inte det svarar endpointen <strong>400</strong>, och användaren är kvar inloggad. Kontrollerat åt båda hållen.</p>
+    <blockquote><p>Ett skydd som skickas men inte kontrolleras är inget skydd. Det är samma sak som med valideringen i område 5: det som räknas är vad servern gör.</p></blockquote>
+    <p><strong>Kontrollera.</strong> Logga in. Menyn visar <em>Ny film</em>, <em>Administrera</em> och <em>Logga ut</em>. Tryck <em>Logga ut</em>. Du hamnar på startsidan, menyn visar <em>Logga in</em>, och i DevTools är cookien <code>.AspNetCore.Identity.Application</code> borta. Försök nå <code>/admin/filmer</code> – inloggningen.</p>
+    <p>Logga sedan in igen och skicka en POST utan token från terminalen, med den adress <code>dotnet run</code> skrev ut:</p>
+    <pre><code>curl.exe -X POST http://localhost:5222/konto/logga-ut -w "%{http_code}"</code></pre>
+    <p>Skriv <code>curl.exe</code>, inte <code>curl</code>: i PowerShell är <code>curl</code> ett annat kommando, och det svarar <em>A parameter cannot be found that matches parameter name 'X'.</em> På Mac heter det bara <code>curl</code>.</p>
+    <p>Svaret slutar med <code>400</code>. Ladda om sidan i webbläsaren – du är fortfarande inloggad. curl har ingen cookie, så det här visar bara att endpointen vägrar; det riktiga försöket, med cookien, är det som kontrollerades ovan.</p>
+    <p><strong>I ditt projekt.</strong> Samma endpoint, med kontrollen, och samma formulär. Nu kan du göra hela försöket från steg 21 och 22 utan att stänga webbläsaren.</p>
+    <h2 id="steg-24">Steg 24 – Koden någon annan ska läsa</h2>
+    <p><strong>Vad vi gör.</strong> Går igenom Filmarkivet mot en konventionslista, och tittar på de två sorters kommentarer som finns i projektet.</p>
+    <p>Det här steget ändrar ingen kod. Det är lektion 41, och aktiviteten är att du granskar någon annans projekt – och de ditt.</p>
+    <p><strong>Konventionerna.</strong> Microsofts regler för C# är långa. De här är de som syns i Filmarkivet, och de som oftast bryts:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Regel</th><th>I Filmarkivet</th></tr></thead>
+    <tbody>
+    <tr><td>Klasser, metoder och egenskaper i PascalCase</td><td><code>FilmService</code>, <code>HamtaMedGenreAsync</code>, <code>GenreId</code></td></tr>
+    <tr><td>Lokala variabler och parametrar i camelCase</td><td><code>alla</code>, <code>ordnade</code>, <code>utomId</code></td></tr>
+    <tr><td>Privata fält med understreck</td><td><code>_fabrik</code>, <code>_logg</code></td></tr>
+    <tr><td>Asynkrona metoder slutar på <code>Async</code></td><td><code>SokAsync</code>, <code>TitelFinnsAsync</code></td></tr>
+    <tr><td>Gränssnitt börjar på <code>I</code></td><td><code>IFilmService</code>, <code>IGenreService</code></td></tr>
+    <tr><td>En klass per fil, och filen heter som klassen</td><td><code>Genre.cs</code>, <code>GenreService.cs</code></td></tr>
+    <tr><td>Attribut slutar på <code>Attribute</code></td><td><code>RimligtUtgivningsarAttribute</code></td></tr>
+    <tr><td>Mappen säger vilket lager</td><td><code>Models/</code>, <code>Data/</code>, <code>Services/</code>, <code>Validering/</code>, <code>Components/</code></td></tr>
+    <tr><td>Korta metoder som gör en sak</td><td><code>TaBortAsync</code> hämtar, tar bort, loggar – inget annat</td></tr>
+    </tbody></table></div>
+    <p><strong>Två sorters kommentarer.</strong> Filmarkivet har mest vanliga kommentarer med <code>//</code>. De förklarar <strong>varför</strong> – varför <code>??=</code> och inte <code>=</code>, varför en fabrik, varför <code>HasDefaultValue</code>. De förklarar aldrig vad en rad gör, för det kan man läsa i raden.</p>
+    <pre><code class="sprak-csharp">// Dåligt: säger vad raden gör
+// Sätter sida till onskad mellan 1 och antalSidor
+sida = Math.Clamp(onskad, 1, antalSidor);</code></pre>
+    <p>En metod har en annan sorts kommentar: <code>TitelFinnsAsync</code> i steg 16.</p>
+    <pre><code class="sprak-csharp">    /// &lt;summary&gt;
+    /// Svarar på om en annan film redan har exakt den här titeln.
+    /// &lt;/summary&gt;
+    /// &lt;param name="titel"&gt;Titeln som ska kontrolleras. Jämförs exakt,
+    /// med skiftläge och mellanslag.&lt;/param&gt;</code></pre>
+    <p>Tre snedstreck och XML-taggar. Det är en <strong>XML-kommentar</strong>, och den är skriven för den som <strong>anropar</strong> metoden, inte för den som läser den. Håll musen över <code>TitelFinnsAsync</code> någonstans där den används, så visar editorn texten. Den som anropar metoden behöver veta att jämförelsen är exakt – annars tror de att den skyddar mot <em>gökboet</em>. Det är därför just den metoden fick en.</p>
+    <p>Skriv XML-kommentarer på gränssnitt och på metoder vars beteende inte syns i namnet. Skriv <code>//</code> där något i koden ser konstigt ut men är rätt.</p>
+    <p>**<code>README.md</code>.** Filmarkivets <code>README.md</code> säger hur man kör projektet, hur man loggar in, vilka adresser som finns, och vad som är värt att peka på. Det är vad en ny läsare behöver först.</p>
+    <p><strong>Kontrollera.</strong> <code>dotnet build</code> ska ge <strong>noll varningar</strong>. En varning är något kompilatorn tycker ser fel ut, och i ett projekt med noll varningar syns den nya direkt.</p>
+    <p><strong>I ditt projekt.</strong> Byt projekt med någon, och gå igenom deras kod mot tabellen. Skriv ned vad du hittar – inte för att rätta det åt dem, utan för att de ska se det. Skriv sedan en XML-kommentar på minst en metod i ditt eget gränssnitt, och se till att din <code>README.md</code> säger hur man installerar, kör och loggar in.</p>
+    <h2 id="steg-25">Steg 25 – Tabellen vars knappar inte gör något</h2>
+    <p><strong>Vad vi gör.</strong> Bygger samma listvy med <code>QuickGrid</code>, Microsofts färdiga tabellkomponent – och ser den inte fungera.</p>
+    <pre><code>dotnet add package Microsoft.AspNetCore.Components.QuickGrid --version 10.0.12</code></pre>
+    <p><strong>Filen.</strong> <code>Components/_Imports.razor</code>, en rad till:</p>
+    <pre><code class="sprak-razor">@using Microsoft.AspNetCore.Components.QuickGrid</code></pre>
+    <p><strong>Filen.</strong> <code>Components/Pages/StatiskTabell.razor</code>:</p>
+    <pre><code class="sprak-razor">@page "/renderingslagen/statisk"
+@inject IFilmService Arkivet
+@inject ILogger&lt;StatiskTabell&gt; Logg
+
+@* Demo till lektion 43. Identisk med InteraktivTabell.razor - utom en enda
+   rad. Den raden är @rendermode InteractiveServer, och den saknas här. *@
+
+&lt;PageTitle&gt;Statisk rendering – Filmarkivet&lt;/PageTitle&gt;
+
+&lt;h1&gt;Statisk serverrendering&lt;/h1&gt;
+
+&lt;p class="tomt"&gt;
+    Renderingsläge: &lt;b&gt;@(RendererInfo.IsInteractive ? "interaktivt" : "statiskt")&lt;/b&gt;
+    · &lt;code&gt;OnInitializedAsync&lt;/code&gt; har körts &lt;b&gt;@antal&lt;/b&gt; gång(er) i det här objektet
+&lt;/p&gt;
+
+&lt;p&gt;
+    Klicka på en kolumnrubrik. Tabellen har sorteringsknappar – de är riktiga
+    &lt;code&gt;&amp;lt;button&amp;gt;&lt;/code&gt;-element, och de gör ingenting.
+&lt;/p&gt;
+
+&lt;QuickGrid Items="filmer" Pagination="sidor"&gt;
+    &lt;PropertyColumn Property="@(f =&gt; f.Titel)" Title="Titel" Sortable="true" /&gt;
+    &lt;PropertyColumn Property="@(f =&gt; f.Ar)" Title="År" Sortable="true" /&gt;
+    &lt;PropertyColumn Property="@(f =&gt; f.Betyg)" Title="Betyg" Sortable="true" /&gt;
+&lt;/QuickGrid&gt;
+
+&lt;Paginator State="sidor" /&gt;
+
+&lt;p class="tomt"&gt;
+    Titta i terminalen. Här loggas &lt;code&gt;OnInitializedAsync&lt;/code&gt; &lt;b&gt;en gång&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="renderingslagen/interaktiv"&gt;Samma tabell, en rad till &amp;rarr;&lt;/a&gt;&lt;/p&gt;
+
+@code {
+    private IQueryable&lt;Film&gt;? filmer;
+    private PaginationState sidor = new() { ItemsPerPage = 3 };
+    private int antal;
+
+    protected override async Task OnInitializedAsync()
+    {
+        antal++;
+        Logg.LogWarning("OnInitializedAsync på /renderingslagen/statisk, IsInteractive={Ia}",
+            RendererInfo.IsInteractive);
+        filmer = (await Arkivet.HamtaAllaAsync()).AsQueryable();
+    }
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Jämför med <code>AdminFilmer.razor</code> från steg 2. Där behövdes en <code>switch</code>, <code>Skip</code>, <code>Take</code>, länkar och uträkningar av sidnummer. Här är det tre kolumner och en <code>Paginator</code>. <code>QuickGrid</code> ser ut som det självklara valet.</p>
+    <p>Gå till <code>/renderingslagen/statisk</code> och klicka på <em>Titel</em>. Ingenting. Klicka på nästa sida. Ingenting. Knapparna är riktiga <code>&lt;button&gt;</code>-element. Inspektera rubriken i DevTools: <code>aria-sort="none"</code>, och det står kvar vad du än klickar.</p>
+    <p><strong>Knapparna har ingen att prata med.</strong> Allt du byggt i kursen renderas med <strong>statisk serverrendering</strong>: servern kör komponenten en gång, gör om den till HTML, skickar HTML:en och glömmer bort den. Komponenten finns inte längre när sidan når webbläsaren. <code>QuickGrid</code> sorterar med <code>@onclick</code>, och ett <code>@onclick</code> är C#-kod som ska köras <strong>när man klickar</strong> – i en komponent som inte längre finns.</p>
+    <p>Det är därför listvyn i steg 2 använder länkar. En länk gör en ny förfrågan, och servern kör komponenten igen med <code>?sortera=titel</code>. Det fungerar utan att något hålls vid liv.</p>
+    <p><strong>Kontrollera.</strong> Klicka på rubrikerna och på sidknapparna. Titta i terminalen: <code>OnInitializedAsync</code> loggas en gång när sidan laddas, och aldrig mer.</p>
+    <p><strong>I ditt projekt.</strong> Ingenting. Det här är en demo, och steg 26 förklarar varför ditt projekt stannar där det är.</p>
+    <h2 id="steg-26">Steg 26 – En rad till</h2>
+    <p><strong>Vad vi gör.</strong> Gör samma tabell interaktiv, och ser vad det kostar.</p>
+    <p><strong>Filen.</strong> <code>Program.cs</code>. Två rader utökas:</p>
+    <pre><code class="sprak-csharp">// AddInteractiveServerComponents gör det interaktiva läget tillgängligt.
+// Det slår inte på det: en komponent utan @rendermode renderas statiskt som
+// förut. Demot till lektion 43 ligger på /renderingslagen/.
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();</code></pre>
+    <pre><code class="sprak-csharp">app.MapRazorComponents&lt;App&gt;()
+    .AddInteractiveServerRenderMode();</code></pre>
+    <p><strong>Filen.</strong> <code>Components/Pages/InteraktivTabell.razor</code>. En kopia av <code>StatiskTabell.razor</code> med en annan adress, en annan logger – och en rad till, direkt under <code>@page</code>:</p>
+    <pre><code class="sprak-razor">@page "/renderingslagen/interaktiv"
+@rendermode InteractiveServer
+@inject IFilmService Arkivet
+@inject ILogger&lt;InteraktivTabell&gt; Logg</code></pre>
+    <p>Resten av filen är densamma, utom texterna. Hela filen ligger i referensprojektet.</p>
+    <p><strong>Varför det ser ut så.</strong> Gå till <code>/renderingslagen/interaktiv</code> och klicka på <em>Titel</em>. Tabellen sorteras. <code>aria-sort="ascending"</code>. Nästa sida fungerar: <em>Page 2 of 2</em>. Sidan laddas inte om.</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th></th><th><code>/renderingslagen/statisk</code></th><th><code>/renderingslagen/interaktiv</code></th></tr></thead>
+    <tbody>
+    <tr><td>Tabellen renderas</td><td>ja</td><td>ja</td></tr>
+    <tr><td>Klick på kolumnrubrik</td><td><strong>ingenting</strong></td><td>sorterar</td></tr>
+    <tr><td>Nästa sida</td><td>ingenting</td><td><em>Page 2 of 2</em></td></tr>
+    <tr><td>Uppkoppling</td><td>ingen</td><td>WebSocket till <code>/_blazor</code></td></tr>
+    <tr><td><code>OnInitializedAsync</code> körs</td><td><strong>1 gång</strong></td><td><strong>2 gånger</strong></td></tr>
+    </tbody></table></div>
+    <p>**<code>@rendermode InteractiveServer</code>** betyder: <em>håll den här komponenten vid liv på servern.</em> Webbläsaren öppnar en uppkoppling som står öppen – en <em>WebSocket</em>, syns i DevTools under <strong>Network</strong> som <code>/_blazor</code>. Varje klick skickas över den till servern, komponenten kör sin C#-kod, och det som ändrats i HTML:en skickas tillbaka. Uppkopplingen och komponenten på servern kallas tillsammans en <strong>krets</strong>.</p>
+    <p><strong>Titta på sista raden i tabellen.</strong> Båda sidorna säger <em>har körts 1 gång i det här objektet</em>. Men terminalen loggar <strong>två</strong> anrop på den interaktiva:</p>
+    <pre><code>OnInitializedAsync på /renderingslagen/interaktiv, IsInteractive=False
+OnInitializedAsync på /renderingslagen/interaktiv, IsInteractive=True</code></pre>
+    <p>Det är inte samma objekt som körde två gånger. Sidan <strong>förrenderas</strong> först, statiskt, så att något syns direkt medan uppkopplingen öppnas. När kretsen är klar byggs komponenten om från början, i ett nytt objekt, och det första slängs. Därför står det 1 på skärmen och 2 i terminalen.</p>
+    <p>Det betyder att <strong>allt i livscykeln händer två gånger</strong>. En databasfråga i <code>OnInitializedAsync</code> körs två gånger. Det är det första interaktivitet kostar.</p>
+    <p>Det andra är <strong>scope</strong>. I område 4 var en scoped tjänst <em>en per förfrågan</em>. En krets är en enda lång förfrågan, som varar så länge fliken är öppen. En scoped tjänst lever alltså lika länge – och det är ett av skälen till att <code>DbContext</code> hämtas ur en fabrik i varje metod, i stället för att injiceras.</p>
+    <p><strong>Resten av applikationen är opåverkad.</strong> <code>AddInteractiveServerComponents</code> gör läget <strong>tillgängligt</strong>. Det slår inte på det. En komponent utan <code>@rendermode</code> renderas statiskt precis som förut. Kontrollerat efter att demot lagts in: alla andra sidor svarar som förut, och <code>/admin/filmer</code> skickar fortfarande den utloggade till inloggningen.</p>
+    <p><strong>Så när väljer man vilket?</strong></p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Statisk serverrendering</th><th>Interaktiv serverrendering</th></tr></thead>
+    <tbody>
+    <tr><td>Sidor som visar något och formulär som skickas</td><td>Sidor där användaren klickar och förväntar sig svar direkt</td></tr>
+    <tr><td>Fungerar utan JavaScript och utan uppkoppling</td><td>Kräver en öppen uppkoppling per besökare</td></tr>
+    <tr><td>Servern glömmer besökaren efter varje sida</td><td>Servern håller minne för varje öppen flik</td></tr>
+    <tr><td>Livscykeln körs en gång</td><td>Livscykeln körs två gånger, med förrendering</td></tr>
+    </tbody></table></div>
+    <p>Det är inte att det ena är modernt och det andra gammalt. Det är olika verktyg, och kursen har byggt allt med det första för att du ska förstå vad som händer med varje förfrågan.</p>
+    <p><strong>Kontrollera.</strong> Klicka i båda tabellerna. Öppna DevTools, fliken <strong>Network</strong>, och ladda om den interaktiva sidan: en rad <code>_blazor</code> med typen <code>websocket</code>. På den statiska finns ingen sådan rad.</p>
+    <p><strong>I ditt projekt.</strong> <strong>Ingenting.</strong> Ditt projekt stannar på statisk serverrendering, och uppgiften kräver det. Vill du prova, gör det i ett testprojekt eller i en kopia. Det du ska kunna är att förklara skillnaden – det kommer på provet.</p>
+    <p>---</p>
+    <h2 id="fel">När något går fel</h2>
+    <p>Slå upp felmeddelandet här innan du fastnar. Skriv en bit av det du ser.</p>
+
+        <div class="sok">
+          <label for="sok-fel">Sök bland felen</label>
+          <input type="search" id="sok-fel" data-sok="tabell-fel" data-traffar="traffar-fel"
+                 placeholder="till exempel: 404, namespace, Ã¥Ã¤Ã¶" autocomplete="off">
+          <p class="traffar" id="traffar-fel">26 rader</p>
+        </div>
+
+        <div class="tabellsvep">
+          <table id="tabell-fel">
+    <thead><tr><th>Felmeddelande</th><th>Vad det betyder</th><th>Gör så här</th></tr></thead>
+    <tbody>
+    <tr><td>Ändringen sparas inte, men sidan svarar som vanligt</td><td><code>=</code> i stället för <code>??=</code> i <code>OnInitializedAsync</code></td><td>Filmen hämtas om ovanpå formulärets värden. Skriv <code>??=</code> (steg 3)</td></tr>
+    <tr><td>En ändring blir en ny post</td><td>Det dolda fältet med <code>Id</code> saknas</td><td><code>&lt;input type="hidden" name="Film.Id" value="@Film.Id" /&gt;</code> i formuläret</td></tr>
+    <tr><td><code>Cannot parse the value 'abc' as type 'System.Nullable…Int32'</code></td><td>Parametern ur frågesträngen är <code>int?</code> och någon skrev text</td><td>Läs den som <code>string?</code> och tolka med <code>int.TryParse</code> (steg 2)</td></tr>
+    <tr><td>Tom tabell på <code>?sida=99</code></td><td>Sidnumret är inte begränsat</td><td><code>Math.Clamp(onskad, 1, antalSidor)</code></td></tr>
+    <tr><td>En POST svarar <strong>400</strong></td><td>Antiforgery-token saknas</td><td><code>EditForm</code> eller <code>&lt;AntiforgeryToken /&gt;</code>, aldrig en <code>&lt;form&gt;</code> utan</td></tr>
+    <tr><td><code>SQLite Error 19: 'FOREIGN KEY constraint failed'</code> vid <code>database update</code></td><td>Befintliga rader fick <code>0</code> som främmande nyckel</td><td><code>HasDefaultValue(1)</code> på nyckeln i <code>OnModelCreating</code>, sedan en ny migration (steg 6)</td></tr>
+    <tr><td><code>SQLite Error 19: 'FOREIGN KEY constraint failed'</code> när en post sparas</td><td><code>GenreId</code> pekar på en kategori som inte finns</td><td>Kontrollera rullistans värden. Det är databasen som håller – bra</td></tr>
+    <tr><td><em>Välj en genre.</em> på varje försök</td><td>Formuläret har inget fält för genre, och <code>0</code> skickas</td><td><code>InputSelect</code> med <code>@bind-Value="Film.GenreId"</code> (steg 9)</td></tr>
+    <tr><td>Genren syns inte, inget fel</td><td><code>Include</code> saknas</td><td>Använd <code>HamtaMedGenreAsync</code>, inte <code>HamtaAsync</code> (steg 7)</td></tr>
+    <tr><td>Kategorisidan säger 0 poster</td><td><code>Include</code> saknas åt andra hållet</td><td><code>Include(g =&gt; g.Filmer)</code> (steg 8)</td></tr>
+    <tr><td>En kategori som inte finns svarar 200</td><td><code>NotFound()</code> saknas</td><td><code>Navigering.NotFound()</code> när tjänsten svarar <code>null</code>, som på detaljsidan i område 3</td></tr>
+    <tr><td><code>The entity type 'IdentityPasskeyData' requires a primary key to be defined</code></td><td><code>base.OnModelCreating(byggare)</code> saknas</td><td>Lägg raden <strong>först</strong> i <code>OnModelCreating</code> (steg 17)</td></tr>
+    <tr><td><code>Unable to create a 'DbContext' of type 'FilmarkivetContext'</code> vid <code>dotnet ef</code></td><td>Samma sak, sett från verktyget</td><td>Läs resten av meddelandet. Oftast raden ovan</td></tr>
+    <tr><td><code>There is no registered service of type 'SignInManager…'</code></td><td><code>.AddSignInManager()</code> saknas</td><td>Lägg den sist i kedjan efter <code>AddIdentityCore</code> (steg 18)</td></tr>
+    <tr><td><code>Authorization requires a cascading parameter of type Task&lt;AuthenticationState&gt;</code></td><td><code>AddCascadingAuthenticationState</code> saknas</td><td><code>builder.Services.AddCascadingAuthenticationState();</code></td></tr>
+    <tr><td><code>RZ10012: Found markup element with unexpected name 'AuthorizeView'</code></td><td><code>@using</code> saknas</td><td><code>@using Microsoft.AspNetCore.Components.Authorization</code> i <code>_Imports.razor</code></td></tr>
+    <tr><td>Utloggad hamnar på <code>/Account/Login</code> och får 404</td><td><code>ConfigureApplicationCookie</code> saknas</td><td><code>LoginPath = "/konto/logga-in"</code> (steg 18)</td></tr>
+    <tr><td>Utloggad kommer åt adminsidan</td><td>Bara menylänken är dold</td><td><code>@attribute [Microsoft.AspNetCore.Authorization.Authorize]</code> på sidan (steg 22)</td></tr>
+    <tr><td>Utloggningen går igenom utan token</td><td>Endpointen kontrollerar inte token</td><td><code>IAntiforgery.IsRequestValidAsync</code> i endpointen (steg 23)</td></tr>
+    <tr><td><em>Fel e-post eller lösenord.</em> med rätt uppgifter</td><td>Användaren skapades inte, eller lösenordet bröt mot reglerna</td><td><code>CreateAsync</code> misslyckas tyst om lösenordet är för kort. Minst åtta tecken</td></tr>
+    <tr><td><em>Kontot är låst en stund</em></td><td>Fem misslyckade försök</td><td>Vänta fem minuter, eller radera <code>LockoutEnd</code> i <code>AspNetUsers</code></td></tr>
+    <tr><td>En titel som redan finns går att spara med annan stavning</td><td>Jämförelsen är exakt</td><td>Så fungerar den. Står i XML-kommentaren (steg 16)</td></tr>
+    <tr><td><code>An attribute argument must be a constant expression</code></td><td>Något som räknas ut i ett attributs argument</td><td>Skriv ett eget attribut (steg 14)</td></tr>
+    <tr><td>Regeln över två fält visas inte</td><td>Ett attributfel stoppade den</td><td><code>Validate</code> körs bara när attributen gått igenom. Rätta det första felet först</td></tr>
+    <tr><td>Knapparna i <code>QuickGrid</code> gör ingenting</td><td>Statisk serverrendering</td><td>Det är demot i steg 25. Använd länkar i frågesträngen</td></tr>
+    <tr><td><code>OnInitializedAsync</code> körs två gånger</td><td>Förrendering i interaktivt läge</td><td>Förväntat. Se steg 26</td></tr>
+    </tbody></table></div>
+    <h2 id="missa">Det som är lätt att missa när du gör det själv</h2>
+    <p>**Din främmande nyckel måste heta som navigationsegenskapen plus <code>Id</code>.** <code>KategoriId</code> och <code>Kategori</code>. Heter den <code>KatId</code> förstår EF Core inte att de hör ihop, och du får en extra kolumn i stället för en relation.</p>
+    <p><strong>Din egen rad i databasen gör migrationen svår.</strong> Glöm inte <code>HasDefaultValue</code> – och se till att id:t du anger finns i kategoriernas frödata.</p>
+    <p>**<code>Include</code> är en beställning, inte en inställning.** Det finns inget sätt att säga <em>alltid</em>. Varje fråga som behöver relaterad data ska be om den, och glömmer den det blir det tyst fel, inte ett felmeddelande.</p>
+    <p><strong>Sorteringsfältet i adressen är ditt eget ord.</strong> <code>?sortera=titel</code> i Filmarkivet, <code>?sortera=namn</code> eller <code>?sortera=pris</code> hos dig. Det är ett värde i en <code>switch</code>, och det du inte tar med i <code>switch</code> får standardordningen.</p>
+    <p><strong>Svenska tecken i ditt sökfält är ett beslut.</strong> Gör försöket i steg 12 med din egen data och skriv ned vad du valde. Att inte ha märkt problemet är något annat än att ha valt bort det.</p>
+    <p><strong>Din regel över två fält och din regel mot databasen ska vara dina.</strong> Kopierar du <em>tillgänglig och inte utkommen</em> och <em>titeln finns redan</em> har du översatt namnen, inte regeln. Det är översättningen av regeln som visar att du förstått.</p>
+    <p><strong>Skydda sidorna, inte menyn.</strong> Gå igenom varje adress utloggad, också de du inte har länkar till.</p>
+    <p>**Inloggningsuppgifterna ska stå i <code>README.md</code>.** Den som bedömer ditt projekt kan inte gissa ditt lösenord.</p>
+    <p><strong>Behåll statisk serverrendering.</strong> <code>@rendermode</code> hör hemma i ett testprojekt, inte i Projekt 1.</p>
+    <h2 id="checklista">Checklista</h2>
+    <p>Guidens egen checklista. Den är inte betygskraven – de står i
+          <a href="uppgift.html">uppgiften</a> och är uppdelade på E, C och A. Den här listan
+          säger bara om du gjort klart det guiden går igenom.</p>
+
+        <section class="kravblock" data-niva="ska">
+          <div class="huvud">
+            <h3>Klart när allt är ikryssat</h3>
+            <span class="antal"></span>
+          </div>
+          <div class="stapel"><span></span></div>
+          <ul class="krav">
+            <li><label><input type="checkbox" id="guide-1"><span><code>IDittService</code> har metoder för alla fyra CRUD-operationerna</span></label></li>
+            <li><label><input type="checkbox" id="guide-2"><span>Listvyn sorterar på minst tre kolumner via frågesträngen</span></label></li>
+            <li><label><input type="checkbox" id="guide-3"><span>Listvyn delar in i sidor, och <code>?sida=99</code> och <code>?sida=abc</code> ger en sida som finns</span></label></li>
+            <li><label><input type="checkbox" id="guide-4"><span>Ändringssidan använder <code>??=</code> och ett dolt fält för <code>Id</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-5"><span>Borttagning sker med en POST från en bekräftelsesida, aldrig med en länk</span></label></li>
+            <li><label><input type="checkbox" id="guide-6"><span>Din kategorientitet finns, med främmande nyckel och navigationsegenskaper</span></label></li>
+            <li><label><input type="checkbox" id="guide-7"><span>Migrationen för relationen gick igenom på din databas med egna rader</span></label></li>
+            <li><label><input type="checkbox" id="guide-8"><span>Du har hittat <code>ON DELETE CASCADE</code> i <code>migrations script</code> och vet vad det betyder</span></label></li>
+            <li><label><input type="checkbox" id="guide-9"><span>Minst en sida visar data från båda tabellerna, hämtad med <code>Include</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-10"><span>Kategorin har en egen tjänst bakom ett eget gränssnitt</span></label></li>
+            <li><label><input type="checkbox" id="guide-11"><span>Formulären har en rullista för kategorin, och *välj* ger ett svenskt felmeddelande</span></label></li>
+            <li><label><input type="checkbox" id="guide-12"><span>SQL-loggningen är påslagen i <code>appsettings.Development.json</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-13"><span>Sökningen görs med <code>Where</code> på en <code>IQueryable</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-14"><span>Du har jämfört sökningen i minnet och i databasen, och skrivit ned var du valde att göra vad</span></label></li>
+            <li><label><input type="checkbox" id="guide-15"><span>Ett eget valideringsattribut för en regel i din domän</span></label></li>
+            <li><label><input type="checkbox" id="guide-16"><span>En regel över två fält med <code>IValidatableObject</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-17"><span>En regel som kräver databasen, med felet i <code>ValidationMessageStore</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-18"><span>Contextet ärver <code>IdentityDbContext&lt;IdentityUser&gt;</code>, och <code>base.OnModelCreating</code> anropas först</span></label></li>
+            <li><label><input type="checkbox" id="guide-19"><span>En första användare skapas vid start, och uppgifterna står i <code>README.md</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-20"><span>Inloggningssidan ger samma meddelande för fel adress och fel lösenord</span></label></li>
+            <li><label><input type="checkbox" id="guide-21"><span>Varje sida som ändrar data har <code>[Authorize]</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-22"><span>Du har nått varje skyddad adress utloggad och hamnat på inloggningen</span></label></li>
+            <li><label><input type="checkbox" id="guide-23"><span>Utloggningen är en POST, och en POST **utan** token svarar 400</span></label></li>
+            <li><label><input type="checkbox" id="guide-24"><span>Minst en XML-kommentar i ditt gränssnitt</span></label></li>
+            <li><label><input type="checkbox" id="guide-25"><span>Ingen <code>DbContext</code> i någon komponent</span></label></li>
+            <li><label><input type="checkbox" id="guide-26"><span>Projektet renderar statiskt – inget <code>@rendermode</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-27"><span><code>dotnet build</code> ger noll varningar</span></label></li>
+          </ul>
+        </section>
+
+        <p>Kryssen sparas i din webbläsare.
+          <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+    <h2 id="mer">Vill du mer</h2>
+    <ul><li><a href="https://learn.microsoft.com/ef/core/modeling/relationships">Relationships</a> – hur EF Core känner igen en relation ur namnen, och hur man beskriver den när namnen inte räcker.</li><li><a href="https://learn.microsoft.com/ef/core/saving/cascade-delete">Cascade Delete</a> – vad som händer med de relaterade raderna, och hur <code>DeleteBehavior</code> ändrar det.</li><li><a href="https://learn.microsoft.com/ef/core/querying/related-data/eager">Eager Loading of Related Data</a> – <code>Include</code>, och varför navigationsegenskaper är tomma utan den.</li><li><a href="https://learn.microsoft.com/ef/core/querying/how-query-works">How Queries Work</a> – när en <code>IQueryable</code> blir SQL, och vad som körs i databasen respektive i C#.</li><li><a href="https://learn.microsoft.com/ef/core/logging-events-diagnostics/simple-logging">Simple Logging</a> – fler sätt att se den SQL som genereras.</li><li><a href="https://learn.microsoft.com/aspnet/core/blazor/forms/validation">Blazor forms validation</a> – egna attribut, <code>IValidatableObject</code> och <code>ValidationMessageStore</code>.</li><li><a href="https://learn.microsoft.com/aspnet/core/security/authentication/identity">Introduction to Identity on ASP.NET Core</a> – vad Identity gör, och vilka tabeller det skapar.</li><li><a href="https://learn.microsoft.com/aspnet/core/blazor/security/">ASP.NET Core Blazor authentication and authorization</a> – <code>AuthorizeView</code>, <code>[Authorize]</code> och skillnaden mellan statisk och interaktiv rendering.</li><li><a href="https://learn.microsoft.com/aspnet/core/blazor/components/render-modes">ASP.NET Core Blazor render modes</a> – statisk och interaktiv serverrendering, förrendering, och när man väljer vad.</li><li><a href="https://learn.microsoft.com/dotnet/csharp/fundamentals/coding-style/identifier-names">C# identifier naming rules and conventions</a> – hela listan som tabellen i steg 24 är ett utdrag ur.</li><li><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/xmldoc/">XML documentation comments</a> – taggarna som går att använda, och var de syns.</li></ul>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Till uppgiften</a> ·
+        <a href="provet.html">Vad prov 4 prövar</a> ·
+        <a href="index.html">Tillbaka till område 6</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inlämning 5: Från modell till databas och formulär</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o5-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Inlämning 5</strong> · Från modell till databas och formulär</span>
+  <a href="#misstag">Vanliga misstag</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#kontrollerna">2. De tre kontrollerna</a></li>
+      <li><a href="#ska">3. Ska-krav – E</a></li>
+      <li><a href="#bor">4. Bör-krav – C</a></li>
+      <li><a href="#utmaning">5. Utmaning – A</a></li>
+      <li><a href="#bedomning">6. Så bedöms den</a></li>
+      <li><a href="#inlamning">7. Inlämning</a></li>
+      <li><a href="#misstag">8. Vanliga misstag</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 5</p>
+    <h1>Inlämning 5 – Från modell till databas och formulär</h1>
+    <p class="inledning">Din hårdkodade lista ska bli en databas, och din applikation
+      ska kunna få nya poster utan att någon öppnar en kodfil. Fyra saker ska hänga
+      ihop när du är klar: entitetsklassen, migrationen, tjänsten och formuläret.
+      Attributen skrivs en gång på entiteten och styr både vad databasen accepterar
+      och vad formuläret släpper igenom.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-12-22">
+        <span class="nar">22 dec</span>
+        <span class="vad">Deadline kl 23:59
+          <small>Repots adress lämnas i itslearning. Inget prov efter det här området.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det som bedöms tyngst är att valideringen håller på servern</span>
+      <p>En applikation som bara kontrollerar i webbläsaren har ingen kontroll alls.
+        Webbläsaren är besökarens, inte din – allt som händer där går att stänga av
+        med F12. Och databasen fångar inte heller felet: <code>[Range(1, 5)]</code> blir
+        ingenting i tabellen, och betyget 99 går rakt in.</p>
+      <p>Kedjan har exakt ett ställe som håller, och uppgiften kräver att du bevisat
+        att det gör det.</p>
+    </div>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+    <p>Du börjar inte om. Projektet från område 4 är utgångsläget och växer.</p>
+
+    <p>Du får med dig fem saker:</p>
+    <ul>
+      <li><b><a href="guide.html">Guiden</a></b>, som bygger Filmarkivets databaslager
+        i tolv steg med all kod.</li>
+      <li><b>Referensprojektet Filmarkivet</b>, färdigt att köra och läsa – och
+        <code>FilmService.cs</code> från område 4 att jämföra med.</li>
+      <li><b><a href="validering.html">En rad som är hela skillnaden</a></b>: formuläret
+        som går att lura och det som inte gör det, och DevTools-testet steg för steg.</li>
+      <li><b>Lektionerna 31–33.</b> Genomgångarna ligger på alla tre.</li>
+      <li><b>Ditt projekt från område 4.</b> Tjänsten bakom gränssnittet är det som gör
+        att det här området tar en lektion i stället för en vecka.</li>
+    </ul>
+
+    <h2 id="kontrollerna">2. De tre kontrollerna</h2>
+    <p>Tre saker är lätta att göra själv och avgör om inlämningen är godkänd. Gör dem
+      innan du lämnar in – det är samma kontroller jag gör när jag rättar.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kontroll</th><th>Gör så här</th><th>Vad det bevisar</th></tr></thead>
+        <tbody>
+          <tr><td><b>1. Databasen byggs ur din modell</b></td>
+            <td>Radera din <code>.db</code>-fil. Kör <code>dotnet ef database update</code> och sedan <code>dotnet run</code>.</td>
+            <td>Får du tillbaka dina poster fungerar migrationen och frödata. Får du en tom databas ligger frödata fel.</td></tr>
+          <tr><td><b>2. En post överlever omstart</b></td>
+            <td>Spara en post via formuläret. Stäng servern med Ctrl+C, starta om, titta igen.</td>
+            <td>Är den kvar har du en databas. Är den borta har du inte det.</td></tr>
+          <tr><td><b>3. Servern håller</b></td>
+            <td>F12 på formuläret. Ändra ett fälts <code>type</code> till <code>text</code>, ta bort <code>min</code>/<code>max</code>, skicka ett omöjligt värde.</td>
+            <td>Sparas det håller inte valideringen. Svarar servern med felmeddelandet gör den det.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Den tredje står steg för steg på <a href="validering.html#kringga">sidan om
+      validering</a>. Den tar två minuter och är ett C-krav.</p>
+
+    <p>Kryssen nedan sparas i din webbläsare, så du kan bocka av allteftersom.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska">3. Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Projektet startar med <code>dotnet run</code> utan fel</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Din huvudentitet har minst <b>tre valideringsattribut</b> av minst <b>två olika slag</b> (<code>[Required]</code>, <code>[StringLength]</code>, <code>[Range]</code>)</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Varje <code>ErrorMessage</code> är skrivet på <b>svenska</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>En <code>DbContext</code> i <code>Data/</code> med ett <code>DbSet</code> för entiteten</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Båda EF Core-paketen finns i <code>.csproj</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Anslutningssträngen ligger i <code>appsettings.json</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>En <b>migration</b> finns i <code>Migrations/</code>, och den är inte handredigerad</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span><code>dotnet ef database update</code> skapar databasen från noll</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>Minst <b>sex poster</b> som frödata i <code>OnModelCreating</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>Tjänsten läser ur databasen, <b>bakom samma gränssnitt som i område 4</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span>Den gamla hårdkodade listan är <b>borttagen</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-12"><span>Ett <code>EditForm</code> som skapar en ny post, med <code>DataAnnotationsValidator</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-13"><span>En post som sparas via formuläret <b>finns kvar efter omstart av servern</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-14"><span><code>*.db</code> ligger i <code>.gitignore</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-15"><span>Minst fem commits med begripliga meddelanden</span></label></li>
+      </ul>
+    </section>
+
+    <p>Skillnaden mot C är att <b>kedjan är genomtänkt</b>: du kan säga vad varje
+      attribut gör var, och valideringen håller där den ska.</p>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor">4. Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C, utöver E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Du har <b>kringgått klientvalideringen</b> med DevTools och kontrollerat att servern stoppar posten. Beskriv i <code>README.md</code> vilket fält du testade, vad du ändrade och vad servern svarade</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>En <b>skärmbild av den skapade tabellen</b> i repot, så att kopplingen attribut → kolumn syns</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>En kort text i <code>README.md</code> om <b>vilka attribut som syns i tabellen och vilka som inte gör det</b>, och vad det betyder</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span><code>AddDbContextFactory</code>, inte <code>AddDbContext</code>, och du kan säga varför</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span><code>ValidationMessage</code> intill varje fält som har en regel, inte bara en <code>ValidationSummary</code></span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span><code>Id</code> är <b>inte</b> ett fält i formuläret</span></label></li>
+        <li><label><input type="checkbox" id="bor-7"><span>Migrationens namn säger vad den gjorde</span></label></li>
+        <li><label><input type="checkbox" id="bor-8"><span><code>dotnet build</code> ger <b>noll varningar</b></span></label></li>
+        <li><label><input type="checkbox" id="bor-9"><span>Kommentarer där koden inte är självförklarande, och bara där</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning">5. Utmaning <span style="color:var(--dov);font-weight:400">— nivå A, utöver C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Ett fält där du <b>medvetet valt att inte</b> sätta ett attribut, med en motivering i <code>README.md</code></span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Formuläret hanterar det som går fel: posten sparas inte tyst, och användaren får veta vad som hände</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Minst ett <code>try</code>/<code>catch</code> runt sparandet i <b>tjänstelagret</b>, med loggpost till utvecklaren och begripligt meddelande till användaren</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>En kort text om <b>vad databasen faktiskt garanterar</b> i ditt projekt, och vad som bara garanteras av valideringen</span></label></li>
+        <li><label><input type="checkbox" id="utm-5"><span>En <b>andra migration</b> som ändrar något i modellen, så att historiken visar två steg</span></label></li>
+        <li><label><input type="checkbox" id="utm-6"><span>Du föreslår själv <b>ett fält eller en regel till</b> som du inte hann bygga, och beskriver vilket attribut det skulle ha och vad det skulle skydda mot</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bedomning">6. Så bedöms den</h2>
+    <p>Uppgiften prövar två av kursens betygskriterier särskilt.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>Vad det betyder här</th></tr></thead>
+        <tbody>
+          <tr><td><b>Datalagring i relationsdatabas</b></td>
+            <td>På E ska applikationen ha en databaskoppling och spara data mellan sidvisningar. På C ska lagringen vara permanent och genomtänkt. Migrationen är beviset på att databasen är byggd ur din modell och inte handknackad.</td></tr>
+          <tr><td><b>Kvalitetssäkring av funktionalitet, säkerhet och kodkvalitet</b></td>
+            <td>Serversidesvalidering är det första riktiga säkerhetsmomentet i kursen. Att kringgå sin egen klientvalidering och se att servern håller är precis den sortens kontroll område 7 handlar om.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Jag läser koden och kör projektet. Tre saker väger tyngst:</p>
+
+    <ul>
+      <li><b>Att databasen byggs ur din modell.</b> Jag klonar repot och kör
+        <code>dotnet ef database update</code>. Får jag inte din databas med dina sex
+        poster är kravet inte uppfyllt – och det är det enklaste av alla krav att
+        kontrollera själv innan du lämnar in.</li>
+      <li><b>Att gränssnittet höll.</b> Jag jämför din <code>IDittService</code> med den
+        från område 4. Har den ändrats mycket har något från datalagret läckt ut i
+        komponenterna.</li>
+      <li><b>Att valideringen håller på servern.</b> Jag öppnar ditt formulär, ändrar
+        ett fält i DevTools och skickar in ett värde som ska vara omöjligt. Sparas det
+        är kravet inte uppfyllt, hur snyggt formuläret än ser ut.</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Vad texten om attributen ska säga</span>
+      <p><em>"Jag har satt <code>[StringLength(100)]</code> på titeln."</em> Det är en
+        beskrivning av koden. Den säger ingenting om vad som hände.</p>
+      <p><em>"<code>[StringLength(100)]</code> syns inte i tabellen – kolumnen är
+        <code>TEXT</code> utan längd, för SQLite har ingen. Regeln finns bara i
+        formuläret, så en titel på 300 tecken går att skriva rakt in i databasen.
+        Det betyder att valideringen är det enda som håller."</em> Det är texten som
+        efterfrågas. Den säger vad du såg och vad det betyder.</p>
+    </div>
+
+    <h2 id="inlamning">7. Inlämning</h2>
+    <ol>
+      <li>Kontrollera att projektet startar och att alla sidor svarar.</li>
+      <li><b>Radera din <code>.db</code>-fil och kör <code>dotnet ef database update</code>
+        igen.</b> Får du tillbaka en databas med dina poster fungerar migrationen.</li>
+      <li>Spara en post via formuläret, starta om servern och kontrollera att den är
+        kvar.</li>
+      <li>Kringgå klientvalideringen med DevTools och kontrollera att servern stoppar.</li>
+      <li>Ta skärmbilden av tabellen och lägg den i repot.</li>
+      <li>Skriv texterna i <code>README.md</code>.</li>
+      <li>Gå igenom kravlistan för den nivå du siktar på.</li>
+      <li><code>git add .</code>, <code>git commit -m "…"</code>, <code>git push</code></li>
+      <li>Öppna ditt repo på github.com och se att <code>Migrations/</code> finns där –
+        och att <code>.db</code>-filen <b>inte</b> gör det.</li>
+      <li>Klistra in repots adress i inlämningsrutan i itslearning.</li>
+    </ol>
+
+    <p>Deadline är tisdag 22 december kl 23:59, samma dag som terminen slutar. <b>Det
+      finns inget prov efter det här området</b> – lämna in och gå på lov.</p>
+
+    <h2 id="misstag">8. Vanliga misstag</h2>
+    <p>Det här är det som gör att uppgiften underkänns i onödan.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Misstag</th><th>Vad som händer</th><th>Undvik det så här</th></tr></thead>
+        <tbody>
+          <tr><td><code>.db</code>-filen committad</td><td>Repot innehåller din lokala databas i stället för ett recept</td><td><code>*.db</code> i <code>.gitignore</code>. Migrationen är det som ska delas</td></tr>
+          <tr><td><code>Migrations/</code> inte committad</td><td>Ingen annan kan bygga databasen</td><td>Kontrollera på github.com att mappen finns</td></tr>
+          <tr><td>Migration redigerad för hand</td><td>Nästa migration blir fel</td><td><code>migrations remove</code>, ändra klassen, lägg till en ny</td></tr>
+          <tr><td>Gamla listan kvar</td><td>En sida kan smyga tillbaka till den</td><td>Radera den. Bygget blir kontrollen</td></tr>
+          <tr><td><code>AddDbContext</code> i stället för fabriken</td><td><em>A second operation was started on this context</em></td><td><code>AddDbContextFactory</code>, ett context per metod</td></tr>
+          <tr><td><code>DataAnnotationsValidator</code> glömd</td><td><b>Allt sparas.</b> Attributen läses aldrig</td><td>Raden är inte valfri – utan den finns ingen validering</td></tr>
+          <tr><td><code>OnSubmit</code> i stället för <code>OnValidSubmit</code></td><td>Ogiltiga poster sparas</td><td><code>OnValidSubmit</code> körs bara när valideringen gick igenom</td></tr>
+          <tr><td>Bara klientvalidering testad</td><td>Du vet inte om servern håller</td><td>DevTools-testet. Två minuter</td></tr>
+          <tr><td><code>ErrorMessage</code> saknas</td><td>Engelska felmeddelanden mitt i en svensk sajt</td><td>Skriv den på varje attribut</td></tr>
+          <tr><td><code>Id</code> som fält i formuläret</td><td>Krockar med databasens numrering</td><td>Ta bort det. Databasen delar ut id</td></tr>
+          <tr><td>Litar på databasen som skyddsnät</td><td>Den fångar ingenting utom tomma fält</td><td><code>[Range]</code> finns bara i valideringen. Se <a href="guide.html#steg-8">guidens steg 8</a></td></tr>
+          <tr><td>Allt committat sista kvällen</td><td>Historiken visar inte arbetet</td><td>Committa efter varje pass</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="guide.html">Till guiden</a> ·
+        <a href="validering.html">En rad som är hela skillnaden</a> ·
+        <a href="terminen.html">Terminen och våren</a> ·
+        <a href="index.html">Tillbaka till område 5</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

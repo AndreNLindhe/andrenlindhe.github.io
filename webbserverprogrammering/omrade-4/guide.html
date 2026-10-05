@@ -119,8 +119,8 @@
     <p>Skillnaden syns bara i koden: <strong>ingen komponent vet längre var filmerna kommer ifrån.</strong> De ber om dem, och något annat svarar. Uträkningarna som låg i <code>Filmstatistik</code> har flyttat. Den statiska <code>Filmdata</code> från område 3 är borta – den lovade att försvinna här, och den gör det.</p>
     <p>Två saker är nya på skärmen:</p>
     <pre><code>Filmarkivet
-    ├── /visningslistan       Filmer du lagt undan. Överlever sidbyten
-    └── /livstider            Demo: transient, scoped och singleton bredvid varandra</code></pre>
+├── /visningslistan       Filmer du lagt undan. Överlever sidbyten
+└── /livstider            Demo: transient, scoped och singleton bredvid varandra</code></pre>
     <p>Det färdiga projektet ligger i <code>referensprojekt/Filmarkivet</code>.</p>
     <p><strong>Det här är områdets svåraste sak att se poängen med</strong>, eftersom belöningen kommer först i område 5. Då byter du ut hela <code>FilmService</code> mot en som läser ur en databas – och rör inte en enda komponent. Håll den bilden framför dig medan du flyttar kod som redan fungerade.</p>
     <h2 id="sjalv">Vad du ska göra själv efteråt</h2>
@@ -145,7 +145,7 @@
     <h2 id="innan">Innan du börjar</h2>
     <p>Ditt projekt från område 3: komponenter med parametrar, en listsida och en detaljsida som hänger ihop, och en hårdkodad lista i en egen fil.</p>
     <p>Kontrollen tar tio sekunder:</p>
-    <pre><code class="sprak-bash">dotnet run</code></pre>
+    <pre><code>dotnet run</code></pre>
     <p>Gå till din detaljsida och klicka dig dit från listan. Fungerar det är du redo.</p>
     <h2 id="begrepp">Begreppen i det här momentet</h2>
     <div class="tabellsvep">
@@ -173,9 +173,9 @@
     <p>Öppna ditt projekt från område 3 och leta efter namnet på din datafil – <code>Filmdata</code> i Filmarkivet. Räkna ställena.</p>
     <p>I Filmarkivet är de fyra:</p>
     <pre><code>Components/Pages/Home.razor          Filmdata.Alla   (tre gånger)
-    Components/Pages/Filmer.razor        Filmdata.Alla
-    Components/Pages/Filmdetalj.razor    Filmdata.Hamta, Filmdata.Alla
-    Components/Filmer/Filmstatistik.razor   räknar själv på listan den fick</code></pre>
+Components/Pages/Filmer.razor        Filmdata.Alla
+Components/Pages/Filmdetalj.razor    Filmdata.Hamta, Filmdata.Alla
+Components/Filmer/Filmstatistik.razor   räknar själv på listan den fick</code></pre>
     <p><strong>Varför det är ett problem.</strong> Inte för att det är fult. För att varje sådant ställe är ett ställe som måste ändras den dag datan kommer någon annanstans ifrån – och den dagen är område 5.</p>
     <p>Ställ tre frågor till din egen kod:</p>
     <ol><li>Om listan i morgon läses ur en databas, hur många filer ändras?</li><li>Om sökningen ska bli okänslig för å, ä och ö, var ändrar du?</li><li>Om två sidor räknar snittbetyg, var ligger uträkningen?</li></ol>
@@ -195,18 +195,18 @@
     <p><strong>Filen.</strong> <code>Services/IFilmService.cs</code> – ny mapp, ny fil:</p>
     <pre><code class="sprak-csharp">using Filmarkivet.Models;
 
-    namespace Filmarkivet.Services;
+namespace Filmarkivet.Services;
 
-    public interface IFilmService
-    {
-        Task&lt;List&lt;Film&gt;&gt; HamtaAllaAsync();
+public interface IFilmService
+{
+    Task&lt;List&lt;Film&gt;&gt; HamtaAllaAsync();
 
-        Task&lt;Film?&gt; HamtaAsync(int id);
+    Task&lt;Film?&gt; HamtaAsync(int id);
 
-        Task&lt;List&lt;Film&gt;&gt; SokAsync(string? sok);
+    Task&lt;List&lt;Film&gt;&gt; SokAsync(string? sok);
 
-        Task&lt;Arkivstatistik&gt; HamtaStatistikAsync();
-    }</code></pre>
+    Task&lt;Arkivstatistik&gt; HamtaStatistikAsync();
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong> Ett <code>interface</code> innehåller metodernas <strong>namn, parametrar och returtyper</strong> – ingen kod. Det säger vad man kan be om, inte hur svaret tas fram.</p>
     <p><code>I</code> först i namnet är C#-praxis för gränssnitt. Det är inte ett krav i språket, men alla gör det, och kodningsstandard är eget centralt innehåll i kursen.</p>
     <p>Metoderna slutar på <code>Async</code> och svarar med <code>Task&lt;T&gt;</code>. Just nu finns ingenting att vänta på – listan ligger i minnet. Men databasen i område 5 kommer att kräva det, och <strong>signaturen ska inte behöva ändras då.</strong> Steg 15 går igenom vad <code>Task</code> betyder.</p>
@@ -214,14 +214,14 @@
     <p><strong>Filen.</strong> <code>Models/Arkivstatistik.cs</code>, för svaret som håller ihop fyra värden:</p>
     <pre><code class="sprak-csharp">namespace Filmarkivet.Models;
 
-    public class Arkivstatistik
-    {
-        public int Antal { get; set; }
-        public double Snittbetyg { get; set; }
-        public string LangstaTitel { get; set; } = "";
-        public int LangstaMinuter { get; set; }
-        public int AntalTillgangliga { get; set; }
-    }</code></pre>
+public class Arkivstatistik
+{
+    public int Antal { get; set; }
+    public double Snittbetyg { get; set; }
+    public string LangstaTitel { get; set; } = "";
+    public int LangstaMinuter { get; set; }
+    public int AntalTillgangliga { get; set; }
+}</code></pre>
     <p><strong>Kontrollera.</strong> Projektet bygger. Ingenting har hänt på skärmen.</p>
     <p><strong>I ditt projekt.</strong> Fyra till sex metoder räcker. Ta med det dina sidor faktiskt gör i dag – inte det du tror att du kommer att behöva.</p>
     <h2 id="steg-3">Steg 3 – Implementationen</h2>
@@ -229,34 +229,34 @@
     <p><strong>Filen.</strong> <code>Services/FilmService.cs</code>:</p>
     <pre><code class="sprak-csharp">using Filmarkivet.Models;
 
-    namespace Filmarkivet.Services;
+namespace Filmarkivet.Services;
 
-    public class FilmService : IFilmService
+public class FilmService : IFilmService
+{
+    private static readonly List&lt;Film&gt; Alla = new()
     {
-        private static readonly List&lt;Film&gt; Alla = new()
-        {
-            new Film { Id = 1, Titel = "Nyckeln till frihet", Ar = 1994, LangdMinuter = 142, Betyg = 5, Beskrivning = "…", Tillganglig = true },
-            // … resten av filmerna, flyttade ur Filmdata
-        };
+        new Film { Id = 1, Titel = "Nyckeln till frihet", Ar = 1994, LangdMinuter = 142, Betyg = 5, Beskrivning = "…", Tillganglig = true },
+        // … resten av filmerna, flyttade ur Filmdata
+    };
 
-        public Task&lt;List&lt;Film&gt;&gt; HamtaAllaAsync()
-        {
-            return Task.FromResult(new List&lt;Film&gt;(Alla));
-        }
+    public Task&lt;List&lt;Film&gt;&gt; HamtaAllaAsync()
+    {
+        return Task.FromResult(new List&lt;Film&gt;(Alla));
+    }
 
-        public Task&lt;Film?&gt; HamtaAsync(int id)
+    public Task&lt;Film?&gt; HamtaAsync(int id)
+    {
+        foreach (var film in Alla)
         {
-            foreach (var film in Alla)
+            if (film.Id == id)
             {
-                if (film.Id == id)
-                {
-                    return Task.FromResult&lt;Film?&gt;(film);
-                }
+                return Task.FromResult&lt;Film?&gt;(film);
             }
-
-            return Task.FromResult&lt;Film?&gt;(null);
         }
-    }</code></pre>
+
+        return Task.FromResult&lt;Film?&gt;(null);
+    }
+}</code></pre>
     <p>Hela filen med alla fyra metoderna ligger i referensprojektet.</p>
     <p><strong>Varför det ser ut så.</strong> <code>: IFilmService</code> efter klassnamnet är löftet. Kompilatorn kontrollerar att varje metod i gränssnittet finns här, med exakt rätt signatur. Glömmer du en får du <code>CS0535</code> – och det är ett <strong>kompileringsfel</strong>, till skillnad från nästan allt i område 3.</p>
     <p><code>new List&lt;Film&gt;(Alla)</code> och inte <code>Alla</code> rakt av: den som får listan får en <strong>kopia</strong>, och kan inte råka ändra i arkivet. Det kostar nästan ingenting och tar bort en hel sorts bugg.</p>
@@ -268,7 +268,7 @@
     <p><strong>Filen.</strong> <code>Program.cs</code>, före <code>var app = builder.Build();</code>:</p>
     <pre><code class="sprak-csharp">using Filmarkivet.Services;
 
-    builder.Services.AddScoped&lt;IFilmService, FilmService&gt;();</code></pre>
+builder.Services.AddScoped&lt;IFilmService, FilmService&gt;();</code></pre>
     <p><strong>Varför det ser ut så.</strong> Raden läses: *ber någon om <code>IFilmService</code>, ge dem en <code>FilmService</code>.* Vinkelparenteserna har två typer, och ordningen spelar roll – gränssnittet först, klassen sedan.</p>
     <p><code>AddScoped</code> är livstiden. Ett objekt per förfrågan. Steg 8 till 10 går igenom vad alternativen betyder och varför just den här är rätt här.</p>
     <p>**Det här är den enda raden i hela projektet som nämner <code>FilmService</code>.** Sök gärna på klassnamnet när du är klar med området: det ska finnas på två ställen, i sin egen fil och här.</p>
@@ -278,19 +278,19 @@
     <p><strong>Vad vi gör.</strong> Låter en komponent be om tjänsten i stället för att gå till listan.</p>
     <p><strong>Filen.</strong> <code>Components/Pages/Filmer.razor</code>:</p>
     <pre><code class="sprak-razor">@page "/filmer"
-    @inject IFilmService Arkivet
+@inject IFilmService Arkivet
 
-    @code {
-        [SupplyParameterFromQuery]
-        public string? Sok { get; set; }
+@code {
+    [SupplyParameterFromQuery]
+    public string? Sok { get; set; }
 
-        private List&lt;Film&gt; traffar = new();
+    private List&lt;Film&gt; traffar = new();
 
-        protected override async Task OnParametersSetAsync()
-        {
-            traffar = await Arkivet.SokAsync(Sok);
-        }
-    }</code></pre>
+    protected override async Task OnParametersSetAsync()
+    {
+        traffar = await Arkivet.SokAsync(Sok);
+    }
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong> <code>@inject</code> är samma sak som <code>@inject NavigationManager</code> i område 3 – du har redan använt dependency injection utan att det hette något. Skillnaden är att tjänsten nu är din egen.</p>
     <p>Komponenten nämner <strong>bara gränssnittet</strong>. Den vet inte att <code>FilmService</code> finns, och ska inte veta det.</p>
     <p><code>OnParametersSetAsync</code> i stället för <code>OnParametersSet</code>, och <code>await</code> framför anropet. Metoden svarar med <code>Task</code>, och <code>await</code> betyder "vänta tills svaret är klart, och ge mig innehållet".</p>
@@ -303,35 +303,35 @@
     <p><strong>Vad vi gör.</strong> Gör om samma sak på de andra sidorna, och tar bort den gamla filen.</p>
     <p><code>Components/Pages/Home.razor</code>:</p>
     <pre><code class="sprak-razor">@page "/"
-    @inject IFilmService Arkivet
+@inject IFilmService Arkivet
 
-    @code {
-        private List&lt;Film&gt; topplistan = new();
-        private Film veckansFilm = new();
-        private Arkivstatistik statistik = new();
+@code {
+    private List&lt;Film&gt; topplistan = new();
+    private Film veckansFilm = new();
+    private Arkivstatistik statistik = new();
 
-        protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
+    {
+        List&lt;Film&gt; alla = await Arkivet.HamtaAllaAsync();
+
+        veckansFilm = alla[0];
+
+        foreach (var film in alla)
         {
-            List&lt;Film&gt; alla = await Arkivet.HamtaAllaAsync();
-
-            veckansFilm = alla[0];
-
-            foreach (var film in alla)
+            if (film.Betyg == 5)
             {
-                if (film.Betyg == 5)
-                {
-                    topplistan.Add(film);
-                }
-
-                if (film.LangdMinuter &lt; veckansFilm.LangdMinuter)
-                {
-                    veckansFilm = film;
-                }
+                topplistan.Add(film);
             }
 
-            statistik = await Arkivet.HamtaStatistikAsync();
+            if (film.LangdMinuter &lt; veckansFilm.LangdMinuter)
+            {
+                veckansFilm = film;
+            }
         }
-    }</code></pre>
+
+        statistik = await Arkivet.HamtaStatistikAsync();
+    }
+}</code></pre>
     <p><code>Components/Pages/Filmdetalj.razor</code> byter <code>Filmdata.Hamta(Id)</code> mot <code>await Arkivet.HamtaAsync(Id)</code> och <code>OnParametersSet</code> mot <code>OnParametersSetAsync</code>.</p>
     <p>**Radera sedan <code>Models/Filmdata.cs</code>.**</p>
     <p><strong>Varför det ser ut så.</strong> Att ta bort filen är inte städning – det är kontrollen. Så länge den finns kvar kan en sida smyga tillbaka till den. Bygger projektet efter att den är borta vet du att ingen gör det.</p>
@@ -342,50 +342,50 @@
     <p><strong>Vad vi gör.</strong> Låter komponenten som heter <code>Filmstatistik</code> sluta räkna.</p>
     <p><strong>Filen.</strong> <code>Services/FilmService.cs</code>, den fjärde metoden:</p>
     <pre><code class="sprak-csharp">public Task&lt;Arkivstatistik&gt; HamtaStatistikAsync()
+{
+    int summa = 0;
+    int tillgangliga = 0;
+    Film langst = Alla[0];
+
+    foreach (var film in Alla)
     {
-        int summa = 0;
-        int tillgangliga = 0;
-        Film langst = Alla[0];
+        summa = summa + film.Betyg;
 
-        foreach (var film in Alla)
+        if (film.Tillganglig)
         {
-            summa = summa + film.Betyg;
-
-            if (film.Tillganglig)
-            {
-                tillgangliga++;
-            }
-
-            if (film.LangdMinuter &gt; langst.LangdMinuter)
-            {
-                langst = film;
-            }
+            tillgangliga++;
         }
 
-        Arkivstatistik svar = new()
+        if (film.LangdMinuter &gt; langst.LangdMinuter)
         {
-            Antal = Alla.Count,
-            Snittbetyg = (double)summa / Alla.Count,
-            LangstaTitel = langst.Titel,
-            LangstaMinuter = langst.LangdMinuter,
-            AntalTillgangliga = tillgangliga
-        };
+            langst = film;
+        }
+    }
 
-        return Task.FromResult(svar);
-    }</code></pre>
+    Arkivstatistik svar = new()
+    {
+        Antal = Alla.Count,
+        Snittbetyg = (double)summa / Alla.Count,
+        LangstaTitel = langst.Titel,
+        LangstaMinuter = langst.LangdMinuter,
+        AntalTillgangliga = tillgangliga
+    };
+
+    return Task.FromResult(svar);
+}</code></pre>
     <p><strong>Filen.</strong> <code>Components/Filmer/Filmstatistik.razor</code> – hela filen, efteråt:</p>
     <pre><code class="sprak-razor">&lt;ul class="statistik"&gt;
-        &lt;li&gt;Antal filmer: @Statistik.Antal&lt;/li&gt;
-        &lt;li&gt;Snittbetyg: @Statistik.Snittbetyg.ToString("0.0")&lt;/li&gt;
-        &lt;li&gt;Längsta filmen: @Statistik.LangstaTitel, @Statistik.LangstaMinuter minuter&lt;/li&gt;
-        &lt;li&gt;Tillgängliga just nu: @Statistik.AntalTillgangliga av @Statistik.Antal&lt;/li&gt;
-    &lt;/ul&gt;
+    &lt;li&gt;Antal filmer: @Statistik.Antal&lt;/li&gt;
+    &lt;li&gt;Snittbetyg: @Statistik.Snittbetyg.ToString("0.0")&lt;/li&gt;
+    &lt;li&gt;Längsta filmen: @Statistik.LangstaTitel, @Statistik.LangstaMinuter minuter&lt;/li&gt;
+    &lt;li&gt;Tillgängliga just nu: @Statistik.AntalTillgangliga av @Statistik.Antal&lt;/li&gt;
+&lt;/ul&gt;
 
-    @code {
-        [Parameter]
-        [EditorRequired]
-        public Arkivstatistik Statistik { get; set; } = new();
-    }</code></pre>
+@code {
+    [Parameter]
+    [EditorRequired]
+    public Arkivstatistik Statistik { get; set; } = new();
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong> Jämför med samma fil i område 3: den innehöll tre metoder och trettio rader logik. Nu innehåller den noll. <strong>Komponenten visar, tjänsten vet.</strong></p>
     <p>Fyra loopar blev en. Det är en bonus, inte poängen – men det är typiskt för vad som händer när uträkningar samlas där de hör hemma.</p>
     <p><code>Arkivstatistik</code> är ett litet objekt vars enda uppgift är att bära ett svar. Det behöver inga metoder.</p>
@@ -396,53 +396,53 @@
     <p><strong>Filen.</strong> <code>Services/Raknare.cs</code>:</p>
     <pre><code class="sprak-csharp">namespace Filmarkivet.Services;
 
-    public interface ITransientRaknare
+public interface ITransientRaknare
+{
+    int Nummer { get; }
+}
+
+public interface IScopedRaknare
+{
+    int Nummer { get; }
+}
+
+public interface ISingletonRaknare
+{
+    int Nummer { get; }
+}
+
+public class Raknare : ITransientRaknare, IScopedRaknare, ISingletonRaknare
+{
+    private static int _nasta = 0;
+
+    public int Nummer { get; }
+
+    public Raknare()
     {
-        int Nummer { get; }
+        Nummer = System.Threading.Interlocked.Increment(ref _nasta);
     }
-
-    public interface IScopedRaknare
-    {
-        int Nummer { get; }
-    }
-
-    public interface ISingletonRaknare
-    {
-        int Nummer { get; }
-    }
-
-    public class Raknare : ITransientRaknare, IScopedRaknare, ISingletonRaknare
-    {
-        private static int _nasta = 0;
-
-        public int Nummer { get; }
-
-        public Raknare()
-        {
-            Nummer = System.Threading.Interlocked.Increment(ref _nasta);
-        }
-    }</code></pre>
+}</code></pre>
     <p><strong>Filen.</strong> <code>Program.cs</code>:</p>
     <pre><code class="sprak-csharp">builder.Services.AddTransient&lt;ITransientRaknare, Raknare&gt;();
-    builder.Services.AddScoped&lt;IScopedRaknare, Raknare&gt;();
-    builder.Services.AddSingleton&lt;ISingletonRaknare, Raknare&gt;();</code></pre>
+builder.Services.AddScoped&lt;IScopedRaknare, Raknare&gt;();
+builder.Services.AddSingleton&lt;ISingletonRaknare, Raknare&gt;();</code></pre>
     <p><strong>Filen.</strong> <code>Components/Delade/Raknarrad.razor</code>:</p>
     <pre><code class="sprak-razor">@inject ITransientRaknare Transient
-    @inject IScopedRaknare Scoped
-    @inject ISingletonRaknare Singleton
+@inject IScopedRaknare Scoped
+@inject ISingletonRaknare Singleton
 
-    &lt;tr&gt;
-        &lt;th scope="row"&gt;@Var&lt;/th&gt;
-        &lt;td&gt;@Transient.Nummer&lt;/td&gt;
-        &lt;td&gt;@Scoped.Nummer&lt;/td&gt;
-        &lt;td&gt;@Singleton.Nummer&lt;/td&gt;
-    &lt;/tr&gt;
+&lt;tr&gt;
+    &lt;th scope="row"&gt;@Var&lt;/th&gt;
+    &lt;td&gt;@Transient.Nummer&lt;/td&gt;
+    &lt;td&gt;@Scoped.Nummer&lt;/td&gt;
+    &lt;td&gt;@Singleton.Nummer&lt;/td&gt;
+&lt;/tr&gt;
 
-    @code {
-        [Parameter]
-        [EditorRequired]
-        public string Var { get; set; } = "";
-    }</code></pre>
+@code {
+    [Parameter]
+    [EditorRequired]
+    public string Var { get; set; } = "";
+}</code></pre>
     <p>Sidan <code>Components/Pages/Livstider.razor</code> renderar tre <code>&lt;Raknarrad&gt;</code> i en tabell. Hela filen ligger i referensprojektet.</p>
     <p><strong>Varför det ser ut så.</strong> <strong>En enda klass</strong> bakom alla tre gränssnitten. Koden är identisk. Allt som skiljer är vilket <code>Add</code>-anrop som användes. Det är hela lektionen, och den går inte att se på klassen – bara på registreringen.</p>
     <p><code>Interlocked.Increment</code> i stället för <code>_nasta++</code>: två besökare kan komma samtidigt, och då skulle en vanlig ökning kunna tappa bort ett nummer. Du behöver inte kunna det – men materialet ska inte innehålla en bugg med flit.</p>
@@ -452,14 +452,14 @@
     <p><strong>Vad vi gör.</strong> Läser av mätaren.</p>
     <p>Så här såg det ut vid två laddningar i rad i referensprojektet:</p>
     <pre><code>Laddning A          Transient   Scoped   Singleton
-      Komponent 1          23         22         1
-      Komponent 2          24         22         1
-      Komponent 3          25         22         1
+  Komponent 1          23         22         1
+  Komponent 2          24         22         1
+  Komponent 3          25         22         1
 
-    Laddning B          Transient   Scoped   Singleton
-      Komponent 1          27         26         1
-      Komponent 2          28         26         1
-      Komponent 3          29         26         1</code></pre>
+Laddning B          Transient   Scoped   Singleton
+  Komponent 1          27         26         1
+  Komponent 2          28         26         1
+  Komponent 3          29         26         1</code></pre>
     <p><strong>Varför det ser ut så.</strong> Läs tabellen i två riktningar.</p>
     <p><strong>Nedåt, inom en laddning:</strong> transient ger tre olika nummer – tre objekt, ett per fråga. Scoped ger samma nummer tre gånger – ett objekt, delat av alla som frågar under den förfrågan. Singleton likaså.</p>
     <p><strong>Mellan laddningarna:</strong> transient och scoped får nya nummer. <strong>Singleton står still.</strong> Den siffran, en etta som vägrar röra sig, är områdets tydligaste bild.</p>
@@ -511,14 +511,14 @@
     <p><strong>Filen.</strong> <code>Program.cs</code>:</p>
     <pre><code class="sprak-csharp">builder.Services.AddHttpContextAccessor();
 
-    builder.Services.AddDistributedMemoryCache();
+builder.Services.AddDistributedMemoryCache();
 
-    builder.Services.AddSession(alternativ =&gt;
-    {
-        alternativ.IdleTimeout = TimeSpan.FromMinutes(30);
-        alternativ.Cookie.HttpOnly = true;
-        alternativ.Cookie.IsEssential = true;
-    });</code></pre>
+builder.Services.AddSession(alternativ =&gt;
+{
+    alternativ.IdleTimeout = TimeSpan.FromMinutes(30);
+    alternativ.Cookie.HttpOnly = true;
+    alternativ.Cookie.IsEssential = true;
+});</code></pre>
     <p>och, bland <code>app</code>-raderna, <strong>före</strong> <code>app.MapRazorComponents&lt;App&gt;()</code>:</p>
     <pre><code class="sprak-csharp">app.UseSession();</code></pre>
     <p><strong>Varför det ser ut så.</strong> Fyra rader, och tre av dem är fällor.</p>
@@ -535,62 +535,62 @@
     <p><strong>Filen.</strong> <code>Services/IVisningslista.cs</code>:</p>
     <pre><code class="sprak-csharp">using Filmarkivet.Models;
 
-    namespace Filmarkivet.Services;
+namespace Filmarkivet.Services;
 
-    public interface IVisningslista
-    {
-        Task&lt;List&lt;Film&gt;&gt; HamtaAsync();
+public interface IVisningslista
+{
+    Task&lt;List&lt;Film&gt;&gt; HamtaAsync();
 
-        int Antal { get; }
+    int Antal { get; }
 
-        void LaggTill(int filmId);
+    void LaggTill(int filmId);
 
-        void TaBort(int filmId);
+    void TaBort(int filmId);
 
-        void Rensa();
-    }</code></pre>
+    void Rensa();
+}</code></pre>
     <p><strong>Filen.</strong> <code>Services/Visningslista.cs</code> – kärnan:</p>
     <pre><code class="sprak-csharp">public class Visningslista : IVisningslista
+{
+    private const string Nyckel = "visningslista";
+
+    private readonly IHttpContextAccessor _http;
+    private readonly IFilmService _filmer;
+
+    public Visningslista(IHttpContextAccessor http, IFilmService filmer)
     {
-        private const string Nyckel = "visningslista";
+        _http = http;
+        _filmer = filmer;
+    }
 
-        private readonly IHttpContextAccessor _http;
-        private readonly IFilmService _filmer;
+    private ISession? Session =&gt; _http.HttpContext?.Session;
 
-        public Visningslista(IHttpContextAccessor http, IFilmService filmer)
+    private List&lt;int&gt; Idn()
+    {
+        List&lt;int&gt; idn = new();
+        string? text = Session?.GetString(Nyckel);
+
+        if (string.IsNullOrEmpty(text))
         {
-            _http = http;
-            _filmer = filmer;
-        }
-
-        private ISession? Session =&gt; _http.HttpContext?.Session;
-
-        private List&lt;int&gt; Idn()
-        {
-            List&lt;int&gt; idn = new();
-            string? text = Session?.GetString(Nyckel);
-
-            if (string.IsNullOrEmpty(text))
-            {
-                return idn;
-            }
-
-            foreach (var del in text.Split(','))
-            {
-                if (int.TryParse(del, out int id))
-                {
-                    idn.Add(id);
-                }
-            }
-
             return idn;
         }
 
-        private void Spara(List&lt;int&gt; idn)
+        foreach (var del in text.Split(','))
         {
-            Session?.SetString(Nyckel, string.Join(",", idn));
+            if (int.TryParse(del, out int id))
+            {
+                idn.Add(id);
+            }
         }
-    }</code></pre>
+
+        return idn;
+    }
+
+    private void Spara(List&lt;int&gt; idn)
+    {
+        Session?.SetString(Nyckel, string.Join(",", idn));
+    }
+}</code></pre>
     <p>Hela filen ligger i referensprojektet. Registrera den:</p>
     <pre><code class="sprak-csharp">builder.Services.AddScoped&lt;IVisningslista, Visningslista&gt;();</code></pre>
     <p><strong>Varför det ser ut så.</strong> <strong>Konstruktorinjektion</strong>: klassen tar emot sina två beroenden som parametrar och sparar dem i <code>readonly</code>-fält. Den skapar ingenting själv – exakt samma princip som <code>@inject</code> i en komponent, fast i vanlig C#.</p>
@@ -604,26 +604,26 @@
     <p><strong>Filen.</strong> <code>Components/Pages/Filmdetalj.razor</code>:</p>
     <pre><code class="sprak-razor">@inject IVisningslista Listan
 
-    &lt;form method="post" @formname="visningslistan" @onsubmit="LaggTill" class="sokruta"&gt;
-        &lt;AntiforgeryToken /&gt;
-        &lt;button type="submit"&gt;Lägg till i visningslistan&lt;/button&gt;
-        &lt;a href="visningslistan"&gt;Visa listan (@Listan.Antal)&lt;/a&gt;
-    &lt;/form&gt;
+&lt;form method="post" @formname="visningslistan" @onsubmit="LaggTill" class="sokruta"&gt;
+    &lt;AntiforgeryToken /&gt;
+    &lt;button type="submit"&gt;Lägg till i visningslistan&lt;/button&gt;
+    &lt;a href="visningslistan"&gt;Visa listan (@Listan.Antal)&lt;/a&gt;
+&lt;/form&gt;
 
-    @if (tillagd)
+@if (tillagd)
+{
+    &lt;p class="tomt"&gt;@film.Titel ligger nu i din visningslista.&lt;/p&gt;
+}
+
+@code {
+    private bool tillagd;
+
+    private void LaggTill()
     {
-        &lt;p class="tomt"&gt;@film.Titel ligger nu i din visningslista.&lt;/p&gt;
+        Listan.LaggTill(Id);
+        tillagd = true;
     }
-
-    @code {
-        private bool tillagd;
-
-        private void LaggTill()
-        {
-            Listan.LaggTill(Id);
-            tillagd = true;
-        }
-    }</code></pre>
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong> I område 3 gjorde du sökningen med <code>&lt;form method="get"&gt;</code>, och en <code>get</code> ändrar ingenting – den bara frågar. Att lägga till i en lista <strong>ändrar</strong> något, och då är <code>post</code> rätt metod. Det är samma skillnad som du lärde dig i område 1, nu använd på riktigt.</p>
     <p><code>@formname</code> säger vilket formulär på sidan som skickades. Har sidan två formulär behöver servern veta vilket – och <code>Visningslistan.razor</code> har ett till, för att rensa.</p>
     <p><code>@onsubmit</code> pekar ut metoden som körs. <strong>Det här är inget klick.</strong> Webbläsaren skickar en helt vanlig POST, servern kör metoden och renderar om sidan. Ett <code>@onclick</code> hade fortfarande inte gjort någonting alls.</p>
@@ -645,14 +645,14 @@
     <p><strong>Vad vi gör.</strong> Förstår <code>async</code> och <code>await</code> innan vi behöver dem på riktigt.</p>
     <p>Titta på en av metoderna igen:</p>
     <pre><code class="sprak-csharp">public Task&lt;List&lt;Film&gt;&gt; HamtaAllaAsync()
-    {
-        return Task.FromResult(new List&lt;Film&gt;(Alla));
-    }</code></pre>
+{
+    return Task.FromResult(new List&lt;Film&gt;(Alla));
+}</code></pre>
     <p>och på anropet:</p>
     <pre><code class="sprak-csharp">protected override async Task OnInitializedAsync()
-    {
-        List&lt;Film&gt; alla = await Arkivet.HamtaAllaAsync();
-    }</code></pre>
+{
+    List&lt;Film&gt; alla = await Arkivet.HamtaAllaAsync();
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong> <code>Task&lt;T&gt;</code> är <strong>ett löfte om ett svar som kanske inte är färdigt än</strong>. <code>await</code> betyder: vänta tills det är klart, och ge mig innehållet. En metod som innehåller <code>await</code> måste själv vara <code>async</code>.</p>
     <p><strong>Just nu väntar ingenting på någonting.</strong> Listan ligger i minnet, svaret är klart direkt, och <code>Task.FromResult</code> gör om ett färdigt värde till ett <code>Task</code> för att signaturen kräver det. Det ser onödigt ut, och är det – i dag.</p>
     <p>Skälet står i område 5. Att läsa ur en databas tar tid, och under den tiden får servern inte stå still: den ska hinna svara andra besökare. Därför är <strong>all I/O asynkron</strong> i ASP.NET Core – databas, filer, nätverk.</p>
@@ -664,28 +664,28 @@
     <p><strong>Vad vi gör.</strong> Låter tjänsten berätta vad som hände, för utvecklaren.</p>
     <p><strong>Filen.</strong> <code>Services/FilmService.cs</code>:</p>
     <pre><code class="sprak-csharp">public class FilmService : IFilmService
+{
+    private readonly ILogger&lt;FilmService&gt; _logg;
+
+    public FilmService(ILogger&lt;FilmService&gt; logg)
     {
-        private readonly ILogger&lt;FilmService&gt; _logg;
+        _logg = logg;
+    }
 
-        public FilmService(ILogger&lt;FilmService&gt; logg)
+    public Task&lt;Film?&gt; HamtaAsync(int id)
+    {
+        foreach (var film in Alla)
         {
-            _logg = logg;
-        }
-
-        public Task&lt;Film?&gt; HamtaAsync(int id)
-        {
-            foreach (var film in Alla)
+            if (film.Id == id)
             {
-                if (film.Id == id)
-                {
-                    return Task.FromResult&lt;Film?&gt;(film);
-                }
+                return Task.FromResult&lt;Film?&gt;(film);
             }
-
-            _logg.LogWarning("Ingen film med id {Id}", id);
-            return Task.FromResult&lt;Film?&gt;(null);
         }
-    }</code></pre>
+
+        _logg.LogWarning("Ingen film med id {Id}", id);
+        return Task.FromResult&lt;Film?&gt;(null);
+    }
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong> <code>ILogger&lt;FilmService&gt;</code> injiceras i konstruktorn. Du registrerar den inte – ramverket har den, precis som <code>NavigationManager</code>.</p>
     <p>Typparametern blir loggpostens kategori, så du ser i terminalen <strong>vilken klass</strong> som skrev raden.</p>
     <p><code>"Ingen film med id {Id}", id</code> och <strong>inte</strong> <code>$"Ingen film med id {id}"</code>. Klammern är en platshållare, och värdet skickas separat. Det gör att loggen går att söka i på "alla poster där Id var 99" i stället för att bara vara text. Vänj dig vid det nu.</p>
@@ -705,39 +705,39 @@
     <p>Två tjänster som gör samma anrop mot samma opålitliga källa. Filerna ligger i <code>exempel/felhantering/</code>.</p>
     <p><strong>Utan felhantering:</strong></p>
     <pre><code class="sprak-csharp">public class FelNivaService
-    {
-        private readonly Utlaningskalla _kalla = new();
+{
+    private readonly Utlaningskalla _kalla = new();
 
-        public int Antal()
-        {
-            return _kalla.AntalUtlanade();
-        }
-    }</code></pre>
+    public int Antal()
+    {
+        return _kalla.AntalUtlanade();
+    }
+}</code></pre>
     <p><code>/fel-niva</code> svarar <strong>500</strong>. Hela sidan är borta för att en siffra saknades.</p>
     <p><strong>Med felhantering i tjänsten:</strong></p>
     <pre><code class="sprak-csharp">public class RattNivaService
+{
+    private readonly Utlaningskalla _kalla = new();
+    private readonly ILogger&lt;RattNivaService&gt; _logg;
+
+    public RattNivaService(ILogger&lt;RattNivaService&gt; logg)
     {
-        private readonly Utlaningskalla _kalla = new();
-        private readonly ILogger&lt;RattNivaService&gt; _logg;
+        _logg = logg;
+    }
 
-        public RattNivaService(ILogger&lt;RattNivaService&gt; logg)
+    public int? Antal()
+    {
+        try
         {
-            _logg = logg;
+            return _kalla.AntalUtlanade();
         }
-
-        public int? Antal()
+        catch (Exception fel)
         {
-            try
-            {
-                return _kalla.AntalUtlanade();
-            }
-            catch (Exception fel)
-            {
-                _logg.LogError(fel, "Kunde inte läsa utlåningsregistret");
-                return null;
-            }
+            _logg.LogError(fel, "Kunde inte läsa utlåningsregistret");
+            return null;
         }
-    }</code></pre>
+    }
+}</code></pre>
     <p><code>/ratt-niva</code> svarar <strong>200</strong>, visar "Utlåningssiffran är inte tillgänglig just nu", och resten av sidan fungerar. I terminalen ligger hela undantaget.</p>
     <p><strong>Varför det ser ut så.</strong> Tre saker att ta med sig.</p>
     <p><strong>Undantaget är till för utvecklaren, meddelandet för användaren.</strong> Logga hela felet – <code>_logg.LogError(fel, ...)</code> med undantaget som första argument tar med stackspåret. Visa något som går att förstå.</p>
@@ -752,7 +752,7 @@
           <label for="sok-fel">Sök bland felen</label>
           <input type="search" id="sok-fel" data-sok="tabell-fel" data-traffar="traffar-fel"
                  placeholder="till exempel: 404, namespace, Ã¥Ã¤Ã¶" autocomplete="off">
-          <p class="traffar" id="traffar-fel">11 rader</p>
+          <p class="traffar" id="traffar-fel">12 rader</p>
         </div>
 
         <div class="tabellsvep">
@@ -763,8 +763,9 @@
     <tr><td><code>Unable to resolve service for type 'IFilmService'</code></td><td>Tjänsten är inte registrerad</td><td>En <code>AddScoped</code>-rad i <code>Program.cs</code> saknas, eller ligger efter <code>builder.Build()</code></td></tr>
     <tr><td><code>CS0535: does not implement interface member</code></td><td>Klassen saknar en metod ur gränssnittet</td><td>Kopiera signaturen exakt, inklusive <code>Task&lt;&gt;</code></td></tr>
     <tr><td><code>CS0542: member names cannot be the same as their enclosing type</code></td><td>Injektionsnamnet är samma som filnamnet</td><td>Döp om injektionen: <code>Arkivet</code>, inte <code>Filmer</code></td></tr>
-    <tr><td><code>CS4032</code>/<code>CS1061</code> kring <code>await</code></td><td>Metoden är inte <code>async</code>, eller returtypen är inte <code>Task</code></td><td><code>async Task</code> på metoden, <code>Task&lt;T&gt;</code> på tjänstens</td></tr>
-    <tr><td><code>InvalidOperationException: Cannot resolve scoped service from root provider</code></td><td>En scoped tjänst injicerad i en singleton</td><td>Singletonen lever längre än scopet. Gör den scoped, eller be om tjänsten när den behövs</td></tr>
+    <tr><td><code>CS4033</code>/<code>CS4032</code> kring <code>await</code></td><td>Metoden är inte <code>async</code> – 4033 om den är <code>void</code>, 4032 om den redan ger <code>Task</code></td><td><code>async Task</code> på metoden, <code>Task&lt;T&gt;</code> på tjänstens</td></tr>
+    <tr><td><code>CS1061: 'Task&lt;…&gt;' does not contain a definition for …</code></td><td>Resultatet används utan <code>await</code></td><td><code>await</code> före anropet</td></tr>
+    <tr><td><code>Cannot consume scoped service 'X' from singleton 'Y'</code> – servern startar inte</td><td>En scoped tjänst injicerad i en singleton</td><td>Singletonen lever längre än scopet. Gör den scoped, eller be om tjänsten när den behövs</td></tr>
     <tr><td>Sidan svarar <strong>400</strong> på formuläret</td><td><code>&lt;AntiforgeryToken /&gt;</code> saknas</td><td>Lägg in den innanför <code>&lt;form&gt;</code></td></tr>
     <tr><td>Formuläret gör ingenting</td><td><code>@formname</code> eller <code>@onsubmit</code> saknas</td><td>Båda behövs. Sidan visas om utan att metoden körts</td></tr>
     <tr><td><code>InvalidOperationException: Session has not been configured</code></td><td><code>app.UseSession()</code> saknas</td><td>Lägg till raden bland <code>app.Use</code>-raderna</td></tr>

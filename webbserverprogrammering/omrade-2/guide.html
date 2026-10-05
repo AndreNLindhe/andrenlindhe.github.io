@@ -102,11 +102,11 @@
     <h2 id="bygger">Vad du bygger här</h2>
     <p>Filmarkivet, i sin första version: fem sidor som var och en visar en del av C#. Sidan för lektion 6 handlar om datatyper, sidan för lektion 8 om villkor, och så vidare fram till en tabell som byggs ur en lista med filmobjekt.</p>
     <pre><code>Filmarkivet
-    ├── /               Vilken sida hör till vilket pass
-    ├── /datatyper      int, double, bool, string. Interpolation och int.TryParse
-    ├── /villkor        if, else if, else, switch. Villkor i markupen
-    ├── /loopar         for, foreach, while. List&lt;T&gt; renderad som tabell
-    └── /filmer         Metoder, klassen Film, en lista med objekt</code></pre>
+├── /               Vilken sida hör till vilket pass
+├── /datatyper      int, double, bool, string. Interpolation och int.TryParse
+├── /villkor        if, else if, else, switch. Villkor i markupen
+├── /loopar         for, foreach, while. List&lt;T&gt; renderad som tabell
+└── /filmer         Metoder, klassen Film, en lista med objekt</code></pre>
     <p>Det färdiga projektet ligger i <code>referensprojekt/Filmarkivet</code> – kör det gärna innan du börjar, så vet du vart du är på väg.</p>
     <p><strong>Allt du skriver hamnar på en sida.</strong> Det finns inget konsolfönster i den här kursen. C# övas i <code>@code</code>-blocket i en komponent, och resultatet renderas i markupen. Det är samma modell som i område 1: koden körs på servern, webbläsaren får färdig HTML.</p>
     <h2 id="sjalv">Vad du ska göra själv efteråt</h2>
@@ -133,9 +133,9 @@
     <p>Kopierar du mina fält rakt av blir din tabell en avskrift av min. Fälten ska vara dina, och metoderna ska räkna på dem.</p>
     <h2 id="innan">Innan du börjar</h2>
     <p>Du behöver ett projekt att öva i. Skapa det på samma sätt som i område 1:</p>
-    <pre><code class="sprak-bash">dotnet new blazor -o Ovningsbanken -int None
-    cd Ovningsbanken
-    dotnet run</code></pre>
+    <pre><code>dotnet new blazor -o Ovningsbanken -int None
+cd Ovningsbanken
+dotnet run</code></pre>
     <p>Du kan också fortsätta i projektet från område 1. Blanda då inte ihop dem: lägg övningssidorna i <code>Components/Pages/</code> med tydliga namn.</p>
     <h2 id="begrepp">Begreppen i det här momentet</h2>
     <div class="tabellsvep">
@@ -156,21 +156,21 @@
     <h2 id="steg-1">Steg 1 – Projektet och den första sidan</h2>
     <p><strong>Vad vi gör.</strong> Skapar Filmarkivet och en tom sida att öva på.</p>
     <p><strong>Kommandot.</strong></p>
-    <pre><code class="sprak-bash">dotnet new blazor -o Filmarkivet -int None
-    cd Filmarkivet</code></pre>
+    <pre><code>dotnet new blazor -o Filmarkivet -int None
+cd Filmarkivet</code></pre>
     <p>Radera <code>Components/Pages/Weather.razor</code> och sätt <code>lang="sv"</code> i <code>Components/App.razor</code>, precis som i område 1.</p>
     <p><strong>Filen.</strong> Skapa <code>Components/Pages/Datatyper.razor</code>:</p>
     <pre><code class="sprak-razor">@page "/datatyper"
 
-    &lt;PageTitle&gt;Datatyper – Filmarkivet&lt;/PageTitle&gt;
+&lt;PageTitle&gt;Datatyper – Filmarkivet&lt;/PageTitle&gt;
 
-    &lt;h1&gt;Lektion 6: datatyper, variabler och utdata&lt;/h1&gt;
+&lt;h1&gt;Lektion 6: datatyper, variabler och utdata&lt;/h1&gt;
 
-    &lt;p&gt;Här kommer innehållet.&lt;/p&gt;
+&lt;p&gt;Här kommer innehållet.&lt;/p&gt;
 
-    @code {
-        private string titel = "Nyckeln till frihet";
-    }</code></pre>
+@code {
+    private string titel = "Nyckeln till frihet";
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong> <code>@code</code>-blocket är C#-delen av komponenten. Allt där körs på servern, en gång per förfrågan. <code>private</code> betyder att fältet hör till den här komponenten och inte syns utifrån.</p>
     <p><strong>Kontrollera.</strong> Gå till <code>/datatyper</code>. Rubriken syns.</p>
     <p><strong>I ditt projekt.</strong> Samma sak, men döp sidan efter temat du övar på: <code>Components/Pages/OvningarTyper.razor</code> med <code>@page "/ovningar/typer"</code>.</p>
@@ -178,41 +178,41 @@
     <p><strong>Vad vi gör.</strong> Lägger till ett fält av varje grundtyp och visar dem i en tabell.</p>
     <p><strong>Filen.</strong> <code>Components/Pages/Datatyper.razor</code>, i <code>@code</code>-blocket:</p>
     <pre><code class="sprak-csharp">private string titel = "Nyckeln till frihet";
-    private int langdMinuter = 142;
-    private double snittbetyg = 4.6;
-    private bool tillganglig = true;</code></pre>
+private int langdMinuter = 142;
+private double snittbetyg = 4.6;
+private bool tillganglig = true;</code></pre>
     <p>Och i markupen:</p>
     <pre><code class="sprak-razor">&lt;table class="tabell"&gt;
-        &lt;thead&gt;
-            &lt;tr&gt;
-                &lt;th scope="col"&gt;Typ&lt;/th&gt;
-                &lt;th scope="col"&gt;Innehåller&lt;/th&gt;
-                &lt;th scope="col"&gt;Exempel ur den här sidan&lt;/th&gt;
-            &lt;/tr&gt;
-        &lt;/thead&gt;
-        &lt;tbody&gt;
-            &lt;tr&gt;
-                &lt;th scope="row"&gt;&lt;code&gt;string&lt;/code&gt;&lt;/th&gt;
-                &lt;td&gt;Text&lt;/td&gt;
-                &lt;td&gt;@titel&lt;/td&gt;
-            &lt;/tr&gt;
-            &lt;tr&gt;
-                &lt;th scope="row"&gt;&lt;code&gt;int&lt;/code&gt;&lt;/th&gt;
-                &lt;td&gt;Heltal&lt;/td&gt;
-                &lt;td&gt;@langdMinuter&lt;/td&gt;
-            &lt;/tr&gt;
-            &lt;tr&gt;
-                &lt;th scope="row"&gt;&lt;code&gt;double&lt;/code&gt;&lt;/th&gt;
-                &lt;td&gt;Decimaltal&lt;/td&gt;
-                &lt;td&gt;@snittbetyg&lt;/td&gt;
-            &lt;/tr&gt;
-            &lt;tr&gt;
-                &lt;th scope="row"&gt;&lt;code&gt;bool&lt;/code&gt;&lt;/th&gt;
-                &lt;td&gt;Sant eller falskt&lt;/td&gt;
-                &lt;td&gt;@tillganglig&lt;/td&gt;
-            &lt;/tr&gt;
-        &lt;/tbody&gt;
-    &lt;/table&gt;</code></pre>
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope="col"&gt;Typ&lt;/th&gt;
+            &lt;th scope="col"&gt;Innehåller&lt;/th&gt;
+            &lt;th scope="col"&gt;Exempel ur den här sidan&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;th scope="row"&gt;&lt;code&gt;string&lt;/code&gt;&lt;/th&gt;
+            &lt;td&gt;Text&lt;/td&gt;
+            &lt;td&gt;@titel&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;th scope="row"&gt;&lt;code&gt;int&lt;/code&gt;&lt;/th&gt;
+            &lt;td&gt;Heltal&lt;/td&gt;
+            &lt;td&gt;@langdMinuter&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;th scope="row"&gt;&lt;code&gt;double&lt;/code&gt;&lt;/th&gt;
+            &lt;td&gt;Decimaltal&lt;/td&gt;
+            &lt;td&gt;@snittbetyg&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;th scope="row"&gt;&lt;code&gt;bool&lt;/code&gt;&lt;/th&gt;
+            &lt;td&gt;Sant eller falskt&lt;/td&gt;
+            &lt;td&gt;@tillganglig&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p>Typen står först i deklarationen: <code>int langdMinuter</code> betyder <em>ett heltal som heter langdMinuter</em>. Typen är inte en formalitet – den bestämmer vad du får göra. Du kan dividera ett <code>int</code>, men inte ett <code>bool</code>.</p>
     <p><code>double</code> är decimaltal. Skriv <code>4.6</code> med punkt i koden, oavsett att svenskan skriver komma. Punkt är C#-syntax; kommat dyker upp först när värdet skrivs ut.</p>
@@ -223,8 +223,8 @@
     <p><strong>Vad vi gör.</strong> Sätter ihop en mening av flera värden.</p>
     <p><strong>Filen.</strong> Lägg till i <code>@code</code>:</p>
     <pre><code class="sprak-csharp">// $ gör strängen interpolerad: allt inom { } räknas ut och sätts in.
-    private string sammanfattning =&gt;
-        $"{titel} är {langdMinuter} minuter lång och har betyg {snittbetyg}.";</code></pre>
+private string sammanfattning =&gt;
+    $"{titel} är {langdMinuter} minuter lång och har betyg {snittbetyg}.";</code></pre>
     <p>Och i markupen:</p>
     <pre><code class="sprak-razor">&lt;p class="ruta"&gt;@sammanfattning&lt;/p&gt;</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
@@ -237,11 +237,11 @@
     <p><strong>Vad vi gör.</strong> Gör om minuter till timmar och minuter.</p>
     <p><strong>Filen.</strong> Lägg till i <code>@code</code>:</p>
     <pre><code class="sprak-csharp">private int timmar =&gt; langdMinuter / 60;   // heltalsdivision: 142 / 60 = 2
-    private int minuter =&gt; langdMinuter % 60;  // resten: 142 % 60 = 22</code></pre>
+private int minuter =&gt; langdMinuter % 60;  // resten: 142 % 60 = 22</code></pre>
     <p>Och i markupen:</p>
     <pre><code class="sprak-razor">&lt;p&gt;
-        Filmen är @langdMinuter minuter lång, alltså @timmar timmar och @minuter minuter.
-    &lt;/p&gt;</code></pre>
+    Filmen är @langdMinuter minuter lång, alltså @timmar timmar och @minuter minuter.
+&lt;/p&gt;</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p><code>142 / 60</code> blir <code>2</code>, inte <code>2.3667</code>. När båda talen är <code>int</code> blir svaret också <code>int</code>, och decimalerna kastas bort. Det är inte avrundning – <code>2.9</code> blir <code>2</code>.</p>
     <p><code>%</code> ger resten efter divisionen. <code>142 % 60</code> är <code>22</code>, alltså de minuter som blir över efter två hela timmar. Operatorn heter <em>modulo</em> och är förvånansvärt användbar: den avgör också om ett tal är jämnt, med <code>tal % 2 == 0</code>.</p>
@@ -252,21 +252,21 @@
     <p><strong>Vad vi gör.</strong> Tolkar text som ett tal, utan att sidan kraschar när det inte går.</p>
     <p><strong>Filen.</strong> Lägg till i <code>@code</code>:</p>
     <pre><code class="sprak-csharp">// int.TryParse returnerar true eller false i stället för att krascha.
-    // Lyckas den läggs det tolkade värdet i variabeln efter out.
-    private string ForsokTolka(string text)
+// Lyckas den läggs det tolkade värdet i variabeln efter out.
+private string ForsokTolka(string text)
+{
+    if (int.TryParse(text, out int tal))
     {
-        if (int.TryParse(text, out int tal))
-        {
-            return $"\"{text}\" gick att tolka som talet {tal}.";
-        }
+        return $"\"{text}\" gick att tolka som talet {tal}.";
+    }
 
-        return $"\"{text}\" gick inte att tolka som ett tal.";
-    }</code></pre>
+    return $"\"{text}\" gick inte att tolka som ett tal.";
+}</code></pre>
     <p>Och i markupen:</p>
     <pre><code class="sprak-razor">&lt;ul&gt;
-        &lt;li&gt;@ForsokTolka("1994")&lt;/li&gt;
-        &lt;li&gt;@ForsokTolka("nittiofyra")&lt;/li&gt;
-    &lt;/ul&gt;</code></pre>
+    &lt;li&gt;@ForsokTolka("1994")&lt;/li&gt;
+    &lt;li&gt;@ForsokTolka("nittiofyra")&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p>Text som ser ut som ett tal <em>är</em> inte ett tal. <code>"1994"</code> är fyra tecken. Ska du räkna med värdet måste det konverteras först.</p>
     <p><code>int.Parse("nittiofyra")</code> kraschar. <code>int.TryParse</code> gör det inte – den lämnar tillbaka <code>false</code> och låter dig hantera fallet. Det är skillnaden mellan en sida som går sönder för en besökare och en sida som svarar vänligt.</p>
@@ -280,36 +280,36 @@
     <p><strong>Filen.</strong> Skapa <code>Components/Pages/Villkor.razor</code>:</p>
     <pre><code class="sprak-razor">@page "/villkor"
 
-    &lt;PageTitle&gt;Villkor – Filmarkivet&lt;/PageTitle&gt;
+&lt;PageTitle&gt;Villkor – Filmarkivet&lt;/PageTitle&gt;
 
-    &lt;h1&gt;Lektion 8: villkor och logik&lt;/h1&gt;
+&lt;h1&gt;Lektion 8: villkor och logik&lt;/h1&gt;
 
-    &lt;p class="ruta"&gt;@Halsning()&lt;/p&gt;
+&lt;p class="ruta"&gt;@Halsning()&lt;/p&gt;
 
-    &lt;p&gt;
-        Klockan på servern är @nu.ToString("HH:mm"). Ladda om sidan om en timme och
-        hälsningen blir en annan – villkoret prövas på nytt vid varje förfrågan.
-    &lt;/p&gt;
+&lt;p&gt;
+    Klockan på servern är @nu.ToString("HH:mm"). Ladda om sidan om en timme och
+    hälsningen blir en annan – villkoret prövas på nytt vid varje förfrågan.
+&lt;/p&gt;
 
-    @code {
-        private DateTime nu = DateTime.Now;
+@code {
+    private DateTime nu = DateTime.Now;
 
-        private string Halsning()
+    private string Halsning()
+    {
+        if (nu.Hour &lt; 12)
         {
-            if (nu.Hour &lt; 12)
-            {
-                return "God förmiddag.";
-            }
-            else if (nu.Hour &lt; 18)
-            {
-                return "God eftermiddag.";
-            }
-            else
-            {
-                return "God kväll.";
-            }
+            return "God förmiddag.";
         }
-    }</code></pre>
+        else if (nu.Hour &lt; 18)
+        {
+            return "God eftermiddag.";
+        }
+        else
+        {
+            return "God kväll.";
+        }
+    }
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p>Ordningen spelar roll. <code>nu.Hour &lt; 12</code> prövas först, och är den sann prövas inget mer. Hade <code>&lt; 18</code> stått först hade <code>&lt; 12</code> aldrig kunnat bli sann – alla timmar under 12 är också under 18.</p>
     <p><code>else if</code> är inte samma sak som två separata <code>if</code>. Med två <code>if</code> prövas båda, och båda kan slå till.</p>
@@ -320,17 +320,17 @@
     <p><strong>Vad vi gör.</strong> Låter villkoret bestämma vilken HTML som skapas, inte bara vilken text som skrivs ut.</p>
     <p><strong>Filen.</strong> Lägg till i markupen i <code>Villkor.razor</code>:</p>
     <pre><code class="sprak-razor">@if (nu.Hour &gt;= 18)
-    {
-        &lt;p class="ruta"&gt;Det är kväll. Perfekt tid för en lång film.&lt;/p&gt;
-    }
-    else if (nu.Hour &gt;= 12)
-    {
-        &lt;p class="ruta"&gt;Eftermiddag. Något kort kanske?&lt;/p&gt;
-    }
-    else
-    {
-        &lt;p class="ruta"&gt;Förmiddag. Filmarkivet är öppet ändå.&lt;/p&gt;
-    }</code></pre>
+{
+    &lt;p class="ruta"&gt;Det är kväll. Perfekt tid för en lång film.&lt;/p&gt;
+}
+else if (nu.Hour &gt;= 12)
+{
+    &lt;p class="ruta"&gt;Eftermiddag. Något kort kanske?&lt;/p&gt;
+}
+else
+{
+    &lt;p class="ruta"&gt;Förmiddag. Filmarkivet är öppet ändå.&lt;/p&gt;
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p>Skillnaden mot steg 6: där valde villkoret en <em>text</em>, här väljer det vilken <em>HTML</em> som byggs. Grenen som inte tas skickas aldrig till webbläsaren – titta i sidkällan, det finns bara ett <code>&lt;p&gt;</code> där.</p>
     <p><code>@if</code> i markupen behöver klammerparenteser runt HTML:en. <code>else if</code> och <code>else</code> skrivs utan <code>@</code> – växeln till C# gjordes redan av det första <code>@if</code>.</p>
@@ -340,23 +340,23 @@
     <p><strong>Vad vi gör.</strong> Låter sidan svara på ett värde besökaren skriver i adressen.</p>
     <p><strong>Filen.</strong> Lägg till i <code>@code</code>:</p>
     <pre><code class="sprak-csharp">// Värdet hämtas ur frågesträngen. Saknas det blir Betyg 0.
-    [SupplyParameterFromQuery]
-    public int Betyg { get; set; }
+[SupplyParameterFromQuery]
+public int Betyg { get; set; }
 
-    private string BetygIOrd(int betyg)
+private string BetygIOrd(int betyg)
+{
+    if (betyg == 0)
     {
-        if (betyg == 0)
-        {
-            return "Inget betyg angivet. Lägg till ?betyg=4 i adressen.";
-        }
+        return "Inget betyg angivet. Lägg till ?betyg=4 i adressen.";
+    }
 
-        if (betyg &lt; 1 || betyg &gt; 5)
-        {
-            return $"{betyg} är inget giltigt betyg. Skalan går från 1 till 5.";
-        }
+    if (betyg &lt; 1 || betyg &gt; 5)
+    {
+        return $"{betyg} är inget giltigt betyg. Skalan går från 1 till 5.";
+    }
 
-        return $"Betyg {betyg} av 5.";
-    }</code></pre>
+    return $"Betyg {betyg} av 5.";
+}</code></pre>
     <p>Och i markupen:</p>
     <pre><code class="sprak-razor">&lt;p class="ruta"&gt;@BetygIOrd(Betyg)&lt;/p&gt;</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
@@ -370,20 +370,20 @@
     <p><strong>Vad vi gör.</strong> Byter en lång kedja av <code>else if</code> mot något läsbarare.</p>
     <p><strong>Filen.</strong> Lägg till i <code>@code</code>:</p>
     <pre><code class="sprak-csharp">private string Omdome(int betyg) =&gt; betyg switch
-    {
-        5 =&gt; "Mästerverk",
-        4 =&gt; "Mycket bra",
-        3 =&gt; "Sevärd",
-        2 =&gt; "Tveksam",
-        1 =&gt; "Undvik",
-        _ =&gt; "Okänt betyg"
-    };</code></pre>
+{
+    5 =&gt; "Mästerverk",
+    4 =&gt; "Mycket bra",
+    3 =&gt; "Sevärd",
+    2 =&gt; "Tveksam",
+    1 =&gt; "Undvik",
+    _ =&gt; "Okänt betyg"
+};</code></pre>
     <p>Och i markupen:</p>
     <pre><code class="sprak-razor">&lt;ul&gt;
-        &lt;li&gt;Betyg 5: @Omdome(5)&lt;/li&gt;
-        &lt;li&gt;Betyg 3: @Omdome(3)&lt;/li&gt;
-        &lt;li&gt;Betyg 1: @Omdome(1)&lt;/li&gt;
-    &lt;/ul&gt;</code></pre>
+    &lt;li&gt;Betyg 5: @Omdome(5)&lt;/li&gt;
+    &lt;li&gt;Betyg 3: @Omdome(3)&lt;/li&gt;
+    &lt;li&gt;Betyg 1: @Omdome(1)&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p>Fem <code>else if</code> efter varandra går att skriva, men ögat måste läsa hela kedjan för att hitta ett fall. En <code>switch</code> ställer upp alternativen i en lista.</p>
     <p><code>_</code> är <em>allt annat</em>. Den måste finnas: C# kräver att varje möjligt värde har ett svar, och <code>int</code> kan vara mycket annat än 1 till 5.</p>
@@ -395,32 +395,32 @@
     <p><strong>Filen.</strong> Skapa <code>Components/Pages/Loopar.razor</code>:</p>
     <pre><code class="sprak-razor">@page "/loopar"
 
-    &lt;PageTitle&gt;Loopar och listor – Filmarkivet&lt;/PageTitle&gt;
+&lt;PageTitle&gt;Loopar och listor – Filmarkivet&lt;/PageTitle&gt;
 
-    &lt;h1&gt;Lektion 10: loopar, listor och arrayer&lt;/h1&gt;
+&lt;h1&gt;Lektion 10: loopar, listor och arrayer&lt;/h1&gt;
 
-    &lt;p&gt;
-        Listan innehåller @genrer.Count värden. Det första ligger på plats
-        &lt;code&gt;[0]&lt;/code&gt;, inte &lt;code&gt;[1]&lt;/code&gt;: @genrer[0].
-    &lt;/p&gt;
+&lt;p&gt;
+    Listan innehåller @genrer.Count värden. Det första ligger på plats
+    &lt;code&gt;[0]&lt;/code&gt;, inte &lt;code&gt;[1]&lt;/code&gt;: @genrer[0].
+&lt;/p&gt;
 
-    &lt;ul&gt;
-        @foreach (var genre in genrer)
-        {
-            &lt;li&gt;@genre&lt;/li&gt;
-        }
-    &lt;/ul&gt;
+&lt;ul&gt;
+    @foreach (var genre in genrer)
+    {
+        &lt;li&gt;@genre&lt;/li&gt;
+    }
+&lt;/ul&gt;
 
-    &lt;ol&gt;
-        @for (int i = 0; i &lt; genrer.Count; i++)
-        {
-            &lt;li&gt;Plats @i i listan: @genrer[i]&lt;/li&gt;
-        }
-    &lt;/ol&gt;
+&lt;ol&gt;
+    @for (int i = 0; i &lt; genrer.Count; i++)
+    {
+        &lt;li&gt;Plats @i i listan: @genrer[i]&lt;/li&gt;
+    }
+&lt;/ol&gt;
 
-    @code {
-        private List&lt;string&gt; genrer = new() { "Drama", "Thriller", "Komedi", "Dokumentär" };
-    }</code></pre>
+@code {
+    private List&lt;string&gt; genrer = new() { "Drama", "Thriller", "Komedi", "Dokumentär" };
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p><code>List&lt;string&gt;</code> betyder <em>en lista med strängar</em>. Det inom vinkelparenteserna är vad listan innehåller. <code>new() { ... }</code> skapar listan och fyller den direkt.</p>
     <p><code>Count</code> är antalet. Inte <code>Length</code>, som gäller arrayer och strängar.</p>
@@ -433,27 +433,27 @@
     <p><strong>Filen.</strong> Lägg till i <code>Loopar.razor</code>:</p>
     <pre><code class="sprak-csharp">private List&lt;int&gt; speltider = new() { 142, 96, 175, 88, 120 };
 
-    private int SummeraForHand()
+private int SummeraForHand()
+{
+    int summa = 0;
+
+    foreach (var tid in speltider)
     {
-        int summa = 0;
+        summa = summa + tid;
+    }
 
-        foreach (var tid in speltider)
-        {
-            summa = summa + tid;
-        }
-
-        return summa;
-    }</code></pre>
+    return summa;
+}</code></pre>
     <p>Och i markupen:</p>
     <pre><code class="sprak-razor">&lt;p class="ruta"&gt;
-        Sammanlagd speltid: @speltider.Sum() minuter fördelat på @speltider.Count filmer.
-        Den längsta är @speltider.Max() minuter.
-    &lt;/p&gt;
+    Sammanlagd speltid: @speltider.Sum() minuter fördelat på @speltider.Count filmer.
+    Den längsta är @speltider.Max() minuter.
+&lt;/p&gt;
 
-    &lt;p&gt;
-        Samma sak räknat för hand med en loop, så att du ser vad &lt;code&gt;Sum&lt;/code&gt; gör:
-        @SummeraForHand() minuter.
-    &lt;/p&gt;</code></pre>
+&lt;p&gt;
+    Samma sak räknat för hand med en loop, så att du ser vad &lt;code&gt;Sum&lt;/code&gt; gör:
+    @SummeraForHand() minuter.
+&lt;/p&gt;</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p><code>Sum()</code> och <code>Max()</code> finns färdiga. Men skriv loopen en gång ändå: det är den som visar vad som händer, och det är den formen du behöver så fort uppgiften är något annat än summa eller max.</p>
     <p><code>int summa = 0;</code> måste stå <strong>utanför</strong> loopen. Står den innanför nollställs den varje varv och svaret blir det sista värdet i stället för summan. Det är det vanligaste felet i hela området.</p>
@@ -463,18 +463,18 @@
     <p><strong>Vad vi gör.</strong> En loop som körs tills något är sant, utan att veta hur många varv det blir.</p>
     <p><strong>Filen.</strong> Lägg till i <code>Loopar.razor</code>:</p>
     <pre><code class="sprak-csharp">private string Halveringar(int tal)
+{
+    int antal = 0;
+    double varde = tal;
+
+    while (varde &gt;= 1)
     {
-        int antal = 0;
-        double varde = tal;
+        varde = varde / 2;
+        antal++;
+    }
 
-        while (varde &gt;= 1)
-        {
-            varde = varde / 2;
-            antal++;
-        }
-
-        return $"{tal} kan halveras {antal} gånger innan det blir mindre än 1.";
-    }</code></pre>
+    return $"{tal} kan halveras {antal} gånger innan det blir mindre än 1.";
+}</code></pre>
     <p>Och i markupen:</p>
     <pre><code class="sprak-razor">&lt;p class="ruta"&gt;@Halveringar(142)&lt;/p&gt;</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
@@ -488,25 +488,25 @@
     <p><strong>Vad vi gör.</strong> Låter loopen bygga tabellraderna.</p>
     <p><strong>Filen.</strong> Lägg till i markupen i <code>Loopar.razor</code>:</p>
     <pre><code class="sprak-razor">&lt;table class="tabell"&gt;
-        &lt;caption&gt;Speltider&lt;/caption&gt;
-        &lt;thead&gt;
+    &lt;caption&gt;Speltider&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope="col"&gt;#&lt;/th&gt;
+            &lt;th scope="col"&gt;Minuter&lt;/th&gt;
+            &lt;th scope="col"&gt;Längd&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        @for (int i = 0; i &lt; speltider.Count; i++)
+        {
             &lt;tr&gt;
-                &lt;th scope="col"&gt;#&lt;/th&gt;
-                &lt;th scope="col"&gt;Minuter&lt;/th&gt;
-                &lt;th scope="col"&gt;Längd&lt;/th&gt;
+                &lt;th scope="row"&gt;@(i + 1)&lt;/th&gt;
+                &lt;td&gt;@speltider[i]&lt;/td&gt;
+                &lt;td&gt;@(speltider[i] &gt;= 120 ? "Lång" : "Normal")&lt;/td&gt;
             &lt;/tr&gt;
-        &lt;/thead&gt;
-        &lt;tbody&gt;
-            @for (int i = 0; i &lt; speltider.Count; i++)
-            {
-                &lt;tr&gt;
-                    &lt;th scope="row"&gt;@(i + 1)&lt;/th&gt;
-                    &lt;td&gt;@speltider[i]&lt;/td&gt;
-                    &lt;td&gt;@(speltider[i] &gt;= 120 ? "Lång" : "Normal")&lt;/td&gt;
-                &lt;/tr&gt;
-            }
-        &lt;/tbody&gt;
-    &lt;/table&gt;</code></pre>
+        }
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p>Det här är hela poängen med loopar i en webbapplikation. Fem rader HTML skrivna som en. Kommer det en sjätte film ändrar du listan, inte tabellen.</p>
     <p><code>@(i + 1)</code> behöver parenteser. Utan dem hade <code>@i</code> skrivits ut och <code>+ 1</code> blivit vanlig text. Parenteserna säger <em>hela det här är C#</em>.</p>
@@ -518,9 +518,9 @@
     <p><strong>Vad vi gör.</strong> Flyttar uträkningar ut ur markupen.</p>
     <p><strong>Filen.</strong> Skapa <code>Components/Pages/Filmer.razor</code> och börja med två metoder:</p>
     <pre><code class="sprak-csharp">// En metod tar emot värden, gör något, och lämnar tillbaka ett svar.
-    private string Speltid(int minuter) =&gt; $"{minuter / 60} h {minuter % 60} min";
+private string Speltid(int minuter) =&gt; $"{minuter / 60} h {minuter % 60} min";
 
-    private string Stjarnor(int betyg) =&gt; new string('*', betyg);</code></pre>
+private string Stjarnor(int betyg) =&gt; new string('*', betyg);</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p>En metod har fyra delar: vem som får se den (<code>private</code>), vad den lämnar tillbaka (<code>string</code>), vad den heter (<code>Speltid</code>), och vad den tar emot (<code>int minuter</code>).</p>
     <p>Metodnamn skrivs i PascalCase, med stor bokstav. Variabler och parametrar i camelCase, med liten. Det är C#-praxis, och det är ett krav i uppgiften.</p>
@@ -534,16 +534,16 @@
     <p><strong>Filen.</strong> Skapa <code>Models/Film.cs</code>:</p>
     <pre><code class="sprak-csharp">namespace Filmarkivet.Models;
 
-    // En vanlig C#-klass. Inga attribut och ingen databas ännu – det kommer i
-    // område 5. Här är den bara ett sätt att hålla ihop värden som hör samman.
-    public class Film
-    {
-        public string Titel { get; set; } = "";
-        public int Ar { get; set; }
-        public int LangdMinuter { get; set; }
-        public int Betyg { get; set; }
-        public bool Tillganglig { get; set; }
-    }</code></pre>
+// En vanlig C#-klass. Inga attribut och ingen databas ännu – det kommer i
+// område 5. Här är den bara ett sätt att hålla ihop värden som hör samman.
+public class Film
+{
+    public string Titel { get; set; } = "";
+    public int Ar { get; set; }
+    public int LangdMinuter { get; set; }
+    public int Betyg { get; set; }
+    public bool Tillganglig { get; set; }
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p>Fem filmer betyder fem titlar, fem årtal, fem speltider och fem betyg. Det går att hålla i fyra separata listor – tills något hamnar i otakt och film nummer tre får film nummer fyras betyg. En klass gör den sortens fel omöjligt.</p>
     <p>Klassen skapar ingen film. Den säger vilka fält varje film har.</p>
@@ -557,122 +557,122 @@
     <p><strong>Vad vi gör.</strong> Skapar objekt ur klassen och renderar dem.</p>
     <p><strong>Filen.</strong> <code>Components/Pages/Filmer.razor</code>, hela:</p>
     <pre><code class="sprak-razor">@page "/filmer"
-    @using Filmarkivet.Models
+@using Filmarkivet.Models
 
-    &lt;PageTitle&gt;Filmer – Filmarkivet&lt;/PageTitle&gt;
+&lt;PageTitle&gt;Filmer – Filmarkivet&lt;/PageTitle&gt;
 
-    &lt;h1&gt;Lektion 12: metoder, klasser och objekt&lt;/h1&gt;
+&lt;h1&gt;Lektion 12: metoder, klasser och objekt&lt;/h1&gt;
 
-    &lt;p&gt;
-        Fem filmer betyder fem titlar, fem årtal, fem speltider och fem betyg. Att hålla
-        dem i separata listor fungerar tills något hamnar i otakt. En &lt;strong&gt;klass&lt;/strong&gt;
-        håller ihop det som hör ihop.
-    &lt;/p&gt;
+&lt;p&gt;
+    Fem filmer betyder fem titlar, fem årtal, fem speltider och fem betyg. Att hålla
+    dem i separata listor fungerar tills något hamnar i otakt. En &lt;strong&gt;klass&lt;/strong&gt;
+    håller ihop det som hör ihop.
+&lt;/p&gt;
 
-    &lt;h2&gt;Klassen&lt;/h2&gt;
+&lt;h2&gt;Klassen&lt;/h2&gt;
 
-    &lt;p&gt;
-        &lt;code&gt;Models/Film.cs&lt;/code&gt; beskriver vad en film &lt;em&gt;är&lt;/em&gt;. Den skapar ingen
-        film – den säger vilka fält varje film har.
-    &lt;/p&gt;
+&lt;p&gt;
+    &lt;code&gt;Models/Film.cs&lt;/code&gt; beskriver vad en film &lt;em&gt;är&lt;/em&gt;. Den skapar ingen
+    film – den säger vilka fält varje film har.
+&lt;/p&gt;
 
-    &lt;h2&gt;Objekten&lt;/h2&gt;
+&lt;h2&gt;Objekten&lt;/h2&gt;
 
-    &lt;p&gt;
-        &lt;code&gt;new Film { ... }&lt;/code&gt; skapar ett objekt ur klassen. Listan håller
-        @filmer.Count stycken, och varje objekt bär alla sina fält samlade.
-    &lt;/p&gt;
+&lt;p&gt;
+    &lt;code&gt;new Film { ... }&lt;/code&gt; skapar ett objekt ur klassen. Listan håller
+    @filmer.Count stycken, och varje objekt bär alla sina fält samlade.
+&lt;/p&gt;
 
-    &lt;table class="tabell"&gt;
-        &lt;caption&gt;Filmarkivet&lt;/caption&gt;
-        &lt;thead&gt;
+&lt;table class="tabell"&gt;
+    &lt;caption&gt;Filmarkivet&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope="col"&gt;Titel&lt;/th&gt;
+            &lt;th scope="col"&gt;År&lt;/th&gt;
+            &lt;th scope="col"&gt;Längd&lt;/th&gt;
+            &lt;th scope="col"&gt;Betyg&lt;/th&gt;
+            &lt;th scope="col"&gt;Status&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        @foreach (var film in filmer)
+        {
             &lt;tr&gt;
-                &lt;th scope="col"&gt;Titel&lt;/th&gt;
-                &lt;th scope="col"&gt;År&lt;/th&gt;
-                &lt;th scope="col"&gt;Längd&lt;/th&gt;
-                &lt;th scope="col"&gt;Betyg&lt;/th&gt;
-                &lt;th scope="col"&gt;Status&lt;/th&gt;
+                &lt;th scope="row"&gt;@film.Titel&lt;/th&gt;
+                &lt;td&gt;@film.Ar&lt;/td&gt;
+                &lt;td&gt;@Speltid(film.LangdMinuter)&lt;/td&gt;
+                &lt;td&gt;@Stjarnor(film.Betyg)&lt;/td&gt;
+                &lt;td&gt;@(film.Tillganglig ? "Tillgänglig" : "Utlånad")&lt;/td&gt;
             &lt;/tr&gt;
-        &lt;/thead&gt;
-        &lt;tbody&gt;
-            @foreach (var film in filmer)
-            {
-                &lt;tr&gt;
-                    &lt;th scope="row"&gt;@film.Titel&lt;/th&gt;
-                    &lt;td&gt;@film.Ar&lt;/td&gt;
-                    &lt;td&gt;@Speltid(film.LangdMinuter)&lt;/td&gt;
-                    &lt;td&gt;@Stjarnor(film.Betyg)&lt;/td&gt;
-                    &lt;td&gt;@(film.Tillganglig ? "Tillgänglig" : "Utlånad")&lt;/td&gt;
-                &lt;/tr&gt;
-            }
-        &lt;/tbody&gt;
-    &lt;/table&gt;
+        }
+    &lt;/tbody&gt;
+&lt;/table&gt;
 
-    &lt;h2&gt;Metoder som räknar på samlingen&lt;/h2&gt;
+&lt;h2&gt;Metoder som räknar på samlingen&lt;/h2&gt;
 
-    &lt;ul&gt;
-        &lt;li&gt;Snittbetyg: @Snittbetyg().ToString("0.0")&lt;/li&gt;
-        &lt;li&gt;Längsta filmen: @LangstaFilmen().Titel, @LangstaFilmen().LangdMinuter minuter&lt;/li&gt;
-        &lt;li&gt;Tillgängliga just nu: @AntalTillgangliga() av @filmer.Count&lt;/li&gt;
-    &lt;/ul&gt;
+&lt;ul&gt;
+    &lt;li&gt;Snittbetyg: @Snittbetyg().ToString("0.0")&lt;/li&gt;
+    &lt;li&gt;Längsta filmen: @LangstaFilmen().Titel, @LangstaFilmen().LangdMinuter minuter&lt;/li&gt;
+    &lt;li&gt;Tillgängliga just nu: @AntalTillgangliga() av @filmer.Count&lt;/li&gt;
+&lt;/ul&gt;
 
-    @code {
-        private List&lt;Film&gt; filmer = new()
+@code {
+    private List&lt;Film&gt; filmer = new()
+    {
+        new Film { Titel = "Nyckeln till frihet", Ar = 1994, LangdMinuter = 142, Betyg = 5, Tillganglig = true },
+        new Film { Titel = "Sju samurajer", Ar = 1954, LangdMinuter = 207, Betyg = 5, Tillganglig = false },
+        new Film { Titel = "Rosemarys baby", Ar = 1968, LangdMinuter = 137, Betyg = 4, Tillganglig = true },
+        new Film { Titel = "Såsom i en spegel", Ar = 1961, LangdMinuter = 89, Betyg = 4, Tillganglig = true },
+        new Film { Titel = "Gökboet", Ar = 1975, LangdMinuter = 133, Betyg = 5, Tillganglig = false }
+    };
+
+    // En metod tar emot värden, gör något, och lämnar tillbaka ett svar.
+    private string Speltid(int minuter) =&gt; $"{minuter / 60} h {minuter % 60} min";
+
+    private string Stjarnor(int betyg) =&gt; new string('*', betyg);
+
+    private double Snittbetyg()
+    {
+        int summa = 0;
+
+        foreach (var film in filmer)
         {
-            new Film { Titel = "Nyckeln till frihet", Ar = 1994, LangdMinuter = 142, Betyg = 5, Tillganglig = true },
-            new Film { Titel = "Sju samurajer", Ar = 1954, LangdMinuter = 207, Betyg = 5, Tillganglig = false },
-            new Film { Titel = "Rosemarys baby", Ar = 1968, LangdMinuter = 137, Betyg = 4, Tillganglig = true },
-            new Film { Titel = "Såsom i en spegel", Ar = 1961, LangdMinuter = 89, Betyg = 4, Tillganglig = true },
-            new Film { Titel = "Gökboet", Ar = 1975, LangdMinuter = 133, Betyg = 5, Tillganglig = false }
-        };
-
-        // En metod tar emot värden, gör något, och lämnar tillbaka ett svar.
-        private string Speltid(int minuter) =&gt; $"{minuter / 60} h {minuter % 60} min";
-
-        private string Stjarnor(int betyg) =&gt; new string('*', betyg);
-
-        private double Snittbetyg()
-        {
-            int summa = 0;
-
-            foreach (var film in filmer)
-            {
-                summa = summa + film.Betyg;
-            }
-
-            return (double)summa / filmer.Count;
+            summa = summa + film.Betyg;
         }
 
-        private Film LangstaFilmen()
+        return (double)summa / filmer.Count;
+    }
+
+    private Film LangstaFilmen()
+    {
+        Film langst = filmer[0];
+
+        foreach (var film in filmer)
         {
-            Film langst = filmer[0];
-
-            foreach (var film in filmer)
+            if (film.LangdMinuter &gt; langst.LangdMinuter)
             {
-                if (film.LangdMinuter &gt; langst.LangdMinuter)
-                {
-                    langst = film;
-                }
+                langst = film;
             }
-
-            return langst;
         }
 
-        private int AntalTillgangliga()
+        return langst;
+    }
+
+    private int AntalTillgangliga()
+    {
+        int antal = 0;
+
+        foreach (var film in filmer)
         {
-            int antal = 0;
-
-            foreach (var film in filmer)
+            if (film.Tillganglig)
             {
-                if (film.Tillganglig)
-                {
-                    antal++;
-                }
+                antal++;
             }
-
-            return antal;
         }
-    }</code></pre>
+
+        return antal;
+    }
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p><code>new Film { Titel = "...", ... }</code> skapar ett objekt och sätter egenskaperna direkt. Klassen är ritningen, objektet är saken.</p>
     <p><code>List&lt;Film&gt;</code> är en lista med filmobjekt, precis som <code>List&lt;string&gt;</code> var en lista med strängar. Samma form, annat innehåll.</p>
@@ -686,39 +686,39 @@
     <p><strong>Vad vi gör.</strong> Kopplar in sidorna och gör tabellerna läsbara.</p>
     <p><strong>Filen.</strong> <code>Components/Layout/NavMenu.razor</code> – en post per sida, precis som i område 1:</p>
     <pre><code class="sprak-razor">&lt;div class="nav-item px-3"&gt;
-        &lt;NavLink class="nav-link" href="datatyper"&gt;Datatyper&lt;/NavLink&gt;
-    &lt;/div&gt;</code></pre>
+    &lt;NavLink class="nav-link" href="datatyper"&gt;Datatyper&lt;/NavLink&gt;
+&lt;/div&gt;</code></pre>
     <p><strong>Filen.</strong> <code>wwwroot/app.css</code>, sist:</p>
     <pre><code class="sprak-css">/* Filmarkivet */
-    .tabell {
-        border-collapse: collapse;
-        width: 100%;
-        margin: 1rem 0;
-    }
+.tabell {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+}
 
-    .tabell caption {
-        text-align: left;
-        font-weight: 600;
-        padding-bottom: .4rem;
-    }
+.tabell caption {
+    text-align: left;
+    font-weight: 600;
+    padding-bottom: .4rem;
+}
 
-    .tabell th,
-    .tabell td {
-        border: 1px solid #d0d0d0;
-        padding: .4rem .6rem;
-        text-align: left;
-        vertical-align: top;
-    }
+.tabell th,
+.tabell td {
+    border: 1px solid #d0d0d0;
+    padding: .4rem .6rem;
+    text-align: left;
+    vertical-align: top;
+}
 
-    .tabell thead th {
-        background: #f3f3f3;
-    }
+.tabell thead th {
+    background: #f3f3f3;
+}
 
-    .ruta {
-        background: #eef6ff;
-        border: 1px solid #b9d8ff;
-        padding: .8rem 1rem;
-    }</code></pre>
+.ruta {
+    background: #eef6ff;
+    border: 1px solid #b9d8ff;
+    padding: .8rem 1rem;
+}</code></pre>
     <p><strong>Kontrollera.</strong> Alla sidor nås från menyn och tabellerna har ramar.</p>
     <p><strong>I ditt projekt.</strong> Dina fyra övningssidor plus tabellsidan i menyn.</p>
     <h2 id="fel">När något går fel</h2>

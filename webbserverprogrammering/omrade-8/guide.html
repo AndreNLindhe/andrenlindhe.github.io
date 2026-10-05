@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide: Filmarkivet – driftsättning, API och externa data</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o8-guide">
+
+<header class="topp">
+  <a href="index.html">← Område 8</a>
+  <span class="harifran"><strong>Guide</strong> · Filmarkivet</span>
+  <a href="#fel">När något går fel</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#bygger">Vad du bygger här</a></li>
+      <li><a href="#sjalv">Vad du ska göra själv efteråt</a></li>
+      <li><a href="#innan">Innan du börjar</a></li>
+      <li><a href="#begrepp">Begreppen i det här momentet</a></li>
+      <li><a href="#steg-1">Steg 1 – Två miljöer</a></li>
+      <li><a href="#steg-2">Steg 2 – Inställningarna utanför koden</a></li>
+      <li><a href="#steg-3">Steg 3 – Migrationerna i driftmiljön</a></li>
+      <li><a href="#steg-4">Steg 4 – Mindre loggning i drift</a></li>
+      <li><a href="#steg-5">Steg 5 – Publicera och zippa</a></li>
+      <li><a href="#steg-6">Steg 6 – Prova driften på din egen dator</a></li>
+      <li><a href="#steg-7">Steg 7 – Ett konto i Azure</a></li>
+      <li><a href="#steg-8">Steg 8 – Skapa webbappen</a></li>
+      <li><a href="#steg-9">Steg 9 – Inställningarna</a></li>
+      <li><a href="#steg-10">Steg 10 – Ladda upp zippen</a></li>
+      <li><a href="#steg-11">Steg 11 – Kontrollera driften</a></li>
+      <li><a href="#steg-12">Steg 12 – När det går fel första gången</a></li>
+      <li><a href="#steg-13">Steg 13 – REST i korthet</a></li>
+      <li><a href="#steg-14">Steg 14 – Ett eget API</a></li>
+      <li><a href="#steg-15">Steg 15 – 404 som JSON</a></li>
+      <li><a href="#steg-16">Steg 16 – En klient mot Wikipedia</a></li>
+      <li><a href="#steg-17">Steg 17 – Klassen som hämtar</a></li>
+      <li><a href="#steg-18">Steg 18 – Rutan på filmsidan</a></li>
+      <li><a href="#steg-19">Steg 19 – När API:et inte svarar</a></li>
+      <li><a href="#steg-20">Steg 20 – Inga hemligheter i repot</a></li>
+      <li><a href="#steg-21">Steg 21 – Dokumentera driftsättningen</a></li>
+      <li><a href="#fel">När något går fel</a></li>
+      <li><a href="#missa">Det som är lätt att missa när du gör det själv</a></li>
+      <li><a href="#checklista">Checklista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 8 · guide</p>
+    <h1>Filmarkivet – driftsättning, API och externa data</h1>
+    <p class="inledning">Tjugoett steg som tar Filmarkivet från din dator till en
+      riktig adress med HTTPS. På vägen hämtar det data från Wikipedia, och får ett eget
+      API som svarar med JSON. Nästan ingen ny kod behövs – det mesta är inställningar,
+      och att förstå varför de behövs. Guiden är uppdelad efter lektionerna, så att du
+      kan slå upp den del du behöver.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du en lektion?</span>
+      <p>Guiden går att följa på egen hand. Så här hänger stegen ihop med passen, och
+        ungefär hur lång tid de tar om du gör dem själv:</p>
+      <ul>
+        <li><b>Lektion 57</b> (ons 14 apr) – <a href="#steg-1">steg 1</a> till
+          <a href="#steg-6">steg 6</a>, ungefär 60 minuter. Det är
+          <a href="uppgift.html#etapp-1">etapp 1</a>, och den ska vara klar före tisdag.
+          Hoppa inte över <a href="#steg-6">steg 6</a>: det är där du ser att driften
+          fungerar innan du går till Azure.</li>
+        <li><b>Lektion 58</b> (tis 20 apr) – <a href="#steg-7">steg 7</a> till
+          <a href="#steg-12">steg 12</a>, ungefär 60 minuter om steg 6 gick igenom.
+          Skaffa kontot i <a href="#steg-7">steg 7</a> så tidigt du kan – verifieringen
+          kan ta tid.</li>
+        <li><b>Lektion 59</b> (ons 21 apr) – <a href="#steg-13">steg 13</a> till
+          <a href="#steg-19">steg 19</a>, ungefär 75 minuter. Öppna ditt externa API i
+          webbläsaren innan du skriver klassen.</li>
+        <li><b>Arbetspasset 60</b> (tis 27 apr) – <a href="#steg-20">steg 20</a> och
+          <a href="#steg-21">steg 21</a>, och resten av
+          <a href="uppgift.html#etapp-3">etapp 3</a>.</li>
+        <li><b>Redovisningen 61</b> (ons 28 apr) – <a href="uppgift.html#etapp-4">etapp
+          4</a> har de fem punkterna. Var du borta: säg till, så får du redovisa
+          senare.</li>
+      </ul>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Felen syns inte längre i webbläsaren</span>
+      <p>På din dator ser du varje fel i terminalen. På servern visar felsidan ingenting
+        – det var hela poängen i område 7. Felet finns i loggen, och bara där.
+        <a href="#steg-11">Steg 11</a> visar var den är. Lär dig hitta den innan
+        något går fel.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Koden går inte att kopiera</span>
+      <p>Kodblocken på den här sidan går inte att markera, och det är med flit. Att
+        skriva av koden för hand är där en stor del av inlärningen sker: du läser
+        raden, håller den i huvudet och upptäcker vid tangentbordet vad du inte
+        förstod. Klistrar du in den hoppar du över precis det steget.
+        Utskrifter från terminalen och svar från API:er är undantag – de är figurer,
+        inte kod att öva på.</p>
+    </div>
+
+    <p><em>Guide · Område 8 · Webbserverprogrammering 1</em></p>
+    <h2 id="bygger">Vad du bygger här</h2>
+    <p>Filmarkivet lämnar din dator. När guiden är slut har applikationen en <strong>riktig adress med HTTPS</strong>, där vem som helst kan se filmerna och du kan logga in. Varje filmsida har en <strong>ruta med text från Wikipedia</strong>, och applikationen har ett eget <strong>API</strong> som svarar med JSON i stället för HTML.</p>
+    <pre><code>https://&lt;ditt-namn&gt;.azurewebsites.net
+├── /filmer/{id}           Filmsidan. Ny: rutan från Wikipedia
+├── /api/filmer            Ny. Alla filmer som JSON
+├── /api/filmer/{id}       Ny. En film som JSON, eller 404
+└── … allt från område 7, oförändrat</code></pre>
+    <p>Det färdiga projektet ligger i <code>referensprojekt/Filmarkivet</code>.</p>
+    <p><strong>Det här området handlar om det som skiljer en körande applikation från en driftsatt.</strong> På din dator vet applikationen var databasen ligger, lösenorden ligger i user-secrets och du ser varje fel i terminalen. På en server finns inget av det – om du inte sett till att det gör det. Nästan ingen ny kod behövs. Det mesta är inställningar, och att förstå varför de behövs.</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Lektion</th><th>Vad</th><th>Steg</th></tr></thead>
+    <tbody>
+    <tr><td>57</td><td>Från utvecklingsmiljö till drift</td><td>1–6</td></tr>
+    <tr><td>58</td><td>Driftsättning</td><td>7–12</td></tr>
+    <tr><td>59</td><td>JSON, API:er och samspelet klient–server</td><td>13–19</td></tr>
+    <tr><td>60</td><td>Arbetspass</td><td>20–21</td></tr>
+    </tbody></table></div>
+    <h2 id="sjalv">Vad du ska göra själv efteråt</h2>
+    <p>Samma sak med ditt projekt. Det är <strong>Projekt 3</strong>, och kraven per betygsnivå står i uppgiften. Det här är vad guiden går igenom:</p>
+    <ul><li>Inställningarna i drift som <strong>miljövariabler</strong>, inte i koden</li><li><strong>Migrationerna</strong> körs i driftmiljön</li><li>Projektet <strong>publicerat</strong> på Azure App Service, med <strong>HTTPS</strong></li><li>En sida som <strong>hämtar och visar data från ett externt API</strong> – och som fungerar också när API:et inte svarar</li><li>En <strong>egen endpoint</strong> som returnerar JSON</li><li><strong>Inga hemligheter i repot</strong>, och driftsättningen <strong>dokumenterad</strong> så att någon annan kan upprepa den</li></ul>
+    <h3>Översättningstabellen</h3>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Filmarkivet</th><th>Ditt projekt</th></tr></thead>
+    <tbody>
+    <tr><td><code>ConnectionStrings__Filmarkivet</code></td><td>samma nyckel med ditt namn på anslutningssträngen</td></tr>
+    <tr><td><code>Anvandare__AdminLosenord</code>, <code>Anvandare__LasareLosenord</code></td><td>dina nycklar från område 7</td></tr>
+    <tr><td><code>Data/Databasstart.cs</code></td><td>samma fil – den är inte knuten till domänen</td></tr>
+    <tr><td>Wikipedia, <code>page/summary/{titel}</code></td><td>ditt externa API – Wikipedia, eller ett nyckelfritt API som passar din domän bättre</td></tr>
+    <tr><td><code>IWikipediaKlient</code> / <code>WikipediaKlient</code></td><td>ditt gränssnitt och din typade klient</td></tr>
+    <tr><td><code>Sammanfattning</code></td><td>det du visar av API:ets svar</td></tr>
+    <tr><td><code>{titel} (film)</code>, sedan <code>{titel}</code></td><td>hur du gör din sökterm träffsäker</td></tr>
+    <tr><td>Rutan på <code>/filmer/{id}</code></td><td>sidan där datan från API:et visas</td></tr>
+    <tr><td><code>/api/filmer</code>, <code>/api/filmer/{id}</code></td><td>ditt eget API, på din huvudentitet</td></tr>
+    <tr><td><code>FilmSvar</code></td><td>ditt svarsobjekt – de fält API:et ska visa</td></tr>
+    <tr><td><code>filmarkivet-&lt;namn&gt;.azurewebsites.net</code></td><td>din adress</td></tr>
+    </tbody></table></div>
+    <p>Fyll i högerkolumnen innan du börjar. Två rader kräver ett beslut: vilket API du hämtar data från, och vilka fält ditt eget API ska lämna ut.</p>
+    <h2 id="innan">Innan du börjar</h2>
+    <p>Ditt projekt från område 7: roller, lösenorden i user-secrets, och sidorna som ändrar data skyddade. Kontrollen tar tio sekunder:</p>
+    <pre><code>dotnet run</code></pre>
+    <p>Logga in som din admin och ändra en post. Logga ut, och försök nå samma sida – du ska hamna på inloggningen. Fungerar det är du redo.</p>
+    <p><strong>Allt ska vara committat och pushat.</strong> Det du driftsätter ska vara det som ligger i repot, så att någon annan kan göra om det.</p>
+    <h2 id="begrepp">Begreppen i det här momentet</h2>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Begrepp</th><th>Vad det är</th></tr></thead>
+    <tbody>
+    <tr><td>Miljö</td><td><em>Development</em> på din dator, <em>Production</em> på servern. Styrs av <code>ASPNETCORE_ENVIRONMENT</code></td></tr>
+    <tr><td>Miljövariabel</td><td>En inställning som operativsystemet ger programmet när det startar. Ligger utanför koden</td></tr>
+    <tr><td><code>dotnet publish</code></td><td>Bygger det som ska köras på servern – utan källkod, utan testprojekt</td></tr>
+    <tr><td><em>App Service</em></td><td>Azures tjänst för webbapplikationer. Du lämnar programmet, Azure kör det</td></tr>
+    <tr><td>Driftsättning</td><td>Att få en applikation att köra på en server, åtkomlig för andra</td></tr>
+    <tr><td>API</td><td><em>Application Programming Interface</em> – ett gränssnitt som program anropar, inte människor</td></tr>
+    <tr><td>REST</td><td>Ett sätt att bygga API:er: adresser är resurser, HTTP-metoden säger vad som ska göras</td></tr>
+    <tr><td>JSON</td><td>Textformatet API:er oftast svarar med. <code>{"titel":"Gökboet","ar":1975}</code></td></tr>
+    <tr><td>Statuskod</td><td>Siffran i svaret som säger hur det gick. 200 OK, 404 finns inte, 500 serverfel</td></tr>
+    <tr><td><em>Endpoint</em></td><td>En adress som svarar på förfrågningar. En sida är en, <code>/api/filmer</code> en annan</td></tr>
+    <tr><td><code>HttpClient</code></td><td>Klassen som skickar förfrågningar från din server till en annan</td></tr>
+    <tr><td><code>IHttpClientFactory</code></td><td>Håller i <code>HttpClient</code> åt dig, så att anslutningarna återanvänds</td></tr>
+    <tr><td>Typad klient</td><td>En egen klass som får en färdig <code>HttpClient</code> injicerad</td></tr>
+    <tr><td>Tidsgräns</td><td>Hur länge <code>HttpClient</code> väntar på ett svar innan den ger upp</td></tr>
+    <tr><td><em>Problem details</em></td><td>Standardformen för ett fel i ett JSON-API</td></tr>
+    </tbody></table></div>
+    <p>---</p>
+    <h2 id="steg-1">Steg 1 – Två miljöer</h2>
+    <p><strong>Vad vi gör.</strong> Ser vad som skiljer <em>Development</em> från <em>Production</em> – utan att ändra något.</p>
+    <p><strong>Filerna.</strong> <code>appsettings.json</code>, <code>appsettings.Development.json</code> och <code>Properties/launchSettings.json</code>.</p>
+    <p>När du kör <code>dotnet run</code> läser applikationen <code>launchSettings.json</code>, och där står:</p>
+    <pre><code>"environmentVariables": {
+  "ASPNETCORE_ENVIRONMENT": "Development"
+}</code></pre>
+    <p>Det är den raden som gör din dator till en utvecklingsmiljö. På en server finns ingen <code>launchSettings.json</code>. Där är miljön <em>Production</em>, om ingen sagt något annat.</p>
+    <p><strong>Varför det ser ut så.</strong> Tre saker i ditt projekt beter sig olika beroende på miljön, och alla tre har du redan sett:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th></th><th>Development</th><th>Production</th></tr></thead>
+    <tbody>
+    <tr><td>Ett undantag som <code>ErrorBoundary</code> inte fångar</td><td>Stackspåret visas i webbläsaren</td><td>Felsidan, <code>Error.razor</code></td></tr>
+    <tr><td><code>appsettings.Development.json</code></td><td>Läses, ovanpå <code>appsettings.json</code></td><td>Läses inte</td></tr>
+    <tr><td>user-secrets</td><td>Läses</td><td><strong>Läses inte</strong></td></tr>
+    </tbody></table></div>
+    <p>Den sista raden är den som ställer till det. Dina lösenord från område 7 ligger i user-secrets. På servern finns de inte – där måste de komma någon annanstans ifrån. Det är nästa steg.</p>
+    <p><strong>Kontrollera.</strong> Öppna <code>launchSettings.json</code> och hitta raden. Öppna sedan <code>appsettings.Development.json</code>: det som står där gäller bara på din dator.</p>
+    <p><strong>I ditt projekt.</strong> Identiskt. Filerna finns redan.</p>
+    <h2 id="steg-2">Steg 2 – Inställningarna utanför koden</h2>
+    <p><strong>Vad vi gör.</strong> Ger applikationen en inställning utifrån, som en miljövariabel.</p>
+    <p>Allt i <code>appsettings.json</code> går att skriva över med en miljövariabel. Nyckeln skrivs med <strong>dubbla understreck</strong> där JSON-filen har nivåer:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>I <code>appsettings.json</code> eller user-secrets</th><th>Som miljövariabel</th></tr></thead>
+    <tbody>
+    <tr><td><code>ConnectionStrings</code> → <code>Filmarkivet</code></td><td><code>ConnectionStrings__Filmarkivet</code></td></tr>
+    <tr><td><code>Anvandare</code> → <code>AdminLosenord</code></td><td><code>Anvandare__AdminLosenord</code></td></tr>
+    <tr><td><code>Wikipedia</code> → <code>Adress</code></td><td><code>Wikipedia__Adress</code></td></tr>
+    </tbody></table></div>
+    <p>Pröva i PowerShell, i projektmappen:</p>
+    <pre><code class="sprak-powershell">$env:ASPNETCORE_ENVIRONMENT = "Production"
+dotnet run --no-launch-profile</code></pre>
+    <p><code>--no-launch-profile</code> behövs: annars sätter <code>launchSettings.json</code> tillbaka <em>Development</em>. Terminalen säger:</p>
+    <pre><code>Now listening on: http://localhost:5000
+Hosting environment: Production</code></pre>
+    <p>Stoppa med Ctrl+C, och nollställ variabeln – den gäller annars resten av terminalfönstret:</p>
+    <pre><code class="sprak-powershell">$env:ASPNETCORE_ENVIRONMENT = $null</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Samma kod ska kunna köras på din dator och på servern, med olika värden. Värdena kan inte stå i koden, för då är de samma överallt – och de hamnar i git. En miljövariabel ligger utanför både koden och repot. Ordningen som läses är: <code>appsettings.json</code>, sedan <code>appsettings.{miljö}.json</code>, sedan user-secrets (bara i Development), sedan miljövariabler. <strong>Det som läses sist vinner.</strong></p>
+    <p>Dubbla understreck och inte kolon, eftersom kolon inte är tillåtet i namnet på en miljövariabel överallt. Dubbla understreck fungerar i alla miljöer.</p>
+    <p><strong>Kontrollera.</strong> <code>Hosting environment: Production</code> i terminalen.</p>
+    <p><strong>I ditt projekt.</strong> Identiskt. Skriv upp dina nycklar – namnen på din anslutningssträng och dina lösenord. Du behöver dem i steg 9.</p>
+    <h2 id="steg-3">Steg 3 – Migrationerna i driftmiljön</h2>
+    <p><strong>Vad vi gör.</strong> Låter applikationen köra sina migrationer själv när den startar – men bara när en inställning säger det.</p>
+    <p><strong>Filen.</strong> <code>Data/Databasstart.cs</code>, ny:</p>
+    <pre><code class="sprak-csharp">using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+
+namespace Filmarkivet.Data;
+
+// Migrationerna i driftmiljön. Ny i område 8.
+//
+// På den egna datorn kör du dotnet ef database update. På servern finns inget
+// dotnet ef och ingen terminal du sitter vid - applikationen får göra det
+// själv när den startar. Men bara när inställningen säger det:
+//
+//   Databas__MigreraVidStart = true
+//
+// På den egna datorn är den avslagen, så att database update förblir ett steg
+// du gör och ser.
+public static class Databasstart
+{
+    public static async Task MigreraAsync(IServiceProvider tjanster, IConfiguration konfiguration,
+                                          ILogger logg)
+    {
+        if (!konfiguration.GetValue&lt;bool&gt;("Databas:MigreraVidStart"))
+        {
+            return;
+        }
+
+        // SQLite skapar databasfilen om den saknas, men inte mappen den ska
+        // ligga i. I App Service ligger den i D:\home\data, som inte finns från
+        // början.
+        string? fil = new SqliteConnectionStringBuilder(
+            konfiguration.GetConnectionString("Filmarkivet")).DataSource;
+        string? mapp = Path.GetDirectoryName(Path.GetFullPath(fil));
+
+        if (!string.IsNullOrEmpty(mapp))
+        {
+            Directory.CreateDirectory(mapp);
+        }
+
+        var fabrik = tjanster.GetRequiredService&lt;IDbContextFactory&lt;FilmarkivetContext&gt;&gt;();
+        using var db = await fabrik.CreateDbContextAsync();
+
+        List&lt;string&gt; ejKorda = (await db.Database.GetPendingMigrationsAsync()).ToList();
+        await db.Database.MigrateAsync();
+
+        logg.LogInformation("Databasen {Fil}: {Antal} migration(er) körda {Namn}",
+            fil, ejKorda.Count, string.Join(", ", ejKorda));
+    }
+}</code></pre>
+    <p>Och i <code>Program.cs</code>, där användarna skapas – migrationerna först:</p>
+    <pre><code class="sprak-csharp">// Användarna som finns från start. Lösenord kan inte ligga i en migration -
+// de ska hashas, och det gör UserManager. Sedan område 7 står de inte heller
+// i koden: se Data/Anvandardata.cs.
+//
+// I drift finns inga tabeller förrän migrationerna körts, så de kommer först.
+using (var omfang = app.Services.CreateScope())
+{
+    await Databasstart.MigreraAsync(omfang.ServiceProvider, app.Configuration, app.Logger);
+    await Anvandardata.SkapaAsync(omfang.ServiceProvider, app.Configuration, app.Logger);
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> På din dator kör du <code>dotnet ef database update</code>. På servern finns inget <code>dotnet ef</code>, och ingen terminal du sitter vid. Applikationen får göra det själv.</p>
+    <p><strong>Varför en inställning, och inte alltid?</strong> På din egen dator vill du fortsätta se <code>database update</code> som ett eget steg – det är där du märker att en migration saknas. I drift slås det på med <code>Databas__MigreraVidStart = true</code>.</p>
+    <p><strong>Varför mappen skapas.</strong> SQLite skapar databasfilen om den saknas, men inte mappen den ska ligga i. I App Service ligger databasen i en mapp som inte finns från början.</p>
+    <p><strong>Varför migrationerna före användarna.</strong> <code>Anvandardata</code> letar efter användare i <code>AspNetUsers</code>. I en ny databas finns inte tabellen förrän migrationerna körts.</p>
+    <p><strong>Kontrollera.</strong> Görs i steg 6, med det publicerade programmet.</p>
+    <p><strong>I ditt projekt.</strong> Kopiera filen och byt namnet på anslutningssträngen och ditt <code>DbContext</code>. Raderna i <code>Program.cs</code> hamnar där dina användare skapas.</p>
+    <h2 id="steg-4">Steg 4 – Mindre loggning i drift</h2>
+    <p><strong>Vad vi gör.</strong> Stänger av SQL-loggningen utanför din dator.</p>
+    <p><strong>Filen.</strong> <code>appsettings.json</code>:</p>
+    <pre><code class="sprak-json">{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.EntityFrameworkCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "Filmarkivet": "Data Source=filmarkivet.db"
+  },
+  "Wikipedia": {
+    "Adress": "https://sv.wikipedia.org/api/rest_v1/"
+  }
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> SQL-loggningen från lektion 38 står i <code>appsettings.Development.json</code>. Men <code>Default</code> är <code>Information</code>, och EF Core loggar varje fråga på den nivån – också i Production, där ingen läser den. Raden <code>"Microsoft.EntityFrameworkCore": "Warning"</code> stänger av det.</p>
+    <p>På din dator gäller ändå SQL-loggningen: <code>appsettings.Development.json</code> har den mer precisa nyckeln <code>Microsoft.EntityFrameworkCore.Database.Command</code>, och <strong>den mest precisa nyckeln vinner</strong>. För samma sida blir det 7 rader SQL i Development och 0 i Production.</p>
+    <p><strong>Wikipedia-raden</strong> är till steg 16.</p>
+    <p><strong>Kontrollera.</strong> Kör i Development och öppna en sida – SQL i terminalen. Kör sedan som i steg 2 – ingen.</p>
+    <p><strong>I ditt projekt.</strong> Samma rad.</p>
+    <h2 id="steg-5">Steg 5 – Publicera och zippa</h2>
+    <p><strong>Vad vi gör.</strong> Bygger det som ska köras på servern, och packar det.</p>
+    <p>I projektmappen:</p>
+    <pre><code class="sprak-powershell">dotnet publish -c Release -o ..\publicera
+tar -a -c -f ..\filmarkivet.zip -C ..\publicera *</code></pre>
+    <p><code>dotnet publish</code> bygger en Release-version i mappen <code>publicera</code>, bredvid projektmappen. <code>tar</code> packar innehållet i mappen till en zip. Resultatet för Filmarkivet: 248 filer, 22,6 MB.</p>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p>**Varför <code>..\publicera</code>, utanför projektmappen?** Ditt repo börjar i projektmappen. En <code>publicera</code>-mapp därinne hade kommit med i nästa <code>git add .</code> – och byggts in i nästa <code>dotnet publish</code>.</p>
+    <p><strong>Varför innehållet och inte mappen?</strong> App Service packar upp zippen och letar efter <code>Filmarkivet.dll</code> och <code>web.config</code> direkt i roten. Ligger de i en undermapp hittas de inte. <code>-C ..\publicera *</code> betyder: gå in i mappen, packa det som ligger där.</p>
+    <p>**Varför <code>tar</code> och inte <code>Compress-Archive</code>?** QuickGrid har en fil med ett mycket långt namn i <code>wwwroot/_content</code>. Ligger publiceringen djupt i en mappstruktur – till exempel i OneDrive – blir sökvägen över 260 tecken, och <code>Compress-Archive</code> i Windows PowerShell ger upp: <em>Det gick inte att hitta en del av sökvägen</em>. <code>tar</code> har inte den gränsen. Det följer med Windows 10 och 11.</p>
+    <p><strong>Vad följer med – och inte.</strong> Inga <code>.cs</code>-filer, inget testprojekt, ingen databasfil. <code>web.config</code> följer med: det är filen Windows-servern läser för att starta appen.</p>
+    <p><strong>Kontrollera.</strong> Öppna <code>..\publicera</code>. <code>Filmarkivet.dll</code> och <code>web.config</code> ska ligga direkt i mappen. Öppna zippen – samma sak.</p>
+    <p><strong>I ditt projekt.</strong> Byt <code>filmarkivet.zip</code> mot ditt namn. Resten är identiskt.</p>
+    <h2 id="steg-6">Steg 6 – Prova driften på din egen dator</h2>
+    <p><strong>Vad vi gör.</strong> Kör det publicerade programmet i Production, med inställningarna som miljövariabler – så som servern kommer att köra det.</p>
+    <p>I PowerShell, från projektmappen:</p>
+    <pre><code class="sprak-powershell">cd ..\publicera
+$env:ASPNETCORE_ENVIRONMENT = "Production"
+$env:ConnectionStrings__Filmarkivet = "Data Source=C:\temp\drift\filmarkivet.db"
+$env:Databas__MigreraVidStart = "true"
+$env:Anvandare__AdminLosenord = "Provlosen-123"
+$env:Anvandare__LasareLosenord = "Provlosen-456"
+dotnet Filmarkivet.dll</code></pre>
+    <p>Mappen <code>C:\temp\drift</code> behöver inte finnas. Bland raderna i terminalen:</p>
+    <pre><code>Databasen C:\temp\drift\filmarkivet.db: 3 migration(er) körda 20260907122027_ForstaMigrationen, 20260923061112_GenreOchRelation, 20260923082206_Identity
+Now listening on: http://localhost:5000
+Hosting environment: Production</code></pre>
+    <p>Den första raden är <code>Databasstart</code>s egen. EF Cores rader om varje migration syns inte – steg 4 dämpade dem. Öppna <code>http://localhost:5000</code> och logga in som admin med lösenordet ovan.</p>
+    <p>En varning om att https-porten inte gick att avgöra är väntad: programmet lyssnar bara på http på din dator. På servern sköter Azure HTTPS.</p>
+    <p>Nollställ variablerna när du är klar, eller stäng terminalfönstret.</p>
+    <p><strong>Varför det ser ut så.</strong> Det här är servern i miniatyr: ingen <code>launchSettings</code>, ingen user-secrets, ingen databas från början. Fungerar det här, har du uteslutit hälften av det som kan gå fel i Azure. Fungerar det inte här, fungerar det inte där.</p>
+    <p><strong>En varning som ser farlig ut.</strong> Mitt i migrationerna står:</p>
+    <pre><code>The migration operation 'PRAGMA foreign_keys = 0;' from migration 'GenreOchRelation'
+cannot be executed in a transaction.</code></pre>
+    <p>Den är väntad. SQLite kan inte slå av kontrollen av främmande nycklar inuti en transaktion, och migrationen från område 6 bygger om tabellen. Migrationen går igenom.</p>
+    <p>**Prova med <code>dotnet run</code>, och det ser trasigt ut.** <code>dotnet run --no-launch-profile</code> i Production, som i steg 2, ger en sida utan komponenternas CSS: filen <code>Filmarkivet.….styles.css</code> svarar 500. Den byggs bara ihop under utveckling. Det publicerade programmet har den. <strong>Prova driften med det du publicerat.</strong></p>
+    <p><strong>Kontrollera.</strong> Raden <code>3 migration(er) körda</code>, inloggningen fungerar, och <code>C:\temp\drift</code> innehåller nu <code>filmarkivet.db</code>.</p>
+    <p><strong>I ditt projekt.</strong> Byt nycklarna mot dina, och <code>Filmarkivet.dll</code> mot ditt projekts namn.</p>
+    <h2 id="steg-7">Steg 7 – Ett konto i Azure</h2>
+    <p><strong>Vad vi gör.</strong> Skaffar ett Azure-konto med studentkrediter.</p>
+    <p>Gå till Azure for Students och registrera dig med <strong>din skolmejl</strong>. Kontot kräver inget kreditkort. Du får krediter som räcker långt – och det här området använder gratisnivån, som inte drar några.</p>
+    <p><strong>Varför det ser ut så.</strong> App Service kör din applikation på Microsofts servrar. Kontot är vem som äger den, och vem som får ändra den.</p>
+    <p><strong>Kontrollera.</strong> Du kommer in i Azure-portalen, <code>portal.azure.com</code>, och ser din prenumeration <em>Azure for Students</em>.</p>
+    <p><strong>I ditt projekt.</strong> Identiskt.</p>
+    <h2 id="steg-8">Steg 8 – Skapa webbappen</h2>
+    <p><strong>Vad vi gör.</strong> Skapar den plats på servern där Filmarkivet ska köra.</p>
+    <p>I portalen: <em>Create a resource → Web App</em>. Fyll i:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Fält</th><th>Värde</th><th>Varför</th></tr></thead>
+    <tbody>
+    <tr><td>Subscription</td><td>Azure for Students</td><td>–</td></tr>
+    <tr><td>Resource Group</td><td>ny, till exempel <code>filmarkivet</code></td><td>En mapp för allt som hör till projektet. Tas den bort, tas allt bort</td></tr>
+    <tr><td>Name</td><td><code>filmarkivet-&lt;ditt namn&gt;</code></td><td>Blir adressen. Måste vara unikt i hela Azure</td></tr>
+    <tr><td>Publish</td><td>Code</td><td>Du laddar upp ett publicerat program, inte en container</td></tr>
+    <tr><td>Runtime stack</td><td>.NET 10 (LTS)</td><td>Samma version som ditt projekt</td></tr>
+    <tr><td>Operating System</td><td><strong>Windows</strong></td><td>Zippen går att dra in i webbläsaren – steg 10</td></tr>
+    <tr><td>Region</td><td>Sweden Central</td><td>Nära, och datan stannar i Sverige</td></tr>
+    <tr><td>Pricing plan</td><td>Free F1</td><td>Gratis. Räcker för ett skolprojekt</td></tr>
+    </tbody></table></div>
+    <p><em>Review + create</em>, sedan <em>Create</em>.</p>
+    <p><strong>Varför Windows?</strong> Uppladdningen i steg 10 – att dra zippen till webbläsaren – fungerar enligt Microsofts dokumentation bara på Windows-varianten. Ditt program bryr sig inte: <code>dotnet publish</code> gav en <code>web.config</code> just för Windows-servern.</p>
+    <p><strong>Kontrollera.</strong> <em>Go to resource</em>. Överst står <em>Default domain</em>: <code>filmarkivet-&lt;ditt namn&gt;.azurewebsites.net</code>. Öppna den – en sida från Azure om att appen väntar på innehåll.</p>
+    <p><strong>I ditt projekt.</strong> Ditt namn på resursgruppen och appen.</p>
+    <h2 id="steg-9">Steg 9 – Inställningarna</h2>
+    <p><strong>Vad vi gör.</strong> Lägger in miljövariablerna från steg 6 – med riktiga värden.</p>
+    <p>I appen: <em>Settings → Environment variables → App settings</em>. <em>Add</em> för varje:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Name</th><th>Value</th></tr></thead>
+    <tbody>
+    <tr><td><code>ConnectionStrings__Filmarkivet</code></td><td><code>Data Source=D:\home\data\filmarkivet.db</code></td></tr>
+    <tr><td><code>Databas__MigreraVidStart</code></td><td><code>true</code></td></tr>
+    <tr><td><code>Anvandare__AdminLosenord</code></td><td>ett nytt lösenord</td></tr>
+    <tr><td><code>Anvandare__LasareLosenord</code></td><td>ett nytt lösenord</td></tr>
+    </tbody></table></div>
+    <p><em>Apply</em>, och <em>Apply</em> igen på sidan <em>Environment variables</em>. Appen startas om.</p>
+    <p><strong>Varför det ser ut så.</strong> Det här är samma nycklar som i steg 6, nu satta av servern i stället för av dig. <code>ASPNETCORE_ENVIRONMENT</code> behövs inte – utan den är miljön Production.</p>
+    <p>**Varför <code>D:\home</code>?** Det mesta på servern kan skrivas över när appen startas om eller publiceras på nytt. <code>D:\home</code> är den del som finns kvar. Ligger databasen någon annanstans är filmerna borta efter nästa publicering.</p>
+    <p><strong>Varför nya lösenord?</strong> Lösenordet du använt hittills står kanske i din git-historik, från Projekt 1 – steg 20 visar hur du tar reda på det. Ett lösenord som finns i historiken är inte hemligt längre.</p>
+    <p><strong>Kontrollera.</strong> Fyra rader under <em>App settings</em>. Värdena är dolda – <em>Show value</em> visar dem.</p>
+    <p><strong>I ditt projekt.</strong> Dina nycklar, från steg 2.</p>
+    <h2 id="steg-10">Steg 10 – Ladda upp zippen</h2>
+    <p><strong>Vad vi gör.</strong> Lägger det publicerade programmet på servern.</p>
+    <p>I appen: <em>Development Tools → Advanced Tools → Go</em>. En ny flik öppnas: Kudu, verktyget bakom App Service. Välj <em>Tools → Zip Push Deploy</em>. Dra <code>filmarkivet.zip</code> från Utforskaren till filytan på sidan.</p>
+    <p>En procentsiffra visar förloppet. Sista raden ska bli <em>Deployment successful</em>.</p>
+    <p><strong>Varför det ser ut så.</strong> Kudu packar upp zippen i appens mapp och startar om applikationen. Nästa gång du publicerar gör du samma sak: <code>dotnet publish</code>, <code>tar</code>, dra zippen. Databasen i <code>D:\home\data</code> rörs inte.</p>
+    <p><strong>Kontrollera.</strong> <em>Deployment successful</em>.</p>
+    <p><strong>I ditt projekt.</strong> Identiskt.</p>
+    <h2 id="steg-11">Steg 11 – Kontrollera driften</h2>
+    <p><strong>Vad vi gör.</strong> Går igenom att det som fungerade i steg 6 också fungerar på servern.</p>
+    <p>Öppna <code>https://filmarkivet-&lt;ditt namn&gt;.azurewebsites.net</code>. Första förfrågan tar en stund – appen startar och kör sina migrationer.</p>
+    <ol><li><strong>HTTPS.</strong> Hänglåset i adressfältet. Skriv adressen med <code>http://</code> – du ska</li></ol>
+    <p>hamna på <code>https://</code>.</p>
+    <ol><li><strong>Filmerna.</strong> <code>/filmer</code> visar de sex filmerna från frödatan.</li><li><strong>Inloggningen.</strong> Logga in som admin med lösenordet från steg 9.</li><li><strong>Skyddet.</strong> Logga ut och försök nå <code>/admin/filmer</code> – inloggningen.</li></ol>
+    <p><strong>Loggen.</strong> <em>Monitoring → App Service logs</em>: sätt <em>Application logging (Filesystem)</em> till <em>On</em>, nivå <em>Information</em>, <em>Save</em>. Den stänger av sig själv efter 12 timmar. Öppna sedan <em>Monitoring → Log stream</em> och ladda om sidan.</p>
+    <p><strong>Varför det ser ut så.</strong> Punkt 1 är det du inte kunde se på din egen dator: certifikatet är Azures, och <code>UseHsts</code> skickar nu headern <code>Strict-Transport-Security</code> – den skickas aldrig till <code>localhost</code>. Punkt 3 visar att miljövariablerna kom fram. Punkt 4 visar att skyddet från område 7 följde med.</p>
+    <p><strong>Kontrollera.</strong> Alla fyra punkterna. Dela adressen med någon – den fungerar från deras dator också.</p>
+    <p><strong>I ditt projekt.</strong> Samma fyra kontroller, med dina sidor.</p>
+    <h2 id="steg-12">Steg 12 – När det går fel första gången</h2>
+    <p><strong>Vad vi gör.</strong> Går igenom det som oftast går fel, och var svaret finns.</p>
+    <p>Första driftsättningen går sällan igenom på första försöket. Det är normalt, och felen är nästan alltid desamma. <strong>Börja alltid i loggen</strong>, steg 11.</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Gör så här</th></tr></thead>
+    <tbody>
+    <tr><td><em>HTTP Error 500.30 – ASP.NET Core app failed to start</em></td><td>Applikationen kastade ett undantag när den startade</td><td>Log stream. Oftast anslutningssträngen eller en migration</td></tr>
+    <tr><td>Sidan från Azure om att appen väntar på innehåll</td><td>Zippen kom inte upp, eller ligger i en undermapp</td><td>Steg 5: innehållet i roten. Steg 10: <em>Deployment successful</em></td></tr>
+    <tr><td>Inloggningen säger fel lösenord</td><td>Användaren skapades aldrig</td><td>Log stream: <code>skapades inte</code>. Kontrollera nycklarnas namn, med dubbla understreck</td></tr>
+    <tr><td>Filmerna är borta efter en ny publicering</td><td>Databasen ligger utanför <code>D:\home</code></td><td>Steg 9, anslutningssträngen</td></tr>
+    <tr><td>Allt fungerar, men gamla versionen syns</td><td>Kudu kopierar bara filer vars tid ändrats</td><td>Publicera och zippa på nytt, och ladda upp igen</td></tr>
+    <tr><td>Första förfrågan tar lång tid</td><td>Gratisnivån stänger av appen efter en stund utan trafik</td><td>Normalt. Den vaknar vid nästa förfrågan</td></tr>
+    </tbody></table></div>
+    <p><strong>Varför det ser ut så.</strong> Felsidan i drift visar inget stackspår – det var hela poängen i område 7. Därför är loggen det enda stället där felet syns. Den som vet var loggen finns löser de flesta problem på några minuter.</p>
+    <p><strong>I ditt projekt.</strong> Tabellen är densamma. Skriv upp det som gick fel för dig – det hör hemma i driftdokumentationen, steg 21.</p>
+    <h2 id="steg-13">Steg 13 – REST i korthet</h2>
+    <p><strong>Vad vi gör.</strong> Tittar på Filmarkivets API i webbläsaren, innan koden.</p>
+    <p>Öppna <code>/api/filmer</code>:</p>
+    <pre><code>[{"id":6,"titel":"Cykeltjuven","ar":1948,"langdMinuter":89,"betyg":4,"tillganglig":true,"genre":"Drama"}, …]</code></pre>
+    <p>Samma filmer som på <code>/filmer</code>, men utan HTML. Svaret är till för ett program, inte för en människa.</p>
+    <p><strong>Varför det ser ut så.</strong> Ett REST-API är byggt kring <strong>resurser</strong> – här filmer – och använder HTTP som det är tänkt:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Del</th><th>Här</th><th>Betyder</th></tr></thead>
+    <tbody>
+    <tr><td>Adressen</td><td><code>/api/filmer</code>, <code>/api/filmer/5</code></td><td>Vilken resurs: alla filmer, eller film 5</td></tr>
+    <tr><td>Metoden</td><td><code>GET</code></td><td>Vad som ska göras: läsa. <code>POST</code>, <code>PUT</code> och <code>DELETE</code> skapar, ändrar och tar bort</td></tr>
+    <tr><td>Statuskoden</td><td><code>200</code>, <code>404</code></td><td>Hur det gick</td></tr>
+    <tr><td>Innehållet</td><td>JSON</td><td>Svaret, i ett format alla språk kan läsa</td></tr>
+    </tbody></table></div>
+    <p>Filmarkivets API läser bara. Att skapa och ändra via API:et hade krävt inloggning och antiforgery på ett annat sätt än i formulären – det ligger utanför kursen.</p>
+    <p><strong>Kontrollera.</strong> <code>/api/filmer/5</code> ger Gökboet. <code>/api/filmer/99</code> ger 404 – steg 15.</p>
+    <p><strong>I ditt projekt.</strong> Kommer i steg 14.</p>
+    <h2 id="steg-14">Steg 14 – Ett eget API</h2>
+    <p><strong>Vad vi gör.</strong> Två adresser som svarar med JSON.</p>
+    <p><strong>Filen.</strong> <code>Api/FilmApi.cs</code>, ny:</p>
+    <pre><code class="sprak-csharp">using Filmarkivet.Models;
+using Filmarkivet.Services;
+
+namespace Filmarkivet.Api;
+
+// Filmarkivets egna API. Nytt i område 8.
+//
+// Två adresser som svarar med JSON i stället för HTML. De går genom samma
+// tjänst som sidorna - API:et är ett tredje sätt att visa samma data, inte
+// ett nytt sätt att hämta den.
+public static class FilmApi
+{
+    public static void MapFilmApi(this WebApplication app)
+    {
+        // MapGroup ger båda adresserna samma början, /api/filmer.
+        RouteGroupBuilder filmer = app.MapGroup("/api/filmer");
+
+        filmer.MapGet("/", async (IFilmService arkivet) =&gt;
+        {
+            List&lt;Film&gt; alla = await arkivet.HamtaAllaMedGenreAsync();
+            return alla.OrderBy(f =&gt; f.Titel).Select(FilmSvar.Fran);
+        });
+
+        // Results.Ok ger 200 med filmen. Saknas filmen blir det 404 - och
+        // statuskoden är en del av svaret: den som anropar ska inte behöva
+        // läsa texten för att veta att filmen saknades.
+        //
+        // Varför Results.Problem och inte Results.NotFound()? Program.cs gör om
+        // varje TOM 404 till Blazors inte-hittad-sida, som HTML. Rätt för en
+        // besökare, fel för ett program som väntar sig JSON. Ett svar med
+        // innehåll lämnas i fred - och problem details är standardformen för
+        // ett fel i ett API.
+        filmer.MapGet("/{id:int}", async (int id, IFilmService arkivet) =&gt;
+        {
+            Film? film = await arkivet.HamtaMedGenreAsync(id);
+
+            return film is null
+                ? Results.Problem(statusCode: StatusCodes.Status404NotFound,
+                                  title: "Filmen finns inte",
+                                  detail: $"Ingen film har id {id}.")
+                : Results.Ok(FilmSvar.Fran(film));
+        });
+    }
+}
+
+// Det API:et lämnar ut. Inte entiteten: Film har fält som inte hör hemma
+// utanför applikationen, och ett nytt fält på Film ska inte hamna i API:et av
+// sig självt. Genren skickas som namn, inte som ett helt objekt.
+public record FilmSvar(int Id, string Titel, int Ar, int LangdMinuter, int Betyg,
+                       bool Tillganglig, string? Genre)
+{
+    public static FilmSvar Fran(Film film) =&gt;
+        new(film.Id, film.Titel, film.Ar, film.LangdMinuter, film.Betyg,
+            film.Tillganglig, film.Genre?.Namn);
+}</code></pre>
+    <p>Och en rad i <code>Program.cs</code>, efter <code>MapRazorComponents</code>:</p>
+    <pre><code class="sprak-csharp">// Ny i område 8: /api/filmer och /api/filmer/{id}. Se Api/FilmApi.cs.
+app.MapFilmApi();</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>MapGet</code> kopplar en adress till en metod – samma sak som <code>MapPost</code> för utloggningen i område 6. Det metoden returnerar blir svaret. Är det ett objekt eller en lista görs den om till JSON, och egenskapernas namn blir <em>camelCase</em>: <code>LangdMinuter</code> blir <code>langdMinuter</code>.</p>
+    <p><strong>Samma tjänst som sidorna.</strong> API:et går genom <code>IFilmService</code>. Det är ett tredje sätt att visa samma data – efter sidorna och formulären – inte ett nytt sätt att hämta den.</p>
+    <p>**Varför <code>FilmSvar</code> och inte <code>Film</code>?** Entiteten är databasens. Lägger du till ett fält på <code>Film</code> om ett år ska det inte hamna i API:et av sig självt. <code>FilmSvar</code> bestämmer vad API:et lämnar ut – och genren blir ett namn, inte ett helt objekt med en lista av filmer i.</p>
+    <p><strong>Varför en egen fil?</strong> <code>Program.cs</code> är redan lång. <code>MapFilmApi</code> är en <em>extension method</em>: den ser ut som en metod på <code>app</code>, men står i en egen klass.</p>
+    <p><strong>Kontrollera.</strong> <code>/api/filmer</code> och <code>/api/filmer/5</code> i webbläsaren.</p>
+    <p><strong>I ditt projekt.</strong> Ditt svarsobjekt, med de fält du vill lämna ut, och <code>/api/</code> plus din huvudentitet i plural.</p>
+    <h2 id="steg-15">Steg 15 – 404 som JSON</h2>
+    <p><strong>Vad vi gör.</strong> Ser till att ett fel från API:et också är JSON.</p>
+    <p>Det enkla sättet att svara 404 är <code>Results.NotFound()</code>. Pröva det: <code>/api/filmer/99</code> svarar då med 404 – och <strong>en HTML-sida</strong>, Filmarkivets <em>inte hittad</em>.</p>
+    <p><strong>Varför det ser ut så.</strong> <code>Program.cs</code> har sedan område 3 raden <code>UseStatusCodePagesWithReExecute("/not-found")</code>. Den fångar varje <strong>tom</strong> 404 och visar sidan i stället. Rätt för en besökare – fel för ett program som väntar sig JSON och får HTML.</p>
+    <p><code>Results.Problem</code> i steg 14 ger ett svar med innehåll, och det lämnas i fred:</p>
+    <pre><code>{"type":"https://tools.ietf.org/html/rfc9110#section-15.5.5","title":"Filmen finns inte","status":404,"detail":"Ingen film har id 99."}</code></pre>
+    <p>med <code>Content-Type: application/problem+json</code>. Det är <em>problem details</em>, standardformen för ett fel i ett API. Den som anropar kan läsa statuskoden, och en människa som felsöker kan läsa texten.</p>
+    <p><strong>Kontrollera.</strong> <code>/api/filmer/99</code> ger JSON, inte en sida. DevTools → Network visar statuskoden 404.</p>
+    <p><strong>I ditt projekt.</strong> Samma sak för ditt id som inte finns.</p>
+    <h2 id="steg-16">Steg 16 – En klient mot Wikipedia</h2>
+    <p><strong>Vad vi gör.</strong> Registrerar en <code>HttpClient</code> som vet var Wikipedia finns.</p>
+    <p>Pröva API:et i webbläsaren först: <code>https://sv.wikipedia.org/api/rest_v1/page/summary/Cykeltjuven</code>. Svaret är JSON med ett trettiotal fält. Filmarkivet använder tre: <code>title</code>, <code>extract</code> och adressen till artikeln.</p>
+    <p><strong>Filen.</strong> <code>Program.cs</code>, efter de andra tjänsterna:</p>
+    <pre><code class="sprak-csharp">// Ny i område 8: en typad HttpClient mot Wikipedia. Adressen står i
+// appsettings.json, så att den går att byta utan att koden ändras - till
+// exempel mot en adress som inte svarar, för att se vad sidan gör då.
+//
+// Tidsgränsen är tre sekunder. Förvalet är hundra: så länge hade filmsidan
+// väntat på ett API som inte svarar.
+builder.Services.AddHttpClient&lt;IWikipediaKlient, WikipediaKlient&gt;(klient =&gt;
+{
+    klient.BaseAddress = new Uri(builder.Configuration["Wikipedia:Adress"]!);
+    klient.Timeout = TimeSpan.FromSeconds(3);
+    // Wikipedia kräver att den som anropar säger vem den är.
+    klient.DefaultRequestHeaders.UserAgent.ParseAdd("Filmarkivet/1.0 (skolprojekt)");
+});</code></pre>
+    <p>Adressen står i <code>appsettings.json</code>, från steg 4.</p>
+    <p><strong>Varför det ser ut så.</strong> <code>AddHttpClient</code> registrerar en <strong>typad klient</strong>: <code>WikipediaKlient</code> får en <code>HttpClient</code> i konstruktorn, redan inställd. Klassen skapar aldrig en själv.</p>
+    <p>**Varför inte <code>new HttpClient()</code>?** Varje <code>HttpClient</code> håller en anslutning öppen en stund efter att den använts. En ny per anrop lämnar en öppen anslutning efter sig varje gång. <code>IHttpClientFactory</code> – som <code>AddHttpClient</code> sätter upp – återanvänder dem.</p>
+    <p><strong>Varför tre sekunder?</strong> Förvalet är 100. Svarar inte Wikipedia väntar filmsidan så länge innan den visas. Steg 19 visar vad tre sekunder betyder.</p>
+    <p><strong>Varför User-Agent?</strong> Wikipedia vill veta vem som anropar. Det är en fråga om hyfs mot en gratis tjänst – och om något går fel vet de vem de ska höra av sig till.</p>
+    <p><strong>Kontrollera.</strong> <code>dotnet build</code>. Klassen kommer i nästa steg.</p>
+    <p><strong>I ditt projekt.</strong> Ditt API:s adress i <code>appsettings.json</code>. Kräver ditt API en nyckel – den ska inte stå där, utan i user-secrets och som miljövariabel, som lösenorden.</p>
+    <h2 id="steg-17">Steg 17 – Klassen som hämtar</h2>
+    <p><strong>Vad vi gör.</strong> Skriver klienten, bakom ett gränssnitt.</p>
+    <p><strong>Filerna.</strong> <code>Models/Sammanfattning.cs</code>:</p>
+    <pre><code class="sprak-csharp">namespace Filmarkivet.Models;
+
+// Det Filmarkivet använder av Wikipedias svar. Ny i område 8.
+//
+// Svaret från Wikipedia har ett trettiotal fält. Det här är de tre sidan
+// visar. Resten läses aldrig in - System.Text.Json hoppar över fält som inte
+// finns i klassen.
+public record Sammanfattning(string Titel, string Text, string Adress);</code></pre>
+    <p><code>Services/IWikipediaKlient.cs</code>:</p>
+    <pre><code class="sprak-csharp">using Filmarkivet.Models;
+
+namespace Filmarkivet.Services;
+
+// Ny i område 8. Samma mönster som IFilmService: sidan ber om en
+// sammanfattning och vet inte varifrån den kommer.
+public interface IWikipediaKlient
+{
+    // null när Wikipedia inte har någon artikel, eller inte svarar.
+    // Sidan ska fungera i båda fallen - filmen finns ju ändå.
+    Task&lt;Sammanfattning?&gt; HamtaAsync(string titel);
+}</code></pre>
+    <p><code>Services/WikipediaKlient.cs</code>:</p>
+    <pre><code class="sprak-csharp">using System.Net;
+using System.Text.Json.Serialization;
+using Filmarkivet.Models;
+
+namespace Filmarkivet.Services;
+
+// Hämtar en sammanfattning från svenska Wikipedia. Ny i område 8.
+//
+// En typad klient: HttpClient kommer in i konstruktorn, färdig med adress,
+// tidsgräns och User-Agent från Program.cs. Klassen skapar aldrig en egen.
+// IHttpClientFactory håller i anslutningarna - en ny HttpClient per anrop
+// hade lämnat en öppen anslutning efter sig varje gång.
+public class WikipediaKlient : IWikipediaKlient
+{
+    private readonly HttpClient _http;
+    private readonly ILogger&lt;WikipediaKlient&gt; _logg;
+
+    public WikipediaKlient(HttpClient http, ILogger&lt;WikipediaKlient&gt; logg)
+    {
+        _http = http;
+        _logg = logg;
+    }
+
+    public async Task&lt;Sammanfattning?&gt; HamtaAsync(string titel)
+    {
+        // "Gökboet" är romanen på Wikipedia. "Gökboet (film)" är filmen. Därför
+        // frågar vi efter filmen först, och tar det rena namnet om den saknas.
+        try
+        {
+            return await HamtaSidaAsync($"{titel} (film)")
+                ?? await HamtaSidaAsync(titel);
+        }
+        catch (Exception fel) when (fel is HttpRequestException or TaskCanceledException)
+        {
+            // Nätverket nere, eller ingen svarade inom tidsgränsen. Undantaget
+            // fångas här och inte i HamtaSidaAsync: då görs inte den andra
+            // frågan, och sidan väntar ut tidsgränsen en gång i stället för två.
+            // Filmsidan visas ändå, utan rutan.
+            _logg.LogWarning("Wikipedia gick inte att nå för {Titel}: {Fel}", titel, fel.Message);
+            return null;
+        }
+    }
+
+    private async Task&lt;Sammanfattning?&gt; HamtaSidaAsync(string sida)
+    {
+        string adress = "page/summary/" + Uri.EscapeDataString(sida.Replace(' ', '_'));
+
+        using HttpResponseMessage svar = await _http.GetAsync(adress);
+
+        // 404 är inget fel: artikeln finns inte. Allt annat som inte är
+        // 200 loggas, så att det syns om API:et börjat svara konstigt.
+        if (svar.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+
+        if (!svar.IsSuccessStatusCode)
+        {
+            _logg.LogWarning("Wikipedia svarade {Status} på {Sida}", (int)svar.StatusCode, sida);
+            return null;
+        }
+
+        WikipediaSvar? innehall = await svar.Content.ReadFromJsonAsync&lt;WikipediaSvar&gt;();
+
+        if (innehall?.Extract is null)
+        {
+            return null;
+        }
+
+        return new Sammanfattning(innehall.Title, innehall.Extract,
+            innehall.ContentUrls?.Desktop?.Page ?? "");
+    }
+
+    // Formen på svaret, så långt vi behöver den. JsonPropertyName där
+    // Wikipedias namn inte går att översätta till en C#-egenskap.
+    private sealed record WikipediaSvar(
+        string Title,
+        string? Extract,
+        [property: JsonPropertyName("content_urls")] Adresser? ContentUrls);
+
+    private sealed record Adresser(Sidadress? Desktop);
+
+    private sealed record Sidadress(string? Page);
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong></p>
+    <p><strong>Gökboet är en roman.</strong> Wikipedias artikel <em>Gökboet</em> handlar om boken, och <em>Rosemarys baby</em> också. Filmerna heter <em>Gökboet (film)</em> och <em>Rosemarys baby (film)</em>. Klienten frågar därför efter filmen först, och tar det rena namnet om den saknas. Det är vad ett externt API är: det vet inte vad du menar, bara vad du frågar efter.</p>
+    <p><strong>404 är inget fel.</strong> En artikel som inte finns ger 404 – då returneras <code>null</code>, och nästa titel provas. Andra statuskoder loggas, så att det syns om API:et börjar svara konstigt.</p>
+    <p>**<code>ReadFromJsonAsync</code>** läser JSON till objekt, som <code>EditForm</code> läser ett formulär. Fält som inte finns i klassen hoppas över. <code>JsonPropertyName</code> behövs för <code>content_urls</code>, som inte går att skriva som en C#-egenskap.</p>
+    <p><strong>Undantaget fångas en gång.</strong> Ett nätverksfel fångas i <code>HamtaAsync</code>, inte i <code>HamtaSidaAsync</code>. Svarar inte Wikipedia på den första frågan görs då inte den andra – sidan väntar ut tidsgränsen en gång i stället för två.</p>
+    <p><strong>Kontrollera.</strong> <code>dotnet build</code>.</p>
+    <p><strong>I ditt projekt.</strong> Din klass mot ditt API, och ditt objekt med de fält du ska visa. Behöver din sökterm göras träffsäker, som <code>(film)</code>, är det här det görs.</p>
+    <h2 id="steg-18">Steg 18 – Rutan på filmsidan</h2>
+    <p><strong>Vad vi gör.</strong> Visar sammanfattningen under filmens beskrivning.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/Filmdetalj.razor</code>. Överst:</p>
+    <pre><code class="sprak-razor">@inject IWikipediaKlient Wikipedia</code></pre>
+    <p>Under beskrivningen:</p>
+    <pre><code class="sprak-razor">    @* Ny i område 8. Rutan visas bara när Wikipedia svarade - saknas artikeln,
+       eller svarar inte Wikipedia, syns ingenting. Texten kodas som all annan
+       text: den kommer utifrån, och ingen på Filmarkivet har skrivit den. *@
+    @if (wikipedia is not null)
+    {
+        &lt;aside class="ruta"&gt;
+            &lt;p&gt;&lt;b&gt;Om @wikipedia.Titel på Wikipedia&lt;/b&gt;&lt;/p&gt;
+            &lt;p&gt;@wikipedia.Text&lt;/p&gt;
+            &lt;p&gt;&lt;a href="@wikipedia.Adress"&gt;Läs hela artikeln&lt;/a&gt; · Text från svenska Wikipedia, CC BY-SA&lt;/p&gt;
+        &lt;/aside&gt;
+    }</code></pre>
+    <p>I <code>@code</code>:</p>
+    <pre><code class="sprak-csharp">    private Film? film;
+    private Sammanfattning? wikipedia;
+    private bool tillagd;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        film = await Arkivet.HamtaMedGenreAsync(Id);
+
+        if (film is null)
+        {
+            Navigering.NotFound();
+            return;
+        }
+
+        wikipedia = await Wikipedia.HamtaAsync(film.Titel);
+    }</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Sidan frågar tjänsten, som alltid. Svarar tjänsten <code>null</code> visas ingen ruta – ingen tom ruta, och inget felmeddelande. Filmen finns ju ändå; det är bara en extra upplysning som saknas.</p>
+    <p><strong>Texten kodas.</strong> Den kommer från en annan sajt, och ingen på Filmarkivet har skrivit den. Blazor kodar den som all annan text – det du lärde dig om <code>MarkupString</code> i område 7 gäller här också.</p>
+    <p><strong>Källan anges.</strong> Wikipedias text får användas om källan och licensen anges. Det är raden längst ned i rutan.</p>
+    <p><strong>Kontrollera.</strong> <code>/filmer/5</code>: <em>Om Gökboet (film) på Wikipedia</em>, och en text om filmen från 1975 – inte romanen.</p>
+    <p><strong>I ditt projekt.</strong> Din sida, din ruta. Kontrollera villkoren för ditt API: vad måste anges när du visar datan?</p>
+    <h2 id="steg-19">Steg 19 – När API:et inte svarar</h2>
+    <p><strong>Vad vi gör.</strong> Ser vad filmsidan gör när Wikipedia inte svarar – och testar det utan nätet.</p>
+    <p>Starta med en adress där ingen svarar, i PowerShell:</p>
+    <pre><code class="sprak-powershell">$env:Wikipedia__Adress = "http://10.255.255.1/"
+dotnet run</code></pre>
+    <p>Öppna <code>/filmer/5</code>. Sidan visas – efter drygt tre sekunder, utan rutan. Terminalen:</p>
+    <pre><code>Wikipedia gick inte att nå för Gökboet: The request was canceled due to the
+configured HttpClient.Timeout of 3 seconds elapsing.</code></pre>
+    <p>Nollställ variabeln efteråt: <code>$env:Wikipedia__Adress = $null</code>.</p>
+    <p><strong>Varför det ser ut så.</strong> Tre sekunder är tidsgränsen från steg 16. Utan den hade sidan väntat i 100 sekunder. Ett externt API kommer någon gång att vara nere, långsamt eller ändrat – din sida ska tåla det.</p>
+    <p><strong>Testet.</strong> Att vänta på att Wikipedia går ner är ingen metod. <code>HttpClient</code> skickar sina förfrågningar genom en <code>HttpMessageHandler</code>, och i ett test kan den bytas mot en egen. <strong>Filen.</strong> <code>Tester/WikipediaKlientTester.cs</code>:</p>
+    <pre><code class="sprak-csharp">using System.Net;
+using System.Text;
+using Filmarkivet.Models;
+using Filmarkivet.Services;
+using Microsoft.Extensions.Logging.Abstractions;
+
+namespace Filmarkivet.Tester;
+
+// Tester av klienten mot Wikipedia, utan Wikipedia. Nya i område 8.
+//
+// HttpClient skickar sina förfrågningar genom en HttpMessageHandler. Byts den
+// mot en egen går inget ut på nätet: testet bestämmer själv vad "Wikipedia"
+// svarar. Så går det att testa det som är svårt att framkalla på riktigt - att
+// API:et inte svarar alls.
+public class WikipediaKlientTester
+{
+    // En låtsas-Wikipedia. Funktionen får förfrågan och bestämmer svaret.
+    private sealed class FalskServer(Func&lt;HttpRequestMessage, HttpResponseMessage&gt; svara)
+        : HttpMessageHandler
+    {
+        public List&lt;string&gt; Fragade { get; } = new();
+
+        protected override Task&lt;HttpResponseMessage&gt; SendAsync(HttpRequestMessage forfragan,
+                                                                CancellationToken avbryt)
+        {
+            // Avkodad: klienten skickar (film) som %28film%29.
+            Fragade.Add(Uri.UnescapeDataString(forfragan.RequestUri!.AbsolutePath));
+            return Task.FromResult(svara(forfragan));
+        }
+    }
+
+    private static WikipediaKlient SkapaKlient(FalskServer server) =&gt;
+        new(new HttpClient(server) { BaseAddress = new Uri("https://sv.wikipedia.org/api/rest_v1/") },
+            NullLogger&lt;WikipediaKlient&gt;.Instance);
+
+    private static HttpResponseMessage Json(string json) =&gt;
+        new(HttpStatusCode.OK) { Content = new StringContent(json, Encoding.UTF8, "application/json") };
+
+    [Fact]
+    public async Task FilmartikelSaknas_TarArtikelnMedDetRenaNamnet()
+    {
+        var server = new FalskServer(forfragan =&gt;
+            Uri.UnescapeDataString(forfragan.RequestUri!.AbsolutePath).EndsWith("(film)")
+                ? new HttpResponseMessage(HttpStatusCode.NotFound)
+                : Json("""{"title":"Cykeltjuven","extract":"En italiensk film.","content_urls":{"desktop":{"page":"https://sv.wikipedia.org/wiki/Cykeltjuven"}}}"""));
+
+        Sammanfattning? svar = await SkapaKlient(server).HamtaAsync("Cykeltjuven");
+
+        Assert.NotNull(svar);
+        Assert.Equal("En italiensk film.", svar.Text);
+        Assert.Equal("https://sv.wikipedia.org/wiki/Cykeltjuven", svar.Adress);
+        Assert.Equal(new[] { "/api/rest_v1/page/summary/Cykeltjuven_(film)",
+                             "/api/rest_v1/page/summary/Cykeltjuven" }, server.Fragade);
+    }
+
+    [Fact]
+    public async Task WikipediaSvararInte_GerNullOchFragarBaraEnGang()
+    {
+        var server = new FalskServer(_ =&gt; throw new HttpRequestException("Ingen svarade"));
+
+        Sammanfattning? svar = await SkapaKlient(server).HamtaAsync("Gökboet");
+
+        Assert.Null(svar);
+        Assert.Single(server.Fragade);
+    }
+}</code></pre>
+    <p>Det andra testet är det som säger att sidan väntar en gång och inte två: <code>Assert.Single(server.Fragade)</code>.</p>
+    <p><strong>Kontrollera.</strong> <code>dotnet test Tester</code> – elva tester, alla gröna.</p>
+    <p><strong>I ditt projekt.</strong> Samma prov med din adress. Ett test av din klient med en låtsasserver räknas till testerna från område 7.</p>
+    <h2 id="steg-20">Steg 20 – Inga hemligheter i repot</h2>
+    <p><strong>Vad vi gör.</strong> Kontrollerar att inget lösenord ligger i repot – nu eller tidigare.</p>
+    <p>Nu:</p>
+    <pre><code>git grep -n "Provlosen"</code></pre>
+    <p>Byt <code>Provlosen</code> mot början av ett lösenord du använt. Ingen träff är målet.</p>
+    <p>Tidigare:</p>
+    <pre><code>git log -S "Provlosen" --oneline</code></pre>
+    <p><code>-S</code> letar i hela historiken efter commits där texten lades till eller togs bort. Lägg till <code>-- "*.cs"</code> om du bara vill leta i koden. I kursens eget repo ger <code>git log -S "Filmarkivet1" --oneline -- "*.cs"</code> två commits: område 6, där lösenordet stod i <code>Program.cs</code>, och övningsappen i område 7, som har det med flit.</p>
+    <p><strong>Varför det ser ut så.</strong> Att ta bort ett lösenord ur koden tar inte bort det ur git. Varje commit finns kvar, och vem som helst med tillgång till repot kan läsa den. Därför fick servern <strong>nya</strong> lösenord i steg 9. Ett lösenord som funnits i ett repo räknas som känt.</p>
+    <p><strong>Kontrollera.</strong> Ingen träff med <code>git grep</code>. Träffar i <code>git log -S</code> är historik – kontrollera att det lösenordet inte används i drift.</p>
+    <p><strong>I ditt projekt.</strong> Sök efter dina lösenord, och efter ordet <code>password</code> och <code>losenord</code> i koden. Några träffar är väntade: <code>PasswordHash</code> i migrationerna och <code>Password.RequiredLength</code> i <code>Program.cs</code> är namn, inte lösenord. Det hör hemma i driftdokumentationen att du kontrollerat det.</p>
+    <h2 id="steg-21">Steg 21 – Dokumentera driftsättningen</h2>
+    <p><strong>Vad vi gör.</strong> Skriver ned stegen så att någon annan kan göra om dem.</p>
+    <p><strong>Filen.</strong> <code>DRIFT.md</code>, i repots rot. Uppgiften har mallen. Det som ska stå där är det du gjort i steg 5 till 11 – med dina namn, dina nycklar men <strong>inte dina värden</strong>.</p>
+    <p><strong>Varför det ser ut så.</strong> En driftsättning som bara en person kan göra är en risk. Kan någon annan följa <code>DRIFT.md</code> och få samma resultat, är den dokumenterad. Det är examinationen i Projekt 3, tillsammans med den publicerade applikationen.</p>
+    <p><strong>Kontrollera.</strong> Be en klasskamrat läsa <code>DRIFT.md</code> och säga vilket steg som är oklart.</p>
+    <p><strong>I ditt projekt.</strong> Identiskt.</p>
+    <p>---</p>
+    <h2 id="fel">När något går fel</h2>
+    <p>Slå upp felmeddelandet här innan du fastnar. Skriv en bit av det du ser.</p>
+
+        <div class="sok">
+          <label for="sok-fel">Sök bland felen</label>
+          <input type="search" id="sok-fel" data-sok="tabell-fel" data-traffar="traffar-fel"
+                 placeholder="till exempel: 404, namespace, Ã¥Ã¤Ã¶" autocomplete="off">
+          <p class="traffar" id="traffar-fel">10 rader</p>
+        </div>
+
+        <div class="tabellsvep">
+          <table id="tabell-fel">
+    <thead><tr><th>Felmeddelande</th><th>Vad det betyder</th><th>Gör så här</th></tr></thead>
+    <tbody>
+    <tr><td><code>Hosting environment: Development</code> fast du satt Production</td><td><code>launchSettings.json</code> sätter tillbaka Development</td><td><code>dotnet run --no-launch-profile</code>, steg 2</td></tr>
+    <tr><td>Komponenternas CSS svarar 500 i Production</td><td><code>dotnet run</code> i Production – filen finns bara under utveckling</td><td>Prova med det publicerade programmet, steg 6</td></tr>
+    <tr><td><em>Det gick inte att hitta en del av sökvägen</em> från <code>Compress-Archive</code></td><td>Sökvägen är längre än 260 tecken</td><td><code>tar</code>, steg 5</td></tr>
+    <tr><td><code>SQLite Error 14: 'unable to open database file'</code></td><td>Mappen i anslutningssträngen finns inte, och migrationerna är avstängda</td><td><code>Databas__MigreraVidStart = true</code>, steg 3 och 9</td></tr>
+    <tr><td>Användaren skapades inte – <code>skapades inte: lösenordet saknas i konfigurationen</code></td><td>Miljövariabeln saknas eller är felstavad</td><td>Dubbla understreck. Jämför med nyckeln i user-secrets</td></tr>
+    <tr><td><code>skapades inte: Passwords must have at least one digit</code></td><td>Lösenordet bryter mot reglerna</td><td>Minst åtta tecken, en siffra, en versal</td></tr>
+    <tr><td><code>/api/filmer/99</code> ger en HTML-sida</td><td><code>Results.NotFound()</code> – tom 404 som görs om till sidan</td><td><code>Results.Problem</code>, steg 15</td></tr>
+    <tr><td>Rutan syns aldrig</td><td>Adressen, eller svaret har andra fältnamn</td><td>Prova API-adressen i webbläsaren. Stämmer fältnamnen med ditt objekt?</td></tr>
+    <tr><td>Filmsidan tar lång tid att visa</td><td>Tidsgränsen saknas – förvalet är 100 sekunder</td><td><code>klient.Timeout</code>, steg 16</td></tr>
+    <tr><td><em>HTTP Error 500.30</em> i Azure</td><td>Appen kastade ett undantag vid start</td><td>Log stream, steg 11 och 12</td></tr>
+    </tbody></table></div>
+    <h2 id="missa">Det som är lätt att missa när du gör det själv</h2>
+    <ul><li><strong>Miljövariabeln lever kvar.</strong> <code>$env:…</code> gäller resten av terminalfönstret. Har du satt <code>ASPNETCORE_ENVIRONMENT</code> till Production och glömt det, är nästa <code>dotnet run --no-launch-profile</code> också i Production.</li><li><strong>Ditt API är inte Wikipedia.</strong> Andra API:er svarar med andra fältnamn, andra statuskoder när något saknas, och har ibland en gräns för hur ofta man får fråga. Läs dokumentationen för ditt, och prova adressen i webbläsaren innan du skriver klassen.</li><li><strong>API-nyckeln är en hemlighet.</strong> Kräver ditt API en nyckel ska den behandlas som lösenorden: user-secrets på din dator, miljövariabel på servern, aldrig i repot.</li><li><strong>Databasen på servern är en annan databas.</strong> Poster du lagt till på din dator finns inte i Azure. Frödatan finns, och det du lägger till där.</li><li><strong>Testa efter varje publicering.</strong> Samma fyra kontroller som i steg 11. Det tar en minut.</li></ul>
+    <h2 id="checklista">Checklista</h2>
+    <p>Guidens egen checklista. Den är inte betygskraven – de står i
+          <a href="uppgift.html">uppgiften</a> och är uppdelade på E, C och A. Den här listan
+          säger bara om du gjort klart det guiden går igenom.</p>
+
+        <section class="kravblock" data-niva="ska">
+          <div class="huvud">
+            <h3>Klart när allt är ikryssat</h3>
+            <span class="antal"></span>
+          </div>
+          <div class="stapel"><span></span></div>
+          <ul class="krav">
+            <li><label><input type="checkbox" id="guide-1"><span>Projektet körs lokalt i Production, med det publicerade programmet och inställningarna som miljövariabler</span></label></li>
+            <li><label><input type="checkbox" id="guide-2"><span>Migrationerna körs vid start i drift, och inte på din dator</span></label></li>
+            <li><label><input type="checkbox" id="guide-3"><span>Applikationen svarar på <code>https://&lt;ditt-namn&gt;.azurewebsites.net</code>, och http skickas vidare till https</span></label></li>
+            <li><label><input type="checkbox" id="guide-4"><span>Inloggningen fungerar i drift, med andra lösenord än de i din historik</span></label></li>
+            <li><label><input type="checkbox" id="guide-5"><span>En sida visar data från ett externt API, och fungerar när API:et inte svarar</span></label></li>
+            <li><label><input type="checkbox" id="guide-6"><span>Ditt eget API svarar med JSON, och med 404 som JSON</span></label></li>
+            <li><label><input type="checkbox" id="guide-7"><span><code>git grep</code> hittar inga lösenord</span></label></li>
+            <li><label><input type="checkbox" id="guide-8"><span><code>DRIFT.md</code> finns, och någon annan har läst den</span></label></li>
+          </ul>
+        </section>
+
+        <p>Kryssen sparas i din webbläsare.
+          <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Till uppgiften</a> ·
+        <a href="index.html">Tillbaka till område 8</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

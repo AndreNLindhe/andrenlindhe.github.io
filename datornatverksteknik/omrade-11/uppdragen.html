@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uppdragen – Dator- och nätverksteknik område 11</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-11-uppdragen">
+
+<header class="topp">
+  <a href="index.html">← Område 11</a>
+  <span class="harifran"><strong>Arbetspass</strong> · Uppdragen</span>
+  <a href="#ordlista">Ordlista</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#sa-gar-det-till">1. Så går varje pass till</a></li>
+      <li><a href="#pass-61">2. Pass 61: maskinvara och firmware</a></li>
+      <li><a href="#pass-62">3. Pass 62: systemet</a></li>
+      <li><a href="#pass-63">4. Pass 63: det fysiska nätet</a></li>
+      <li><a href="#pass-64">5. Pass 64: över lagergränserna</a></li>
+      <li><a href="#missat">6. Missade du ett pass?</a></li>
+      <li><a href="#ordlista">7. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 11 · lektion 61–64</p>
+    <h1>Uppdragen</h1>
+    <p class="inledning">Fyra arbetspass, fyra lager, i stigande svårighet. Varje pass har en maskin med ett fel ni inte känner till, och en lapp med vad någon har anmält. Den här sidan säger vilket lager passet handlar om, hur det går till, vilka verktyg du får använda och var du slår upp det du redan kan. Den säger inte vad felen är. Det är området.</p>
+
+    <div class="notis">
+      <span class="rubrik">Metoden först</span>
+      <p>Allt här bygger på de fyra stegen och checklistan på <a href="metoden.html">metodsidan</a>: hypotes före handling, en sak i taget, det billiga och sannolika först, vilket lager.</p>
+    </div>
+
+    <h2 id="sa-gar-det-till">1. Så går varje pass till</h2>
+
+    <ol class="steg">
+      <li><b>En maskin per par.</b> Vilket par som sitter vid vilken maskin står på tavlan. Ni väljer inte själva</li>
+      <li><b>Lappen vid maskinen</b> är en anmälan: vad någon har sett. Den säger inte vad felet är — och inte ens om felet sitter där symptomet syns</li>
+      <li><b>Hypotesen skrivs innan ni rör något</b></li>
+      <li><b>Siktar ni mot C eller A</b> lämnar ni planen till läraren först, och börjar när den är signerad med tid. Siktar ni mot E stämmer ni av med läraren under arbetets gång</li>
+      <li><b>En ändring i taget.</b> Skriv ner vad ni ändrade och vad som hände</li>
+      <li><b>När ni tror att ni är klara:</b> räck upp handen. Ni redogör muntligt vid bänken med de <a href="metoden.html#redogorelsen">fyra frågorna</a></li>
+      <li><b>Facit kommer efteråt.</b> Först när ni redogjort får ni veta vad felet var</li>
+    </ol>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>E — i samråd</th><th>C och A — efter samråd</th></tr></thead>
+        <tbody>
+          <tr><td><b>Innan ni börjar</b></td><td>Hypotesen skriven</td><td>Planen skriven, lämnad och <b>signerad</b></td></tr>
+          <tr><td><b>Under arbetet</b></td><td>Ni stämmer av med läraren: frågar, justerar, fortsätter</td><td>Ni arbetar självständigt, utan att vänta på läraren mellan stegen</td></tr>
+          <tr><td><b>Ber ni läraren bekräfta en hypotes</b></td><td>Det är samråd, och det är rätt för E</td><td>Svaret blir en fråga: <i>vad säger testet?</i></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det som bedöms är vägen, inte slutet</span>
+      <p>Ett par som inte hann klart men kan säga vad de uteslutit, och hur, har visat metoden. Hann ni inte klart redogör ni för hur långt ni kommit.</p>
+    </div>
+
+    <h2 id="pass-61">2. Pass 61: maskinvara och firmware</h2>
+
+    <p class="ledtext">Måndag 10 maj · lager: maskinvara och firmware · område 4–5</p>
+
+    <p>Första passet med riktiga fel. Felen ligger i det paren själva byggt och installerat under hösten. Maskinerna lämnas påslagna när passet slutar: ett fel som inte blev löst slutförs i början av pass 62. Blir ni klara tidigt redogör ni, och får sedan en reservmaskin.</p>
+
+    <h3>Anmälningarna på lapparna</h3>
+    <ul>
+      <li><i>"Datorn startar inte."</i></li>
+      <li><i>"Skärmen ser inte ut som förut."</i></li>
+      <li><i>"Skrivaren skriver ut, men inte som förut."</i></li>
+    </ul>
+
+    <h3>Verktygen</h3>
+    <ul>
+      <li><b>Skärmen vid start</b> — läs exakt vad som står, och skriv av det</li>
+      <li><b>UEFI</b> — listan över lagringsenheter och bootordningen</li>
+      <li><b>Enhetshanteraren</b> — enheterna, och fliken <b>Drivrutin</b> med version och datum</li>
+      <li><b>Tillverkarens webbplats</b> — bänkmaskinerna har internet</li>
+    </ul>
+
+    <h3>Så kan du pröva i det här lagret</h3>
+    <ul>
+      <li><b>Klarar maskinen POST?</b> Fläktar, bild, firmware. Då är ström, processor och minne i ordning. Det är redan en uteslutning</li>
+      <li><b>Finns komponenten?</b> Innan du antar att något är trasigt: syns det i UEFI:s lista, eller i Enhetshanteraren?</li>
+      <li><b>En drivrutin har en version.</b> Skriv upp den före och efter varje ändring. Utan versionen vet du inte vad du ändrade</li>
+      <li><b>Att läsa en meny är billigt. Att öppna chassit är dyrt.</b> Det billiga först</li>
+    </ul>
+
+    <h3>Var du slår upp</h3>
+    <ul>
+      <li><a href="../omrade-4/firmware.html#bios-uefi">BIOS och UEFI</a>, <a href="../omrade-4/firmware.html#bootordningen">bootordningen</a> och <a href="../omrade-4/firmware.html#startprocessen">startprocessen</a> — område 4</li>
+      <li><a href="../omrade-4/firmware.html#felsokning">Felsökningstabellen för firmware</a> — område 4</li>
+      <li><a href="../omrade-5/kringutrustning.html#drivrutin">Vad en drivrutin gör</a>, <a href="../omrade-5/kringutrustning.html#enhetshanteraren">Enhetshanteraren</a> och <a href="../omrade-5/kringutrustning.html#uppgradera">att uppgradera en drivrutin</a> — område 5</li>
+    </ul>
+
+    <h2 id="pass-62">3. Pass 62: systemet</h2>
+
+    <p class="ledtext">Tisdag 11 maj · lager: systemet · område 6–7</p>
+
+    <p>Svårighetsgraden stiger. Maskinen startar, skärmen ser normal ut, och det finns ingenting att se i chassit.</p>
+
+    <p>Passet börjar med att olösta fel från pass 61 slutförs, med redogörelse vid bänken. Paren som redan är klara läser lappen vid dagens maskin och <b>skriver hypotesen utan att röra något</b>. Sedan byter paren maskin — ingen möter samma maskin två pass i rad. Kontot <code>elev2</code> och dess lösenord står på tavlan.</p>
+
+    <h3>Anmälningarna på lapparna</h3>
+    <ul>
+      <li><i>"Användaren elev2 kommer inte åt mappen C:\Delat längre."</i></li>
+      <li><i>"Kontrollera att säkerhetskopieringen på den här maskinen fungerar."</i></li>
+    </ul>
+
+    <h3>Verktygen</h3>
+    <ul>
+      <li><b>Inloggningen</b> — som <code>elev2</code>, och som administratör</li>
+      <li><b>Utforskaren</b>, och en mapps eller fils <b>Egenskaper → fliken Säkerhet</b></li>
+      <li><b>Filhistorik</b></li>
+    </ul>
+
+    <h3>Så kan du pröva i det här lagret</h3>
+    <ul>
+      <li><b>Jämför med något som fungerar.</b> Ett annat konto, en annan maskin. Skillnaden mellan det som fungerar och det som inte gör det pekar ut var felet sitter</li>
+      <li><b>Frågan från lektion 25:</b> <i>vem stoppade dig?</i> Behörigheten prövas någonstans. Var?</li>
+      <li><b>Den minsta ändringen som förklarar felet är rätt ändring.</b> En större ändring kan ta bort symptomet utan att du vet vad felet var</li>
+      <li><b>Alla fel ger inte ett symptom.</b> Säger anmälan <i>kontrollera att det fungerar</i> är uppdraget att <b>visa</b> det, med ett test — inte att anta det</li>
+      <li><b>Att något är påslaget bevisar inte att det fungerar.</b> Lektion 29: en otestad kopia är inte bevisat en kopia</li>
+    </ul>
+
+    <h3>Var du slår upp</h3>
+    <ul>
+      <li><a href="../omrade-6/anvandare.html#kontona">Administratör och standardkonto</a>, <a href="../omrade-6/anvandare.html#klasserna">de tre klasserna</a> och <a href="../omrade-6/anvandare.html#var">var behörigheten prövas</a> — område 6</li>
+      <li><a href="../omrade-7/sakerhetskopian.html#principen">Principen för säkerhetskopian</a> och <a href="../omrade-7/sakerhetskopian.html#filhistorik">Filhistorik</a> — område 7</li>
+      <li><a href="../omrade-7/aterstallningen.html#beviset">Varför återställningen är beviset</a> och <a href="../omrade-7/aterstallningen.html#kedjan">kedjan, steg för steg</a> — område 7</li>
+    </ul>
+
+    <h2 id="pass-63">4. Pass 63: det fysiska nätet</h2>
+
+    <p class="ledtext">Måndag 17 maj · lager: det fysiska nätet och adressen · område 8</p>
+
+    <p>Gruppens bänkmaskiner sitter i gruppens switch, som labbnätet i område 8. Nätet är uppe — och något är fel. Adressplanen står inte på tavlan: läs av adresserna själva.</p>
+
+    <p>Vid bänkarna finns en <b>kabelteststation</b>: krympverktyg, RJ45-kontakter, kabeltestare och några godkända reservkablar.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Regeln från lektion 35 och 40</span>
+      <p><b>Länken innan adressen, adressen innan något annat.</b></p>
+    </div>
+
+    <h3>Anmälningarna på lapparna</h3>
+    <ul>
+      <li><i>"Den här datorn har inget nätverk."</i></li>
+      <li><i>"Nätverket fungerar ibland, ibland inte."</i></li>
+    </ul>
+
+    <h3>Verktygen</h3>
+    <ul>
+      <li><b>Länklysdioden</b> — vid switchporten och vid datorn</li>
+      <li><b>Kabeltestaren</b>, krympverktyget och reservkablarna</li>
+      <li><b>Kommandotolken:</b></li>
+    </ul>
+
+    <pre><code>ipconfig
+ipconfig /all
+ping &lt;adress&gt;
+arp -a</code></pre>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kommandot</th><th>Visar</th></tr></thead>
+        <tbody>
+          <tr><td><code>ipconfig</code></td><td>Maskinens IPv4-adress, nätmask och standardgateway</td></tr>
+          <tr><td><code>ipconfig /all</code></td><td>Samma, och dessutom mer — bland annat nätverkskortets MAC-adress, som <b>Physical Address</b></td></tr>
+          <tr><td><code>ping</code></td><td>Om en adress svarar. <code>Request timed out.</code> betyder att inget svar kom</td></tr>
+          <tr><td><code>arp -a</code></td><td>Maskinens ARP-cache: vilken MAC-adress som har svarat för vilken IP-adress. Pinga först — annars kan cachen vara tom</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Så kan du pröva i det här lagret</h3>
+    <ul>
+      <li><b>Länken:</b> lysdioden. Vet vad den bevisar — och vad den inte bevisar</li>
+      <li><b>Mörk lysdiod:</b> ordningen från lektion 35. Tryck in kontakten i båda ändar, byt kabel, byt port</li>
+      <li><b>Beviset för en kabel</b> är kabeltestaren. <i>"Vi bytte kabel och det gick"</i> är en lösning. <i>"Stift 3 tände inte"</i> är ett bevis. Krymp en ny kontakt när testaren visat felet, inte innan</li>
+      <li><b>Adressen:</b> vilken adress och mask har maskinen? Stämmer de mot varandra och mot nätet?</li>
+      <li><b>En ändring i taget gäller också adresser.</b> Ändrar du en adress: vet varför, innan du gör det</li>
+    </ul>
+
+    <h3>Var du slår upp</h3>
+    <ul>
+      <li><a href="../omrade-8/natverket.html#lanken">Vad länken bevisar</a>, <a href="../omrade-8/natverket.html#mork">när lysdioden är mörk</a> och <a href="../omrade-8/natverket.html#portkartan">portkartan</a> — område 8</li>
+      <li><a href="../omrade-8/media.html#t568b">T568B steg för steg</a> och <a href="../omrade-8/media.html#testaren">kabeltestaren</a> — område 8</li>
+      <li><a href="../omrade-8/adresseringen.html#natmasken">Nätmasken</a>, <a href="../omrade-8/adresseringen.html#samma-nat">samma nät eller inte</a>, <a href="../omrade-8/adresseringen.html#triangeln">svaret på varningstriangeln</a> och <a href="../omrade-8/adresseringen.html#satta">så sätter du adressen</a> — område 8</li>
+      <li><a href="../omrade-9/ramen.html#mac">MAC-adressen</a> och <a href="../omrade-9/ramen.html#arp">ARP</a> — område 9</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">ARP i plattformen</span>
+      <p><b>ComputerExplorer → networking → arp</b> — nodens titel är <i>ARP</i>. Frågan som sänds ut till alla, svaret, och cachen som sparar det.</p>
+    </div>
+
+    <h2 id="pass-64">5. Pass 64: över lagergränserna</h2>
+
+    <p class="ledtext">Tisdag 18 maj · lager: det fysiska och det logiska nätet · område 8–10</p>
+
+    <p>Områdets sista och svåraste stationer, och de korsar lagren. Passet görs i <b>Packet Tracer</b>, i tre förberedda filer byggda på labb 10:s nät. Varje par tar alla tre filerna i turordning, enligt rotationen på tavlan, och öppnar en fräsch fil varje gång. Anmälan står i en <b>Note</b> uppe till vänster i filen.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Alla anmälningar är inte fel</span>
+      <p>En anmälan är vad någon har sett, inte vad felet är. Ibland finns inget fel alls. <b>Att fastställa att något fungerar är också felsökning</b> — ett par som gör det har gjort ett lika bra jobb som ett par som hittar något trasigt.</p>
+      <p>Slutsatsen <i>det fungerar</i> kräver bevis, precis som slutsatsen <i>det är trasigt</i>.</p>
+    </div>
+
+    <h3>Anmälningarna i filerna</h3>
+    <ul>
+      <li><i>"PC3 kommer inte åt något alls."</i></li>
+      <li><i>"PC5 når sina grannar men inte servern i det andra nätet."</i></li>
+      <li><i>"Servern är nere – den svarar inte på ping."</i></li>
+    </ul>
+
+    <h3>Verktygen</h3>
+    <ul>
+      <li><b>Länkarnas färg</b> i Packet Tracer — grön eller röd</li>
+      <li><b>Command Prompt</b> på PC:n:</li>
+    </ul>
+
+    <pre><code>ipconfig
+ping &lt;adress&gt;
+tracert &lt;adress&gt;
+arp -a</code></pre>
+
+    <ul>
+      <li><b>Switchens CLI.</b> <code>show vlan brief</code> tas bara emot när prompten slutar på <code>#</code> — skriv <code>enable</code> först:</li>
+    </ul>
+
+    <pre><code>enable
+show vlan brief</code></pre>
+
+    <h3>Traceroute — det nya verktyget</h3>
+    <p><b>Traceroute</b> visar vägen ett paket tar, router för router. Kommandot heter <code>tracert</code> i Windows och i Packet Tracers Command Prompt. Det skickar prober som dör ett hopp i taget, och varje router på vägen avslöjar sig när den stoppar sin prob. Hopp som inte svarar visas med tre stjärnor, och varje sådant hopp tar tid — det är normalt.</p>
+
+    <div class="notis">
+      <span class="rubrik">Traceroute i plattformen</span>
+      <p><b>ComputerExplorer → networking → traceroute</b> — nodens titel är <i>Traceroute</i>. Följ proberna hopp för hopp.</p>
+    </div>
+
+    <h3>Så kan du pröva, lager för lager</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Lagret</th><th>Frågan</th><th>Testet</th></tr></thead>
+        <tbody>
+          <tr><td><b>Länken</b></td><td>Är kabeln hel?</td><td>Länkens färg</td></tr>
+          <tr><td><b>Adressen</b></td><td>Adress, mask och gateway rätt?</td><td><code>ipconfig</code></td></tr>
+          <tr><td><b>Det egna nätet</b></td><td>Når maskinen sina grannar?</td><td><code>ping</code> till en maskin i samma nät</td></tr>
+          <tr><td><b>Switchen</b></td><td>Ligger porten i det VLAN planen säger?</td><td><code>show vlan brief</code></td></tr>
+          <tr><td><b>Bortom nätet</b></td><td>Hur långt kommer paketet?</td><td><code>ping</code> till gatewayen, <code>tracert</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ul>
+      <li><b>Jämför med något som fungerar.</b> Når andra maskiner dit den här inte når? Då vet du vad som inte är felet</li>
+      <li><b>Fråga vad symptomet faktiskt bevisar</b> — och vad det inte bevisar. Samma fråga som lysdiodens tabell i område 8</li>
+      <li><b>Håll fast vid metoden också när symptomet lockar till en snabb slutsats.</b> Här ser felen ut att sitta i ett lager och kan sitta i ett annat. Kan du förklara varför symptomet lurade har du visat sambandet mellan nätets delar — det A-kriteriet frågar efter</li>
+    </ul>
+
+    <h3>Var du slår upp</h3>
+    <ul>
+      <li><a href="../omrade-10/vlan.html#show-vlan"><code>show vlan brief</code></a>, <a href="../omrade-10/vlan.html#pingen-dor">varför pingen dör</a> och <a href="../omrade-10/vlan.html#kontrolleras">delningen kontrolleras</a> — område 10</li>
+      <li><a href="../omrade-10/routern.html#routingtabellen">Routingtabellen</a>, <a href="../omrade-10/routern.html#gatewayen">standardgatewayen</a> och <a href="../omrade-10/routern.html#pingen">pingen via routern</a> — område 10</li>
+      <li><a href="../omrade-9/ramen.html#arp">ARP</a> — område 9</li>
+      <li><a href="../omrade-8/natverket.html#lanken">Vad länken bevisar</a> — område 8</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Efter pass 64</span>
+      <p>Samma metod — hypotes, en sak i taget, det billiga först, vilket lager — bär slutuppdraget i område 12. Något kommer att gå sönder där också.</p>
+    </div>
+
+    <h2 id="missat">6. Missade du ett pass?</h2>
+
+    <p>Ett par som missar ett pass har missat en station, inte ett moment att läsa in. <b>Metoden</b> kan läsas i kapp på <a href="metoden.html">metodsidan</a>, och varje pass ovan säger vad passet handlade om. <b>Bedömningen</b> kräver däremot ett fel vid en bänk. Prata med läraren: det löses med en reservmaskin under ett annat pass, eller med en av Packet Tracer-filerna från pass 64, som går att göra när som helst.</p>
+
+    <p>Saknas din labbpartner arbetar du ensam, och redogör ensam.</p>
+
+    <h2 id="ordlista">7. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Anmälan</b></td><td>Det någon har sett och rapporterat. Inte vad felet är</td></tr>
+          <tr><td><b>Falskt fel</b></td><td>En anmälan om ett fel som inte finns. Att fastställa det är också felsökning</td></tr>
+          <tr><td><b>POST</b></td><td><i>Power-On Self-Test</i>. Maskinens självtest i firmware innan operativsystemet startar</td></tr>
+          <tr><td><b>UEFI</b></td><td>Maskinens firmware och dess gränssnitt, där bland annat bootordningen ställs in</td></tr>
+          <tr><td><b>Enhetshanteraren</b></td><td>Windows lista över maskinens enheter och deras drivrutiner</td></tr>
+          <tr><td><b>Filhistorik</b></td><td>Windows inbyggda säkerhetskopiering av filer till en annan enhet</td></tr>
+          <tr><td><b>Länklysdiod</b></td><td>Lampan vid switchporten och nätverksuttaget. Lyser den finns en länk</td></tr>
+          <tr><td><b>Kabeltestare</b></td><td>Verktyg som visar ledare för ledare om en kabel går fram</td></tr>
+          <tr><td><b><code>ipconfig /all</code></b></td><td>Visar nätverkskortets inställningar, bland annat MAC-adressen</td></tr>
+          <tr><td><b><code>arp -a</code></b></td><td>Visar ARP-cachen: vilken MAC-adress som svarat för vilken IP-adress</td></tr>
+          <tr><td><b>Traceroute</b></td><td>Visar vägen ett paket tar, router för router. <code>tracert</code> i Windows</td></tr>
+          <tr><td><b>Standardgateway</b></td><td><i>Default Gateway</i>. Adressen maskinen skickar allt till som ska till ett annat nät</td></tr>
+          <tr><td><b><code>show vlan brief</code></b></td><td>Visar switchens VLAN och vilka portar som ligger i vart och ett</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 11</a> · <a href="metoden.html">Föregående: metoden</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

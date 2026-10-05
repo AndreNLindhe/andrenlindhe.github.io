@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide: Filmarkivet – code-first: modell, databas och formulär</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o5-guide">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Guide</strong> · Filmarkivet</span>
+  <a href="#fel">När något går fel</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#bygger">Vad du bygger här</a></li>
+      <li><a href="#sjalv">Vad du ska göra själv efteråt</a></li>
+      <li><a href="#innan">Innan du börjar</a></li>
+      <li><a href="#begrepp">Begreppen i det här momentet</a></li>
+      <li><a href="#steg-1">Steg 1 – Problemet</a></li>
+      <li><a href="#steg-2">Steg 2 – Entiteten</a></li>
+      <li><a href="#steg-3">Steg 3 – `DbContext`</a></li>
+      <li><a href="#steg-4">Steg 4 – Paketen</a></li>
+      <li><a href="#steg-5">Steg 5 – Registreringen och anslutningssträngen</a></li>
+      <li><a href="#steg-6">Steg 6 – Filmerna flyttar in i migrationen</a></li>
+      <li><a href="#steg-7">Steg 7 – Första migrationen</a></li>
+      <li><a href="#steg-8">Steg 8 – Vad blev av attributen</a></li>
+      <li><a href="#steg-9">Steg 9 – Tjänsten byter implementation</a></li>
+      <li><a href="#steg-10">Steg 10 – Formuläret</a></li>
+      <li><a href="#steg-11">Steg 11 – Valideringen som håller</a></li>
+      <li><a href="#steg-12">Steg 12 – Metoden som sparar</a></li>
+      <li><a href="#fel">När något går fel</a></li>
+      <li><a href="#missa">Det som är lätt att missa när du gör det själv</a></li>
+      <li><a href="#checklista">Checklista</a></li>
+      <li><a href="#mer">Vill du mer</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 5 · guide</p>
+    <h1>Filmarkivet – code-first: modell, databas och formulär</h1>
+    <p class="inledning">Tolv steg som gör listan i koden till rader i en databas.
+      Applikationen ser nästan likadan ut när du är klar. Skillnaden är att det du
+      lägger till nu finns kvar när servern startas om – och att du byter ut hela
+      datalagret utan att röra en enda komponent. En sida är ny:
+      <code>/filmer/ny</code>.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Missade du en lektion?</span>
+      <p>Guiden går att följa på egen hand. Så här hänger stegen ihop med passen:</p>
+      <ul>
+        <li><b>Lektion 31</b> (ons 9 dec) – <a href="#steg-1">steg 1</a> till
+          <a href="#steg-3">steg 3</a>. Problemet med listan, entiteten får
+          attribut, och <code>DbContext</code>. Bygget går inte igenom efter steg 3 –
+          det är väntat. Läs också <a href="#begrepp">begreppen</a>.</li>
+        <li><b>Lektion 32</b> (tis 15 dec) – <a href="#steg-4">steg 4</a> till
+          <a href="#steg-9">steg 9</a>. Områdets tyngsta pass: paketen,
+          anslutningssträngen, frödata, den första migrationen – och
+          <a href="#steg-8">steg 8</a>, där du öppnar tabellen och ser vad attributen
+          faktiskt blev. Sedan byter tjänsten implementation.</li>
+        <li><b>Lektion 33</b> (ons 16 dec) – <a href="#steg-10">steg 10</a> till
+          <a href="#steg-12">steg 12</a>. <code>EditForm</code>, valideringen som
+          håller när klientvalideringen kringgås, och metoden som sparar. Se också
+          <a href="validering.html">en rad som är hela skillnaden</a>.</li>
+        <li><b>Lektion 34</b> (tis 22 dec) – inget nytt.
+          <a href="#checklista">Checklistan</a>,
+          <a href="uppgift.html">uppgiften</a> med de tre kontrollerna, och
+          <a href="terminen.html">terminens fem områden och vårens fyra projekt</a>.
+          Inlämning samma kväll.</li>
+      </ul>
+      <p>Stegen bygger på varandra hela vägen. <a href="#steg-8">Steg 8</a> innehåller
+        ingen ny kod och är ändå det viktigaste – det är där du får veta vad databasen
+        inte gör åt dig.</p>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Ett nytt verktyg, och en ny tidpunkt för fel</span>
+      <p><code>dotnet ef</code> är ett eget verktyg vid sidan av <code>dotnet build</code>
+        och <code>dotnet run</code>. Det läser dina klasser och skriver databasen – och
+        det har egna fel, som kommer varken vid bygget eller när sidan öppnas utan när
+        du kör <code>migrations add</code> eller <code>database update</code>. Står du i
+        fel mapp, saknas ett paket eller stämmer inte anslutningssträngen får du veta
+        det där.</p>
+      <p>Tabellen <a href="#fel">När något går fel</a> tar upp dem i ordning. Läs
+        felmeddelandet innan du gör något – det säger nästan alltid rakt ut vad som
+        saknas.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Koden går inte att kopiera</span>
+      <p>Kodblocken på den här sidan går inte att markera, och det är med flit. Att
+        skriva av koden för hand är där en stor del av inlärningen sker: du läser
+        raden, håller den i huvudet och upptäcker vid tangentbordet vad du inte
+        förstod. Klistrar du in den hoppar du över precis det steget.
+        Terminalkommandon och SQL är undantag – de är figurer, inte kod att öva på.</p>
+    </div>
+
+    <p><em>Guide · Område 5 · Webbserverprogrammering 1</em></p>
+    <h2 id="bygger">Vad du bygger här</h2>
+    <p>Filmerna slutar vara en lista i koden och blir rader i en databas.</p>
+    <p>Applikationen ser nästan likadan ut. Skillnaden är att det du lägger till nu <strong>finns kvar när servern startas om</strong> – och att du för första gången kan lägga till en film utan att öppna en kodfil.</p>
+    <p>En sida är ny:</p>
+    <pre><code>Filmarkivet
+└── /filmer/ny            Formulär som skapar en film, med validering</code></pre>
+    <p>Det färdiga projektet ligger i <code>referensprojekt/Filmarkivet</code>.</p>
+    <p><strong>Det här är området där område 4 betalar tillbaka.</strong> Du byter ut hela <code>FilmService</code> mot en som läser ur en databas – och rör inte en enda komponent. <code>Filmer.razor</code>, <code>Filmdetalj.razor</code> och <code>Filmstatistik.razor</code> är exakt de filer de var, och de visar plötsligt databasdata. Håll den bilden framför dig i steg 9.</p>
+    <p>Ordet för det här arbetssättet är <strong>code-first</strong>: du skriver klassen, och databasen byggs efter den. Motsatsen – att rita tabellen först och generera klasser ur den – finns också, men code-first är det som gör att modellen, tabellen och formuläret aldrig glider isär.</p>
+    <h2 id="sjalv">Vad du ska göra själv efteråt</h2>
+    <p>Samma sak i ditt projekt:</p>
+    <ul><li>Din huvudentitet med <strong>valideringsattribut</strong></li><li>En **<code>DbContext</code>** med ett <code>DbSet</code> för entiteten</li><li>En <strong>migration</strong> som skapat databasen</li><li>Tjänsten läser och skriver mot databasen, <strong>bakom samma gränssnitt</strong></li><li>Ett **<code>EditForm</code>** som skapar nya poster</li><li>Valideringen ska hålla <strong>även när klientvalideringen kringgås</strong></li></ul>
+    <h3>Översättningstabellen</h3>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Filmarkivet</th><th>Ditt projekt</th></tr></thead>
+    <tbody>
+    <tr><td><code>Film</code> med attribut</td><td>din huvudentitet med attribut</td></tr>
+    <tr><td><code>FilmarkivetContext</code></td><td><code>DittProjektContext</code></td></tr>
+    <tr><td><code>DbSet&lt;Film&gt; Filmer</code></td><td>ditt <code>DbSet</code> – pluralnamn, det blir tabellnamnet</td></tr>
+    <tr><td><code>filmarkivet.db</code></td><td>din databasfil</td></tr>
+    <tr><td><code>ConnectionStrings:Filmarkivet</code></td><td>din anslutningssträng</td></tr>
+    <tr><td><code>SkapaAsync(Film film)</code></td><td>din metod som sparar en post</td></tr>
+    <tr><td><code>/filmer/ny</code></td><td>din sida för att lägga till</td></tr>
+    <tr><td><code>NyFilm.razor</code></td><td>ditt formulär</td></tr>
+    </tbody></table></div>
+    <p>Fyll i högerkolumnen innan du börjar koda. Namnen följer med dig till område 6, där de får sällskap av en kategorientitet.</p>
+    <h2 id="innan">Innan du börjar</h2>
+    <p>Ditt projekt från område 4: en tjänst bakom ett gränssnitt, injicerad i minst tre komponenter, med en hårdkodad lista bakom sig.</p>
+    <p>Kontrollen tar tio sekunder:</p>
+    <pre><code>dotnet run</code></pre>
+    <p>Fungerar din listsida och din detaljsida är du redo. Gör de inte det är det område 4 som ska bli klart först – det här området bygger direkt på det.</p>
+    <p>Du behöver också verktyget som gör migrationer. Kontrollera:</p>
+    <pre><code>dotnet ef --version</code></pre>
+    <p>Svarar den inte, installera det en gång:</p>
+    <pre><code>dotnet tool install --global dotnet-ef</code></pre>
+    <h2 id="begrepp">Begreppen i det här momentet</h2>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Begrepp</th><th>Vad det är</th></tr></thead>
+    <tbody>
+    <tr><td><em>Code-first</em></td><td>Klassen skrivs först, databasen byggs efter den</td></tr>
+    <tr><td>Entitet</td><td>En klass som motsvarar en tabell</td></tr>
+    <tr><td>Attribut</td><td><code>[Required]</code>, <code>[Range]</code> – regler skrivna ovanför en egenskap</td></tr>
+    <tr><td><em>Data annotations</em></td><td>Samlingsnamnet för de attributen</td></tr>
+    <tr><td><code>DbContext</code></td><td>Klassen som håller ihop entiteterna och kopplingen till databasen</td></tr>
+    <tr><td><code>DbSet&lt;T&gt;</code></td><td>En tabell, sedd från C#</td></tr>
+    <tr><td>Primärnyckel</td><td>Kolumnen som identifierar raden. <code>Id</code> blir det automatiskt</td></tr>
+    <tr><td>Anslutningssträng</td><td>Texten som säger var databasen finns</td></tr>
+    <tr><td>Migration</td><td>En genererad beskrivning av hur databasen ska ändras</td></tr>
+    <tr><td>Frödata (<em>seed</em>)</td><td>Rader som följer med migrationen in i databasen</td></tr>
+    <tr><td><code>EditForm</code></td><td>Blazors formulär, som kan validera mot en modell</td></tr>
+    <tr><td>Serversidesvalidering</td><td>Kontrollen som körs på servern och som inte går att stänga av</td></tr>
+    <tr><td>SQLite</td><td>En databas som är en enda fil. Ingen server att installera</td></tr>
+    </tbody></table></div>
+    <p>---</p>
+    <h2 id="steg-1">Steg 1 – Problemet</h2>
+    <p><strong>Vad vi gör.</strong> Ingenting. Vi tittar på vad som är fel.</p>
+    <p>Öppna din applikation, lägg märke till listan i <code>FilmService</code>, och ställ dig frågan: <strong>var tar en ny film vägen?</strong></p>
+    <p>Det finns bara ett svar i dag: du öppnar <code>FilmService.cs</code>, skriver in en rad till i listan, sparar och startar om. Det betyder tre saker:</p>
+    <ul><li>Bara den som kan koda kan lägga till något.</li><li>Ingenting går att ändra medan applikationen kör.</li><li>Startar servern om är allt som lagts till sedan bygget borta – för det fanns aldrig någon annanstans än i koden.</li></ul>
+    <p>Den sista punkten är den viktigaste, och du har redan sett den. Visningslistan i område 4 låg i session och försvann när webbläsaren stängdes. Det var <strong>rätt</strong> för en visningslista, som hör till besöket. Det är <strong>fel</strong> för filmerna, som hör till arkivet.</p>
+    <blockquote><p>Data som ska finnas kvar i morgon hör hemma i en databas. Allt annat är en förenkling som väntar på att bli ett problem.</p></blockquote>
+    <p><strong>I ditt projekt.</strong> Titta på din egen tjänst och peka ut listan. Det är den som ska bort, och det är den som är hela området.</p>
+    <h2 id="steg-2">Steg 2 – Entiteten</h2>
+    <p><strong>Vad vi gör.</strong> Ger modellklassen regler.</p>
+    <p><strong>Filen.</strong> <code>Models/Film.cs</code>:</p>
+    <pre><code class="sprak-csharp">using System.ComponentModel.DataAnnotations;
+
+namespace Filmarkivet.Models;
+
+// Från och med område 5 är det här en entitet: klassen beskriver både en post i
+// databasen och reglerna för vad som får skrivas i formuläret. Attributen skrivs
+// en gång och gör båda sakerna.
+public class Film
+{
+    // Id utan attribut blir primärnyckel. EF Core känner igen namnet.
+    public int Id { get; set; }
+
+    [Required(ErrorMessage = "Titeln måste fyllas i.")]
+    [StringLength(100, ErrorMessage = "Titeln får vara högst 100 tecken.")]
+    public string Titel { get; set; } = "";
+
+    [Range(1888, 2100, ErrorMessage = "Året måste ligga mellan 1888 och 2100.")]
+    public int Ar { get; set; }
+
+    [Range(1, 500, ErrorMessage = "Längden måste vara mellan 1 och 500 minuter.")]
+    public int LangdMinuter { get; set; }
+
+    [Range(1, 5, ErrorMessage = "Betyget är ett tal mellan 1 och 5.")]
+    public int Betyg { get; set; }
+
+    [StringLength(500, ErrorMessage = "Beskrivningen får vara högst 500 tecken.")]
+    public string Beskrivning { get; set; } = "";
+
+    public bool Tillganglig { get; set; }
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Klassen är densamma som i område 2. Det enda nya är raderna inom hakparenteser.</p>
+    <p>Ett <strong>attribut</strong> är en regel som sitter fast på egenskapen. Det är inte kod som körs på ett bestämt ställe – det är information som andra delar av systemet läser och rättar sig efter. Här läses den av två helt skilda saker: EF Core när databasen byggs, och <code>EditForm</code> när formuläret skickas.</p>
+    <p><code>ErrorMessage</code> är texten användaren får se. Utan den skriver ramverket ett engelskt standardmeddelande, och det duger inte på en svensk sajt.</p>
+    <p>**<code>Id</code> behöver inget attribut.** EF Core letar efter en egenskap som heter <code>Id</code> eller <code>FilmId</code> och gör den till primärnyckel. Det är en konvention – ramverket gissar rätt så länge du namnger som alla andra.</p>
+    <p><strong>Kontrollera.</strong> <code>dotnet build</code>. Noll fel. Ingenting har hänt ännu – attributen gör inget förrän någon läser dem.</p>
+    <p><strong>I ditt projekt.</strong> Sätt attribut på <strong>varje</strong> fält som har en regel, och skriv <code>ErrorMessage</code> på svenska. Ett fält utan regler ska inte ha ett attribut bara för att de andra har det.</p>
+    <h2 id="steg-3">Steg 3 – `DbContext`</h2>
+    <p><strong>Vad vi gör.</strong> Skapar kopplingen mellan klasserna och databasen.</p>
+    <p><strong>Filen.</strong> <code>Data/FilmarkivetContext.cs</code> – ny mapp, ny fil:</p>
+    <pre><code class="sprak-csharp">using Filmarkivet.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace Filmarkivet.Data;
+
+// Kopplingen mellan klasserna och databasen. Ett DbSet per entitet.
+public class FilmarkivetContext : DbContext
+{
+    public FilmarkivetContext(DbContextOptions&lt;FilmarkivetContext&gt; alternativ)
+        : base(alternativ)
+    {
+    }
+
+    public DbSet&lt;Film&gt; Filmer =&gt; Set&lt;Film&gt;();
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> <code>DbContext</code> är EF Cores klass för "en session mot databasen". Du ärver från den och lägger till ett <code>DbSet</code> per entitet.</p>
+    <p><code>DbSet&lt;Film&gt; Filmer</code> betyder ungefär: *det finns en tabell med filmer, och den heter <code>Filmer</code>*. <strong>Namnet på egenskapen blir tabellnamnet.</strong> Därför står det i plural.</p>
+    <p>Konstruktorn tar emot <code>DbContextOptions</code> – där ligger anslutningssträngen och valet av databasmotor. Klassen bestämmer alltså inte själv var databasen finns; det säger <code>Program.cs</code> i steg 5. Samma tanke som i område 4: klassen tar emot sina beroenden i stället för att skapa dem.</p>
+    <p><strong>Kontrollera.</strong> Bygget går inte igenom ännu – <code>DbContext</code> finns inte förrän paketen är på plats. Det är nästa steg.</p>
+    <p><strong>I ditt projekt.</strong> En <code>Data</code>-mapp, en context-klass, ett <code>DbSet</code>. Fler entiteter kommer i område 6.</p>
+    <h2 id="steg-4">Steg 4 – Paketen</h2>
+    <p><strong>Vad vi gör.</strong> Hämtar in EF Core och SQLite.</p>
+    <pre><code>dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+dotnet add package Microsoft.EntityFrameworkCore.Design</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Två paket med olika uppgifter:</p>
+    <ul><li>**<code>.Sqlite</code>** är det som körs när applikationen körs. Den kan prata med en SQLite-fil.</li><li>**<code>.Design</code>** används bara av <code>dotnet ef</code> när migrationer skapas. Den följer inte med den driftsatta applikationen, och det syns i <code>.csproj</code>: <code>&lt;PrivateAssets&gt;all&lt;/PrivateAssets&gt;</code>.</li></ul>
+    <p><strong>SQLite är en enda fil.</strong> Ingen server, inget lösenord, inget att installera. Databasen blir <code>filmarkivet.db</code> bredvid projektet. Det gör den perfekt för en kurs – och den är samtidigt en riktig relationsdatabas med riktig SQL.</p>
+    <p><strong>Kontrollera.</strong> <code>dotnet build</code>. Nu ska den gå igenom.</p>
+    <p><strong>I ditt projekt.</strong> Samma två paket. Kontrollera i <code>.csproj</code> att de kom med.</p>
+    <h2 id="steg-5">Steg 5 – Registreringen och anslutningssträngen</h2>
+    <p><strong>Vad vi gör.</strong> Talar om var databasen finns.</p>
+    <p><strong>Filen.</strong> <code>appsettings.json</code>, en ny sektion bredvid de som finns:</p>
+    <pre><code class="sprak-json">"ConnectionStrings": {
+  "Filmarkivet": "Data Source=filmarkivet.db"
+}</code></pre>
+    <p><strong>Filen.</strong> <code>Program.cs</code>, bland de andra registreringarna:</p>
+    <pre><code class="sprak-csharp">// En fabrik i stället för ett DbContext direkt: en komponent kan rendera flera
+// gånger och behöver ett eget context per anrop, inte ett delat.
+builder.Services.AddDbContextFactory&lt;FilmarkivetContext&gt;(alternativ =&gt;
+    alternativ.UseSqlite(builder.Configuration.GetConnectionString("Filmarkivet")));</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Anslutningssträngen ligger i <code>appsettings.json</code> och inte i koden, därför att den är olika på din dator och på servern. I område 8 byts den ut mot en riktig adress utan att en enda kodrad ändras.</p>
+    <p><code>AddDbContextFactory</code> är raden som är värd att stanna vid. Det vanliga är <code>AddDbContext</code>, som ger en scoped <code>DbContext</code>. I Blazor är det fel, och skälet kommer direkt ur område 4: **ett <code>DbContext</code> är inte trådsäkert, och en komponent kan rendera flera gånger under samma förfrågan.** Två renderingar som delar ett context kan krocka.</p>
+    <p>En <strong>fabrik</strong> löser det: varje metod ber om ett eget context, använder det och kastar det.</p>
+    <pre><code class="sprak-csharp">using var db = await _fabrik.CreateDbContextAsync();</code></pre>
+    <p><code>using</code> gör att det städas bort när metoden är klar. Det är samma <code>using</code> som du sett på filer, i en form du inte behövt förut.</p>
+    <p><strong>Kontrollera.</strong> <code>dotnet run</code>. Servern ska starta. Databasen finns inte ännu, men ingenting har frågat efter den.</p>
+    <p><strong>I ditt projekt.</strong> Din anslutningssträng, din context-typ. Namnet i <code>GetConnectionString</code> måste stämma <strong>exakt</strong> med nyckeln i <code>appsettings.json</code>.</p>
+    <h2 id="steg-6">Steg 6 – Filmerna flyttar in i migrationen</h2>
+    <p><strong>Vad vi gör.</strong> Låter den hårdkodade listan bli frödata.</p>
+    <p><strong>Filen.</strong> <code>Data/FilmarkivetContext.cs</code>, en metod till i klassen:</p>
+    <pre><code class="sprak-csharp">// Filmerna som låg hårdkodade i FilmService i område 4 flyttar hit och
+// följer med migrationen in i databasen.
+protected override void OnModelCreating(ModelBuilder byggare)
+{
+    byggare.Entity&lt;Film&gt;().HasData(
+        new Film { Id = 1, Titel = "Nyckeln till frihet", Ar = 1994, LangdMinuter = 142, Betyg = 5, Beskrivning = "En bankman döms för ett mord han inte begått och bygger under nitton år i Shawshank en vänskap som bär honom.", Tillganglig = true },
+        new Film { Id = 2, Titel = "Sju samurajer", Ar = 1954, LangdMinuter = 207, Betyg = 5, Beskrivning = "En by anlitar sju herrelösa samurajer till försvar mot rövare.", Tillganglig = false },
+        new Film { Id = 3, Titel = "Rosemarys baby", Ar = 1968, LangdMinuter = 137, Betyg = 4, Beskrivning = "Ett ungt par flyttar in i ett hus på Manhattan. Grannarna är påfallande vänliga.", Tillganglig = true },
+        new Film { Id = 4, Titel = "Såsom i en spegel", Ar = 1961, LangdMinuter = 89, Betyg = 4, Beskrivning = "Fyra människor på en ö under ett dygn.", Tillganglig = true },
+        new Film { Id = 5, Titel = "Gökboet", Ar = 1975, LangdMinuter = 133, Betyg = 5, Beskrivning = "McMurphy spelar galen för att slippa straffarbete.", Tillganglig = false },
+        new Film { Id = 6, Titel = "Cykeltjuven", Ar = 1948, LangdMinuter = 89, Betyg = 4, Beskrivning = "En man får äntligen arbete, men jobbet kräver en cykel.", Tillganglig = true }
+    );
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Du kunde ha låtit databasen vara tom och skrivit in filmerna via formuläret i steg 10. <code>HasData</code> är bättre av två skäl: alla som kör projektet får samma innehåll, och raderna blir en <strong>del av migrationen</strong> – de följer med databasen och går att spåra.</p>
+    <p><code>Id</code> måste anges. Vanligtvis sätter databasen id själv, men frödata skrivs innan databasen finns, och EF Core behöver kunna känna igen raderna om de ändras senare.</p>
+    <p><strong>Kontrollera.</strong> Ingenting syns ännu. Frödata blir verklig först i nästa steg.</p>
+    <p><strong>I ditt projekt.</strong> Flytta in din egen lista. Har du sex poster i din hårdkodade lista ska du ha sex rader här.</p>
+    <h2 id="steg-7">Steg 7 – Första migrationen</h2>
+    <p><strong>Vad vi gör.</strong> Låter EF Core skriva ned hur databasen ska se ut, och bygger den.</p>
+    <pre><code>dotnet ef migrations add ForstaMigrationen
+dotnet ef database update</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Två helt olika saker, och skillnaden är viktig:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Kommando</th><th>Vad det gör</th><th>Rör databasen?</th></tr></thead>
+    <tbody>
+    <tr><td><code>migrations add</code></td><td>Jämför dina klasser med förra migrationen och skriver en ny fil med skillnaden</td><td>Nej</td></tr>
+    <tr><td><code>database update</code></td><td>Kör de migrationer som inte körts</td><td>Ja</td></tr>
+    </tbody></table></div>
+    <p><code>migrations add</code> skapar en mapp <code>Migrations/</code> med tre filer. <strong>Redigera dem aldrig för hand.</strong> De är genererade, precis som <code>elevpaket/guide.html</code> – ändras klassen skriver du en ny migration i stället.</p>
+    <p><code>database update</code> skapar <code>filmarkivet.db</code> och kör migrationen mot den. Kör du den igen händer ingenting: EF Core håller reda på vilka migrationer som redan körts, i en egen tabell som heter <code>__EFMigrationsHistory</code>.</p>
+    <p><strong>Namnet på migrationen betyder något.</strong> <code>ForstaMigrationen</code> säger ingenting. <code>LaggTillBetyg</code> säger vad ändringen gjorde. Du kommer att ha fem migrationer innan kursen är slut, och de läses som en historik.</p>
+    <p><strong>Kontrollera.</strong> Filen <code>filmarkivet.db</code> ska ha dykt upp bredvid projektet.</p>
+    <pre><code>ls filmarkivet.db</code></pre>
+    <p><strong>I ditt projekt.</strong> Samma två kommandon. Lägg till <code>*.db</code> i <code>.gitignore</code> – databasen byggs av migrationen och ska inte checkas in.</p>
+    <h2 id="steg-8">Steg 8 – Vad blev av attributen</h2>
+    <p><strong>Vad vi gör.</strong> Öppnar databasen och kontrollerar påståendet från steg 2.</p>
+    <p>Guiden har sagt att attributen styr både kolumnen och formuläret. Nu ska du se efter om det stämmer. Titta på vad migrationen faktiskt skapade:</p>
+    <pre><code>dotnet ef migrations script</code></pre>
+    <p>Överst i utskriften står tabellen:</p>
+    <pre><code>CREATE TABLE "Filmer" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Filmer" PRIMARY KEY AUTOINCREMENT,
+    "Titel" TEXT NOT NULL,
+    "Ar" INTEGER NOT NULL,
+    "LangdMinuter" INTEGER NOT NULL,
+    "Betyg" INTEGER NOT NULL,
+    "Beskrivning" TEXT NOT NULL,
+    "Tillganglig" INTEGER NOT NULL
+)</code></pre>
+    <p><strong>Läs den noga, och jämför med klassen.</strong> Något saknas.</p>
+    <p><code>Id</code> blev primärnyckel med <code>AUTOINCREMENT</code> – databasen räknar upp den åt dig. <code>bool</code> blev <code>INTEGER</code>, för SQLite har ingen egen sanningsvärdestyp: <code>0</code> och <code>1</code>. Alla kolumner är <code>NOT NULL</code>.</p>
+    <p>Men <code>[StringLength(100)]</code> blev <strong>ingenting</strong>. <code>Titel</code> är <code>TEXT</code>, utan längd. Och <code>[Range(1, 5)]</code> blev <strong>ingenting</strong> – det finns inget <code>CHECK</code> på <code>Betyg</code>.</p>
+    <p>Så här ser det ut på riktigt:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Vad du skrev</th><th>I databasen</th><th>I formuläret</th></tr></thead>
+    <tbody>
+    <tr><td><code>public int Id</code></td><td>primärnyckel, <code>AUTOINCREMENT</code></td><td>–</td></tr>
+    <tr><td><code>public string Titel</code> (icke-nullbar)</td><td><code>NOT NULL</code></td><td>–</td></tr>
+    <tr><td><code>[Required]</code></td><td>– (kolumnen är redan <code>NOT NULL</code>)</td><td><strong>Ja</strong></td></tr>
+    <tr><td><code>[StringLength(100)]</code></td><td><strong>ingenting</strong></td><td><strong>Ja</strong></td></tr>
+    <tr><td><code>[Range(1, 5)]</code></td><td><strong>ingenting</strong></td><td><strong>Ja</strong></td></tr>
+    <tr><td><code>public bool Tillganglig</code></td><td><code>INTEGER NOT NULL</code></td><td>–</td></tr>
+    </tbody></table></div>
+    <p><strong>Varför det ser ut så.</strong> SQLite har ingen längd på <code>TEXT</code>, och EF Core skapar inga <code>CHECK</code>-villkor ur <code>[Range]</code>. Mot en annan databasmotor hade <code>[StringLength(100)]</code> blivit <code>nvarchar(100)</code> – men <code>[Range]</code> hade inte blivit någonting där heller.</p>
+    <p>Det går att bevisa. Öppna databasen och skriv rakt in i den, förbi C# och förbi formuläret:</p>
+    <pre><code>INSERT INTO Filmer (Titel, Ar, Beskrivning, Betyg, LangdMinuter, Tillganglig)
+VALUES ('ett par hundra tecken…', 1900, '', 99, 9999, 1);</code></pre>
+    <p>Den går igenom. Betyget 99. Längden 9999 minuter. Databasen säger ingenting.</p>
+    <p><strong>Slutsatsen, och områdets viktigaste mening:</strong></p>
+    <blockquote><p>Databasen ser till att fälten <strong>finns</strong>. Valideringen ser till att de är <strong>rimliga</strong>. Bara den ena av dem går att lita på för det andra.</p></blockquote>
+    <p>Det är därför uppgiften kräver att valideringen håller när klientvalideringen kringgås – och det är därför du inte kan skippa steg 11.</p>
+    <p><strong>I ditt projekt.</strong> Kör <code>dotnet ef migrations script</code> och jämför med dina egna attribut. Skärmbilden du bifogar i inlämningen ska visa den här tabellen.</p>
+    <h2 id="steg-9">Steg 9 – Tjänsten byter implementation</h2>
+    <p><strong>Vad vi gör.</strong> Låter <code>FilmService</code> läsa ur databasen i stället för ur listan.</p>
+    <p><strong>Filen.</strong> <code>Services/FilmService.cs</code>. Konstruktorn och de två första metoderna:</p>
+    <pre><code class="sprak-csharp">public class FilmService : IFilmService
+{
+    private readonly IDbContextFactory&lt;FilmarkivetContext&gt; _fabrik;
+    private readonly ILogger&lt;FilmService&gt; _logg;
+
+    public FilmService(IDbContextFactory&lt;FilmarkivetContext&gt; fabrik,
+                       ILogger&lt;FilmService&gt; logg)
+    {
+        _fabrik = fabrik;
+        _logg = logg;
+    }
+
+    // Task.FromResult är borta. Nu väntar metoden på riktigt.
+    public async Task&lt;List&lt;Film&gt;&gt; HamtaAllaAsync()
+    {
+        using var db = await _fabrik.CreateDbContextAsync();
+        return await db.Filmer.ToListAsync();
+    }
+
+    public async Task&lt;Film?&gt; HamtaAsync(int id)
+    {
+        using var db = await _fabrik.CreateDbContextAsync();
+        Film? film = await db.Filmer.FindAsync(id);
+
+        if (film is null)
+        {
+            _logg.LogWarning("Ingen film med id {Id}", id);
+        }
+
+        return film;
+    }
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Lägg märke till vad som <strong>inte</strong> ändrades:</p>
+    <ul><li><code>IFilmService</code> ser likadant ut. Samma fyra metoder, samma signaturer.</li><li>Ingen komponent ändrades. Inte <code>Filmer.razor</code>, inte <code>Filmdetalj.razor</code>, inte <code>Filmstatistik.razor</code>.</li><li>Registreringen i <code>Program.cs</code> är samma rad som förut.</li></ul>
+    <p><strong>Det här är hela poängen med område 4.</strong> Du bytte ut var datan kommer ifrån, och inget annat i applikationen märkte det. Hade du haft listan direkt i komponenterna – som i område 3 – hade det här varit en dags arbete i stället för tjugo minuter.</p>
+    <p><code>Task.FromResult</code> är borta ur <code>HamtaAllaAsync</code>. I område 4 var <code>async</code> kosmetika. Nu väntar metoden på riktigt, och signaturen behövde inte ändras för det. Det var därför den skrevs så från början.</p>
+    <p><code>FindAsync</code> letar på primärnyckeln och är kortare än en egen loop.</p>
+    <p>**<code>SokAsync</code> och <code>HamtaStatistikAsync</code> behåller sina loopar.** De hämtar hela listan med <code>HamtaAllaAsync</code> och går igenom den precis som förut. Det går att skriva om till frågor som körs i databasen – det gör vi i område 6, med LINQ.</p>
+    <p><strong>Kontrollera.</strong> Starta och gå till <code>/filmer</code>. Samma sex filmer som förut. Gå till <code>/filmer/1</code> och <code>/filmer/99</code> – 404 ska fortfarande fungera. Och <code>/visningslistan</code>, som hämtar sina filmer genom samma tjänst.</p>
+    <p>Ta sedan bort listan <code>Alla</code> ur filen. <strong>Bygget blir din kontroll</strong> på att inget längre använder den.</p>
+    <p><strong>I ditt projekt.</strong> Byt din egen implementation. Kontrollera att gränssnittet är oförändrat – behövde du ändra det är det ett tecken på att något läckt igenom.</p>
+    <h2 id="steg-10">Steg 10 – Formuläret</h2>
+    <p><strong>Vad vi gör.</strong> Bygger sidan som lägger till en film.</p>
+    <p><strong>Filen.</strong> <code>Components/Pages/NyFilm.razor</code>:</p>
+    <pre><code class="sprak-razor">@page "/filmer/ny"
+@inject IFilmService Arkivet
+
+&lt;PageTitle&gt;Ny film – Filmarkivet&lt;/PageTitle&gt;
+
+&lt;h1&gt;Lägg till en film&lt;/h1&gt;
+
+&lt;EditForm Model="Film" OnValidSubmit="Spara" FormName="nyfilm"&gt;
+    &lt;DataAnnotationsValidator /&gt;
+    &lt;ValidationSummary /&gt;
+
+    &lt;p&gt;
+        &lt;label&gt;Titel&lt;br /&gt;
+            &lt;InputText @bind-Value="Film!.Titel" /&gt;&lt;/label&gt;
+        &lt;ValidationMessage For="() =&gt; Film!.Titel" /&gt;
+    &lt;/p&gt;
+
+    &lt;p&gt;
+        &lt;label&gt;Betyg 1–5&lt;br /&gt;
+            &lt;InputNumber @bind-Value="Film!.Betyg" /&gt;&lt;/label&gt;
+        &lt;ValidationMessage For="() =&gt; Film!.Betyg" /&gt;
+    &lt;/p&gt;
+
+    &lt;button type="submit"&gt;Spara filmen&lt;/button&gt;
+&lt;/EditForm&gt;
+
+@if (sparad)
+{
+    &lt;p class="tomt"&gt;Filmen är sparad.&lt;/p&gt;
+}
+
+@code {
+    // Ingen initierare här. Ramverket fyller egenskapen vid en POST, och en
+    // initierare hade kunnat skrivas över med null. Objektet skapas i stället i
+    // OnInitialized, som körs före renderingen.
+    [SupplyParameterFromForm]
+    private Film? Film { get; set; }
+
+    private bool sparad;
+
+    protected override void OnInitialized()
+    {
+        Film ??= new Film();
+    }
+
+    private async Task Spara()
+    {
+        await Arkivet.SkapaAsync(Film!);
+        sparad = true;
+        Film = new Film();
+    }
+}</code></pre>
+    <p>Fälten för <code>Ar</code>, <code>LangdMinuter</code>, <code>Beskrivning</code> och <code>Tillganglig</code> ser likadana ut. Hela filen ligger i referensprojektet.</p>
+    <p><strong>Varför det ser ut så.</strong> Det här är <strong>inte</strong> samma sorts formulär som i område 4. Där skrev du <code>&lt;form method="post"&gt;</code> med <code>@formname</code> och <code>&lt;AntiforgeryToken /&gt;</code> för hand. <code>EditForm</code> gör mer:</p>
+    <div class="tabellsvep">
+    <table>
+    <thead><tr><th>Del</th><th>Vad den gör</th></tr></thead>
+    <tbody>
+    <tr><td><code>Model</code></td><td>Objektet som fylls i och valideras</td></tr>
+    <tr><td><code>FormName</code></td><td>Samma sak som <code>@formname</code> gjorde. Säger vilket formulär som skickades</td></tr>
+    <tr><td><code>OnValidSubmit</code></td><td>Körs <strong>bara</strong> om valideringen gick igenom</td></tr>
+    <tr><td><code>DataAnnotationsValidator</code></td><td>Läser attributen på klassen. <strong>Utan den valideras ingenting</strong></td></tr>
+    <tr><td><code>ValidationSummary</code></td><td>Alla fel i en lista, överst</td></tr>
+    <tr><td><code>ValidationMessage For</code></td><td>Ett fel intill sitt eget fält</td></tr>
+    <tr><td><code>InputText</code>, <code>InputNumber</code></td><td>Komponenter som binder mot en egenskap</td></tr>
+    </tbody></table></div>
+    <p><code>OnValidSubmit</code> är namnet att lägga på minnet. Det finns också <code>OnSubmit</code>, som körs oavsett – och den som råkar använda den har byggt ett formulär som sparar skräp.</p>
+    <p>**Om <code>Film?</code> och utropstecknen.** <code>[SupplyParameterFromForm]</code> får inte kombineras med en initierare på egenskapen; ramverket kan skriva över den med <code>null</code> vid en POST, och kompilatorn varnar med <code>BL0008</code>. Därför är egenskapen nullbar och objektet skapas i <code>OnInitialized</code> i stället.</p>
+    <p>Utropstecknet i <code>Film!.Titel</code> säger åt kompilatorn: <em>jag vet att den inte är null här</em>. Och det stämmer – <code>OnInitialized</code> körde precis före renderingen.</p>
+    <p><strong>Antiforgery behöver du inte skriva.</strong> <code>EditForm</code> lägger in token själv. Öppna sidkällan och leta efter <code>__RequestVerificationToken</code> så ser du den. Skickar någon formuläret utan den svarar servern <strong>400</strong>, precis som i område 4.</p>
+    <p><strong>Kontrollera.</strong> Fyll i formuläret och spara. Filmen ska dyka upp på <code>/filmer</code>. <strong>Starta sedan om servern och titta igen.</strong> Den är kvar. Det är första gången i kursen något överlever en omstart.</p>
+    <p><strong>I ditt projekt.</strong> Ett <code>EditForm</code> för din entitet, med ett fält per egenskap som användaren ska fylla i. <code>Id</code> ska inte vara ett fält – det sätter databasen.</p>
+    <h2 id="steg-11">Steg 11 – Valideringen som håller</h2>
+    <p><strong>Vad vi gör.</strong> Kringgår vår egen validering och ser om servern klarar sig.</p>
+    <p>Fyll i formuläret med ett betyg på 99 och tryck spara. Webbläsaren stoppar dig, eller så gör <code>ValidationSummary</code> det. Det bevisar ingenting: det är kontroller som körs i webbläsaren, och webbläsaren är besökarens, inte din.</p>
+    <p><strong>Gör så här i stället:</strong></p>
+    <ol><li>Öppna <code>/filmer/ny</code> och tryck <strong>F12</strong>.</li><li>Gå till fliken <strong>Elements</strong> och leta upp fältet för betyg.</li><li>Ändra <code>type="number"</code> till <code>type="text"</code>, och ta bort eventuella</li></ol>
+    <p><code>min</code>- och <code>max</code>-attribut.</p>
+    <ol><li>Skriv <code>99</code> i fältet och skicka.</li></ol>
+    <p>Servern svarar med sidan tillbaka, och i <code>ValidationSummary</code> står:</p>
+    <pre><code>Betyget är ett tal mellan 1 och 5.</code></pre>
+    <p>Ingen film sparades.</p>
+    <p><strong>Varför det ser ut så.</strong> <code>DataAnnotationsValidator</code> kör attributen <strong>på servern</strong>, efter att formuläret kommit in. Allt som händer i webbläsaren är bekvämlighet – det gör att användaren slipper vänta på ett svar för att få veta att fältet är tomt. Det är inte ett skydd.</p>
+    <blockquote><p>Klientvalidering är för användarens skull. Serversidesvalidering är för systemets. Den som bara har den första har ingen validering alls.</p></blockquote>
+    <p>Och kom ihåg steg 8: <strong>databasen fångar inte heller felet.</strong> <code>Betyg = 99</code> går rakt in i en <code>INTEGER</code>-kolumn utan protest. Kedjan har exakt ett ställe som håller, och det är <code>DataAnnotationsValidator</code> plus <code>OnValidSubmit</code>.</p>
+    <p>Prova gärna att ta bort <code>&lt;DataAnnotationsValidator /&gt;</code> och göra om försöket. Nu sparas filmen med betyg 99. Sätt tillbaka raden.</p>
+    <p><strong>I ditt projekt.</strong> Gör exakt det här försöket på ditt eget formulär, på ett fält med <code>[Range]</code> eller <code>[StringLength]</code>. Att du gjort det är ett krav i inlämningen – och det tar två minuter.</p>
+    <h2 id="steg-12">Steg 12 – Metoden som sparar</h2>
+    <p><strong>Vad vi gör.</strong> Tittar på den sista biten i kedjan.</p>
+    <p><strong>Filen.</strong> <code>Services/FilmService.cs</code>:</p>
+    <pre><code class="sprak-csharp">public async Task SkapaAsync(Film film)
+{
+    using var db = await _fabrik.CreateDbContextAsync();
+    db.Filmer.Add(film);
+    await db.SaveChangesAsync();
+
+    _logg.LogInformation("Ny film sparad: {Titel} (id {Id})", film.Titel, film.Id);
+}</code></pre>
+    <p><strong>Varför det ser ut så.</strong> Tre rader, och den mellersta är den som förvånar.</p>
+    <p><code>Add</code> sparar ingenting. Den säger till contextet: <em>den här filmen ska läggas till.</em> Ingenting händer i databasen förrän <code>SaveChangesAsync</code> körs. Det är avsiktligt – flera ändringar kan samlas ihop och skickas i en enda omgång, och antingen går allt igenom eller ingenting.</p>
+    <p>Loggraden skriver ut <code>film.Id</code> <strong>efter</strong> <code>SaveChangesAsync</code>. Före anropet är den <code>0</code>; det är databasen som delar ut numret, och EF Core skriver tillbaka det i objektet åt dig.</p>
+    <p><code>SkapaAsync</code> är den enda metoden som lagts till i <code>IFilmService</code> i det här området. Den kom av ny funktionalitet, inte av databasen – och det är värt att skilja på.</p>
+    <p><strong>Kontrollera.</strong> Spara en film och läs terminalen. Loggraden ska innehålla ett id som inte är noll.</p>
+    <p><strong>I ditt projekt.</strong> Din egen metod i ditt eget gränssnitt. <code>Add</code> plus <code>SaveChangesAsync</code>, och en loggrad.</p>
+    <p>---</p>
+    <h2 id="fel">När något går fel</h2>
+    <p>Slå upp felmeddelandet här innan du fastnar. Skriv en bit av det du ser.</p>
+
+        <div class="sok">
+          <label for="sok-fel">Sök bland felen</label>
+          <input type="search" id="sok-fel" data-sok="tabell-fel" data-traffar="traffar-fel"
+                 placeholder="till exempel: 404, namespace, Ã¥Ã¤Ã¶" autocomplete="off">
+          <p class="traffar" id="traffar-fel">14 rader</p>
+        </div>
+
+        <div class="tabellsvep">
+          <table id="tabell-fel">
+    <thead><tr><th>Felmeddelande</th><th>Vad det betyder</th><th>Gör så här</th></tr></thead>
+    <tbody>
+    <tr><td><code>No project was found</code> vid <code>dotnet ef</code></td><td>Du står i fel mapp</td><td><code>cd</code> till mappen med <code>.csproj</code></td></tr>
+    <tr><td><code>dotnet ef</code> känns inte igen</td><td>Verktyget är inte installerat</td><td><code>dotnet tool install --global dotnet-ef</code></td></tr>
+    <tr><td><code>Your startup project doesn't reference Microsoft.EntityFrameworkCore.Design</code></td><td>Design-paketet saknas</td><td><code>dotnet add package Microsoft.EntityFrameworkCore.Design</code></td></tr>
+    <tr><td><code>Unable to create a 'DbContext' of type</code></td><td>Anslutningssträngen hittas inte</td><td>Nyckeln i <code>GetConnectionString</code> måste stämma exakt med <code>appsettings.json</code></td></tr>
+    <tr><td><code>SQLite Error 1: 'no such table: Filmer'</code></td><td>Migrationen är inte körd</td><td><code>dotnet ef database update</code></td></tr>
+    <tr><td><code>The model for context has pending changes</code></td><td>Klassen ändrad efter senaste migrationen</td><td><code>dotnet ef migrations add NamnPaAndringen</code>, sedan <code>database update</code></td></tr>
+    <tr><td><code>A second operation was started on this context instance</code></td><td>Ett delat <code>DbContext</code></td><td>Använd <code>IDbContextFactory</code> och ett eget context per metod</td></tr>
+    <tr><td><code>Cannot consume scoped service 'FilmarkivetContext' from singleton</code></td><td>Contextet injicerat i en singleton</td><td>Samma fel som i område 4. Använd fabriken</td></tr>
+    <tr><td><code>BL0008</code> vid bygget</td><td><code>[SupplyParameterFromForm]</code> med initierare</td><td>Ta bort <code>= new()</code> och skapa objektet i <code>OnInitialized</code></td></tr>
+    <tr><td>Formuläret svarar <strong>400</strong></td><td>Antiforgery-token saknas</td><td><code>EditForm</code> lägger in den. Kontrollera att du inte byggt formuläret för hand</td></tr>
+    <tr><td>Formuläret gör ingenting</td><td><code>FormName</code> saknas</td><td><code>EditForm</code> behöver den vid statisk serverrendering</td></tr>
+    <tr><td>Felaktiga värden sparas ändå</td><td><code>&lt;DataAnnotationsValidator /&gt;</code> saknas</td><td>Utan den läses inga attribut</td></tr>
+    <tr><td><code>OnValidSubmit</code> körs aldrig</td><td>Valideringen går inte igenom</td><td>Lägg till <code>&lt;ValidationSummary /&gt;</code> och läs vad som står</td></tr>
+    <tr><td>Sidan visar noll filmer</td><td>Databasen är tom</td><td>Kördes migrationen mot rätt fil? Radera <code>.db</code> och kör <code>database update</code> igen</td></tr>
+    </tbody></table></div>
+    <h2 id="missa">Det som är lätt att missa när du gör det själv</h2>
+    <p><strong>Migrationer redigeras inte för hand.</strong> Blev något fel: <code>dotnet ef migrations remove</code>, ändra klassen, och lägg till en ny. Filerna i <code>Migrations/</code> är genererade.</p>
+    <p><strong>Databasfilen ska inte checkas in.</strong> Lägg <code>*.db</code> i <code>.gitignore</code>. Den som klonar ditt repo kör <code>database update</code> och får samma databas – det är hela poängen med migrationer.</p>
+    <p><strong>Attributen gör mindre i databasen än du tror.</strong> Steg 8 är inte en parentes. <code>[Range]</code> finns bara i valideringen, och den som litar på databasen som sista skyddsnät har inget skyddsnät.</p>
+    <p>**<code>ErrorMessage</code> på svenska, varje gång.*<em> Utan den får användaren </em>"The field Betyg must be between 1 and 5."* mitt i en svensk sajt.</p>
+    <p>**<code>OnValidSubmit</code>, inte <code>OnSubmit</code>.** Skillnaden är ett ord och all skillnad.</p>
+    <p><strong>Gränssnittet ska knappt ändras.</strong> Behövde du skriva om <code>IDittService</code> för att databasen kom, har något från datalagret läckt ut i komponenterna. Det är en signal värd att följa upp, inte en detalj.</p>
+    <p>**<code>Id</code> hör inte hemma i formuläret.** Databasen delar ut det. Ett fält där användaren skriver ett id blir ett problem i område 6.</p>
+    <h2 id="checklista">Checklista</h2>
+    <p>Guidens egen checklista. Den är inte betygskraven – de står i
+          <a href="uppgift.html">uppgiften</a> och är uppdelade på E, C och A. Den här listan
+          säger bara om du gjort klart det guiden går igenom.</p>
+
+        <section class="kravblock" data-niva="ska">
+          <div class="huvud">
+            <h3>Klart när allt är ikryssat</h3>
+            <span class="antal"></span>
+          </div>
+          <div class="stapel"><span></span></div>
+          <ul class="krav">
+            <li><label><input type="checkbox" id="guide-1"><span>Entiteten har valideringsattribut med svenska <code>ErrorMessage</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-2"><span><code>Data/</code>-mappen innehåller en <code>DbContext</code> med minst ett <code>DbSet</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-3"><span><code>DbSet</code>-egenskapen är namngiven i plural</span></label></li>
+            <li><label><input type="checkbox" id="guide-4"><span>Båda EF Core-paketen finns i <code>.csproj</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-5"><span>Anslutningssträngen ligger i <code>appsettings.json</code>, inte i koden</span></label></li>
+            <li><label><input type="checkbox" id="guide-6"><span><code>AddDbContextFactory</code> i <code>Program.cs</code>, inte <code>AddDbContext</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-7"><span>Frödata ligger i <code>OnModelCreating</code> med <code>HasData</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-8"><span><code>Migrations/</code> finns och är **inte** handredigerad</span></label></li>
+            <li><label><input type="checkbox" id="guide-9"><span><code>dotnet ef database update</code> skapar databasen från noll</span></label></li>
+            <li><label><input type="checkbox" id="guide-10"><span><code>*.db</code> ligger i <code>.gitignore</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-11"><span>Den gamla hårdkodade listan är **borttagen**</span></label></li>
+            <li><label><input type="checkbox" id="guide-12"><span>Gränssnittet är oförändrat, bortsett från metoden som sparar</span></label></li>
+            <li><label><input type="checkbox" id="guide-13"><span>Ingen komponent behövde ändras när databasen kom</span></label></li>
+            <li><label><input type="checkbox" id="guide-14"><span><code>EditForm</code> har <code>Model</code>, <code>FormName</code>, <code>OnValidSubmit</code> och <code>DataAnnotationsValidator</code></span></label></li>
+            <li><label><input type="checkbox" id="guide-15"><span>Du har kringgått klientvalideringen med DevTools och sett servern hålla</span></label></li>
+            <li><label><input type="checkbox" id="guide-16"><span>En sparad post överlever att servern startas om</span></label></li>
+            <li><label><input type="checkbox" id="guide-17"><span><code>dotnet build</code> ger noll varningar</span></label></li>
+          </ul>
+        </section>
+
+        <p>Kryssen sparas i din webbläsare.
+          <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+    <h2 id="mer">Vill du mer</h2>
+    <ul><li><a href="https://learn.microsoft.com/ef/core/">Entity Framework Core</a> – startsidan, med code-first som genomgående arbetssätt.</li><li><a href="https://learn.microsoft.com/ef/core/managing-schemas/migrations/">Migrations overview</a> – vad <code>add</code> och <code>update</code> gör, och hur man tar sig ur en migration som blev fel.</li><li><a href="https://learn.microsoft.com/ef/core/modeling/data-seeding">Data seeding</a> – <code>HasData</code> och alternativen till den.</li><li><a href="https://learn.microsoft.com/ef/core/dbcontext-configuration/">DbContext lifetime</a> – varför en fabrik i Blazor, och vad som går sönder utan.</li><li><a href="https://learn.microsoft.com/aspnet/core/blazor/forms/">ASP.NET Core Blazor forms and input components</a> – <code>EditForm</code>, <code>InputText</code> och de andra.</li><li><a href="https://learn.microsoft.com/aspnet/core/blazor/forms/validation">Validation with data annotations</a> – attributen, <code>DataAnnotationsValidator</code> och egna valideringsregler.</li><li><a href="https://www.sqlite.org/datatype3.html">SQLite data types</a> – varför <code>TEXT</code> saknar längd och <code>bool</code> blir <code>INTEGER</code>.</li></ul>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Till uppgiften</a> ·
+        <a href="validering.html">En rad som är hela skillnaden</a> ·
+        <a href="terminen.html">Terminen och våren</a> ·
+        <a href="index.html">Tillbaka till område 5</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

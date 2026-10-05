@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projekt 3: Driftsatt applikation med API-funktion</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o8-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 8</a>
+  <span class="harifran"><strong>Projekt 3</strong> · Driftsatt applikation med API-funktion</span>
+  <a href="#misstag">Vanliga misstag</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#tidsplanen">2. Tidsplanen</a></li>
+      <li><a href="#uppdelningen">3. Så är uppgiften uppdelad</a></li>
+      <li><a href="#etapp-1">4. Etapp 1 – Driftklar på din dator</a></li>
+      <li><a href="#etapp-2">5. Etapp 2 – Driftsatt</a></li>
+      <li><a href="#etapp-3">6. Etapp 3 – API:erna</a></li>
+      <li><a href="#etapp-4">7. Etapp 4 – Redovisning och leverans</a></li>
+      <li><a href="#bedomning">8. Så bedöms den</a></li>
+      <li><a href="#misstag">9. Vanliga misstag</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 8</p>
+    <h1>Projekt 3 – Driftsatt applikation med API-funktion</h1>
+    <p class="inledning">Din applikation från Projekt 1 ska lämna din dator. Den ska gå
+      att nå på en riktig adress med HTTPS, med databasen migrerad på servern och inga
+      hemligheter i koden. Den ska dessutom hämta data från ett externt API, och ha ett
+      eget API som svarar med JSON.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-04-20">
+        <span class="nar">20 april</span>
+        <span class="vad">Etapp 1 före passet, etapp 2 efter
+          <small>Driftklar på din dator – och sedan driftsatt, med länken delad i klassen.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-04-27">
+        <span class="nar">27 april</span>
+        <span class="vad">Etapp 3: API:erna
+          <small>Det externa och ditt eget, i drift.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-04-28">
+        <span class="nar">28 april</span>
+        <span class="vad">Etapp 4: redovisning
+          <small>Tre minuter, på din adress.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-05-02">
+        <span class="nar">2 maj</span>
+        <span class="vad">Deadline kl 23:59
+          <small>Adressen och repots adress lämnas i itslearning.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Någon annan ska kunna göra om det</span>
+      <p>Driftsättningen dokumenteras så att <b>någon annan kan göra om den</b>. En
+        applikation som bara du kan få upp på en server är inte driftsatt – den är
+        uppsatt en gång.</p>
+      <p>Området är kort, och det ligger före slutprojektet med avsikt: ingen ska
+        driftsätta för första gången kvällen före sista inlämningen.</p>
+    </div>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+    <p>Du börjar inte om. Du tar med dig ditt projekt från område 7 – med roller,
+      lösenorden i user-secrets och sidorna skyddade – och får fyra saker till:</p>
+    <ul>
+      <li><b><a href="guide.html">Guiden</a></b>, som tar Filmarkivet hela vägen i 21
+        steg, med all kod och en översättningstabell. Den är uppdelad efter
+        lektionerna.</li>
+      <li><b>Referensprojektet Filmarkivet</b> – driftklart, med Wikipedia-rutan, det
+        egna API:et och elva tester.</li>
+      <li><b>Lektionerna 57–59</b>, en genomgång per del av guiden.</li>
+      <li><b>Arbetspasset 60</b>, med handledning.</li>
+    </ul>
+
+    <h2 id="tidsplanen">2. Tidsplanen</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Datum</th><th>Pass</th><th>Vad ska vara klart</th></tr></thead>
+        <tbody>
+          <tr><td>ons 14/4</td><td>57</td><td>Uppgiften delas ut. Konto i Azure</td></tr>
+          <tr><td><b>tis 20/4</b></td><td>58</td><td><a href="#etapp-1"><b>Etapp 1</b></a> före passet: driftklar på din dator. <a href="#etapp-2"><b>Etapp 2</b></a> efter: driftsatt, och länken delad i klassen</td></tr>
+          <tr><td>ons 21/4</td><td>59</td><td>Genomgång: JSON och API:er</td></tr>
+          <tr><td><b>tis 27/4</b></td><td>60</td><td><a href="#etapp-3"><b>Etapp 3:</b></a> det externa API:et och ditt eget, i drift</td></tr>
+          <tr><td><b>ons 28/4</b></td><td>61</td><td><a href="#etapp-4"><b>Etapp 4:</b></a> redovisning, tre minuter</td></tr>
+          <tr><td><b>sön 2/5</b></td><td>–</td><td><b>Deadline</b> kl 23:59: dokumentationen och sista rättningarna</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Tisdag 20/4 är passet då alla driftsätter. Kommer du dit utan att ha prövat
+      driften på din egen dator – etapp 1 – går passet åt till att leta efter fel som
+      hade tagit fem minuter hemma.</p>
+
+    <h2 id="uppdelningen">3. Så är uppgiften uppdelad</h2>
+    <p>Fyra etapper. Varje etapp har ett datum, en kontroll du gör själv, och de krav som
+      hör till den – på alla tre nivåerna.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nivå</th><th>Vad som skiljer den</th></tr></thead>
+        <tbody>
+          <tr><td><b>E</b></td><td>Applikationen är driftsatt och fungerar, och det går att göra om efter din beskrivning</td></tr>
+          <tr><td><b>C</b></td><td>Du har prövat det som kan gå fel – innan det gick fel – och kan redovisa hur</td></tr>
+          <tr><td><b>A</b></td><td>Du ser gränserna för din egen lösning, och går längre än guiden där det spelar roll</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>C-kraven gäller utöver E-kraven, och A-kraven utöver C-kraven – i alla etapper.</p>
+
+    <p>Kryssen sparas i din webbläsare, så du kan bocka av allteftersom.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <!-- ============================================================ etapp 1 -->
+
+    <h2 id="etapp-1">4. Etapp 1 – Driftklar på din dator</h2>
+    <p class="ledtext">Klar före passet tisdag 20/4 · pass 57 ·
+      <a href="guide.html#steg-1">guidens steg 1–6</a></p>
+
+    <p>Applikationen ska gå att köra som servern kommer att köra den: publicerad, i
+      Production, med inställningarna utifrån.</p>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollen</span>
+      <p><a href="guide.html#steg-6">Guidens steg 6</a>, med ditt projekt. Det
+        publicerade programmet startar i Production, med en databasmapp som inte finns,
+        och:</p>
+      <ul>
+        <li>terminalen säger att migrationerna körts</li>
+        <li>din admin kan logga in, med lösenordet från en miljövariabel</li>
+        <li>sidan har sin CSS</li>
+      </ul>
+    </div>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 1 · krav för E</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e1-ska-1"><span>Anslutningssträngen och lösenorden går att sätta som <b>miljövariabler</b>, med dubbla understreck</span></label></li>
+        <li><label><input type="checkbox" id="e1-ska-2"><span>Migrationerna körs vid start när <code>Databas__MigreraVidStart</code> är <code>true</code>, och <b>inte</b> annars</span></label></li>
+        <li><label><input type="checkbox" id="e1-ska-3"><span><code>dotnet publish</code> till en mapp <b>utanför</b> projektmappen, och en zip med innehållet i roten</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 1 · krav för C <span style="color:var(--dov);font-weight:400">— utöver E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e1-bor-1"><span>Du har kört det <b>publicerade</b> programmet lokalt i Production, som i guidens steg 6, innan du driftsatte</span></label></li>
+        <li><label><input type="checkbox" id="e1-bor-2"><span>SQL-loggningen syns inte i Production, men finns kvar i Development</span></label></li>
+      </ul>
+    </section>
+
+    <p>Etappen har inget A-krav. Den är förberedelsen – det som bedöms på A kommer i
+      etapp 2 och 3.</p>
+
+    <!-- ============================================================ etapp 2 -->
+
+    <h2 id="etapp-2">5. Etapp 2 – Driftsatt</h2>
+    <p class="ledtext">Klar efter passet tisdag 20/4 · pass 58 ·
+      <a href="guide.html#steg-7">guidens steg 7–12</a></p>
+
+    <p>Applikationen på Azure App Service, med HTTPS, och länken delad i klassen.</p>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollen</span>
+      <p><a href="guide.html#steg-11">Guidens steg 11</a>, med din adress:</p>
+      <ul>
+        <li>hänglåset, och <code>http://</code> skickas vidare till <code>https://</code></li>
+        <li>dina poster från frödatan visas</li>
+        <li>din admin kan logga in</li>
+        <li>utloggad hamnar du på inloggningen när du skriver en skyddad adress</li>
+      </ul>
+    </div>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 2 · krav för E</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e2-ska-1"><span>Applikationen svarar på <code>https://&lt;ditt namn&gt;.azurewebsites.net</code></span></label></li>
+        <li><label><input type="checkbox" id="e2-ska-2"><span>Databasen är migrerad <b>i driftmiljön</b>: tabellerna och frödatan finns</span></label></li>
+        <li><label><input type="checkbox" id="e2-ska-3"><span>Databasen ligger i <code>D:\home</code>, och finns kvar efter en ny publicering</span></label></li>
+        <li><label><input type="checkbox" id="e2-ska-4"><span>Inloggningen fungerar i drift, och sidorna som ändrar data är skyddade där också</span></label></li>
+        <li><label><input type="checkbox" id="e2-ska-5"><span><b>Inga hemligheter i repot.</b> Lösenorden i drift är App Service-inställningar</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 2 · krav för C <span style="color:var(--dov);font-weight:400">— utöver E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e2-bor-1"><span>Lösenorden i drift är <b>andra</b> än de som finns i din git-historik. Du har sökt med <code>git log -S</code> och skrivit i <code>DRIFT.md</code> vad du hittade</span></label></li>
+        <li><label><input type="checkbox" id="e2-bor-2"><span>Du har slagit på loggningen och använt den: i <code>DRIFT.md</code> finns <b>ett fel du fick</b> vid driftsättningen, vad loggen sa, och hur du löste det</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 2 · krav för A <span style="color:var(--dov);font-weight:400">— utöver C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e2-utm-1"><span>I <code>DRIFT.md</code>: <b>gränserna för din driftlösning.</b> Vad händer med datan och inloggningen om App Service startas om, publiceras på nytt – eller kör på två servrar samtidigt? Vad skulle du byta ut, och varför? Du behöver inte bygga det – men du ska kunna förklara det</span></label></li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ etapp 3 -->
+
+    <h2 id="etapp-3">6. Etapp 3 – API:erna</h2>
+    <p class="ledtext">Klar tisdag 27/4 · pass 59 och 60 ·
+      <a href="guide.html#steg-13">guidens steg 13–19</a></p>
+
+    <p>En sida som hämtar och visar data från ett externt API. Ett eget API som svarar
+      med JSON. Båda i drift.</p>
+
+    <p>Välj det externa API:et så att det passar din domän. Wikipedia fungerar för
+      nästan allt; ett annat nyckelfritt API går lika bra. Kräver det en nyckel är den
+      en hemlighet, som lösenorden.</p>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollen</span>
+      <p>I drift, på din adress:</p>
+      <ul>
+        <li>sidan visar datan från det externa API:et</li>
+        <li>ditt API svarar med JSON på listan och på en post</li>
+        <li>ett id som inte finns ger <b>404</b> – som JSON, inte som en sida</li>
+      </ul>
+    </div>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 3 · krav för E</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e3-ska-1"><span>En sida <b>hämtar och visar data från ett externt API</b>, med <code>HttpClient</code></span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-2"><span>Källan till datan anges på sidan</span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-3"><span>En <b>egen endpoint</b> som returnerar JSON</span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-4"><span>Sidan fungerar – visas – också när det externa API:et inte hittar något</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 3 · krav för C <span style="color:var(--dov);font-weight:400">— utöver E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e3-bor-1"><span>Klienten är en <b>typad klient</b> bakom ett gränssnitt, registrerad med <code>AddHttpClient</code>, med en <b>tidsgräns</b> du valt</span></label></li>
+        <li><label><input type="checkbox" id="e3-bor-2"><span>Du har <b>prövat vad som händer när API:et inte svarar</b>, som i guidens steg 19, och beskrivit det i <code>README.md</code>: hur du provade, och vad sidan gjorde</span></label></li>
+        <li><label><input type="checkbox" id="e3-bor-3"><span>Ditt API lämnar ut ett <b>eget svarsobjekt</b>, inte entiteten. I <code>README.md</code>: vilka fält du lämnar ut, och varför inte de andra</span></label></li>
+        <li><label><input type="checkbox" id="e3-bor-4"><span>Ett id som inte finns ger 404 med <b>problem details</b></span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 3 · krav för A <span style="color:var(--dov);font-weight:400">— utöver C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e3-utm-1"><span><b>Ett test av klienten utan nätet</b>, med en låtsasserver som i guidens steg 19 – också för fallet att API:et inte svarar</span></label></li>
+        <li><label><input type="checkbox" id="e3-utm-2"><span>Ditt API tar emot en <b>parameter i frågesträngen</b> – ett filter eller en sökning – och svarar <b>400</b> med problem details när värdet är ogiltigt</span></label></li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ etapp 4 -->
+
+    <h2 id="etapp-4">7. Etapp 4 – Redovisning och leverans</h2>
+    <p class="ledtext">Redovisning onsdag 28/4, pass 61 · deadline söndag 2/5 kl 23:59 ·
+      <a href="guide.html#steg-20">guidens steg 20–21</a></p>
+
+    <p><b>Redovisningen.</b> Tre minuter, på din adress – inte på din dator:</p>
+    <ol>
+      <li>Adressen, och hänglåset</li>
+      <li>Logga in, och ändra något</li>
+      <li>Sidan med det externa API:et</li>
+      <li>Ditt API i webbläsaren, och ett id som inte finns</li>
+      <li><b>En sak som gick fel</b>, och hur du hittade felet</li>
+    </ol>
+
+    <p><b><code>DRIFT.md</code></b> i repots rot är driftsättningen steg för steg. Den ska
+      gå att följa för någon som aldrig sett ditt projekt, med ett eget Azure-konto.
+      Namnen på inställningarna står där – <b>värdena gör det inte</b>. Rubrikerna att
+      utgå från. Blocket går att kopiera – det är en mall, inte kod att öva på:</p>
+
+<pre class="fri"># Driftsättning – &lt;din applikation&gt;
+
+Adress: https://&lt;ditt namn&gt;.azurewebsites.net
+
+## Det här behövs
+## Bygga och packa
+## Skapa webbappen i Azure
+## Inställningarna
+| Namn | Vad den styr |
+|---|---|
+## Ladda upp
+## Kontrollera att det fungerar
+## När något går fel
+## Hemligheter</pre>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollen</span>
+      <p>Be en klasskamrat läsa <code>DRIFT.md</code> och säga vilket steg som är oklart.
+        Rätta det.</p>
+    </div>
+
+    <h3>Inlämningen</h3>
+    <ol>
+      <li>Kontrollera etapp 2:s fyra punkter på din adress – inte på din dator.</li>
+      <li><code>git grep</code> efter dina lösenord och efter ordet <code>password</code>.
+        Ingen träff.</li>
+      <li>Läs igenom <code>DRIFT.md</code> och <code>README.md</code> en sista gång.</li>
+      <li><code>git add .</code>, <code>git commit -m "…"</code>, <code>git push</code></li>
+      <li>Öppna repot på github.com. <code>DRIFT.md</code> ska finnas där, och ingen zip
+        och ingen <code>publicera</code>-mapp.</li>
+      <li>Lämna <b>både adressen och repots adress</b> i itslearning.</li>
+    </ol>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 4 · krav för E</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e4-ska-1"><span>Redovisningen genomförd, på den driftsatta applikationen</span></label></li>
+        <li><label><input type="checkbox" id="e4-ska-2"><span><code>DRIFT.md</code> beskriver driftsättningen <b>steg för steg</b>: bygga, packa, skapa resursen, inställningarna med namn, ladda upp, kontrollera</span></label></li>
+        <li><label><input type="checkbox" id="e4-ska-3"><span><code>README.md</code> säger var applikationen finns, och hur man loggar in på den driftsatta – utan att lösenordet står i repot. Lämna det till mig i itslearning</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 4 · krav för C <span style="color:var(--dov);font-weight:400">— utöver E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e4-bor-1"><span>En <b>annan person har följt <code>DRIFT.md</code></b>. Skriv vem, och vad som var oklart och ändrades</span></label></li>
+        <li><label><input type="checkbox" id="e4-bor-2"><span><code>DRIFT.md</code> har ett avsnitt om vad som kan gå fel, med <b>dina egna fel</b>, inte bara guidens</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 4 · krav för A <span style="color:var(--dov);font-weight:400">— utöver C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e4-utm-1"><span><code>DRIFT.md</code> avslutas med <b>förbättringsförslag för driften</b> – minst två, med vad de skulle kräva</span></label></li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ bedömning -->
+
+    <h2 id="bedomning">8. Så bedöms den</h2>
+    <p>Projekt 3 har inget prov. <b>Den publicerade applikationen och redovisningen är
+      examinationen</b>, och innehållet kommer tillbaka i slutprovet.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>Vad det betyder här</th></tr></thead>
+        <tbody>
+          <tr><td><b>Driftsättning</b></td>
+            <td>På E är applikationen driftsatt och fungerar. På C har du prövat den innan och kan redovisa felen. På A ser du gränserna för din lösning.</td></tr>
+          <tr><td><b>Samspelet mellan klient och server</b></td>
+            <td>Statuskoder, JSON och vad som händer när en annan server inte svarar.</td></tr>
+          <tr><td><b>Säkerhet</b></td>
+            <td>HTTPS, och inga hemligheter i repot – nu eller i historiken.</td></tr>
+          <tr><td><b>Dokumentation av utvecklingsprocess och färdig produkt</b></td>
+            <td><code>DRIFT.md</code>: kan någon annan göra om det?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Jag öppnar din adress och klonar repot. Fyra saker väger tyngst:</p>
+
+    <ul>
+      <li><b>Att den svarar.</b> Svarar inte adressen vid deadline finns inget att bedöma
+        i etapp 2 och 3. Gratisnivån somnar efter en stund utan trafik – det är inte ett
+        fel, den vaknar. Men den ska vakna.</li>
+      <li><b>Att det inte finns hemligheter i repot.</b> Jag söker efter lösenord i koden
+        och i historiken. Ett lösenord som används i drift och står i repot är ett
+        underkänt E-krav.</li>
+      <li><b>Att sidan tål att API:et inte svarar.</b> På C prövar jag det genom att läsa
+        hur du prövat det.</li>
+      <li><b>Att <code>DRIFT.md</code> går att följa.</b> Jag läser den som om jag skulle
+        göra om det. Ett steg som <em>är självklart</em> för dig och saknas är det som
+        saknas.</li>
+    </ul>
+
+    <h2 id="misstag">9. Vanliga misstag</h2>
+    <p>Det här är det som gör att projektet underkänns i onödan.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Misstag</th><th>Vad som händer</th><th>Undvik det så här</th></tr></thead>
+        <tbody>
+          <tr><td>Driften prövas först i Azure</td><td>Passet 20/4 går åt till fel som syns på fem minuter lokalt</td><td><a href="guide.html#steg-6">Guidens steg 6</a>, före passet</td></tr>
+          <tr><td>Zippen innehåller mappen, inte innehållet</td><td>Azure hittar inget program och visar sin väntsida</td><td><code>tar … -C ..\publicera *</code>. Öppna zippen och kontrollera</td></tr>
+          <tr><td><code>publicera</code>-mappen eller zippen i repot</td><td>20 MB byggfiler i git, och nästa <code>publish</code> bygger in dem</td><td>Publicera till <code>..\publicera</code>, utanför projektmappen</td></tr>
+          <tr><td>Databasen utanför <code>D:\home</code></td><td>Datan är borta efter nästa publicering</td><td><code>Data Source=D:\home\data\…</code></td></tr>
+          <tr><td>Kolon i inställningens namn</td><td>Inställningen läses inte, och användaren skapas inte</td><td>Dubbla understreck</td></tr>
+          <tr><td>Samma lösenord som i Projekt 1</td><td>Det finns i din git-historik, och är därmed känt</td><td>Nya lösenord i drift. <code>git log -S</code></td></tr>
+          <tr><td>API-nyckeln i <code>appsettings.json</code></td><td>Den ligger i repot</td><td>user-secrets lokalt, App Service-inställning i drift</td></tr>
+          <tr><td>Ingen tidsgräns på klienten</td><td>Sidan väntar i 100 sekunder när API:et inte svarar</td><td><code>klient.Timeout</code>. <a href="guide.html#steg-16">Guidens steg 16</a></td></tr>
+          <tr><td><code>new HttpClient()</code> i sidan</td><td>Anslutningar som inte stängs, och ett API-anrop i presentationslagret</td><td><code>AddHttpClient</code> och en klient bakom ett gränssnitt</td></tr>
+          <tr><td>Entiteten rakt ut i API:et</td><td>Allt på entiteten blir offentligt, också det du lägger till senare</td><td>Ett eget svarsobjekt</td></tr>
+          <tr><td>404 från API:et som en HTML-sida</td><td><code>Results.NotFound()</code> görs om till din inte-hittad-sida</td><td><code>Results.Problem</code>. <a href="guide.html#steg-15">Guidens steg 15</a></td></tr>
+          <tr><td><code>DRIFT.md</code> skriven sista kvällen, ur minnet</td><td>Stegen stämmer inte, och ingen annan hinner prova den</td><td>Skriv medan du driftsätter. Låt någon följa den</td></tr>
+          <tr><td>Lösenordet till den driftsatta appen i <code>README.md</code></td><td>Hemligheten ligger i repot</td><td>Lämna det till mig i itslearning</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="guide.html">Till guiden</a> ·
+        <a href="index.html">Tillbaka till område 8</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

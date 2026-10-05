@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fem områden, en kedja – terminen och våren</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o5-terminen">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Lektion 34</strong> · Terminsavslut</span>
+  <a href="#varen">Våren</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#ikapp">Missade du passet?</a></li>
+      <li><a href="#kedjan">1. Fem områden, en kedja</a></li>
+      <li><a href="#meningen">2. Kursens viktigaste mening</a></li>
+      <li><a href="#varen">3. Vårens fyra projekt</a></li>
+      <li><a href="#omrade-6">4. Vad som händer med det du har</a></li>
+      <li><a href="#regeln">5. Regeln från och med nu</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 5 · lektion 34</p>
+    <h1>Fem områden, en kedja</h1>
+    <p class="inledning">Höstterminen har lärt ut. Vårterminen bygger. Den här sidan
+      säger hur de fem områdena hänger ihop – inte som fem separata moment utan som
+      en kedja där varje länk gjorde nästa möjlig – och vad som väntar i januari.</p>
+
+    <div class="notis viktig" id="ikapp">
+      <span class="rubrik">Missade du passet?</span>
+      <p>Lektion 34 var eget arbete med inlämningen, och sedan två genomgångar: den här
+        sidan är de två genomgångarna. Läs den på tio minuter. Det viktiga att ta med
+        sig står i <a href="#regeln">avsnitt 5</a>: du börjar aldrig om.</p>
+      <p>Inlämning 5 gick ut samma kväll. Har du inte lämnat in: gör
+        <a href="uppgift.html#kontrollerna">de tre kontrollerna</a> och lämna in så
+        snart du kan – och säg till, så vet jag att den kommer.</p>
+    </div>
+
+    <h2 id="kedjan">1. Fem områden, en kedja</h2>
+    <p>Läs tabellen med pilar bakåt. Varje rad var möjlig bara för att raden ovanför
+      redan var gjord.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Område</th><th>Vad du byggde</th><th>Vad det gjorde möjligt</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td>En sajt som svarar på en förfrågan</td><td>Att veta vad servern faktiskt gör</td></tr>
+          <tr><td><b>2</b></td><td>C# på serversidan, en lista renderad</td><td>Att ha data att visa</td></tr>
+          <tr><td><b>3</b></td><td>Komponenter, routing, layout</td><td>Att listan kunde visas på två ställen</td></tr>
+          <tr><td><b>4</b></td><td>Tjänster bakom gränssnitt</td><td>Att datan kunde bytas ut</td></tr>
+          <tr><td><b>5</b></td><td>Databas och formulär</td><td>Att datan blev verklig</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Frågan som ställdes i salen: <em>vilket av de fem områdena var jobbigast att se
+      poängen med?</em> Svaret blir område 4, varje år. Applikationen såg likadan ut
+      när det var slut, och allt arbete låg i var koden hamnade.</p>
+
+    <p>Och det är precis det området som gjorde att område 5 tog tjugo minuter i stället
+      för en dag.</p>
+
+    <h2 id="meningen">2. Kursens viktigaste mening</h2>
+
+    <div class="notis">
+      <span class="rubrik">Ni bytte ut hela datalagret och behövde inte ändra en enda komponent</span>
+      <p>Det var inte tur. Det var det ni gjorde i november.</p>
+    </div>
+
+    <p>Öppna ditt projekt och titta på det själv: <code>IDittService</code> ser likadant
+      ut som i område 4, bortsett från metoden som sparar. Komponenterna som visar listan
+      och detaljsidan är orörda. Det enda som ändrades var en klass – och den låg bakom
+      ett gränssnitt just för att kunna ändras.</p>
+
+    <p>Den meningen bär hela vårterminen. Varje projekt i vår lägger till något bakom
+      samma gränssnitt, och varje gång kommer komponenterna att klara sig.</p>
+
+    <h2 id="varen">3. Vårens fyra projekt</h2>
+    <p>Terminen har varit genomgångar och mängdträning. Våren är projekt: samma
+      applikation, större steg, längre deadlines. Alla deadlines går ut kl 23:59.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-03-08">
+        <span class="nar">8 mars</span>
+        <span class="vad">Projekt 1 – Datadriven webbapplikation
+          <small>Område 6. Prov 4 dagen efter.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-04-12">
+        <span class="nar">12 april</span>
+        <span class="vad">Projekt 2 – Säkerhetsgranskning och härdning
+          <small>Område 7. Prov 5 dagen efter.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-05-02">
+        <span class="nar">2 maj</span>
+        <span class="vad">Projekt 3 – Driftsatt applikation med API-funktion
+          <small>Område 8. Redovisning live den 28 april.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-06-07">
+        <span class="nar">7 juni</span>
+        <span class="vad">Slutprojekt – Webbapplikation åt en kund
+          <small>Område 9. Delinlämning 12 maj. Slutprov 8 juni.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Projekt</th><th>Område</th><th>Vad som byggs</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td>6. Datadriven applikation</td><td>Kategorientitet och relation, full CRUD, sökning och sortering med LINQ, inloggning och adminsidor</td></tr>
+          <tr><td><b>2</b></td><td>7. Säkerhet och kvalitetssäkring</td><td>Granska och härda det du själv byggt</td></tr>
+          <tr><td><b>3</b></td><td>8. Driftsättning, API och externa data</td><td>Applikationen läggs upp så att andra kan nå den. Hämtar data från ett öppet API</td></tr>
+          <tr><td><b>4</b></td><td>9. Slutprojekt</td><td>Ett nytt projekt från grunden, åt en kund</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Två prov ligger dagen efter projekt 1 och 2. Ett slutprov över hela kursen i
+      juni. Vårterminen börjar onsdag 13 januari.</p>
+
+    <h2 id="omrade-6">4. Vad som händer med det du har</h2>
+
+    <p><b>Attributen i område 6.</b> <code>[Range]</code> fångade inte det som skrevs
+      rakt in i databasen – i område 6 skriver du ett <b>eget</b> valideringsattribut,
+      och kopplar ihop din kategorientitet med din huvudentitet så att varje post hör
+      till en kategori. Det du har nu är halva datamodellen.</p>
+
+    <p><b>Valideringen i område 7.</b> Attributen fångar slarv. De fångar inte någon
+      som medvetet försöker. Det området handlar om skillnaden – och du granskar det
+      du själv byggt, inte något färdigt exempel.</p>
+
+    <p><b>Anslutningssträngen i område 8.</b> Den ligger i <code>appsettings.json</code>
+      och inte i koden av ett skäl: när applikationen driftsätts byts den ut utan att
+      en enda kodrad ändras.</p>
+
+    <h2 id="regeln">5. Regeln från och med nu</h2>
+
+    <div class="notis varna">
+      <span class="rubrik">Du börjar aldrig om</span>
+      <p>Projektet du har i dag är det du lämnar in i mars, granskar i april och
+        driftsätter i maj. Varje projekt bygger på det förra. Det finns ingen punkt där
+        du får ett nytt, tomt projekt och slipper det gamla.</p>
+    </div>
+
+    <p>Det gäller inte slutprojektet, som är ett nytt bygge från grunden – och det är
+      avsiktligt. I juni ska du kunna göra hela resan själv: från tomt projekt till
+      driftsatt applikation med databas, validering och inloggning. Det är det de fem
+      områdena har tränat.</p>
+
+    <p>Två saker att göra över lovet, om du vill ligga före:</p>
+    <ul>
+      <li>Titta på din datamodell. Vilken <b>kategorientitet</b> passar din domän? Frågan
+        ställdes redan i domänkraven från område 3, och den ska besvaras i januari.</li>
+      <li>Se till att projektet startar från noll: klona ditt eget repo i en ny mapp och
+        kör <code>dotnet ef database update</code> och <code>dotnet run</code>. Fungerar
+        det där fungerar det i januari.</li>
+    </ul>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Till uppgiften</a> ·
+        <a href="guide.html">Till guiden</a> ·
+        <a href="index.html">Tillbaka till område 5</a> ·
+        <a href="../index.html">Kursstarten</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

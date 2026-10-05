@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 8: driftsättning, API och externa data</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o8-start">
+
+<header class="topp">
+  <a href="../index.html">← Webbserverprogrammering 1</a>
+  <span class="harifran"><strong>Område 8</strong> · Driftsättning, API och externa data</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#lektioner">1. Fem lektioner</a></li>
+      <li><a href="#kunna">2. Det här ska sitta</a></li>
+      <li><a href="#drift">3. Det som inte följer med</a></li>
+      <li><a href="#igang">4. Kom igång</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+      <li><a href="#orden">6. Orden</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 8 · v.15–17</p>
+    <h1>Driftsättning, API och externa data</h1>
+    <p class="inledning">Applikationen lämnar din dator. Den får en riktig adress med
+      HTTPS, där andra kan nå den, och den lär sig prata med andra servrar: den hämtar
+      data från ett externt API, och har ett eget som svarar med JSON. Området är kort
+      och intensivt – och ligger före slutprojektet med avsikt, så att ingen
+      driftsätter för första gången kvällen före sista inlämningen.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-04-20">
+        <span class="nar">20 april</span>
+        <span class="vad">Driftsatt – alla, under passet
+          <small>Etapp 1, driftklar på din egen dator, ska vara klar före passet.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-04-28">
+        <span class="nar">28 april</span>
+        <span class="vad">Redovisning: applikationerna live
+          <small>Tre minuter var, på din adress.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-05-02">
+        <span class="nar">2 maj</span>
+        <span class="vad">Projekt 3 – Driftsatt applikation med API-funktion, kl 23:59
+          <small>Adressen och repots adress lämnas i itslearning. Inget prov – applikationen och redovisningen är examinationen.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="rutnat">
+      <a class="kort webb" href="guide.html">
+        <span class="sort">Guide · hela området</span>
+        <span class="rubrik">Filmarkivet på en server</span>
+        <p>Tjugoett steg, uppdelade efter lektionerna. Följ den här om du missat ett
+          pass.</p>
+      </a>
+      <a class="kort webb" href="uppgift.html">
+        <span class="sort">Projekt 3</span>
+        <span class="rubrik">Driftsatt applikation med API-funktion</span>
+        <p>Fyra etapper med datum, en kontroll per etapp, och kraven för E, C och A med
+          kryssrutor där de hör hemma.</p>
+      </a>
+    </div>
+
+    <h2 id="lektioner">1. Fem lektioner</h2>
+    <p>Tre genomgångar, ett arbetspass och en redovisning. Kolumnen längst till höger
+      säger vad du gör om du var borta.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>#</th><th>Datum</th><th>Längd</th><th>Vad vi gör</th><th>Missade du passet?</th></tr></thead>
+        <tbody>
+          <tr><td>57</td><td>ons 14 apr</td><td>45 min</td>
+            <td>Från utvecklingsmiljö till drift. Development mot Production,
+              inställningarna som miljövariabler, och migrationerna på servern. Projekt 3
+              delas ut, och du skaffar ett Azure-konto.</td>
+            <td><a href="guide.html#steg-1">Guiden steg 1–6</a> och
+              <a href="uppgift.html#etapp-1">etapp 1</a> – klar före tisdag</td></tr>
+          <tr><td>58</td><td>tis 20 apr</td><td>85 min</td>
+            <td>Driftsättning. Webbappen i Azure, inställningarna, zippen – och loggen när
+              det går fel. <b>Alla driftsätter, och länken delas i klassen.</b></td>
+            <td><a href="guide.html#steg-7">Guiden steg 7–12</a> och
+              <a href="uppgift.html#etapp-2">etapp 2</a></td></tr>
+          <tr><td>59</td><td>ons 21 apr</td><td>45 min</td>
+            <td>JSON, API:er och samspelet klient–server. Ett eget API, en klient mot
+              Wikipedia, och vad sidan gör när API:et inte svarar.</td>
+            <td><a href="guide.html#steg-13">Guiden steg 13–19</a></td></tr>
+          <tr><td>60</td><td>tis 27 apr</td><td>85 min</td>
+            <td>Arbetspass. API-funktionen, driftdokumentationen, och kontrollen av att
+              inga hemligheter ligger i repot.</td>
+            <td><a href="uppgift.html#etapp-3">Etapp 3</a>, och
+              <a href="guide.html#steg-20">guiden steg 20–21</a></td></tr>
+          <tr><td>61</td><td>ons 28 apr</td><td>45 min</td>
+            <td>Redovisning: applikationerna live. Tre minuter var, på din adress.</td>
+            <td><a href="uppgift.html#etapp-4">Etapp 4</a>, med redovisningens fem punkter
+              – säg till, så får du redovisa senare</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kunna">2. Det här ska sitta</h2>
+    <ul>
+      <li>Du kan säga vad som skiljer Development från Production i ditt projekt, och
+        varför user-secrets inte finns på servern.</li>
+      <li>Du kan skriva en inställning som miljövariabel, med dubbla understreck.</li>
+      <li>Du kan förklara varför driften provas med det publicerade programmet, och inte
+        med <code>dotnet run</code>.</li>
+      <li>Du kan driftsätta din applikation så att någon annan kan göra om det efter din
+        beskrivning.</li>
+      <li>Du kan läsa ett REST-anrop: resurs, metod, statuskod och innehåll.</li>
+      <li>Du kan förklara varför ett API lämnar ut ett eget svarsobjekt och inte
+        entiteten, och varför ett fel från ett API ska vara JSON.</li>
+      <li>Du kan säga vad som händer med din sida när ett externt API inte svarar, och
+        vad tidsgränsen gör.</li>
+      <li>Du kan visa att inga lösenord ligger i ditt repo – nu eller i historiken.</li>
+    </ul>
+
+    <h2 id="drift">3. Det som inte följer med</h2>
+    <p>Mycket av det som fungerar på din dator gör det för att din dator har något
+      servern saknar. Det här är skillnaderna som ställer till det:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>På din dator</th><th>På servern</th><th>Guiden</th></tr></thead>
+        <tbody>
+          <tr><td><code>launchSettings.json</code> säger Development</td><td>Filen finns inte. Miljön är Production</td><td><a href="guide.html#steg-1">Steg 1</a></td></tr>
+          <tr><td>Lösenorden ligger i user-secrets</td><td>user-secrets läses inte. Lösenorden måste komma som inställningar</td><td><a href="guide.html#steg-2">Steg 2</a></td></tr>
+          <tr><td>Du kör <code>dotnet ef database update</code></td><td>Det finns inget <code>dotnet ef</code>. Applikationen får köra migrationerna själv</td><td><a href="guide.html#steg-3">Steg 3</a></td></tr>
+          <tr><td>Felen syns i terminalen och i webbläsaren</td><td>Felsidan visar inget. Felet finns i loggen – om du slagit på den</td><td><a href="guide.html#steg-11">Steg 11</a></td></tr>
+          <tr><td>Databasen ligger i projektmappen</td><td>Den måste ligga i <code>D:\home</code>, annars är den borta efter nästa publicering</td><td><a href="guide.html#steg-9">Steg 9</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Prova driften hemma innan du provar den i Azure</span>
+      <p>Guidens steg 6 kör det publicerade programmet på din egen dator, i Production,
+        med inställningarna som miljövariabler. Fungerar det där har du uteslutit
+        hälften av det som kan gå fel på servern. Fungerar det inte där fungerar det inte
+        på servern heller – och felet tar fem minuter att hitta hemma i stället för ett
+        helt pass.</p>
+    </div>
+
+    <h2 id="igang">4. Kom igång</h2>
+    <p>Du börjar inte om. Området bygger vidare på ditt projekt från område 7.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Det du gör</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Starta ditt projekt. Logga in som din admin, logga ut, och försök nå en sida som ändrar data – du ska hamna på inloggningen.</td></tr>
+          <tr><td>2</td><td>Committa och pusha allt. Det du driftsätter ska vara det som ligger i repot.</td></tr>
+          <tr><td>3</td><td>Skaffa ett konto i Azure for Students, med din skolmejl. Gör det första dagen – verifieringen kan ta tid.</td></tr>
+          <tr><td>4</td><td>Läs <a href="uppgift.html">uppgiften</a>, och fyll i <a href="guide.html#sjalv">guidens översättningstabell</a>.</td></tr>
+          <tr><td>5</td><td>Gör <a href="uppgift.html#etapp-1">etapp 1</a> före tisdag 20 april.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Publicera och packa, från projektmappen:</p>
+
+    <pre><code>dotnet publish -c Release -o ..\publicera
+tar -a -c -f ..\projekt.zip -C ..\publicera *</code></pre>
+
+    <p>Så ser det ut bredvid din projektmapp efteråt. Varken <code>publicera</code> eller
+      zippen hör hemma i repot:</p>
+
+    <pre><code>DittProjekt/         repot – här ändras ingenting
+publicera/           det som ska köras på servern
+projekt.zip          publicera/ packad, med innehållet i roten</code></pre>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <p>Sök på felmeddelandet du fick, eller på ett ord ur det. Kolumnen <em>var</em>
+      säger om felet syns på din dator, i Azure, eller i ditt API. Den fullständiga
+      tabellen står i <a href="guide.html#fel">guiden</a>.</p>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: 500, Production, 404, lösenord" autocomplete="off">
+      <p class="traffar" id="traffar-fel">15 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Var</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td><code>Hosting environment: Development</code> fast du satt Production</td><td>din dator</td><td><code>launchSettings.json</code> sätter tillbaka Development</td><td><code>dotnet run --no-launch-profile</code>. <a href="guide.html#steg-2">Steg 2</a>.</td></tr>
+          <tr><td>Sidan utan CSS, <code>.styles.css</code> svarar 500</td><td>din dator</td><td><code>dotnet run</code> i Production</td><td>Prova med det publicerade programmet. <a href="guide.html#steg-6">Steg 6</a>.</td></tr>
+          <tr><td><em>Det gick inte att hitta en del av sökvägen</em> från <code>Compress-Archive</code></td><td>din dator</td><td>Sökvägen är längre än 260 tecken</td><td><code>tar</code>. <a href="guide.html#steg-5">Steg 5</a>.</td></tr>
+          <tr><td><code>SQLite Error 14: 'unable to open database file'</code></td><td>båda</td><td>Databasens mapp finns inte, och migrationerna är avstängda</td><td><code>Databas__MigreraVidStart = true</code>. <a href="guide.html#steg-3">Steg 3</a>.</td></tr>
+          <tr><td><code>skapades inte: lösenordet saknas i konfigurationen</code></td><td>båda</td><td>Inställningens namn stämmer inte</td><td>Dubbla understreck. Jämför med nyckeln i user-secrets.</td></tr>
+          <tr><td><code>skapades inte: Passwords must have at least one digit</code></td><td>båda</td><td>Lösenordet bryter mot reglerna</td><td>Minst åtta tecken, en siffra, en versal.</td></tr>
+          <tr><td>Nästa <code>dotnet run</code> är också i Production</td><td>din dator</td><td>Miljövariabeln lever kvar i terminalfönstret</td><td><code>$env:ASPNETCORE_ENVIRONMENT = $null</code>, eller ett nytt fönster.</td></tr>
+          <tr><td>Azures väntsida i stället för din applikation</td><td>Azure</td><td>Zippen kom inte upp, eller innehållet ligger i en undermapp</td><td>Öppna zippen: <code>web.config</code> ska ligga i roten. <a href="guide.html#steg-10">Steg 10</a>.</td></tr>
+          <tr><td><em>HTTP Error 500.30 – ASP.NET Core app failed to start</em></td><td>Azure</td><td>Applikationen kastade ett undantag när den startade</td><td>Log stream. <a href="guide.html#steg-12">Steg 12</a>.</td></tr>
+          <tr><td>Datan är borta efter en ny publicering</td><td>Azure</td><td>Databasen ligger utanför <code>D:\home</code></td><td>Anslutningssträngen. <a href="guide.html#steg-9">Steg 9</a>.</td></tr>
+          <tr><td>Första sidan tar lång tid</td><td>Azure</td><td>Gratisnivån stänger av appen efter en stund utan trafik</td><td>Normalt. Den vaknar vid nästa förfrågan.</td></tr>
+          <tr><td>Ett id som inte finns ger en HTML-sida</td><td>ditt API</td><td><code>Results.NotFound()</code> – en tom 404 görs om till din inte-hittad-sida</td><td><code>Results.Problem</code>. <a href="guide.html#steg-15">Steg 15</a>.</td></tr>
+          <tr><td>Rutan med datan från det externa API:et syns aldrig</td><td>ditt API</td><td>Fel adress, eller svaret har andra fältnamn</td><td>Öppna API-adressen i webbläsaren. Stämmer fälten med ditt objekt?</td></tr>
+          <tr><td>Sidan tar länge att visa när API:et inte svarar</td><td>ditt API</td><td>Ingen tidsgräns – förvalet är 100 sekunder</td><td><code>klient.Timeout</code>. <a href="guide.html#steg-16">Steg 16</a>.</td></tr>
+          <tr><td><code>git grep</code> hittar ett lösenord</td><td>repot</td><td>Det står i koden eller i <code>appsettings.json</code></td><td>Flytta det till user-secrets, och byt lösenordet i drift. <a href="guide.html#steg-20">Steg 20</a>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="orden">6. Orden</h2>
+    <p>Orden nedan används från och med nu utan förklaring, och kommer tillbaka i
+      slutprovet.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>miljö</b></td><td><em>Development</em> på din dator, <em>Production</em> på servern. Styrs av <code>ASPNETCORE_ENVIRONMENT</code>.</td></tr>
+          <tr><td><b>miljövariabel</b></td><td>En inställning som operativsystemet ger programmet när det startar. Ligger utanför koden och utanför repot.</td></tr>
+          <tr><td><b>dotnet publish</b></td><td>Bygger det som ska köras på servern – utan källkod, utan testprojekt.</td></tr>
+          <tr><td><b>driftsättning</b></td><td>Att få en applikation att köra på en server, åtkomlig för andra.</td></tr>
+          <tr><td><b>App Service</b></td><td>Azures tjänst för webbapplikationer. Du lämnar programmet, Azure kör det.</td></tr>
+          <tr><td><b>logg</b></td><td>Det applikationen skriver om vad den gör. I drift det enda stället där ett fel syns.</td></tr>
+          <tr><td><b>API</b></td><td><em>Application Programming Interface</em> – ett gränssnitt som program anropar, inte människor.</td></tr>
+          <tr><td><b>REST</b></td><td>Ett sätt att bygga API:er: adresserna är resurser, och HTTP-metoden säger vad som ska göras.</td></tr>
+          <tr><td><b>JSON</b></td><td>Textformatet API:er oftast svarar med. <code>{"titel":"Gökboet","ar":1975}</code>.</td></tr>
+          <tr><td><b>statuskod</b></td><td>Siffran i svaret som säger hur det gick. 200 gick bra, 404 finns inte, 500 servern föll.</td></tr>
+          <tr><td><b>problem details</b></td><td>Standardformen för ett fel i ett JSON-API: typ, rubrik, statuskod och förklaring.</td></tr>
+          <tr><td><b>HttpClient</b></td><td>Klassen som skickar förfrågningar från din server till en annan.</td></tr>
+          <tr><td><b>typad klient</b></td><td>En egen klass som får en färdig <code>HttpClient</code> injicerad, registrerad med <code>AddHttpClient</code>.</td></tr>
+          <tr><td><b>tidsgräns</b></td><td>Hur länge <code>HttpClient</code> väntar på ett svar innan den ger upp. Förvalet är 100 sekunder.</td></tr>
+          <tr><td><b>svarsobjekt</b></td><td>Det ett API lämnar ut, i stället för entiteten. Bestämmer vilka fält som blir offentliga.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="guide.html">Till guiden</a> ·
+        <a href="uppgift.html">Till uppgiften</a> ·
+        <a href="../index.html">Tillbaka till kursstarten</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

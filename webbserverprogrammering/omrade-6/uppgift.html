@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projekt 1: Datadriven webbapplikation</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o6-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Projekt 1</strong> · Datadriven webbapplikation</span>
+  <a href="#misstag">Vanliga misstag</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#tidsplanen">2. Tidsplanen</a></li>
+      <li><a href="#uppdelningen">3. Så är uppgiften uppdelad</a></li>
+      <li><a href="#etapp-1">4. Etapp 1 – Projektplanen</a></li>
+      <li><a href="#etapp-2">5. Etapp 2 – Datamodellen</a></li>
+      <li><a href="#etapp-3">6. Etapp 3 – Operationerna</a></li>
+      <li><a href="#etapp-4">7. Etapp 4 – Kvaliteten</a></li>
+      <li><a href="#etapp-5">8. Etapp 5 – Leveransen</a></li>
+      <li><a href="#bedomning">9. Så bedöms den</a></li>
+      <li><a href="#misstag">10. Vanliga misstag</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 6</p>
+    <h1>Projekt 1 – Datadriven webbapplikation</h1>
+    <p class="inledning">Din applikation ska gå att förvalta utan att någon öppnar en
+      kodfil. Den som är inloggad ska kunna lägga till, ändra och ta bort poster, och
+      varje post hör till en kategori i en egen tabell. Den som inte är inloggad ska
+      kunna läsa, men inte komma åt något som ändrar.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-01-20">
+        <span class="nar">20 jan</span>
+        <span class="vad">Etapp 1: projektplanen committad
+          <small>Innan du börjat koda. Git visar datumet.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-02-09">
+        <span class="nar">9 feb</span>
+        <span class="vad">Etapp 2: milstolpe 1
+          <small>Kategorin, relationen och migrationen.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-02-24">
+        <span class="nar">24 feb</span>
+        <span class="vad">Etapp 3: milstolpe 2
+          <small>Alla fyra CRUD-operationerna, och sidorna skyddade.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-03-02">
+        <span class="nar">2 mars</span>
+        <span class="vad">Etapp 4: avstämning
+          <small>Tre minuter med läraren, en och en.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-03-08">
+        <span class="nar">8 mars</span>
+        <span class="vad">Etapp 5: deadline kl 23:59
+          <small>Repots adress lämnas i itslearning. Prov 4 dagen efter.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det som bedöms tyngst är att lagren håller</span>
+      <p>Komponenterna visar, tjänsterna gör arbetet, och databasen nås bara genom
+        tjänsterna. Det är det du byggt upp under hela hösten, och nu ska det bära en
+        hel applikation.</p>
+      <p>Det här är också vårens första projekt, och det första där <b>processen
+        bedöms</b>, inte bara koden. Du skriver en projektplan innan du bygger, och en
+        uppföljning mot den när du är klar.</p>
+    </div>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+    <p>Du börjar inte om. Samma domän, samma entitet, samma tjänst som i område 5.
+      Du får med dig fyra saker:</p>
+    <ul>
+      <li><b><a href="guide.html">Guiden</a></b>, som bygger Filmarkivet i 26 steg med
+        all kod och en översättningstabell. Den är uppdelad efter lektionerna.</li>
+      <li><b>Referensprojektet Filmarkivet</b>, färdigt att köra, läsa och logga in i.
+        Inloggningsuppgifterna står i dess <code>README.md</code>.</li>
+      <li><b>Lektionerna 36–43</b>, en genomgång per del av guiden.</li>
+      <li><b>Arbetspassen 42 och 44–47</b>, med handledning.</li>
+    </ul>
+
+    <h2 id="tidsplanen">2. Tidsplanen</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Datum</th><th>Pass</th><th>Vad ska vara klart</th></tr></thead>
+        <tbody>
+          <tr><td>ons 13/1</td><td>35</td><td>Uppgiften delas ut och läses tillsammans</td></tr>
+          <tr><td><b>ons 20/1</b></td><td>37</td><td><a href="#etapp-1"><b>Etapp 1:</b></a> projektplanen committad</td></tr>
+          <tr><td><b>tis 9/2</b></td><td>42</td><td><a href="#etapp-2"><b>Etapp 2, milstolpe 1:</b></a> kategorin, relationen och migrationen</td></tr>
+          <tr><td>ons 10/2</td><td>43</td><td>Sportlov veckan efter</td></tr>
+          <tr><td><b>ons 24/2</b></td><td>45</td><td><a href="#etapp-3"><b>Etapp 3, milstolpe 2:</b></a> alla fyra CRUD-operationerna, och sidorna skyddade</td></tr>
+          <tr><td><b>tis 2/3</b></td><td>46</td><td><a href="#etapp-4"><b>Etapp 4:</b></a> avstämning med läraren, en och en</td></tr>
+          <tr><td>ons 3/3</td><td>47</td><td>Sista arbetspasset</td></tr>
+          <tr><td><b>mån 8/3</b></td><td>–</td><td><a href="#etapp-5"><b>Etapp 5:</b></a> deadline kl 23:59</td></tr>
+          <tr><td>tis 9/3</td><td>48</td><td><a href="provet.html">Prov 4</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Milstolparna lämnas inte in. De är till för att du och jag ska se i tid om
+      något halkar efter. Är du inte vid milstolpe 1 den 9/2 har du tre veckor kvar
+      och det mesta av arbetet framför dig. Säg till då, inte den 3/3.</p>
+
+    <h2 id="uppdelningen">3. Så är uppgiften uppdelad</h2>
+    <p>Projektet går i fem etapper. Varje etapp har ett datum, en kontroll du gör
+      själv, och de krav som hör till den – på alla tre nivåerna.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nivå</th><th>Vad som skiljer den</th></tr></thead>
+        <tbody>
+          <tr><td><b>E</b></td><td>Applikationen fungerar, och lagren finns. En E-applikation gör det guiden gör</td></tr>
+          <tr><td><b>C</b></td><td>Valen är dina och motiverade. Du gör det av skäl du kan redovisa, och du har kontrollerat att det håller</td></tr>
+          <tr><td><b>A</b></td><td>Du går längre än guiden på egen hand, och ser svagheter i ditt eget arbete innan någon annan gör det</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>C-kraven gäller utöver E-kraven, och A-kraven utöver C-kraven – i alla etapper.
+      En etapp är klar när kontrollen går igenom, inte när alla kryss är satta. Det som
+      inte blev klart i en etapp tar du med dig till nästa, och skriver om det i
+      uppföljningen.</p>
+
+    <p>Kryssen sparas i din webbläsare, så du kan bocka av allteftersom.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <!-- ============================================================ etapp 1 -->
+
+    <h2 id="etapp-1">4. Etapp 1 – Projektplanen</h2>
+    <p class="ledtext">Klar onsdag 20/1 · pass 35–37</p>
+
+    <p>En fil i repots rot: <code>PROJEKTPLAN.md</code>. Den ska vara committad
+      <b>innan du börjat koda</b>. Git visar när den kom in, och det är poängen.</p>
+
+    <p>Den ska svara på fem frågor:</p>
+    <ol>
+      <li><b>Vad ska byggas?</b> Din domän, din huvudentitet och din kategori. Fyll i
+        <a href="guide.html#sjalv">översättningstabellen ur guiden</a> och klistra in
+        den här.</li>
+      <li><b>Vilka krav siktar du på?</b> E, C eller A, och vilka punkter i kravlistan
+        du ser som svårast för dig.</li>
+      <li><b>Vad ingår inte?</b> Minst en sak du medvetet väljer bort, och varför.</li>
+      <li><b>När ska vad vara klart?</b> Din egen tidsplan mot etapperna, pass för
+        pass. Den får vara grövre än tabellen, men den ska vara din.</li>
+      <li><b>Vad kan gå fel?</b> Minst två risker, och vad du gör om de inträffar.</li>
+    </ol>
+
+    <p>Rubrikerna att utgå från. Blocket går att kopiera – det är en mall, inte kod
+      att öva på:</p>
+
+<pre class="fri"># Projektplan – &lt;din applikation&gt;
+
+## Vad ska byggas?
+
+| Filmarkivet | Mitt projekt |
+|---|---|
+| `Film` | … |
+| `Genre` | … |
+
+## Vilka krav siktar jag på?
+
+## Vad ingår inte?
+
+## När ska vad vara klart?
+
+| Pass | Datum | Vad jag gör |
+|---|---|---|
+
+## Vad kan gå fel?
+
+| Risk | Vad jag gör om den inträffar |
+|---|---|</pre>
+
+    <p>En projektplan är inte ett löfte. Det är en gissning som du sedan jämför med
+      vad som hände. Ändrar du planen under arbetet gör du det i filen, med ett datum
+      och ett skäl, och committar. Då syns både den gamla och den nya planen i
+      historiken.</p>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollen</span>
+      <p>Filen finns på github.com, och commiten är daterad senast 20/1.</p>
+    </div>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 1 · krav för E</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e1-ska-1"><span><code>PROJEKTPLAN.md</code> i repots rot, committad senast 20/1, med svar på alla fem frågorna</span></label></li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ etapp 2 -->
+
+    <h2 id="etapp-2">5. Etapp 2 – Datamodellen</h2>
+    <p class="ledtext">Milstolpe 1 · klar tisdag 9/2 · pass 37, 40 och 42 ·
+      <a href="guide.html#steg-5">guidens steg 5–9</a> och
+      <a href="guide.html#steg-17">17</a></p>
+
+    <p>Din kategori får en egen tabell, och varje post hör till en kategori. Identity
+      lägger till användartabellerna i pass 40, och det är en migration till. Det som
+      kommer sedan – formulären, sökningen, inloggningen – bygger på att datamodellen
+      står.</p>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollen – fyra saker, i den här ordningen</span>
+      <ol>
+        <li><code>dotnet ef migrations list</code> visar minst tre migrationer – den från
+          område 5, relationen och Identity – och ingen står som <em>(Pending)</em>.</li>
+        <li><code>dotnet ef migrations script</code> innehåller <code>FOREIGN KEY</code>
+          och <code>ON DELETE CASCADE</code> i relationens migration.</li>
+        <li>Detaljsidan visar postens kategori.</li>
+        <li>Kategorisidan visar sina poster.</li>
+      </ol>
+      <p>Klarar du alla fyra är du vid milstolpe 1. Faller någon är den nästa sak du
+        gör, före allt annat.</p>
+    </div>
+
+    <pre><code>dotnet ef migrations list
+dotnet ef migrations script</code></pre>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 2 · krav för E</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e2-ska-1"><span>Din huvudentitet från område 5 och en <b>kategorientitet</b> med minst namn och beskrivning. Identitys tabeller räknas inte</span></label></li>
+        <li><label><input type="checkbox" id="e2-ska-2"><span>En <b>en-till-många-relation</b>: främmande nyckel och navigationsegenskap på huvudentiteten, en lista åt andra hållet på kategorin</span></label></li>
+        <li><label><input type="checkbox" id="e2-ska-3"><span>En <b>migration för relationen</b>, som gick igenom på din databas med egna rader</span></label></li>
+        <li><label><input type="checkbox" id="e2-ska-4"><span>Frödata för minst <b>tre kategorier</b>, och varje post i frödatan har en kategori</span></label></li>
+        <li><label><input type="checkbox" id="e2-ska-5"><span>En sida för en kategori som visar <b>dess poster</b>, hämtade med <code>Include</code></span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 2 · krav för C <span style="color:var(--dov);font-weight:400">— utöver E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e2-bor-1"><span>Du har hittat <code>ON DELETE CASCADE</code> i <code>dotnet ef migrations script</code> och <b>tagit ställning</b> i <code>README.md</code>: vad ska hända med posterna när en kategori tas bort, och hur har du sett till att det blir så?</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 2 · krav för A <span style="color:var(--dov);font-weight:400">— utöver C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e2-utm-1"><span>En <b>tredje entitet</b> i en relation som guiden inte visar – en till en-till-många åt ett annat håll, eller en mång-till-mång. Den ska synas i en egen migration, och i minst en vy</span></label></li>
+        <li><label><input type="checkbox" id="e2-utm-2"><span>Ett <b>medvetet val av <code>DeleteBehavior</code></b> för minst en relation, gjort i <code>OnModelCreating</code> och motiverat i <code>README.md</code></span></label></li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ etapp 3 -->
+
+    <h2 id="etapp-3">6. Etapp 3 – Operationerna</h2>
+    <p class="ledtext">Milstolpe 2 · klar onsdag 24/2 · pass 36, 38–40, 44 och 45 ·
+      <a href="guide.html#steg-1">guidens steg 1–4</a> och
+      <a href="guide.html#steg-9">9–23</a></p>
+
+    <p>Alla fyra operationerna, hela vägen genom tjänstelagret. En sökning som görs i
+      databasen. Validering av tre sorter. Och inloggning, med varje sida som ändrar
+      data skyddad.</p>
+
+    <p>Operationerna gicks igenom i pass 36, före relationen. Har du byggt dem då,
+      lägger du till rullistan för kategorin nu – <a href="guide.html#steg-9">guidens
+      steg 9</a>.</p>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollen – med någon annan vid tangentbordet</span>
+      <p>Du säger vad som ska göras, den andra gör det. Du vet var man ska klicka och
+        vad man ska undvika – det vet inte den andra.</p>
+      <ul>
+        <li><b>Skapa</b> en post med en kategori. Den syns i listan.</li>
+        <li><b>Läsa:</b> detaljsidan visar kategorin, kategorisidan visar posten.</li>
+        <li><b>Ändra</b> posten. Listan visar ändringen – inte en post till.</li>
+        <li><b>Ta bort</b> posten. Bekräftelsesidan visas först, och posten finns kvar
+          tills man bekräftar.</li>
+        <li>Skicka formuläret <b>utan kategori</b>. Ett svenskt felmeddelande.</li>
+        <li><b>Logga ut</b>, och skriv varje sida som ändrar data direkt i adressfältet.
+          Du ska hamna på inloggningen varje gång.</li>
+        <li><code>git grep DbContext -- Components</code> ger ingen träff.</li>
+      </ul>
+    </div>
+
+    <pre><code>git grep DbContext -- Components</code></pre>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 3 · krav för E</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e3-ska-1"><span><b>Skapa:</b> formuläret från område 5, med kategorin vald ur en rullista</span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-2"><span><b>Läsa:</b> en listvy, och en detaljsida som visar postens kategori</span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-3"><span><b>Ändra:</b> ett formulär som fylls i med en befintlig post och sparar ändringen</span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-4"><span><b>Ta bort:</b> en bekräftelsesida, och en POST som tar bort</span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-5"><span>En <b>sökning</b> som görs i databasen, med <code>Where</code> på en <code>IQueryable</code></span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-6"><span>All datahantering ligger i tjänster bakom gränssnitt. Kategorin har <b>en egen tjänst</b></span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-7"><span><b>Inget <code>DbContext</code> i någon komponent.</b> <code>git grep DbContext -- Components</code> ger ingen träff</span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-8"><span>Varje formulär har <code>DataAnnotationsValidator</code> och svenska felmeddelanden</span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-9"><span>Minst <b>ett eget valideringsattribut</b> för en regel i din domän</span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-10"><span>ASP.NET Core Identity, med contextet som ärver <code>IdentityDbContext&lt;IdentityUser&gt;</code></span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-11"><span>En första användare skapas vid start. Inloggningsuppgifterna står i <code>README.md</code></span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-12"><span>En inloggningssida, och en utloggning som är en POST och svarar <b>400</b> utan antiforgery-token</span></label></li>
+        <li><label><input type="checkbox" id="e3-ska-13"><span><b>Varje sida som ändrar data har <code>[Authorize]</code></b>, inte bara en dold menylänk</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 3 · krav för C <span style="color:var(--dov);font-weight:400">— utöver E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e3-bor-1"><span>Listvyn sorterar på <b>minst tre kolumner</b> och delar in i sidor, via frågesträngen. <code>?sida=99</code> och <code>?sida=abc</code> ger en sida som finns</span></label></li>
+        <li><label><input type="checkbox" id="e3-bor-2"><span>Ändringssidan hämtar posten med <code>??=</code>, och du kan förklara vad som händer med <code>=</code></span></label></li>
+        <li><label><input type="checkbox" id="e3-bor-3"><span>SQL-loggningen är påslagen i <code>appsettings.Development.json</code></span></label></li>
+        <li><label><input type="checkbox" id="e3-bor-4"><span>I <code>README.md</code>: <b>var görs sökningen, och var görs sorteringen, och varför?</b> Jämför de två varianterna med din egen data, och säg vad som händer med Å, Ä och Ö i ditt sökfält</span></label></li>
+        <li><label><input type="checkbox" id="e3-bor-5"><span><b>Alla tre sorternas validering</b>, var och en med en regel som hör till din domän: ett eget attribut, en regel över två fält med <code>IValidatableObject</code>, och en regel som kräver databasen</span></label></li>
+        <li><label><input type="checkbox" id="e3-bor-6"><span>Regeln mot databasen fungerar också när en post <b>ändras</b>, utan att posten krockar med sig själv</span></label></li>
+        <li><label><input type="checkbox" id="e3-bor-7"><span>En tabell i <code>README.md</code> över <b>varje adress</b> i applikationen: kräver den inloggning eller inte, och vad svarar den när du är utloggad? Fyll i den genom att prova, inte genom att läsa koden</span></label></li>
+        <li><label><input type="checkbox" id="e3-bor-8"><span>Inloggningssidan ger <b>samma meddelande</b> för fel adress och fel lösenord</span></label></li>
+        <li><label><input type="checkbox" id="e3-bor-9"><span><code>tillbaka</code> följs bara till adresser på den egna sajten</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 3 · krav för A <span style="color:var(--dov);font-weight:400">— utöver C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e3-utm-1"><span>Ett formulär som skickas med en kategori som inte finns – ändrat i DevTools – ger ett <b>begripligt felmeddelande</b>, inte en 500. Felet loggas till utvecklaren i tjänstelagret</span></label></li>
+        <li><label><input type="checkbox" id="e3-utm-2"><span>Regeln mot databasen är <b>inte</b> känslig för skiftläge och mellanslag, eller så har du motiverat varför den ska vara det</span></label></li>
+        <li><label><input type="checkbox" id="e3-utm-3"><span><b>En svaghet i inloggningen</b> som guiden lämnar öppen – den i <a href="guide.html#steg-20">guidens steg 20</a>, eller en du hittat själv – beskriven i <code>README.md</code>: hur den kan utnyttjas, och antingen hur du åtgärdat den eller varför du inte gjort det</span></label></li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ etapp 4 -->
+
+    <h2 id="etapp-4">7. Etapp 4 – Kvaliteten</h2>
+    <p class="ledtext">Avstämning · tisdag 2/3 · pass 41, 43 och 46 ·
+      <a href="guide.html#steg-24">guidens steg 24–26</a></p>
+
+    <p>Applikationen fungerar. Nu ska den gå att läsa, och du ska veta att den
+      håller.</p>
+
+    <h3>Granskningen, pass 41</h3>
+    <p>Någon annan går igenom din kod mot kodningsstandarden, och du går igenom någon
+      annans. Den som granskar fyller i:</p>
+    <ul>
+      <li>Antal varningar från <code>dotnet build</code></li>
+      <li>Namn: PascalCase, camelCase, <code>_</code> på privata fält,
+        <code>Async</code> och <code>I</code> där de hör hemma</li>
+      <li>En klass per fil, i en mapp som säger vilket lager den hör till</li>
+      <li>Den längsta metoden, och om den gör två saker</li>
+      <li>En kommentar som säger <em>vad</em> och inte <em>varför</em> – och ett
+        ställe där en <em>varför</em>-kommentar saknas</li>
+      <li>Om <code>README.md</code> går att följa från en ren klon</li>
+    </ul>
+    <p>Spara granskningen. Det den hittade ska vara åtgärdat vid deadline, eller
+      motiverat i uppföljningen. Tabellen över konventionerna står i
+      <a href="guide.html#steg-24">guidens steg 24</a>.</p>
+
+    <h3>Självgranskningen, pass 46</h3>
+    <p>Svara skriftligt, och spara svaren – de blir underlag till uppföljningen:</p>
+    <ol>
+      <li>Vilken milstolpe nådde du i tid, och vilken inte?</li>
+      <li>Vad tog längre tid än du planerade? Varför?</li>
+      <li>Vilka tre krav för din nivå är inte klara i dag?</li>
+      <li>Vilket av dem gör du först?</li>
+      <li>Finns det något du inte kommer att hinna? Skriv det nu, och varför.</li>
+    </ol>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollen – avstämningen, tre minuter</span>
+      <p>Du visar fyra saker, i den här ordningen:</p>
+      <ol>
+        <li>Radera <code>.db</code>-filen, kör <code>dotnet ef database update</code>,
+          starta och logga in. Kategorierna, posterna och användaren finns.</li>
+        <li><code>git grep DbContext -- Components</code> ger ingen träff.</li>
+        <li>Logga ut och skriv en skyddad adress. Du hamnar på inloggningen.</li>
+        <li><code>PROJEKTPLAN.md</code> – finns den, och har den ändrats?</li>
+      </ol>
+    </div>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 4 · krav för E</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e4-ska-1"><span>Projektet startar med <code>dotnet run</code> utan fel och renderar statiskt – inget <code>@rendermode</code></span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 4 · krav för C <span style="color:var(--dov);font-weight:400">— utöver E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e4-bor-1"><span>Kodningsstandarden från lektion 41 är följd. Det som din granskare hittade är åtgärdat, eller motiverat i <code>UPPFOLJNING.md</code></span></label></li>
+        <li><label><input type="checkbox" id="e4-bor-2"><span>Minst en <b>XML-kommentar</b> på en metod i ett gränssnitt, där namnet inte säger allt</span></label></li>
+        <li><label><input type="checkbox" id="e4-bor-3"><span><code>dotnet build</code> ger <b>noll varningar</b></span></label></li>
+        <li><label><input type="checkbox" id="e4-bor-4"><span>Minst <b>fem manuella tester</b> i <code>README.md</code>, som en tabell: vad du gjorde, vad du väntade dig, vad som hände</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 4 · krav för A <span style="color:var(--dov);font-weight:400">— utöver C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e4-utm-1"><span>Koden är kommenterad så att en ny läsare förstår <b>varför</b>, inte bara vad. Varje tjänst och varje sida som ändrar data har en kommentar överst som säger vad den ansvarar för</span></label></li>
+        <li><label><input type="checkbox" id="e4-utm-2"><span>De manuella testerna täcker också det som <b>inte</b> ska gå: utloggad åtkomst, manipulerade formulär, felaktig inmatning i adressen</span></label></li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ etapp 5 -->
+
+    <h2 id="etapp-5">8. Etapp 5 – Leveransen</h2>
+    <p class="ledtext">Deadline måndag 8/3 kl 23:59 · pass 47</p>
+
+    <p>Tre saker ska bli färdiga: <code>README.md</code>, <code>UPPFOLJNING.md</code>,
+      och inlämningen.</p>
+
+    <p><b><code>README.md</code></b> är skriven för den som aldrig sett projektet: vad
+      som ska installeras, vilka kommandon som körs, och hur man loggar in. Till det
+      kommer de texter som C- och A-kraven i de andra etapperna ber om.</p>
+
+    <p><b><code>UPPFOLJNING.md</code></b> jämför planen med vad som hände. Rubrikerna
+      att utgå från:</p>
+
+<pre class="fri"># Uppföljning
+
+## Milstolpe för milstolpe
+
+| Milstolpe | Planerat | Faktiskt | Varför skillnaden |
+|---|---|---|---|
+| Projektplan | 20/1 | … | … |
+| 1: relationen | 9/2 | … | … |
+| 2: CRUD | 24/2 | … | … |
+| Deadline | 8/3 | … | … |
+
+## Vad jag hann och inte hann
+
+## Vad jag gör annorlunda i nästa projekt
+
+## Förbättringsförslag</pre>
+
+    <p><em>Förbättringsförslag</em> är för A: minst tre egna förslag, och för vart och
+      ett en uppskattning av vad det skulle kräva. Siktar du på E eller C kan rubriken
+      stå tom.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">"Allt gick bra" är inte en uppföljning</span>
+      <p><em>"Relationen tog en vecka längre, för att migrationen kraschade på min egen
+        databas och jag inte förstod felet"</em> är det. Använd svaren från
+        självgranskningen.</p>
+    </div>
+
+    <h3 id="inlamning">Inlämningen</h3>
+    <ol>
+      <li>Kontrollera att projektet startar och att varje sida svarar.</li>
+      <li><b>Radera din <code>.db</code>-fil och kör <code>dotnet ef database update</code>
+        igen.</b> Starta, och kontrollera att kategorierna, posterna och användaren
+        finns.</li>
+      <li>Logga in med uppgifterna i din egen <code>README.md</code>. Går det inte
+        kommer det inte att gå för mig heller.</li>
+      <li>Logga ut och prova varje skyddad adress direkt i adressfältet.</li>
+      <li>Kör <code>git grep DbContext -- Components</code>. Ingen träff.</li>
+      <li><code>dotnet build</code>. Läs varningarna, om det finns några.</li>
+      <li>Skriv klart <code>UPPFOLJNING.md</code>, och läs igenom <code>README.md</code>
+        som om du aldrig sett projektet.</li>
+      <li>Gå igenom kraven i alla fem etapperna för den nivå du siktar på.</li>
+      <li><code>git add .</code>, <code>git commit -m "…"</code>, <code>git push</code></li>
+      <li>Öppna ditt repo på github.com och kontrollera att <code>Migrations/</code>,
+        <code>PROJEKTPLAN.md</code> och <code>UPPFOLJNING.md</code> finns där – och att
+        <code>.db</code>-filen <b>inte</b> gör det.</li>
+      <li>Klistra in repots adress i inlämningsrutan i itslearning.</li>
+    </ol>
+
+    <p><b><a href="provet.html">Prov 4</a> är dagen efter</b>, tisdag 9 mars, och det
+      frågar om sådant du byggt i projektet.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 5 · krav för E</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e5-ska-1"><span><code>dotnet ef database update</code> bygger hela databasen från noll, och när applikationen startar finns användaren</span></label></li>
+        <li><label><input type="checkbox" id="e5-ska-2"><span><code>README.md</code> med <b>installationsanvisning</b>: vad som ska installeras, vilka kommandon som körs, och hur man loggar in</span></label></li>
+        <li><label><input type="checkbox" id="e5-ska-3"><span><code>UPPFOLJNING.md</code>: vad som blev som planerat och vad som inte blev det</span></label></li>
+        <li><label><input type="checkbox" id="e5-ska-4"><span>Commits på <b>minst åtta olika dagar</b>, med begripliga meddelanden</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 5 · krav för C <span style="color:var(--dov);font-weight:400">— utöver E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e5-bor-1"><span>Projektplanen har <b>ändrats minst en gång</b> under arbetet, med datum och skäl</span></label></li>
+        <li><label><input type="checkbox" id="e5-bor-2"><span><code>UPPFOLJNING.md</code> jämför planen med utfallet <b>milstolpe för milstolpe</b>, och säger vad du gör annorlunda i nästa projekt</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3 style="margin:0">Etapp 5 · krav för A <span style="color:var(--dov);font-weight:400">— utöver C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="e5-utm-1"><span><code>UPPFOLJNING.md</code> avslutas med <b>minst tre egna förbättringsförslag</b>, med en uppskattning av vad varje förslag skulle kräva</span></label></li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ bedömning -->
+
+    <h2 id="bedomning">9. Så bedöms den</h2>
+    <p>Projekt 1 prövar fler av kursens betygskriterier än någon inlämning under
+      hösten.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>Vad det betyder här</th></tr></thead>
+        <tbody>
+          <tr><td><b>Datalagring i relationsdatabas</b></td>
+            <td>På E en databas med två relaterade tabeller som byggs ur migrationer. På A en lösning av <em>viss komplexitet</em>: fler entiteter, egen validering och genomtänkta regler för vad som händer när data tas bort.</td></tr>
+          <tr><td><b>Applikationsarkitektur och separation av olika slags logik</b></td>
+            <td>På E är presentationslagret <em>i någon utsträckning</em> skilt från resten. På C är det <em>tydligt</em> skilt: ingen komponent vet att det finns en databas.</td></tr>
+          <tr><td><b>Utvecklingsprocessen: planering och uppföljning</b></td>
+            <td>Projektplanen och uppföljningen. På E finns de. På C är planen genomarbetad och justerad, och uppföljningen är nyanserad.</td></tr>
+          <tr><td><b>Kodning och dokumentation enligt vedertagen praxis</b></td>
+            <td>Kodningsstandarden, kommentarerna och <code>README.md</code>.</td></tr>
+          <tr><td><b>Säkerhet</b></td>
+            <td>På E skyddade sidor och hashade lösenord. På C har du prövat skyddet och dokumenterat det. På A har du hittat en svaghet själv.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Jag klonar repot, kör det och läser koden. Fyra saker väger tyngst – samma fyra
+      som i avstämningen:</p>
+
+    <ul>
+      <li><b>Att databasen byggs från noll.</b> Jag kör <code>dotnet ef database update</code>
+        på en ren klon. Får jag inte din databas med dina kategorier, dina poster och
+        din användare är E-kravet inte uppfyllt. Det är det lättaste av alla krav att
+        kontrollera själv.</li>
+      <li><b>Att lagren håller.</b> Jag kör <code>git grep DbContext -- Components</code>.
+        En enda träff är ett underkänt E-krav, hur bra resten än är.</li>
+      <li><b>Att sidorna är skyddade.</b> Jag loggar ut och skriver varje adress som
+        ändrar data direkt i adressfältet. Kommer jag in är kravet inte uppfyllt,
+        oavsett vad menyn visar.</li>
+      <li><b>Att uppföljningen är ärlig.</b> En uppföljning där allt gick enligt plan är
+        nästan alltid fel. Det som bedöms är att du ser skillnaden mellan planen och
+        utfallet och kan säga något om varför. Att du hann allt bedöms inte.</li>
+    </ul>
+
+    <h2 id="misstag">10. Vanliga misstag</h2>
+    <p>Det här är det som gör att projektet underkänns i onödan.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Misstag</th><th>Vad som händer</th><th>Undvik det så här</th></tr></thead>
+        <tbody>
+          <tr><td>Projektplanen skrivs sist</td><td>Git visar det, och uppföljningen jämför inte med något</td><td>Committa den senast 20/1. Den får vara kort</td></tr>
+          <tr><td>Uppföljningen säger att allt gick bra</td><td>Den bedöms som ytlig, hur välskriven den än är</td><td>Jämför milstolpe för milstolpe. Vad tog längre tid, och varför?</td></tr>
+          <tr><td><code>DbContext</code> injicerat i en komponent <em>för att det gick fortare</em></td><td>Underkänt E-krav</td><td>Lägg metoden i tjänsten. Det är hela poängen med höstens område 4</td></tr>
+          <tr><td>Bara menylänken dold</td><td>Vem som helst kan ändra data via adressfältet</td><td><code>[Authorize]</code> på varje sida som ändrar. Prova utloggad</td></tr>
+          <tr><td>Utloggningens endpoint utan kontroll av token</td><td>Vilken sajt som helst kan logga ut dina besökare</td><td><code>IsRequestValidAsync</code>. <a href="guide.html#steg-23">Guidens steg 23</a></td></tr>
+          <tr><td>Ta bort med en länk</td><td>En GET ändrar data, och det finns inget skydd mot andra sajter</td><td>Bekräftelsesida och formulär med POST</td></tr>
+          <tr><td>Migrationen kraschar på <em>FOREIGN KEY constraint failed</em></td><td>Din databas har rader utan kategori</td><td><code>HasDefaultValue</code> med id:t på en kategori som finns. <a href="guide.html#steg-6">Guidens steg 6</a></td></tr>
+          <tr><td>Kategorin syns inte, inget fel</td><td><code>Include</code> saknas</td><td>Den ska beställas i varje fråga som behöver den. <a href="guide.html#steg-7">Guidens steg 7</a></td></tr>
+          <tr><td>Ändringen blir en ny post</td><td>Det dolda fältet för <code>Id</code> saknas</td><td><a href="guide.html#steg-3">Guidens steg 3</a></td></tr>
+          <tr><td>Ändringen sparas inte</td><td><code>=</code> i stället för <code>??=</code></td><td><a href="guide.html#steg-3">Guidens steg 3</a></td></tr>
+          <tr><td>Lösenordet går inte att logga in med</td><td><code>CreateAsync</code> misslyckades tyst, lösenordet var för kort</td><td>Minst åtta tecken. Kontrollera efter en ren <code>database update</code></td></tr>
+          <tr><td>Inloggningsuppgifterna saknas i <code>README.md</code></td><td>Jag kan inte bedöma det som ligger bakom inloggningen</td><td>Skriv dem. Det är en övningsapplikation</td></tr>
+          <tr><td><code>@rendermode</code> i projektet</td><td>Livscykeln körs två gånger, och projektet är inte längre statiskt</td><td>Demot från lektion 43 hör hemma i ett testprojekt</td></tr>
+          <tr><td>Guidens regler med nya namn</td><td><em>Titeln finns redan</em> blir <em>Namnet finns redan</em>, och översättningen visar ingenting</td><td>Hitta regler som hör till din domän. Det är du som känner den</td></tr>
+          <tr><td>Allt committat sista helgen</td><td>Historiken visar inte arbetet, och kravet på åtta dagar faller</td><td>Committa efter varje pass</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="guide.html">Till guiden</a> ·
+        <a href="provet.html">Vad prov 4 prövar</a> ·
+        <a href="index.html">Tillbaka till område 6</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

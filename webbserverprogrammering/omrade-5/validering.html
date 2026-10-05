@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>En rad som är hela skillnaden – validering</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o5-validering">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Lektion 33</strong> · Validering</span>
+  <a href="#kringga">Kringgå klientvalideringen</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#ikapp">Missade du passet?</a></li>
+      <li><a href="#modellen">1. Modellen</a></li>
+      <li><a href="#formularen">2. Två formulär</a></li>
+      <li><a href="#raden">3. Raden som skiljer</a></li>
+      <li><a href="#kringga">4. Kringgå klientvalideringen</a></li>
+      <li><a href="#garanterar">5. Vad som fångas, och vad som inte gör det</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 5 · lektion 33</p>
+    <h1>En rad som är hela skillnaden</h1>
+    <p class="inledning">Två formulär som är identiska utom en rad. Det ena tar emot
+      ett tomt namn, 500 biljetter och en e-postadress som inte är en. Det andra
+      stoppar alla tre. Sedan tar du bort spärren i webbläsaren och ser om servern
+      klarar sig utan den.</p>
+
+    <div class="notis viktig" id="ikapp">
+      <span class="rubrik">Missade du passet?</span>
+      <p>Det här är lektion 33:s demo, och den går att göra själv på tjugo minuter. I
+        ordning:</p>
+      <ol>
+        <li>Lägg in de tre filerna nedan i ditt projekt – modellen i
+          <code>Models/Demo/</code>, formulären i <code>Components/Pages/</code>.
+          <b>5 min.</b></li>
+        <li>Kör, och skicka samma dåliga värden till båda adresserna. <b>3 min.</b></li>
+        <li>Gör <a href="#kringga">DevTools-testet</a> på formuläret med validering.
+          <b>5 min.</b></li>
+        <li>Gör sedan samma test på <b>ditt eget</b> formulär från
+          <a href="guide.html#steg-11">guidens steg 11</a>. Det är ett C-krav i
+          inlämningen. <b>5 min.</b></li>
+      </ol>
+      <p>Demot behöver ingen databas. Har du inte fått migrationen att gå igenom kan du
+        ändå göra det här.</p>
+    </div>
+
+    <h2 id="modellen">1. Modellen</h2>
+    <p>En anmälan med tre fält och tre regler. Klassen ligger inte i databasen –
+      poängen är enbart valideringen.</p>
+
+    <!-- kod: exempel/validering/Anmalan.cs -->
+    <pre><code class="sprak-csharp">using System.ComponentModel.DataAnnotations;
+
+namespace Filmarkivet.Models.Demo;
+
+// Demomodell till lektion 33. Ligger inte i databasen – poängen är enbart
+// valideringen.
+public class Anmalan
+{
+    [Required(ErrorMessage = "Namnet måste fyllas i.")]
+    [StringLength(40, ErrorMessage = "Namnet får vara högst 40 tecken.")]
+    public string Namn { get; set; } = "";
+
+    [Range(1, 10, ErrorMessage = "Antalet biljetter är 1 till 10.")]
+    public int Biljetter { get; set; } = 1;
+
+    [EmailAddress(ErrorMessage = "Det där ser inte ut som en e-postadress.")]
+    public string Epost { get; set; } = "";
+}</code></pre>
+
+    <p>Tre attribut, tre svenska felmeddelanden. Lägg märke till att de bara
+      <em>står där</em>. Ingenting i klassen kör dem – de är regler som ligger och
+      väntar på att någon ska läsa dem. Det var det du såg på lektion 31: du satte
+      <code>[Required]</code>, byggde, och ingenting hände.</p>
+
+    <h2 id="formularen">2. Två formulär</h2>
+    <p>Först det som saknar valideringen. Det tar emot vad som helst:</p>
+
+    <!-- kod: exempel/validering/UtanValidering.razor -->
+    <pre><code class="sprak-razor">@page "/demo/utan-validering"
+@using Filmarkivet.Models.Demo
+
+@* Samma formulär som MedValidering.razor – utom en enda rad. *@
+
+&lt;h1&gt;Utan validering&lt;/h1&gt;
+
+&lt;EditForm Model="Formular" OnValidSubmit="TaEmot" FormName="utan"&gt;
+
+    &lt;p&gt;&lt;label&gt;Namn&lt;br /&gt;&lt;InputText @bind-Value="Formular!.Namn" /&gt;&lt;/label&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;label&gt;Antal biljetter&lt;br /&gt;&lt;InputNumber @bind-Value="Formular!.Biljetter" /&gt;&lt;/label&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;label&gt;E-post&lt;br /&gt;&lt;InputText @bind-Value="Formular!.Epost" /&gt;&lt;/label&gt;&lt;/p&gt;
+
+    &lt;button type="submit"&gt;Skicka&lt;/button&gt;
+&lt;/EditForm&gt;
+
+@if (mottagen is not null)
+{
+    &lt;p class="tomt"&gt;
+        Mottaget: &lt;b&gt;@mottagen.Namn&lt;/b&gt; · @mottagen.Biljetter biljetter ·
+        @mottagen.Epost
+    &lt;/p&gt;
+}
+
+@code {
+    [SupplyParameterFromForm]
+    private Anmalan? Formular { get; set; }
+
+    private Anmalan? mottagen;
+
+    protected override void OnInitialized()
+    {
+        Formular ??= new Anmalan();
+    }
+
+    private void TaEmot()
+    {
+        mottagen = Formular;
+    }
+}</code></pre>
+
+    <p>Och det som har den:</p>
+
+    <!-- kod: exempel/validering/MedValidering.razor -->
+    <pre><code class="sprak-razor">@page "/demo/med-validering"
+@using Filmarkivet.Models.Demo
+
+@* Identisk med UtanValidering.razor, plus DataAnnotationsValidator och
+   meddelandena. Det är hela skillnaden. *@
+
+&lt;h1&gt;Med validering&lt;/h1&gt;
+
+&lt;EditForm Model="Formular" OnValidSubmit="TaEmot" FormName="med"&gt;
+    &lt;DataAnnotationsValidator /&gt;
+    &lt;ValidationSummary /&gt;
+
+    &lt;p&gt;
+        &lt;label&gt;Namn&lt;br /&gt;&lt;InputText @bind-Value="Formular!.Namn" /&gt;&lt;/label&gt;
+        &lt;ValidationMessage For="() =&gt; Formular!.Namn" /&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+        &lt;label&gt;Antal biljetter&lt;br /&gt;&lt;InputNumber @bind-Value="Formular!.Biljetter" /&gt;&lt;/label&gt;
+        &lt;ValidationMessage For="() =&gt; Formular!.Biljetter" /&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+        &lt;label&gt;E-post&lt;br /&gt;&lt;InputText @bind-Value="Formular!.Epost" /&gt;&lt;/label&gt;
+        &lt;ValidationMessage For="() =&gt; Formular!.Epost" /&gt;
+    &lt;/p&gt;
+
+    &lt;button type="submit"&gt;Skicka&lt;/button&gt;
+&lt;/EditForm&gt;
+
+@if (mottagen is not null)
+{
+    &lt;p class="tomt"&gt;
+        Mottaget: &lt;b&gt;@mottagen.Namn&lt;/b&gt; · @mottagen.Biljetter biljetter ·
+        @mottagen.Epost
+    &lt;/p&gt;
+}
+
+@code {
+    [SupplyParameterFromForm]
+    private Anmalan? Formular { get; set; }
+
+    private Anmalan? mottagen;
+
+    protected override void OnInitialized()
+    {
+        Formular ??= new Anmalan();
+    }
+
+    private void TaEmot()
+    {
+        mottagen = Formular;
+    }
+}</code></pre>
+
+    <p>Kör, och fyll i <b>samma värden i båda</b>:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fält</th><th>Skriv</th></tr></thead>
+        <tbody>
+          <tr><td>Namn</td><td>lämna tomt</td></tr>
+          <tr><td>Antal biljetter</td><td><code>500</code></td></tr>
+          <tr><td>E-post</td><td><code>inte-en-adress</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Adress</th><th>Vad som händer</th></tr></thead>
+        <tbody>
+          <tr><td><code>/demo/utan-validering</code></td><td><em>Mottaget: · 500 biljetter · inte-en-adress</em>. Allt gick igenom</td></tr>
+          <tr><td><code>/demo/med-validering</code></td><td>Tre felmeddelanden. Ingenting togs emot</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Webbläsaren kan protestera på 500 innan du hinner skicka – <code>InputNumber</code>
+      renderar <code>type="number"</code>. Skicka ändå, eller läs vidare: det är precis
+      den spärren du snart tar bort.</p>
+
+    <h2 id="raden">3. Raden som skiljer</h2>
+    <p>Läs de två filerna bredvid varandra och leta upp skillnaden innan du läser
+      vidare.</p>
+
+    <p><b>Svaret:</b> <code>&lt;DataAnnotationsValidator /&gt;</code>. Den syns inte
+      på skärmen och tar inte emot något värde, och det är därför den är så lätt att
+      glömma.</p>
+    <p>Det andra formuläret har också <code>&lt;ValidationSummary /&gt;</code> och tre
+      <code>&lt;ValidationMessage&gt;</code> – men de visar bara felen. Utan validatorn
+      finns det inga fel att visa, för ingen har läst attributen.</p>
+
+    <div class="notis">
+      <span class="rubrik">Attributen på klassen är regler som ligger och väntar</span>
+      <p>De gör ingenting av sig själva. <code>DataAnnotationsValidator</code> är den
+        som läser dem. Tar du bort den raden har du en modell full av regler och ett
+        formulär som inte känner till en enda av dem.</p>
+    </div>
+
+    <p>Och <code>OnValidSubmit</code> hör ihop med den: metoden körs bara när
+      validatorn sagt att allt är i ordning. Med <code>OnSubmit</code> i stället körs
+      metoden oavsett – och då har du byggt ett formulär som sparar skräp, med en
+      validator som bara visar röd text.</p>
+
+    <h2 id="kringga">4. Kringgå klientvalideringen</h2>
+    <p>Skriv 500 i biljettfältet på <code>/demo/med-validering</code>. Webbläsaren
+      stoppar dig, eller så gör <code>ValidationSummary</code> det. <b>Det bevisar
+      ingenting.</b> Allt som händer i webbläsaren är besökarens att stänga av.</p>
+
+    <p>Gör så här i stället:</p>
+
+    <ol>
+      <li>Öppna <code>/demo/med-validering</code> och tryck <kbd>F12</kbd>.</li>
+      <li>Gå till fliken <b>Elements</b>. Tryck <kbd>Ctrl</kbd>+<kbd>F</kbd> och sök på
+        <code>Biljetter</code> för att hitta fältet.</li>
+      <li>Dubbelklicka på <code>type="number"</code> och ändra till
+        <code>type="text"</code>. Finns <code>min</code> eller <code>max</code>, ta bort
+        dem.</li>
+      <li>Skriv <code>500</code> i fältet och skicka.</li>
+    </ol>
+
+    <p>Servern svarar med sidan tillbaka, och i listan står:</p>
+
+    <pre><code>Antalet biljetter är 1 till 10.</code></pre>
+
+    <p>Ingenting togs emot. <code>DataAnnotationsValidator</code> körde attributen
+      <b>på servern</b>, efter att formuläret kommit in – och den bryr sig inte om vad
+      webbläsaren tyckte.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Klientvalidering är för användarens skull. Serversidesvalidering är för systemets.</span>
+      <p>Det som händer i webbläsaren gör att användaren slipper vänta på ett svar för
+        att få veta att fältet är tomt. Det är bekvämlighet, inte ett skydd. Den som
+        bara har den första har ingen validering alls.</p>
+    </div>
+
+    <p>Gör sedan samma test på <b>ditt eget formulär</b>, på ett fält med
+      <code>[Range]</code> eller <code>[StringLength]</code>. Skriv i
+      <code>README.md</code> vilket fält du testade, vad du ändrade och vad servern
+      svarade – det är <a href="uppgift.html#bor">ett C-krav</a>.</p>
+
+    <h2 id="garanterar">5. Vad som fångas, och vad som inte gör det</h2>
+    <p>Prova <code>a@b</code> i e-postfältet. Det går igenom. <code>[EmailAddress]</code>
+      kontrollerar formen – att det finns ett <code>@</code> med något på båda sidor –
+      inte att adressen finns.</p>
+
+    <p>Det är värt att säga rakt ut vad valideringsattribut är till för:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fångar</th><th>Fångar inte</th></tr></thead>
+        <tbody>
+          <tr><td>Ett tomt fält</td><td>En påhittad adress som ser rätt ut</td></tr>
+          <tr><td>500 där det ska stå 1–10</td><td>Ett värde som är tillåtet men fel</td></tr>
+          <tr><td>En text som är för lång</td><td>Någon som medvetet försöker</td></tr>
+          <tr><td>Slarv och misstag</td><td>Angrepp</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Och kedjan har, som du såg på lektion 32, exakt ett ställe som håller.
+      Databasen fångar inte betyget 99 – <code>[Range]</code> blev ingenting i tabellen.
+      Webbläsaren fångar det bara tills någon trycker F12. Det som återstår är
+      <code>DataAnnotationsValidator</code> plus <code>OnValidSubmit</code>, på
+      servern.</p>
+
+    <p>Den som medvetet försöker är område 7.</p>
+
+    <footer class="fot">
+      <p><a href="guide.html#steg-10">Guiden steg 10–12</a> ·
+        <a href="uppgift.html">Till uppgiften</a> ·
+        <a href="index.html">Tillbaka till område 5</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

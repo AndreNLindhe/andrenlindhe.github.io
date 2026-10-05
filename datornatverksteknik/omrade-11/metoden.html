@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Felsökningens metod – Dator- och nätverksteknik område 11</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="datnat-11-metoden">
+
+<header class="topp">
+  <a href="index.html">← Område 11</a>
+  <span class="harifran"><strong>Uppslag</strong> · Felsökningens metod</span>
+  <a href="#checklistan">Checklistan</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#felkatalog">1. Året som felkatalog</a></li>
+      <li><a href="#stegen">2. De fyra stegen</a></li>
+      <li><a href="#lagren">3. De fyra lagren</a></li>
+      <li><a href="#checklistan">4. Checklistan</a></li>
+      <li><a href="#demonstrationen">5. Så låter metoden</a></li>
+      <li><a href="#samrad">6. I samråd eller efter samråd</a></li>
+      <li><a href="#planen">7. Planen för C och A</a></li>
+      <li><a href="#redogorelsen">8. Den muntliga redogörelsen</a></li>
+      <li><a href="#klart">9. Klart när du kan det här</a></li>
+      <li><a href="#ordlista">10. Ordlista</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 11 · lektion 60</p>
+    <h1>Felsökningens metod</h1>
+    <p class="inledning">Från och med lektion 61 har läraren förstört något på maskinen framför er. Ni vet inte vad, och ni får inget facit förrän ni har berättat vad ni hittat. Den här sidan är metoden ni har med er dit: fyra steg som ersätter gissning, kursens fyra lager, checklistan — och planen som skiljer E från C och A.</p>
+
+    <h2 id="felkatalog">1. Året som felkatalog</h2>
+
+    <p>Du har redan felsökt. Varje område har haft sina riktiga fel:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Område</th><th>Fel som faktiskt hände</th><th>Lektion</th></tr></thead>
+        <tbody>
+          <tr><td>4</td><td>Minnet inte nedtryckt, frontpanelen felvänd, strömkabeln till processorn glömd</td><td>14, 17</td></tr>
+          <tr><td>5</td><td>USB-minnet kvar vid omstart — installationen började om</td><td>18</td></tr>
+          <tr><td>6</td><td>Det andra kontot blev administratör och testade ingenting</td><td>25</td></tr>
+          <tr><td>8</td><td>Kontakten som inte klickat, mörk lysdiod</td><td>35, 39</td></tr>
+          <tr><td>8</td><td>Två maskiner med samma adress</td><td>40</td></tr>
+          <tr><td>10</td><td>Röd länk mellan switcharna — rak kabel i stället för korsad</td><td>51</td></tr>
+          <tr><td>10</td><td>Routerns röda länkar — <code>no shutdown</code> saknades</td><td>53</td></tr>
+          <tr><td>10</td><td>Pingen som inte gick — gatewayen saknades</td><td>54</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Hur hittade du dem? Svaret brukar vara <i>"vi provade saker"</i>, <i>"någon annan hade haft samma"</i> eller <i>"det löste sig när vi satte i allt igen"</i>. Det fungerade — men du vet inte varför. Satte du i allt igen vet du inte vilken kabel det var.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det området ska ändra</span>
+      <p>Från att ett fel <b>blir löst</b> till att du <b>vet vad det var</b>.</p>
+    </div>
+
+    <h2 id="stegen">2. De fyra stegen</h2>
+
+    <h3>1. Hypotes före handling</h3>
+    <p>Innan du rör maskinen: skriv ner vad du tror är fel, och vilket test som skulle visa det. En <b>hypotes</b> är ett påstående som kan vara fel — <i>"bootordningen är ändrad"</i> — inte <i>"något med starten"</i>.</p>
+    <p><b>Skälet:</b> poängen är att testet kan säga nej. En hypotes som inget test kan fälla är en gissning med bättre ord.</p>
+
+    <h3>2. En sak i taget</h3>
+    <p>Ändra en sak, pröva, skriv ner resultatet.</p>
+    <p><b>Skälet:</b> ändrar du två saker och felet försvinner vet du inte vilken som gjorde det — och nästa gång felet kommer vet du lika lite. Stegets hela poäng är <b>förklaringen</b>, inte lösningen.</p>
+
+    <h3>3. Det billiga och sannolika före det dyra och sällsynta</h3>
+    <p>Tryck i kontakten innan du byter nätverkskort. Kontrollera adressen innan du installerar om Windows. Ordningen från lektion 35 — tryck, byt kabel, byt port — är samma regel i liten skala.</p>
+    <p><b>Skälet:</b> det billiga är snabbt att pröva, det sannolika är oftast svaret, och båda tillsammans sparar mest tid.</p>
+
+    <h3>4. Vilket lager?</h3>
+    <p>Avgör var i kursens fyra lager felet troligen sitter. Lagren står i nästa avsnitt.</p>
+    <p><b>Skälet:</b> att placera felet i ett lager halverar sökningen.</p>
+
+    <h2 id="lagren">3. De fyra lagren</h2>
+
+    <p>Kursen har byggt fyra lager ovanpå varandra:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Lager</th><th>Område</th><th>Exempel på fel</th></tr></thead>
+        <tbody>
+          <tr><td><b>Maskinvara och firmware</b></td><td>4–5</td><td>Bootordning, minne, drivrutin</td></tr>
+          <tr><td><b>Systemet</b></td><td>6–7</td><td>Behörighet, tjänst, konto</td></tr>
+          <tr><td><b>Det fysiska nätet</b></td><td>8</td><td>Kabel, kontakt, port, adress</td></tr>
+          <tr><td><b>Det logiska nätet</b></td><td>9–10</td><td>VLAN, gateway, routning, protokoll</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Symptomets lager är inte alltid felets lager</span>
+      <p>Det är det som gör felsökning svår. En maskin som inte når något ser ut som en trasig kabel — och kan sitta i en switchs konfiguration. Symptomet syns i ett lager, felet sitter i ett annat.</p>
+      <p>Att kunna förklara <b>varför symptomet lurade</b> är där A-nivån avgörs i det här området.</p>
+    </div>
+
+    <h2 id="checklistan">4. Checklistan</h2>
+
+    <p>Klassen skrev checklistan tillsammans på lektion 60. Den gäller varje pass fram till slutet av området:</p>
+
+    <ol class="steg">
+      <li><b>Vad ser jag?</b> — symptomet, med ord</li>
+      <li><b>Vilket lager?</b> — maskinvara, system, fysiskt nät, logiskt nät</li>
+      <li><b>Hypotes</b> — skriven, med testet som kan fälla den</li>
+      <li><b>Det billiga och sannolika först</b></li>
+      <li><b>En ändring</b> — pröva — skriv ner</li>
+      <li><b>Håller hypotesen inte:</b> nästa, och skriv varför den föll</li>
+    </ol>
+
+    <h2 id="demonstrationen">5. Så låter metoden</h2>
+
+    <p>På lektion 60 demonstrerade läraren metoden på en maskin som inte startade, och tänkte högt genom varje steg. Så här lät det:</p>
+
+    <ol class="steg">
+      <li><b>Starta maskinen.</b> Den startar inte. Läs skärmen — exakt vad står det?</li>
+      <li><b>Symptomet, med ord:</b> <i>"Maskinen klarar POST — fläktarna går, jag får bild, firmware syns. Sedan: ingen startenhet."</i> <b>POST</b>, <i>Power-On Self-Test</i>, är maskinens självtest i firmware innan något operativsystem startar</li>
+      <li><b>Uteslut innan du gissar:</b> <i>"POST fungerar, alltså är ström, processor och minne i ordning. Det är inte systemet eller nätet — Windows har inte ens startat. Det är maskinvara eller firmware."</i></li>
+      <li><b>Två hypoteser, skrivna:</b> <i>"A: disken är död eller urkopplad. B: bootordningen pekar någon annanstans."</i></li>
+      <li><b>Det billiga först:</b> <i>"B är billigast att pröva — det är att titta i en meny. A kräver att jag öppnar chassit."</i> In i <b>UEFI</b>, maskinens firmwaregränssnitt från område 4</li>
+      <li><b>Testet:</b> läs listan över lagringsenheter. <b>Disken syns.</b> Hypotes A faller: <i>"Disken finns. Den är inte död."</i></li>
+      <li><b>Hypotes B:</b> läs bootordningen. Disken ligger sist. Där är det</li>
+      <li><b>En ändring:</b> flytta disken överst. Inget annat. Spara</li>
+      <li><b>Pröva:</b> starta om. Windows startar</li>
+      <li><b>Redogörelsen:</b> <i>"Felet satt i firmware. Jag uteslöt disken genom att se den i listan. Jag ändrade en sak — bootordningen — och vet att det var den."</i></li>
+    </ol>
+
+    <div class="notis">
+      <span class="rubrik">Kontrollfrågan</span>
+      <p><b>Vid vilket steg hade du börjat skruva?</b> Svaret brukar vara steg 2. Det är poängen med steg 3 till 5.</p>
+    </div>
+
+    <h2 id="samrad">6. I samråd eller efter samråd</h2>
+
+    <p>Kursens betygskriterier gör en skillnad som det här området gör synlig: <b>E-kriteriet säger i samråd, C- och A-kriterierna säger efter samråd.</b> Skillnaden är inte hur mycket hjälp du får, utan <b>vem som äger planeringen</b>.</p>
+
+    <ul>
+      <li><b>E — i samråd.</b> Du stämmer av med läraren under arbetets gång. Du frågar, justerar, fortsätter</li>
+      <li><b>C och A — efter samråd.</b> Du skriver en plan <b>innan</b> du rör maskinen: symptomet, hypotesen, testet, lagret. Läraren godkänner den. Sedan arbetar ni självständigt, utan att vänta på läraren mellan stegen</li>
+    </ul>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><b>Planeringen</b></td><td>Stäms av med läraren <b>under arbetets gång</b></td><td><b>Skriven och godkänd innan</b> paret rör maskinen. Sedan genomförd självständigt</td><td>Som C</td></tr>
+          <tr><td><b>Hypotesen</b></td><td>Finns, men kan ha kommit efter första försöket</td><td>Skriven först, prövad med ett test</td><td>Skriven först — och <b>en andra hypotes redo</b> om den första faller</td></tr>
+          <tr><td><b>Uteslutningen</b></td><td>Paret kan säga vad de gjorde</td><td>Paret kan säga vad varje test <b>uteslöt</b></td><td>Paret kan säga varför testen gjordes <b>i den ordningen</b> — det billiga och sannolika först</td></tr>
+          <tr><td><b>Lagret</b></td><td>Nämns när läraren frågar</td><td>Nämns utan fråga</td><td><b>Gränsen mellan lagren förklaras</b>: varför symptomet såg ut att sitta i ett lager men satt i ett annat</td></tr>
+          <tr><td><b>Redogörelsen</b></td><td>Vad som var fel och vad som ändrades</td><td>Enkel men tillräcklig för att någon annan ska kunna göra om det</td><td>Med ett <b>eget förbättringsförslag</b>: hur felet kunde ha upptäckts tidigare, eller undvikits</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Nivåerna är inte mer av samma sak. Skillnaden mellan raderna är <b>vad</b> du kan säga, inte hur mycket.</p>
+
+    <h2 id="planen">7. Planen för C och A</h2>
+
+    <p>Siktar ni mot C eller A lämnar ni <b>planen på papper</b> innan ni rör maskinen. Den behöver inte vara lång. <b>Den ska vara skriven först.</b> Skriv av fälten, eller be om en planblankett. Exemplet kommer från demonstrationen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fält</th><th>Exempel</th><th>Er plan</th></tr></thead>
+        <tbody>
+          <tr><td><b>Symptomet, som vi ser det</b></td><td><i>Maskinen startar inte. Skärmen säger att ingen startenhet finns</i></td><td>&nbsp;</td></tr>
+          <tr><td><b>Första hypotesen</b></td><td><i>Bootordningen är fel</i></td><td>&nbsp;</td></tr>
+          <tr><td><b>Testet som prövar den</b></td><td><i>Gå in i UEFI och läs bootordningen</i></td><td>&nbsp;</td></tr>
+          <tr><td><b>Om den faller</b></td><td><i>Disken syns inte alls — då kabeln eller disken</i></td><td>&nbsp;</td></tr>
+          <tr><td><b>Lagret</b></td><td><i>Maskinvara och firmware</i></td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Signaturen och tiden</span>
+      <p>Läraren godkänner planen med en <b>signatur och en tid</b>. Den är beviset på att planen fanns <b>innan</b> arbetet började — det enda som skiljer en C-plan från en avstämning i efterhand. Börja när planen är signerad.</p>
+      <p>Godkänns planen inte får du veta vad som saknas, inte vad svaret är. Oftast är det frågan <i>"hur prövar ni det?"</i></p>
+    </div>
+
+    <h2 id="redogorelsen">8. Den muntliga redogörelsen</h2>
+
+    <p>Varje par, varje pass, <b>vid bänken innan ni lämnar den</b>. När ni tror att ni är klara räcker ni upp handen. Ni redogör först — sedan får ni veta om det var rätt. Samma fyra frågor varje gång:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>#</th><th>Frågan</th><th>Det läraren lyssnar efter</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><b>Vad var hypotesen, och när skrevs den?</b></td><td>Före första handgreppet — inte efteråt</td></tr>
+          <tr><td>2</td><td><b>Vad uteslöt ni, och hur?</b></td><td>Ett test per uteslutning: lysdioden, <code>ipconfig</code>, UEFI:s lista, behörighetsfliken</td></tr>
+          <tr><td>3</td><td><b>Vilken ändring löste det, och hur vet ni att det var just den?</b></td><td>En ändring i taget. Två ändringar samtidigt ger ett löst fel utan förklaring</td></tr>
+          <tr><td>4</td><td><b>Var i lagren satt felet?</b></td><td>Maskinvara och firmware, systemet, det fysiska nätet eller det logiska</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Hann ni inte klart redogör ni för hur långt ni kommit. Det är lika mycket underlag — ett par som kan säga vad de uteslutit har visat metoden.</p>
+
+    <h2 id="klart">9. Klart när du kan det här</h2>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Ska <span style="color:var(--dov);font-weight:400">— nivå E</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>Jag kan säga <b>de fyra stegen</b> i ordning</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Jag kan säga varför hypotesen kommer <b>före</b> handgreppet</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Jag kan förklara varför jag ändrar <b>en sak i taget</b>, och vad som händer med förklaringen om jag ändrar två</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Jag kan placera ett symptom i ett av kursens <b>fyra lager</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Jag kan <b>checklistan</b> och har den med mig till lektion 61</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Jag vet vilka <b>fyra frågor</b> den muntliga redogörelsen ställer</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h3>Bör <span style="color:var(--dov);font-weight:400">— nivå C</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Jag vet skillnaden mellan <b>i samråd</b> och <b>efter samråd</b></span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Jag kan skriva en <b>plan</b> med alla fem fälten, och vet att den ska vara godkänd innan vi rör maskinen</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Jag kan formulera en hypotes som ett <b>test kan fälla</b> — inte <i>"något med starten"</i></span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Jag kan säga vad ett test <b>uteslöt</b>, inte bara vad jag gjorde</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h3>Utmaning <span style="color:var(--dov);font-weight:400">— nivå A</span></h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utmaning-1"><span>Jag har en <b>andra hypotes redo</b> om den första faller</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-2"><span>Jag kan förklara varför testen görs <b>i den ordningen</b> — det billiga och sannolika först</span></label></li>
+        <li><label><input type="checkbox" id="utmaning-3"><span>Jag kan förklara varför ett symptom kan synas i <b>ett lager</b> men felet sitta i <b>ett annat</b></span></label></li>
+        <li><label><input type="checkbox" id="utmaning-4"><span>Jag kan ge ett <b>eget förbättringsförslag</b>: hur felet kunde ha upptäckts tidigare, eller undvikits</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <div class="notis">
+      <span class="rubrik">Vill du ha mer</span>
+      <p><b>ComputerExplorer → networking → packet-journey</b> — nodens titel är <i>Paketets resa</i>. Gå igenom paketets steg med frågan: <b>i vilket steg hade ett fel stoppat resan, och vilket lager är det?</b></p>
+      <p>Eller pröva metoden på ett fel i huvudet: <i>"en skrivare skriver ut, men bara svartvitt"</i>. Vilket lager, vilken hypotes, vilket test?</p>
+    </div>
+
+    <h2 id="ordlista">10. Ordlista</h2>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Symptom</b></td><td>Det du ser: vad maskinen gör eller inte gör. Inte samma sak som felet</td></tr>
+          <tr><td><b>Hypotes</b></td><td>Ett påstående om orsaken som ett test kan fälla. Skrivs innan du rör maskinen</td></tr>
+          <tr><td><b>Test</b></td><td>Det du gör för att pröva hypotesen. Ett bra test kan svara nej</td></tr>
+          <tr><td><b>Uteslutning</b></td><td>Att visa med ett test att något <b>inte</b> är orsaken, så att sökningen krymper</td></tr>
+          <tr><td><b>Lager</b></td><td>En av kursens fyra nivåer: maskinvara och firmware, systemet, det fysiska nätet, det logiska nätet</td></tr>
+          <tr><td><b>Checklistan</b></td><td>Klassens sex steg från lektion 60, som gäller varje arbetspass i området</td></tr>
+          <tr><td><b>I samråd</b></td><td>E-nivå: felsökningen stäms av med läraren under arbetets gång</td></tr>
+          <tr><td><b>Efter samråd</b></td><td>C- och A-nivå: planen godkänns först, sedan arbetar paret självständigt</td></tr>
+          <tr><td><b>Planen</b></td><td>Symptomet, första hypotesen, testet, vad ni gör om den faller, lagret. Godkänns med signatur och tid</td></tr>
+          <tr><td><b>Redogörelsen</b></td><td>Parets muntliga genomgång för läraren vid bänken, med de fyra frågorna</td></tr>
+          <tr><td><b>Anmälan</b></td><td>Det någon har sett och rapporterat. Inte vad felet är</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 11</a> · <a href="uppdragen.html">Nästa: uppdragen</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

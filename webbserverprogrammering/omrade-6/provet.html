@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vad prov 4 prövar</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o6-provet">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Prov 4</strong> · Vad provet prövar</span>
+  <a href="#repetition">Repetition</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#formen">1. Formen</a></li>
+      <li><a href="#innehallet">2. Vad som kommer</a></li>
+      <li><a href="#typ-1">3. Frågetyp 1 – läs koden</a></li>
+      <li><a href="#typ-2">4. Frågetyp 2 – läs frågan</a></li>
+      <li><a href="#typ-3">5. Frågetyp 3 – placera regeln</a></li>
+      <li><a href="#typ-4">6. Frågetyp 4 – motivera valet</a></li>
+      <li><a href="#repetition">7. Sexton repetitionsfrågor</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 6 · lektion 47–48</p>
+    <h1>Vad prov 4 prövar</h1>
+    <p class="inledning">Osäkerhet inför ett prov kostar mer än innehållet. Den här
+      sidan säger vad som kommer, vad som inte kommer, och hur frågorna ser ut. Två av
+      frågetyperna har kod i sig – exemplen nedan är körda.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-03-08">
+        <span class="nar">8 mars</span>
+        <span class="vad">Projekt 1, kl 23:59
+          <small>Att göra klart projektet är den bästa förberedelsen som finns.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-03-09">
+        <span class="nar">9 mars</span>
+        <span class="vad">Prov 4 – databas och datadriven applikation
+          <small>80 minuter, utan dator.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="formen">1. Formen</h2>
+    <ul>
+      <li><b>Åttio minuter.</b> Sluttiden skrivs på tavlan.</li>
+      <li>Ingen dator, ingen telefon, inga anteckningar. Papper och penna.</li>
+      <li><b>Sexton frågor.</b> Poängen står vid varje fråga.</li>
+      <li>Provet täcker <b>område 5 och 6</b> – databasen från december och allt du
+        byggt sedan dess.</li>
+      <li>Koden på provet handlar om en annan applikation än Filmarkivet och än ditt
+        eget projekt. Den är byggd på samma sätt, så du känner igen allt – men svaren
+        går inte att minnas, bara att förstå.</li>
+      <li>Kod som är nästan rätt ger poäng. Ett saknat semikolon kostar ingenting.</li>
+    </ul>
+
+    <h2 id="innehallet">2. Vad som kommer</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Område</th><th>Ungefär</th><th>Typiskt innehåll</th></tr></thead>
+        <tbody>
+          <tr><td>Code-first och attribut</td><td>1 fråga</td><td>Vad attributen blir i databasen, och vad de bara blir i formuläret</td></tr>
+          <tr><td>Migrationer och relationer</td><td>2 frågor</td><td>Befintliga rader och en ny främmande nyckel, <code>ON DELETE CASCADE</code>, <code>Include</code></td></tr>
+          <tr><td>CRUD och formulär</td><td>3 frågor</td><td>Ändringssidans fällor, varför borttagning inte sker på en GET</td></tr>
+          <tr><td>LINQ</td><td>2 frågor</td><td>När frågan går till databasen, och vad som görs där och vad som görs i C#</td></tr>
+          <tr><td>Validering</td><td>3 frågor</td><td>De tre sorterna, och i vilken ordning de körs</td></tr>
+          <tr><td>Inloggning och behörighet</td><td>3 frågor</td><td>Dölja mot skydda, hashning, antiforgery</td></tr>
+          <tr><td>Renderingslägen och lagren</td><td>2 frågor</td><td>Varför knapparna inte gör något, varför ingen <code>DbContext</code> i en komponent</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Det här kommer säkert:</b> vad en migration är och varför den inte redigeras
+      för hand. De tre egenskaperna i en relation, och vad <code>Include</code> gör.
+      Skillnaden mellan att dölja en länk och att skydda en sida. Varför lösenord
+      hashas. Och varför knapparna i en <code>QuickGrid</code> inte gör något under
+      statisk rendering.</p>
+
+    <p><b>Det här kommer inte:</b> inga felmeddelanden att kunna utantill – men du ska
+      kunna säga vad som saknas. Ingen SQL att skriva själv, bara att läsa. Inget om
+      driftsättning eller API:er – det är område 8.</p>
+
+    <div class="notis varna">
+      <span class="rubrik">Frågor som frågar <em>var</em> vill ha ett ställe och ett skäl</span>
+      <p>Var görs urvalet? Var hör regeln hemma? Ett ställe utan skäl ger halva
+        poängen. Svaret ska innehålla ett <b>för att</b>, och gärna ett
+        <b>annars</b>.</p>
+    </div>
+
+    <h2 id="typ-1">3. Frågetyp 1 – läs koden: vad hände här?</h2>
+    <p>Koden bygger. Den gör fel sak. Du ska säga vad som händer, och vad som
+      saknas.</p>
+
+    <!-- kod: exempel/provtraning/Provfraga1.razor -->
+    <pre><code class="sprak-razor">@page "/provtraning/o6/1"
+@inject IFilmService Arkivet
+
+@* Provträning till prov 4, frågetyp 1: vad hände här? *@
+
+&lt;h1&gt;Provträning 1&lt;/h1&gt;
+
+&lt;ul&gt;
+    @foreach (var film in sidan)
+    {
+        &lt;li&gt;@film.Titel&lt;/li&gt;
+    }
+&lt;/ul&gt;
+
+&lt;p&gt;Sida @Sida av @antalSidor&lt;/p&gt;
+
+@code {
+    [SupplyParameterFromQuery(Name = "sida")]
+    public int? Sida { get; set; }
+
+    private List&lt;Film&gt; sidan = new();
+    private int antalSidor;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        List&lt;Film&gt; alla = await Arkivet.HamtaAllaAsync();
+        antalSidor = (int)Math.Ceiling(alla.Count / 2.0);
+
+        int nummer = Sida ?? 1;
+        sidan = alla.Skip((nummer - 1) * 2).Take(2).ToList();
+    }
+}</code></pre>
+
+    <p><b>Frågan:</b> vad står på sidan för adresserna nedan? Och vad borde koden ha
+      gjort med sidnumret?</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Adress</th><th>Vad står på sidan?</th></tr></thead>
+        <tbody>
+          <tr><td><code>/provtraning/o6/1?sida=2</code></td><td></td></tr>
+          <tr><td><code>/provtraning/o6/1?sida=99</code></td><td></td></tr>
+          <tr><td><code>/provtraning/o6/1?sida=abc</code></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Vad som ger poäng</span>
+      <p><code>?sida=2</code> ger andra sidan: <em>Rosemarys baby</em> och <em>Såsom i en
+        spegel</em>, och <em>Sida 2 av 3</em>. <code>?sida=99</code> ger en tom lista och
+        <em>Sida 99 av 3</em> – inget fel, bara en sida som inte finns.
+        <code>?sida=abc</code> ger en <b>500</b>, och den kommer innan en enda rad av
+        koden körts: ramverket försöker göra om <code>abc</code> till ett
+        <code>int?</code> och misslyckas.</p>
+      <p>Full poäng kräver det andra ledet: sidnumret kommer ur adressen, och adressen
+        kan vem som helst skriva. Det ska läsas som text, tolkas med
+        <code>int.TryParse</code> och hållas mellan 1 och sista sidan – som i
+        <a href="guide.html#steg-2">guidens steg 2</a>.</p>
+    </div>
+
+    <h2 id="typ-2">4. Frågetyp 2 – läs frågan: vad blir SQL:en?</h2>
+    <p>Du får en LINQ-fråga och ska säga vad som görs i databasen och vad som görs i
+      C#. Du skriver ingen SQL själv.</p>
+
+    <!-- kod: exempel/provtraning/Topplista.cs -->
+    <pre><code class="sprak-csharp">using Filmarkivet.Data;
+using Microsoft.EntityFrameworkCore;
+
+namespace Filmarkivet.Services;
+
+// Provträning till prov 4, frågetyp 2: vad blir SQL:en?
+public class Topplista
+{
+    private readonly IDbContextFactory&lt;FilmarkivetContext&gt; _fabrik;
+
+    public Topplista(IDbContextFactory&lt;FilmarkivetContext&gt; fabrik)
+    {
+        _fabrik = fabrik;
+    }
+
+    public async Task&lt;List&lt;string&gt;&gt; HamtaAsync()
+    {
+        using var db = await _fabrik.CreateDbContextAsync();
+
+        return await db.Filmer
+            .Where(f =&gt; f.Betyg == 5)
+            .OrderBy(f =&gt; f.LangdMinuter)
+            .Select(f =&gt; f.Titel)
+            .ToListAsync();
+    }
+}</code></pre>
+
+    <p><b>Frågan:</b> vilka kolumner hämtas ur databasen? Var görs urvalet, och var
+      görs sorteringen? I vilken ordning kommer titlarna, med Filmarkivets
+      frödata?</p>
+
+    <div class="notis">
+      <span class="rubrik">Vad som ger poäng</span>
+      <p>Allt görs i databasen, för att allt ligger på frågan före
+        <code>ToListAsync</code>. Bara <b>en kolumn</b> hämtas – <code>Titel</code> – för
+        att <code>Select</code> står före <code>ToListAsync</code>. SQL:en är:</p>
+    </div>
+
+    <pre><code>SELECT "f"."Titel"
+FROM "Filmer" AS "f"
+WHERE "f"."Betyg" = 5
+ORDER BY "f"."LangdMinuter"</code></pre>
+
+    <p>Filmerna med betyg 5 är <em>Nyckeln till frihet</em> (142 minuter), <em>Sju
+      samurajer</em> (207) och <em>Gökboet</em> (133), och de kommer i längdordning:
+      <b>Gökboet, Nyckeln till frihet, Sju samurajer</b>.</p>
+
+    <p>Ett vanligt halvsvar är att <code>Where</code> görs i databasen men
+      <code>Select</code> i C#. Titta på var <code>ToListAsync</code> står – det är där
+      frågan går iväg, och allt före den blir SQL.</p>
+
+    <h2 id="typ-3">5. Frågetyp 3 – placera regeln</h2>
+    <p>Du får en regel och ska säga var den hör hemma: ett <b>attribut</b>,
+      <b><code>IValidatableObject</code></b>, eller en kontroll <b>mot databasen</b>.
+      Och varför.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Regeln i Filmarkivet</th><th>Var?</th></tr></thead>
+        <tbody>
+          <tr><td>Längden är mellan 1 och 500 minuter</td><td></td></tr>
+          <tr><td>En film med betyget 5 måste ha en beskrivning</td><td></td></tr>
+          <tr><td>Två filmer får inte ha samma titel och samma år</td><td></td></tr>
+          <tr><td>Utgivningsåret får ligga högst två år fram i tiden</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Svara för dig själv innan du klickar på raderna nedan.</p>
+
+    <div class="tabellsvep">
+      <table class="facit" data-dolj="1">
+        <thead><tr><th>Regeln</th><th>Var, och varför</th></tr></thead>
+        <tbody>
+          <tr><td>Längden 1–500 minuter</td><td><b>Attribut.</b> Ett fält, en fast gräns. <code>[Range]</code>.</td></tr>
+          <tr><td>Betyg 5 kräver beskrivning</td><td><b><code>IValidatableObject</code>.</b> Två fält tillsammans. Varken betyget eller beskrivningen är fel för sig.</td></tr>
+          <tr><td>Samma titel och år</td><td><b>Mot databasen.</b> Kräver att man vet vad som redan finns.</td></tr>
+          <tr><td>Högst två år fram</td><td><b>Eget attribut.</b> Ett fält – men gränsen beror på vilket år det är, och ett attributs argument måste vara en konstant. Därför inte <code>[Range]</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="typ-4">6. Frågetyp 4 – motivera valet</h2>
+    <p>Ingen kod att läsa. Du får ett val och ska säga varför det är rätt, eller vad som
+      hade gått fel med ett annat. Så här kan det se ut:</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Frågan</span>
+      <p>Filmarkivets sökning görs i databasen, men sorteringen i administrationens
+        listvy görs i C#. Varför inte samma ställe för båda?</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Vad som ger poäng</span>
+      <p>Sökningen ska fungera också när arkivet är stort, och då ska databasen välja ut
+        raderna i stället för att allt hämtas. Sorteringen ska vara rätt på svenska, och
+        SQLite sorterar gemener efter alla versaler och Ä före Å. Listan är liten, så det
+        kostar lite att sortera den i C#.</p>
+      <p>Ett svar som bara säger <em>"det är snabbare"</em> ger inga poäng – snabbare
+        för vad, och varför? Full poäng kräver att båda ställena motiveras var för
+        sig.</p>
+    </div>
+
+    <p>Fler frågor av samma sort, att öva på:</p>
+    <ul>
+      <li>Varför är utloggningen en egen endpoint och inte ett formulär på en sida?</li>
+      <li>Varför ligger <code>Include</code> i en egen metod i tjänsten och inte i
+        alla?</li>
+      <li>Varför ska borttagning ske med en POST från en bekräftelsesida?</li>
+      <li>Varför är projektets sidor statiskt renderade, när en <code>QuickGrid</code>
+        fungerar bättre interaktivt?</li>
+    </ul>
+
+    <h2 id="repetition">7. Sexton repetitionsfrågor</h2>
+    <p>Svara högt för dig själv innan du klickar på raden. Att känna igen ett svar är
+      inte samma sak som att kunna det.</p>
+
+    <div class="tabellsvep">
+      <table class="facit" data-dolj="1">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Vad blir <code>[StringLength(100)]</code> i en SQLite-tabell?</td><td>Ingenting. Kolumnen blir <code>TEXT</code> utan längd. Attributet gäller bara i formuläret.</td></tr>
+          <tr><td>Vad är en migration?</td><td>En genererad beskrivning av hur databasen ska ändras, räknad fram ur skillnaden mot förra migrationen.</td></tr>
+          <tr><td>Varför redigeras en migration inte för hand?</td><td>Den är genererad ur modellen. Ändras den för hand stämmer den inte längre med klassen, och nästa migration räknas fram mot fel utgångsläge. Rätt väg är <code>migrations remove</code> och en ny.</td></tr>
+          <tr><td>Vilka tre egenskaper har en en-till-många-relation, och vilken blir en kolumn?</td><td>Den främmande nyckeln och navigationsegenskapen på den ena sidan, listan på den andra. Bara den främmande nyckeln blir en kolumn.</td></tr>
+          <tr><td>Varför avbryts en migration med en ny obligatorisk främmande nyckel, på en databas med egna rader?</td><td>De egna raderna får <code>0</code> i den nya kolumnen, och det finns ingen kategori med id 0. <code>HasDefaultValue</code> med ett id som finns löser det.</td></tr>
+          <tr><td>Vad betyder <code>ON DELETE CASCADE</code>?</td><td>Tas kategorin bort, tas alla dess poster bort också.</td></tr>
+          <tr><td>Varför är navigationsegenskapen <code>null</code>, fast den främmande nyckeln har ett värde?</td><td>Den fylls inte av sig själv. Den måste beställas med <code>Include</code>, och glöms det blir det inget fel – bara tomt.</td></tr>
+          <tr><td>Varför <code>??=</code> och inte <code>=</code> på ändringssidan?</td><td>Vid POST har ramverket redan fyllt objektet ur formuläret. <code>=</code> hämtar det gamla ur databasen ovanpå, och ändringen försvinner.</td></tr>
+          <tr><td>När går en <code>IQueryable</code> till databasen?</td><td>När den körs – vid <code>ToListAsync</code>, <code>FirstOrDefaultAsync</code>, <code>CountAsync</code> och liknande. Allt före det bygger bara på frågan.</td></tr>
+          <tr><td>Varför hittar sökningen i databasen inte alltid svenska ord med andra versaler?</td><td>SQLite viker bara A–Z mellan versaler och gemener. Ä och ä är två olika tecken för den.</td></tr>
+          <tr><td>Vilka tre sorters validering finns, och vad ser var och en?</td><td>Attribut ser ett fält. <code>IValidatableObject</code> ser hela objektet. En kontroll mot databasen ser det som redan finns.</td></tr>
+          <tr><td>Varför körs inte <code>Validate</code> när ett attribut redan sagt nej?</td><td>Den körs bara på ett objekt vars fält var för sig är giltiga. Det är ingen mening att jämföra två fält om ett av dem är trasigt.</td></tr>
+          <tr><td>Vad är skillnaden mellan <code>AuthorizeView</code> och <code>[Authorize]</code>?</td><td><code>AuthorizeView</code> bestämmer vad som visas. <code>[Authorize]</code> bestämmer vad som går att nå – servern stoppar förfrågan innan sidan körs.</td></tr>
+          <tr><td>Varför lagras inte lösenordet?</td><td>Det hashas: görs om till något som går att jämföra med men inte att räkna tillbaka. Den som stjäl databasen får inte lösenorden.</td></tr>
+          <tr><td>Skyddar <code>&lt;AntiforgeryToken /&gt;</code> i ett formulär till en egen endpoint?</td><td>Bara om endpointen kontrollerar token. Blazors sidor och <code>EditForm</code> gör det själva, <code>app.MapPost</code> gör det inte.</td></tr>
+          <tr><td>Varför körs <code>OnInitializedAsync</code> två gånger på en interaktiv sida?</td><td>Förrendering. Sidan renderas först statiskt i ett objekt som slängs, och byggs sedan om i ett nytt objekt i kretsen.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Den bästa förberedelsen</span>
+      <p>Gör klart <a href="uppgift.html">Projekt 1</a>. Provet frågar om exakt det du
+        bygger där – och den som själv sett ändringen försvinna med <code>=</code>
+        behöver inte plugga på den frågan.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="uppgift.html">Till uppgiften</a> ·
+        <a href="guide.html">Till guiden</a> ·
+        <a href="index.html">Tillbaka till område 6</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

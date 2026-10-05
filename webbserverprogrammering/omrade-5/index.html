@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 5: code-first – modell, databas och formulär</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o5-start">
+
+<header class="topp">
+  <a href="../index.html">← Webbserverprogrammering 1</a>
+  <span class="harifran"><strong>Område 5</strong> · Code-first: modell, databas och formulär</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#lektioner">1. Fyra lektioner</a></li>
+      <li><a href="#kunna">2. Det här ska sitta</a></li>
+      <li><a href="#verktyget">3. Ett verktyg till</a></li>
+      <li><a href="#igang">4. Kom igång</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+      <li><a href="#orden">6. Orden</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 5 · v.50–52</p>
+    <h1>Code-first: modell, databas och formulär</h1>
+    <p class="inledning">Ett kort område som avslutar terminen och binder ihop tre
+      saker som annars lärs var för sig: modellklassen, databastabellen och formuläret.
+      Attributen skrivs en gång på klassen och styr både vad databasen får och vad
+      formuläret släpper igenom. Och det är här område 4 betalar tillbaka: du byter ut
+      hela datalagret bakom gränssnittet, och ingen komponent märker det.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-12-22">
+        <span class="nar">22 dec</span>
+        <span class="vad">Inlämning 5 – Från modell till databas och formulär, kl 23:59
+          <small>Repots adress lämnas i itslearning. Samma dag som terminen slutar.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Inget prov efter det här området</span>
+      <p>Innehållet prövas i prov 4 på vårterminen, där det byggs vidare med relationer
+        och LINQ. Lämna in och gå på lov.</p>
+    </div>
+
+    <div class="rutnat">
+      <a class="kort webb" href="guide.html">
+        <span class="sort">Guide · hela området</span>
+        <span class="rubrik">Filmarkivet, steg för steg</span>
+        <p>Tolv steg med all kod, från listan i koden till formuläret som sparar i
+          databasen. Följ den här om du missat ett pass.</p>
+      </a>
+      <a class="kort webb" href="uppgift.html">
+        <span class="sort">Inlämning 5</span>
+        <span class="rubrik">Från modell till databas och formulär</span>
+        <p>Krav för E, C och A med kryssrutor, och de tre kontrollerna som avgör om
+          inlämningen håller.</p>
+      </a>
+      <a class="kort gran" href="validering.html">
+        <span class="sort">Lektion 33 · demo</span>
+        <span class="rubrik">En rad som är hela skillnaden</span>
+        <p>Två formulär som är identiska utom en rad. Det ena tar emot vad som helst.
+          Sedan: hur du lurar din egen webbläsare och ser att servern håller.</p>
+      </a>
+      <a class="kort gran" href="terminen.html">
+        <span class="sort">Lektion 34 · terminsavslut</span>
+        <span class="rubrik">Fem områden, en kedja</span>
+        <p>Vad höstens fem områden gjorde möjligt för varandra, och vårens fyra projekt
+          med datum.</p>
+      </a>
+    </div>
+
+    <h2 id="lektioner">1. Fyra lektioner</h2>
+    <p>Tisdagarna bär det nya, onsdagarna befäster. Kolumnen längst till höger säger
+      vad du gör om du var borta.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>#</th><th>Datum</th><th>Längd</th><th>Vad vi gör</th><th>Missade du passet?</th></tr></thead>
+        <tbody>
+          <tr><td>31</td><td>ons 9 dec</td><td>45 min</td>
+            <td>Code-first: modellen är sanningen. Var tar en ny film vägen? Entiteten
+              får attribut, och <code>DbContext</code> skrivs.</td>
+            <td><a href="guide.html#steg-1">Guiden steg 1–3</a> och
+              <a href="guide.html#begrepp">begreppen</a></td></tr>
+          <tr><td>32</td><td>tis 15 dec</td><td>85 min</td>
+            <td>Migration och databas. Paketen, anslutningssträngen, frödata, första
+              migrationen – och tabellen öppnas: vad blev av attributen? Tjänsten byter
+              implementation.</td>
+            <td><a href="guide.html#steg-4">Guiden steg 4–9</a>, särskilt
+              <a href="guide.html#steg-8">steg 8</a></td></tr>
+          <tr><td>33</td><td>ons 16 dec</td><td>45 min</td>
+            <td>Formulär och validering. <code>EditForm</code>,
+              <code>DataAnnotationsValidator</code>, och varför serversidesvalidering
+              alltid krävs.</td>
+            <td><a href="guide.html#steg-10">Guiden steg 10–12</a> och
+              <a href="validering.html">en rad som är hela skillnaden</a></td></tr>
+          <tr><td>34</td><td>tis 22 dec</td><td>85 min</td>
+            <td>Färdigställ och lämna in. Sedan terminens fem områden som en kedja, och
+              vårens fyra projekt.</td>
+            <td><a href="uppgift.html">Uppgiften</a> med de tre kontrollerna, och
+              <a href="terminen.html">terminen och våren</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kunna">2. Det här ska sitta</h2>
+    <ul>
+      <li>Du kan säga vad som är fel med en hårdkodad lista, och att data som försvinner
+        vid omstart är det avgörande skälet.</li>
+      <li>Du kan förklara vad <em>code-first</em> betyder och vad motsatsen är.</li>
+      <li>Du kan skriva ett valideringsattribut med svenskt <code>ErrorMessage</code> och
+        säga vilka två saker som läser det.</li>
+      <li>Du kan säga skillnaden mellan <code>migrations add</code> och
+        <code>database update</code>, och vilken av dem som rör databasen.</li>
+      <li>Du kan öppna den skapade tabellen och peka ut vilka attribut som syns i den
+        och vilka som inte gör det – och vad det betyder för valideringen.</li>
+      <li>Du kan säga varför <code>AddDbContextFactory</code> och inte
+        <code>AddDbContext</code>, med område 4:s livstider som argument.</li>
+      <li>Du kan byta ut tjänstens implementation mot databasen utan att ändra
+        gränssnittet, och säga varför ingen komponent behövde ändras.</li>
+      <li>Du kan bygga ett <code>EditForm</code> och namnge vad <code>Model</code>,
+        <code>FormName</code>, <code>OnValidSubmit</code> och
+        <code>DataAnnotationsValidator</code> gör var för sig.</li>
+      <li>Du kan kringgå din egen klientvalidering och beskriva vad servern svarade.</li>
+    </ul>
+
+    <h2 id="verktyget">3. Ett verktyg till</h2>
+    <p>Hittills har du haft två kommandon: <code>dotnet build</code> och
+      <code>dotnet run</code>. Nu kommer ett tredje, och det har egna fel.</p>
+
+    <div class="notis varna">
+      <span class="rubrik"><code>dotnet ef</code> läser dina klasser och skriver databasen</span>
+      <p>Det körs varken vid bygget eller när sidan öppnas, utan när du själv kör
+        <code>dotnet ef migrations add</code> eller <code>dotnet ef database update</code>.
+        Står du i fel mapp, saknas ett paket eller stämmer inte anslutningssträngen får
+        du veta det där – och applikationen kan mycket väl bygga och starta ändå, mot
+        en databas som inte finns.</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>När</th><th>Ser ut som</th><th>Exempel</th></tr></thead>
+        <tbody>
+          <tr><td><b>Bygget</b></td><td>Röd text i editorn, <code>dotnet build</code> misslyckas</td><td><code>Required</code> hittas inte, <code>BL0008</code></td></tr>
+          <tr><td><b>Migrationen</b></td><td><code>dotnet ef</code> avbryts med ett meddelande</td><td>Fel mapp, Design-paketet saknas, anslutningssträngen stämmer inte</td></tr>
+          <tr><td><b>Sidvisningen</b></td><td>Servern kör. Just den sidan svarar 500</td><td><code>no such table</code>, delat <code>DbContext</code></td></tr>
+          <tr><td><b>Aldrig</b></td><td>Allt fungerar. Beteendet är ändå fel</td><td>Betyg 99 sparas – <code>DataAnnotationsValidator</code> saknas</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Två vanor som gör hela skillnaden i det här området:</p>
+
+    <ul>
+      <li><b>Kör <code>dotnet ef database update</code> efter varje ny migration.</b>
+        <code>add</code> skriver bara en fil. Databasen ändras inte förrän
+        <code>update</code> körs.</li>
+      <li><b>Testa formuläret med värden som ska vara omöjliga.</b> Ett formulär som bara
+        testats med rätt värden har inte testats. Se
+        <a href="validering.html">hur du kringgår klientvalideringen</a>.</li>
+    </ul>
+
+    <h2 id="igang">4. Kom igång</h2>
+    <p>Du börjar inte om. Området bygger vidare på projektet från område 4.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Det du gör</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Öppna ditt projekt från område 4 och kontrollera att listsidan och detaljsidan fungerar med <code>dotnet run</code>. Utan tjänsten bakom gränssnittet går det inte att följa med – gör klart område 4 först.</td></tr>
+          <tr><td>2</td><td>Kontrollera att <code>dotnet ef --version</code> svarar. Gör den inte det: <code>dotnet tool install --global dotnet-ef</code>, en gång.</td></tr>
+          <tr><td>3</td><td>Fyll i högerkolumnen i <a href="guide.html#sjalv">guidens översättningstabell</a>. Vad heter din entitet, din context, ditt <code>DbSet</code>?</td></tr>
+          <tr><td>4</td><td>Gå igenom din huvudentitet fält för fält: vilka har en regel? Det är de som ska ha attribut.</td></tr>
+          <tr><td>5</td><td>Lämna den hårdkodade listan kvar tills tjänsten läser ur databasen. Radera den sedan – bygget blir din kontroll.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Mappstrukturen du är på väg mot:</p>
+
+    <pre><code>DittProjekt/
+├── Components/
+│   └── Pages/
+│       └── NyPost.razor        formuläret som skapar
+├── Data/
+│   └── DittProjektContext.cs   DbContext med ett DbSet
+├── Migrations/                 genererad – redigeras aldrig för hand
+├── Models/
+│   └── DinEntitet.cs           klassen, nu med attribut
+├── Services/
+│   ├── IDinService.cs          samma som i område 4, plus metoden som sparar
+│   └── DinService.cs           läser ur databasen
+├── appsettings.json            anslutningssträngen
+├── dittprojekt.db              databasen – ligger i .gitignore
+└── Program.cs                  AddDbContextFactory</code></pre>
+
+    <p>Committa efter varje pass. Deadline är tisdag 22 december, och den som committar
+      allt sista kvällen har en historik som inte visar något arbete.</p>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <p>Sök på felmeddelandet du fick, eller på ett ord ur det. Kolumnen <em>när</em>
+      säger om felet kommer vid bygget, vid migrationen eller vid sidvisningen – leta
+      på rätt ställe.</p>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: no such table, pending changes, BL0008, 400" autocomplete="off">
+      <p class="traffar" id="traffar-fel">18 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>När</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td><code>The type or namespace name 'Required' could not be found</code></td><td>bygget</td><td><code>using</code>-raden saknas</td><td><code>using System.ComponentModel.DataAnnotations;</code> överst i modellklassen.</td></tr>
+          <tr><td><code>The type or namespace name 'DbContext' could not be found</code></td><td>bygget</td><td>EF Core-paketen är inte hämtade</td><td><code>dotnet add package Microsoft.EntityFrameworkCore.Sqlite</code> och <code>.Design</code>.</td></tr>
+          <tr><td><code>BL0008</code></td><td>bygget</td><td><code>[SupplyParameterFromForm]</code> på en egenskap med initierare</td><td>Ta bort <code>= new()</code>. Skapa objektet i <code>OnInitialized</code> med <code>??=</code>.</td></tr>
+          <tr><td><code>dotnet ef</code> känns inte igen</td><td>migrationen</td><td>Verktyget är inte installerat</td><td><code>dotnet tool install --global dotnet-ef</code>, en gång per dator.</td></tr>
+          <tr><td><code>No project was found</code></td><td>migrationen</td><td>Du står i fel mapp</td><td><code>cd</code> till mappen med <code>.csproj</code>.</td></tr>
+          <tr><td><code>Your startup project doesn't reference Microsoft.EntityFrameworkCore.Design</code></td><td>migrationen</td><td>Bara ett av de två paketen är hämtat</td><td>Båda behövs. <code>dotnet add package Microsoft.EntityFrameworkCore.Design</code>.</td></tr>
+          <tr><td><code>Unable to create a 'DbContext' of type</code></td><td>migrationen</td><td>Anslutningssträngen hittas inte</td><td>Nyckeln i <code>GetConnectionString</code> måste stämma bokstav för bokstav med <code>appsettings.json</code>.</td></tr>
+          <tr><td><code>The model for context has pending changes</code></td><td>migrationen</td><td>Klassen är ändrad efter senaste migrationen</td><td><code>dotnet ef migrations add NamnPaAndringen</code>, sedan <code>database update</code>.</td></tr>
+          <tr><td><code>SQLite Error 1: 'no such table: Filmer'</code></td><td>sidvisning</td><td>Migrationen är skriven men inte körd</td><td><code>dotnet ef database update</code>. <code>add</code> räcker inte.</td></tr>
+          <tr><td><code>A second operation was started on this context instance</code></td><td>sidvisning</td><td>Ett delat <code>DbContext</code> – <code>AddDbContext</code> i stället för fabriken</td><td><code>AddDbContextFactory</code>, och ett eget context per metod med <code>using</code>.</td></tr>
+          <tr><td><code>Cannot consume scoped service 'DittProjektContext' from singleton</code></td><td>serverstart</td><td>Contextet injicerat i en singleton</td><td>Samma fel som i område 4. Använd fabriken.</td></tr>
+          <tr><td>Sidan svarar <b>400</b> på formuläret</td><td>sidvisning</td><td>Antiforgery-token saknas – formuläret är byggt för hand</td><td><code>EditForm</code> lägger in den själv. Kontrollera i sidkällan att <code>__RequestVerificationToken</code> finns.</td></tr>
+          <tr><td>Formuläret gör ingenting</td><td>sidvisning</td><td><code>FormName</code> saknas</td><td><code>EditForm</code> behöver den vid statisk serverrendering.</td></tr>
+          <tr><td><code>NullReferenceException</code> i markupen</td><td>sidvisning</td><td>Objektet skapas aldrig</td><td><code>Film ??= new Film();</code> i <code>OnInitialized</code>.</td></tr>
+          <tr><td><code>OnValidSubmit</code> körs aldrig</td><td>aldrig</td><td>Något fält validerar inte, och du ser inte vilket</td><td>Lägg till <code>&lt;ValidationSummary /&gt;</code> och läs vad som står.</td></tr>
+          <tr><td>Ogiltiga värden sparas</td><td>aldrig</td><td><code>&lt;DataAnnotationsValidator /&gt;</code> saknas, eller <code>OnSubmit</code> i stället för <code>OnValidSubmit</code></td><td>Båda behövs. Utan validatorn läses inga attribut; med <code>OnSubmit</code> sparas allt.</td></tr>
+          <tr><td>Felmeddelanden på engelska</td><td>aldrig</td><td><code>ErrorMessage</code> saknas på attributet</td><td>Skriv den, på svenska, på varje attribut.</td></tr>
+          <tr><td>Sidan visar noll poster</td><td>aldrig</td><td>Databasen är tom – frödata glömd, eller databasen skapad före den</td><td>Radera <code>.db</code>-filen och kör <code>database update</code> igen.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="orden">6. Orden</h2>
+    <p>Orden nedan används från och med nu utan förklaring. Träna tills du kan dem –
+      prov 4 i mars frågar efter flera av dem i klartext.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>code-first</b></td><td>Klassen skrivs först, databasen byggs efter den. Motsatsen är database-first.</td></tr>
+          <tr><td><b>entitet</b></td><td>En klass som motsvarar en tabell. Varje objekt är en rad.</td></tr>
+          <tr><td><b>attribut</b></td><td>En regel skriven inom hakparenteser ovanför en egenskap: <code>[Required]</code>, <code>[Range]</code>. Information, inte kod som körs.</td></tr>
+          <tr><td><b>data annotations</b></td><td>Samlingsnamnet för valideringsattributen. Namnrymden <code>System.ComponentModel.DataAnnotations</code>.</td></tr>
+          <tr><td><b>DbContext</b></td><td>Klassen som håller ihop entiteterna och kopplingen till databasen. En session mot databasen.</td></tr>
+          <tr><td><b>DbSet&lt;T&gt;</b></td><td>En tabell, sedd från C#. Egenskapens namn blir tabellnamnet – därför plural.</td></tr>
+          <tr><td><b>primärnyckel</b></td><td>Kolumnen som identifierar raden. <code>Id</code> blir det automatiskt.</td></tr>
+          <tr><td><b>anslutningssträng</b></td><td>Texten som säger var databasen finns. Ligger i <code>appsettings.json</code>, inte i koden.</td></tr>
+          <tr><td><b>migration</b></td><td>En genererad beskrivning av hur databasen ska ändras. Redigeras aldrig för hand.</td></tr>
+          <tr><td><b>migrations add</b></td><td>Skriver en ny migrationsfil ur skillnaden mellan klasserna och förra migrationen. Rör inte databasen.</td></tr>
+          <tr><td><b>database update</b></td><td>Kör de migrationer som inte körts. Det är den som rör databasen.</td></tr>
+          <tr><td><b>frödata</b></td><td>Rader som följer med migrationen in i databasen. <em>Seed</em>. <code>HasData</code> i <code>OnModelCreating</code>.</td></tr>
+          <tr><td><b>SQLite</b></td><td>En databas som är en enda fil. Ingen server, inget lösenord – och ingen längd på <code>TEXT</code>.</td></tr>
+          <tr><td><b>IDbContextFactory</b></td><td>Fabriken som ger varje metod ett eget context. Ett delat <code>DbContext</code> är inte trådsäkert.</td></tr>
+          <tr><td><b>EditForm</b></td><td>Blazors formulär, som kan validera mot en modell. Lägger in antiforgery-token själv.</td></tr>
+          <tr><td><b>DataAnnotationsValidator</b></td><td>Komponenten som läser attributen på modellen. Utan den valideras ingenting.</td></tr>
+          <tr><td><b>OnValidSubmit</b></td><td>Körs bara när valideringen gick igenom. <code>OnSubmit</code> körs oavsett.</td></tr>
+          <tr><td><b>klientvalidering</b></td><td>Kontroller som körs i webbläsaren. För användarens skull – inte ett skydd.</td></tr>
+          <tr><td><b>serversidesvalidering</b></td><td>Kontrollen som körs på servern efter att formuläret kommit in. Den enda som går att lita på.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="guide.html">Till guiden</a> ·
+        <a href="uppgift.html">Till uppgiften</a> ·
+        <a href="validering.html">En rad som är hela skillnaden</a> ·
+        <a href="terminen.html">Terminen och våren</a> ·
+        <a href="../index.html">Tillbaka till kursstarten</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

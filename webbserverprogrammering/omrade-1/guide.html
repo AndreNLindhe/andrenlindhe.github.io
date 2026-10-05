@@ -79,10 +79,10 @@
     <h2 id="bygger">Vad du bygger här</h2>
     <p>En webbplats med fyra sidor som förklarar vad som händer under den halvsekund som går mellan att du trycker enter och att sidan syns. Startsidan bevisar dessutom att den skapades på servern just nu, genom att visa ett klockslag och ett löpnummer som ändras varje gång du laddar om.</p>
     <pre><code>Webbresan
-    ├── /               Vad händer när du trycker enter?   + beviset
-    ├── /adressen       URL:ens delar och DNS
-    ├── /svaret         Förfrågan, svar och statuskoder
-    └── /arkitekturen   Projektets egna filer</code></pre>
+├── /               Vad händer när du trycker enter?   + beviset
+├── /adressen       URL:ens delar och DNS
+├── /svaret         Förfrågan, svar och statuskoder
+└── /arkitekturen   Projektets egna filer</code></pre>
     <p>Guidens projekt heter <strong>Webbresan</strong>. Det färdiga projektet ligger i <code>referensprojekt/Webbresan</code> – kör det gärna innan du börjar, så vet du vart du är på väg.</p>
     <h2 id="sjalv">Vad du ska göra själv efteråt</h2>
     <p>Samma sajt, med ditt eget innehåll. Du bygger fyra sidor som förklarar samma resa, men du väljer själv vilken adress du följer genom förklaringen och hur du bevisar att sidan skapas på servern. Arkitektursidan beskriver ditt eget projekt, inte mitt.</p>
@@ -102,7 +102,7 @@
     <p>Att kopiera min exempeladress fungerar inte: din adress ska ha andra delar att peka på, och du ska kunna förklara varje del i just din.</p>
     <h2 id="innan">Innan du börjar</h2>
     <p>Detta ska fungera efter lektion 1:</p>
-    <pre><code class="sprak-bash">dotnet --version</code></pre>
+    <pre><code>dotnet --version</code></pre>
     <p>Svaret ska börja med <code>10.</code>. Får du "command not found" är inte SDK:n installerad – säg till.</p>
     <h2 id="begrepp">Begreppen i det här momentet</h2>
     <div class="tabellsvep">
@@ -122,9 +122,9 @@
     <h2 id="steg-1">Steg 1 – Skapa projektet</h2>
     <p><strong>Vad vi gör.</strong> Skapar ett Blazor Web App utan interaktivitet.</p>
     <p><strong>Kommandot.</strong> Kör i mappen där du vill att projektmappen ska hamna:</p>
-    <pre><code class="sprak-bash">dotnet new blazor -o Webbresan -int None
-    cd Webbresan
-    dotnet run</code></pre>
+    <pre><code>dotnet new blazor -o Webbresan -int None
+cd Webbresan
+dotnet run</code></pre>
     <p><strong>Varför det ser ut så.</strong> <code>-int None</code> betyder <em>ingen interaktivitet</em>. Utan den flaggan får du ett projekt där delar av koden också körs i webbläsaren, och då blir det otydligt vad som händer var. Hela den här kursen håller sig på serversidan: all C# körs på servern, och webbläsaren får färdig HTML. Det gör att du alltid kan svara på frågan "var körs den här raden?" – på servern.</p>
     <p><strong>Kontrollera.</strong> Terminalen skriver ut en adress, ungefär <code>http://localhost:5199</code>. Öppna den. Du ser en sida med texten "Hello, world!".</p>
     <p><strong>I ditt projekt.</strong> Byt <code>Webbresan</code> mot ditt projektnamn. Namnet blir också C#-namnrymd, så använd ett ord utan mellanslag och utan å ä ö.</p>
@@ -145,46 +145,46 @@
     <p><strong>Filen.</strong> <code>Components/Pages/Home.razor</code></p>
     <pre><code class="sprak-razor">@page "/"
 
-    &lt;PageTitle&gt;Webbresan – vad händer när du trycker enter?&lt;/PageTitle&gt;
+&lt;PageTitle&gt;Webbresan – vad händer när du trycker enter?&lt;/PageTitle&gt;
 
-    &lt;h1&gt;Vad händer när du trycker enter?&lt;/h1&gt;
+&lt;h1&gt;Vad händer när du trycker enter?&lt;/h1&gt;
 
-    &lt;p&gt;
-        Du skriver en adress i webbläsaren och trycker enter. En halv sekund senare
-        ligger sidan där. Den här sajten följer de fem stegen som hinner ske under tiden.
-    &lt;/p&gt;
+&lt;p&gt;
+    Du skriver en adress i webbläsaren och trycker enter. En halv sekund senare
+    ligger sidan där. Den här sajten följer de fem stegen som hinner ske under tiden.
+&lt;/p&gt;
 
-    &lt;ol&gt;
-        &lt;li&gt;Webbläsaren delar upp &lt;strong&gt;adressen&lt;/strong&gt; i sina delar.&lt;/li&gt;
-        &lt;li&gt;&lt;strong&gt;DNS&lt;/strong&gt; översätter domännamnet till en IP-adress.&lt;/li&gt;
-        &lt;li&gt;Webbläsaren skickar en &lt;strong&gt;förfrågan&lt;/strong&gt; till servern på den adressen.&lt;/li&gt;
-        &lt;li&gt;Servern skickar tillbaka ett &lt;strong&gt;svar&lt;/strong&gt; med en statuskod och innehåll.&lt;/li&gt;
-        &lt;li&gt;Webbläsaren &lt;strong&gt;ritar upp&lt;/strong&gt; det den fick.&lt;/li&gt;
-    &lt;/ol&gt;
+&lt;ol&gt;
+    &lt;li&gt;Webbläsaren delar upp &lt;strong&gt;adressen&lt;/strong&gt; i sina delar.&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;DNS&lt;/strong&gt; översätter domännamnet till en IP-adress.&lt;/li&gt;
+    &lt;li&gt;Webbläsaren skickar en &lt;strong&gt;förfrågan&lt;/strong&gt; till servern på den adressen.&lt;/li&gt;
+    &lt;li&gt;Servern skickar tillbaka ett &lt;strong&gt;svar&lt;/strong&gt; med en statuskod och innehåll.&lt;/li&gt;
+    &lt;li&gt;Webbläsaren &lt;strong&gt;ritar upp&lt;/strong&gt; det den fick.&lt;/li&gt;
+&lt;/ol&gt;
 
-    &lt;h2&gt;Den här sidan byggdes på servern&lt;/h2&gt;
+&lt;h2&gt;Den här sidan byggdes på servern&lt;/h2&gt;
 
-    &lt;p class="bevis"&gt;
-        Sidan skapades &lt;strong&gt;@byggdes.ToString("HH:mm:ss")&lt;/strong&gt;
-        och fick löpnummer &lt;strong&gt;@nummer&lt;/strong&gt;.
-    &lt;/p&gt;
+&lt;p class="bevis"&gt;
+    Sidan skapades &lt;strong&gt;@byggdes.ToString("HH:mm:ss")&lt;/strong&gt;
+    och fick löpnummer &lt;strong&gt;@nummer&lt;/strong&gt;.
+&lt;/p&gt;
 
-    &lt;p&gt;
-        Ladda om sidan. Både klockslaget och löpnumret ändras. Ingenting av det står i
-        en fil på servern – texten fanns inte innan du bad om sidan.
-    &lt;/p&gt;
+&lt;p&gt;
+    Ladda om sidan. Både klockslaget och löpnumret ändras. Ingenting av det står i
+    en fil på servern – texten fanns inte innan du bad om sidan.
+&lt;/p&gt;
 
-    @code {
-        private static int antalVisningar = 0;
+@code {
+    private static int antalVisningar = 0;
 
-        private DateTime byggdes = DateTime.Now;
-        private int nummer;
+    private DateTime byggdes = DateTime.Now;
+    private int nummer;
 
-        protected override void OnInitialized()
-        {
-            nummer = ++antalVisningar;
-        }
-    }</code></pre>
+    protected override void OnInitialized()
+    {
+        nummer = ++antalVisningar;
+    }
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p><code>@page "/"</code> är det som gör filen till en sida i stället för en byggsten. Utan den raden går sidan inte att nå på någon adress.</p>
     <p><code>@code { }</code> är C#-delen av komponenten. Allt där körs på servern.</p>
@@ -197,57 +197,57 @@
     <p><strong>Filen.</strong> Skapa <code>Components/Pages/Adressen.razor</code></p>
     <pre><code class="sprak-razor">@page "/adressen"
 
-    &lt;PageTitle&gt;Adressen – Webbresan&lt;/PageTitle&gt;
+&lt;PageTitle&gt;Adressen – Webbresan&lt;/PageTitle&gt;
 
-    &lt;h1&gt;Steg 1 och 2: adressen och DNS&lt;/h1&gt;
+&lt;h1&gt;Steg 1 och 2: adressen och DNS&lt;/h1&gt;
 
-    &lt;h2&gt;Adressen delas upp&lt;/h2&gt;
+&lt;h2&gt;Adressen delas upp&lt;/h2&gt;
 
-    &lt;p&gt;Vi följer den här adressen genom hela sajten:&lt;/p&gt;
+&lt;p&gt;Vi följer den här adressen genom hela sajten:&lt;/p&gt;
 
-    &lt;p class="adress"&gt;https://www.scb.se/hitta-statistik/?fraga=befolkning#resultat&lt;/p&gt;
+&lt;p class="adress"&gt;https://www.scb.se/hitta-statistik/?fraga=befolkning#resultat&lt;/p&gt;
 
-    &lt;table class="tabell"&gt;
-        &lt;caption&gt;URL:ens delar&lt;/caption&gt;
-        &lt;thead&gt;
+&lt;table class="tabell"&gt;
+    &lt;caption&gt;URL:ens delar&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope="col"&gt;Del&lt;/th&gt;
+            &lt;th scope="col"&gt;Värde&lt;/th&gt;
+            &lt;th scope="col"&gt;Vad den gör&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        @foreach (var del in delar)
+        {
             &lt;tr&gt;
-                &lt;th scope="col"&gt;Del&lt;/th&gt;
-                &lt;th scope="col"&gt;Värde&lt;/th&gt;
-                &lt;th scope="col"&gt;Vad den gör&lt;/th&gt;
+                &lt;th scope="row"&gt;@del.Namn&lt;/th&gt;
+                &lt;td&gt;&lt;code&gt;@del.Varde&lt;/code&gt;&lt;/td&gt;
+                &lt;td&gt;@del.Beskrivning&lt;/td&gt;
             &lt;/tr&gt;
-        &lt;/thead&gt;
-        &lt;tbody&gt;
-            @foreach (var del in delar)
-            {
-                &lt;tr&gt;
-                    &lt;th scope="row"&gt;@del.Namn&lt;/th&gt;
-                    &lt;td&gt;&lt;code&gt;@del.Varde&lt;/code&gt;&lt;/td&gt;
-                    &lt;td&gt;@del.Beskrivning&lt;/td&gt;
-                &lt;/tr&gt;
-            }
-        &lt;/tbody&gt;
-    &lt;/table&gt;
+        }
+    &lt;/tbody&gt;
+&lt;/table&gt;
 
-    &lt;h2&gt;DNS översätter namnet&lt;/h2&gt;
+&lt;h2&gt;DNS översätter namnet&lt;/h2&gt;
 
-    &lt;p&gt;
-        Datorn kan inte skicka något till &lt;code&gt;www.scb.se&lt;/code&gt;. Den behöver en
-        IP-adress. DNS är telefonkatalogen som gör översättningen, och svaret sparas
-        en stund så att nästa besök slipper frågan.
-    &lt;/p&gt;
+&lt;p&gt;
+    Datorn kan inte skicka något till &lt;code&gt;www.scb.se&lt;/code&gt;. Den behöver en
+    IP-adress. DNS är telefonkatalogen som gör översättningen, och svaret sparas
+    en stund så att nästa besök slipper frågan.
+&lt;/p&gt;
 
-    @code {
-        private record Del(string Namn, string Varde, string Beskrivning);
+@code {
+    private record Del(string Namn, string Varde, string Beskrivning);
 
-        private readonly Del[] delar =
-        [
-            new("Protokoll", "https", "Hur samtalet ska föras. s står för krypterat."),
-            new("Domännamn", "www.scb.se", "Vilken server som ska svara."),
-            new("Sökväg", "/hitta-statistik/", "Vad på servern som efterfrågas."),
-            new("Frågesträng", "?fraga=befolkning", "Extra värden till servern."),
-            new("Fragment", "#resultat", "Var på sidan webbläsaren ska hoppa. Skickas aldrig till servern.")
-        ];
-    }</code></pre>
+    private readonly Del[] delar =
+    [
+        new("Protokoll", "https", "Hur samtalet ska föras. s står för krypterat."),
+        new("Domännamn", "www.scb.se", "Vilken server som ska svara."),
+        new("Sökväg", "/hitta-statistik/", "Vad på servern som efterfrågas."),
+        new("Frågesträng", "?fraga=befolkning", "Extra värden till servern."),
+        new("Fragment", "#resultat", "Var på sidan webbläsaren ska hoppa. Skickas aldrig till servern.")
+    ];
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p>Innehållet ligger i en array i <code>@code</code> och renderas med <code>@foreach</code>, i stället för att skrivas som fem <code>&lt;tr&gt;</code> för hand. Det är samma sak som du gör i område 2 med <code>List&lt;T&gt;</code>, och det gör att data och presentation hålls isär redan här. Ska du lägga till en rad ändrar du en plats, inte två.</p>
     <p><code>record</code> är en kort form av klass när man bara vill hålla ihop några värden. Du läser mer om klasser i område 2 – här räcker det att veta att <code>Del</code> binder ihop tre strängar.</p>
@@ -260,75 +260,75 @@
     <p><strong>Filen.</strong> Skapa <code>Components/Pages/Svaret.razor</code></p>
     <pre><code class="sprak-razor">@page "/svaret"
 
-    &lt;PageTitle&gt;Svaret – Webbresan&lt;/PageTitle&gt;
+&lt;PageTitle&gt;Svaret – Webbresan&lt;/PageTitle&gt;
 
-    &lt;h1&gt;Steg 3 och 4: förfrågan och svar&lt;/h1&gt;
+&lt;h1&gt;Steg 3 och 4: förfrågan och svar&lt;/h1&gt;
 
-    &lt;h2&gt;Förfrågan&lt;/h2&gt;
+&lt;h2&gt;Förfrågan&lt;/h2&gt;
 
-    &lt;p&gt;
-        Webbläsaren skickar några rader text till servern. Det är hela hemligheten –
-        HTTP är läsbar text.
-    &lt;/p&gt;
+&lt;p&gt;
+    Webbläsaren skickar några rader text till servern. Det är hela hemligheten –
+    HTTP är läsbar text.
+&lt;/p&gt;
 
-    &lt;pre&gt;&lt;code&gt;GET /hitta-statistik/ HTTP/1.1
-    Host: www.scb.se
-    Accept: text/html
-    User-Agent: Mozilla/5.0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;GET /hitta-statistik/ HTTP/1.1
+Host: www.scb.se
+Accept: text/html
+User-Agent: Mozilla/5.0&lt;/code&gt;&lt;/pre&gt;
 
-    &lt;p&gt;
-        Första ordet är &lt;strong&gt;metoden&lt;/strong&gt;. &lt;code&gt;GET&lt;/code&gt; betyder "ge mig",
-        &lt;code&gt;POST&lt;/code&gt; betyder "här kommer data". Vi använder båda i område 5.
-    &lt;/p&gt;
+&lt;p&gt;
+    Första ordet är &lt;strong&gt;metoden&lt;/strong&gt;. &lt;code&gt;GET&lt;/code&gt; betyder "ge mig",
+    &lt;code&gt;POST&lt;/code&gt; betyder "här kommer data". Vi använder båda i område 5.
+&lt;/p&gt;
 
-    &lt;h2&gt;Svaret&lt;/h2&gt;
+&lt;h2&gt;Svaret&lt;/h2&gt;
 
-    &lt;pre&gt;&lt;code&gt;HTTP/1.1 200 OK
-    Content-Type: text/html; charset=utf-8
+&lt;pre&gt;&lt;code&gt;HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
 
-    &amp;lt;!DOCTYPE html&amp;gt;...&lt;/code&gt;&lt;/pre&gt;
+&amp;lt;!DOCTYPE html&amp;gt;...&lt;/code&gt;&lt;/pre&gt;
 
-    &lt;p&gt;
-        Talet på första raden är &lt;strong&gt;statuskoden&lt;/strong&gt;. Den säger hur det gick,
-        innan webbläsaren ens tittat på innehållet.
-    &lt;/p&gt;
+&lt;p&gt;
+    Talet på första raden är &lt;strong&gt;statuskoden&lt;/strong&gt;. Den säger hur det gick,
+    innan webbläsaren ens tittat på innehållet.
+&lt;/p&gt;
 
-    &lt;table class="tabell"&gt;
-        &lt;caption&gt;Statuskoder du kommer att se i den här kursen&lt;/caption&gt;
-        &lt;thead&gt;
+&lt;table class="tabell"&gt;
+    &lt;caption&gt;Statuskoder du kommer att se i den här kursen&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope="col"&gt;Kod&lt;/th&gt;
+            &lt;th scope="col"&gt;Betyder&lt;/th&gt;
+            &lt;th scope="col"&gt;När du möter den&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        @foreach (var kod in koder)
+        {
             &lt;tr&gt;
-                &lt;th scope="col"&gt;Kod&lt;/th&gt;
-                &lt;th scope="col"&gt;Betyder&lt;/th&gt;
-                &lt;th scope="col"&gt;När du möter den&lt;/th&gt;
+                &lt;th scope="row"&gt;@kod.Nummer&lt;/th&gt;
+                &lt;td&gt;@kod.Namn&lt;/td&gt;
+                &lt;td&gt;@kod.NarDuSerDen&lt;/td&gt;
             &lt;/tr&gt;
-        &lt;/thead&gt;
-        &lt;tbody&gt;
-            @foreach (var kod in koder)
-            {
-                &lt;tr&gt;
-                    &lt;th scope="row"&gt;@kod.Nummer&lt;/th&gt;
-                    &lt;td&gt;@kod.Namn&lt;/td&gt;
-                    &lt;td&gt;@kod.NarDuSerDen&lt;/td&gt;
-                &lt;/tr&gt;
-            }
-        &lt;/tbody&gt;
-    &lt;/table&gt;
+        }
+    &lt;/tbody&gt;
+&lt;/table&gt;
 
-    &lt;p&gt;
-        Prova själv: gå till &lt;a href="/finns-inte"&gt;/finns-inte&lt;/a&gt; och se vad som händer.
-    &lt;/p&gt;
+&lt;p&gt;
+    Prova själv: gå till &lt;a href="/finns-inte"&gt;/finns-inte&lt;/a&gt; och se vad som händer.
+&lt;/p&gt;
 
-    @code {
-        private record Statuskod(int Nummer, string Namn, string NarDuSerDen);
+@code {
+    private record Statuskod(int Nummer, string Namn, string NarDuSerDen);
 
-        private readonly Statuskod[] koder =
-        [
-            new(200, "OK", "Allt gick bra. Den vanligaste koden."),
-            new(301, "Flyttad permanent", "Adressen har bytt plats och webbläsaren skickas vidare."),
-            new(404, "Hittades inte", "Sökvägen finns inte på servern. Ofta ett stavfel."),
-            new(500, "Serverfel", "Din egen kod kraschade. Den här kommer du att se ofta.")
-        ];
-    }</code></pre>
+    private readonly Statuskod[] koder =
+    [
+        new(200, "OK", "Allt gick bra. Den vanligaste koden."),
+        new(301, "Flyttad permanent", "Adressen har bytt plats och webbläsaren skickas vidare."),
+        new(404, "Hittades inte", "Sökvägen finns inte på servern. Ofta ett stavfel."),
+        new(500, "Serverfel", "Din egen kod kraschade. Den här kommer du att se ofta.")
+    ];
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p><code>&amp;lt;!DOCTYPE html&amp;gt;</code> står med teckenentiteter i stället för <code>&lt;</code> och <code>&gt;</code>. Skriver du tecknen rakt av tolkar Razor dem som HTML och taggen försvinner ur utskriften. Det är samma mekanism som gör Razor säkert mot skadlig inmatning – något du får se ordentligt i område 7.</p>
     <p>Länken till <code>/finns-inte</code> är avsiktlig. Den visar 404 på riktigt i stället för att bara påstå att den finns.</p>
@@ -338,29 +338,29 @@
     <p><strong>Vad vi gör.</strong> Byter ut mallens meny mot våra fyra sidor.</p>
     <p><strong>Filen.</strong> <code>Components/Layout/NavMenu.razor</code> – byt ut hela <code>&lt;nav&gt;</code>-elementet och namnet i <code>navbar-brand</code>:</p>
     <pre><code class="sprak-razor">&lt;div class="top-row ps-3 navbar navbar-dark"&gt;
-        &lt;div class="container-fluid"&gt;
-            &lt;a class="navbar-brand" href=""&gt;Webbresan&lt;/a&gt;
-        &lt;/div&gt;
+    &lt;div class="container-fluid"&gt;
+        &lt;a class="navbar-brand" href=""&gt;Webbresan&lt;/a&gt;
     &lt;/div&gt;
+&lt;/div&gt;
 
-    &lt;input type="checkbox" title="Navigeringsmeny" class="navbar-toggler" /&gt;
+&lt;input type="checkbox" title="Navigeringsmeny" class="navbar-toggler" /&gt;
 
-    &lt;div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()"&gt;
-        &lt;nav class="nav flex-column"&gt;
-            &lt;div class="nav-item px-3"&gt;
-                &lt;NavLink class="nav-link" href="" Match="NavLinkMatch.All"&gt;Start&lt;/NavLink&gt;
-            &lt;/div&gt;
-            &lt;div class="nav-item px-3"&gt;
-                &lt;NavLink class="nav-link" href="adressen"&gt;Adressen&lt;/NavLink&gt;
-            &lt;/div&gt;
-            &lt;div class="nav-item px-3"&gt;
-                &lt;NavLink class="nav-link" href="svaret"&gt;Svaret&lt;/NavLink&gt;
-            &lt;/div&gt;
-            &lt;div class="nav-item px-3"&gt;
-                &lt;NavLink class="nav-link" href="arkitekturen"&gt;Arkitekturen&lt;/NavLink&gt;
-            &lt;/div&gt;
-        &lt;/nav&gt;
-    &lt;/div&gt;</code></pre>
+&lt;div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()"&gt;
+    &lt;nav class="nav flex-column"&gt;
+        &lt;div class="nav-item px-3"&gt;
+            &lt;NavLink class="nav-link" href="" Match="NavLinkMatch.All"&gt;Start&lt;/NavLink&gt;
+        &lt;/div&gt;
+        &lt;div class="nav-item px-3"&gt;
+            &lt;NavLink class="nav-link" href="adressen"&gt;Adressen&lt;/NavLink&gt;
+        &lt;/div&gt;
+        &lt;div class="nav-item px-3"&gt;
+            &lt;NavLink class="nav-link" href="svaret"&gt;Svaret&lt;/NavLink&gt;
+        &lt;/div&gt;
+        &lt;div class="nav-item px-3"&gt;
+            &lt;NavLink class="nav-link" href="arkitekturen"&gt;Arkitekturen&lt;/NavLink&gt;
+        &lt;/div&gt;
+    &lt;/nav&gt;
+&lt;/div&gt;</code></pre>
     <p><strong>Varför det ser ut så.</strong></p>
     <p><code>NavLink</code> är en komponent, inte en vanlig <code>&lt;a&gt;</code>. Skillnaden är att den själv märker när den pekar på sidan du står på och sätter klassen <code>active</code>. Därför markeras rätt menypost automatiskt.</p>
     <p><code>Match="NavLinkMatch.All"</code> behövs bara på startsidan. Utan den skulle länken till <code>""</code> räknas som aktiv på <strong>alla</strong> sidor, eftersom varje adress börjar med <code>/</code>.</p>
@@ -372,58 +372,58 @@
     <p><strong>Filen.</strong> Skapa <code>Components/Pages/Arkitekturen.razor</code></p>
     <pre><code class="sprak-razor">@page "/arkitekturen"
 
-    &lt;PageTitle&gt;Arkitekturen – Webbresan&lt;/PageTitle&gt;
+&lt;PageTitle&gt;Arkitekturen – Webbresan&lt;/PageTitle&gt;
 
-    &lt;h1&gt;Steg 5: hur den här sajten är byggd&lt;/h1&gt;
+&lt;h1&gt;Steg 5: hur den här sajten är byggd&lt;/h1&gt;
 
-    &lt;p&gt;
-        Sidan du läser är inte en fil som ligger färdig på servern. Den sätts ihop av
-        flera filer varje gång någon ber om den. Så här går det till, i ordning.
-    &lt;/p&gt;
+&lt;p&gt;
+    Sidan du läser är inte en fil som ligger färdig på servern. Den sätts ihop av
+    flera filer varje gång någon ber om den. Så här går det till, i ordning.
+&lt;/p&gt;
 
-    &lt;table class="tabell"&gt;
-        &lt;caption&gt;Filerna i projektet och vad de gör&lt;/caption&gt;
-        &lt;thead&gt;
+&lt;table class="tabell"&gt;
+    &lt;caption&gt;Filerna i projektet och vad de gör&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope="col"&gt;Ordning&lt;/th&gt;
+            &lt;th scope="col"&gt;Fil&lt;/th&gt;
+            &lt;th scope="col"&gt;Ansvar&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        @foreach (var steg in kedjan)
+        {
             &lt;tr&gt;
-                &lt;th scope="col"&gt;Ordning&lt;/th&gt;
-                &lt;th scope="col"&gt;Fil&lt;/th&gt;
-                &lt;th scope="col"&gt;Ansvar&lt;/th&gt;
+                &lt;th scope="row"&gt;@steg.Ordning&lt;/th&gt;
+                &lt;td&gt;&lt;code&gt;@steg.Fil&lt;/code&gt;&lt;/td&gt;
+                &lt;td&gt;@steg.Ansvar&lt;/td&gt;
             &lt;/tr&gt;
-        &lt;/thead&gt;
-        &lt;tbody&gt;
-            @foreach (var steg in kedjan)
-            {
-                &lt;tr&gt;
-                    &lt;th scope="row"&gt;@steg.Ordning&lt;/th&gt;
-                    &lt;td&gt;&lt;code&gt;@steg.Fil&lt;/code&gt;&lt;/td&gt;
-                    &lt;td&gt;@steg.Ansvar&lt;/td&gt;
-                &lt;/tr&gt;
-            }
-        &lt;/tbody&gt;
-    &lt;/table&gt;
+        }
+    &lt;/tbody&gt;
+&lt;/table&gt;
 
-    &lt;h2&gt;Kedjan i en mening&lt;/h2&gt;
+&lt;h2&gt;Kedjan i en mening&lt;/h2&gt;
 
-    &lt;p&gt;
-        &lt;code&gt;Program.cs&lt;/code&gt; startar servern, &lt;code&gt;App.razor&lt;/code&gt; bygger
-        HTML-dokumentet, &lt;code&gt;Routes.razor&lt;/code&gt; väljer sida utifrån adressen,
-        &lt;code&gt;MainLayout.razor&lt;/code&gt; lägger ramen runt, och sidan själv fyller i
-        innehållet.
-    &lt;/p&gt;
+&lt;p&gt;
+    &lt;code&gt;Program.cs&lt;/code&gt; startar servern, &lt;code&gt;App.razor&lt;/code&gt; bygger
+    HTML-dokumentet, &lt;code&gt;Routes.razor&lt;/code&gt; väljer sida utifrån adressen,
+    &lt;code&gt;MainLayout.razor&lt;/code&gt; lägger ramen runt, och sidan själv fyller i
+    innehållet.
+&lt;/p&gt;
 
-    @code {
-        private record Steg(int Ordning, string Fil, string Ansvar);
+@code {
+    private record Steg(int Ordning, string Fil, string Ansvar);
 
-        private readonly Steg[] kedjan =
-        [
-            new(1, "Program.cs", "Startar webbservern och bestämmer vad den kan svara på."),
-            new(2, "Components/App.razor", "Själva HTML-dokumentet: html, head och body."),
-            new(3, "Components/Routes.razor", "Matchar adressen mot rätt sida. Ingen träff ger NotFound."),
-            new(4, "Components/Layout/MainLayout.razor", "Ramen som alla sidor delar: meny och innehållsyta."),
-            new(5, "Components/Pages/Arkitekturen.razor", "Den här sidan. Fyller @Body i layouten."),
-            new(6, "wwwroot/app.css", "Utseendet. Skickas som en egen fil till webbläsaren.")
-        ];
-    }</code></pre>
+    private readonly Steg[] kedjan =
+    [
+        new(1, "Program.cs", "Startar webbservern och bestämmer vad den kan svara på."),
+        new(2, "Components/App.razor", "Själva HTML-dokumentet: html, head och body."),
+        new(3, "Components/Routes.razor", "Matchar adressen mot rätt sida. Ingen träff ger NotFound."),
+        new(4, "Components/Layout/MainLayout.razor", "Ramen som alla sidor delar: meny och innehållsyta."),
+        new(5, "Components/Pages/Arkitekturen.razor", "Den här sidan. Fyller @Body i layouten."),
+        new(6, "wwwroot/app.css", "Utseendet. Skickas som en egen fil till webbläsaren.")
+    ];
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong> Ordningen i tabellen är den ordning filerna faktiskt körs i vid en förfrågan. Öppna filerna vid sidan av och läs dem i den ordningen – det är den enda gången under kursen du kommer att göra det, och det är den bästa halvtimme du kan lägga på att förstå ramverket.</p>
     <p>Att skriva den här sidan är hela poängen med uppgiften. Du kan inte beskriva filerna utan att ha öppnat dem.</p>
     <p><strong>Kontrollera.</strong> Gå till <code>/arkitekturen</code>. Öppna sedan var och en av de sex filerna och kontrollera att din beskrivning stämmer.</p>
@@ -432,44 +432,44 @@
     <p><strong>Vad vi gör.</strong> Lägger till fyra klasser sist i stilmallen.</p>
     <p><strong>Filen.</strong> <code>wwwroot/app.css</code>, lägg till längst ned:</p>
     <pre><code class="sprak-css">/* Webbresan */
-    .adress {
-        font-family: monospace;
-        font-size: 1.1rem;
-        background: #f3f3f3;
-        padding: .6rem .8rem;
-        border-left: 4px solid #1b6ec2;
-        overflow-wrap: anywhere;
-    }
+.adress {
+    font-family: monospace;
+    font-size: 1.1rem;
+    background: #f3f3f3;
+    padding: .6rem .8rem;
+    border-left: 4px solid #1b6ec2;
+    overflow-wrap: anywhere;
+}
 
-    .bevis {
-        background: #eef6ff;
-        border: 1px solid #b9d8ff;
-        padding: .8rem 1rem;
-    }
+.bevis {
+    background: #eef6ff;
+    border: 1px solid #b9d8ff;
+    padding: .8rem 1rem;
+}
 
-    .tabell {
-        border-collapse: collapse;
-        width: 100%;
-        margin: 1rem 0;
-    }
+.tabell {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+}
 
-    .tabell caption {
-        text-align: left;
-        font-weight: 600;
-        padding-bottom: .4rem;
-    }
+.tabell caption {
+    text-align: left;
+    font-weight: 600;
+    padding-bottom: .4rem;
+}
 
-    .tabell th,
-    .tabell td {
-        border: 1px solid #d0d0d0;
-        padding: .4rem .6rem;
-        text-align: left;
-        vertical-align: top;
-    }
+.tabell th,
+.tabell td {
+    border: 1px solid #d0d0d0;
+    padding: .4rem .6rem;
+    text-align: left;
+    vertical-align: top;
+}
 
-    .tabell thead th {
-        background: #f3f3f3;
-    }</code></pre>
+.tabell thead th {
+    background: #f3f3f3;
+}</code></pre>
     <p><strong>Varför det ser ut så.</strong> Stilmallen är en egen fil som webbläsaren hämtar separat. Öppna nätverksfliken och ladda om: du ser <code>app.css</code> som ett eget anrop med egen statuskod. Det är samma resa som HTML-sidan gjorde, en gång till.</p>
     <p><strong>Kontrollera.</strong> Tabellerna har ramar och beviset på startsidan har blå bakgrund.</p>
     <p><strong>I ditt projekt.</strong> Egna klassnamn och egna färger om du vill.</p>

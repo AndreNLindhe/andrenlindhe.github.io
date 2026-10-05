@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Område 6: datadriven applikation – CRUD, relationer och inloggning</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o6-start">
+
+<header class="topp">
+  <a href="../index.html">← Webbserverprogrammering 1</a>
+  <span class="harifran"><strong>Område 6</strong> · Datadriven applikation</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#lektioner">1. Fjorton lektioner</a></li>
+      <li><a href="#kunna">2. Det här ska sitta</a></li>
+      <li><a href="#tysta">3. Fel som inte syns</a></li>
+      <li><a href="#igang">4. Kom igång</a></li>
+      <li><a href="#felsokning">5. Felsökning</a></li>
+      <li><a href="#orden">6. Orden</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 6 · v.2–10</p>
+    <h1>Datadriven applikation – CRUD, relationer och inloggning</h1>
+    <p class="inledning">Vårterminens första och största projekt. Höstens delar sätts
+      ihop till en riktig applikation: komponenterna visar, tjänsterna gör arbetet, och
+      databasen minns. Din applikation får alla fyra operationerna, en kategori i en
+      egen tabell, en sökning som görs av databasen, och en inloggning som skyddar
+      allt som ändrar något.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-03-08">
+        <span class="nar">8 mars</span>
+        <span class="vad">Projekt 1 – Datadriven webbapplikation, kl 23:59
+          <small>Repots adress lämnas i itslearning. Fyra etapper före det, med egna datum.</small></span>
+        <span class="kvar"></span>
+      </li>
+      <li data-datum="2027-03-09">
+        <span class="nar">9 mars</span>
+        <span class="vad">Prov 4 – databas och datadriven applikation
+          <small>80 minuter, utan dator. Täcker område 5 och 6.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <div class="rutnat">
+      <a class="kort webb" href="guide.html">
+        <span class="sort">Guide · hela området</span>
+        <span class="rubrik">Filmarkivet, steg för steg</span>
+        <p>Tjugosex steg med all kod, uppdelade efter lektionerna. Följ den här om du
+          missat ett pass.</p>
+      </a>
+      <a class="kort webb" href="uppgift.html">
+        <span class="sort">Projekt 1</span>
+        <span class="rubrik">Datadriven webbapplikation</span>
+        <p>Fem etapper med datum, en kontroll per etapp, och kraven för E, C och A med
+          kryssrutor där de hör hemma.</p>
+      </a>
+      <a class="kort gran" href="provet.html">
+        <span class="sort">Prov 4 · 9 mars</span>
+        <span class="rubrik">Vad provet prövar</span>
+        <p>Formen, de fyra frågetyperna med körda exempel, och sexton
+          repetitionsfrågor.</p>
+      </a>
+    </div>
+
+    <h2 id="lektioner">1. Fjorton lektioner</h2>
+    <p>Sju genomgångar i början, sedan mest arbetspass. Kolumnen längst till höger
+      säger vad du gör om du var borta.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>#</th><th>Datum</th><th>Längd</th><th>Vad vi gör</th><th>Missade du passet?</th></tr></thead>
+        <tbody>
+          <tr><td>35</td><td>ons 13 jan</td><td>45 min</td>
+            <td>Vårterminen: från övningar till projekt. Projekt 1 delas ut och läses
+              tillsammans. Vad en projektplan är, och varför den bedöms.</td>
+            <td><a href="uppgift.html#uppdelningen">Uppgiften: så är den uppdelad</a>,
+              <a href="uppgift.html#etapp-1">etapp 1</a>, och
+              <a href="../omrade-5/terminen.html#varen">vårens fyra projekt</a></td></tr>
+          <tr><td>36</td><td>tis 19 jan</td><td>85 min</td>
+            <td>CRUD i praktiken. Ändra och ta bort, och listvyn med sortering och sidor i
+              adressen.</td>
+            <td><a href="guide.html#steg-1">Guiden steg 1–4</a>, särskilt de två fällorna
+              i <a href="guide.html#steg-3">steg 3</a></td></tr>
+          <tr><td>37</td><td>ons 20 jan</td><td>45 min</td>
+            <td>Relationer i code-first. Kategorin, den främmande nyckeln, och migrationen
+              som kan gå sönder på din egen databas. <b>Projektplanen committad.</b></td>
+            <td><a href="guide.html#steg-5">Guiden steg 5–9</a>, särskilt
+              <a href="guide.html#steg-6">steg 6</a></td></tr>
+          <tr><td>38</td><td>tis 26 jan</td><td>85 min</td>
+            <td>LINQ: filtrera, sortera och söka. SQL-loggningen, sökningen i databasen,
+              och varför databasen inte kan svenska.</td>
+            <td><a href="guide.html#steg-10">Guiden steg 10–13</a></td></tr>
+          <tr><td>39</td><td>ons 27 jan</td><td>45 min</td>
+            <td>Egen validering. Ett eget attribut, en regel över två fält, och en regel
+              som kräver databasen.</td>
+            <td><a href="guide.html#steg-14">Guiden steg 14–16</a></td></tr>
+          <tr><td>40</td><td>tis 2 feb</td><td>85 min</td>
+            <td>Inloggning och behörighet. Identity, inloggningssidan, och att skydda
+              sidan i stället för att dölja länken.</td>
+            <td><a href="guide.html#steg-17">Guiden steg 17–23</a>, särskilt
+              <a href="guide.html#steg-21">steg 21</a></td></tr>
+          <tr><td>41</td><td>ons 3 feb</td><td>45 min</td>
+            <td>Kodningsstandard och dokumentation. Kodgranskning i par.</td>
+            <td><a href="guide.html#steg-24">Guiden steg 24</a> och
+              <a href="uppgift.html#etapp-4">granskningen i etapp 4</a></td></tr>
+          <tr><td>42</td><td>tis 9 feb</td><td>85 min</td>
+            <td>Arbetspass. <b>Milstolpe 1:</b> kategorin, relationen och
+              migrationen.</td>
+            <td><a href="uppgift.html#etapp-2">Etapp 2</a>, med milstolpens kontroll</td></tr>
+          <tr><td>43</td><td>ons 10 feb</td><td>45 min</td>
+            <td>Renderingslägen: statisk och interaktiv. Varför knapparna i en tabell
+              inte gör något. <em>Sportlov veckan efter.</em></td>
+            <td><a href="guide.html#steg-25">Guiden steg 25–26</a></td></tr>
+          <tr><td>44</td><td>tis 23 feb</td><td>85 min</td>
+            <td>Arbetspass. Alla fyra operationerna, inför milstolpen dagen efter.</td>
+            <td><a href="uppgift.html#etapp-3">Etapp 3</a></td></tr>
+          <tr><td>45</td><td>ons 24 feb</td><td>45 min</td>
+            <td>Arbetspass. <b>Milstolpe 2:</b> alla fyra CRUD-operationerna, kontrollerade
+              av någon annan.</td>
+            <td><a href="uppgift.html#etapp-3">Etapp 3</a>, med milstolpens kontroll</td></tr>
+          <tr><td>46</td><td>tis 2 mars</td><td>85 min</td>
+            <td>Arbetspass. Avstämning med läraren, en och en, och
+              självgranskningen.</td>
+            <td><a href="uppgift.html#etapp-4">Etapp 4</a>, med självgranskningen och
+              avstämningens fyra kontroller</td></tr>
+          <tr><td>47</td><td>ons 3 mars</td><td>45 min</td>
+            <td>Arbetspass och sista finputs. Uppföljningen, <code>README.md</code>, och vad
+              provet prövar.</td>
+            <td><a href="uppgift.html#etapp-5">Etapp 5</a> och
+              <a href="provet.html">vad prov 4 prövar</a></td></tr>
+          <tr><td>48</td><td>tis 9 mars</td><td>85 min</td>
+            <td>Prov 4 – databas och datadriven applikation. 80 minuter, utan dator.</td>
+            <td><a href="provet.html">Vad prov 4 prövar</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kunna">2. Det här ska sitta</h2>
+    <ul>
+      <li>Du kan säga vilken tjänstemetod som motsvarar var och en av de fyra
+        CRUD-bokstäverna i ditt projekt.</li>
+      <li>Du kan förklara varför ändringssidan hämtar posten med <code>??=</code>, och
+        varför borttagning aldrig sker på en GET.</li>
+      <li>Du kan namnge de tre egenskaperna i en en-till-många-relation och säga vilken
+        av dem som blir en kolumn.</li>
+      <li>Du kan förklara varför navigationsegenskapen är tom utan <code>Include</code>,
+        och att det sker utan felmeddelande.</li>
+      <li>Du kan säga när en <code>IQueryable</code> går till databasen, och visa ett
+        fall där sökningen i databasen och i C# ger olika svar.</li>
+      <li>Du kan placera en regel i rätt sorts validering: attribut,
+        <code>IValidatableObject</code> eller en kontroll mot databasen.</li>
+      <li>Du kan skilja autentisering från auktorisering, och visa att en dold länk inte
+        skyddar sidan.</li>
+      <li>Du kan förklara varför knapparna i en <code>QuickGrid</code> inte gör något
+        under statisk serverrendering.</li>
+      <li>Du kan skriva en projektplan, följa den upp, och säga ärligt vad som inte
+        blev som planerat.</li>
+    </ul>
+
+    <h2 id="tysta">3. Fel som inte syns</h2>
+    <p>Hittills har de flesta fel sagt ifrån: bygget misslyckas, migrationen avbryts,
+      sidan svarar 500. Det här området har fler fel än något tidigare som inte säger
+      någonting alls.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det du ser</th><th>Det som hände</th><th>Guiden</th></tr></thead>
+        <tbody>
+          <tr><td>Ändringen sparades, sidan gick tillbaka till listan</td><td>Ändringen är borta – <code>=</code> i stället för <code>??=</code></td><td><a href="guide.html#steg-3">Steg 3</a></td></tr>
+          <tr><td>Ändringen sparades</td><td>Det blev en post till – det dolda fältet för <code>Id</code> saknas</td><td><a href="guide.html#steg-3">Steg 3</a></td></tr>
+          <tr><td>Detaljsidan ser ut som förut</td><td>Kategorin skulle ha stått där – <code>Include</code> saknas</td><td><a href="guide.html#steg-7">Steg 7</a></td></tr>
+          <tr><td>Menylänken är borta för den som är utloggad</td><td>Sidan svarar ändå, för den som vet adressen</td><td><a href="guide.html#steg-21">Steg 21</a></td></tr>
+          <tr><td>Utloggningsformuläret har en token</td><td>Ingen kontrollerar den, och vilken sajt som helst kan logga ut besökaren</td><td><a href="guide.html#steg-23">Steg 23</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Gör Kontrollera-raden, också när allt ser rätt ut</span>
+      <p>Varje steg i guiden slutar med en kontroll. I det här området är den inte en
+        formalitet: den är det enda sättet att se felen ovan. Och varje etapp i
+        uppgiften har en kontroll du gör själv, med samma skäl.</p>
+    </div>
+
+    <h2 id="igang">4. Kom igång</h2>
+    <p>Du börjar inte om. Området bygger vidare på projektet från område 5.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Det du gör</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Starta ditt projekt från område 5. Lägg till en post via formuläret, stoppa servern och starta igen. Finns posten kvar är du redo. Ny dator efter lovet? Klona repot och kör <code>dotnet ef database update</code>.</td></tr>
+          <tr><td>2</td><td>Kontrollera att <code>dotnet ef --version</code> svarar. Gör den inte det: <code>dotnet tool install --global dotnet-ef</code>, en gång.</td></tr>
+          <tr><td>3</td><td>Läs <a href="uppgift.html">uppgiften</a> från början till slut, och se hur den är uppdelad i etapper.</td></tr>
+          <tr><td>4</td><td>Fyll i <a href="guide.html#sjalv">guidens översättningstabell</a> för din domän. Den blir första delen av projektplanen.</td></tr>
+          <tr><td>5</td><td>Skriv <code>PROJEKTPLAN.md</code> och committa den senast onsdag 20 januari – <a href="uppgift.html#etapp-1">etapp 1</a>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <pre><code>dotnet ef --version
+dotnet ef database update</code></pre>
+
+    <p>Mappstrukturen du är på väg mot:</p>
+
+    <pre><code>DittProjekt/
+├── Components/
+│   ├── Layout/
+│   │   └── NavMenu.razor        AuthorizeView runt administrationens länkar
+│   └── Pages/
+│       ├── AdminPoster.razor    listvyn: sortering och sidor i adressen  [Authorize]
+│       ├── NyPost.razor         formuläret från område 5, med rullista    [Authorize]
+│       ├── AndraPost.razor      samma formulär mot en befintlig post      [Authorize]
+│       ├── TaBortPost.razor     bekräftelse, och en POST som tar bort     [Authorize]
+│       ├── Kategorisidan.razor  en kategori och dess poster
+│       └── LoggaIn.razor
+├── Data/
+│   └── DittProjektContext.cs    IdentityDbContext, två DbSet
+├── Migrations/                  minst tre – redigeras aldrig för hand
+├── Models/                      huvudentiteten och kategorin
+├── Services/                    två tjänster, två gränssnitt
+├── Validering/                  ditt eget attribut
+├── PROJEKTPLAN.md
+├── README.md
+└── UPPFOLJNING.md</code></pre>
+
+    <p>Committa efter varje pass. Uppgiften kräver commits på minst åtta olika dagar,
+      och historiken är det som visar hur arbetet gick.</p>
+
+    <h2 id="felsokning">5. Felsökning</h2>
+    <p>Sök på felmeddelandet du fick, eller på ett ord ur det. Kolumnen <em>när</em>
+      säger om felet kommer vid bygget, vid migrationen, vid sidvisningen – eller
+      aldrig, och då är det de tysta felen ovan. Den fullständiga tabellen står i
+      <a href="guide.html#fel">guiden</a>.</p>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: FOREIGN KEY, Include, 404, token" autocomplete="off">
+      <p class="traffar" id="traffar-fel">18 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>När</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td><code>SQLite Error 19: 'FOREIGN KEY constraint failed'</code> vid <code>database update</code></td><td>migrationen</td><td>Dina egna rader fick <code>0</code> som kategori</td><td><code>migrations remove</code>, <code>HasDefaultValue</code> med ett id som finns, ny migration. <a href="guide.html#steg-6">Steg 6</a>.</td></tr>
+          <tr><td>Migrationen står som <em>(Pending)</em></td><td>migrationen</td><td><code>database update</code> misslyckades eller kördes aldrig</td><td>Läs felet och kör <code>database update</code> igen.</td></tr>
+          <tr><td><code>The entity type 'IdentityPasskeyData' requires a primary key</code></td><td>migrationen</td><td><code>base.OnModelCreating(byggare)</code> saknas</td><td>Lägg raden först i <code>OnModelCreating</code>. <a href="guide.html#steg-17">Steg 17</a>.</td></tr>
+          <tr><td><code>The seed entity for entity type … has the navigation … set</code></td><td>migrationen</td><td>Frödatan anger kategorin som objekt</td><td>Ange den främmande nyckeln, inte navigationsegenskapen.</td></tr>
+          <tr><td><code>CS0182: An attribute argument must be a constant expression</code></td><td>bygget</td><td>Något som räknas ut i ett attributs argument</td><td>Skriv ett eget attribut. <a href="guide.html#steg-14">Steg 14</a>.</td></tr>
+          <tr><td><code>RZ10012</code> om <code>AuthorizeView</code></td><td>bygget</td><td><code>@using</code> saknas</td><td><code>@using Microsoft.AspNetCore.Components.Authorization</code> i <code>_Imports.razor</code>.</td></tr>
+          <tr><td><code>Cannot parse the value 'abc' as type</code> – 500</td><td>sidvisning</td><td>En parameter ur adressen är <code>int?</code></td><td>Läs den som <code>string?</code> och tolka med <code>int.TryParse</code>. <a href="guide.html#steg-2">Steg 2</a>.</td></tr>
+          <tr><td><code>The LINQ expression … could not be translated</code> – 500</td><td>sidvisning</td><td>Något i <code>Where</code> finns inte i SQL</td><td><code>EF.Functions.Like</code>, eller filtrera i C# efter hämtningen – och motivera det.</td></tr>
+          <tr><td><code>There is no registered service of type 'SignInManager…'</code></td><td>sidvisning</td><td><code>.AddSignInManager()</code> saknas</td><td>Sist i kedjan efter <code>AddIdentityCore</code>. <a href="guide.html#steg-18">Steg 18</a>.</td></tr>
+          <tr><td><code>Authorization requires a cascading parameter</code> – 500 på varje sida</td><td>sidvisning</td><td><code>AddCascadingAuthenticationState</code> saknas</td><td>En rad i <code>Program.cs</code>.</td></tr>
+          <tr><td>Utloggad hamnar på <code>/Account/Login</code> och får 404</td><td>sidvisning</td><td><code>ConfigureApplicationCookie</code> saknas</td><td><code>LoginPath = "/konto/logga-in"</code>. <a href="guide.html#steg-18">Steg 18</a>.</td></tr>
+          <tr><td>En POST svarar <b>400</b></td><td>sidvisning</td><td>Antiforgery-token saknas</td><td><code>EditForm</code> eller <code>&lt;AntiforgeryToken /&gt;</code>.</td></tr>
+          <tr><td><em>Fel e-post eller lösenord.</em> med rätt uppgifter</td><td>sidvisning</td><td>Användaren skapades aldrig – lösenordet var för kort</td><td>Minst åtta tecken. Kontrollera <code>AspNetUsers</code>.</td></tr>
+          <tr><td>Ändringen sparas inte</td><td>aldrig</td><td><code>=</code> i stället för <code>??=</code></td><td><a href="guide.html#steg-3">Steg 3</a>.</td></tr>
+          <tr><td>En ändring blir en ny post</td><td>aldrig</td><td>Dolda fältet för <code>Id</code> saknas eller heter fel</td><td><code>name="Film.Id"</code> – modellens namn, punkt, egenskapen.</td></tr>
+          <tr><td>Kategorin syns inte</td><td>aldrig</td><td><code>Include</code> saknas</td><td><a href="guide.html#steg-7">Steg 7</a>.</td></tr>
+          <tr><td>Utloggad kommer åt en sida som ändrar data</td><td>aldrig</td><td>Bara menylänken är dold</td><td><code>[Authorize]</code> på sidan. <a href="guide.html#steg-22">Steg 22</a>.</td></tr>
+          <tr><td>Sökningen hittar inget med versaler</td><td>aldrig</td><td>SQLite viker bara A–Z</td><td>Förväntat. Välj var sökningen görs, och skriv varför. <a href="guide.html#steg-12">Steg 12</a>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="orden">6. Orden</h2>
+    <p>Orden nedan används från och med nu utan förklaring. Träna tills du kan dem –
+      prov 4 frågar efter flera av dem i klartext.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>CRUD</b></td><td><em>Create, Read, Update, Delete</em> – de fyra sakerna man gör med data.</td></tr>
+          <tr><td><b>främmande nyckel</b></td><td>En kolumn som pekar på en rad i en annan tabell. <code>GenreId</code> pekar på en genre.</td></tr>
+          <tr><td><b>navigationsegenskap</b></td><td>En egenskap som håller det relaterade objektet. Ligger inte i någon kolumn, och är tom tills den beställs.</td></tr>
+          <tr><td><b>en-till-många</b></td><td>Många poster hör till en kategori. En kategori har många poster.</td></tr>
+          <tr><td><b>Include</b></td><td>Säger åt EF Core att hämta relaterad data i samma fråga. Blir en <code>JOIN</code>.</td></tr>
+          <tr><td><b>cascade delete</b></td><td>Tas kategorin bort, tas dess poster bort också. <code>ON DELETE CASCADE</code>.</td></tr>
+          <tr><td><b>LINQ</b></td><td>Metoderna <code>Where</code>, <code>OrderBy</code>, <code>Select</code> med flera – samma namn i C# och mot databasen.</td></tr>
+          <tr><td><b>IQueryable</b></td><td>En fråga som inte körts än. Den går till databasen först vid <code>ToListAsync</code>.</td></tr>
+          <tr><td><b>frågesträng</b></td><td>Delen av adressen efter <code>?</code>, till exempel <code>?sortera=titel&amp;sida=2</code>. Skrivs av besökaren.</td></tr>
+          <tr><td><b>ValidationAttribute</b></td><td>Basklassen för <code>[Required]</code> och <code>[Range]</code> – och för dina egna attribut.</td></tr>
+          <tr><td><b>IValidatableObject</b></td><td>Ett gränssnitt för regler som gäller hela objektet. Körs efter attributen, och bara om de gick igenom.</td></tr>
+          <tr><td><b>ValidationMessageStore</b></td><td>Stället där formulärets fel samlas. Dit lägger du ett fel som kräver databasen.</td></tr>
+          <tr><td><b>Identity</b></td><td>ASP.NET Cores system för användare, lösenord och inloggning.</td></tr>
+          <tr><td><b>hash</b></td><td>En envägsomvandling av lösenordet. Går att jämföra med, men inte att räkna tillbaka.</td></tr>
+          <tr><td><b>autentisering</b></td><td>Att ta reda på vem du är. Inloggningen.</td></tr>
+          <tr><td><b>auktorisering</b></td><td>Att avgöra vad du får göra. <code>[Authorize]</code>.</td></tr>
+          <tr><td><b>AuthorizeView</b></td><td>Visar innehåll bara för den som är inloggad. Bestämmer vad som ritas, inte vad som går att nå.</td></tr>
+          <tr><td><b>endpoint</b></td><td>En adress som svarar på förfrågningar utan att vara en sida. <code>app.MapPost</code>.</td></tr>
+          <tr><td><b>antiforgery-token</b></td><td>Ett värde i formuläret som bevisar att det kom från din egen sajt. Skyddar bara om servern kontrollerar det.</td></tr>
+          <tr><td><b>open redirect</b></td><td>En sida som skickar besökaren vidare till en adress ur frågesträngen, också till andra sajter.</td></tr>
+          <tr><td><b>renderingsläge</b></td><td>Om en komponent renderas en gång på servern, eller hålls levande över en uppkoppling.</td></tr>
+          <tr><td><b>krets</b></td><td>Uppkopplingen och komponenten som lever på servern i interaktivt läge.</td></tr>
+          <tr><td><b>förrendering</b></td><td>Att en interaktiv komponent först renderas statiskt, så att något syns direkt. Livscykeln körs därför två gånger.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="guide.html">Till guiden</a> ·
+        <a href="uppgift.html">Till uppgiften</a> ·
+        <a href="provet.html">Vad prov 4 prövar</a> ·
+        <a href="../index.html">Tillbaka till kursstarten</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
