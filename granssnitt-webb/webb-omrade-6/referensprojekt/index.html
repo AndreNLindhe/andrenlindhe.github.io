@@ -1,0 +1,114 @@
+<!doctype html>
+<!-- Språket sätts på html-elementet. Skärmläsaren väljer uttal utifrån det,
+     och stavningskontrollen i webbläsaren rättar mot rätt språk. -->
+<html lang="sv">
+<head>
+  <!-- charset ska stå först i head. Står den längre ned har webbläsaren redan
+       hunnit gissa, och då blir å ä ö fel. -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Varje sida har en egen title. Den syns i fliken, i bokmärken och i
+       sökresultat, och den läses upp först av allt av en skärmläsare. -->
+  <title>Fyrar längs Bohuskusten</title>
+  <link rel="stylesheet" href="stil.css">
+  <!-- Skripten ligger i egna filer i skript/. defer gör att de väntar tills hela sidan
+       är läst, så att elementen de letar efter finns. Ljudmodulen står först, eftersom
+       andra skript kan vilja använda dess funktion spela. Pass 48. -->
+  <script src="skript/ljud.js" defer></script>
+  <script src="skript/morkt-lage.js" defer></script>
+</head>
+<body>
+
+<!-- Skip-länken är det första som får fokus när man tabbar. Den syns bara då, och
+     hoppar förbi navigeringen direkt till innehållet. Pass 40. -->
+<a class="till-innehallet" href="#innehall">Till innehållet</a>
+
+<!-- header är sidhuvudet: det som hör till sidan som helhet, inte till en
+     enskild artikel. -->
+<header>
+  <p>Fyrar längs Bohuskusten</p>
+
+  <!-- nav märker ut den huvudsakliga navigeringen. En skärmläsare kan hoppa
+       direkt hit, eller hoppa förbi den. Samma nav ligger på alla fem sidor. -->
+  <nav>
+    <ul>
+      <li><a href="index.html">Start</a></li>
+      <li><a href="fyrarna.html">Alla fyrar</a></li>
+      <li><a href="vinga.html">Vinga</a></li>
+      <li><a href="rapportera.html">Rapportera en fyr</a></li>
+    </ul>
+  </nav>
+
+  <!-- Lägesknappen byter mellan ljust och mörkt. hidden gör den osynlig tills
+       skriptet visar den: utan JavaScript gör knappen ingenting, och då ska den inte
+       synas. data-ljud låter ljudmodulen spela vaxla.mp3 vid klick. Pass 48. -->
+  <button class="lage-knapp" type="button" data-ljud="vaxla" hidden>Mörkt läge</button>
+</header>
+
+<!-- main är sidans egna innehåll. Exakt ett main per sida, och varken header,
+     nav eller footer ligger inuti det. -->
+<main id="innehall">
+  <!-- En h1 per sida. Den säger vad just den här sidan handlar om. -->
+  <h1>Fyrar längs Bohuskusten</h1>
+
+  <p>Den här sajten samlar fyra fyrar mellan Göteborg och Strömstad: när de byggdes,
+    hur högt de lyser och hur långt ljuset når. Uppgifterna är hämtade ur Sjöfartsverkets
+    öppna register.</p>
+
+  <!-- picture byter bild efter bredd, inte bara storlek. På telefonen visas en
+       beskuren version där tornet fyller bilden; i den breda skulle det bli en prick.
+       source har srcset och sizes men ingen alt: alt sitter alltid på img, och
+       gäller vilken fil som än hämtas. Pass 38. -->
+  <figure class="foto">
+    <picture>
+      <source media="(min-width: 40em)"
+              srcset="bilder/vinga-960.jpg 960w, bilder/vinga-1200.jpg 1200w"
+              sizes="36rem">
+      <img src="bilder/vinga-smal.jpg" width="480" height="600"
+           alt="Vinga fyr, ett grått stentorn på en kal klippa, med öppet hav bakom.">
+    </picture>
+    <figcaption>Vinga, den sydligaste av de fyra.</figcaption>
+  </figure>
+
+  <!-- figure knyter ihop en bild med sin bildtext. Skillnaden mot en vanlig img
+       med ett stycke under är att kopplingen blir maskinläsbar. -->
+  <figure>
+    <img src="bilder/kustkarta.svg" width="420" height="300"
+         alt="Karta över Bohuskusten med fyra fyrar utmärkta som punkter: Vinga längst i söder, därefter Hållö, Måseskär och Nordkoster längst i norr.">
+    <figcaption>De fyra fyrarna, söderifrån räknat.</figcaption>
+  </figure>
+
+  <!-- section grupperar en del av sidan som hör ihop och har en egen rubrik.
+       Rubriknivån går från h1 till h2 utan att hoppa över något steg. -->
+  <section>
+    <h2>Vad en fyr gör</h2>
+    <p>En fyr talar om två saker för den som är ute på vattnet: <em>här är land</em> och
+      <em>här är du</em>. Det andra är det svåra. Två fyrar som blinkar likadant är
+      oanvändbara, så varje fyr har ett eget mönster.</p>
+
+    <h3>Karaktären</h3>
+    <p>Mönstret kallas fyrens karaktär och skrivs som en kod. <code>Fl(2) 10s</code> betyder
+      två blink var tionde sekund. Den som ser mönstret vet vilken fyr det är, och därmed
+      var på kartan hon befinner sig.</p>
+  </section>
+
+  <section>
+    <h2>Så är sajten uppbyggd</h2>
+    <!-- En vanlig oordnad lista. Länktexterna går att förstå lösryckta: den som
+         hoppar mellan länkarna med tangentbordet hör bara länktexten. -->
+    <ul class="kortlista">
+      <li><a href="fyrarna.html">Jämför alla fyra fyrarna i en tabell</a></li>
+      <li><a href="vinga.html">Läs mer om Vinga, den sydligaste</a></li>
+      <li><a href="rapportera.html">Rapportera en fyr som saknas</a></li>
+    </ul>
+  </section>
+</main>
+
+<!-- footer hör till sidan som helhet, precis som header. -->
+<footer>
+  <p>Referensprojekt till Webbutveckling, område 2. Uppgifterna är förenklade och
+    sajten är ett läromedel, inte en sjökortsersättning.</p>
+</footer>
+
+</body>
+</html>

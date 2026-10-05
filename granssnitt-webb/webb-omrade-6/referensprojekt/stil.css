@@ -1,0 +1,658 @@
+/* Fyrar längs Bohuskusten – stilmall
+   Referensprojekt till Webbutveckling, område 6.
+
+   Samma sajt som i område 5, nu med JavaScript. Stilmallen är fortfarande byggd mobile
+   first: reglerna utanför alla media queries är telefonens, och bredare skärmar lägger
+   till.
+
+   Det som är nytt i område 6 är märkt med passets nummer, 47–48: mörkt läge,
+   lägesknappen och fältet som visar att det är rätt ifyllt. Skripten i skript/ rör
+   aldrig utseendet direkt. De sätter och tar bort klasser, och allt som syns står här.
+   Resten är kvar från område 3 och 5 och har sina gamla passnummer.
+
+   Kommentarerna förklarar varför något är skrivet som det är, inte vad egenskapen
+   heter – det står i guiden. En bra kommentar går att använda av den som undrar om
+   regeln kan tas bort. */
+
+
+/* ---------- 1. Variablerna (pass 22) ----------------------------------------
+
+   Alla värden bor på ett ställe. Ändras en färg här slår den igenom överallt, och det
+   är precis vad du vill när stilguiden ändras efter att CSS:en är skriven.
+
+   :root är dokumentets rot – html-elementet. Egenskaper som definieras där ärvs ned
+   till allt annat, och därför når var() dem varsomhelst i filen.
+
+   Namnen beskriver vad värdet är till för, inte hur det ser ut. --text säger något om
+   användningen, --morkbla skulle sluta stämma första gången färgen byts. */
+
+:root {
+  /* Färg. Skrivsätten blandas här för att visa alla tre – i en riktig stilmall
+     väljer du ett och håller dig till det. */
+  --text: #1c2733;                      /* hex */
+  --text-dov: rgb(92 108 126);          /* rgb */
+  --botten: hsl(206 40% 98%);           /* hsl */
+  --yta: #ffffff;
+  --linje: #d4dde6;                     /* avdelare och kort, bär ingen betydelse */
+  --linje-falt: #76869a;                /* fältkanter: 3,7:1 mot --yta. Pass 40 */
+  --accent: #17607a;
+  --accent-ljus: hsl(196 55% 94%);
+  --accent-hover: hsl(196 65% 24%);     /* knappen vid hover. Pass 48 */
+  --pa-accent: #ffffff;                 /* text på accentfärgen. Pass 48 */
+  --varning: #a8321f;
+  --klar: #2e7d4f;                      /* rätt ifyllt: 5,1:1 mot --yta. Pass 47 */
+
+  /* Typografi. Stackar, inte enskilda typsnitt: går det första inte att hämta
+     används nästa, och sist en generisk familj som alltid finns. */
+  --brodtext: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --rubrik: Georgia, "Times New Roman", serif;
+  --kod: "Cascadia Mono", Consolas, monospace;
+
+  /* Avstånd. En enda skala, byggd på samma grundtal. Att avstånden är släkt med
+     varandra är det som gör att sidan ser sammanhållen ut. */
+  --steg-1: 0.5rem;
+  --steg-2: 1rem;
+  --steg-3: 1.5rem;
+  --steg-4: 2.5rem;
+  --steg-5: 4rem;
+
+  --radie: 6px;
+  --matt: 68ch;                         /* läsbar radlängd */
+
+  /* Kontrasten mot --botten ska klara 4.5:1 för all text. --linje klarar inte ens
+     3:1, och används därför bara där kanten inte betyder något. Fält har en egen,
+     mörkare kant. Pass 40. */
+}
+
+/* Mörkt läge (pass 48).
+
+   Samma variabelnamn, andra värden. Resten av stilmallen märker ingenting: den frågar
+   efter --text och --botten, och får det läge som gäller. Det är därför färgerna
+   flyttades till variabler redan i pass 22.
+
+   De mörka värdena står två gånger, och det är avsiktligt:
+
+   1. Systemet vill ha mörkt, och användaren har inte valt ljust med knappen. Det här
+      fungerar utan JavaScript, eftersom det bara är CSS som frågar systemet.
+   2. Användaren har valt mörkt med knappen. Skriptet sätter klassen morkt på html.
+
+   Ändras ett mörkt värde ändras det på båda ställena. Kontrasten är mätt på samma sätt
+   som i ljust läge: 4.5:1 för text, 3:1 för fältkanter och fokusring.
+
+   color-scheme säger åt webbläsaren att också fälten och rullningslisterna ska vara
+   mörka. */
+@media (prefers-color-scheme: dark) {
+  :root:not(.ljust) {
+    color-scheme: dark;
+    --text: #e3eaf1;
+    --text-dov: #a3b3c3;
+    --botten: #0f1a24;
+    --yta: #172431;
+    --linje: #2c3d4d;
+    --linje-falt: #7b8ea1;              /* 4,7:1 mot --yta */
+    --accent: #6cc3de;
+    --accent-ljus: #16323d;
+    --accent-hover: #96d6ea;
+    --pa-accent: #0f1a24;
+    --varning: #ff8f7a;
+    --klar: #5ec98c;
+  }
+}
+
+:root.morkt {
+  color-scheme: dark;
+  --text: #e3eaf1;
+  --text-dov: #a3b3c3;
+  --botten: #0f1a24;
+  --yta: #172431;
+  --linje: #2c3d4d;
+  --linje-falt: #7b8ea1;
+  --accent: #6cc3de;
+  --accent-ljus: #16323d;
+  --accent-hover: #96d6ea;
+  --pa-accent: #0f1a24;
+  --varning: #ff8f7a;
+  --klar: #5ec98c;
+}
+
+
+/* ---------- 2. Grunden (pass 20) --------------------------------------------
+
+   box-sizing: border-box gör att width räknar in padding och border. Utan den blir
+   ett element med width: 300px och padding: 20px faktiskt 340px brett, och all
+   layout blir en räkneövning.
+
+   Regeln sätts på allt, inklusive ::before och ::after, en gång och för alltid. Det
+   är den första raden i nästan varje stilmall som skrivs idag. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Webbläsarens förvalda marginal på body är 8px och kommer alltid i vägen. */
+/* Mindre luft runt sidan än i område 3. På en telefon på 320 px är varje pixel i
+   kanten en pixel mindre till texten. Pass 36. */
+body {
+  margin: 0;
+  padding: var(--steg-3) var(--steg-2);
+  background: var(--botten);
+  color: var(--text);
+
+  /* line-height utan enhet: 1.6 gånger elementets egen teckenstorlek. Med enhet
+     (1.6rem) skulle ärvda rader räknas mot rotens storlek i stället för mot sin
+     egen, och rubriker skulle få för glesa rader. */
+  font-family: var(--brodtext);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Alla bilder, inte bara de i figure som i område 3. max-width gör att bilden aldrig
+   blir bredare än sin behållare, height: auto att proportionerna behålls när den
+   krymper. width och height i HTML:en ska stå kvar – de talar om proportionerna
+   innan bilden laddats, så att sidan inte hoppar. Pass 38.
+
+   display: block tar bort glipan under bilden: img är inline och står annars på
+   textens baslinje. */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Långa ord och adresser utan mellanslag kan inte radbrytas och skjuter ut sidan i
+   sidled på en smal skärm. Pass 36. */
+p, li, dd, td {
+  overflow-wrap: break-word;
+}
+
+
+/* ---------- 3. Typografi och färg (pass 21) ---------------------------------
+
+   Rubrikerna får en egen stack. Skillnaden mellan rubrik och brödtext är ett av de
+   billigaste sätten att göra en sida läsbar.
+
+   Storlekarna är i rem, alltså relativa till rotens teckenstorlek. Ändrar besökaren
+   sin webbläsares textstorlek följer allt med. Med px gör det inte det. */
+
+h1, h2, h3 {
+  font-family: var(--rubrik);
+  line-height: 1.25;
+  margin: 0 0 var(--steg-2);
+}
+
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.15rem; }
+
+/* Marginal bara nedåt på styckena. Sätter du marginal både uppåt och nedåt möts de
+   två och den större vinner – marginalkollaps. Det är inte ett fel, men det är
+   lättare att aldrig hamna där. */
+p {
+  margin: 0 0 var(--steg-2);
+  max-width: var(--matt);
+}
+
+/* Radlängden är läsbarhetens viktigaste mått. ch är bredden på tecknet 0, så 68ch är
+   ungefär 68 tecken – nära det spann ögat klarar utan att tappa raden. */
+
+code {
+  font-family: var(--kod);
+  font-size: 0.9em;                     /* em: relativt elementet omkring */
+  background: var(--accent-ljus);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+em, i { color: var(--text-dov); }
+
+
+/* ---------- 4. Selektorer och kaskad (pass 19) ------------------------------
+
+   Fyra sorters selektorer på samma sorts element, i stigande specificitet:
+
+     a              elementselektor            0-0-1
+     .tillbaka      klasselektor               0-1-0
+     nav a          två element                0-0-2
+     #toppen        id-selektor                1-0-0
+
+   Vinner gör den med högst specificitet, inte den som står sist – ordningen i filen
+   avgör bara mellan regler som väger lika.
+
+   Prova: byt färg på a-regeln nedan och se att länkarna i nav inte ändras. */
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover { text-decoration-thickness: 2px; }
+
+/* :focus-visible träffar bara när fokus syns för tangentbordsanvändaren, inte vid
+   musklick. Ta aldrig bort markeringen utan att sätta en egen i stället – den som
+   navigerar med tabb tappar annars bort sig helt. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Skip-länken. position: absolute lyfter den ur flödet, och top flyttar den upp
+   utanför skärmen. När den får fokus flyttas den in. Den göms inte med display: none
+   – då går den inte att tabba till, och då finns den inte. Pass 40. */
+.till-innehallet {
+  position: absolute;
+  top: -4rem;
+  left: var(--steg-2);
+  z-index: 1;
+  padding: var(--steg-1) var(--steg-2);
+  background: var(--yta);
+  font-weight: 600;
+}
+
+.till-innehallet:focus {
+  top: var(--steg-2);
+}
+
+/* Klasselektor. Punkten betyder klass. */
+.tillbaka {
+  font-size: 0.9rem;
+  color: var(--text-dov);
+}
+
+/* En id-selektor, med i exemplet för att visa vad specificitet innebär. Fungerar,
+   men undvik den i eget arbete: id är unikt per sida, så regeln går aldrig att
+   återanvända, och den är svår att skriva över när den väl står där. */
+#toppen {
+  font-size: 1.15rem;
+  color: var(--text-dov);
+}
+
+
+/* ---------- 5. Boxmodellen i praktiken (pass 20) ----------------------------
+
+   content, padding, border, margin – inifrån och ut. padding är avståndet innanför
+   kanten, margin utanför den. Bakgrundsfärgen når ut till kanten, alltså täcker den
+   padding men inte margin. */
+
+header,
+main,
+footer {
+  max-width: 72rem;
+  margin-inline: auto;                  /* auto på båda sidorna centrerar */
+}
+
+header {
+  padding-bottom: var(--steg-2);
+  border-bottom: 2px solid var(--linje);
+  margin-bottom: var(--steg-4);
+}
+
+header > p:first-child {
+  font-family: var(--rubrik);
+  font-size: 1.25rem;
+  margin: 0 0 var(--steg-2);
+}
+
+/* Lägesknappen, sist i sidhuvudet. Pass 48.
+
+   Här finns ingen display-regel, och det är avsiktligt. Knappen har attributet hidden
+   i HTML:en, och webbläsaren döljer den med display: none. En display-regel här skulle
+   vinna över det, och då syntes en knapp som inte gör något för den som har JavaScript
+   avstängt. Skriptet tar bort hidden.
+
+   Knappen har samma text i båda lägena. Läget syns i aria-pressed, som skärmläsaren
+   läser upp som nedtryckt eller inte, och i knappens utseende nedan. */
+.lage-knapp {
+  font: inherit;
+  min-height: 2.75rem;                  /* samma träffyta som navigeringen */
+  margin-top: var(--steg-2);
+  padding: var(--steg-1) var(--steg-2);
+  border: 1px solid var(--linje-falt);
+  border-radius: var(--radie);
+  background: var(--yta);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.lage-knapp[aria-pressed="true"] {
+  background: var(--text);
+  color: var(--botten);
+  border-color: var(--text);
+}
+
+footer {
+  margin-top: var(--steg-5);
+  padding-top: var(--steg-2);
+  border-top: 1px solid var(--linje);
+  color: var(--text-dov);
+  font-size: 0.9rem;
+}
+
+section { margin-bottom: var(--steg-4); }
+
+figure {
+  margin: 0 0 var(--steg-3);
+  padding: var(--steg-2);
+  background: var(--yta);
+  border: 1px solid var(--linje);
+  border-radius: var(--radie);
+  width: fit-content;
+}
+
+/* Figuren är högst 36rem bred. Samma mått står i sizes i HTML:en – ändras det ena
+   måste det andra ändras också, annars hämtar webbläsaren fel fil. Bilden inuti blir
+   en aning smalare, eftersom figurens padding ligger innanför de 36rem. Det gör
+   ingenting: sizes får gärna vara lite för stort, då blir bilden aldrig suddig.
+   Pass 38. */
+.foto {
+  width: auto;
+  max-width: 36rem;
+}
+
+.foto img {
+  width: 100%;
+}
+
+figcaption {
+  margin-top: var(--steg-1);
+  font-size: 0.9rem;
+  color: var(--text-dov);
+}
+
+
+/* ---------- 6. Flexbox (pass 23, 36, 37, 40) -------------------------------
+
+   Navigeringen. Staplad på telefon, en rad från 28em.
+
+   Grundstilen är telefonens: en länk per rad, stora ytor att träffa med tummen.
+   gap ersätter marginaler på varje punkt – med marginaler blir det alltid ett
+   överskott i ena kanten. Pass 36. */
+
+nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--steg-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* 28em: här ryms alla fyra länkarna på en rad. Staplade tar de fyra rader höjd för
+   ingenting, och sidans innehåll hamnar under kanten på en liggande telefon.
+
+   em i stället för px: har användaren valt större text flyttar brytpunkten med, och
+   navigeringen staplas igen när länkarna inte längre ryms. flex-wrap finns kvar för
+   det fallet mellan 28em och den bredd där allt får plats. Pass 37. */
+@media (min-width: 28em) {
+  nav ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--steg-1) var(--steg-3);   /* rad, kolumn */
+  }
+}
+
+/* min-height i stället för height, så att länken kan växa om texten förstoras.
+   2.75rem är 44 px, stilguidens träffyta. WCAG kräver 24 × 24 på nivå AA – 44 är
+   ett designbeslut över kravet. Pass 40. */
+nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: var(--steg-1) 0;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+nav a:hover { text-decoration: underline; }
+
+
+/* ---------- 7. Grid (pass 24) -----------------------------------------------
+
+   Två rutnät, av olika skäl.
+
+   Kortlistan: repeat med auto-fit och minmax. Varje kort är minst 16rem och delar
+   annars på utrymmet lika. Antalet kolumner räknas ut av webbläsaren efter hur brett
+   det är – ingen media query behövs, och layouten fungerar i bredder ingen testat. */
+
+.kortlista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--steg-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.kortlista li {
+  background: var(--yta);
+  border: 1px solid var(--linje);
+  border-radius: var(--radie);
+}
+
+.kortlista a {
+  display: block;
+  padding: var(--steg-2);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.kortlista li:hover { border-color: var(--accent); }
+
+/* Beskrivningslistan: term till vänster, förklaring till höger. max-content ger
+   termkolumnen exakt den bredd den längsta termen behöver, 1fr ger förklaringen
+   resten. Två rader CSS ersätter det som annars kräver en tabell. */
+dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--steg-1) var(--steg-3);
+  margin: 0;
+  max-width: var(--matt);
+}
+
+dt { font-weight: 700; }
+dd { margin: 0; }
+
+/* Sidlayouten på Vinga-sidan: rubrik och innehållsförteckning över hela bredden,
+   därefter artikeln och faktarutan bredvid varandra.
+
+   1 / -1 betyder från första linjen till den sista, alltså hela raden oavsett hur
+   många kolumner det blev. Artikeln och faktarutan får ingen placering alls – de
+   fyller nästa lediga plats, och hamnar under varandra av sig själva när fönstret
+   blir för smalt för två kolumner.
+
+   grid-template-areas, som ritar layouten med namn i CSS:en, hade också gått att
+   använda här. Den är läsbar men låser antalet kolumner: namnrutnätet måste ha lika
+   många kolumner på varje rad, och då går det inte att kombinera med auto-fit. Vill
+   du ha båda behöver du en media query. Guidens avsnitt om grid visar hur.
+
+   Ordningen i markeringen ändras inte av något av det här. Det är viktigt: en
+   skärmläsare och en tangentbordsanvändare följer HTML:en, inte rutnätet. */
+.sidlayout {
+  display: grid;
+  gap: var(--steg-3) var(--steg-4);
+  align-items: start;
+}
+
+.sidlayout > h1,
+.sidlayout > nav {
+  grid-column: 1 / -1;
+}
+
+/* En kolumn är förvalet. Först när fönstret är brett nog för två läsbara spalter
+   delas ytan – artikeln får tre fjärdedelar, faktarutan en.
+
+   Galleriet klarar sig med auto-fit, men det fungerar bara för lika stora saker. En
+   artikel med sidospalt är två olika saker, och då måste brytpunkten sättas för hand.
+
+   56em: under den blir faktarutan i en fjärdedels spalt så smal att raderna får
+   några få ord var. Samma brytpunkt som i område 3, nu i em i stället för rem.
+   Pass 37. */
+@media (min-width: 56em) {
+  .sidlayout {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  }
+}
+
+
+/* ---------- 8. Komponenter med tillstånd (pass 25) --------------------------
+
+   En komponent är inte klar när den ser rätt ut i vila. Den behöver ett utseende för
+   hover, för fokus, för avstängt läge och för fel – annars vet användaren inte om
+   något hände. */
+
+.knapp {
+  font: inherit;                        /* knappar ärver inte typsnitt av sig själva */
+  background: var(--accent);
+  color: var(--pa-accent);              /* variabel sedan pass 48, så att mörkt läge når den */
+  border: 1px solid transparent;
+  border-radius: var(--radie);
+  padding: var(--steg-1) var(--steg-3);
+  cursor: pointer;
+}
+
+.knapp:hover { background: var(--accent-hover); }
+
+/* En mjuk övergång i färgen vid hover. Den som bett sitt system om mindre rörelse
+   får ingen övergång alls – bytet sker direkt. Vem som behöver det går
+   Gränssnittsdesign igenom. Pass 38. */
+.knapp {
+  transition: background-color 0.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .knapp {
+    transition: none;
+  }
+}
+
+.knapp:disabled {
+  background: var(--linje);
+  color: var(--text-dov);
+  cursor: not-allowed;
+}
+
+.faktaruta {
+  background: var(--accent-ljus);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 var(--radie) var(--radie) 0;
+  padding: var(--steg-2) var(--steg-3);
+}
+
+.faktaruta h2 { font-size: 1.15rem; }
+.faktaruta p:last-child { margin-bottom: 0; }
+
+
+/* ---------- 9. Tabellen ------------------------------------------------------
+
+   border-collapse: collapse gör att intilliggande celler delar kantlinje i stället
+   för att lägga två bredvid varandra. Utan den blir rutnätet dubbelt så tjockt på
+   insidan som i ytterkanten. */
+
+/* Fem kolumner får inte plats på en telefon. Svepet låter tabellen rulla i sidled
+   inuti sin egen behållare, i stället för att skjuta ut hela sidan. min-width ser
+   till att den faktiskt rullar i stället för att pressa ihop cellerna. */
+.tabellsvep {
+  overflow-x: auto;
+  margin-bottom: var(--steg-3);
+}
+
+.tabellsvep table { min-width: 34rem; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: var(--yta);
+  margin-bottom: var(--steg-3);
+}
+
+caption {
+  text-align: left;
+  font-weight: 700;
+  padding-bottom: var(--steg-1);
+}
+
+th, td {
+  text-align: left;
+  padding: var(--steg-1) var(--steg-2);
+  border-bottom: 1px solid var(--linje);
+}
+
+thead th {
+  background: var(--accent-ljus);
+  border-bottom: 2px solid var(--accent);
+}
+
+/* Radrubrikerna är th, inte td, och kan därför stilsättas för sig. Att markeringen
+   var rätt i område 2 är det som gör den här regeln möjlig. */
+tbody th { font-weight: 700; }
+
+tbody tr:hover { background: var(--accent-ljus); }
+
+
+/* ---------- 10. Formuläret ---------------------------------------------------
+
+   Fälten ärver inte typsnitt från body – webbläsaren ger dem sitt eget. font: inherit
+   är därför nödvändig, inte kosmetisk. */
+
+fieldset {
+  border: 1px solid var(--linje);
+  border-radius: var(--radie);
+  background: var(--yta);
+  padding: var(--steg-2) var(--steg-3);
+  margin: 0 0 var(--steg-3);
+  max-width: var(--matt);
+}
+
+legend {
+  font-weight: 700;
+  padding-inline: var(--steg-1);
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 0.2em;
+  font-weight: 600;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  width: 100%;
+  max-width: 24rem;
+  padding: var(--steg-1);
+  border: 1px solid var(--linje-falt);  /* med --linje syntes fälten inte. Pass 40 */
+  border-radius: var(--radie);
+  background: var(--yta);
+  color: var(--text);
+}
+
+textarea { max-width: 32rem; }
+
+/* Ett obligatoriskt fält som fyllts i fel. :invalid gäller så fort fältet inte
+   uppfyller sina regler, också innan användaren rört det – därför kombineras den
+   här med :not(:placeholder-shown) i riktiga formulär. Det ligger utanför området,
+   men det är värt att veta varför regeln nedan inte är hela sanningen. */
+input:invalid {
+  border-color: var(--varning);
+}
+
+/* Fältet är rätt ifyllt. En stapel till vänster, inte bara färg, så att det syns
+   också för den som inte skiljer färgerna åt. Värdena kommer ur överlämningen. */
+input.godkant {
+  border-color: var(--klar);
+  box-shadow: inset 0.3rem 0 0 var(--klar);
+  transition: border-color 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  input.godkant {
+    transition: none;
+  }
+}

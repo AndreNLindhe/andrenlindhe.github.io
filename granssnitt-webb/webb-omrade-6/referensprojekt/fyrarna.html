@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alla fyrar – Fyrar längs Bohuskusten</title>
+  <link rel="stylesheet" href="stil.css">
+  <!-- Skripten ligger i egna filer i skript/. defer gör att de väntar tills hela sidan
+       är läst, så att elementen de letar efter finns. Ljudmodulen står först, eftersom
+       andra skript kan vilja använda dess funktion spela. Pass 48. -->
+  <script src="skript/ljud.js" defer></script>
+  <script src="skript/morkt-lage.js" defer></script>
+</head>
+<body>
+
+<!-- Skip-länken är det första som får fokus när man tabbar. Den syns bara då, och
+     hoppar förbi navigeringen direkt till innehållet. Pass 40. -->
+<a class="till-innehallet" href="#innehall">Till innehållet</a>
+
+<header>
+  <p>Fyrar längs Bohuskusten</p>
+  <nav>
+    <ul>
+      <li><a href="index.html">Start</a></li>
+      <li><a href="fyrarna.html">Alla fyrar</a></li>
+      <li><a href="vinga.html">Vinga</a></li>
+      <li><a href="rapportera.html">Rapportera en fyr</a></li>
+    </ul>
+  </nav>
+
+  <!-- Lägesknappen byter mellan ljust och mörkt. hidden gör den osynlig tills
+       skriptet visar den: utan JavaScript gör knappen ingenting, och då ska den inte
+       synas. data-ljud låter ljudmodulen spela vaxla.mp3 vid klick. Pass 48. -->
+  <button class="lage-knapp" type="button" data-ljud="vaxla" hidden>Mörkt läge</button>
+</header>
+
+<main id="innehall">
+  <h1>Alla fyrar</h1>
+
+  <p>Fyra fyrar, söderifrån räknat. Höjden mäts från vattenytan till ljuskällan, inte till
+    tornets topp – det är höjden över vattnet som avgör hur långt ljuset når.</p>
+
+  <!-- En datatabell. Tabeller är till för data som hör ihop i rader och kolumner,
+       aldrig för att placera saker på sidan.
+
+       caption är tabellens rubrik och ska stå först inuti table.
+       thead innehåller kolumnrubrikerna, tbody själva datat.
+       th scope="col" säger att rubriken gäller kolumnen nedanför.
+       th scope="row" säger att rubriken gäller raden till höger.
+
+       Utan scope vet en skärmläsare inte vilken rubrik som hör till vilken cell,
+       och tabellen blir en rad lösryckta tal. -->
+  <div class="tabellsvep">
+    <table>
+      <caption>Fyrarna längs Bohuskusten, söderifrån räknat</caption>
+      <thead>
+        <tr>
+          <th scope="col">Fyr</th>
+          <th scope="col">Byggår</th>
+          <th scope="col">Höjd över vattnet</th>
+          <th scope="col">Räckvidd</th>
+          <th scope="col">Karaktär</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row"><a href="vinga.html">Vinga</a></th>
+          <td>1841</td>
+          <td>28 m</td>
+          <td>17 M</td>
+          <td>Fl(2) 10s</td>
+        </tr>
+        <tr>
+          <th scope="row">Hållö</th>
+          <td>1842</td>
+          <td>30 m</td>
+          <td>18 M</td>
+          <td>Fl(3) 15s</td>
+        </tr>
+        <tr>
+          <th scope="row">Måseskär</th>
+          <td>1865</td>
+          <td>32 m</td>
+          <td>19 M</td>
+          <td>Fl 5s</td>
+        </tr>
+        <tr>
+          <th scope="row">Nordkoster</th>
+          <td>1850</td>
+          <td>25 m</td>
+          <td>16 M</td>
+          <td>Fl(4) 20s</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <section>
+    <h2>Om måtten</h2>
+    <!-- En beskrivningslista passar när varje post är ett begrepp med en
+         förklaring. dt är termen, dd är förklaringen. -->
+    <dl>
+      <dt>M</dt>
+      <dd>Nautisk mil, 1 852 meter. Räckvidden anges alltid i nautiska mil.</dd>
+
+      <dt>Fl</dt>
+      <dd>Från engelskans <i lang="en">flash</i>. Siffran inom parentes är antalet blink,
+        talet efter är hur ofta mönstret upprepas.</dd>
+
+      <dt>Höjd över vattnet</dt>
+      <dd>Avståndet från medelvattenytan till ljuskällan. En hög fyr på ett lågt skär kan
+        ha samma höjd över vattnet som en låg fyr på en klippa.</dd>
+    </dl>
+  </section>
+</main>
+
+<footer>
+  <p>Referensprojekt till Webbutveckling, område 2. Uppgifterna är förenklade och
+    sajten är ett läromedel, inte en sjökortsersättning.</p>
+</footer>
+
+</body>
+</html>

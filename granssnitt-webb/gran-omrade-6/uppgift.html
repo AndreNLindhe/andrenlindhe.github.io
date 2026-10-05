@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uppgift 6 – Testrapport – Gränssnittsdesign område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="gran-6-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Uppgift 6</strong> · Testrapport</span>
+  <a href="../datum.html">Viktiga datum</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#utgar">2. Vad du utgår från</a></li>
+      <li><a href="#ska">3. Ska-krav</a></li>
+      <li><a href="#bor">4. Bör-krav</a></li>
+      <li><a href="#utmaning">5. Utmaningar</a></li>
+      <li><a href="#tekniska">6. Tekniska krav</a></li>
+      <li><a href="#matris">7. Bedömningsmatris</a></li>
+      <li><a href="#kom-igang">8. Kom igång</a></li>
+      <li><a href="#misstag">9. Vanliga misstag</a></li>
+      <li><a href="#lamna-in">10. Innan du lämnar in</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Gränssnittsdesign · område 6</p>
+    <h1>Uppgift 6 – Testrapport</h1>
+    <p class="inledning">Deadline torsdag <b>11 februari kl 23:59</b>. Lämnas på
+      designportföljens sida <code>06 Test</code>.</p>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+
+    <p>Du ska ta reda på <b>om din sajt fungerar för någon annan än dig</b>, och i så fall
+      för vem. Det gör du med två metoder som hittar olika saker: en <b>granskning mot
+      WCAG</b>, där du prövar sajten mot kriterier, och ett <b>användartest</b>, där tre
+      personer försöker göra något på den medan du tittar på utan att hjälpa.</p>
+
+    <p>I december granskades din sajt heuristiskt av en klasskamrat. Det var en
+      expertgranskning, billig och snabb, och den hittar ungefär hälften av det riktiga
+      användare stöter på. Nu kommer den andra halvan. <b>Två metoder som hittar olika
+      fel</b>, inte en bättre och en sämre, och rapporten ska visa skillnaden.</p>
+
+    <p>Blocket har en ordning, och uppgiften följer den: <b>granskning → åtgärder →
+      test</b>.</p>
+
+    <ol class="steg">
+      <li><b>Granskningen</b>, 18 januari. Du går igenom din sajt mot guidens
+        WCAG-checklista.</li>
+      <li><b>Åtgärderna</b>, i Webbutveckling. Bristerna du hittar åtgärdar du i koden,
+        framför allt den 27 januari.</li>
+      <li><b>Testet</b>, 4 februari. Användartestet görs på sajten efter åtgärderna.</li>
+    </ol>
+
+    <p>Rapporten kan därför säga något som ingen av metoderna kan säga ensam: vad
+      granskningen hittade, vad som blev rättat, och vad testpersonerna ändå fastnade på.</p>
+
+    <p>Tillgänglighet finns i båda kurserna, och här går gränsen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Här handlar det om</th><th>I Webbutveckling om</th></tr></thead>
+        <tbody>
+          <tr><td>Kravet: vad WCAG säger, vem det gäller, nivå A och AA</td>
+            <td>Koden som uppfyller kravet: <code>label</code>, <code>:focus-visible</code>, kontrast i CSS-variablerna</td></tr>
+          <tr><td>Hur hjälpmedlen används och hur sajten upplevs med dem</td>
+            <td>Att tangentbordet når allt, som en rad i testprotokollet</td></tr>
+          <tr><td>Vad automatiska verktyg hittar, vad de missar och vad de larmar om i onödan</td>
+            <td>Att ett verktyg körts och felen rättats</td></tr>
+          <tr><td>Användartestet: plan, genomförande, analys</td>
+            <td>–</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Hur något byggs läser du alltså där. <b>Här handlar allt om att pröva.</b> Du ska
+      kunna säga vilket kriterium en brist gäller och hur allvarlig den är, inte hur den
+      rättas i CSS.</p>
+
+    <p>Åtgärdslistan i rapporten har samma form som i uppgift 4, så att den går att arbeta
+      efter. Det som inte hunnit rättas följer med dig in i slutprojektet i mars.</p>
+
+    <h2 id="utgar">2. Vad du utgår från</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det här har du redan</th><th>Var det kommer ifrån</th></tr></thead>
+        <tbody>
+          <tr><td>Sajten, handkodad och stilsatt</td><td>Projekt 2 i Webbutveckling, samma sajt som du arbetar med i Projekt 4</td></tr>
+          <tr><td>Typanvändare, fem krav och användarresan</td><td>Uppgift 4, 10 december</td></tr>
+          <tr><td>Den heuristiska granskningen av din sajt</td><td>En klasskamrats åtgärdslista, 10 december</td></tr>
+          <tr><td>Samtycke och dataminimering</td><td>Område 5, 14 december</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kraven och användarresan från uppgift 4 är <b>dina testuppgifter i förväg</b>. Det du
+      lovade att sajten skulle klara i december är det du nu prövar om den klarar.</p>
+
+    <h2 id="ska">3. Ska-krav</h2>
+    <p>Är alla ikryssade och kontrollerade ligger du på <b>E</b>.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska-listan">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>En <b>WCAG-granskning</b> av din sajt mot guidens checklista: varje kriterium uppfyllt, brist eller inte tillämpligt, med nivå A eller AA</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span><b>Skärmbild på varje brist</b>, med sidan och elementet utpekade</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Sajten <b>navigerad med enbart tangentbord</b>, och det du hittade antecknat</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span><b>Ett automatiskt verktyg</b> kört på minst två sidor, och fynden listade</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>En <b>testplan</b>: syfte, tre testuppgifter, vad du mäter i varje uppgift, och vad du säger innan testet börjar</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span><b>Tre testpersoner</b>, varav <b>minst en utanför klassen</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span><b>Samtycke</b> från varje testperson, och personerna <b>anonymiserade</b> i rapporten</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span><b>Anteckningar från varje test</b>: vad personen gjorde, var hen fastnade, vad hen sa</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>En <b>sammanställning</b> av fynden: vilka problem, och hur många av testpersonerna som stötte på vart och ett</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>En <b>prioriterad åtgärdslista</b> med motivering till varje prioritet</span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span>En <b>utvärdering av din egen testmetod</b>: vad fungerade, vad skulle du göra om</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bor">4. Bör-krav</h2>
+    <p>Skillnaden mellan en rapport som listar och en som drar slutsatser. Nivå <b>C</b>.</p>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor-listan">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span><b>Testuppgifterna kommer ur kraven</b> från uppgift 4, och rapporten säger vilka krav som höll och vilka som inte gjorde det</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Verktygets fynd är <b>sorterade i äkta fel och falsklarm</b>, och du kan visa en brist som verktyget missade men granskningen hittade</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span><b>Testplanen är kamratgranskad och pilottestad</b>, och du kan säga vad som ändrades efter piloten och varför</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span><b>Prioriteringen väger allvar mot insats</b>. En brist som stoppar alla går före en som stör en person, även om den är dyrare att rätta</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Rapporten <b>jämför metoderna</b>: vad granskningen hittade som testet inte hittade, och tvärtom</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Rapporten säger <b>vilka brister från granskningen som rättades</b> i Webbutveckling före testet, och om testpersonerna märkte skillnad</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="utmaning">5. Utmaningar</h2>
+    <p>Nivå <b>A</b>. Ta dem när ska- och bör-kraven sitter.</p>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning-listan">Utmaningar <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span><b>Alla tre testpersonerna utanför klassen</b>, och minst en motsvarar en av dina typanvändare</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>En testuppgift <b>genomförd med skärmläsare</b>, av dig eller en testperson, med anteckningar om hur sajten lät</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Ett fall där <b>kriteriet var uppfyllt men testpersonen ändå fastnade</b>, eller tvärtom, och vad det säger om granskningen som metod</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>Utvärderingen föreslår <b>en konkret ändring i metoden</b> och motiverar den med något som hände under testerna</span></label></li>
+        <li><label><input type="checkbox" id="utm-5"><span>Rapporten går att <b>läsa av någon som inte var med</b> och ge samma prioritering. Prövat på en kamrat</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="tekniska">6. Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Vad som gäller</th></tr></thead>
+        <tbody>
+          <tr><td>Var det lämnas</td><td>Designportföljens sida <code>06 Test</code>. Text i textramar, skärmbilder som bilder, tabeller som tabeller</td></tr>
+          <tr><td>WCAG-granskningen</td><td>Tabell: <b>kriterium</b>, <b>nivå</b> (A eller AA), <b>resultat</b> (uppfyllt, brist, inte tillämpligt), <b>var</b> (sida och element). Kriterierna i checklistans ordning</td></tr>
+          <tr><td>Automatiskt verktyg</td><td>Ett av dem i guiden. Ange vilket och vilket datum det kördes</td></tr>
+          <tr><td>Testplanen</td><td>Tre testuppgifter formulerade som ett mål, inte som en instruktion: <i>Ta reda på när …</i>, inte <i>Klicka på …</i>. Varje uppgift har en mätpunkt: klarade, klarade med svårighet, klarade inte</td></tr>
+          <tr><td>Testpersonerna</td><td>Tre stycken, minst en utanför klassen. Anonymiserade: <i>Person B, 45 år, handlar mat på nätet varje vecka</i>. Inga namn, inga bilder där personen syns</td></tr>
+          <tr><td>Samtycke</td><td>Muntligt, efter att personen fått veta vad testet går ut på och att hen kan avbryta. Datum för samtycket antecknat. Ingen ljud- eller videoinspelning sparas</td></tr>
+          <tr><td>Åtgärdslistan</td><td>Samma fyra kolumner som i uppgift 4, <b>nr</b>, <b>var</b>, <b>vad</b>, <b>prioritet</b>, plus <b>motivering</b>. I <i>vad</i> står kriteriet eller testfyndet. Sorterad på prioritet</td></tr>
+          <tr><td>Omfattning</td><td>Sammanställning, analys och utvärdering ungefär 700 ord tillsammans. Anteckningar och tabeller räknas inte</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Raden om testuppgifterna</span>
+      <p>Den brukar missförstås. <i>Klicka på Kontakt och skicka ett meddelande</i> testar om
+        personen kan följa en instruktion. <i>Du vill fråga ägaren om öppettiderna i
+        helgen</i> testar om sajten visar vägen. Det är det andra du vill veta.</p>
+    </div>
+
+    <h2 id="matris">7. Bedömningsmatris</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><b>Tillgänglighetsgranskning</b></td>
+            <td>Sajten är granskad mot checklistan, bristerna har skärmbild, tangentbord och verktyg använda</td>
+            <td>Verktygets fynd är sorterade i äkta fel och falsklarm, med en brist som bara granskningen hittade</td>
+            <td>En testuppgift är gjord med skärmläsare, och ett fall visar skillnaden mellan kriterium och upplevelse</td></tr>
+          <tr><td><b>Testplan</b></td>
+            <td>Tre testuppgifter med mätpunkter och ett manus</td>
+            <td>Uppgifterna kommer ur kraven, och planen är pilottestad och justerad</td>
+            <td>Metoden är vald och anpassad efter sajten och typanvändarna, inte bara ifylld</td></tr>
+          <tr><td><b>Genomförande</b></td>
+            <td>Tre testpersoner, samtycke, anonymiserade anteckningar</td>
+            <td>Anteckningarna skiljer på vad personen gjorde och vad hen sa</td>
+            <td>Alla tre utanför klassen, och minst en motsvarar en typanvändare</td></tr>
+          <tr><td><b>Analys och åtgärdslista</b></td>
+            <td>Fynden är sammanställda, och åtgärdslistan är prioriterad och motiverad</td>
+            <td>Prioriteringen väger allvar mot insats, och metoderna jämförs</td>
+            <td>Rapporten ger samma prioritering hos en läsare som inte var med. Prövat</td></tr>
+          <tr><td><b>Utvärdering av metoden</b></td>
+            <td>Vad fungerade, vad skulle du göra om</td>
+            <td>Utvärderingen pekar på konkreta händelser i testerna</td>
+            <td>En ändring i metoden föreslås och motiveras ur det som hände</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kom-igang">8. Kom igång</h2>
+    <ol class="steg">
+      <li><b>Boka testpersonen utanför klassen nu.</b> Det är det enda i uppgiften som kräver
+        en annan person vid en viss tid. Testet ska vara gjort senast den 8 februari, så att
+        analysen hinner skrivas. Den som väntar testar sin kompis i korridoren.</li>
+      <li><b>Gör granskningen den 18 januari på riktigt.</b> Den är inte en övning. Det du
+        hittar då är det du rättar i Webbutveckling den 27 januari, och det som inte är
+        hittat blir inte rättat före testet.</li>
+      <li><b>Ta testuppgifterna ur uppgift 4.</b> Användarresan säger vad sajtens viktigaste
+        uppgift är, och kraven säger vad som ska gå. Skriv inte nya uppgifter från
+        början.</li>
+      <li><b>Anteckna under testet, tolka efteråt.</b> Under testet skriver du vad som händer,
+        inte vad det betyder. <i>Scrollar upp och ner två gånger, säger "var är menyn"</i> är
+        en anteckning. <i>Menyn är otydlig</i> är en slutsats, och den hör hemma i
+        analysen.</li>
+      <li><b>Skriv utvärderingen samma dag som det sista testet.</b> Om en vecka minns du vad
+        som hände men inte hur det kändes att sitta tyst när någon fastnade.</li>
+    </ol>
+
+    <h2 id="misstag">9. Vanliga misstag</h2>
+    <ul>
+      <li><b>Du hjälper testpersonen.</b> Det är det svåraste och det vanligaste. När hen
+        fastnar är det precis det du letar efter. Säg <i>vad tänker du nu?</i>, inte <i>den
+        ligger längst upp</i>.</li>
+      <li><b>Testuppgifter som instruktioner.</b> <i>Klicka på Om oss</i> säger vart personen
+        ska. Då testas inte navigationen, bara om hen kan läsa.</li>
+      <li><b>Tre klasskamrater som redan sett sajten.</b> De vet var allt ligger. Minst en
+        person utanför klassen är ett krav just av det skälet.</li>
+      <li><b>Verktygets poäng som resultat.</b> Ett automatiskt verktyg ser om en bild har
+        alt-text, inte om texten säger något. Full poäng betyder att verktyget inte hittade
+        något, inte att sajten fungerar.</li>
+      <li><b>Åtgärdslistan i hittad ordning.</b> Samma misstag som i december. Det första du
+        såg är sällan det viktigaste.</li>
+      <li><b>Utvärderingen säger att det gick bra.</b> Den ska säga vad du skulle göra
+        annorlunda. En metod utan brister har du inte utvärderat.</li>
+      <li><b>Personuppgifter i rapporten.</b> Namn, skolklass, en bild där personen syns. Allt
+        du lärde dig om dataminimering i december gäller dina egna testpersoner.</li>
+    </ul>
+
+    <h2 id="lamna-in">10. Innan du lämnar in</h2>
+    <p>Sista passet, 11 februari, är till för det här. Gå igenom i tur och ordning:</p>
+    <ul class="krav">
+      <li><label><input type="checkbox" id="in-1"><span><b>Allt ligger på portföljens sida <code>06 Test</code>.</b> Granskningen, testplanen, anteckningarna, sammanställningen, åtgärdslistan och utvärderingen</span></label></li>
+      <li><label><input type="checkbox" id="in-2"><span><b>Testpersonerna är anonymiserade.</b> Inga namn, ingen bild där någon syns, och samtycket har ett datum</span></label></li>
+      <li><label><input type="checkbox" id="in-3"><span><b>Varje brist i granskningen har kriterium, nivå och skärmbild.</b> En brist utan skärmbild går inte att åtgärda för den som inte var där</span></label></li>
+      <li><label><input type="checkbox" id="in-4"><span><b>Åtgärdslistan har fem kolumner och är sorterad på prioritet.</b> Varje prioritet har en motivering</span></label></li>
+      <li><label><input type="checkbox" id="in-5"><span><b>Utvärderingen säger minst en sak du skulle göra annorlunda.</b> Läs den en gång till och stryk varje mening som bara säger att något gick bra</span></label></li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Punkt 2 går inte att rätta i efterhand</span>
+      <p>Det du lagt upp med ett namn i har redan visats för den som öppnat sidan.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 6</a> ·
+        <a href="../datum.html">Alla viktiga datum</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

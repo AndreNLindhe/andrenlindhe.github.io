@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projekt 5 – Interaktiv sajt – Webbutveckling område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-6-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Projekt 5</strong> · Interaktiv sajt</span>
+  <a href="../datum.html">Viktiga datum</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#utgar">2. Vad du utgår från</a></li>
+      <li><a href="#ska">3. Ska-krav</a></li>
+      <li><a href="#bor">4. Bör-krav</a></li>
+      <li><a href="#utmaning">5. Utmaningar</a></li>
+      <li><a href="#tekniska">6. Tekniska krav</a></li>
+      <li><a href="#matris">7. Bedömningsmatris</a></li>
+      <li><a href="#kom-igang">8. Kom igång</a></li>
+      <li><a href="#misstag">9. Vanliga misstag</a></li>
+      <li><a href="#lamna-in">10. Innan du lämnar in</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling · område 6</p>
+    <h1>Projekt 5 – Interaktiv sajt</h1>
+    <p class="inledning">Deadline tisdag <b>16 mars kl 23:59</b>. Samma sajt som i
+      Projekt 4, nu med ljuden och mikrointeraktionerna från Gränssnittsdesign.</p>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+
+    <p>Du ska bygga in ljuden och mikrointeraktionerna från Gränssnittsdesign i din sajt, med
+      <b>JavaScript</b>, webbens programmeringsspråk. Samma sajt som i Projekt 4, nu med
+      beteende.</p>
+
+    <p>Det här är första gången i kursen du skriver kod som <i>gör</i> något i stället för att
+      <i>vara</i> något. HTML säger vad som finns, CSS hur det ser ut, JavaScript vad som
+      händer när någon använder det. De tre ska hållas isär, och det är ett krav, inte en
+      stilfråga.</p>
+
+    <p><b>Sajten ska fungera fullt ut med JavaScript avstängt.</b> All information går att
+      läsa, alla länkar och formulär fungerar. Det enda som saknas utan JavaScript är ljudet
+      och de tillstånd som bara JavaScript kan sätta. JavaScript lägger till, det bär
+      aldrig.</p>
+
+    <p>Uppgiften är en trappa. Du börjar med kod du inte skrivit själv och slutar, om du
+      siktar högt, med kod någon annan kan använda:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nivå</th><th>Vad du gör med JavaScript</th></tr></thead>
+        <tbody>
+          <tr><td><b>E</b></td><td>Kopplar in och anpassar en färdig modul från referensprojektet, efter överlämningen</td></tr>
+          <tr><td><b>C</b></td><td>Skriver egen, kort händelsekod för en mikrointeraktion och en ljudknapp</td></tr>
+          <tr><td><b>A</b></td><td>Skriver en egen liten modul som fungerar på element den inte byggdes för</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Ljud och rörelse finns i båda kurserna, och här går gränsen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Här handlar det om</th><th>I Gränssnittsdesign om</th></tr></thead>
+        <tbody>
+          <tr><td>Koden: <code>script</code>, händelser, klasser, ljudet som spelas upp</td>
+            <td>Ljudet: inspelning, redigering, att ljuden hör ihop</td></tr>
+          <tr><td>CSS-övergången, med värdena i överlämningen</td>
+            <td>Värdena: varaktighet, tidskurva, utlösare, och varför</td></tr>
+          <tr><td><code>prefers-reduced-motion</code> och ljudknappen i koden</td>
+            <td>Vad som ska hända för den som valt bort ljud eller rörelse</td></tr>
+          <tr><td>Att följa överlämningen, och skriva ner var koden avviker</td>
+            <td>Att skriva överlämningen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Rörelsen görs i CSS. JavaScript byter bara läge.</b> En knapp som visar att den
+      skickar får en klass av JavaScript, och det är CSS som sköter hur den klassen ser ut och
+      hur övergången går. Då fungerar rörelsen för sig, och JavaScript-koden blir kort.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Prov 4 ligger dagen efter inlämningen</span>
+      <p>Onsdag 17 mars. Det prövar att läsa, förutsäga och anpassa kod, utifrån områdets
+        referensprojekt.</p>
+    </div>
+
+    <h2 id="utgar">2. Vad du utgår från</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det här har du redan</th><th>Var det kommer ifrån</th></tr></thead>
+        <tbody>
+          <tr><td>Sajten, responsiv och tillgänglig</td><td>Projekt 4, inlämnad 9 februari</td></tr>
+          <tr><td>Ljudfilerna och överlämningstabellen</td><td>Uppgift 7 i Gränssnittsdesign, överlämnad 8 mars</td></tr>
+          <tr><td>Modulerna att koppla in</td><td>Områdets referensprojekt</td></tr>
+          <tr><td><code>prefers-reduced-motion</code> och <code>dokumentation.md</code></td><td>Område 5</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Överlämningen kommer den 8 mars, och passet den 10 mars är till för att bygga in den.
+      Fram till dess arbetar du med de delar som inte behöver den: skriptfilerna, modulen,
+      beteendet utan JavaScript. Ändras något i överlämningen efter den 8 mars tar du in det
+      fram till deadline.</p>
+
+    <h2 id="ska">3. Ska-krav</h2>
+    <p>Är alla ikryssade och kontrollerade ligger du på <b>E</b>.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska-listan">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>JavaScript ligger i <b>egna <code>.js</code>-filer</b> i mappen <code>skript/</code>, kopplade med <code>script</code> och <code>defer</code> i <code>&lt;head&gt;</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span><b>Ingen JavaScript i HTML-attribut</b>: inget <code>onclick</code>, inget <code>onload</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span><b>Ljudmodulen från referensprojektet är inkopplad</b> och spelar dina tre ljud vid de händelser överlämningen anger</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span><b>Två mikrointeraktioner byggda</b>: rörelsen i CSS med överlämningens varaktighet och tidskurva, tillståndet satt som en klass</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>För den som valt bort rörelse gäller <b>det alternativ överlämningen beskriver</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Varje ljud har den <b>synliga motsvarighet</b> överlämningen anger</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span><b>Sajten fungerar med JavaScript avstängt</b>: allt innehåll, alla länkar, formuläret</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span><b>Inga fel i konsolen</b> på någon sida</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span><code>dokumentation.md</code> har ett avsnitt <b>Skript</b>: en rad per fil om vad den gör, och vad du ändrade i modulen</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span><b>Testprotokollet</b> har rader för två webbläsare med och utan JavaScript</span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span><b>HTML och CSS validerar</b>, och sajten är publicerad</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bor">4. Bör-krav</h2>
+    <p>Skillnaden mellan kod du kopplat in och kod du förstår. Nivå <b>C</b>.</p>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor-listan">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span><b>Egen händelsekod</b> för minst en mikrointeraktion, skriven av dig och inte hämtad ur modulen</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>En <b>ljudknapp</b> som stänger av ljuden och <b>minns valet</b> till nästa besök. Knappen säger om ljudet är på eller av</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span><b>Kommentarer i JavaScript som säger varför</b>, på samma sätt som i stilmallen</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span><b>Överlämningens värden följs</b>, och där koden avviker står det i dokumentationen med skäl</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span><b>Beteendet är skilt från utseendet</b>: JavaScript ändrar klasser, aldrig <code>style</code> direkt</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="utmaning">5. Utmaningar</h2>
+    <p>Nivå <b>A</b>. Ta dem när ska- och bör-kraven sitter.</p>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning-listan">Utmaningar <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>En <b>egen liten modul</b> som styrs med attribut i HTML:en och fungerar på element den inte byggdes för. Prövad på en kamrats sajt</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span><b>Alla mikrointeraktioner går att utlösa med tangentbordet</b>, och återkopplingen når också den som använder skärmläsare</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span><b>Mörkt läge</b> som följer systemets inställning och användarens eget val, med kontrasten kontrollerad i båda lägena</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>Du kan visa <b>vad som händer när ljudfilen saknas</b>, och koden hanterar det utan fel i konsolen</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="tekniska">6. Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Vad som gäller</th></tr></thead>
+        <tbody>
+          <tr><td>Filstruktur</td><td><code>skript/</code> för JavaScript, <code>ljud/</code> för ljudfilerna, bredvid <code>index.html</code>. Fortfarande en <code>stil.css</code></td></tr>
+          <tr><td>Inkoppling</td><td><code>&lt;script src="skript/…" defer&gt;&lt;/script&gt;</code> i <code>&lt;head&gt;</code>. <code>defer</code> gör att skriptet väntar tills sidan är läst</td></tr>
+          <tr><td>Variabler</td><td><code>const</code> och <code>let</code>. Inte <code>var</code></td></tr>
+          <tr><td>Ljudfilerna</td><td>Överlämningens filer, med överlämningens namn. Döp inte om dem</td></tr>
+          <tr><td>Rörelsen</td><td>CSS-övergångar på klasser. JavaScript sätter och tar bort klasserna</td></tr>
+          <tr><td>Ljudknappen</td><td>En <code>button</code>. Valet sparas med <code>localStorage</code>, och koden tål att lagringen är avstängd</td></tr>
+          <tr><td>Utan JavaScript</td><td>Provat i två webbläsare med JavaScript avstängt. Resultatet i testprotokollet</td></tr>
+          <tr><td>Dokumentationen</td><td><code>dokumentation.md</code>: nytt avsnitt <b>Skript</b>, och testprotokollet utökat</td></tr>
+          <tr><td>Validering</td><td>W3C för HTML och CSS, noll fel. JavaScript kontrolleras i konsolen</td></tr>
+          <tr><td>Var det lämnas</td><td>Repolänk <b>och</b> Pages-adress i itslearning</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Raden om ljudfilerna</span>
+      <p>Det är den som brukar ställa till det. Byter du namn på en fil måste både modulen och
+        överlämningen ändras, och då stämmer de inte längre med varandra. Låt namnen vara.</p>
+    </div>
+
+    <h2 id="matris">7. Bedömningsmatris</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><b>Inkoppling och struktur</b></td>
+            <td>Egna filer, <code>defer</code>, inget JavaScript i HTML</td>
+            <td>Kommentarer som säger varför, beteendet skilt från utseendet</td>
+            <td>En egen modul som fungerar på element den inte byggdes för</td></tr>
+          <tr><td><b>Mikrointeraktioner</b></td>
+            <td>Två byggda med överlämningens värden, reducerad rörelse respekterad</td>
+            <td>Egen händelsekod för minst en</td>
+            <td>Alla går att utlösa med tangentbordet och når skärmläsaren</td></tr>
+          <tr><td><b>Ljud</b></td>
+            <td>Tre ljud vid rätt händelser, med synlig motsvarighet</td>
+            <td>Ljudknapp som minns valet</td>
+            <td>Saknad ljudfil hanteras utan fel</td></tr>
+          <tr><td><b>Utan JavaScript</b></td>
+            <td>Sajten fungerar fullt ut med JavaScript avstängt</td>
+            <td>Provat i två webbläsare, dokumenterat</td>
+            <td>Mörkt läge fungerar också utan JavaScript, via systemets inställning</td></tr>
+          <tr><td><b>Dokumentation och test</b></td>
+            <td>Skripten beskrivna, testprotokoll med och utan JavaScript</td>
+            <td>Avvikelser från överlämningen dokumenterade med skäl</td>
+            <td>Dokumentationen räcker för att någon annan ska kunna ändra i skripten</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kom-igang">8. Kom igång</h2>
+    <ol class="steg">
+      <li><b>Skriv upp vad som fungerar på din sajt</b>, första passet: innehållet, länkarna,
+        formuläret. Sajten har ingen JavaScript än, så listan är sajten utan JavaScript. Det är
+        din nollpunkt, och allt på den ska fungera på deadlinedagen med JavaScript avstängt.</li>
+      <li><b>Koppla in en tom skriptfil som skriver i konsolen.</b> En rad,
+        <code>console.log("skriptet laddades")</code>. Syns raden i konsolen på varje sida är
+        sökvägen och <code>defer</code> rätt innan du skrivit något som kan gå fel.</li>
+      <li><b>Bygg en mikrointeraktion i CSS innan du skriver JavaScript.</b> Gör klassen och
+        övergången, och sätt klassen för hand i DevTools. Ser det rätt ut är det bara en rad
+        JavaScript kvar.</li>
+      <li><b>Ljuden sist</b>, när överlämningen kommit den 8 mars. Modulen går att koppla in och
+        prova med referensprojektets ljud före dess.</li>
+    </ol>
+
+    <h2 id="misstag">9. Vanliga misstag</h2>
+    <ul>
+      <li><b><code>onclick</code> i HTML:en.</b> Det fungerar, men det blandar ihop beteende
+        och struktur. All JavaScript i <code>.js</code>-filer, kopplad med
+        <code>addEventListener</code>.</li>
+      <li><b>Skriptet körs innan sidan finns.</b> Utan <code>defer</code> letar skriptet efter
+        element som inte är lästa än, och <code>querySelector</code> ger <code>null</code>.
+        Felet står i konsolen.</li>
+      <li><b>Innehåll som bara JavaScript skapar.</b> Text som skrivs in med JavaScript finns
+        inte för den som har det avstängt, eller för sökmotorn. Innehållet hör hemma i
+        HTML:en.</li>
+      <li><b>Rörelse satt med <code>style</code> i JavaScript.</b> Då går den inte att stänga av
+        med <code>prefers-reduced-motion</code>, och utseendet ligger på två ställen. Byt klass
+        i stället.</li>
+      <li><b>Ljud som spelas när sidan laddas.</b> Webbläsaren stoppar det, och det är rätt av
+        den. Ljud spelas när användaren gör något.</li>
+      <li><b>Ljudknappen som bara är en ikon.</b> Den som inte ser den vet inte vad den gör.
+        Knappen ska säga vad den gör och om ljudet är på.</li>
+      <li><b>Namnbyten på ljudfilerna.</b> Modulen hittar dem inte, och överlämningen stämmer
+        inte längre.</li>
+    </ul>
+
+    <h2 id="lamna-in">10. Innan du lämnar in</h2>
+    <p>Sista passet, 16 mars, är till för det här. Gå igenom i tur och ordning:</p>
+    <ul class="krav">
+      <li><label><input type="checkbox" id="in-1"><span><b>Öppna konsolen på varje sida.</b> Inga röda rader</span></label></li>
+      <li><label><input type="checkbox" id="in-2"><span><b>Stäng av JavaScript och gå igenom sajten.</b> Går allt innehåll att läsa, fungerar länkarna och formuläret?</span></label></li>
+      <li><label><input type="checkbox" id="in-3"><span><b>Slå på det igen och gör varje handling i överlämningen.</b> Spelas rätt ljud, syns rätt rörelse, och syns motsvarigheten?</span></label></li>
+      <li><label><input type="checkbox" id="in-4"><span><b>Slå på reducerad rörelse i systemet</b> och gör samma sak</span></label></li>
+      <li><label><input type="checkbox" id="in-5"><span><b>Validera HTML och CSS</b>, och öppna den publicerade adressen</span></label></li>
+      <li><label><input type="checkbox" id="in-6"><span><b>Läs <code>dokumentation.md</code>.</b> Står varje skript med, och varje avvikelse från överlämningen?</span></label></li>
+      <li><label><input type="checkbox" id="in-7"><span><b>Lämna båda adresserna</b> i itslearning: repot och den publicerade sidan</span></label></li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Punkt 2 är den som skiljer</span>
+      <p>Det som slutar fungera utan JavaScript är det som byggts på fel ställe.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 6</a> ·
+        <a href="../datum.html">Alla viktiga datum</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

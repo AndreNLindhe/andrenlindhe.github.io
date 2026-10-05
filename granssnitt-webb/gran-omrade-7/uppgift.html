@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uppgift 7 – Ljud- och rörelsepaket – Gränssnittsdesign område 7</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="gran-7-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 7</a>
+  <span class="harifran"><strong>Uppgift 7</strong> · Ljud- och rörelsepaket</span>
+  <a href="../datum.html">Viktiga datum</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#utgar">2. Vad du utgår från</a></li>
+      <li><a href="#ska">3. Ska-krav</a></li>
+      <li><a href="#bor">4. Bör-krav</a></li>
+      <li><a href="#utmaning">5. Utmaningar</a></li>
+      <li><a href="#tekniska">6. Tekniska krav</a></li>
+      <li><a href="#matris">7. Bedömningsmatris</a></li>
+      <li><a href="#kom-igang">8. Kom igång</a></li>
+      <li><a href="#misstag">9. Vanliga misstag</a></li>
+      <li><a href="#lamna-in">10. Innan du lämnar in</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Gränssnittsdesign · område 7</p>
+    <h1>Uppgift 7 – Ljud- och rörelsepaket</h1>
+    <p class="inledning">Överlämning måndag <b>8 mars under passet</b>. Deadline torsdag
+      <b>11 mars kl 23:59</b>. Ljuden och rörelserna som gör att din sajt svarar när någon
+      använder den.</p>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+
+    <p>Du ska göra så att din sajt <b>svarar</b> när någon använder den. Just nu är den tyst:
+      man klickar, och antingen händer något eller inte, men sajten säger ingenting om att den
+      har förstått. Här tar du fram ljuden och rörelserna som ska göra det, för just din
+      sajt.</p>
+
+    <p>Paketet har två delar:</p>
+
+    <ul>
+      <li><b>Minst tre ljud</b> som du själv har spelat in och redigerat, vart och ett kopplat
+        till en händelse på sajten.</li>
+      <li><b>Minst två mikrointeraktioner</b>, prototypade i Figma. En
+        <b>mikrointeraktion</b> är ett litet, avgränsat svar på en enda handling: en knapp som
+        visar att den skickar, ett fält som visar att det är rätt ifyllt. Den har fyra delar,
+        som du går igenom i första passet: utlösare, regler, återkoppling, loopar och
+        lägen.</li>
+    </ul>
+
+    <p><b>Paketet byggs in i Webbutveckling.</b> Den 10 mars kopplar du in ljuden och bygger
+      mikrointeraktionerna i koden. Därför har uppgiften två datum:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Datum</th><th>Vad</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td>Måndag 8 mars, under passet</td>
+            <td><b>Överlämningen:</b> ljudfilerna och överlämningstabellen</td>
+            <td>Webbutveckling bygger mot dem onsdag 10 mars</td></tr>
+          <tr><td>Torsdag 11 mars kl 23:59</td>
+            <td><b>Inlämningen:</b> hela paketet med dokumentation</td>
+            <td>Det som bedöms</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Det som ändras efter den 8 mars är tillåtet. Skriv då ändringen i tabellen, så tar
+      Webbutveckling in den fram till den 16 mars. Men en överlämning som saknas den 8 mars
+      betyder att du bygger i blindo på onsdagen.</p>
+
+    <p>Ljud och rörelse finns i båda kurserna, och här går gränsen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Här handlar det om</th><th>I Webbutveckling om</th></tr></thead>
+        <tbody>
+          <tr><td>Ljudet: inspelning, redigering, format, filstorlek, att ljuden hör ihop</td>
+            <td>Att ljudet spelas vid rätt händelse, och att det går att stänga av</td></tr>
+          <tr><td>Rörelsen: vad som rör sig, hur länge, med vilken tidskurva, och varför</td>
+            <td>CSS-övergången som ger den, med dina värden</td></tr>
+          <tr><td>Vad som händer för den som stängt av ljud eller rörelse</td>
+            <td>Koden som gör det</td></tr>
+          <tr><td>Överlämningstabellen: att skriva den</td>
+            <td>Att följa den, och skriva ner var koden avviker</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Här handlar allt om vad och varför.</b> Du ska kunna säga varför ett ljud är 150 ms
+      och inte 800, inte hur det spelas upp i JavaScript.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Överlämningen är den 8 mars, inte den 11</span>
+      <p>Webbutveckling bygger in paketet onsdagen den 10 mars. Lämna över ljudfilerna och
+        tabellen under passet den 8 mars även om de inte är färdiga. Det som är halvfärdigt
+        går att bygga vidare på.</p>
+    </div>
+
+    <h2 id="utgar">2. Vad du utgår från</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det här har du redan</th><th>Var det kommer ifrån</th></tr></thead>
+        <tbody>
+          <tr><td>Sajten, responsiv och tillgänglig</td><td>Projekt 4 i Webbutveckling, 9 februari</td></tr>
+          <tr><td>Komponenterna och deras tillstånd</td><td>Stilguiden, uppgift 3, 5 november</td></tr>
+          <tr><td>Fynden där testpersonerna inte fick svar</td><td>Testrapporten, uppgift 6, 11 februari</td></tr>
+          <tr><td>Licenser och källhänvisning</td><td>Område 5, december</td></tr>
+          <tr><td>Reducerad rörelse som inställning</td><td>Område 6, pass 37</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Testrapporten är din bästa källa. Där en testperson klickade två gånger för att inget
+      hände, eller frågade <i>gick det?</i>, saknas en mikrointeraktion.</p>
+
+    <h2 id="ska">3. Ska-krav</h2>
+    <p>Är alla ikryssade och kontrollerade ligger du på <b>E</b>.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska-listan">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span><b>Tre egna ljud</b>, inspelade och redigerade av dig, vart och ett kopplat till en namngiven händelse på sajten</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Varje ljud är <b>kortare än en sekund</b> och <b>mindre än 50 kB</b>, i formatet MP3</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span><b>Två mikrointeraktioner prototypade i Figma</b>, var och en med sina fyra delar beskrivna: utlösare, regler, återkoppling, loopar och lägen</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Varje ljud och varje rörelse har en <b>synlig motsvarighet</b>. Sajten går att använda fullt ut utan ljud</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>För varje mikrointeraktion: <b>vad som händer för den som valt bort rörelse</b></span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span><b>Överlämningstabellen</b> med alla värden som behövs för att bygga, lämnad den 8 mars</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span><b>Källor och licenser</b> för allt du inte gjort själv, också i Figma</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>En kort <b>dokumentation</b>: varför varje ljud och varje interaktion finns, och vilket problem på sajten den löser</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bor">4. Bör-krav</h2>
+    <p>Skillnaden mellan ljud och rörelse som finns och sådana du kan motivera. Nivå <b>C</b>.</p>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor-listan">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span><b>Ljuden hör ihop</b> som en familj, och du kan säga vad som gör dem släkt och vad som skiljer dem åt</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span><b>Varaktigheter och tidskurvor är motiverade</b>, inte bara angivna. Varför 200 ms här och 120 ms där</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span><b>Minst en mikrointeraktion kommer ur testrapporten</b> från uppgift 6, och du kan peka på fyndet</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span><b>Redigeringen är dokumenterad</b>: vad du gjorde med brus, toning och nivå, och filstorleken före och efter</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Ett ljud är <b>jämfört med ett ur en ljudbank</b>, och du kan motivera varför du valde ditt eget</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Överlämningstabellen är så komplett att <b>ingenting behövde gissas</b> när det byggdes</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="utmaning">5. Utmaningar</h2>
+    <p>Nivå <b>A</b>. Ta dem när ska- och bör-kraven sitter.</p>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning-listan">Utmaningar <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>En <b>ljudlogotyp</b>: en kort ljudsignatur för sajten, motiverad utifrån sajtens karaktär</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>En mikrointeraktion med <b>alla tre tillstånd</b>: laddar, lyckades och misslyckades</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span><b>Prövat på en person</b> som inte sett sajten: förstod hen vad ljudet eller rörelsen betydde, utan förklaring</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>En <b>utvärdering av överlämningen</b>: vad som ändrades mellan prototypen och det byggda, och vad du skulle skriva annorlunda nästa gång</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="tekniska">6. Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Vad som gäller</th></tr></thead>
+        <tbody>
+          <tr><td>Var det lämnas</td><td>Designportföljens sida <code>07 Ljud och rörelse</code>, och ljudfilerna som en zip-fil i itslearning</td></tr>
+          <tr><td>Var överlämningen lämnas</td><td>I itslearning, <i>Överlämning 8/3</i>: zip-filen med ljuden och länken till portföljsidan. Tabellen ligger bara på portföljsidan, inte i en kopia</td></tr>
+          <tr><td>Ljudformat</td><td>MP3, 44,1 kHz. Mono räcker. Under 1 sekund och under 50 kB per fil. En ljudlogotyp får vara upp till 2 sekunder</td></tr>
+          <tr><td>Filnamn</td><td>Gemener, bindestreck, inga å ä ö. Namnet säger vad ljudet gör: <code>skicka-klart.mp3</code>, inte <code>ljud1.mp3</code></td></tr>
+          <tr><td>Prototypen</td><td>Figma, med interaktioner som går att klicka igenom. Länk med behörigheten <i>kan visa</i></td></tr>
+          <tr><td>Rörelsevärden</td><td>Varaktighet i millisekunder, och tidskurvan namngiven: <code>ease-out</code>, <code>ease-in-out</code> eller en egen kurva med sina fyra tal</td></tr>
+          <tr><td>Överlämningstabellen, ljud</td><td><b>fil</b>, <b>händelse</b> (vilket element, vilken handling), <b>längd</b> i ms, <b>synlig motsvarighet</b></td></tr>
+          <tr><td>Överlämningstabellen, rörelse</td><td><b>element</b>, <b>utlösare</b>, <b>vad som ändras</b>, <b>varaktighet</b>, <b>tidskurva</b>, <b>utan rörelse</b></td></tr>
+          <tr><td>Ändringar efter 8 mars</td><td>En rad sist i tabellen med datum och vad som ändrats</td></tr>
+          <tr><td>Omfattning</td><td>Dokumentationen ungefär 500 ord. Tabellerna räknas inte</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Raden om rörelsevärden</span>
+      <p>Den brukar missförstås. <i>En mjuk animation</i> går inte att bygga. <i>Knappens
+        bakgrund byter färg på 150 ms med <code>ease-out</code></i> går att bygga, och det är
+        det som ska stå i tabellen.</p>
+    </div>
+
+    <h2 id="matris">7. Bedömningsmatris</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><b>Ljudproduktion</b></td>
+            <td>Tre egna ljud, redigerade, inom längd och storlek</td>
+            <td>Ljuden hör ihop, och redigeringen är dokumenterad och jämförd med en ljudbank</td>
+            <td>En ljudlogotyp som bär sajtens karaktär, motiverad</td></tr>
+          <tr><td><b>Mikrointeraktioner</b></td>
+            <td>Två prototypade, med de fyra delarna beskrivna</td>
+            <td>Varaktighet och kurva motiverade, och en interaktion kommer ur testrapporten</td>
+            <td>Alla tre tillstånd i en interaktion, prövat på en person</td></tr>
+          <tr><td><b>Utan ljud och rörelse</b></td>
+            <td>Varje ljud och rörelse har en motsvarighet, alternativet är beskrivet</td>
+            <td>Alternativet är genomtänkt och ger samma information</td>
+            <td>Prövat med ljudet av och reducerad rörelse på</td></tr>
+          <tr><td><b>Överlämningen</b></td>
+            <td>Tabellen är lämnad 8 mars med alla kolumner</td>
+            <td>Inget behövde gissas när det byggdes</td>
+            <td>Utvärderingen säger vad som ändrades och vad du skulle göra om</td></tr>
+          <tr><td><b>Källor och dokumentation</b></td>
+            <td>Licenser angivna, varje ljud och interaktion motiverad</td>
+            <td>Dokumentationen pekar på konkreta problem på sajten</td>
+            <td>Dokumentationen går att bygga efter av någon annan än du</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kom-igang">8. Kom igång</h2>
+    <ol class="steg">
+      <li><b>Börja med listan över tysta ställen</b>, första passet den 22 februari. Välj ljuden
+        och interaktionerna ur den och ur testrapporten – inte ur vad som vore roligt att
+        göra.</li>
+      <li><b>Spela in tidigt.</b> Inspelning och redigering tar längre tid än man tror, och det
+        är det enda som kräver ett tyst rum. Gör första inspelningen senast den 4 mars.</li>
+      <li><b>Skriv överlämningstabellen medan du prototypar</b>, inte efteråt. Varje gång du
+        ställer in en tid i Figma är det en rad i tabellen.</li>
+      <li><b>Lämna över den 8 mars även om det inte är perfekt.</b> Det som är halvfärdigt den
+        8 mars går att bygga vidare på. Det som saknas går inte att bygga alls.</li>
+    </ol>
+
+    <h2 id="misstag">9. Vanliga misstag</h2>
+    <ul>
+      <li><b>Ljudet är för långt.</b> Ett gränssnittsljud som hörs i två sekunder hörs
+        fortfarande när användaren redan gjort nästa sak. Kortare än en sekund, oftast mycket
+        kortare.</li>
+      <li><b>Ljudet är enda signalen.</b> Den som har ljudet av, sitter på en buss eller inte
+        hör får ingenting. Varje ljud ska ha något som syns.</li>
+      <li><b>Allt låter.</b> Ett ljud på varje klick blir buller efter en minut. Tre ljud på
+        tre viktiga händelser säger mer än tjugo.</li>
+      <li><b>Rörelse som tar tid från användaren.</b> Över 300 ms känns en knapp trög. Rörelsen
+        ska förklara vad som hände, inte visa upp sig.</li>
+      <li><b>Överlämning utan värden.</b> <i>Mjuk</i>, <i>snabb</i> och <i>snygg</i> går inte
+        att bygga. Skriv tal.</li>
+      <li><b>WAV-filer på flera hundra kilobyte.</b> Exportera till MP3 och kontrollera
+        storleken innan du lämnar över.</li>
+      <li><b>Ljud från en ljudbank utan licens.</b> Samma regler som för bilderna i december.
+        Står licensen inte med får ljudet inte användas.</li>
+    </ul>
+
+    <h2 id="lamna-in">10. Innan du lämnar in</h2>
+    <p>Sista passet, 11 mars, är till för det här. Gå igenom i tur och ordning:</p>
+    <ul class="krav">
+      <li><label><input type="checkbox" id="in-1"><span><b>Lyssna på varje fil</b>, en i taget. Är den kortare än en sekund, och klipper den inte?</span></label></li>
+      <li><label><input type="checkbox" id="in-2"><span><b>Kontrollera filstorlekarna.</b> Under 50 kB var, och namnen i gemener</span></label></li>
+      <li><label><input type="checkbox" id="in-3"><span><b>Klicka igenom prototypen</b> med länken, utloggad. Fungerar interaktionerna för den som inte har redigeringsbehörighet?</span></label></li>
+      <li><label><input type="checkbox" id="in-4"><span><b>Läs överlämningstabellen rad för rad.</b> Står alla värden med, och finns ändringarna efter 8 mars sist?</span></label></li>
+      <li><label><input type="checkbox" id="in-5"><span><b>Kontrollera licenserna.</b> Allt du inte gjort själv har en källa och en licens</span></label></li>
+      <li><label><input type="checkbox" id="in-6"><span><b>Lämna</b> portföljsidan och zip-filen med ljuden i itslearning</span></label></li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Punkt 1 avslöjar mest</span>
+      <p>Ett ljud som lät bra i redigeringsprogrammet kan klippa i högtalaren, och det hörs
+        först när man lyssnar på den exporterade filen.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 7</a> ·
+        <a href="../datum.html">Alla viktiga datum</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

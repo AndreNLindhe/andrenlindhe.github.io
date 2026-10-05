@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tack för rapporten – Fyrar längs Bohuskusten</title>
+  <link rel="stylesheet" href="stil.css">
+  <!-- Skripten ligger i egna filer i skript/. defer gör att de väntar tills hela sidan
+       är läst, så att elementen de letar efter finns. Ljudmodulen står först, eftersom
+       andra skript kan vilja använda dess funktion spela. Pass 48. -->
+  <script src="skript/ljud.js" defer></script>
+  <script src="skript/morkt-lage.js" defer></script>
+</head>
+<body>
+
+<!-- Skip-länken är det första som får fokus när man tabbar. Den syns bara då, och
+     hoppar förbi navigeringen direkt till innehållet. Pass 40. -->
+<a class="till-innehallet" href="#innehall">Till innehållet</a>
+
+<header>
+  <p>Fyrar längs Bohuskusten</p>
+  <nav>
+    <ul>
+      <li><a href="index.html">Start</a></li>
+      <li><a href="fyrarna.html">Alla fyrar</a></li>
+      <li><a href="vinga.html">Vinga</a></li>
+      <li><a href="rapportera.html">Rapportera en fyr</a></li>
+    </ul>
+  </nav>
+
+  <!-- Lägesknappen byter mellan ljust och mörkt. hidden gör den osynlig tills
+       skriptet visar den: utan JavaScript gör knappen ingenting, och då ska den inte
+       synas. data-ljud låter ljudmodulen spela vaxla.mp3 vid klick. Pass 48. -->
+  <button class="lage-knapp" type="button" data-ljud="vaxla" hidden>Mörkt läge</button>
+</header>
+
+<main id="innehall">
+  <h1>Tack för rapporten</h1>
+
+  <p>Rapporten är mottagen. Titta i adressfältet – där står allt du fyllde i, som
+    <code>?namn=Hättan&amp;byggar=1877</code>. Det är vad metoden <code>get</code> gör:
+    svaren läggs i adressen.</p>
+
+  <p>På en riktig sajt hade en server tagit emot dem här och sparat dem. Den här sidan är
+    en vanlig HTML-fil utan server bakom, så ingenting sparas. Servrar kommer i
+    Webbserverprogrammering.</p>
+
+  <p><a href="rapportera.html">Rapportera en fyr till</a> eller
+    <a href="index.html">gå tillbaka till start</a>.</p>
+</main>
+
+<footer>
+  <p>Referensprojekt till Webbutveckling, område 2. Uppgifterna är förenklade och
+    sajten är ett läromedel, inte en sjökortsersättning.</p>
+</footer>
+
+</body>
+</html>

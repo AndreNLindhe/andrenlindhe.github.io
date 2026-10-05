@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inför prov 4 – Webbutveckling område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-6-infor-prov-4">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Prov</strong> · Inför prov 4</span>
+  <a href="guide-javascript.html#snabbreferens">Snabbreferensen</a>
+</header>
+
+<div class="ram">
+
+  <main>
+
+    <p class="ledtext">Webbutveckling · område 6</p>
+    <h1>Inför prov 4</h1>
+    <p class="inledning">Prov i JavaScript och DOM, skriftligt och utan dator. Den här sidan
+      säger vad provet är, vad som kan komma och hur du pluggar. Själva innehållet står i
+      guiden – det är dit varje rad här pekar.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-03-17">
+        <span class="nar">17 mars</span>
+        <span class="vad">Prov 4 – JavaScript och DOM, kl 11:05
+          <small>Onsdag, dagen efter inlämningen av Projekt 5. 50 minuter.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="sa-ser-det-ut">Så ser provet ut</h2>
+    <ul>
+      <li><b>Skriftligt, 50 minuter.</b> Antal frågor, poäng och betygsgränser står på
+        provbladet</li>
+      <li><b>Ingen dator, inga anteckningar, ingen mobil.</b> Du får penna och papper</li>
+      <li>Provet prövar tre saker: att <b>läsa</b> kod, att <b>förutsäga</b> vad den gör, och
+        att <b>anpassa</b> den. Det blandar HTML, CSS och JavaScript: skripten, HTML:en som
+        styr dem och CSS-klasserna de sätter</li>
+      <li>Koden kommer ur <b>referensprojektet</b>, fyrsajten med sina tre skript:
+        ljudmodulen, fältet som visar att det är rätt ifyllt och det mörka läget</li>
+      <li>Att <b>förutsäga</b> är att följa koden rad för rad och säga vad som händer, som i
+        läsövningen den 23 februari. Ett resonemang som följer koden är det som visar att du
+        kan läsa den</li>
+      <li>När du <b>anpassar</b> skriver du för hand. Det som räknas är att namnen stämmer
+        tecken för tecken, och att citattecken, parenteser, klamrar och semikolon sitter där
+        de ska</li>
+      <li>Provet prövar <b>koden</b>. Vilka ljud en sajt ska ha, hur långa rörelserna ska vara
+        och varför är Gränssnittsdesigns, och prövas inte här</li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Samma kod som i din egen sajt</span>
+      <p>Provet ligger dagen efter inlämningen av en anledning. Ljudmodulen, attributen som
+        styr den och klassen som ett skript sätter har du just kopplat in och skrivit i din
+        egen sajt. Den som förstått varför raden står där den står klarar också att förutsäga
+        vad den gör på papper.</p>
+    </div>
+
+    <h2 id="vad-som-kommer">Vad som kan komma</h2>
+    <p>Områdets första sex pass. Sista kolumnen är där du läser på.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Lektion</th><th>Du ska kunna</th><th>Läs</th></tr></thead>
+        <tbody>
+          <tr><td>Vad JavaScript gör</td>
+            <td>Peka ut variabel, funktion, parameter, anrop, villkor, loop och händelse i
+              ljudmodulen. Skilja på <code>const</code> och <code>let</code>, och följa ett
+              klick från knappen till ljudet</td>
+            <td><a href="guide-javascript.html#vad-javascript-gor">Avsnitt 1</a></td></tr>
+          <tr><td>DOM – dokumentobjektsmodellen</td>
+            <td>Förklara skillnaden mellan HTML-filen och DOM. Hitta element med
+              <code>querySelector</code> och <code>querySelectorAll</code>, och ändra text,
+              klass och attribut. Veta vad <code>null</code> betyder</td>
+            <td><a href="guide-javascript.html#dom">Avsnitt 2</a></td></tr>
+          <tr><td>Händelser</td>
+            <td>Läsa och skriva en rad med <code>addEventListener</code>: vem, vilken händelse,
+              vad. Säga varför <code>onclick</code> inte används, läsa <code>falt.js</code> och
+              regeln för <code>input.godkant</code>, och läsa ett felmeddelande</td>
+            <td><a href="guide-javascript.html#handelser">Avsnitt 3</a></td></tr>
+          <tr><td>Koppla in och anpassa en modul</td>
+            <td>Skriva <code>script</code>-raden med <code>defer</code> och säga vad
+              <code>defer</code> gör. Veta vad i ljudmodulen som är säkert att ändra, och vad
+              <code>morkt-lage.js</code> gör med klasserna, <code>aria-pressed</code> och
+              <code>localStorage</code></td>
+            <td><a href="guide-javascript.html#moduler">Avsnitt 4</a></td></tr>
+          <tr><td>När JavaScript inte finns</td>
+            <td>Säga vad som händer med fyrsajten när JavaScript är avstängt, och varför.
+              Förklara <code>hidden</code> på lägesknappen, och varför innehåll inte får
+              skapas av skriptet</td>
+            <td><a href="guide-javascript.html#utan-javascript">Avsnitt 5</a></td></tr>
+          <tr><td>Ljud och mikrointeraktioner byggs in</td>
+            <td>Peka på vad varje cell i en överlämningstabell blir i koden: attributen, filen,
+              händelsen och talen i <code>transition</code></td>
+            <td><a href="guide-javascript.html#overlamningen">Avsnitt 6</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Utmaningarna i <a href="guide-javascript.html#ta-det-langre">avsnitt 7</a> bygger på
+      samma kod som resten. Läs dem om du siktar högt.</p>
+
+    <h2 id="kommer-inte">Vad som inte prövas</h2>
+    <ul>
+      <li><b>Vilka ljud och rörelser en sajt ska ha, och varför.</b> Ljudfamiljer,
+        tidskurvor och mikrointeraktionens delar är Gränssnittsdesigns, och du lärde dig dem
+        där</li>
+      <li><b>Att spela in och redigera ljud.</b> Det hör också till Gränssnittsdesign</li>
+    </ul>
+
+    <h2 id="sa-pluggar-du">Så pluggar du</h2>
+    <p>Sex saker, i den här ordningen. Den femte är den som ger mest och som flest hoppar
+      över.</p>
+
+    <section class="kravblock">
+      <div class="huvud">
+        <h3 style="margin:0">Plugglista</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="plugg-1"><span>Kört <b>ordträningen</b> i
+          guidens <a href="guide-javascript.html#snabbreferens">snabbreferens</a> tills du
+          klarar hela listan</span></label></li>
+        <li><label><input type="checkbox" id="plugg-2"><span>Läst
+          <a href="guide-javascript.html#vad-javascript-gor">avsnitt 1</a> till
+          <a href="guide-javascript.html#overlamningen">6</a> en gång var</span></label></li>
+        <li><label><input type="checkbox" id="plugg-3"><span>Öppnat <b>referensprojektets tre
+          skript</b> i <code>skript/</code> och läst kommentarerna, och sedan letat upp det de
+          arbetar med: <code>data-ljud</code> och <code>hidden</code> på lägesknappen, och
+          <code>.godkant</code>, <code>.morkt</code> och
+          <code>.lage-knapp[aria-pressed="true"]</code> i <code>stil.css</code></span></label></li>
+        <li><label><input type="checkbox" id="plugg-4"><span><b>Följt ett klick på
+          papper</b> genom ljudmodulen och genom <code>morkt-lage.js</code>, rad för rad, tills
+          du kan säga vad som körs när sidan laddas och vad som körs vid varje
+          klick</span></label></li>
+        <li><label><input type="checkbox" id="plugg-5"><span><b>Skrivit koden för hand på
+          papper</b> minst en gång, utan att titta: en <code>script</code>-rad med
+          <code>defer</code>, en lyssnare som byter en klass med <code>classList</code>, och
+          CSS-regeln för klassen</span></label></li>
+        <li><label><input type="checkbox" id="plugg-6"><span>Gått igenom <b>din egen
+          sajt</b> och pekat på raden i koden som uppfyller varje ska-krav i
+          <a href="uppgift.html#ska">Projekt 5</a></span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Punkt fem är den som avgör</span>
+      <p>Att läsa kod och att skriva kod är två olika färdigheter. Har du aldrig skrivit en
+        lyssnare utan en kodeditor som fyller i åt dig märker du det för första gången under
+        provet. Det är sällan orden som sitter löst – det är <code>});</code> sist i
+        lyssnaren, citattecknen runt selektorn och punkten före klassnamnet.</p>
+    </div>
+
+    <h3 id="ova-pa">Så kan det se ut när du övar</h3>
+    <p>Ta en sajt om något helt annat och läs samma mönster. Här ett bibliotek, där knapparna
+      för bokhyllorna markeras när man väljer dem:</p>
+<pre><code class="sprak-html">&lt;button class="hylla" type="button" data-hylla="deckare"&gt;Deckare&lt;/button&gt;
+&lt;button class="hylla" type="button" data-hylla="poesi"&gt;Poesi&lt;/button&gt;</code></pre>
+<pre><code class="sprak-js">// Varje hyllknapp växlar klassen vald. Hur det ser ut står i stil.css.
+const hyllknappar = document.querySelectorAll("[data-hylla]");
+
+for (const hyllknapp of hyllknappar) {
+  hyllknapp.addEventListener("click", function () {
+    hyllknapp.classList.toggle("vald");
+    console.log(hyllknapp.dataset.hylla);
+  });
+}</code></pre>
+<pre><code class="sprak-css">.hylla.vald {
+  outline: 0.2rem solid currentColor;
+}</code></pre>
+    <p>Följ ett klick på <i>Poesi</i> på papper, och sedan ett klick till på samma knapp.
+      Skriv vad som körs, vilka klasser knappen har efteråt och vad konsolen skriver.
+      Kontrollera sedan mot guiden: när körs loopen, och när körs lyssnaren? Skriv till sist
+      av koden för hand utan att titta, och jämför tecken för tecken.</p>
+
+    <h2 id="om-du-missar">Om du är sjuk på provdagen</h2>
+    <p>Hör av dig <b>samma dag</b>, inte veckan efter. Du får skriva provet vid ett annat
+      tillfälle, men du behöver komma överens med mig om när.</p>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 6</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

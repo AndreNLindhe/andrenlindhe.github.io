@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inför prov 3 – Webbutveckling område 5</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-5-infor-prov-3">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Prov</strong> · Inför prov 3</span>
+  <a href="guide-responsiv.html#snabbreferens">Snabbreferensen</a>
+</header>
+
+<div class="ram">
+
+  <main>
+
+    <p class="ledtext">Webbutveckling · område 5</p>
+    <h1>Inför prov 3</h1>
+    <p class="inledning">Prov i responsiv design och tillgänglighet, skriftligt och utan dator.
+      Den här sidan säger vad provet är, vad som kan komma och hur du pluggar. Själva
+      innehållet står i guiden – det är dit varje rad här pekar.</p>
+
+    <ul class="datum">
+      <li data-datum="2027-02-10">
+        <span class="nar">10 feb</span>
+        <span class="vad">Prov 3 – responsivt och tillgänglighet, kl 11:05
+          <small>Onsdag, dagen efter inlämningen av Projekt 4. 50 minuter.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="sa-ser-det-ut">Så ser provet ut</h2>
+    <ul>
+      <li><b>Skriftligt, 50 minuter.</b> Antal frågor, poäng och betygsgränser står på
+        provbladet</li>
+      <li><b>Ingen dator, inga anteckningar, ingen mobil.</b> Du får penna och papper</li>
+      <li>Du skriver HTML och CSS <b>för hand</b>. Det som räknas är att selektorn träffar
+        rätt, att egenskaperna och attributen är de rätta, och att klamrar, parenteser och
+        semikolon sitter där de ska</li>
+      <li>Frågorna utgår från <b>referensprojektet</b>, fyrsajten som nu är responsiv och
+        tillgänglig. Men koden du själv ska skriva handlar om något annat, så det går inte att
+        lära sig <code>stil.css</code> utantill och skriva av den</li>
+      <li>Provet prövar <b>koden</b>. Vad ett WCAG-kriterium betyder och vem det gäller är
+        Gränssnittsdesigns, och prövas inte här</li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Samma kod som i din egen sajt</span>
+      <p>Provet ligger dagen efter inlämningen av en anledning. Viewport-raden, media
+        queryn, bildregeln och fokusregeln har du just skrivit i din egen sajt. Den som
+        förstått varför raden står där den står klarar också att skriva den för en sajt
+        om något annat.</p>
+    </div>
+
+    <h2 id="vad-som-kommer">Vad som kan komma</h2>
+    <p>Områdets sex genomgångar. Sista kolumnen är där du läser på.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Lektion</th><th>Du ska kunna</th><th>Läs</th></tr></thead>
+        <tbody>
+          <tr><td>Introduktion till responsiv design</td>
+            <td>Skriva viewport-taggen och säga vad dess två delar gör. Förklara mobile first,
+              och vad som låser en bredd så att sidan rullar i sidled</td>
+            <td><a href="guide-responsiv.html#viewport">Avsnitt 1</a></td></tr>
+          <tr><td>Media queries</td>
+            <td>Skriva en media query med <code>min-width</code>, räkna om en bredd i pixlar
+              till <code>em</code>, och säga var i stilmallen den ska stå och varför</td>
+            <td><a href="guide-responsiv.html#media-queries">Avsnitt 2</a></td></tr>
+          <tr><td>Flexibla och tillgängliga bilder och media</td>
+            <td>Göra en bild flexibel, läsa och skriva <code>srcset</code> och
+              <code>sizes</code>, veta var <code>alt</code> sitter, och stänga av en övergång
+              med <code>prefers-reduced-motion</code></td>
+            <td><a href="guide-responsiv.html#bilder-och-media">Avsnitt 3</a></td></tr>
+          <tr><td>Riktlinjer för god praxis</td>
+            <td>Känna igen brott mot kodstandarden, och skriva en kommentar som säger varför
+              i stället för vad</td>
+            <td><a href="guide-responsiv.html#god-praxis">Avsnitt 4</a></td></tr>
+          <tr><td>Tillgänglighet i koden</td>
+            <td>Skriva koden som rättar ett fynd: synlig fokus, kontrast i variablerna,
+              klickyta med <code>min-height</code>, rubriknivå, <code>button</code> i stället
+              för <code>div</code></td>
+            <td><a href="guide-responsiv.html#tillganglighet">Avsnitt 5</a></td></tr>
+          <tr><td>Testning på olika användaragenter</td>
+            <td>Veta vad de fem testen prövar, och skilja en protokollrad som går att göra
+              om från en som inte gör det</td>
+            <td><a href="guide-responsiv.html#testning">Avsnitt 6</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Utmaningarna i <a href="guide-responsiv.html#ta-det-langre">avsnitt 7</a> – skip-länken
+      och <code>picture</code> – bygger på samma kod som resten. Läs dem om du siktar
+      högt.</p>
+
+    <h2 id="kommer-inte">Vad som inte prövas</h2>
+    <ul>
+      <li><b>Vad WCAG-kriterierna betyder och vem de gäller.</b> Det är Gränssnittsdesigns,
+        och du lärde dig det där</li>
+      <li><b>Användartestet och testrapporten.</b> De hör till Gränssnittsdesign. Testrapporten
+        lämnas in dagen efter provet</li>
+      <li><b>JavaScript.</b> Kommer i område 6</li>
+    </ul>
+
+    <h2 id="sa-pluggar-du">Så pluggar du</h2>
+    <p>Sex saker, i den här ordningen. Den femte är den som ger mest och som flest hoppar
+      över.</p>
+
+    <section class="kravblock">
+      <div class="huvud">
+        <h3 style="margin:0">Plugglista</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="plugg-1"><span>Kört <b>ordträningen</b> i
+          guidens <a href="guide-responsiv.html#snabbreferens">snabbreferens</a> tills du klarar
+          hela listan</span></label></li>
+        <li><label><input type="checkbox" id="plugg-2"><span>Läst
+          <a href="guide-responsiv.html#viewport">avsnitt 1</a> till
+          <a href="guide-responsiv.html#testning">6</a> en gång var</span></label></li>
+        <li><label><input type="checkbox" id="plugg-3"><span>Öppnat <b>referensprojektets
+          <code>stil.css</code></b> och läst kommentarerna märkta <i>Pass 36</i> till
+          <i>Pass 40</i> – de förklarar varför, inte bara vad</span></label></li>
+        <li><label><input type="checkbox" id="plugg-4"><span><b>Räknat om pixlar till
+          <code>em</code> på papper</b> några gånger, med olika tal, tills du inte behöver
+          tänka efter</span></label></li>
+        <li><label><input type="checkbox" id="plugg-5"><span><b>Skrivit koden för hand på
+          papper</b> minst en gång, utan att titta: en grundregel och en media query som
+          lägger till, en bild med <code>srcset</code> och <code>sizes</code>, och en
+          fokusregel</span></label></li>
+        <li><label><input type="checkbox" id="plugg-6"><span>Gått igenom <b>din egen
+          sajt</b> och pekat på raden i koden som uppfyller varje ska-krav i
+          <a href="uppgift.html#ska">Projekt 4</a></span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Punkt fem är den som avgör</span>
+      <p>Att läsa kod och att skriva kod är två olika färdigheter, och provet prövar den
+        andra. Har du aldrig skrivit en media query utan autokomplettering märker du det för
+        första gången under provet. Det är sällan egenskapernas namn som sitter löst – det är
+        de dubbla klamrarna, parentesen runt villkoret och kommatecknen i
+        <code>srcset</code>.</p>
+    </div>
+
+    <h3 id="ova-pa">Så kan det se ut när du övar</h3>
+    <p>Ta en sajt om något helt annat och skriv samma mönster. Här en boklista för ett
+      bibliotek, byggd mobile first:</p>
+<pre><code class="sprak-css">.boklista {
+  display: grid;
+  gap: 1rem;
+}
+
+/* 40em: här får två bokkort plats bredvid varandra utan att
+   titlarna bryts ord för ord. */
+@media (min-width: 40em) {
+  .boklista {
+    grid-template-columns: 1fr 1fr;
+  }
+}</code></pre>
+    <p>Och en omslagsbild i tre bredder, som visas i full bredd på telefonen och 20rem bred
+      från 40em:</p>
+<pre><code class="sprak-html">&lt;img src="bilder/omslag-640.jpg"
+     srcset="bilder/omslag-320.jpg 320w,
+             bilder/omslag-640.jpg 640w,
+             bilder/omslag-960.jpg 960w"
+     sizes="(min-width: 40em) 20rem, 100vw"
+     width="640" height="960"
+     alt="Bokomslag: en röd stuga vid vattnet i kvällsljus."&gt;</code></pre>
+    <p>Kontrollera sedan mot guiden: är varje klammer stängd, står <code>w</code> efter
+      varje bredd, och sitter <code>alt</code> på <code>img</code>?</p>
+
+    <h2 id="om-du-missar">Om du är sjuk på provdagen</h2>
+    <p>Hör av dig <b>samma dag</b>, inte veckan efter. Du får skriva provet vid ett annat
+      tillfälle, men du behöver komma överens med mig om när.</p>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 5</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

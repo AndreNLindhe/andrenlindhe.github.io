@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Responsiv design och tillgänglighet – Webbutveckling område 5</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-5-start">
+
+<header class="topp">
+  <a href="../index.html">← Elevpaket</a>
+  <span class="harifran"><strong>Webbutveckling · område 5</strong></span>
+  <a href="../datum.html">Viktiga datum</a>
+</header>
+
+<div class="ram">
+
+  <p class="ledtext">Webbutveckling · område 5</p>
+  <h1>Responsiv design och tillgänglighet</h1>
+  <p class="inledning">Samma sajt som i Projekt 2, nu för en telefon och för den som inte
+    använder mus eller inte ser skärmen. Du bygger inte efter dina egna beslut den här
+    gången, utan efter två listor: åtgärdslistan från en klasskamrats granskning i december
+    och WCAG-fynden från din egen granskning i Gränssnittsdesign.</p>
+
+  <ul class="datum">
+    <li data-datum="2027-02-09">
+      <span class="nar">9 feb</span>
+      <span class="vad">Inlämning: Projekt 4 – Responsiv och tillgänglig sajt
+        <small>Kl 23:59. Repolänk och Pages-adress i itslearning.</small></span>
+      <span class="kvar"></span>
+    </li>
+    <li data-datum="2027-02-10">
+      <span class="nar">10 feb</span>
+      <span class="vad">Prov 3 – responsivt och tillgänglighet
+        <small>Skriftligt, utan dator. Utgår från referensprojektet.</small></span>
+      <span class="kvar"></span>
+    </li>
+  </ul>
+
+  <h2>Börja här</h2>
+  <ul class="rutnat">
+    <li><a class="kort webb" href="uppgift.html">
+      <span class="sort">Uppgift</span>
+      <span class="rubrik">Projekt 4 – Responsiv och tillgänglig sajt</span>
+      <p>Kraven, bedömningsmatrisen och en checklista du kan bocka av medan du arbetar.</p>
+    </a></li>
+    <li><a class="kort webb" href="uppgift.html#kom-igang">
+      <span class="sort">Kom igång</span>
+      <span class="rubrik">Fyra steg i rätt ordning</span>
+      <p>Varför du öppnar sajten på en telefon första passet och för över listorna innan du skriver kod.</p>
+    </a></li>
+    <li><a class="kort webb" href="uppgift.html#tekniska">
+      <span class="sort">Krav</span>
+      <span class="rubrik">Viewport, bredder och dokumentation</span>
+      <p>Hur åtgärderna och testprotokollet ska se ut i <code>dokumentation.md</code>, och vilken viewport-rad som gäller.</p>
+    </a></li>
+    <li><a class="kort webb" href="uppgift.html#misstag">
+      <span class="sort">Fallgropar</span>
+      <span class="rubrik">Vanliga misstag</span>
+      <p>Sju saker som fäller projektet. Det vanligaste är brytpunkter efter enheter i stället för innehåll.</p>
+    </a></li>
+    <li><a class="kort webb" href="uppgift.html#lamna-in">
+      <span class="sort">Inlämning</span>
+      <span class="rubrik">Innan du lämnar in</span>
+      <p>Sex kontroller för sista passet den 9 februari, i den ordning de ska göras.</p>
+    </a></li>
+    <li><a class="kort webb" href="guide-responsiv.html">
+      <span class="sort">Guide</span>
+      <span class="rubrik">Responsiv design och tillgänglighet</span>
+      <p>Uppslagsboken. Ett avsnitt per genomgång, utmaningarna, felsökning och en snabbreferens med ordträning.</p>
+    </a></li>
+    <li><a class="kort webb" href="guide-responsiv.html#felsokning">
+      <span class="sort">Felsökning</span>
+      <span class="rubrik">När sajten går sönder på telefonen</span>
+      <p>Sökbar tabell: symptom, trolig orsak och vad du gör åt det.</p>
+    </a></li>
+    <li><a class="kort webb" href="guide-responsiv.html#snabbreferens">
+      <span class="sort">Snabbreferens</span>
+      <span class="rubrik">Alla begrepp i området</span>
+      <p>Trettiosex begrepp med ordträning. Använd den inför prov 3.</p>
+    </a></li>
+    <li><a class="kort webb" href="infor-prov-3.html">
+      <span class="sort">Prov</span>
+      <span class="rubrik">Inför prov 3</span>
+      <p>Vad provet är, vad som kan komma och hur du pluggar. Med plugglista att bocka av.</p>
+    </a></li>
+  </ul>
+
+  <h2>Vad du ska kunna när området är slut</h2>
+  <ul>
+    <li>Göra en sajt som fungerar från 320 pixlar till desktop, med viewport-taggen och media queries</li>
+    <li>Välja brytpunkter utifrån innehållet, och bygga mobile first med <code>min-width</code></li>
+    <li>Göra bilder flexibla och ge rätt bildstorlek till rätt skärm med <code>srcset</code></li>
+    <li>Skriva alt-texter som fungerar där bilden står, och veta när <code>alt=""</code> är rätt</li>
+    <li>Skriva kod som bär tillgängligheten: <code>label</code>, rubrikstruktur, synlig fokus, kontrast och klickytor</li>
+    <li>Arbeta efter en åtgärdslista som någon annan skrivit, och dokumentera vad du gjorde</li>
+    <li>Testa i två webbläsare, på telefon och med tangentbord, och skriva ett testprotokoll</li>
+    <li>Hålla en kodstandard som gör stilmallen möjlig att ändra i juni</li>
+  </ul>
+
+  <h2>Lektionerna i området</h2>
+  <p>Missade du ett pass? Sista kolumnen säger var innehållet står.</p>
+  <div class="tabellsvep">
+    <table>
+      <thead>
+        <tr><th>Datum</th><th>Vad vi gör</th><th>Missade du passet?</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>13 jan</td><td>Introduktion till responsiv design</td>
+          <td><a href="guide-responsiv.html#viewport">Guide, avsnitt 1</a></td></tr>
+        <tr><td>19 jan</td><td>Media queries</td>
+          <td><a href="guide-responsiv.html#media-queries">Guide, avsnitt 2</a></td></tr>
+        <tr><td>20 jan</td><td>Flexibla och tillgängliga bilder och media</td>
+          <td><a href="guide-responsiv.html#bilder-och-media">Guide, avsnitt 3</a></td></tr>
+        <tr><td>26 jan</td><td>Riktlinjer för god praxis</td>
+          <td><a href="guide-responsiv.html#god-praxis">Guide, avsnitt 4</a></td></tr>
+        <tr><td>27 jan</td><td>Tillgänglighet i koden</td>
+          <td><a href="guide-responsiv.html#tillganglighet">Guide, avsnitt 5</a></td></tr>
+        <tr><td>2 feb</td><td>Testning på olika användaragenter</td>
+          <td><a href="guide-responsiv.html#testning">Guide, avsnitt 6</a></td></tr>
+        <tr><td>3 feb</td><td>Arbetspass</td>
+          <td><a href="uppgift.html#ska">Projekt 4 – ska-kraven</a></td></tr>
+        <tr><td>9 feb</td><td>Arbetspass. <b>Inlämning</b> kl 23:59</td>
+          <td><a href="uppgift.html#lamna-in">Projekt 4 – innan du lämnar in</a></td></tr>
+        <tr><td>10 feb</td><td><b>Prov 3</b> – responsivt och tillgänglighet</td>
+          <td><a href="infor-prov-3.html">Inför prov 3</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="notis viktig">
+    <span class="rubrik">Det viktigaste</span>
+    <p>Det som är åtgärdat den 4 februari är det som testas. Då gör du användartest på din
+      sajt i Gränssnittsdesign, med riktiga personer. Ett fält utan <code>label</code> eller en
+      knapp som inte nås med tangentbordet ska vara rättade före det, inte kvällen före
+      inlämningen.</p>
+  </div>
+
+  <div class="notis">
+    <span class="rubrik">Granskning → åtgärder → test</span>
+    <p>Gränssnittsdesign och Webbutveckling arbetar med samma sajt i det här blocket.
+      Gränssnittsdesign granskar sajten mot WCAG den 18 januari, du åtgärdar bristerna här,
+      och den 4 februari testas resultatet. Vad ett kriterium betyder lär du dig där. Här
+      handlar allt om koden som uppfyller det.</p>
+  </div>
+
+  <div class="notis">
+    <span class="rubrik">Prov 3 ligger dagen efter inlämningen</span>
+    <p>Provet utgår från områdets referensprojekt, fyrsajten från område 3 som nu är
+      responsiv och tillgänglig. Det du gör i din egen sajt är det du skriver för hand på
+      provet.</p>
+  </div>
+
+  <footer class="fot">
+    <p><a href="../index.html">Tillbaka till elevpaketets startsida</a> ·
+      <a href="../datum.html">Alla viktiga datum</a></p>
+  </footer>
+
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

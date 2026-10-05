@@ -1,0 +1,1146 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tillgänglighet och användbarhetstest – Gränssnittsdesign område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="gran-6-guide">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Guide</strong> · Tillgänglighet och användbarhetstest</span>
+  <a href="uppgift.html">Uppgiften</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#inkluderande">1. Inkluderande gränssnitt</a></li>
+      <li><a href="#wcag">2. WCAG i praktiken</a></li>
+      <li><a href="#hjalpmedel">3. Tekniker och hjälpmedel</a></li>
+      <li><a href="#verktyg">4. Testverktyg och deras gränser</a></li>
+      <li><a href="#testmetoder">5. Metoder för att testa användbarhet</a></li>
+      <li><a href="#halla-test">6. Att hålla ett test</a></li>
+      <li><a href="#analys">7. Analys och prioritering</a></li>
+      <li><a href="#rapporten">8. Rapporten och utvärderingen</a></li>
+      <li><a href="#felsokning">9. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Gränssnittsdesign · område 6</p>
+    <h1>Guide – Tillgänglighet och användbarhetstest</h1>
+    <p class="inledning">Här står det du behöver för uppgiften, och guiden fungerar utan att
+      du varit på lektionen. Slå upp i den när du fastnar.</p>
+
+    <!-- ============================================================ -->
+    <h2 id="inkluderande">1. Inkluderande gränssnitt</h2>
+
+    <p><b>En begränsning är ett möte mellan en person och en design, inte en egenskap hos
+      personen.</b> Det är hela områdets utgångspunkt. Den som har svårt att använda en sajt
+      har det för att sajten förutsätter något hen inte har just då — en ledig hand, bra
+      syn, lugn och ro.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Öppna din sajt i telefonen. Lägg ena handen i knät och låt den stanna där. Ta dig med
+        den andra till sidan där kontaktuppgifterna står. Når du menyknappen med tummen? Du
+        har ingen funktionsnedsättning, men i en minut var sajten svår att använda. Det var
+        situationen som ändrades, inte du.</p>
+    </div>
+
+    <h3>Fyra förmågor</h3>
+
+    <p>Ett gränssnitt ställer krav på fyra förmågor, och alla fyra används varje gång:</p>
+
+    <ul>
+      <li><b>Se.</b> Läsa text, skilja färger, hitta något på skärmen.</li>
+      <li><b>Höra.</b> Ljud i en video, ett pling som säger att något hände.</li>
+      <li><b>Röra.</b> Träffa en knapp, hålla telefonen, använda mus.</li>
+      <li><b>Förstå.</b> Läsa en lång text, minnas förra sidan, besluta under tidspress.</li>
+    </ul>
+
+    <p><b>Funktionsvariation</b> betyder att förmågorna skiljer sig mellan människor, och att
+      det är normalt. WHO uppskattar att ungefär en av sex lever med en betydande
+      funktionsnedsättning, och de flesta av dem syns inte. Men miljön begränsar också:
+      solljus på skärmen, en bullrig buss, en kasse i handen. Uteslutning uppstår när
+      gränssnittet förutsätter en förmåga som personen inte har just nu — och det är
+      gränssnittet som går att ändra.</p>
+
+    <h3>Varaktig, temporär, tillfällig</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Förmåga</th><th>Varaktig</th><th>Temporär</th><th>Tillfällig</th></tr></thead>
+        <tbody>
+          <tr><td><b>Se</b></td><td>Blind, nedsatt syn</td><td>Efter en ögonoperation, glasögonen sönder</td><td>Solljus på skärmen</td></tr>
+          <tr><td><b>Höra</b></td><td>Döv, hörselnedsättning</td><td>Öroninflammation</td><td>Bullrig buss, sovande barn bredvid</td></tr>
+          <tr><td><b>Röra</b></td><td>En arm, darrningar</td><td>Gipsad handled</td><td>Bär en kasse, håller i en ledstång</td></tr>
+          <tr><td><b>Förstå</b></td><td>Dyslexi, koncentrationssvårigheter</td><td>Hjärnskakning, sömnbrist</td><td>Stressad, avbruten, läser på ett annat språk</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Orden betyder nästan samma sak i vardagsspråk, så håll isär dem:</p>
+
+    <ul>
+      <li><b>Varaktig</b> — finns hela tiden, eller länge.</li>
+      <li><b>Temporär</b> — går över, men det tar veckor.</li>
+      <li><b>Tillfällig</b> — gäller i situationen och är borta när situationen är det.</li>
+    </ul>
+
+    <p>Den varaktiga kolumnen är liten. De två andra är alla. <b>Den som designar för en
+      person med en arm hjälper också den med gipsad handled och den som bär en kasse.</b></p>
+
+    <h3>Tre principer för inkludering</h3>
+
+    <p><b>Inkluderande design</b> (<i>inclusive design</i>) är ett arbetssätt där du utgår från
+      dem som stängs ute i stället för från en genomsnittlig användare. Tre principer:</p>
+
+    <ol class="steg">
+      <li><b>Känn igen uteslutningen.</b> Den syns inte för den som inte drabbas. Fråga vem som
+        inte kan göra det här, och varför.</li>
+      <li><b>Lär av dem som stängs ute.</b> De hittar det du inte ser. Därför testar du på
+        riktiga personer i februari, och därför ska minst en vara utanför klassen.</li>
+      <li><b>Lös för en, och det gäller många.</b> Undertexter gjordes för döva och används av
+        alla som tittar på video med ljudet av. Den nedsänkta trottoarkanten gjordes för
+        rullstolar och används av barnvagnar och resväskor.</li>
+    </ol>
+
+    <p>Principerna blir kriterier i avsnitt 2.</p>
+
+    <h3>Fem situationer på din sajt</h3>
+
+    <p>Lista fem situationer där din sajt blir svår att använda, på telefonen och på datorn.
+      Minst en ur varje kolumn: varaktig, temporär, tillfällig. För varje situation:</p>
+
+    <ol class="steg">
+      <li><b>Situationen.</b> Vem, var, med vilken begränsning.</li>
+      <li><b>Var på sajten.</b> Sida och element.</li>
+      <li><b>Vad som händer.</b> Vad personen inte kan göra.</li>
+    </ol>
+
+    <p><b>Skriv ingen lösning.</b> Uppgiften här är att se. <i>Hela sajten</i> är ett omdöme;
+      <i>menyknappen uppe till höger, utom räckhåll för tummen</i> är ett fynd. Listan är
+      inget krav, men den blir underlag för granskningen och testplanen.</p>
+
+    <h3>Blockets ordning</h3>
+
+    <p>Gränssnittsdesign och Webbutveckling arbetar med samma sajt i det här blocket, i den
+      här ordningen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Datum</th><th>Kurs</th><th>Vad</th></tr></thead>
+        <tbody>
+          <tr><td>18 januari</td><td>Gränssnittsdesign</td><td><b>Granskning.</b> Du granskar din sajt mot checklistan i avsnitt 2. På riktigt</td></tr>
+          <tr><td>27 januari</td><td>Webbutveckling</td><td><b>Åtgärder.</b> Du rättar det du hittade</td></tr>
+          <tr><td>4 februari</td><td>Gränssnittsdesign</td><td><b>Test.</b> Tre personer testar sajten efter åtgärderna</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Det du inte hittar den 18 januari blir inte rättat före testet. Då snubblar
+      testpersonerna på det, och det kostar tid som skulle ha gått till något du inte visste
+      om.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Boka testpersonen nu</span>
+      <p>En av dina tre testpersoner ska vara <b>utanför klassen</b>, gärna någon som liknar
+        en av dina typanvändare från december. Bestäm vem och när: testet görs mellan den
+        4 och den 8 februari. Det är det enda i uppgiften som kräver en annan människa vid en
+        viss tid. Har du ingen att fråga: en förälder, ett äldre syskon, någon i en annan
+        klass.</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <h2 id="wcag">2. WCAG i praktiken</h2>
+
+    <p><i>Ganska tillgänglig</i> är ett omdöme, och det går inte att åtgärda. WCAG gör
+      tillgänglighet till något du kan kontrollera: arton frågor som var och en går att svara
+      ja eller nej på.</p>
+
+    <p><b>WCAG</b> (<i>Web Content Accessibility Guidelines</i>) är den internationella
+      standarden för tillgänglighet på webben. Den ges ut av W3C, samma organisation som står
+      bakom HTML. Numren i checklistan är ur version 2.2. Offentliga webbplatser i Sverige ska
+      enligt lag klara nivå AA.</p>
+
+    <h3>De fyra principerna</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Princip</th><th>På engelska</th><th>Frågan</th></tr></thead>
+        <tbody>
+          <tr><td><b>Möjlig att uppfatta</b></td><td><i>Perceivable</i></td><td>Kan alla ta in innehållet, med de sinnen de har?</td></tr>
+          <tr><td><b>Hanterbar</b></td><td><i>Operable</i></td><td>Kan alla använda det, med de verktyg de har?</td></tr>
+          <tr><td><b>Begriplig</b></td><td><i>Understandable</i></td><td>Går det att förstå vad som står och vad som händer?</td></tr>
+          <tr><td><b>Robust</b></td><td><i>Robust</i></td><td>Fungerar koden i webbläsare och hjälpmedel, nu och sedan?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Förkortningen <b>POUR</b> kommer ur de engelska orden. Första siffran i varje kriterium
+      är principen: 1.x möjlig att uppfatta, 2.x hanterbar, 3.x begriplig. Checklistan har
+      ingen rad ur princip 4. Robust handlar om att koden säger vad varje element är, så att
+      hjälpmedel kan läsa den, och det hör till Webbutveckling.</p>
+
+    <h3>Nivå A och AA</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nivå</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>A</b></td><td>Utan det här är sajten oanvändbar för någon. Det lägsta golvet</td></tr>
+          <tr><td><b>AA</b></td><td>Det lagar och avtal hänvisar till. Det som är att räkna med</td></tr>
+          <tr><td><b>AAA</b></td><td>Högsta nivån. Sällan ett krav, och inte med i kursen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Elva av checklistans arton kriterier är på nivå A.</b> Det spelar roll: i
+      Webbutveckling är det ett E-krav att alla fynd på nivå A är åtgärdade. Nivån du skriver
+      i tabellen avgör alltså vad du måste rätta den 27 januari.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3 id="checklistan" style="margin:0">WCAG-checklistan</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <p>Checklistan i uppgift 6. Kryssa i ett kriterium när du har kontrollerat det på din
+        sajt — oavsett om resultatet blev uppfyllt, brist eller inte tillämpligt.</p>
+      <div class="tabellsvep">
+        <table>
+          <thead><tr><th>Nr</th><th>Kriterium</th><th>Nivå</th><th>Kontrolleras så här</th></tr></thead>
+          <tbody>
+            <tr><td><label><input type="checkbox" id="wcag-1-1-1"> 1.1.1</label></td><td>Icke-textinnehåll</td><td>A</td><td>Varje bild har alt-text som säger det bilden säger, dekor har tom alt</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-1-2-2"> 1.2.2</label></td><td>Undertexter (förinspelat)</td><td>A</td><td>Video med tal har undertexter. Inte tillämpligt om sajten saknar video</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-1-3-1"> 1.3.1</label></td><td>Information och relationer</td><td>A</td><td>Rubriker, listor, tabellrubriker och fältetiketter finns i koden, inte bara i utseendet</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-1-4-3"> 1.4.3</label></td><td>Kontrast (minimum)</td><td>AA</td><td>4.5:1 för text, 3:1 för stor text</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-1-4-4"> 1.4.4</label></td><td>Ändra textstorlek</td><td>AA</td><td>200 % förstoring utan att text klipps</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-1-4-10"> 1.4.10</label></td><td>Omflödning</td><td>AA</td><td>320 px bredd utan sidledsrullning</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-1-4-11"> 1.4.11</label></td><td>Kontrast för icke-text</td><td>AA</td><td>3:1 för fokusring, fältkanter och ikoner som bär betydelse</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-2-1-1"> 2.1.1</label></td><td>Tangentbord</td><td>A</td><td>Allt som går med mus går med tangentbord</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-2-1-2"> 2.1.2</label></td><td>Ingen tangentbordsfälla</td><td>A</td><td>Fokus kommer ut ur allt det kommer in i</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-2-2-2"> 2.2.2</label></td><td>Pausa, stoppa, dölj</td><td>A</td><td>Rörelse som startar själv och pågår mer än fem sekunder går att stoppa</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-2-4-1"> 2.4.1</label></td><td>Möjlighet att hoppa över block</td><td>A</td><td>Landmärken (<code>header</code>, <code>nav</code>, <code>main</code>) eller en skip-länk</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-2-4-3"> 2.4.3</label></td><td>Fokusordning</td><td>A</td><td>Tabbordningen följer läsordningen</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-2-4-4"> 2.4.4</label></td><td>Länkens syfte (i sammanhang)</td><td>A</td><td>Ingen länk som bara heter <i>Läs mer</i> eller <i>Klicka här</i> utan sammanhang</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-2-4-6"> 2.4.6</label></td><td>Rubriker och etiketter</td><td>AA</td><td>Rubriker och etiketter beskriver vad som följer</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-2-4-7"> 2.4.7</label></td><td>Synligt fokus</td><td>AA</td><td>Man ser alltid var fokus är</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-2-5-8"> 2.5.8</label></td><td>Målstorlek (minimum)</td><td>AA</td><td>Klickytor minst 24 × 24 px, eller med avstånd</td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-3-1-1"> 3.1.1</label></td><td>Sidans språk</td><td>A</td><td><code>lang</code> satt på <code>html</code></td></tr>
+            <tr><td><label><input type="checkbox" id="wcag-3-3-2"> 3.3.2</label></td><td>Etiketter eller instruktioner</td><td>A</td><td>Varje fält har en synlig etikett</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h3>Gå igenom den i fyra grupper</h3>
+
+    <p>Tabellen du lämnar in står i checklistans ordning. Men det går fortare att
+      <b>kontrollera</b> kriterierna efter hur de prövas, i fyra grupper. Tabellen och
+      grupperna innehåller samma arton kriterier.</p>
+
+    <p><b>Med ögonen: 1.4.3, 1.4.11, 1.4.4, 1.4.10.</b> Kontrasten mätte du i oktober, och
+      värdena står i din stilguide. Mät nu på den publicerade sajten med WebAIM Contrast
+      Checker, inte i Figma: stilguiden säger vad som var tänkt, sajten visar vad som blev.
+      Färgvärdet läser du med högerklick och <i>Granska</i>. Det nya är 1.4.11, <b>3:1 för det
+      som inte är text</b>: fokusringen, fältkanterna, en ikon som bär betydelse. Textstorlek
+      prövar du med <kbd>Ctrl</kbd> och <kbd>+</kbd> till 200 procent: klipps någon text?
+      Omflödning prövar du i DevTools (webbläsarens utvecklarverktyg, <kbd>F12</kbd>) med
+      <i>device mode</i>, läget som låtsas vara en annan skärm (<kbd>Ctrl</kbd> +
+      <kbd>Skift</kbd> + <kbd>M</kbd>), på 320 pixlars bredd: måste du rulla i sidled?</p>
+
+    <p><b>Med tangentbordet: 2.1.1, 2.1.2, 2.4.3, 2.4.7.</b> Lägg undan musen och tabba genom
+      sajten. Fyra frågor, och de är kriterierna: når jag allt, kommer jag ut ur allt, följer
+      ordningen läsordningen, ser jag var jag är? Hur det är att navigera så står i
+      avsnitt 3.</p>
+
+    <p><b>I strukturen: 1.3.1, 2.4.1, 2.4.6, 2.4.4, 3.1.1.</b> Det som ser ut som en rubrik ska
+      vara en rubrik, inte bara stor text. Högerklicka och välj <i>Granska</i>: står det
+      <code>h2</code>, eller något annat med stor stil? Landmärken — de delar av sidan som
+      heter <code>header</code>, <code>nav</code> och <code>main</code> — räcker för 2.4.1.
+      Rubrikerna ska säga vad som följer. En länk som bara heter <i>Läs mer</i> underkänns om
+      inte sammanhanget säger vart den leder. <code>lang</code> på <code>html</code> ser du i
+      sidkällan (<kbd>Ctrl</kbd> + <kbd>U</kbd>).</p>
+
+    <p><b>I innehållet: 1.1.1, 1.2.2, 2.2.2, 3.3.2, 2.5.8.</b> <b>Alt-texten ska fungera, inte
+      bara finnas.</b> Läs den utan att se bilden: säger den det bilden säger? <i>Bild1</i>
+      eller <i>foto</i> underkänns. Dekor ska ha tom alt-text. Undertexter och rörelse som
+      startar själv är ofta inte tillämpliga. Varje fält ska ha en synlig etikett, inte bara
+      en text i fältet som försvinner när man skriver.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">24 är kravet, 44 var ditt beslut</span>
+      <p>2.5.8 kräver klickytor på minst 24 × 24 pixlar. I stilguiden i oktober valde du
+        44 × 44. Det var ett designbeslut, och ett bra. Men en knapp på 30 pixlar klarar
+        WCAG. Den är en avvikelse från din stilguide, inte en brist mot kriteriet.</p>
+    </div>
+
+    <h3 id="fyndet">Så skriver du ett fynd</h3>
+
+    <p>Formen är ett tekniskt krav i uppgiften. Fyra kolumner, en rad per kriterium, i
+      checklistans ordning:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>Nivå</th><th>Resultat</th><th>Var</th></tr></thead>
+        <tbody>
+          <tr><td>2.4.7 Synligt fokus</td><td>AA</td><td>Brist</td><td>Alla sidor, länkarna i menyn. Fokus syns inte mot den mörka bakgrunden</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ul>
+      <li><b>Resultatet är ett av tre ord:</b> uppfyllt, brist, inte tillämpligt. <i>Inte
+        tillämpligt</i> är ett resultat, inte ett hål, och det kräver en halv mening om
+        varför: <i>sajten har ingen video</i>. Tangentbordet är alltid tillämpligt.</li>
+      <li><b>Var är sida och element.</b> <i>Menyn</i> är inte en plats.</li>
+      <li><b>Varje brist har en skärmbild</b> med elementet utpekat. Skärmklipp tar du med
+        <kbd>Win</kbd> + <kbd>Skift</kbd> + <kbd>S</kbd>; rita en ruta runt elementet
+        efteråt. Den som rättar ska hitta det utan att fråga, även om det är du själv.</li>
+    </ul>
+
+    <p>Granska <b>den publicerade sajten</b> på Pages-adressen, inte den lokala versionen, och
+      minst startsidan och en undersida. Bristerna skiljer sig ofta mellan dem. En tabell full
+      av brister är en bra granskning. En med bara <i>uppfyllt</i> är det sällan.</p>
+
+    <div class="notis">
+      <span class="rubrik">Ingen kod här</span>
+      <p>Det finns ingen kolumn för hur bristen rättas, och det är avsiktligt. Du ska kunna
+        säga vilket kriterium en brist gäller och var den sitter. Hur det rättas i koden står
+        i <a href="../webb-omrade-5/guide-responsiv.html#tillganglighet">Webbutvecklings guide,
+        avsnittet om tillgänglighet i koden</a>.</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <h2 id="hjalpmedel">3. Tekniker och hjälpmedel</h2>
+
+    <p>I avsnitt 2 prövade du sajten mot kriterier. Här använder du den som någon annan gör:
+      utan mus, utan att se skärmen, förstorad, med rörelsen avstängd. <b>En sida har ett
+      utseende och ett ljud, och de byggs inte av samma sak.</b> Det du ser kommer ur stilen.
+      Det du hör kommer ur strukturen.</p>
+
+    <h3>Tangentbordet</h3>
+
+    <p>Utan mus navigerar den som inte kan styra en mus, varaktigt eller med en gipsad handled.
+      Den som inte ser pekaren — skärmläsaranvändare navigerar med tangentbord. Och den som är
+      snabbare så, i formulär och långa listor. Fem tangenter räcker:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Tangent</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>Tab</kbd></td><td>Nästa sak man kan göra något med: länk, knapp, fält</td></tr>
+          <tr><td><kbd>Skift</kbd> + <kbd>Tab</kbd></td><td>Föregående</td></tr>
+          <tr><td><kbd>Enter</kbd></td><td>Följ länken, tryck på knappen</td></tr>
+          <tr><td><kbd>Mellanslag</kbd></td><td>Tryck på knappen, kryssa i rutan</td></tr>
+          <tr><td>Piltangenterna</td><td>Inom en meny eller en lista av val</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Fokus</b> är markeringen som visar vilket element tangentbordet står på just nu. Fyra
+      saker att leta efter, och de är de fyra tangentbordskriterierna i praktiken:</p>
+
+    <ol class="steg">
+      <li><b>Ser jag var jag är, hela tiden?</b> Försvinner fokus är du blind för en stund.
+        (2.4.7)</li>
+      <li><b>Kommer jag i en rimlig ordning?</b> Hoppar fokus från menyn till sidfoten och
+        tillbaka följer ordningen inte läsordningen. (2.4.3)</li>
+      <li><b>Når jag allt?</b> Menyknappen, bildspelet, formulärets skicka-knapp. (2.1.1)</li>
+      <li><b>Kommer jag ut?</b> En ruta som fångar fokus är en fälla. (2.1.2)</li>
+    </ol>
+
+    <h3>Skärmläsaren</h3>
+
+    <p>En <b>skärmläsare</b> läser upp det som finns på skärmen med syntetisk röst och låter
+      användaren styra med tangentbordet, eller med gester på telefonen. Tre finns inbyggda,
+      och inget behöver installeras:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>System</th><th>Skärmläsare</th><th>Så startar den</th></tr></thead>
+        <tbody>
+          <tr><td>Windows</td><td>Skärmläsaren</td><td><kbd>Ctrl</kbd> + <kbd>Win</kbd> + <kbd>Enter</kbd>. Samma kombination stänger av den</td></tr>
+          <tr><td>Mac och iPhone</td><td>VoiceOver</td><td><kbd>Cmd</kbd> + <kbd>F5</kbd> på Mac. I inställningarna under Hjälpmedel på iPhone</td></tr>
+          <tr><td>Android</td><td>TalkBack</td><td>I inställningarna under Hjälpmedel</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis varna">
+      <span class="rubrik">Telefonen blir svår att använda</span>
+      <p>Slå inte på VoiceOver eller TalkBack i telefonen om du inte vet hur du stänger av den
+        igen. Gesterna ändras, och telefonen går inte att använda som vanligt förrän
+        skärmläsaren är av. Öva på datorn först.</p>
+    </div>
+
+    <p><b>Ingen lyssnar på en sida uppifrån och ner.</b> En van användare hoppar, precis som den
+      som ser skummar. Det här är kommandona i Skärmläsaren i Windows:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Tangent</th><th>Hoppar till</th><th>Vad du får höra</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>H</kbd></td><td>Nästa rubrik</td><td>Rubrikerna blir en innehållsförteckning</td></tr>
+          <tr><td><kbd>D</kbd></td><td>Nästa landmärke</td><td>Sidhuvud, meny, huvudinnehåll, sidfot</td></tr>
+          <tr><td><kbd>Tab</kbd></td><td>Nästa länk eller knapp</td><td>Länktexterna lösryckta, utan texten runt omkring</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>På en sida med tydlig struktur förstår du på några tryck på <kbd>H</kbd> vad sidan
+      innehåller. På en sida utan kommer ingenting, eller en enda rubrik. Går rösten för fort,
+      sänk talhastigheten i Skärmläsarens inställningar. Använd hörlurar.</p>
+
+    <p>Det här lyssnar du efter på din egen sajt. Varje punkt hör till ett kriterium i
+      checklistan — samma brister, men nu hörs de:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Lyssna efter</th><th>Frågan</th><th>Kriterium</th></tr></thead>
+        <tbody>
+          <tr><td><b>Sidans titel</b></td><td>Det första som läses. Säger den vilken sida du är på?</td><td>2.4.6</td></tr>
+          <tr><td><b>Rubrikerna</b></td><td>Finns de, och beskriver de vad som följer?</td><td>1.3.1, 2.4.6</td></tr>
+          <tr><td><b>Bilderna</b></td><td>Hör du vad bilden visar, eller <i>bild1 punkt jpg</i>?</td><td>1.1.1</td></tr>
+          <tr><td><b>Länkarna</b></td><td>Tre <i>Läs mer</i> i rad säger ingenting</td><td>2.4.4</td></tr>
+          <tr><td><b>Fälten</b></td><td>Hör du vad fältet är till för innan du skriver i det?</td><td>3.3.2</td></tr>
+          <tr><td><b>Rösten</b></td><td>Läses svensk text med engelskt uttal kan språket vara fel angivet</td><td>3.1.1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Tio minuter med en skärmläsare gör dig inte till skärmläsaranvändare. Den som använder
+      den varje dag lyssnar mycket snabbare och hittar vägar du inte vet om. Du hör de värsta
+      hindren, inte hela upplevelsen.</p>
+
+    <h3>Förstoring</h3>
+
+    <p>Den som ser dåligt förstorar, antingen i webbläsaren eller med ett förstoringsglas över
+      hela skärmen. Förstoringsglaset i Windows startar du med <kbd>Win</kbd> +
+      <kbd>+</kbd> och stänger med <kbd>Win</kbd> + <kbd>Esc</kbd>. Prova det, och du ser
+      direkt vad det betyder: du ser en bit av sidan åt gången. Ett meddelande i ett hörn, en
+      knapp långt ut till höger, en bekräftelse som visas kort — allt det missas. Det är
+      därför kriterierna om textstorlek och omflödning finns.</p>
+
+    <h3>Reducerad rörelse</h3>
+
+    <p>Rörelse på skärmen kan ge yrsel, illamående eller migrän hos den som har vestibulära
+      besvär, alltså problem med balanssinnet. Det gäller stora rörelser: sidor som glider in,
+      bakgrunder som rör sig i en annan takt än innehållet, bildspel som byter själva. En
+      knapp som tonar i färg är sällan ett problem. Reducerad rörelse betyder alltså inte
+      ingen rörelse alls.</p>
+
+    <p>Användaren ställer in det en gång, i systemet, och sajten ska respektera valet:</p>
+
+    <ul>
+      <li><b>Windows:</b> Hjälpmedel, Visuella effekter, Animeringseffekter.</li>
+      <li><b>Mac och iPhone:</b> Hjälpmedel, Reducera rörelse.</li>
+      <li><b>Android:</b> Hjälpmedel, Ta bort animeringar.</li>
+    </ul>
+
+    <p>Hur sajten känner av inställningen tog du i Webbutveckling den 20 januari. Här är frågan
+      för vem den finns.</p>
+
+    <h3>Så prövar du din sajt</h3>
+
+    <ol class="steg">
+      <li><b>Tangentbordet (E-krav).</b> Lägg musen åt sidan och navigera hela sajten, alla
+        sidor, med enbart tangentbord. Anteckna för varje sak du hittar: <b>var</b>, <b>vad
+        som hände</b> och <b>vilket kriterium</b> det gäller. Ett enda klick med musen gör
+        hela prövningen ogiltig.</li>
+      <li><b>Skärmläsaren.</b> Hörlurar på. Lyssna på startsidan och hoppa med <kbd>H</kbd>
+        och <kbd>Tab</kbd>. Anteckna vad som lät fel, och var på sidan.</li>
+      <li><b>Uppdatera granskningen.</b> Faller ett kriterium du satte som uppfyllt, ändra
+        tabellen. En granskning som rättas när du vet mer är en bättre granskning.</li>
+    </ol>
+
+    <p><b>A-nivån:</b> gör en hel testuppgift med skärmläsare, själv eller med en testperson,
+      och anteckna hur sajten lät.</p>
+
+    <!-- ============================================================ -->
+    <h2 id="verktyg">4. Testverktyg och deras gränser</h2>
+
+    <p><b>Ett automatiskt verktyg svarar på de frågor som går att avgöra i koden, och bara på
+      dem.</b> Resten kräver en människa, och det gjorde du i avsnitt 2 och 3. Verktyget
+      kompletterar granskningen, det ersätter den inte.</p>
+
+    <h3>Vad ett verktyg gör</h3>
+
+    <p>Verktyget läser sidans kod och prövar den mot regler. Varje regel är en fråga som går
+      att svara ja eller nej på utan att förstå sidan.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Verktyget kan avgöra</th><th>Verktyget kan inte avgöra</th></tr></thead>
+        <tbody>
+          <tr><td>Har bilden en alt-text?</td><td>Säger alt-texten det bilden säger?</td></tr>
+          <tr><td>Har <code>html</code> ett <code>lang</code>?</td><td>Är tabbordningen logisk?</td></tr>
+          <tr><td>Har fältet en etikett kopplad till sig?</td><td>Förstår man vart länken leder?</td></tr>
+          <tr><td>Hur stor är kontrasten mellan färgerna som de står i koden?</td><td>Hur stor är kontrasten för text på en bild?</td></tr>
+          <tr><td>Hoppar rubriknivåerna?</td><td>Beskriver rubrikerna vad som följer?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>De tre verktygen</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Verktyg</th><th>Vad det är</th><th>Visar resultatet så här</th></tr></thead>
+        <tbody>
+          <tr><td><b>WAVE</b></td><td>Från WebAIM, samma organisation som kontrastverktyget. En webbsida, <i>wave.webaim.org</i>, där du skriver in din Pages-adress. Inget att installera</td><td>Ikoner direkt på sidan, i färger efter sort</td></tr>
+          <tr><td><b>Lighthouse</b></td><td>Inbyggt i Chrome. DevTools, fliken Lighthouse, kryssa bara i tillgänglighet</td><td>En poäng 0–100 och en lista</td></tr>
+          <tr><td><b>axe DevTools</b></td><td>Tillägg till webbläsaren, gratisversion. Går inte alltid att installera på skolans datorer</td><td>En lista, sorterad efter allvar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>WAVE</b> (<i>Web Accessibility Evaluation Tool</i>) skiljer på sorter. <b>Röda</b>
+      ikoner är fel, alltså regler som bryts. <b>Gula</b> är varningar, på engelska
+      <i>alerts</i>: något verktyget tycker att en människa bör titta på. Gröna och blå visar
+      sådant som finns, som landmärken och rubriker. Fliken <i>Structure</i> visar sidans
+      rubriker och landmärken i ordning, och är en bra kontroll av 1.3.1.</p>
+
+    <p><b>Lighthouse</b> ger en poäng. Läs listan under poängen, och sedan det som står längst
+      ner under <i>Additional items to manually check</i>, alltså sådant som behöver
+      kontrolleras för hand. Där säger verktyget själv vad det inte kan bedöma.</p>
+
+    <p><b>axe</b> är byggt för att hellre missa ett fel än larma i onödan. Därför hittar det
+      ofta färre saker än WAVE, och det det hittar stämmer oftare. De tre verktygen har olika
+      regler och ger inte samma resultat på samma sida.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Full poäng är inte ett resultat</span>
+      <p>En sida kan få hundra av hundra i Lighthouse och ändå ha en fokusring som inte syns
+        och alt-texter som säger <i>bild1</i>. Verktyget har rätt i allt det har kontrollerat.
+        Det har bara inte kontrollerat det här. <b>Full poäng betyder att verktyget inte
+        hittade något, inte att sidan fungerar.</b></p>
+    </div>
+
+    <h3>Vad verktygen missar</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>Verktyget ser</th><th>Verktyget ser inte</th></tr></thead>
+        <tbody>
+          <tr><td>1.1.1 Icke-textinnehåll</td><td>Att alt-texten finns</td><td>Om den säger det bilden säger</td></tr>
+          <tr><td>2.4.3 Fokusordning</td><td>Ingenting, eller ett fåtal tecken</td><td>Om ordningen följer läsordningen</td></tr>
+          <tr><td>2.4.4 Länkens syfte</td><td>Att en länk heter <i>Läs mer</i></td><td>Om sammanhanget gör det tydligt, eller om en tydlig länk leder fel</td></tr>
+          <tr><td>2.4.6 Rubriker och etiketter</td><td>Att rubriker finns</td><td>Om de beskriver vad som följer</td></tr>
+          <tr><td>2.4.7 Synligt fokus</td><td>Nästan aldrig</td><td>Om man ser var fokus är</td></tr>
+          <tr><td>1.4.3 Kontrast</td><td>Text mot en enfärgad bakgrund</td><td>Text på en bild eller en toning</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Tre till som bara en människa hittar: tangentbordsfällor (2.1.2), omflödning på
+      320 pixlar (1.4.10) och rörelse som inte går att stoppa (2.2.2). <b>Varje rad i
+      högerkolumnen är en brist som bara en människa hittar.</b> Har du hittat en sådan i din
+      granskning har du C-kravet framför dig.</p>
+
+    <h3>Vad verktygen larmar om i onödan</h3>
+
+    <p>Ett <b>falsklarm</b> är ett fynd som ser ut som ett fel men inte är det. Verktyget har
+      följt sin regel, men regeln passar inte just här. Fyra vanliga:</p>
+
+    <ul>
+      <li><b>Hoppande rubriknivåer.</b> WAVE varnar när en <code>h2</code> följs av en
+        <code>h4</code>. Det kan vara ett problem, men det bryter inte i sig mot något
+        kriterium i checklistan.</li>
+      <li><b>Logotypen underkänns på kontrast.</b> Text som är en del av en logotyp är
+        undantagen från 1.4.3. Ordmärket du ritade i höstas behöver inte klara 4.5:1.</li>
+      <li><b>Upprepad länk.</b> Logotypen och <i>Start</i> i menyn leder till samma sida, och
+        WAVE varnar. Det är sällan ett problem.</li>
+      <li><b>Kontrast på text över en bild.</b> Verktyget kan inte räkna mot bilden. Det
+        gissar, underkänner eller hoppar över. Mät själv med Contrast Checker.</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Så sorterar du</span>
+      <p>Ett <b>äkta fel</b> är ett fynd du kan knyta till ett kriterium i checklistan och till
+        en person som stängs ute. Ett <b>falsklarm</b> är ett fynd där kriteriet ändå är
+        uppfyllt. En <b>varning</b> är en fråga till dig, och du avgör vilket av de två den är.
+        Motiveringen är det som räknas: <i>falsklarm</i> utan skäl är en gissning.</p>
+    </div>
+
+    <h3>Så gör du</h3>
+
+    <ol class="steg">
+      <li><b>Kör WAVE eller Lighthouse på minst två sidor</b> av den publicerade sajten.
+        Anteckna vilket verktyg och vilket datum. (E)</li>
+      <li><b>Lista fynden</b> i en tabell: fynd, sida, kriterium, äkta fel eller falsklarm,
+        motivering. (C)</li>
+      <li><b>Ta fram din granskning från avsnitt 2.</b> Hitta en brist som granskningen
+        hittade och verktyget missade. Skriv vilken, och varför verktyget inte kunde se den.
+        (C)</li>
+      <li><b>Hittade verktyget något granskningen missade?</b> För in det i
+        granskningstabellen, så att det finns med när sajten rättas.</li>
+    </ol>
+
+    <p>Webbutveckling kör Lighthouse som en rad i testprotokollet den 2 februari. Där är
+      frågan om verktyget körts och felen rättats. Här är frågan vad fynden betyder.</p>
+
+    <!-- ============================================================ -->
+    <h2 id="testmetoder">5. Metoder för att testa användbarhet</h2>
+
+    <p>Granskningen mot WCAG är gjord och verktygen är körda. Nu kommer det tredje ledet:
+      <b>testet</b>, med riktiga personer.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Granskning</th><th>Test</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vem</b></td><td>Någon prövar sajten mot kriterier</td><td>Någon försöker använda den</td></tr>
+          <tr><td><b>Frågan</b></td><td>Bryter sajten mot något?</td><td>Kan en människa göra det hen kom för?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Svaren är inte desamma, och rapporten ska visa skillnaden.</p>
+
+    <h3>Fyra metoder</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Metod</th><th>Vem</th><th>Duger till</th><th>Duger inte till</th></tr></thead>
+        <tbody>
+          <tr><td><b>Heuristisk utvärdering</b></td><td>En granskare mot en lista</td><td>Hitta många brister snabbt och billigt</td><td>Säga vad en riktig användare fastnar på</td></tr>
+          <tr><td><b>Uppgiftsbaserat test</b></td><td>En testperson som försöker göra något</td><td>Se var det tar stopp på riktigt</td><td>Säga <i>varför</i>, om personen är tyst</td></tr>
+          <tr><td><b>Tänka högt</b></td><td>Testpersonen säger vad hen tänker medan hen gör</td><td>Höra varför. Förväntningar, tvekan, missförstånd</td><td>Mäta tid. Att prata gör en långsammare</td></tr>
+          <tr><td><b>Enkät</b></td><td>Många, efteråt</td><td>Mäta hur vanligt något är eller hur det kändes</td><td>Hitta problem man inte redan vet om</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Heuristisk utvärdering har du redan gjort.</b> Det var granskningen i december, mot
+      <a href="../gran-omrade-4/guide-anvandare.html#heuristiker">de tio heuristikerna</a>.
+      WCAG-granskningen var samma sorts metod, med en annan lista. En granskare hittar ungefär
+      hälften av det riktiga användare stöter på.</p>
+
+    <p><b>Uppgiftsbaserat test och tänka högt görs tillsammans</b>, och det är metoden i
+      uppgift 6: testpersonen löser uppgifter och säger vad hen tänker. <i>Tänka högt</i>
+      (<i>think aloud</i>) är något du får be om, för de flesta tystnar när de koncentrerar
+      sig. <b>Enkäten</b> är inget krav. Tre personer ger ingen siffra som betyder något.</p>
+
+    <h3>Testuppgifterna finns redan</h3>
+
+    <p>I december skrev du <a href="../gran-omrade-4/guide-anvandare.html#krav">fem krav</a> och
+      en <a href="../gran-omrade-4/guide-anvandare.html#resan">användarresa</a>. Resan säger vad
+      sajtens viktigaste uppgift är, och kraven säger vad som ska gå. <b>Du skriver inga nya
+      uppgifter. Du tar det du lovade i december och ser om sajten håller det.</b></p>
+
+    <p>Tre regler för att göra ett krav till en testuppgift:</p>
+
+    <ol class="steg">
+      <li><b>Ett mål, inte en väg.</b> <i>Ta reda på när …</i>, <i>Du vill …</i>. Aldrig
+        <i>Klicka på …</i> eller <i>Gå till …</i>.</li>
+      <li><b>Använd inte orden som står på sajten.</b> Heter menyvalet <i>Kontakt</i> ska
+        uppgiften inte säga <i>kontakta</i>. Då letar personen efter ordet i stället för efter
+        svaret.</li>
+      <li><b>Ett slut man känner igen.</b> Du ska veta när uppgiften är klar: ett svar, en
+        sida, ett skickat formulär. <i>Titta runt på sajten</i> går inte att klara eller
+        misslyckas med.</li>
+    </ol>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Instruktion</th><th>Mål</th></tr></thead>
+        <tbody>
+          <tr><td><i>Klicka på Öppettider.</i></td><td><i>Du vill låna en bok på lördag eftermiddag. Går det?</i></td></tr>
+          <tr><td><i>Klicka på Kontakt och skicka ett meddelande.</i></td><td><i>Du vill fråga ägaren om öppettiderna i helgen.</i></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Instruktionen testar om personen kan läsa. Målet testar om sajten visar vägen, och det
+      är bara det du vill veta något om.</p>
+
+    <p><b>Välj tre uppgifter:</b> användarresans huvuduppgift och två krav som går att pröva på
+      sajten. <b>C-nivån</b> är att uppgifterna kommer ur kraven, och att rapporten sedan säger
+      vilka krav som höll.</p>
+
+    <h3>Mätpunkterna</h3>
+
+    <p>Varje uppgift har en mätpunkt med tre utfall:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Utfall</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Klarade</b></td><td>Nådde målet utan omväg eller hjälp</td></tr>
+          <tr><td><b>Klarade med svårighet</b></td><td>Nådde målet, men efter fel väg, tvekan eller en ny start</td></tr>
+          <tr><td><b>Klarade inte</b></td><td>Gav upp, eller nådde fel mål och trodde det var rätt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Bestäm gränserna innan testet, inte efteråt.</b> Skriv i planen vad som räknas som
+      svårighet för just den uppgiften, till exempel <i>minst ett klick på fel sida</i>. Den som
+      bestämmer efteråt bedömer sin egen sajt snällt.</p>
+
+    <h3 id="testplanen">Testplanens fyra delar</h3>
+
+    <ol class="steg">
+      <li><b>Syfte</b>, en mening: vad vill du ta reda på?</li>
+      <li><b>Tre testuppgifter</b>, formulerade som mål, ur kraven och resan från uppgift 4.</li>
+      <li><b>Mätpunkt per uppgift</b>: vad som räknas som klarade, med svårighet, inte.</li>
+      <li><b>Vad du säger innan testet börjar</b>, fyra eller fem meningar: vad testet går ut
+        på, att det är sajten som testas och inte personen, att hen får tänka högt och att
+        hen kan avbryta. Hur det sägs står i avsnitt 6.</li>
+    </ol>
+
+    <h3>Kamratgranskningen</h3>
+
+    <p>Byt plan med en kamrat och svara skriftligt på fyra frågor om kamratens plan:</p>
+
+    <ul>
+      <li>Är varje uppgift ett mål, eller säger den vart man ska?</li>
+      <li>Står något av sajtens egna ord i uppgiften?</li>
+      <li>Vet du när uppgiften är klar?</li>
+      <li>Går mätpunkten att avgöra utan att tolka?</li>
+    </ul>
+
+    <p>Spara kamratens svar och skriv vad du ändrade. Tillsammans med pilottestet i avsnitt 6
+      är det <b>C-kravet</b> om en granskad och pilottestad plan. Den som läst din plan vet vad
+      uppgifterna är, och kan därför inte bli din testperson.</p>
+
+    <div class="notis">
+      <span class="rubrik">Testplan eller testprotokoll</span>
+      <p>Ordet <i>test</i> betyder olika saker i de två kurserna. Testprotokollet i
+        Webbutveckling prövar att tekniken fungerar: två webbläsare, telefon, tangentbord,
+        validering. Testplanen här prövar om en människa klarar det hen kom för. Två dokument,
+        två kurser.</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <h2 id="halla-test">6. Att hålla ett test</h2>
+
+    <p>Du kan redan intervjua. I område 4 lärde du dig
+      <a href="../gran-omrade-4/guide-anvandare.html#undersokning">att fråga utan att styra,
+      att anteckna och att vänta ut tystnaden</a>. Det här avsnittet säger en enda ny sak:
+      <b>i ett test pratar du ännu mindre.</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Intervjun</th><th>Testet</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vad du gör</b></td><td>Ställer frågor, följer upp</td><td>Ger en uppgift, sedan tyst</td></tr>
+          <tr><td><b>Vem som pratar</b></td><td>Personen, men du leder</td><td>Personen, och bara hen</td></tr>
+          <tr><td><b>Vad du letar efter</b></td><td>Varför hen gör som hen gör</td><td>Var hen fastnar</td></tr>
+          <tr><td><b>Tystnaden</b></td><td>Räkna till tre</td><td>Räkna till trettio</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Det som fastnar är fyndet.</b> Varje gång testpersonen tvekar, letar, backar eller
+      gissar visar sajten dig något den inte klarar. Du har gjort sajten och vet var allt
+      ligger. Därför kan du inte se vad som är svårt med den, och därför måste någon annan
+      sitta vid tangentbordet.</p>
+
+    <h3>Vem som kan vara testperson</h3>
+
+    <p>Tre testpersoner, minst en utanför klassen. Två regler:</p>
+
+    <ul>
+      <li><b>Hen har inte sett sajten.</b> Den som granskade din sajt i december, den du
+        pilottestar med och den som kamratgranskade din plan vet redan var saker ligger. De
+        kan inte vara testpersoner.</li>
+      <li><b>Hen liknar någon som ska använda sajten.</b> Inget krav på E-nivå, men det är
+        <b>A-nivån</b>: alla tre utanför klassen, och minst en som motsvarar en av dina
+        typanvändare.</li>
+    </ul>
+
+    <p>Testerna ska vara gjorda <b>senast måndag 8 februari</b>. Två görs med klasskamrater den
+      4 februari, den utanför klassen på egen tid.</p>
+
+    <h3>Samtycket</h3>
+
+    <p>Samtycket bygger på det du lärde dig om personuppgifter i december, i
+      <a href="../gran-omrade-5/guide-lagar.html#lagligt-begripligt">område 5</a>. Det ska vara
+      muntligt och komma efter att personen fått veta vad testet går ut på. Fyra delar, i den
+      ordning du säger dem:</p>
+
+    <ol class="steg">
+      <li><b>Vad testet går ut på.</b> Det är sajten som testas, inte hen. Hen kan inte göra
+        fel.</li>
+      <li><b>Att hen kan avbryta</b> när som helst, utan att förklara varför.</li>
+      <li><b>Att ingenting spelas in.</b> Du antecknar vad som händer, inte vem hen är.</li>
+      <li><b>Frågan:</b> <i>Är det okej för dig?</i> Svaret är samtycket.</li>
+    </ol>
+
+    <p>Sedan skriver du <b>datumet</b> på anteckningen. Det visar att samtycket fanns före
+      testet och inte skrevs in efteråt. Skriv samtycket ordagrant i ditt manus, så att alla
+      tre testpersoner får höra samma sak.</p>
+
+    <h3>Anonymiseringen</h3>
+
+    <p>Dataminimering, som du läste om i december, gäller dina egna testpersoner: anteckna
+      bara det analysen behöver.</p>
+
+    <p class="inledning"><i>Person B, 45 år, handlar mat på nätet varje vecka.</i></p>
+
+    <p>Det räcker. Namn, skolklass och bild behöver du aldrig, och det du aldrig skrivit ner
+      behöver du inte ta bort. Skriv <i>Person A</i> överst från början, inte ens ett namn på
+      ett papper du tänker slänga.</p>
+
+    <h3>Att hålla tyst</h3>
+
+    <p>Det svåraste i hela uppgiften, och det vanligaste misstaget, är att hjälpa. Du ser
+      personen leta i menyn efter något som står mitt på sidan, och det är obekvämt för er
+      båda. <b>Obehaget är inte ett tecken på att något gått fel. Det är tecknet på att testet
+      fungerar.</b> Varje gång du hjälper byter du ut sajten mot dig själv, och då testas om
+      personen förstår dig.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>När testpersonen …</th><th>Säg</th><th>Säg inte</th></tr></thead>
+        <tbody>
+          <tr><td>tystnar</td><td><i>Vad tänker du nu?</i></td><td><i>Den ligger längst upp</i></td></tr>
+          <tr><td>letar</td><td><i>Vad letar du efter?</i></td><td><i>Nästan</i></td></tr>
+          <tr><td>frågar om hen gör rätt</td><td><i>Vad tror du?</i> eller <i>Gör som du skulle gjort hemma</i></td><td><i>Ja, det är rätt</i></td></tr>
+          <tr><td>hittar något oväntat</td><td><i>Vad hade du väntat dig?</i></td><td><i>Det är meningen att …</i></td></tr>
+          <tr><td>slutar tänka högt</td><td><i>Berätta gärna vad du tänker</i></td><td>Ingenting annat</td></tr>
+          <tr><td>vill ge upp</td><td><i>Vill du fortsätta, eller gå vidare till nästa uppgift?</i></td><td><i>Jag visar</i></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kroppen pratar också. <b>Nicka inte, peka inte, sucka inte, luta dig inte fram.</b> Sitt
+      bredvid och en bit bakom, så att testpersonen inte läser ditt ansikte. Testpersonen har
+      musen och tangentbordet. Du har papperet.</p>
+
+    <p><b>En uppgift får ta slut utan att lösas.</b> Vill testpersonen ge upp, eller blir hen
+      tydligt obekväm, går ni vidare till nästa uppgift och du antecknar <i>klarade inte</i>.
+      Det är ett resultat, inte ett misslyckat test. Bestäm i förväg hur länge du låter någon
+      leta innan du frågar om hen vill gå vidare. Du hjälper inte, men du kan låta hen gå
+      vidare. Det är skillnaden mellan att rädda testpersonen och att rädda sajten.</p>
+
+    <h3>Att anteckna</h3>
+
+    <p><b>Anteckna under testet, tolka efteråt.</b> Två exempel:</p>
+
+    <ul>
+      <li><i>Scrollar upp och ner två gånger, säger "var är menyn".</i> — en anteckning. Den
+        säger vad som hände.</li>
+      <li><i>Menyn är otydlig.</i> — en slutsats. Den hör hemma i analysen, avsnitt 7.</li>
+    </ul>
+
+    <p>Den som skriver slutsatser under testet har bestämt vad testet visade innan det är slut.
+      En enkel mall, ett papper per testperson och en rad per händelse:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Uppgift</th><th>Gjorde</th><th>Sa</th><th>Mätpunkt</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Klickar <i>Om oss</i>, backar, klickar <i>Kontakt</i></td><td><i>"Här borde det stå"</i></td><td>Klarade med svårighet</td></tr>
+          <tr><td>2</td><td>Hittar formuläret direkt, fyller i</td><td>–</td><td>Klarade</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Gjorde och sa i var sin kolumn är C-nivån.</b> Det är inte samma sak. Folk säger ofta
+      <i>det här var lätt</i> efter att ha letat i en minut, och båda delarna är data. Skriv
+      det personen säger <b>ord för ord</b>, inom citattecken. Ett citat går att tolka i
+      efterhand, en sammanfattning gör det inte.</p>
+
+    <h3 id="pilottest">Pilottestet</h3>
+
+    <p>Innan de riktiga testerna håller du testet en gång med bänkgrannen som testperson:
+      manus, samtycke, uppgifterna och anteckningar i mallen. Byt sedan. Skriv till sist
+      <b>vad du ändrar i planen och varför</b> — det är bör-kravet (C).</p>
+
+    <p>En pilot ska hitta fel i planen, inte i sajten. Det vanliga är en uppgift som visar sig
+      vara en instruktion, eller ett manus som avslöjar var saken ligger. Hinner ni inte alla
+      tre uppgifterna gör det ingenting. <b>Bänkgrannen räknas inte som testperson</b> — hen
+      vet nu var allt ligger.</p>
+
+    <h3 id="testdagen">Testdagen, 4 februari</h3>
+
+    <p>Testerna körs i grupper om fyra, satta så att ingen i gruppen har sett någon annans
+      sajt. I varje runda håller två i gruppen ett test och två är testpersoner, vid var sin
+      dator. Efter fyra rundor har alla hållit två test och varit testperson två gånger. Håll
+      dig i den grupp du blev satt i: byter du för att sitta med en kompis kan kompisen vara
+      den som granskade din sajt i december.</p>
+
+    <p>Är ni tre i gruppen får du en klasskamrat som testperson under passet i stället för två,
+      och tar två på egen tid. Boka dem direkt.</p>
+
+    <ul>
+      <li><b>Samtycket sägs varje gång.</b> Klasskamrater är testpersoner på samma villkor som
+        alla andra: manus, fråga, datum.</li>
+      <li><b>Presentera inte sajten.</b> <i>Det här är min sajt om …, menyn finns här uppe</i>
+        avslöjar var saker ligger. Manuset säger vad testet går ut på, inget mer.</li>
+      <li><b>Hinner ni inte alla tre uppgifter</b>, anteckna hur långt ni kom. Det är också ett
+        resultat.</li>
+      <li><b>Testa den publicerade sajten</b>, i det skick den har efter åtgärderna i
+        Webbutveckling.</li>
+      <li><b>Rätta inte mellan testerna.</b> Alla tre testpersoner ska möta samma sajt, annars
+        går fynden inte att jämföra. Ser du ett fel, anteckna det och låt koden vara tills
+        testet utanför klassen är gjort. Ändrar du ändå, skriv när.</li>
+    </ul>
+
+    <p><b>Samma dag, efter testerna:</b></p>
+
+    <ol class="steg">
+      <li><b>Skriv rent det som är slarvigt</b> medan du minns. Gjorde och sa i var sin kolumn,
+        ingen tolkning än.</li>
+      <li><b>Kontrollera att varje anteckning har</b> <i>Person</i>, ålder, datum för
+        samtycket och en mätpunkt per uppgift.</li>
+      <li><b>Skriv tre rader om hur det var att sitta tyst.</b> Var var det svårast? Sa du
+        något du inte skulle? Det är råmaterial till utvärderingen i avsnitt 8. Om en vecka
+        minns du vad som hände men inte hur det kändes.</li>
+    </ol>
+
+    <!-- ============================================================ -->
+    <h2 id="analys">7. Analys och prioritering</h2>
+
+    <p>Här tolkas anteckningarna för första gången. Allt du skrivit hittills har varit vad som
+      hände. Nu får du säga vad det betyder. Saknar du fortfarande ett test, gör det först och
+      analysera sedan.</p>
+
+    <h3>Sammanställningen</h3>
+
+    <p>Från tre anteckningar till en tabell: vilka problem, och hur många av testpersonerna som
+      stötte på vart och ett. Det är ska-kravet.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Problem</th><th>Uppgift</th><th>Person</th><th>Antal</th></tr></thead>
+        <tbody>
+          <tr><td>Letar efter öppettider under <i>Kontakt</i>, de ligger under <i>Om oss</i></td><td>1</td><td>A, B, C</td><td>3 av 3</td></tr>
+          <tr><td>Förstår inte att bilden i galleriet går att klicka på</td><td>2</td><td>B</td><td>1 av 3</td></tr>
+          <tr><td>Hittar inte formuläret, ger upp</td><td>3</td><td>C</td><td>1 av 3</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ul>
+      <li><b>Ett problem är något som hände, inte något någon sa.</b> <i>Tyckte att färgerna
+        var tråkiga</i> är en åsikt. Den får stå i analysen, men den är inte ett fynd om
+        inget hände.</li>
+      <li><b>Slå ihop det som är samma sak.</b> Två testpersoner som letade på samma fel ställe
+        är ett problem med två personer, inte två problem.</li>
+      <li><b>Anteckningen är belägget.</b> Varje rad ska gå att peka tillbaka till något i
+        anteckningarna. Det som inte står där får inte uppstå nu.</li>
+    </ul>
+
+    <p>Varje testuppgift kom ur ett krav från uppgift 4. Mätpunkterna säger därför vilka krav
+      som höll och vilka som inte gjorde det — skriv det, det är <b>C-nivån</b>.</p>
+
+    <h3>Allvar mot insats</h3>
+
+    <p><b>Antalet säger hur vanligt något är, inte hur allvarligt.</b> Tre av tre som irriterades
+      av bilderna på startsidan går efter en av tre som aldrig hittade formuläret och gav upp.
+      Den som gav upp gjorde inte det hen kom för, och det gör inte heller nästa person som
+      letar på samma ställe.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Allvar</th><th>Betyder</th><th>Prioritet</th></tr></thead>
+        <tbody>
+          <tr><td><b>Stoppar</b></td><td>Testpersonen kunde inte göra det hen kom för</td><td>1</td></tr>
+          <tr><td><b>Försvårar</b></td><td>Hen tog sig fram, men med omväg, tvekan eller hjälp av gissning</td><td>2</td></tr>
+          <tr><td><b>Stör</b></td><td>Hen märkte det och irriterades, men det hindrade inget</td><td>3</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Det är samma skala som i <a href="../gran-omrade-4/guide-anvandare.html#atgardslistan">åtgärdslistan
+      i uppgift 4</a>. Det nya är två saker som vägs in:</p>
+
+    <ul>
+      <li><b>Hur många.</b> Av två fynd som båda försvårar går det som tre av tre stötte på före
+        det som en av tre stötte på. Antalet ändrar ordningen inom en prioritet, inte
+        prioriteten själv.</li>
+      <li><b>Insatsen</b>, alltså vad det kostar att rätta, i grova drag: liten om det är en
+        text eller en etikett, stor om en sida behöver göras om. Insatsen får bestämma
+        ordningen mellan två fynd med samma allvar. Den får aldrig lyfta något som stör över
+        något som stoppar.</li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Bör-kravet, ordagrant</span>
+      <p>En brist som stoppar alla går före en som stör en person, även om den är dyrare att
+        rätta. Det är <b>C-nivån</b>, och den del av rapporten som bedöms hårdast.</p>
+    </div>
+
+    <p><b>Granskningens brister hör till samma lista.</b> Det du hittade mot WCAG och som inte
+      är rättat ska stå i åtgärdslistan tillsammans med testfynden: en lista, en ordning. En
+      brist på nivå A är nästan aldrig en trea. Att ingen av dina testpersoner använde
+      skärmläsare betyder inte att ingen gör det.</p>
+
+    <h3 id="atgardslistan">Åtgärdslistan, fem kolumner</h3>
+
+    <p>Samma fyra kolumner som i uppgift 4, plus en motivering. I <i>vad</i> står kriteriet
+      eller testfyndet. Listan sorteras på prioritet.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nr</th><th>Var</th><th>Vad</th><th>Prioritet</th><th>Motivering</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Menyn, alla sidor</td><td>Testfynd: formuläret hittas inte, uppgift 3</td><td>1</td><td>Stoppade en av tre. Kravet från uppgift 4 om att kunna beställa höll inte</td></tr>
+          <tr><td>2</td><td>Alla sidor, knapparna</td><td>2.4.7 Synligt fokus, brist</td><td>1</td><td>Stoppar den som navigerar med tangentbord, hen ser inte var hen är. Hittat i granskningen, märktes inte i testet</td></tr>
+          <tr><td>3</td><td>Menyn, <i>Kontakt</i></td><td>Testfynd: öppettiderna söks under fel rubrik, uppgift 1</td><td>2</td><td>Försvårade för tre av tre, alla hittade till slut. Liten insats: en rubrik</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Motiveringen säger varför, inte hur.</b> <i>Stoppade en av tre</i> är en motivering.
+      <i>Prioritet 1 för att det är viktigt</i> är det inte, och inte heller en beskrivning av
+      hur koden ska ändras — den hör hemma i Webbutvecklings testprotokoll, i
+      <code>dokumentation.md</code>. Hänvisa dit om det behövs, kopiera inte.</p>
+
+    <h3>Jämför metoderna</h3>
+
+    <p>Den här delen går bara att skriva för att blocket hade sin ordning: granskning,
+      åtgärder, test. En tabell med tre kolumner räcker som början:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Bara granskningen</th><th>Båda</th><th>Bara testet</th></tr></thead>
+        <tbody>
+          <tr><td>Kontrast, alt-text, fokus</td><td>…</td><td>Ordval, var saker ligger, vad folk väntar sig</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Granskningen hittar det dina testpersoner inte märker, för de använde inte skärmläsare
+      och såg kontrasten. Testet hittar det ingen checklista frågar om, för checklistan vet
+      inte vad dina besökare letar efter. <b>Två metoder som hittar olika fel</b>, inte en
+      bättre och en sämre. Svara också på två frågor (C):</p>
+
+    <ul>
+      <li><b>Vilka brister från granskningen rättades i Webbutveckling före testet?</b> Märkte
+        testpersonerna skillnad? Ofta är svaret nej, och det är ett resultat.</li>
+      <li><b>Fanns det ett fall där kriteriet var uppfyllt men testpersonen ändå fastnade,</b>
+        eller tvärtom? Det är <b>A-nivån</b>. En länk som heter något begripligt enligt 2.4.4,
+        men som ingen klickade på.</li>
+    </ul>
+
+    <p><b>A-nivån</b> är också att låta en kamrat som inte var med läsa din sammanställning och
+      prioritera fynden själv. Blir ordningen densamma som din håller rapporten.</p>
+
+    <!-- ============================================================ -->
+    <h2 id="rapporten">8. Rapporten och utvärderingen</h2>
+
+    <p>Allt lämnas på designportföljens sida <code>06 Test</code>, i den här ordningen:</p>
+
+    <ol class="steg">
+      <li><b>Granskningen</b> mot WCAG, med skärmbilder, anteckningarna från tangentbordet och
+        verktygets fynd.</li>
+      <li><b>Testplanen</b>, med vad du ändrade efter kamratgranskningen och piloten.</li>
+      <li><b>Anteckningarna</b> från de tre testen, anonymiserade och med datum för
+        samtycket.</li>
+      <li><b>Sammanställningen och analysen</b>, med jämförelsen mellan metoderna.</li>
+      <li><b>Åtgärdslistan</b>, fem kolumner, sorterad på prioritet.</li>
+      <li><b>Utvärderingen</b> av din egen testmetod.</li>
+    </ol>
+
+    <p>Text i textramar, skärmbilder som bilder, tabeller som tabeller. Sammanställning, analys
+      och utvärdering är ungefär 700 ord tillsammans; anteckningar och tabeller räknas inte.
+      Testprotokollet från Webbutveckling hör inte hit — det ligger i
+      <code>dokumentation.md</code>. Hänvisa till det i en mening om det behövs.</p>
+
+    <h3>Utvärderingen</h3>
+
+    <p>Den del som oftast skrivs sist och sämst. Jämför två meningar:</p>
+
+    <ul>
+      <li><i>Testet gick bra och jag fick många bra fynd.</i></li>
+      <li><i>I test två sa jag "prova menyn" efter en halv minut. Resten av uppgiften visar
+        därför inte om menyn fungerar.</i></li>
+    </ul>
+
+    <p>Den första säger ingenting om metoden. Den andra säger vad som hände, och vad det gjorde
+      med resultatet. Det är utvärdering.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nivå</th><th>Utvärderingen</th></tr></thead>
+        <tbody>
+          <tr><td><b>E</b></td><td>Säger vad som fungerade och vad du skulle göra om</td></tr>
+          <tr><td><b>C</b></td><td>Pekar på konkreta händelser i testerna</td></tr>
+          <tr><td><b>A</b></td><td>Föreslår en ändring i metoden och motiverar den med något som hände</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>De konkreta händelserna finns i de tre raderna du skrev samma dag som testerna, om hur
+      det var att sitta tyst. Läs sedan utvärderingen en gång till och <b>stryk varje mening
+      som bara säger att något gick bra.</b> Det som blir kvar är utvärderingen. Är det för
+      lite, fråga dig: vad hände i något av testen som du inte hade räknat med?</p>
+
+    <h3>Innan du lämnar in</h3>
+
+    <p>Uppgiften har en kontrollista med fem punkter:
+      <a href="uppgift.html#lamna-in">Uppgift 6 – innan du lämnar in</a>. Gå igenom den i tur
+      och ordning, och gör <b>punkt 2, anonymiseringen</b>, före allt annat: öppna alla tre
+      anteckningarna och leta efter namn, klass och bilder. Det är den enda kontrollen som inte
+      går att rätta i efterhand. Det du lagt upp med ett namn i har redan visats för den som
+      öppnat sidan.</p>
+
+    <p>Lämna in det du har, även om det inte är klart. En ofullständig rapport går att bedöma,
+      en utebliven gör det inte.</p>
+
+    <div class="notis">
+      <span class="rubrik">Listan följer med dig</span>
+      <p>Åtgärdslistan tar inte slut vid inlämningen. Det som inte hunnit rättas följer med in i
+        slutprojektet i mars, och då är det du som arbetar efter den. <b>Klar betyder inte att
+        allt är rättat.</b> Det betyder att du om fem veckor kan läsa listan och veta var du ska
+        börja — även när ingen längre minns vad <i>Person B fastnade i menyn</i> betydde.</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <h2 id="felsokning">9. Felsökning</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Vad du gör</th></tr></thead>
+        <tbody>
+          <tr><td>Situationerna säger bara <i>någon med dålig syn kan ha svårt</i></td><td>Du har inte pekat ut var på sajten</td><td>Skriv sida och element för varje situation. Se avsnitt 1</td></tr>
+          <tr><td>Granskningen gav bara <i>uppfyllt</i></td><td>Alt-texterna kontrollerades, inte lästes, eller bara startsidan granskades</td><td>Läs varje alt-text utan att se bilden och granska minst en undersida till. Se avsnitt 2</td></tr>
+          <tr><td>Du räknade 44 × 44 som WCAG-kravet</td><td>Du blandade ihop kriteriet med din stilguide</td><td>Kravet är 24 × 24. Allt mellan 24 och 44 är en avvikelse från stilguiden, inte en brist. Se avsnitt 2</td></tr>
+          <tr><td>Kontrasten stämmer i Figma men inte på sajten</td><td>Du mätte i stilguiden</td><td>Mät färgerna på den publicerade sajten, via <i>Granska</i>. Se avsnitt 2</td></tr>
+          <tr><td>Tabellen stämmer inte med sajten på Pages</td><td>Du granskade den lokala versionen</td><td>Granska den publicerade sajten. Det är den som testas och rättas</td></tr>
+          <tr><td>Skärmläsaren hörs inte</td><td>Ljudet går till fel utgång, eller skärmläsaren är inte startad</td><td>Kontrollera hörlurarna. <kbd>Ctrl</kbd> + <kbd>Win</kbd> + <kbd>Enter</kbd> startar och stänger. Se avsnitt 3</td></tr>
+          <tr><td>Skärmläsaren pratar för fort för att förstå</td><td>Standardhastigheten är gjord för vana användare</td><td>Sänk talhastigheten i Skärmläsarens inställningar</td></tr>
+          <tr><td>Telefonen reagerar konstigt på dina tryck</td><td>VoiceOver eller TalkBack är på</td><td>Stäng av den i inställningarna under Hjälpmedel, eller be om hjälp. Öva på datorn i stället. Se avsnitt 3</td></tr>
+          <tr><td><kbd>H</kbd> hittar inga rubriker</td><td>Rubrikerna är stor text, inte rubriker i koden</td><td>Det är ett fynd mot 1.3.1. Skriv var, det rättas i Webbutveckling</td></tr>
+          <tr><td>Lighthouse gav 100 och du tror att du är klar</td><td>Poängen säger bara vad verktyget kontrollerade</td><td>Titta i dina anteckningar från tangentbordet och skärmläsaren. Se avsnitt 4</td></tr>
+          <tr><td>Allt gult i WAVE blev <i>falsklarm</i>, eller allt blev fel</td><td>Du sorterade efter färgen, inte efter kriteriet</td><td>Knyt varje fynd till ett kriterium och en person, och motivera. Se avsnitt 4</td></tr>
+          <tr><td>Testpersonen klarade uppgiften på två sekunder</td><td>Uppgiften var en instruktion, eller innehöll sajtens egna ord</td><td>Skriv om den som ett mål. Se avsnitt 5</td></tr>
+          <tr><td>Nästan allt blev <i>klarade med svårighet</i></td><td>Mätpunkten bestämdes efter testet</td><td>Skriv i planen vad som räknas som svårighet för varje uppgift, innan nästa test</td></tr>
+          <tr><td>Du vet inte vad testet visade</td><td>Du hjälpte testpersonen</td><td>Säg <i>vad tänker du nu?</i>, inget annat. Anteckna att du hjälpte, och skriv om det i utvärderingen. Se avsnitt 6</td></tr>
+          <tr><td>Du har ingen testperson utanför klassen</td><td>Bokningen sköts upp</td><td>Fråga en förälder, en lärare eller någon i en annan klass idag. Testet ska vara gjort senast 8 februari</td></tr>
+          <tr><td>Anteckningarna säger <i>menyn är otydlig</i></td><td>Du skrev slutsatser under testet</td><td>Skriv vad personen gjorde och sa, i var sin kolumn. Tolkningen gör du i analysen. Se avsnitt 6</td></tr>
+          <tr><td>Ett namn står i en anteckning</td><td>Du anonymiserade i efterhand</td><td>Byt till <i>Person A</i> innan något läggs upp. Se avsnitt 6 och 8</td></tr>
+          <tr><td>Åtgärdslistan känns godtycklig</td><td>Den är sorterad efter antal, insats eller hittad ordning</td><td>Sortera på allvar först, antal och insats sedan. Se avsnitt 7</td></tr>
+          <tr><td>Du har två listor</td><td>Granskningens brister och testfynden ligger var för sig</td><td>Slå ihop dem till en åtgärdslista, sorterad på prioritet. Se avsnitt 7</td></tr>
+          <tr><td>Motiveringen beskriver kod</td><td>Du skrev hur bristen rättas, inte varför den är viktig</td><td>Skriv kriteriet eller fyndet och vad det kostar användaren. Se avsnitt 7</td></tr>
+          <tr><td>Utvärderingen blev tre rader</td><td>Du strök allt som bara sa att det gick bra</td><td>Bra början. Ta fram raderna om hur det var att sitta tyst och skriv om en händelse. Se avsnitt 8</td></tr>
+          <tr><td>Du hittar inte sidan <code>06 Test</code></td><td>Den skapades aldrig i portföljen</td><td>Skapa den: högerklick i sidlistan i Figma → Add page</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 6</a> ·
+        <a href="uppgift.html">Uppgift 6 – Testrapport</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

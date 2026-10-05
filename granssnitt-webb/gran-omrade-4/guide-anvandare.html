@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Användare, undersökning och informationsarkitektur – Gränssnittsdesign område 4</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="gran-4-guide">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Guide</strong> · Användare och informationsarkitektur</span>
+  <a href="uppgift.html">Uppgiften</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#typanvandare">1. Målgrupp och typanvändare</a></li>
+      <li><a href="#undersokning">2. Undersökningsverktyg</a></li>
+      <li><a href="#fragor">3. Frågor som inte styr svaret</a></li>
+      <li><a href="#krav">4. Förstudie och krav</a></li>
+      <li><a href="#resan">5. Användarresan</a></li>
+      <li><a href="#ia">6. Informationsarkitektur och card sorting</a></li>
+      <li><a href="#navigation">7. Navigation</a></li>
+      <li><a href="#heuristiker">8. De tio heuristikerna</a></li>
+      <li><a href="#atgardslistan">9. Åtgärdslistan</a></li>
+      <li><a href="#felsokning">10. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Gränssnittsdesign · område 4</p>
+    <h1>Guide – Användare och informationsarkitektur</h1>
+    <p class="inledning">Här står det du behöver för uppgiften, och guiden fungerar utan att
+      du varit på lektionen. Slå upp i den när du fastnar.</p>
+
+    <h2 id="typanvandare">1. Målgrupp och typanvändare</h2>
+
+    <p><b>Målgruppen är gruppen. Typanvändaren är en person ur den.</b> Du börjar med
+      gruppen och går sedan in på en person, för det är lättare att fatta beslut om en
+      person än om ett genomsnitt.</p>
+
+    <h3>Målgruppen i tre frågor</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fråga</th><th>Vad svaret ger</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vilka är de?</b></td><td>Ålder, sammanhang, förkunskaper — men bara det som påverkar sajten</td></tr>
+          <tr><td><b>Vad ska de göra här?</b></td><td>Uppgifter, inte intressen. <i>Hitta öppettider</i>, inte <i>gillar kultur</i></td></tr>
+          <tr><td><b>I vilken situation?</b></td><td>Mobil eller dator, stressat eller i lugn och ro, första gången eller hundrade</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Den tredje frågan är den som glöms och den som styr mest. <b>Samma person på perrongen
+      och i soffan behöver två olika sajter.</b></p>
+
+    <p>Det som inte hör hemma i en målgruppsbeskrivning är allt som inte förändrar något du
+      ritar. Att någon gillar katter är ointressant om sajten inte handlar om katter.</p>
+
+    <h3>Typanvändarens fyra delar</h3>
+
+    <ul>
+      <li><b>Namn och en bild av en situation.</b> Inte för att personen är verklig, utan för
+        att en namngiven person går att resonera om. <i>Skulle Karim hitta det här?</i> är en
+        fråga du kan svara på. <i>Skulle användaren?</i> är det inte.</li>
+      <li><b>Mål.</b> Vad hen vill ha gjort. Ett mål, inte tre.</li>
+      <li><b>Situation.</b> Var, när, med vilken enhet, under vilken press.</li>
+      <li><b>Hinder.</b> Vad som gör det svårt. Den här delen ger mest och skrivs minst.</li>
+    </ul>
+
+    <p><b>Testet:</b> ta bort en rad ur beskrivningen. Ändras något i vad du skulle bygga? Om
+      inte var raden utfyllnad.</p>
+
+    <p>Kravet är <b>två</b> typanvändare, och de ska vara olika. Två personer med samma mål i
+      samma situation är en person skriven två gånger — låt dem skilja sig på
+      <b>situation eller hinder</b>, inte bara på ålder.</p>
+
+    <h3>Scenariot</h3>
+
+    <p>Typanvändaren är vem. Scenariot är <b>ett besök</b>: vad hen gör, i ordning, från att
+      hen kommer till sajten till att hen är klar eller ger upp. Fem till åtta meningar
+      räcker.</p>
+
+    <p>Scenariot är utgångspunkten för användarresan i avsnitt 5, så skriv det ordentligt.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">En typanvändare ska gå att göra fel mot</span>
+      <p><i>Anna, 25, gillar design och vill ha en snygg och användarvänlig sajt</i> utesluter
+        ingenting — varenda sajt i världen passar Anna. <i>Karim, 34, letar öppettider i
+        mobilen på perrongen, dålig uppkoppling och en hand ledig</i> säger att öppettiderna
+        ska ligga högt, att sidan ska vara lätt och att knapparna ska gå att träffa med
+        tummen.</p>
+    </div>
+
+    <h2 id="undersokning">2. Undersökningsverktyg</h2>
+
+    <p>Fyra verktyg, och de duger till olika saker. I det här området genomför du <b>en
+      intervju</b> — de andra tre ska du kunna beskriva och veta när de passar.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Verktyg</th><th>Duger till</th><th>Duger inte till</th></tr></thead>
+        <tbody>
+          <tr><td><b>Intervju</b></td><td>Förstå varför någon gör som hen gör. Få oväntade svar</td><td>Mäta hur många. En person är en person</td></tr>
+          <tr><td><b>Enkät</b></td><td>Mäta hur vanligt något är, när du redan vet vad du frågar om</td><td>Upptäcka det du inte tänkt på</td></tr>
+          <tr><td><b>Observation</b></td><td>Se vad folk faktiskt gör, inte vad de säger</td><td>Förstå varför. Du ser handlingen, inte skälet</td></tr>
+          <tr><td><b>Konkurrensanalys</b></td><td>Se hur problemet lösts förut. Skilja konvention från val</td><td>Säga något om <i>dina</i> användare</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Konkurrensanalysen är redan gjord.</b> Det är analysen av två liknande gränssnitt
+      från uppgift 3. Hänvisa till den — gör den inte om.</p>
+
+    <h3>Varför man inte bara frågar</h3>
+
+    <p>Folk är dåliga vittnen till sitt eget beteende. Inte för att de ljuger, utan för att
+      man inte minns vad man gjorde — man minns vad man menade att göra.</p>
+
+    <ul>
+      <li>Alla säger att de läser villkoren. Ingen gör det.</li>
+      <li>Folk säger att de vill ha fler valmöjligheter. De väljer sämre när de får fler.</li>
+      <li>Frågar du om någon vill ha en funktion säger de ja. Det är gratis att säga ja.</li>
+    </ul>
+
+    <h3>Att hålla intervjun</h3>
+
+    <ol class="steg">
+      <li><b>Spela inte in.</b> Anteckna. Inspelning kräver samtycke och hantering av
+        persondata, och det behövs inte för fem frågor.</li>
+      <li><b>Anonymisera direkt.</b> <i>Person A, 17 år, använder sajten för att …</i> Inga
+        namn, inga bilder. Det är ett tekniskt krav i uppgiften.</li>
+      <li><b>Var tyst.</b> Den vanligaste missen är att fylla tystnaden. Räkna till tre efter
+        att personen slutat prata — ofta kommer det bästa där.</li>
+      <li><b>Fråga vidare</b> med <i>berätta mer</i> och <i>hur menar du då</i>, inte med en
+        ny fråga ur listan.</li>
+      <li><b>Fråga om uppgiften, inte om din sajt.</b> <i>Hur gör du när du ska hitta
+        öppettider?</i> Sajten kommer in sedan.</li>
+    </ol>
+
+    <p><b>Anteckna citat, inte slutsatser.</b> Skriv vad personen sa, inte vad du tror att det
+      betyder. Tolkningen gör du efteråt.</p>
+
+    <h2 id="fragor">3. Frågor som inte styr svaret</h2>
+
+    <p>Fem frågor, alla öppna. Fyra sorter förstör svaret:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Sort</th><th>Exempel</th><th>Varför den är trasig</th></tr></thead>
+        <tbody>
+          <tr><td><b>Ja/nej</b></td><td><i>Är sajten lätt att använda?</i></td><td>Ger ett ord. Oftast ja, av artighet</td></tr>
+          <tr><td><b>Ledande</b></td><td><i>Var det inte krångligt att hitta menyn?</i></td><td>Lägger svaret i munnen</td></tr>
+          <tr><td><b>Hypotetisk</b></td><td><i>Skulle du använda en chattfunktion?</i></td><td>Gratis att säga ja till något som inte finns</td></tr>
+          <tr><td><b>Om åsikt</b></td><td><i>Vad tycker du om designen?</i></td><td>Ger en recension, inte ett beteende</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Ersättningen är nästan alltid samma form:</p>
+
+    <p class="inledning"><b>Berätta om senaste gången du …</b></p>
+
+    <p>Den frågan går inte att svara ja på. Den ger en händelse, och i händelsen finns
+      hindren.</p>
+
+    <div class="notis">
+      <span class="rubrik">Testa på bänkgrannen</span>
+      <p>En fråga låter alltid klar i huvudet. Först när någon svarar hör du att den var
+        otydlig — eller att du redan visste vilket svar du ville ha. Skriv ned <b>vad du
+        ändrade och varför</b>; det är ett bör-krav.</p>
+    </div>
+
+    <h2 id="krav">4. Förstudie och krav</h2>
+
+    <p>Förstudien är inte en uppsats. Den är fyra svar, och tre av dem finns redan:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Var den kommer ifrån</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vem</b> — målgrupp och typanvändare</td><td>Avsnitt 1, omskrivna efter intervjun</td></tr>
+          <tr><td><b>Vad</b> — vilka uppgifter sajten ska lösa</td><td>Scenariot och intervjun</td></tr>
+          <tr><td><b>Varför</b> — vad som är problemet idag</td><td>Intervjun, och din egen sajt</td></tr>
+          <tr><td><b>Vad vi inte gör</b> — avgränsningen</td><td>Bestäms av dig</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Ungefär 600 ord sammanlagt. <b>Skriv om typanvändarna efter intervjun</b> — de skrevs
+      som gissningar innan. Har du inte ändrat någonting har du antingen gissat perfekt eller
+      inte använt intervjun, och du ska kunna säga vilket.</p>
+
+    <h3>Avgränsning</h3>
+
+    <p>Avgränsningen säger vad projektet <b>inte</b> ska lösa. Den delen vill ingen skriva, och
+      den är den som gör att det som blir gjort blir klart.</p>
+
+    <ul>
+      <li><b>Funktioner du inte bygger</b>, med en mening om vad användaren gör i stället.</li>
+      <li><b>Användare du inte optimerar för.</b> Sajten fungerar för alla, men den är byggd
+        för någon.</li>
+      <li><b>Enheter och lägen.</b> Fungerar den utan JavaScript? Måste den?</li>
+    </ul>
+
+    <p>Skillnaden mellan en avgränsning och en ursäkt: <b>avgränsningen säger vad användaren
+      gör i stället.</b> <i>Sajten hanterar inte bokning. Den som vill boka hänvisas till
+      telefonnumret.</i></p>
+
+    <h3>Krav som går att pröva</h3>
+
+    <p>Ett användbart krav har tre egenskaper:</p>
+
+    <ul>
+      <li>Det säger <b>vad användaren ska kunna göra</b>, inte vad sajten ska vara.</li>
+      <li>Det har <b>ett utfall som går att observera</b>. Någon klarar det eller inte.</li>
+      <li>Det går att pröva <b>utan att du är i rummet och förklarar</b>.</li>
+    </ul>
+
+    <p>Formen som fungerar för nästan alla krav:</p>
+
+    <p class="inledning"><b>En [typanvändare] ska kunna [uppgift] [under vilka villkor] [med
+      vilket utfall].</b></p>
+
+    <p>Exempel: <i>En förstagångsbesökare hittar öppettiderna inom 15 sekunder, utan att
+      använda sökfunktionen.</i> Det går att pröva idag, på tre personer, och antingen klarar
+      sajten det eller inte.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Ett krav som inte kan misslyckas är inte ett krav</span>
+      <p><i>Sajten ska vara användarvänlig och ha en tydlig struktur</i> kan aldrig
+        underkännas. Innehåller kravet orden <b>tydlig, enkel, snabb</b> eller
+        <b>användarvänlig</b> — skriv om det. Fem krav som du prövar är värda mer än tjugo du
+        skriver ned, och de prövas på riktigt i område 6 i februari.</p>
+    </div>
+
+    <h2 id="resan">5. Användarresan</h2>
+
+    <p>Scenariot är en berättelse. Användarresan är samma berättelse uppdelad i steg, med
+      brottet utpekat. <b>En resa gör en åsikt till en plats.</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kolumn</th><th>Frågan</th></tr></thead>
+        <tbody>
+          <tr><td><b>Steg</b></td><td>Vad gör användaren? Ett verb: <i>söker, klickar, läser, fyller i</i></td></tr>
+          <tr><td><b>Mål</b></td><td>Vad vill hen uppnå just här? Inte slutmålet — delmålet</td></tr>
+          <tr><td><b>Hinder</b></td><td>Vad gör det svårt? Det som saknas, tar tid eller förvirrar</td></tr>
+          <tr><td><b>Känsla</b></td><td>Ett ord. Trygg, otålig, osäker, lättad</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Steget är ett verb, inte en sida.</b> <i>Startsidan</i> är inte ett steg —
+      <i>letar efter öppettider på startsidan</i> är. Skillnaden är att det senare kan
+      misslyckas.</p>
+
+    <p><b>Känslan är inte pynt.</b> Den pekar ut brottet snabbare än hindret gör. En rad där
+      känslan går från <i>otålig</i> till <i>uppgiven</i> är värd mer än tre rader hinder.</p>
+
+    <p>Minst fem steg. Fler än åtta blir svårt att läsa.</p>
+
+    <h3>Var resan bryts</h3>
+
+    <p>Ett brott är där användaren <b>överväger att ge upp, eller gör det</b>. Fyra vanliga
+      sorter:</p>
+
+    <ul>
+      <li><b>Återvändsgränd.</b> Sidan finns men svarar inte på frågan. Hen måste backa.</li>
+      <li><b>Gissningen.</b> Två vägar ser lika rimliga ut och en är fel. Hälften tappas.</li>
+      <li><b>Väntan utan besked.</b> Något händer men inget syns.</li>
+      <li><b>Byte av system.</b> Sajten skickar hen till telefon, e-post eller en annan
+        tjänst. Varje byte kostar.</li>
+    </ul>
+
+    <p><b>Testet:</b> vid vilket steg skulle du själv stänga fliken?</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Gå resan på riktigt</span>
+      <p>En resa ritad från minnet beskriver hur det borde gå. Öppna sajten och klicka dig
+        fram som din typanvändare skulle. <b>Hittar du inga hinder är det inte för att de
+        inte finns</b> — du kan sajten utantill, och därför är du den enda person i världen
+        som inte kan testa den. Be bänkgrannen göra samma uppgift och titta på hen.</p>
+    </div>
+
+    <h2 id="ia">6. Informationsarkitektur och card sorting</h2>
+
+    <p>Informationsarkitektur är två beslut: <b>vad som hör ihop</b> och <b>vad grupperna
+      heter</b>. Det spelar ingen roll hur bra innehållet är om ingen hittar det.</p>
+
+    <h3>Gruppering</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Grund</th><th>Exempel</th><th>Passar när</th></tr></thead>
+        <tbody>
+          <tr><td><b>Uppgift</b></td><td><i>Boka, Betala, Avboka</i></td><td>Användaren kommer för att göra något</td></tr>
+          <tr><td><b>Ämne</b></td><td><i>Historia, Samlingar, Forskning</i></td><td>Användaren kommer för att läsa något</td></tr>
+          <tr><td><b>Målgrupp</b></td><td><i>För elever, För lärare, För besökare</i></td><td>Grupperna har tydligt olika behov</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Den vanligaste missen är att gruppera efter organisationen.</b> En meny som speglar
+      hur verksamheten är indelad är begriplig inifrån och obegriplig utifrån. Frågan som
+      avgör: grupperar du efter hur du tänker, eller efter hur den som letar tänker?</p>
+
+    <h3>Etiketter</h3>
+
+    <ul>
+      <li><b>Använd användarens ord, inte dina.</b> Intervjun är facit. Kallade personen det
+        <i>öppettider</i> ska det heta öppettider, inte <i>besöksinformation</i>.</li>
+      <li><b>Konkret slår kort.</b> <i>Kontakt</i> är kort. <i>Ring eller mejla oss</i> säger
+        vad som finns bakom.</li>
+      <li><b>Undvik ord som kan betyda allt.</b> <i>Resurser, Verktyg, Mer, Övrigt, Info.</i>
+        Kan två etiketter rymma samma sida är minst en av dem fel.</li>
+    </ul>
+
+    <h3>Card sorting</h3>
+
+    <ol class="steg">
+      <li>Skriv sajtens innehåll på lappar — <b>en sida eller ett innehåll per lapp</b>,
+        15–25 stycken. Skriv det som står på sidan, inte vad menyn heter idag.</li>
+      <li>Ge lapparna till <b>någon som inte byggt sajten</b>.</li>
+      <li>Be hen lägga dem i <b>högar som hör ihop</b>. Inga regler om hur många.</li>
+      <li>Be hen <b>sätta ett namn på varje hög</b>, med sina egna ord.</li>
+      <li><b>Fotografera lapparna</b> och anteckna grupperingen, namnen och vilka lappar hen
+        tvekade om.</li>
+    </ol>
+
+    <p>Två saker gör metoden användbar. <b>Namnen på högarna är guldet</b> — de är etiketter
+      du inte hade kommit på. Och <b>lapparna hen tvekar om är också ett resultat</b>: den som
+      ligger kvar i handen hör hemma på två ställen, eller ingenstans.</p>
+
+    <h3>Sitemapen</h3>
+
+    <p>Sitemapen är resultatet av sorteringen, ritat: startsidan överst, en ruta per sida,
+      grupperingen synlig, hierarkiskt. <b>Med de etiketter sorteringen gav</b>, inte de
+      sajten har idag.</p>
+
+    <div class="notis">
+      <span class="rubrik">Om ingenting ändras har metoden inte använts</span>
+      <p>Bör-kravet säger att sitemapen ska skilja sig från nuvarande struktur på minst en
+        punkt, motiverad med card sorting eller intervjun. Gav sorteringen exakt den meny du
+        redan har — sorterade du dina egna lappar?</p>
+    </div>
+
+    <h2 id="navigation">7. Navigation</h2>
+
+    <p>En navigation svarar på två frågor, hela tiden:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fråga</th><th>Besvaras av</th></tr></thead>
+        <tbody>
+          <tr><td><b>Var är jag?</b></td><td>Markerat menyval, rubrik som matchar det man klickade, brödsmulor</td></tr>
+          <tr><td><b>Vart kan jag ta mig?</b></td><td>Menyn, länkar i innehållet, sök</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Rubriken ska matcha länken man klickade på.</b> Klickar man på <i>Öppettider</i> och
+      kommer till en sida som heter <i>Besöksinformation</i> uppstår en sekunds tvivel.</p>
+
+    <p><b>Det markerade menyvalet är den billigaste navigationen som finns.</b> En rad CSS, och
+      användaren slipper hålla reda på var hen är.</p>
+
+    <h3>Mönster</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Mönster</th><th>Passar när</th><th>Faller när</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vågrät meny</b></td><td>Upp till sju val, en nivå</td><td>Valen blir fler än raden rymmer</td></tr>
+          <tr><td><b>Meny bakom knapp</b></td><td>Smal skärm, eller många val</td><td>Den döljer — användaren måste gissa att det finns något</td></tr>
+          <tr><td><b>Sidomeny</b></td><td>Många sidor i en hierarki</td><td>Smal skärm</td></tr>
+          <tr><td><b>Brödsmulor</b></td><td>Djup hierarki, man kommer in från sök</td><td>Sajten är platt — då visar de bara <i>Start › Sidan</i></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Antalet val avgör mer än något annat.</b> Fler än sju val i en nivå betyder nästan
+      alltid att grupperingen inte är gjord — tillbaka till sitemapen. Din sajt har fyra
+      sidor: de får plats på en rad även i 360 px, och en meny bakom knapp löser där ett
+      problem du inte har.</p>
+
+    <p><b>Sök är inte en navigation</b> — det är en reservutgång för den som inte hittar. En
+      sajt med fyra sidor behöver ingen sök.</p>
+
+    <h3>Granska navigationen mot sitemapen</h3>
+
+    <ol class="steg">
+      <li><b>Finns varje grupp i sitemapen som ett val i navigationen?</b> Om inte — är
+        gruppen onödig, eller saknas ingången?</li>
+      <li><b>Heter valen samma sak som grupperna?</b> Card sortingen gav namn. Används de?</li>
+      <li><b>Når man varje sida?</b> Den sida som bara nås via en länk mitt i en text är svår
+        att hitta igen.</li>
+      <li><b>Ligger något i navigationen som inte finns i sitemapen?</b> Då är det en rest.</li>
+    </ol>
+
+    <p>Skriv fynden som en lista med <b>vad som inte stämmer och vad du föreslår i stället</b>.
+      Det är navigationsförslaget, och det är ett ska-krav. Att hitta att något inte stämmer
+      är lätt — att säga vad det ska vara i stället är uppgiften.</p>
+
+    <h3>Tillgänglig navigation</h3>
+
+    <ul>
+      <li><b>Nåbar med tangentbord, i logisk ordning.</b> Ordningen är den koden har, och den
+        ska stämma med den visuella.</li>
+      <li><b>Det ska synas var fokus är.</b> Samma egna, synliga markering som i ditt
+        komponentbibliotek från område 3.</li>
+      <li><b>Samma navigation på varje sida, på samma plats.</b> Den som flyttar menyn mellan
+        sidorna tvingar användaren att leta om.</li>
+      <li><b>Länktexten ska säga vart den går, lösryckt.</b> <i>Läs mer</i> i en meny säger
+        ingenting.</li>
+    </ul>
+
+    <h2 id="heuristiker">8. De tio heuristikerna</h2>
+
+    <p>En checklista att granska mot. Nyttan är praktisk: en lista gör att du hittar saker du
+      inte letade efter. Utan lista granskar man det man råkar se — oftast startsidan, oftast
+      utseendet.</p>
+
+    <p><b>Granska i den här ordningen</b>, och skriv en rad per princip.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>#</th><th>Princip</th><th>Frågan att ställa</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><b>Synlighet</b></td><td>Vet jag vad systemet gör just nu? Får jag besked när något händer?</td></tr>
+          <tr><td>2</td><td><b>Vardagsspråk</b></td><td>Står det på användarens språk, inte systemets?</td></tr>
+          <tr><td>3</td><td><b>Kontroll och frihet</b></td><td>Kan jag ångra, backa, avbryta?</td></tr>
+          <tr><td>4</td><td><b>Konsekvens</b></td><td>Heter och ser samma sak likadan ut överallt?</td></tr>
+          <tr><td>5</td><td><b>Förebygga fel</b></td><td>Går det att göra fel som systemet kunde hindrat?</td></tr>
+          <tr><td>6</td><td><b>Känna igen, inte minnas</b></td><td>Måste jag komma ihåg något från en annan sida?</td></tr>
+          <tr><td>7</td><td><b>Genvägar</b></td><td>Går det snabbare för den som varit här förut?</td></tr>
+          <tr><td>8</td><td><b>Ingen onödig information</b></td><td>Konkurrerar något med det viktiga om uppmärksamheten?</td></tr>
+          <tr><td>9</td><td><b>Hjälp vid fel</b></td><td>Säger meddelandet vad som hände och hur jag går vidare?</td></tr>
+          <tr><td>10</td><td><b>Hjälp och dokumentation</b></td><td>Finns hjälp där den behövs, inte bara på en egen sida?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Fyra av dem gäller nästan alla elevsajter</b> och ger flest fynd: synlighet (1),
+      konsekvens (4), känna igen (6) och hjälp vid fel (9). Börja där.</p>
+
+    <p><b>En rad per heuristik, även de som inte är tillämpliga.</b> Att skriva <i>inte
+      tillämplig — sajten har inga flersteg som kan avbrytas</i> är ett resultat, inte ett
+      hål.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Granskning är inte test</span>
+      <p>En expertgranskning är billig: en person, en timme, ingen bokning. Därför görs den
+        först. Men den hittar ungefär hälften av det riktiga användare stöter på. I område 6
+        i februari testar du samma sajt på riktiga personer, och då hittar du andra saker.
+        <b>Två metoder som hittar olika fel</b> — inte en bättre och en sämre.</p>
+    </div>
+
+    <h2 id="atgardslistan">9. Åtgärdslistan</h2>
+
+    <p>Listan är det som lämnas över. <b>En klasskamrat i Webbutveckling öppnar den den
+      13 januari och börjar arbeta efter den</b> — den ska alltså gå att genomföra utan att
+      fråga dig.</p>
+
+    <p>Fyra kolumner:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kolumn</th><th>Vad som står där</th></tr></thead>
+        <tbody>
+          <tr><td><b>Nr</b></td><td>Löpnummer</td></tr>
+          <tr><td><b>Var</b></td><td>Sida och element. <i>Kontaktformuläret, skicka-knappen</i> — inte <i>menyn</i> eller <i>hela sajten</i></td></tr>
+          <tr><td><b>Vad</b></td><td>Bristen, och vilken heuristik den bryter mot</td></tr>
+          <tr><td><b>Prioritet</b></td><td>1, 2 eller 3. Listan sorteras på den här kolumnen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Vad talen betyder</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Prioritet</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td>Stoppar uppgiften. Användaren kan inte göra det hen kom för</td></tr>
+          <tr><td><b>2</b></td><td>Gör det svårare eller långsammare, men går att ta sig förbi</td></tr>
+          <tr><td><b>3</b></td><td>Irriterar eller skaver, men hindrar ingen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Sortera efter vad det kostar användaren</span>
+      <p>Inte efter vad det kostar att laga. Det känns produktivt att lägga det lätta överst,
+        men den som får listan behöver veta vad som är <b>viktigast</b> — inte vad som är
+        snabbast. Kostnaden att laga är nästa persons problem, och nästa person är
+        Webbutveckling.</p>
+    </div>
+
+    <p><b>Ett omdöme är inte ett fynd.</b> <i>Det är otydligt</i> går inte att åtgärda.
+      <i>Bristande felhantering: meddelandet säger inte vad som är fel eller hur det lagas</i>
+      gör det.</p>
+
+    <h2 id="felsokning">10. Felsökning</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Vad du gör</th></tr></thead>
+        <tbody>
+          <tr><td>Båda typanvändarna känns likadana</td><td>De skiljer sig bara på ålder</td><td>Låt dem skilja sig på situation eller hinder. Se avsnitt 1</td></tr>
+          <tr><td>Intervjun gav bara enstaviga svar</td><td>Frågorna gick att svara ja eller nej på</td><td>Skriv om till <i>berätta om senaste gången du…</i>. Se avsnitt 3</td></tr>
+          <tr><td>Du vet inte vad du ska fråga om</td><td>Du frågar om sajten i stället för om uppgiften</td><td>Fråga hur personen gör idag, utan din sajt inblandad</td></tr>
+          <tr><td>Kravet går inte att pröva</td><td>Det innehåller <i>tydlig, enkel, snabb</i> eller <i>användarvänlig</i></td><td>Skriv om i formen <i>en X ska kunna Y under Z med utfallet W</i>. Se avsnitt 4</td></tr>
+          <tr><td>Användarresan har inga hinder</td><td>Du gick resan själv på din egen sajt</td><td>Be någon annan göra samma uppgift och titta på hen. Se avsnitt 5</td></tr>
+          <tr><td>Stegen i resan kan inte misslyckas</td><td>De är sidnamn, inte verb</td><td><i>Kontaktsidan</i> → <i>letar efter telefonnumret på kontaktsidan</i></td></tr>
+          <tr><td>Sitemapen blev dagens meny</td><td>Du sorterade dina egna lappar</td><td>Låt någon som inte byggt sajten sortera. Se avsnitt 6</td></tr>
+          <tr><td>Lapparna är borta</td><td>Fotot glömdes</td><td>Gör om sorteringen med en bänkgranne, tio minuter, och fotografera direkt</td></tr>
+          <tr><td>Granskningen gav bara tre fynd</td><td>Bara startsidan granskades</td><td>Gå igenom heuristik 4 och 6 på varje sida. Se avsnitt 8</td></tr>
+          <tr><td>Fynden går inte att åtgärda</td><td>De är omdömen, inte fynd</td><td>Skriv var, vad och vilken heuristik. Se avsnitt 9</td></tr>
+          <tr><td>Listan känns godtycklig</td><td>Den ligger i den ordning fynden gjordes</td><td>Sortera på prioritet. Se avsnitt 9</td></tr>
+          <tr><td>Sajten ser annorlunda ut än när du granskade</td><td>Du granskade den lokala versionen</td><td>Granska den publicerade sajten från 1 december — det är den som finns i repot</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 4</a> ·
+        <a href="uppgift.html">Uppgift 4 – Användarunderlag och IA-förslag</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

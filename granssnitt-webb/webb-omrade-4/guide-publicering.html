@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Publicering, lagar och etik – Webbutveckling område 4</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-4-guide">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Guide</strong> · Publicering, lagar och etik</span>
+  <a href="uppgift.html">Uppgiften</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#publiceringssystem">1. Publiceringssystem och handkodat</a></li>
+      <li><a href="#google-sites">2. Google Sites steg för steg</a></li>
+      <li><a href="#upphovsratt">3. Upphovsrätt: vad du får lägga upp</a></li>
+      <li><a href="#personuppgifter">4. Personuppgifter: vad lagen kräver</a></li>
+      <li><a href="#kallor">5. Primärkälla och andrahandskälla</a></li>
+      <li><a href="#etik">6. Kan och bör</a></li>
+      <li><a href="#sparning">7. Spårning och datainsamling</a></li>
+      <li><a href="#tillganglighet">8. Tillgänglighet som etisk fråga</a></li>
+      <li><a href="#felsokning">9. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling · område 4</p>
+    <h1>Guide – Publicering, lagar och etik</h1>
+    <p class="inledning">Här står det du behöver för uppgiften, och guiden fungerar utan att
+      du varit på lektionen. Slå upp i den när du fastnar.</p>
+
+    <h2 id="publiceringssystem">1. Publiceringssystem och handkodat</h2>
+
+    <p>Ett <b>publiceringssystem</b> är ett verktyg som bygger webbsidorna åt dig. Du skriver
+      innehåll i ett gränssnitt och verktyget genererar markeringen, formgivningen och
+      publiceringen. Google Sites, WordPress, Wix och Squarespace är alla sådana.</p>
+
+    <p>Det här är inte fusk och inte en genväg. Det är ett annat verktyg för ett annat jobb.
+      Poängen med området är att du ska kunna <b>välja</b> — och ett val kräver att du vet vad
+      båda sidorna kostar.</p>
+
+    <h3>Vad du vinner</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad du slipper</th><th>Vad det kostade i Projekt 2</th></tr></thead>
+        <tbody>
+          <tr><td>Layout och responsivitet</td><td>Flexbox, grid, brytpunkter</td></tr>
+          <tr><td>Drift och publicering</td><td>Repo, Pages, sökvägar som pekar fel</td></tr>
+          <tr><td>Att sidorna ser lika ut</td><td>Samma stilmall på varje sida, varje gång</td></tr>
+          <tr><td>Bildhantering</td><td>Format, storlekar, mappar</td></tr>
+          <tr><td>Samarbete</td><td>Flera som skriver i samma sajt samtidigt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Vad du förlorar</h3>
+
+    <ul>
+      <li><b>Kontrollen över markeringen.</b> Du kan inte välja <code>article</code> eller
+        sätta en klass. Det verktyget genererar är det som publiceras — öppna DevTools på en
+        Sites-sida och leta efter din <code>h1</code>.</li>
+      <li><b>Validering.</b> Det går inte att laga ett fel du inte kommer åt.</li>
+      <li><b>Portabiliteten.</b> Sajten går inte att flytta. Ett handkodat projekt är filer
+        du äger; det här är ett konto du hyr.</li>
+      <li><b>Allt verktyget inte tänkt på.</b> Finns det inte i menyn finns det inte.</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Jämförelsen är ett ska-krav</span>
+      <p>Och den ska bygga på <b>ditt eget arbete</b>, inte på den här tabellen. Anteckna varje
+        gång du försöker göra något i Google Sites och inte kan. Tre sådana anteckningar är
+        C-nivån på den raden.</p>
+    </div>
+
+    <h2 id="google-sites">2. Google Sites steg för steg</h2>
+
+    <ol class="steg">
+      <li><b>Skapa sajten.</b> Gå till <code>sites.google.com</code> och välj en tom sajt.
+        Döp den.</li>
+      <li><b>Skapa sidorna.</b> Fliken <i>Sidor</i> i högerspalten, plusknappen. Gör alla
+        <b>sex</b> direkt: start, upphovsrätt och licenser, personuppgifter, etik och
+        spårning, tillgänglighet som etisk fråga, och en som heter <i>Gränssnittsdesign</i>.</li>
+      <li><b>Ordna navigationen.</b> Den byggs av sidlistan automatiskt. Ordningen ändrar du
+        genom att dra i listan.</li>
+      <li><b>Lägg in text och bild.</b> Textruta och bild från högerspalten.</li>
+      <li><b>Sätt alt-text på varje bild.</b> Högerklicka på bilden och välj
+        <i>Lägg till alt-text</i>. Det är ett ska-krav.</li>
+      <li><b>Publicera.</b> Knappen uppe till höger. Välj webbadress.</li>
+      <li><b>Öppna delningen.</b> I publiceringsdialogen: <i>Hantera</i> → vem som kan visa →
+        <b>Alla med länken</b>.</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Steg 7 är det som fäller flest</span>
+      <p>Google Sites delar inte automatiskt. En sajt som ser färdig ut när du är inloggad kan
+        vara osynlig för alla andra. <b>Kontrollen:</b> kopiera den publicerade adressen, öppna
+        ett inkognitofönster, klistra in. Ser du sajten där ser läraren den också. Gör det
+        varje gång du publicerat om.</p>
+    </div>
+
+    <h2 id="upphovsratt">3. Upphovsrätt: vad du får lägga upp</h2>
+
+    <p><b>Upphovsrätt uppstår av sig själv.</b> Ingen registrering, ingen symbol, inget
+      krav på att det står någonstans. Den som skapat något har rätten direkt — det gäller
+      text, bild, film, musik och kod.</p>
+
+    <p>Därför behöver du <b>lov</b> för att använda något: ett avtal, en licens som redan
+      ger lovet, eller ett undantag i lagen.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Att ange källan är inte att ha lov</span>
+      <p>Källhänvisning handlar om hederlighet. Upphovsrätt handlar om rättigheter. De löser
+        två olika problem, och den ena ersätter inte den andra. En bild du hittat och angett
+        källan till är fortfarande använd utan tillstånd.</p>
+    </div>
+
+    <h3>Tre saker du får göra</h3>
+
+    <ul>
+      <li><b>Citera.</b> Ur ett offentliggjort verk, i den omfattning som ändamålet
+        motiverar, med citattecken och källa. Några meningar som stöd för något du själv
+        skriver — inte ett helt stycke, och inte bilder.</li>
+      <li><b>Länka.</b> Att länka till en sida är inte att återge den. Det är fritt, och det
+        är därför uppgiftens källistor bygger på länkar.</li>
+      <li><b>Använda material med licens.</b> Om licensen säger att du får. Läs villkoret,
+        inte rubriken — <i>gratis</i> betyder ofta gratis för privat bruk.</li>
+    </ul>
+
+    <p>På din sajt betyder det här: <b>skriv själv, citera sparsamt, länka till resten.</b>
+      Bilder använder du bara om licensen säger att du får, och licensen skriver du ut.</p>
+
+    <p>Licenserna för typsnitt, ikoner och bildbanker — allt som ingår i en <i>design</i> —
+      hör till Gränssnittsdesign. Där tas Creative Commons, attribution och AI-genererat
+      material utförligt.</p>
+
+    <h2 id="personuppgifter">4. Personuppgifter: vad lagen kräver</h2>
+
+    <p>Fyra ord som hör ihop som en kedja:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ord</th><th>Vad det betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>Personuppgift</b></td><td>Allt som går att knyta till en levande person: namn, bild, IP-adress, ett användar-id</td></tr>
+          <tr><td><b>Ändamål</b></td><td>Vad du ska ha uppgiften till. Bestäms <b>innan</b> du samlar in den</td></tr>
+          <tr><td><b>Laglig grund</b></td><td>Varför du får samla in den. Samtycke är en av sex — inte den enda</td></tr>
+          <tr><td><b>Dataminimering</b></td><td>Du får bara samla in det ändamålet kräver. Inte det som vore bra att ha</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>En IP-adress är en personuppgift.</b> Det betyder att din sajt behandlar
+      personuppgifter i samma ögonblick som någon besöker den, oavsett om du bett om
+      något.</p>
+
+    <h3>Samtycke — tre krav</h3>
+
+    <ul>
+      <li><b>Frivilligt.</b> Ett <i>godkänn för att komma vidare</i> är inte frivilligt.</li>
+      <li><b>Specifikt.</b> Ett ja till en sak är inte ett ja till allt.</li>
+      <li><b>Aktivt.</b> En förkryssad ruta är inte ett samtycke.</li>
+    </ul>
+
+    <p>På din egen sajt: säg <b>vem som står bakom den</b>, och lägg inte in uppgifter om
+      andra personer. Båda är krav i uppgiften.</p>
+
+    <p>Hur ett formulär eller en cookie-dialog ska <i>se ut</i> hör till Gränssnittsdesign.
+      Här handlar det om vad kravet är, där om hur det möter användaren.</p>
+
+    <h2 id="kallor">5. Primärkälla och andrahandskälla</h2>
+
+    <p>En <b>primärkälla</b> är ledet före omskrivningen. En <b>andrahandskälla</b> är någon
+      som återger den. Andrahandskällor är inte fel — men varje omskrivning tappar något, och
+      det som tappas är oftast nyanserna: ett råd har blivit en regel, ett krav har blivit ett
+      förbud.</p>
+
+    <h3>Vad som räknas som primärkälla här</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Typ</th><th>Exempel</th></tr></thead>
+        <tbody>
+          <tr><td>Myndigheten som äger frågan</td><td>IMY för personuppgifter, Konsumentverket för marknadsföring, PTS för elektronisk kommunikation</td></tr>
+          <tr><td>Lagtexten själv</td><td><code>riksdagen.se</code>, eller EU-förordningen</td></tr>
+          <tr><td>Den som gjort något</td><td>Företagets egen villkorssida, om det är den du skriver om</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Wikipedia är inte en primärkälla, men ofta en bra <b>väg</b> till en. Källorna står
+      längst ned på sidan.</p>
+
+    <div class="notis">
+      <span class="rubrik">Skriv källan när du använder den</span>
+      <p>Titel, utgivare, länk och <b>datum du läste den</b> — in i sidans källista i samma
+        sekund. Att leta rätt på var en uppgift kom ifrån tre dagar senare tar tio gånger så
+        lång tid, och datumet går inte att rekonstruera alls.</p>
+    </div>
+
+    <h2 id="etik">6. Kan och bör</h2>
+
+    <p>Avsnitt 3 till 5 handlade om vad man <b>får</b>. Resten av guiden handlar om vad man
+      <b>bör</b>, och skillnaden är hela poängen: <b>det mesta som är dåligt på webben är
+      fullt lagligt.</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Läge</th><th>Hur vanligt</th></tr></thead>
+        <tbody>
+          <tr><td>Olagligt</td><td>Sällsynt. Det är inte där problemet ligger</td></tr>
+          <tr><td>Lagligt men dåligt</td><td>Det mesta av det som irriterar dig på nätet</td></tr>
+          <tr><td>Lagligt och bra</td><td>Det du ska kunna argumentera för</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Ingen sitter på ett möte och säger <i>nu bygger vi något oetiskt</i>. Någon säger
+      <i>vi behöver fler prenumeranter</i>, och någon annan löser det på det billigaste
+      sättet. <b>Du kommer att vara den andra personen</b> — och det är därför det här står i
+      en kurs om webbutveckling och inte i en kurs om filosofi.</p>
+
+    <h2 id="sparning">7. Spårning och datainsamling</h2>
+
+    <p>Tre nivåer, från rimlig till obehaglig:</p>
+
+    <ul>
+      <li><b>Besöksstatistik.</b> Hur många, vilka sidor, hur länge. Nästan alla gör det och
+        det är svårt att ha något emot.</li>
+      <li><b>Profilering över sajter.</b> Samma aktör ser dig på flera olika webbplatser och
+        bygger en bild av dig. Det är det som gör att annonser följer efter.</li>
+      <li><b>Session replay.</b> Varje musrörelse, varje scroll, varje tecken du skriver i ett
+        fält — inspelat och uppspelbart. Det finns som en produkt man kan köpa och slå på i
+        morgon.</li>
+    </ul>
+
+    <p>Ingen bad om det tredje. Det blev påslaget för att det gick, och för att någon ville ha
+      bättre siffror.</p>
+
+    <h3>Så ser du det själv</h3>
+
+    <ol class="steg">
+      <li>Öppna DevTools på en sajt du använder ofta.</li>
+      <li>Gå till fliken <i>Nätverk</i> och ladda om sidan.</li>
+      <li>Titta på vilka <b>andra domäner</b> som får anrop.</li>
+    </ol>
+
+    <p>Leta sedan upp sajtens egen cookie- eller integritetsinformation och läs listan över
+      vem uppgifterna delas med. Antalet brukar överraska.</p>
+
+    <div class="notis">
+      <span class="rubrik">Du är också en avsändare nu</span>
+      <p>Ta reda på vad Google Sites samlar in när någon besöker <b>din</b> sajt. Det är ett
+        bör-krav i uppgiften, och det är den enda frågan i området som handlar om dig själv.</p>
+    </div>
+
+    <h2 id="tillganglighet">8. Tillgänglighet som etisk fråga</h2>
+
+    <p>Tekniken och kriterierna kommer i januari. Här handlar det om varför det är ett
+      <b>val</b> och inte ett förbiseende.</p>
+
+    <ul>
+      <li><b>Vem stängs ute.</b> Inte en liten grupp, och inte bara permanenta
+        funktionsnedsättningar. Den som har armen i gips, den som sitter i solen, den som har
+        långsam uppkoppling.</li>
+      <li><b>Det är en prioritering.</b> En bild utan alt-text är någon som hade tio sekunder
+        och lade dem någon annanstans. Prioriteringar är etiska.</li>
+      <li><b>Det kostar mest att laga sist.</b> Åtgärdslistan från Gränssnittsdesign kommer
+        tillbaka i januari, och då märks det.</li>
+    </ul>
+
+    <p>Frågan som brukar sätta saken på sin spets: om en kund säger att deras besökare inte
+      har några funktionsnedsättningar — vad svarar du?</p>
+
+    <h2 id="felsokning">9. Felsökning</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Vad du gör</th></tr></thead>
+        <tbody>
+          <tr><td>Läraren säger att sajten inte går att öppna</td><td>Delningen står kvar på organisationen</td><td>Publicera → Hantera → Alla med länken. Se avsnitt 2</td></tr>
+          <tr><td>Adressen ger <i>sidan finns inte</i></td><td>Sajten är skapad men aldrig publicerad</td><td>Publicera-knappen uppe till höger. Se avsnitt 2</td></tr>
+          <tr><td>Du ser sajten men ingen annan gör det</td><td>Du är inloggad</td><td>Pröva alltid i inkognitofönster — det är du utan konto</td></tr>
+          <tr><td>En sida syns inte i menyn</td><td>Den är dold i sidlistan</td><td>Fliken <i>Sidor</i>, treprickarsmenyn på sidan, gör den synlig</td></tr>
+          <tr><td>Texten känns inte som din</td><td>Du skrev med källan öppen</td><td>Läs, stäng fliken, skriv av minnet, öppna och kontrollera</td></tr>
+          <tr><td>Du hittar bara nyhetsartiklar</td><td>Du söker på ämnet, inte på avsändaren</td><td>Sök på myndighetens namn plus ämnet. Se avsnitt 5</td></tr>
+          <tr><td>Källan saknar datum</td><td>Du skrev in den i efterhand</td><td>Datumet är när <b>du</b> läste den. Sätt dagens och skriv in nästa direkt</td></tr>
+          <tr><td>Exemplet känns tunt</td><td>Det är en kategori, inte ett fall</td><td><i>Vissa sajter</i> → namnge tjänsten och säg vad den gör</td></tr>
+          <tr><td>Bilden går inte att använda</td><td>Den kommer från ett sökresultat</td><td>Byt till en källa där licensen står, och skriv ut den. Se avsnitt 3</td></tr>
+          <tr><td>Du vet inte om något är olagligt eller bara dåligt</td><td>Du har inte letat efter regeln</td><td>Hittar du ingen regel är det ett dåligt val — och det är ett giltigt svar. Se avsnitt 6</td></tr>
+          <tr><td>Gränssnittsdesigns sida är tom</td><td>Den fylls från 14 december</td><td>Låt den stå. Den ska finnas i navigationen från första passet</td></tr>
+          <tr><td>Du kommer inte åt att ändra markeringen</td><td>Publiceringssystemet genererar den</td><td>Det går inte, och det är en poäng. Anteckna det till jämförelsen. Se avsnitt 1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 4</a> ·
+        <a href="uppgift.html">Projekt 3 – Lagar, rättigheter och etik</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projekt 4 – Responsiv och tillgänglig sajt – Webbutveckling område 5</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-5-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Projekt 4</strong> · Responsiv och tillgänglig sajt</span>
+  <a href="../datum.html">Viktiga datum</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#utgar">2. Vad du utgår från</a></li>
+      <li><a href="#ska">3. Ska-krav</a></li>
+      <li><a href="#bor">4. Bör-krav</a></li>
+      <li><a href="#utmaning">5. Utmaningar</a></li>
+      <li><a href="#tekniska">6. Tekniska krav</a></li>
+      <li><a href="#matris">7. Bedömningsmatris</a></li>
+      <li><a href="#kom-igang">8. Kom igång</a></li>
+      <li><a href="#misstag">9. Vanliga misstag</a></li>
+      <li><a href="#lamna-in">10. Innan du lämnar in</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling · område 5</p>
+    <h1>Projekt 4 – Responsiv och tillgänglig sajt</h1>
+    <p class="inledning">Deadline tisdag <b>9 februari kl 23:59</b>. Samma sajt som i
+      Projekt 2, nu för telefon, tangentbord och skärmläsare.</p>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+
+    <p>Du ska göra din sajt från Projekt 2 <b>responsiv och tillgänglig</b>. Ingen ny sajt
+      och inget nytt ämne. Det är samma sidor, och de ska nu fungera på en telefon och för
+      den som inte använder mus eller inte ser skärmen.</p>
+
+    <p>Den här gången bygger du inte efter dina egna beslut. Du bygger efter <b>två listor
+      som andra har skrivit, eller som du skrivit med andra ögon</b>:</p>
+
+    <ol class="steg">
+      <li><b>Åtgärdslistan från Gränssnittsdesign.</b> En klasskamrat granskade din inlämnade
+        sajt heuristiskt i december och lämnade en prioriterad lista den 10 december. Den har
+        du haft sedan dess.</li>
+      <li><b>WCAG-fynden från din egen granskning.</b> Den 18 januari går du igenom sajten mot
+        en checklista i Gränssnittsdesign. Bristerna du hittar där åtgärdar du här, framför
+        allt i passet den 27 januari.</li>
+    </ol>
+
+    <p>Blocket har en ordning: <b>granskning → åtgärder → test</b>. Gränssnittsdesign
+      granskar, du åtgärdar här, och den 4 februari testar du sajten på riktiga personer i
+      Gränssnittsdesign. <b>Det som är åtgärdat den 4 februari är det som testas.</b> Därför
+      ligger de viktigaste åtgärderna tidigt i området, inte sist.</p>
+
+    <p>Tillgänglighet finns i båda kurserna, och här går gränsen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Här handlar det om</th><th>I Gränssnittsdesign om</th></tr></thead>
+        <tbody>
+          <tr><td>Koden som uppfyller ett krav: <code>label</code>, <code>:focus-visible</code>, kontrast i CSS-variablerna, <code>prefers-reduced-motion</code></td>
+            <td>Kravet: vad WCAG säger, vem det gäller, nivå A och AA</td></tr>
+          <tr><td>Media queries, flexibla bilder, <code>srcset</code></td>
+            <td>Designbeslutet om vad som händer i olika bredder. Det finns redan i din mockup</td></tr>
+          <tr><td>Testprotokollet: validering, två webbläsare, telefon, tangentbord, ett automatiskt verktyg</td>
+            <td>Testrapporten: granskning mot WCAG, vad verktygen missar, användartest</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Vad ett kriterium betyder lär du dig alltså där. <b>Här handlar allt om koden.</b>
+      Står det <i>synlig fokusmarkering</i> i en lista ska du kunna peka på regeln i
+      <code>stil.css</code> som ger den.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Prov 3 ligger dagen efter inlämningen</span>
+      <p>Onsdag 10 februari. Det bygger på områdets referensprojekt, fyrsajten från område 3
+        som nu är responsiv och tillgänglig. Det du gör i din egen sajt är det du skriver för
+        hand på provet.</p>
+    </div>
+
+    <h2 id="utgar">2. Vad du utgår från</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det här har du redan</th><th>Var det kommer ifrån</th></tr></thead>
+        <tbody>
+          <tr><td>Den handkodade, stilsatta sajten</td><td>Projekt 2, inlämnad 1 december</td></tr>
+          <tr><td>Mockupen i mobil- och desktopbredd</td><td>Uppgift 3 i Gränssnittsdesign, 5 november</td></tr>
+          <tr><td>Åtgärdslistan: nr, var, vad, prioritet</td><td>En klasskamrats granskning, uppgift 4, 10 december</td></tr>
+          <tr><td>WCAG-fynden med skärmbilder</td><td>Din egen granskning i Gränssnittsdesign, 18 januari</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Sajten i Google Sites från Projekt 3 är <b>inte</b> den här. Det är den handkodade
+      sajten i ditt repo som gäller.</p>
+
+    <p>Mockupen visar redan vad som ska hända i mobilbredd, och det var ett designbeslut. Om
+      den inte räcker, till exempel för att den inte visar hur menyn ser ut på telefon,
+      bestämmer du själv och skriver det i dokumentationen. Du behöver inte gå tillbaka och
+      rita om.</p>
+
+    <h2 id="ska">3. Ska-krav</h2>
+    <p>Är alla ikryssade och kontrollerade ligger du på <b>E</b>.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska-listan">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span><b>Viewport-metataggen</b> finns i <code>&lt;head&gt;</code> på varje sida</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Sajten fungerar från <b>320 till 1600 pixlar</b> utan vågrät rullning och utan att innehåll försvinner</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span><b>Minst en media query</b> med <code>min-width</code> där layouten ändras</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span><b>Bilderna är flexibla</b>: de blir aldrig bredare än sin behållare och behåller proportionerna</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span><b>Alla bilder har alt-text som fungerar där bilden står.</b> Dekorativa bilder har <code>alt=""</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span><b>Allt som går att klicka går att nå och använda med tangentbordet</b>, i en ordning som följer sidan</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span><b>Fokusmarkeringen syns</b> på alla länkar, knappar och fält. Ingen <code>outline: none</code> utan ersättning</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span><b>Alla formulärfält har <code>label</code></b>, kopplad med <code>for</code> och <code>id</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span><b>Rubrikstrukturen hoppar inte över nivåer</b>, och varje sida har en <code>h1</code></span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span><b>Textfärgerna i <code>:root</code> klarar kontrastkravet</b> från WCAG-genomgången, nivå AA</span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span><b>De tre högst prioriterade punkterna</b> i åtgärdslistan och <b>alla WCAG-fynd på nivå A</b> är åtgärdade och dokumenterade</span></label></li>
+        <li><label><input type="checkbox" id="ska-12"><span>Ett <b>testprotokoll</b> med två webbläsare, telefon, tangentbord, W3C-validering och ett automatiskt verktyg</span></label></li>
+        <li><label><input type="checkbox" id="ska-13"><span><b>HTML och CSS validerar utan fel</b>, samtliga sidor</span></label></li>
+        <li><label><input type="checkbox" id="ska-14"><span>Publicerad med GitHub Pages, och adressen fungerar på telefon</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bor">4. Bör-krav</h2>
+    <p>Skillnaden mellan en sajt som råkar fungera och en där du vet varför. Nivå <b>C</b>.</p>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor-listan">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span><b>Mobile first</b>: grundstilen är mobilens, och media queries lägger till med <code>min-width</code>, inte tar bort med <code>max-width</code></span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span><b>Varje brytpunkt har ett skäl i innehållet.</b> Du kan säga vad som går sönder utan den, och ingen brytpunkt heter <i>iPad</i></span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span><b>Minst en stor bild finns i flera storlekar</b> med <code>srcset</code>, och du har mätt sidvikten på telefon före och efter</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span><b>Hela åtgärdslistan är genomgången.</b> Varje punkt är åtgärdad eller har ett skäl till varför inte</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span><b>Varje åtgärd har ett eget <i>commit</i></b> som nämner punktens nummer, så att den går att hitta i historiken</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span><b>Rörelse respekterar <code>prefers-reduced-motion</code></b>, om sajten har övergångar eller animationer</span></label></li>
+        <li><label><input type="checkbox" id="bor-7"><span><b>Stilmallen följer kodstandarden</b> från passet den 26 januari: avsnitt i ordning, kommentarer där något inte är självklart, konsekventa namn. Kamratgranskad</span></label></li>
+        <li><label><input type="checkbox" id="bor-8"><span><b>Testprotokollet visar felet, åtgärden och omtestet</b>, inte bara att något kontrollerats</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="utmaning">5. Utmaningar</h2>
+    <p>Nivå <b>A</b>. Ta dem när ska- och bör-kraven sitter.</p>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning-listan">Utmaningar <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>En <b>skip-länk</b>, <i>Till innehållet</i>, som syns när den får fokus och fungerar</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Sajten fungerar med <b>200 % textförstoring</b> i webbläsaren utan att text klipps eller överlappar</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span><b><code>picture</code> med olika beskärning</b> för mobil och desktop, och du kan motivera den med mockupen</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>En sida <b>provad med skärmläsare</b>, med anteckning om vad som lät fel och vad du ändrade i koden</span></label></li>
+        <li><label><input type="checkbox" id="utm-5"><span>Layouten håller i bredder du <b>inte</b> har testat, utan brytpunkter för specialfall. Du kan förklara varför</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="tekniska">6. Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Vad som gäller</th></tr></thead>
+        <tbody>
+          <tr><td>Viewport</td><td><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code>, exakt så. Inget <code>maximum-scale</code>, inget <code>user-scalable=no</code></td></tr>
+          <tr><td>Bredder</td><td>320 px till 1600 px. Testa båda ändarna och dra långsamt mellan dem</td></tr>
+          <tr><td>Brytpunkter</td><td><code>min-width</code>. Så få som möjligt, två eller tre räcker för de flesta sajter</td></tr>
+          <tr><td>Stilmall</td><td>Fortfarande en, <code>stil.css</code>. Media queries skrivs i samma fil, i avsnittet de ändrar</td></tr>
+          <tr><td>Bilder</td><td><code>max-width: 100%</code> och <code>height: auto</code>. Stora bilder i högst dubbla visningsbredden</td></tr>
+          <tr><td>Media</td><td>Video och ljud har undertexter eller transkript. Har sajten ingen video eller inget ljud, skriv det i dokumentationen</td></tr>
+          <tr><td>Dokumentationen</td><td><code>dokumentation.md</code> i repots rot, med två avsnitt: <b>Åtgärder</b> och <b>Testprotokoll</b></td></tr>
+          <tr><td>Åtgärder</td><td>Tabell: <b>nr</b>, <b>källa</b> (åtgärdslistan eller WCAG), <b>vad du gjorde</b>, <b>var</b> (fil och selektor eller element), <b>status</b> (åtgärdad, delvis, inte, med skäl)</td></tr>
+          <tr><td>Testprotokoll</td><td>Tabell: <b>test</b>, <b>med vad</b> (webbläsare och version, telefonmodell, verktyg), <b>sida</b>, <b>resultat</b>, <b>åtgärd</b>. Minst en rad per test i ska-kraven</td></tr>
+          <tr><td>Validering</td><td>W3C för både HTML och CSS, noll fel</td></tr>
+          <tr><td>Var det lämnas</td><td>Repolänk <b>och</b> Pages-adress i itslearning</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Raden om viewport</span>
+      <p>Den brukar glömmas. <code>user-scalable=no</code> stänger av förstoringen för den som
+        behöver den mest. Det är ett tillgänglighetsfel i en enda rad.</p>
+    </div>
+
+    <h2 id="matris">7. Bedömningsmatris</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><b>Responsiv layout</b></td>
+            <td>Sajten fungerar från 320 till 1600 px med minst en media query</td>
+            <td>Mobile first, och brytpunkterna är motiverade av innehållet</td>
+            <td>Layouten håller i bredder du inte testat, och du kan förklara varför</td></tr>
+          <tr><td><b>Bilder och media</b></td>
+            <td>Bilderna är flexibla och har fungerande alt-text</td>
+            <td>Rätt bildstorlek för rätt skärm, sidvikten mätt före och efter</td>
+            <td>Beskärningen skiljer sig mellan bredder med <code>picture</code>, motiverat ur mockupen</td></tr>
+          <tr><td><b>Tillgänglighet i koden</b></td>
+            <td>Tangentbord, fokus, <code>label</code>, rubriker och kontrast är i ordning</td>
+            <td>Rörelse respekterar användarens val, och koden bär semantiken utan hjälp av CSS</td>
+            <td>Skip-länk, 200 % förstoring och skärmläsare fungerar och är prövade</td></tr>
+          <tr><td><b>Åtgärdslistan</b></td>
+            <td>De tre viktigaste punkterna och alla A-fynd är åtgärdade och dokumenterade</td>
+            <td>Hela listan är genomgången, och varje åtgärd går att hitta i historiken</td>
+            <td>Du kan visa vad som ändrades mellan granskningen och testet, och varför i den ordningen</td></tr>
+          <tr><td><b>Testning och kvalitet</b></td>
+            <td>Testprotokollet finns, sajten validerar och är publicerad</td>
+            <td>Protokollet visar fel, åtgärd och omtest. Stilmallen följer kodstandarden</td>
+            <td>Testerna har hittat något du inte väntade dig, och protokollet visar vad du gjorde åt det</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kom-igang">8. Kom igång</h2>
+    <ol class="steg">
+      <li><b>Lägg in viewport-taggen och öppna sajten på en telefon.</b> Gör det första passet,
+        den 13 januari. Skriv upp allt som går sönder innan du rättar något. Det är din lista
+        för de första veckorna.</li>
+      <li><b>För över båda listorna till <code>dokumentation.md</code> innan du skriver kod.</b>
+        Åtgärdslistan nu, WCAG-fynden efter den 18 januari. Numrera, ange källa. Då vet du vad
+        som är gjort och vad som återstår, och det gör den som bedömer också.</li>
+      <li><b>Börja med det som stoppar någon.</b> Ett fält utan <code>label</code>, en knapp
+        som inte nås med tangentbordet, text som inte går att läsa. Det testas den 4 februari.
+        Brytpunkter och bildstorlekar gör sajten bättre, men de stoppar sällan någon.</li>
+      <li><b>Commita en åtgärd i taget.</b> <i>Åtgärd 3: label på sökfältet</i> är ett
+        commit-meddelande som går att hitta i mars. <i>fixar</i> går inte att hitta.</li>
+    </ol>
+
+    <p>Validering är fortfarande sista steget. <b>Men testa med tangentbordet varje gång du
+      ändrat något.</b> Det tar en minut och är det test som oftast fäller.</p>
+
+    <h2 id="misstag">9. Vanliga misstag</h2>
+    <ul>
+      <li><b>Brytpunkter efter enheter.</b> 768 för att det är en iPad. Sajten har inga iPads,
+        den har innehåll som får plats eller inte får det. Dra i fönstret tills något går
+        sönder – där är brytpunkten.</li>
+      <li><b>Desktop först och lappar nedåt.</b> En stilmall full av <code>max-width</code> som
+        tar bort saker för mindre skärmar blir svårare att ändra för varje brytpunkt. Börja
+        smalt och lägg till.</li>
+      <li><b><code>outline: none</code> för att ringen var ful.</b> Då kan den som använder
+        tangentbordet inte se var hen är. Byt utseende på den, ta aldrig bort den.</li>
+      <li><b>Alt-text som beskriver filen.</b> <i>bild1.jpg</i> eller <i>Bild på en fyr</i>.
+        Skriv vad bilden säger i sammanhanget, eller <code>alt=""</code> om den inte säger
+        något.</li>
+      <li><b>Åtgärder utan dokumentation.</b> Det som inte står i
+        <code>dokumentation.md</code> finns inte i bedömningen, även om det är rättat i
+        koden.</li>
+      <li><b>Full poäng i verktyget, alltså klart.</b> Ett automatiskt verktyg hittar en del av
+        felen. Vilken del går Gränssnittsdesign igenom den 25 januari. Testprotokollet kräver
+        tangentbordet för att verktyget inte räcker.</li>
+      <li><b>Åtgärdslistan i den ordning den skrevs.</b> Den är redan prioriterad. Följ
+        prioriteringen, inte det som är roligast att rätta.</li>
+    </ul>
+
+    <h2 id="lamna-in">10. Innan du lämnar in</h2>
+    <p>Sista passet, 9 februari, är till för det här. Gå igenom i tur och ordning:</p>
+    <ul class="krav">
+      <li><label><input type="checkbox" id="in-1"><span><b>Validera HTML och CSS på varje sida.</b> Laga det översta felet först och validera om</span></label></li>
+      <li><label><input type="checkbox" id="in-2"><span><b>Öppna den publicerade adressen på en telefon</b>, inte i device mode. Device mode visar bredden men inte fingret, och inte bilden som laddar över mobilnätet</span></label></li>
+      <li><label><input type="checkbox" id="in-3"><span><b>Dra fönstret från 320 till 1600 pixlar.</b> Ingen vågrät rullningslist, ingen text som klipps</span></label></li>
+      <li><label><input type="checkbox" id="in-4"><span><b>Tabba igenom varje sida utan mus.</b> Ser du hela tiden var du är? Kommer du fram till allt? Kommer du ut igen?</span></label></li>
+      <li><label><input type="checkbox" id="in-5"><span><b>Läs <code>dokumentation.md</code> som om du vore läraren.</b> Har varje punkt i åtgärdslistan en status? Har varje rad i testprotokollet ett resultat?</span></label></li>
+      <li><label><input type="checkbox" id="in-6"><span><b>Lämna båda adresserna</b> i itslearning: repot och den publicerade sidan</span></label></li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Punkt 4 fäller flest</span>
+      <p>Tangentbordet är det enklaste testet och det som oftast hoppas över. Det tar två
+        minuter per sida, och det är samma sak som testpersonerna i Gränssnittsdesign stöter
+        på först.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 5</a> ·
+        <a href="../datum.html">Alla viktiga datum</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

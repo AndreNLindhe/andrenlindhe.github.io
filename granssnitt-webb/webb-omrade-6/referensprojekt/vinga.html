@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vinga – Fyrar längs Bohuskusten</title>
+  <link rel="stylesheet" href="stil.css">
+  <!-- Skripten ligger i egna filer i skript/. defer gör att de väntar tills hela sidan
+       är läst, så att elementen de letar efter finns. Ljudmodulen står först, eftersom
+       andra skript kan vilja använda dess funktion spela. Pass 48. -->
+  <script src="skript/ljud.js" defer></script>
+  <script src="skript/morkt-lage.js" defer></script>
+</head>
+<body>
+
+<!-- Skip-länken är det första som får fokus när man tabbar. Den syns bara då, och
+     hoppar förbi navigeringen direkt till innehållet. Pass 40. -->
+<a class="till-innehallet" href="#innehall">Till innehållet</a>
+
+<header>
+  <p>Fyrar längs Bohuskusten</p>
+  <nav>
+    <ul>
+      <li><a href="index.html">Start</a></li>
+      <li><a href="fyrarna.html">Alla fyrar</a></li>
+      <li><a href="vinga.html">Vinga</a></li>
+      <li><a href="rapportera.html">Rapportera en fyr</a></li>
+    </ul>
+  </nav>
+
+  <!-- Lägesknappen byter mellan ljust och mörkt. hidden gör den osynlig tills
+       skriptet visar den: utan JavaScript gör knappen ingenting, och då ska den inte
+       synas. data-ljud låter ljudmodulen spela vaxla.mp3 vid klick. Pass 48. -->
+  <button class="lage-knapp" type="button" data-ljud="vaxla" hidden>Mörkt läge</button>
+</header>
+
+<main class="sidlayout" id="innehall">
+  <h1>Vinga</h1>
+
+  <!-- En innehållsförteckning byggd av ankarlänkar. href="#historien" hoppar
+       till elementet med id="historien" på samma sida.
+
+       Ankarlänkar är det enda stället där en sökväg börjar med #. Allt annat
+       som börjar med / eller # är antingen ett ankare eller ett sökvägsfel. -->
+  <nav aria-label="Innehåll på sidan">
+    <h2 id="toppen">På den här sidan</h2>
+    <ul>
+      <li><a href="#historien">Historien</a></li>
+      <li><a href="#ljuset">Ljuset</a></li>
+      <li><a href="#att-ta-sig-dit">Att ta sig dit</a></li>
+    </ul>
+  </nav>
+
+  <!-- article används för något som är begripligt lösryckt från sidan omkring.
+       Den här texten om Vinga skulle fungera lika bra i en tidning. -->
+  <article>
+    <!-- Samma bild i tre bredder. srcset säger vilka filer som finns, sizes hur
+         bred bilden visas. Webbläsaren räknar med skärmens pixeltäthet och hämtar
+         den minsta fil som räcker. src är reserven för den som inte kan srcset.
+         Pass 38. -->
+    <figure class="foto">
+      <img src="bilder/vinga-960.jpg"
+           srcset="bilder/vinga-480.jpg 480w,
+                   bilder/vinga-960.jpg 960w,
+                   bilder/vinga-1200.jpg 1200w"
+           sizes="(min-width: 40em) 36rem, 100vw"
+           width="960" height="640"
+           alt="Vinga fyr, ett grått stentorn på en kal klippa, med öppet hav bakom.">
+      <figcaption>Vinga fyr, byggd 1841 och ombyggd 1890.</figcaption>
+    </figure>
+
+    <section>
+      <h2 id="historien">Historien</h2>
+      <p>Vinga ligger längst ut i Göteborgs skärgård och är det första en fartygsbesättning
+        ser på väg in mot hamnen. Det har funnits sjömärken på ön sedan 1600-talet, men det
+        första riktiga fyrtornet stod klart 1841.</p>
+      <p>Tornet byggdes om 1890, och det är den byggnaden som står kvar. Fyren
+        avbemannades 1974 och sköts sedan dess automatiskt.</p>
+      <p><a href="#toppen" class="tillbaka">Tillbaka till toppen</a></p>
+    </section>
+
+    <section>
+      <h2 id="ljuset">Ljuset</h2>
+      <p>Vinga har karaktären <code>Fl(2) 10s</code>: två blink var tionde sekund. Ljuset
+        sitter 28 meter över vattnet och når 17 nautiska mil ut.</p>
+
+      <!-- ol när ordningen betyder något. Här gör den det: mönstret upprepas
+           i exakt den här följden. -->
+      <ol>
+        <li>Blink</li>
+        <li>Kort mörker</li>
+        <li>Blink</li>
+        <li>Långt mörker, tills tio sekunder gått</li>
+      </ol>
+      <p><a href="#toppen" class="tillbaka">Tillbaka till toppen</a></p>
+    </section>
+
+    <section>
+      <h2 id="att-ta-sig-dit">Att ta sig dit</h2>
+      <p>Sommartid går turbåt från Göteborg. Resten av året krävs egen båt, och ön har
+        ingen hamn som tål hårt väder.</p>
+
+      <!-- En länk ut ur sajten. Länktexten säger vart den går, så den fungerar
+           även för den som hoppar mellan länkar utan att läsa texten omkring. -->
+      <p>Aktuella tider finns hos
+        <a href="https://www.sjofartsverket.se/">Sjöfartsverket</a>.</p>
+      <p><a href="#toppen" class="tillbaka">Tillbaka till toppen</a></p>
+    </section>
+  </article>
+
+  <!-- aside är innehåll som hör till, men som går att hoppa över. -->
+  <aside class="faktaruta">
+    <h2>Visste du</h2>
+    <p>Evert Taube växte upp på Vinga. Hans far var fyrmästare där mellan 1892 och 1912.</p>
+  </aside>
+</main>
+
+<footer>
+  <p>Referensprojekt till Webbutveckling, område 2. Uppgifterna är förenklade och
+    sajten är ett läromedel, inte en sjökortsersättning.</p>
+</footer>
+
+</body>
+</html>

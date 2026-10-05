@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uppgift 5 – Lagar, rättigheter och etik – Gränssnittsdesign område 5</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="gran-5-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Uppgift 5</strong> · Lagar, rättigheter och etik</span>
+  <a href="../datum.html">Viktiga datum</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#ska">2. Ska-krav</a></li>
+      <li><a href="#bor">3. Bör-krav</a></li>
+      <li><a href="#utmaning">4. Utmaningar</a></li>
+      <li><a href="#tekniska">5. Tekniska krav</a></li>
+      <li><a href="#matris">6. Bedömningsmatris</a></li>
+      <li><a href="#kom-igang">7. Kom igång</a></li>
+      <li><a href="#misstag">8. Vanliga misstag</a></li>
+      <li><a href="#lamna-in">9. Innan du lämnar in</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Gränssnittsdesign · område 5</p>
+    <h1>Uppgift 5 – Lagar, rättigheter och etik</h1>
+    <p class="inledning">Deadline tisdag <b>22 december kl 23:59</b>. Lämnas som en egen sida
+      på den gemensamma sajten, med en länk från portföljens <code>05 Lagar och etik</code>.</p>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+
+    <p>Du ska visa att du kan <b>resonera om hur lagar, bestämmelser och principer påverkar
+      hur ett gränssnitt utformas</b> — inte genom att referera regler, utan genom att peka på
+      två verkliga gränssnitt och säga vad som skiljer dem åt. Ett som gör rätt. Ett som gör
+      fel. Och en omritning av det som gör fel.</p>
+
+    <p>Det här är kursens fjärde kriterium. Det prövas på två ställen i hela kursen: här, och
+      i utvärderingen av slutprojektet i juni. Den här uppgiften bär alltså hälften av det.</p>
+
+    <p><b>Sajten är gemensam med Webbutveckling.</b> Ni bygger en sajt, lämnar in en länk och
+      får två bedömningar. Ditt kapitel är en egen sida på den sajten. Webbutveckling bedömer
+      sajtens innehåll, källor och publicering; här bedöms din sida och ditt resonemang om
+      utformningen.</p>
+
+    <p>Gränsen mellan kurserna går så här:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Här handlar det om</th><th>I Webbutveckling om</th></tr></thead>
+        <tbody>
+          <tr><td>Hur kravet ser ut när användaren möter det på skärmen</td>
+            <td>Vad lagen kräver av den som publicerar</td></tr>
+          <tr><td>Licenserna för det som ingår i en design: typsnitt, ikoner, bild, ljud</td>
+            <td>Vad du får lägga upp: citaträtt, länkning, källhänvisning</td></tr>
+          <tr><td>Hur mörka mönster är byggda — och hur man ritar om dem</td>
+            <td>Varför de finns: spårning, datainsamling, incitament</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Här handlar allt om utformningen</span>
+      <p>Vad lagen kräver läser du i Webbutveckling. Ett mörkt mönster är inte olagligt för att
+        det är fult — det är byggt av <b>kontrast, placering och ordval</b>, och det är de tre
+        du ska kunna peka på.</p>
+    </div>
+
+    <p>Området är kort: tre pass, 14, 17 och 21 december. Uppgiften är byggd efter det. Den
+      kräver inget nytt verktyg och ingen ny metod — du har Figma sedan område 3, och
+      skärmdumpar tar du redan.</p>
+
+    <h2 id="ska">2. Ska-krav</h2>
+    <p>Är alla ikryssade och kontrollerade ligger du på <b>E</b>.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska-listan">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>En <b>egen sida på den gemensamma sajten</b>: <i>Ett gränssnitt som gör rätt och ett som gör fel</i></span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span><b>Ett gränssnitt som gör rätt</b>: skärmdump, vad det gör, och vilken regel eller princip det följer</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span><b>Ett gränssnitt som gör fel</b>: skärmdump, vad mönstret får användaren att göra, och <b>hur det är byggt</b> — kontrast, placering, ordval</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>En <b>omritning</b> av det som gör fel, gjord i Figma: före och efter bredvid varandra</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Ungefär <b>150 ord</b> om vad du ändrade och varför</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span><b>Tre cookie-dialoger granskade</b>: en rad var — är den laglig, är den begriplig, och är det samma sak?</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>En <b>licensredovisning</b> för sajtens designmaterial: varje bild, ikon och typsnitt med källa och licens</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>Designportföljens sida <code>05 Lagar och etik</code> <b>länkar till sajten</b></span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bor">3. Bör-krav</h2>
+    <p>Skillnaden mellan att tycka och att observera. Nivå <b>C</b>.</p>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor-listan">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Exemplen är <b>egna fynd</b> ur tjänster du själv använder — inte lektionens</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Du kan säga <b>vilken lag eller princip</b> varje exempel hänger på, och skilja på vad som är <b>olagligt</b> och vad som bara är <b>dåligt</b></span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Omritningen ändrar <b>utformningen, inte innehållet</b>: samma information, annan hierarki</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Analysen av det som gör fel pekar på <b>minst tre konkreta designval</b>, inte på en känsla</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Cookie-raderna säger <b>vad i utformningen</b> som gör dialogen begriplig eller inte</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Creative Commons-licenserna är angivna med <b>villkoret</b> — <code>CC BY-SA 4.0</code>, inte bara <i>CC</i></span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="utmaning">4. Utmaningar</h2>
+    <p>Nivå <b>A</b>. Ta dem när ska- och bör-kraven sitter.</p>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning-listan">Utmaningar <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Ett fall där <b>det lagliga och det begripliga inte är samma sak</b>, och du reder ut varför de kan glida isär</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Omritningen är <b>prövad på någon annan</b>: hen väljer rätt alternativ utan att du förklarar något</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Ett mörkt mönster i <b>en tjänst du själv använder ofta</b> — och vad det har kostat dig</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>Du kan säga vad <b>AI-genererat material</b> innebär för upphovsrätten i ditt eget fall, med källa</span></label></li>
+        <li><label><input type="checkbox" id="utm-5"><span>Omritningen är <b>ärlig utan att vara oanvändbar</b>: avsändaren kan fortfarande få det hen behöver</span></label></li>
+      </ul>
+    </section>
+
+    <div class="notis">
+      <span class="rubrik">Den sista utmaningen är den mest värda</span>
+      <p>Att ta bort allt utom en knapp är inte en omritning, det är en amputation. Den som
+        klarar att göra valet tydligt <b>och</b> låta företaget behålla sin fråga har förstått
+        vad mörka mönster faktiskt är: en genväg någon tog för att den ärliga vägen var
+        svårare att rita.</p>
+    </div>
+
+    <h2 id="tekniska">5. Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Vad som gäller</th></tr></thead>
+        <tbody>
+          <tr><td>Var det lämnas</td><td>Din sida på den gemensamma sajten. Portföljens <code>05 Lagar och etik</code> har en rad och en länk dit — skapa sidan om den inte finns</td></tr>
+          <tr><td>Omritningen</td><td>Gjord i Figma, exporterad som PNG. En skärm, före och efter bredvid varandra</td></tr>
+          <tr><td>Skärmdumpar</td><td>Beskurna så att mönstret syns. Läsbara — zooma in hellre än att visa hela skärmen</td></tr>
+          <tr><td>Anonymisering</td><td>Inga personuppgifter i bild. Täck namn, adresser, konton — också dina egna</td></tr>
+          <tr><td>Cookie-granskningen</td><td>Tabell med fyra kolumner: <b>tjänst</b>, <b>laglig</b>, <b>begriplig</b>, <b>din slutsats</b></td></tr>
+          <tr><td>Licensredovisningen</td><td>Tabell med fyra kolumner: <b>vad</b>, <b>varifrån</b>, <b>licens</b>, <b>vad licensen kräver</b></td></tr>
+          <tr><td>Omfattning</td><td>Analysen och omritningens motivering ungefär 400 ord sammanlagt</td></tr>
+          <tr><td>Var det lämnas in</td><td>Sajtens adress i itslearning, på <b>båda</b> kursernas uppgifter — samma länk</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Licensredovisningen gäller hela sajten</span>
+      <p>Inte bara din sida. Det är den naturliga arbetsdelningen: Webbutveckling svarar för
+        källorna till texten, du för licenserna till formen.</p>
+    </div>
+
+    <h2 id="matris">6. Bedömningsmatris</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><b>Val av exempel</b></td>
+            <td>Ett gränssnitt som gör rätt och ett som gör fel, med skärmdump</td>
+            <td>Båda är egna fynd ur tjänster du använder</td>
+            <td>Exemplet som gör fel är något du själv drabbats av, och du kan säga vad det kostade</td></tr>
+          <tr><td><b>Analys av utformningen</b></td>
+            <td>Du beskriver vad mönstret får användaren att göra</td>
+            <td>Du pekar på minst tre konkreta designval: kontrast, placering, ordval</td>
+            <td>Du skiljer på vad som är olagligt och vad som bara är dåligt, med stöd</td></tr>
+          <tr><td><b>Omritning</b></td>
+            <td>Före och efter finns, gjord i Figma</td>
+            <td>Omritningen ändrar utformningen men inte innehållet</td>
+            <td>Omritningen är prövad på någon annan och fungerar fortfarande för avsändaren</td></tr>
+          <tr><td><b>Lag och princip</b></td>
+            <td>Du säger vilken regel eller princip exemplen hänger på</td>
+            <td>Cookie-granskningen pekar på vad i utformningen som avgör begripligheten</td>
+            <td>Du reder ut ett fall där det lagliga och det begripliga inte sammanfaller</td></tr>
+          <tr><td><b>Upphovsrätt och licenser</b></td>
+            <td>Sajtens designmaterial är redovisat med källa och licens</td>
+            <td>Villkoren är utskrivna och du vet vad de kräver av dig</td>
+            <td>Du kan redogöra för vad AI-genererat material innebär i ditt fall, med källa</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kom-igang">7. Kom igång</h2>
+    <ol class="steg">
+      <li><b>Börja samla skärmdumpar nu.</b> Mörka mönster finns i varje app du öppnar i
+        december — avbeställningen som gömmer sig, förkryssade rutor, <i>Nej tack, jag vill
+        inte spara pengar</i>. Ta bilden när du ser det. Att leta upp ett i efterhand är
+        mycket svårare än det låter.</li>
+      <li><b>Ta cookie-dialogerna på första passet.</b> Övningen på lektionen är uppgiftens
+        krav — tre dialoger, tre rader. Gör dem där, så är det momentet avklarat.</li>
+      <li><b>Välj det som gör rätt sist.</b> Det är lättare att se vad ett bra gränssnitt gör
+        när du redan analyserat ett dåligt. Leta efter motsatsen till det du hittade.</li>
+      <li><b>Rita om i Figma, inte i huvudet.</b> Omritningen är beviset. En beskrivning av hur
+        det borde se ut är inte samma sak som en bild man kan titta på och säga <i>ja, nu
+        förstår jag vad valet är</i>.</li>
+      <li><b>Skriv licensredovisningen medan sajten byggs</b>, inte efteråt. Frågan <i>var kom
+        den här ikonen ifrån?</i> har inget bra svar tre veckor senare.</li>
+    </ol>
+
+    <h2 id="misstag">8. Vanliga misstag</h2>
+    <ul>
+      <li><b>Analysen är en åsikt.</b> <i>Den är förvirrande och otydlig</i> säger ingenting om
+        utformningen. <i>Knappen som avbryter har samma bakgrundsfärg som sidan och ligger
+        under vikningen</i> säger det.</li>
+      <li><b>Omritningen är bara snyggare.</b> Uppgiften handlar inte om estetik. Frågan är om
+        användaren kan se vad valet är och välja det hen vill — inte om det ser modernare
+        ut.</li>
+      <li><b>Omritningen tar bort frågan.</b> Ett mörkt mönster löses inte genom att företaget
+        slutar fråga. Det löses genom att frågan ställs ärligt och båda svaren ser ut som
+        svar.</li>
+      <li><b>Allt som är dåligt kallas olagligt.</b> Det mesta som är irriterande är fullt
+        lagligt. Skillnaden mellan <i>bryter mot regel X</i> och <i>är ett dåligt designval</i>
+        är precis vad det här kriteriet prövar.</li>
+      <li><b>Exemplet som gör rätt är påhittat.</b> En skiss av hur det borde se ut är inte ett
+        gränssnitt som gör rätt. Hitta ett som finns — de är färre, men de finns.</li>
+      <li><b>Licensen anges som <i>gratis</i>.</b> Gratis är inte en licens. Villkoret är det
+        som gäller: får du ändra i den, får du använda den kommersiellt, måste du namnge
+        upphovspersonen?</li>
+      <li><b>Skärmdumpen visar hela skärmen.</b> Mönstret syns inte i en bild på en hel
+        webbsida. Beskär till det som är poängen.</li>
+    </ul>
+
+    <h2 id="lamna-in">9. Innan du lämnar in</h2>
+    <p>Måndag 21 december är områdets sista lektion, men deadline är <b>kvällen efter</b>,
+      tisdag 22 december kl 23:59, gemensamt med Webbutveckling. Använd passet till det här:</p>
+    <ul class="krav">
+      <li><label><input type="checkbox" id="in-1"><span><b>Titta på din egen sida som en främling.</b> Framgår det vilket exempel som gör rätt och vilket som gör fel, utan att du förklarar?</span></label></li>
+      <li><label><input type="checkbox" id="in-2"><span><b>Räkna designvalen i analysen.</b> Tre konkreta, inte tre omskrivningar av samma sak</span></label></li>
+      <li><label><input type="checkbox" id="in-3"><span><b>Läs de 150 orden om omritningen.</b> Står det vad du ändrade, eller bara att du ändrade?</span></label></li>
+      <li><label><input type="checkbox" id="in-4"><span><b>Kontrollera skärmdumparna för personuppgifter.</b> Namn, adresser, kontonummer — också dina egna</span></label></li>
+      <li><label><input type="checkbox" id="in-5"><span><b>Gå igenom licenstabellen</b> mot sajtens faktiska bilder och ikoner</span></label></li>
+      <li><label><input type="checkbox" id="in-6"><span><b>Kontrollera att portföljens <code>05 Lagar och etik</code> länkar till sajten</b>, och att länken fungerar</span></label></li>
+      <li><label><input type="checkbox" id="in-7"><span><b>Lämna adressen i itslearning på båda kurserna.</b> Samma länk, två uppgifter</span></label></li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Terminen slutar här</span>
+      <p>Nästa område börjar den 14 januari och handlar om tillgänglighet och
+        användbarhetstest — där prövas sajten på riktiga personer, och åtgärdslistan du skrev i
+        område 4 betas av i Webbutveckling parallellt.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 5</a> ·
+        <a href="../datum.html">Alla viktiga datum</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

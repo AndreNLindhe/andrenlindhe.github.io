@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300" width="420" height="300" role="img" aria-label="Karta över Bohuskusten med fyra fyrar utmärkta.">
+  <rect width="420" height="300" fill="#eef3f6"/>
+
+  <!-- Land: en förenklad kustlinje. Bohuslän ligger i väster, havet till vänster. -->
+  <path d="M 200 0 L 420 0 L 420 300 L 190 300 C 205 265 175 250 195 220
+           C 215 190 180 175 200 145 C 220 115 185 100 205 70 C 220 45 195 25 200 0 Z"
+        fill="#dfe7dc" stroke="#7d8f84" stroke-width="2"/>
+
+  <text x="330" y="30" font-family="sans-serif" font-size="15" fill="#5c6b62">Bohuslän</text>
+  <text x="45" y="30" font-family="sans-serif" font-size="15" fill="#6b7d88">Skagerrak</text>
+
+  <!-- De fyra fyrarna, norrifrån och ned. Varje punkt är en liten ring med namn. -->
+  <g fill="#1e2a33" font-family="sans-serif" font-size="14">
+    <circle cx="150" cy="58" r="6" fill="#c8452f"/>
+    <text x="164" y="63">Nordkoster</text>
+
+    <circle cx="140" cy="128" r="6" fill="#c8452f"/>
+    <text x="154" y="133">Hållö</text>
+
+    <circle cx="128" cy="186" r="6" fill="#c8452f"/>
+    <text x="142" y="191">Måseskär</text>
+
+    <circle cx="152" cy="256" r="6" fill="#c8452f"/>
+    <text x="166" y="261">Vinga</text>
+  </g>
+
+  <!-- Nordpil, så att läsordningen på kartan går att förstå. -->
+  <g stroke="#5c6b62" stroke-width="2" fill="none">
+    <line x1="385" y1="270" x2="385" y2="240"/>
+    <polyline points="379,246 385,238 391,246"/>
+  </g>
+  <text x="385" y="288" font-family="sans-serif" font-size="13" fill="#5c6b62" text-anchor="middle">N</text>
+</svg>

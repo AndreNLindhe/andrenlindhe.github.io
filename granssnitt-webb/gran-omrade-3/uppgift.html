@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uppgift 3 – Stilguide, komponentbibliotek och mockup – Gränssnittsdesign område 3</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="gran-3-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Uppgift 3</strong> · Stilguide, komponentbibliotek och mockup</span>
+  <a href="#kom-igang">Kom igång</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#ska">2. Ska-krav (E)</a></li>
+      <li><a href="#bor">3. Bör-krav (C)</a></li>
+      <li><a href="#utmaning">4. Utmaningar (A)</a></li>
+      <li><a href="#tekniska">5. Tekniska krav</a></li>
+      <li><a href="#matris">6. Bedömningsmatris</a></li>
+      <li><a href="#kom-igang">7. Kom igång</a></li>
+      <li><a href="#misstag">8. Vanliga misstag</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Gränssnittsdesign · område 3</p>
+    <h1>Uppgift 3 – Stilguide, komponentbibliotek och mockup</h1>
+    <p class="inledning">Färgskala med kontrastvärden, typografi, avståndssystem, sex
+      komponenter med tillstånd och varianter, samt mockup av två sidor i två bredder. Plus en
+      skriftlig analys av två gränssnitt.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-11-05">
+        <span class="nar">5 nov</span>
+        <span class="vad">Deadline kl 23:59
+          <small>Torsdag. Passet den dagen är ett arbetspass — inlämningen sker på kvällen.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+
+    <p>Du ska bygga en <b>stilguide</b>, ett <b>komponentbibliotek</b> och en <b>mockup</b> av
+      din sajt i Figma. Tillsammans är de ritningen som sajten byggs efter.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det här är det du själv ska bygga efter</span>
+      <p>Det du lämnar in den 5 november är underlaget du stilsätter mot i Webbutveckling.
+        Färgerna blir CSS-variabler. Avstånden blir <code>gap</code> och <code>padding</code>.
+        Komponenternas tillstånd blir <code>:hover</code> och <code>:focus-visible</code>.
+        Saknas ett värde här får du hitta på det mitt i kodningen, och då blir sajten aldrig
+        lika genomtänkt som den kunde ha blivit.</p>
+    </div>
+
+    <p><b>Kravet som ligger under alla andra: det ska gå att bygga efter.</b> Någon som inte
+      var med när du ritade ska kunna öppna din stilguide och veta vilket blått, hur många
+      pixlar, och vad som händer när man för musen över knappen. Kan de inte det är stilguiden
+      en samling bilder, inte ett designsystem.</p>
+
+    <p>Bilderna från område 1, ikonerna och ordmärket från område 2 och den typografiska
+      skalan går alla in här. <b>Ingenting av det du gjort hittills kastas</b> — det får en
+      plats i systemet.</p>
+
+    <div class="notis">
+      <span class="rubrik">Området byggs i en egen Figma-fil</span>
+      <p>Inte i designportföljen. Ett designsystem är något man delar och lämnar över, medan
+        portföljen är ditt eget arkiv. I november öppnar du designsystemfilen bredvid koden
+        och arbetar ur den — då vill du inte ha bildpaketet i vägen. Länken till filen lägger
+        du på portföljens sida <code>03 Stilguide</code>, så att allt fortfarande går att
+        hitta från ett ställe.</p>
+    </div>
+
+    <h2 id="ska">2. Ska-krav</h2>
+    <p>Är alla ikryssade och kontrollerade ligger du på <b>E</b>.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska-listan">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>En <b>färgskala med roller</b>: primär, sekundär, accent, minst tre neutraler och minst två statusfärger</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span><b>Kontrastvärdet redovisat</b> för varje kombination av text och bakgrund, med minst <b>4.5:1</b> för brödtext</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Den <b>typografiska skalan</b> från område 2, med storlek, radavstånd och användning per steg</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span>Ett <b>avståndssystem</b> byggt på ett tal, till exempel 4 eller 8, med minst fem steg</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span>Minst <b>sex komponenter</b>: knapp, textfält, kort och tre till som din sajt behöver</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>Varje komponent har sina <b>tillstånd</b>: normal, hover, fokus, aktiv, inaktiv och fel där de är relevanta</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span>Komponenterna är riktiga <b>Figma-komponenter med varianter</b>, inte kopierade ramar</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span><b>Mockup av startsidan</b> i både 360 px och 1280 px bredd</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span><b>Mockup av en undersida</b> i båda bredderna</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>En <b>skriftlig analys</b> av två gränssnitt som löser samma uppgift som din sajt</span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span>Ikonerna och ordmärket från område 2 är <b>inlagda i stilguiden</b></span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bor">3. Bör-krav</h2>
+    <p>Skillnaden mellan ett system som finns och ett system som håller. Nivå <b>C</b>.</p>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor-listan">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Du kan <b>motivera färgerna som roller</b>, inte som färger du tyckte om. Varför är den primära primär?</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Avståndssystemet används <b>konsekvent</b> i mockupen. Inga lösa värden som 13 eller 27</span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Komponenterna är byggda med <b>varianter</b>, inte som sex separata komponenter med snarlika namn</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Mockupen är byggd av <b>komponenter ur ditt eget bibliotek</b>, inte av lösa rektanglar som råkar se likadana ut</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span><b>Fokusmarkeringen är egen och synlig</b> — du har bestämt hur den ser ut i stället för att låta webbläsaren göra det</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Analysen säger <b>vad du tar efter och vad du låter bli</b>, med ett skäl till varje</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="utmaning">4. Utmaningar</h2>
+    <p>Nivå <b>A</b>. Ta dem du kan motivera, inte alla.</p>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning-listan">Utmaningar <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span>Stilguiden är <b>testad på en klasskamrat</b>: hen har byggt om en av dina komponenter efter den, utan att fråga dig något</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Komponenterna fungerar i <b>två teman</b> — ljust och mörkt — utan att ritas om</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Brödtexten klarar <b>7:1</b>, inte bara 4.5:1</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>Varje komponent har en <b>användningsregel</b>: när den ska användas och när den inte ska det</span></label></li>
+        <li><label><input type="checkbox" id="utm-5"><span>Du kan namnge <b>var du kompromissade</b> — ett värde du ändrade för systemets skull trots att det såg bättre ut på egen hand</span></label></li>
+      </ul>
+    </section>
+
+    <p>Kryssen sparas i din webbläsare.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <h2 id="tekniska">5. Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Vad som gäller</th></tr></thead>
+        <tbody>
+          <tr><td>Var det lämnas</td><td>En <b>egen Figma-fil</b>: <code>Designsystem – förnamn efternamn</code>, med sidorna <code>01 Grunder</code>, <code>02 Komponenter</code>, <code>03 Mockup</code> och <code>04 Analys</code></td></tr>
+          <tr><td>Länken</td><td>Läggs på designportföljens sida <code>03 Stilguide</code>, så att allt går att hitta från ett ställe</td></tr>
+          <tr><td>Ikoner och ordmärke</td><td>Kopieras in i designsystemfilen från portföljens <code>02 Ikoner</code>. De ska ligga i den fil som stilsätts efter</td></tr>
+          <tr><td>Bredder</td><td>Mobil 360 px, desktop 1280 px. Samma innehåll, olika layout</td></tr>
+          <tr><td>Kontrast</td><td>Minst 4.5:1 för brödtext, 3:1 för stora rubriker och gränssnittselement</td></tr>
+          <tr><td>Träffytor</td><td>Minst 44 × 44 px för allt som går att trycka på</td></tr>
+          <tr><td>Komponentnamn</td><td>Snedstreck för hierarki: <code>knapp/primar/normal</code>, <code>knapp/primar/hover</code></td></tr>
+          <tr><td>Avståndssystem</td><td>Bygg på 4 eller 8. Skriv ut stegen: 4, 8, 16, 24, 32</td></tr>
+          <tr><td>Färgvärden</td><td>Hex, angivna i stilguiden. Inte bara färgrutor att pipettera från</td></tr>
+          <tr><td>Analysen</td><td>Minst 400 ord, i en textram på sidan <code>04 Analys</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="matris">6. Bedömningsmatris</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><b>Färg och kontrast</b></td>
+            <td>Färgskalan finns och kontrastvärdena är redovisade</td>
+            <td>Färgerna har roller du kan motivera, och kontrasten är löst utan att färgerna tappar karaktär</td>
+            <td>Färgsystemet bär två teman, och du kan förklara vilka val som gjordes för tillgänglighetens skull</td></tr>
+          <tr><td><b>System och konsekvens</b></td>
+            <td>Typografisk skala och avståndssystem finns</td>
+            <td>Systemet används konsekvent genom hela mockupen, utan lösa värden</td>
+            <td>Systemet är så tydligt att någon annan kan lägga till en ny sida utan att fråga</td></tr>
+          <tr><td><b>Komponenter och tillstånd</b></td>
+            <td>Sex komponenter med sina tillstånd</td>
+            <td>Komponenterna är byggda med varianter och namngivna så att de går att hitta</td>
+            <td>Komponenterna har dokumenterade användningsregler, och fokusmarkeringen är medvetet utformad</td></tr>
+          <tr><td><b>Mockup och byggbarhet</b></td>
+            <td>Startsida och undersida finns i båda bredderna</td>
+            <td>Mockupen är byggd av det egna biblioteket, och skillnaden mellan bredderna är genomtänkt</td>
+            <td>Mockupen går att bygga efter utan följdfrågor — det är prövat på någon annan</td></tr>
+          <tr><td><b>Analys</b></td>
+            <td>Två gränssnitt är beskrivna</td>
+            <td>Analysen jämför och drar slutsatser för den egna sajten</td>
+            <td>Analysen skiljer på konvention och enskilt val, och motiverar vad du inte tar efter</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kom-igang">7. Kom igång</h2>
+    <ol class="steg">
+      <li><b>Skapa filen först.</b> <code>Designsystem – förnamn efternamn</code>, med de
+        fyra sidorna. Kopiera in ikonerna och ordmärket från portföljen medan du ändå är
+        där.</li>
+      <li><b>Bestäm avståndstalet innan du ritar något.</b> 8 är en trygg start: 8, 16, 24,
+        32, 48. Allt du sedan placerar hamnar på de talen. Att införa systemet i efterhand
+        betyder att flytta varje element i mockupen.</li>
+      <li><b>Bygg färgskalan före komponenterna</b>, och kontrastkontrollera direkt. En
+        knappfärg som underkänns när komponenten är klar tvingar fram omritning av alla sex
+        tillstånden.</li>
+      <li><b>Gör analysen tidigt, gärna i oktober.</b> Den är skriftlig och tar en kväll. Den
+        som sparar den till november gör den slarvigt, och det syns.</li>
+      <li><b>Bygg en komponent hela vägen först</b> — knappen, med alla sex tillstånden —
+        innan du börjar på de andra. Då upptäcker du vad systemet saknar medan det bara kostar
+        en komponent att rätta.</li>
+      <li><b>Rita mobilen först.</b> 360 px tvingar fram prioritering. Att gå från 1280 till
+        360 betyder att välja bort, och det är svårare än att lägga till.</li>
+    </ol>
+
+    <h2 id="misstag">8. Vanliga misstag</h2>
+    <ul>
+      <li>Färgerna väljs som färger och inte som roller. Fem blå nyanser utan uppgift är ingen
+        färgskala. Fråga vad varje färg <i>gör</i>.</li>
+      <li>Kontrasten kontrolleras på slutet. Då är komponenterna redan ritade, och en
+        underkänd textfärg betyder att allt görs om.</li>
+      <li>Komponenterna kopieras i stället för att varieras. Sex nästan likadana komponenter
+        går inte att ändra på ett ställe, och det är hela poängen med ett bibliotek.</li>
+      <li>Tillstånden hoppas över utom hover. Fokus saknas oftast, och det är det enda
+        tillstånd som någon är beroende av för att kunna använda sajten alls.</li>
+      <li>Mockupen ritas med lösa rektanglar som ser ut som komponenter. Det syns direkt när
+        något ska ändras.</li>
+      <li>Desktop ritas först och mobilen kläms ihop efteråt. Resultatet blir en desktopsida i
+        smalt fönster, inte en mobilsida.</li>
+      <li>Analysen blir en beskrivning i stället för en jämförelse. Frågan är inte hur de två
+        sajterna ser ut, utan vad du tar med dig och varför.</li>
+    </ul>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

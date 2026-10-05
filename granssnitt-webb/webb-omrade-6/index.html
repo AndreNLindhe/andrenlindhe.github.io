@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript och DOM – Webbutveckling område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-6-start">
+
+<header class="topp">
+  <a href="../index.html">← Elevpaket</a>
+  <span class="harifran"><strong>Webbutveckling · område 6</strong></span>
+  <a href="../datum.html">Viktiga datum</a>
+</header>
+
+<div class="ram">
+
+  <p class="ledtext">Webbutveckling · område 6</p>
+  <h1>JavaScript och DOM</h1>
+  <p class="inledning">Hittills har din kod <i>varit</i> något: HTML säger vad som finns, CSS
+    hur det ser ut. Nu skriver du kod som <i>gör</i> något när någon använder sajten. Du
+    börjar med att läsa kod som någon annan skrivit, och slutar med att bygga in ljuden och
+    mikrointeraktionerna från Gränssnittsdesign i din egen sajt.</p>
+
+  <ul class="datum">
+    <li data-datum="2027-03-16">
+      <span class="nar">16 mars</span>
+      <span class="vad">Inlämning: Projekt 5 – Interaktiv sajt
+        <small>Kl 23:59. Repolänk och Pages-adress i itslearning.</small></span>
+      <span class="kvar"></span>
+    </li>
+    <li data-datum="2027-03-17">
+      <span class="nar">17 mars</span>
+      <span class="vad">Prov 4 – JavaScript och DOM
+        <small>Skriftligt, utan dator. Läsa, förutsäga och anpassa kod.</small></span>
+      <span class="kvar"></span>
+    </li>
+  </ul>
+
+  <h2>Börja här</h2>
+  <ul class="rutnat">
+    <li><a class="kort webb" href="uppgift.html">
+      <span class="sort">Uppgift</span>
+      <span class="rubrik">Projekt 5 – Interaktiv sajt</span>
+      <p>Kraven, bedömningsmatrisen och en checklista du kan bocka av medan du arbetar.</p>
+    </a></li>
+    <li><a class="kort webb" href="uppgift.html#kom-igang">
+      <span class="sort">Kom igång</span>
+      <span class="rubrik">Fyra steg i rätt ordning</span>
+      <p>Varför du skriver upp vad sajten klarar utan JavaScript första passet, och bygger rörelsen i CSS innan du skriver en rad kod.</p>
+    </a></li>
+    <li><a class="kort webb" href="uppgift.html#tekniska">
+      <span class="sort">Krav</span>
+      <span class="rubrik">Skriptfiler, <code>defer</code> och ljudknappen</span>
+      <p>Var filerna ligger, hur de kopplas in, och vad som gäller för ljudfilernas namn.</p>
+    </a></li>
+    <li><a class="kort webb" href="uppgift.html#misstag">
+      <span class="sort">Fallgropar</span>
+      <span class="rubrik">Vanliga misstag</span>
+      <p>Sju saker som fäller projektet. Det vanligaste är <code>onclick</code> i HTML:en.</p>
+    </a></li>
+    <li><a class="kort webb" href="uppgift.html#lamna-in">
+      <span class="sort">Inlämning</span>
+      <span class="rubrik">Innan du lämnar in</span>
+      <p>Sju kontroller för sista passet den 16 mars, i den ordning de ska göras.</p>
+    </a></li>
+    <li><a class="kort webb" href="guide-javascript.html">
+      <span class="sort">Guide</span>
+      <span class="rubrik">JavaScript och DOM</span>
+      <p>Uppslagsboken. Ett avsnitt per pass, utmaningarna, felsökning och en snabbreferens med ordträning.</p>
+    </a></li>
+    <li><a class="kort webb" href="guide-javascript.html#felsokning">
+      <span class="sort">Felsökning</span>
+      <span class="rubrik">När det röda kommer i konsolen</span>
+      <p>Sökbar tabell: symptom, trolig orsak och vad du gör åt det.</p>
+    </a></li>
+    <li><a class="kort webb" href="guide-javascript.html#snabbreferens">
+      <span class="sort">Snabbreferens</span>
+      <span class="rubrik">Ordlistan</span>
+      <p>Femtiosju begrepp med ordträning. Samma ordlista som delades ut första passet. Använd den inför prov 4.</p>
+    </a></li>
+    <li><a class="kort webb" href="referensprojekt/index.html">
+      <span class="sort">Referensprojekt</span>
+      <span class="rubrik">Fyrar längs Bohuskusten</span>
+      <p>Fyrsajten med de tre skripten – öppna den, klicka, läs koden.</p>
+    </a></li>
+    <li><a class="kort webb" href="infor-prov-4.html">
+      <span class="sort">Prov</span>
+      <span class="rubrik">Inför prov 4</span>
+      <p>Vad provet är, vad som kan komma och hur du pluggar. Med plugglista att bocka av.</p>
+    </a></li>
+  </ul>
+
+  <h2>Vad du ska kunna när området är slut</h2>
+  <ul>
+    <li>Läsa en färdig JavaScript-modul och säga vad raderna gör: variabel, funktion, händelse och villkor</li>
+    <li>Hitta element i sidan med <code>querySelector</code> och ändra deras text, klass och attribut</li>
+    <li>Använda konsolen för att prova kod och läsa felmeddelanden</li>
+    <li>Koppla beteende till klick och tangentbord med <code>addEventListener</code>, utan JavaScript i HTML:en</li>
+    <li>Koppla in ett skript med <code>script</code> och <code>defer</code>, och veta vad i en modul som är säkert att ändra</li>
+    <li>Bygga så att sajten fungerar med JavaScript avstängt, med struktur, stil och beteende åtskilda</li>
+    <li>Bygga in ljud och rörelse efter en överlämning, med rörelsen i CSS och JavaScript som byter klass</li>
+  </ul>
+
+  <h2>Lektionerna i området</h2>
+  <p>Missade du ett pass? Sista kolumnen säger var innehållet står.</p>
+  <div class="tabellsvep">
+    <table>
+      <thead>
+        <tr><th>Datum</th><th>Vad vi gör</th><th>Missade du passet?</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>23 feb</td><td>Vad JavaScript gör</td>
+          <td><a href="guide-javascript.html#vad-javascript-gor">Guide, avsnitt 1</a></td></tr>
+        <tr><td>24 feb</td><td>DOM – dokumentobjektsmodellen</td>
+          <td><a href="guide-javascript.html#dom">Guide, avsnitt 2</a></td></tr>
+        <tr><td>2 mars</td><td>Händelser</td>
+          <td><a href="guide-javascript.html#handelser">Guide, avsnitt 3</a></td></tr>
+        <tr><td>3 mars</td><td>Koppla in och anpassa en modul</td>
+          <td><a href="guide-javascript.html#moduler">Guide, avsnitt 4</a></td></tr>
+        <tr><td>9 mars</td><td>När JavaScript inte finns</td>
+          <td><a href="guide-javascript.html#utan-javascript">Guide, avsnitt 5</a></td></tr>
+        <tr><td>10 mars</td><td>Arbetspass: ljud och mikrointeraktioner byggs in</td>
+          <td><a href="guide-javascript.html#overlamningen">Guide, avsnitt 6</a> ·
+            <a href="uppgift.html#ska">Projekt 5 – ska-kraven</a></td></tr>
+        <tr><td>16 mars</td><td>Arbetspass. <b>Inlämning</b> kl 23:59</td>
+          <td><a href="uppgift.html#lamna-in">Projekt 5 – innan du lämnar in</a></td></tr>
+        <tr><td>17 mars</td><td><b>Prov 4</b> – JavaScript och DOM</td>
+          <td><a href="infor-prov-4.html">Inför prov 4</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="notis viktig">
+    <span class="rubrik">Det viktigaste</span>
+    <p>Sajten ska fungera fullt ut med JavaScript avstängt. Skriv upp vad den klarar första
+      passet, innan den har någon JavaScript: allt på den listan ska fungera på deadlinedagen
+      också. JavaScript lägger till ljud och tillstånd, det bär aldrig innehållet.</p>
+  </div>
+
+  <div class="notis">
+    <span class="rubrik">Överlämningen kommer den 8 mars</span>
+    <p>Ljudfilerna och värdena för rörelsen tar du fram i Gränssnittsdesign och lämnar över
+      den 8 mars. Den 10 mars bygger du in dem här. Fram till dess arbetar du med det som inte
+      behöver dem: skriptfilerna, modulen och sajten utan JavaScript. Varför ett ljud är 150 ms
+      bestäms där. Här handlar allt om koden som spelar det.</p>
+  </div>
+
+  <div class="notis">
+    <span class="rubrik">Prov 4 ligger dagen efter inlämningen</span>
+    <p>Provet utgår från områdets referensprojekt och prövar att läsa, förutsäga och anpassa
+      kod. Det du gör med modulen i din egen sajt är det du gör för hand på provet.</p>
+  </div>
+
+  <footer class="fot">
+    <p><a href="../index.html">Tillbaka till elevpaketets startsida</a> ·
+      <a href="../datum.html">Alla viktiga datum</a></p>
+  </footer>
+
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

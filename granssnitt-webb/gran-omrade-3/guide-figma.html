@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Layout och designsystem i Figma – Gränssnittsdesign område 3</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="gran-3-guide">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Guide</strong> · Layout och designsystem i Figma</span>
+  <a href="uppgift.html">Uppgiften</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#filen">1. Filen och sidorna</a></li>
+      <li><a href="#ramar">2. Ramar</a></li>
+      <li><a href="#autolayout">3. Autolayout</a></li>
+      <li><a href="#constraints">4. Constraints</a></li>
+      <li><a href="#rutnat">5. Rutnät och spalter</a></li>
+      <li><a href="#principer">6. De fyra principerna</a></li>
+      <li><a href="#vitrum">7. Vitrum</a></li>
+      <li><a href="#hierarki">8. Hierarki och läsmönster</a></li>
+      <li><a href="#farg">9. Färgskalan och kontrast</a></li>
+      <li><a href="#analys">10. Analys av liknande gränssnitt</a></li>
+      <li><a href="#tillstand">11. Element och tillstånd</a></li>
+      <li><a href="#komponenter">12. Komponenter och varianter</a></li>
+      <li><a href="#bredder">13. Två bredder</a></li>
+      <li><a href="#overlamning">14. Överlämningen</a></li>
+      <li><a href="#felsokning">15. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Gränssnittsdesign · område 3</p>
+    <h1>Guide – Layout och designsystem i Figma</h1>
+    <p class="inledning">Här står det du behöver för uppgiften, och guiden fungerar utan att
+      du varit på lektionen. Slå upp i den när du fastnar.</p>
+
+    <h2 id="filen">1. Filen och sidorna</h2>
+
+    <p>Område 3 byggs i en <b>egen Figma-fil</b>, inte i designportföljen. Ett designsystem
+      är något du delar och lämnar över; portföljen är ditt eget arkiv. I november öppnar du
+      designsystemfilen bredvid koden och arbetar ur den.</p>
+
+    <p>Filen heter <code>Designsystem – förnamn efternamn</code> och har fyra sidor:</p>
+
+<pre><code>01 Grunder        färg, typografi, avstånd
+02 Komponenter    knapp, fält, kort och de andra
+03 Mockup         360- och 1280-ramarna
+04 Analys         den skriftliga jämförelsen</code></pre>
+
+    <p>Lägg <b>länken till filen</b> på designportföljens sida <code>03 Stilguide</code>. Då
+      går allt fortfarande att hitta från ett ställe, och du slipper leta i november.</p>
+
+    <div class="notis">
+      <span class="rubrik">Ikonerna följer med</span>
+      <p>Kopiera in ikonsetet och ordmärket från portföljens <code>02 Ikoner</code> till
+        <code>01 Grunder</code>. De ska ligga i den fil som sajten stilsätts efter, inte i
+        en annan flik.</p>
+    </div>
+
+    <h2 id="ramar">2. Ramar</h2>
+
+    <p><b>En ram är inte en rektangel.</b> En rektangel är en form: den har färg och storlek
+      och kan inte innehålla något. En ram är en behållare — den kan klippa sitt innehåll,
+      den kan ha autolayout, och den kan vara en skärm.</p>
+
+    <p>Skillnaden syns på ikonen i lagerpanelen. Det är värt att lära sig känna igen, för det
+      förklarar hälften av de fel du kommer att stöta på.</p>
+
+    <p>Mockupen byggs i två ramar:</p>
+
+<pre><code>360 × 800     mobil
+1280 × 900    desktop</code></pre>
+
+    <p>Figma föreslår färdiga storlekar i panelen till höger när du skapar en ram. Använd
+      dem, men skriv in <b>360</b> om den föreslagna mobilen är bredare — 360 är uppgiftens
+      krav och den smalaste bredd som är rimlig idag.</p>
+
+    <p><b>Varför två bredder och inte en:</b> en design som bara finns i en bredd är en
+      gissning om alla andra. Två tvingar dig att ta ställning till vad som händer
+      däremellan.</p>
+
+    <h2 id="autolayout">3. Autolayout</h2>
+
+    <p>Autolayout gör att en ram placerar sitt innehåll efter <b>regler</b> i stället för
+      efter koordinater. Det är skillnaden mellan en design som spricker när texten blir
+      längre och en som växer.</p>
+
+    <h3>De fyra inställningarna</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Inställning</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><b>Riktning</b></td><td>Ligger innehållet på rad eller i spalt?</td></tr>
+          <tr><td><b>Gap</b></td><td>Avståndet mellan barnen. Ett tal, inte tomma rutor</td></tr>
+          <tr><td><b>Padding</b></td><td>Avståndet in till kanten. Kan sättas per sida</td></tr>
+          <tr><td><b>Justering</b></td><td>Var barnen hamnar när det finns plats över</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Storleksreglerna</h3>
+
+    <p>Det här är hela poängen, och det som förväxlas oftast. Varje element i en autolayout
+      kan vara:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Regel</th><th>Vad den gör</th><th>Använd för</th></tr></thead>
+        <tbody>
+          <tr><td><b>Hug</b></td><td>Krymper och växer med innehållet</td><td>Knappen som ska vara precis så bred som sin text</td></tr>
+          <tr><td><b>Fill</b></td><td>Tar all plats som finns kvar</td><td>Textrutan som ska ta resten av raden</td></tr>
+          <tr><td><b>Fixed</b></td><td>Bestämd storlek, ändras aldrig</td><td>Det som verkligen har ett mått, som en ikon på 24 px</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Meningen att komma ihåg</span>
+      <p><b>Hug krymper till innehållet. Fill växer till utrymmet.</b> Blandar du ihop dem
+        blir texten antingen avklippt eller utsträckt över hela ramen.</p>
+    </div>
+
+    <h3>Avstånd</h3>
+
+    <p>Avstånd görs med <b>gap och padding</b>, aldrig med tomma rutor. En osynlig rektangel
+      som skapar luft fungerar tills något ändras, och sedan aldrig mer. När du sätter
+      avståndssystemet i uppgiften ska varje avstånd vara ett tal du kan ändra på ett
+      ställe.</p>
+
+    <h2 id="constraints">4. Constraints</h2>
+
+    <p>Constraints bestämmer vad som händer med ett element när ramen omkring ändrar storlek:
+      fäst mot vänster, höger, båda, eller centrerat. Det gäller element som <b>inte</b>
+      ligger i en autolayout.</p>
+
+    <p>Regeln som skiljer dem åt:</p>
+
+    <div class="notis">
+      <span class="rubrik">Autolayout eller constraints?</span>
+      <p><b>Autolayout när innehållet bestämmer</b> — en navigering med länkar som växer.
+        <b>Constraints när ramen bestämmer</b> — en logotyp som ska sitta kvar uppe till
+        vänster när skärmen blir bredare.</p>
+    </div>
+
+    <p>Du behöver inte behärska constraints för uppgiften. Du ska veta att inställningen
+      finns och vad den heter, så att du känner igen den när något beter sig oväntat.</p>
+
+    <h2 id="rutnat">5. Rutnät och spalter</h2>
+
+    <p>Ett rutnät är en osynlig struktur som allting linjerar mot. Tre begrepp räcker:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Begrepp</th><th>Vad det är</th></tr></thead>
+        <tbody>
+          <tr><td><b>Spalt</b></td><td>En av de lodräta kolumnerna innehållet placeras i</td></tr>
+          <tr><td><b>Ränna</b></td><td>Mellanrummet mellan två spalter</td></tr>
+          <tr><td><b>Marginal</b></td><td>Avståndet från rutnätet ut till ramens kant</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>En rimlig utgångspunkt för uppgiften, som du ställer in under <i>Layout grid</i> i
+      Figma:</p>
+
+<pre><code>desktop 1280    12 spalter    ränna 24    marginal 80
+mobil    360     4 spalter    ränna 16    marginal 16</code></pre>
+
+    <p><b>Tolv spalter är standard</b>, och skälet är aritmetik: tolv går jämnt ut i två,
+      tre, fyra och sex. Innehållet kan alltså vara halvt, en tredjedel eller en fjärdedel
+      brett utan att något hamnar snett.</p>
+
+    <p>På mobilen räcker fyra spalter, eller ingen alls — i 360 px ligger nästan allt i full
+      bredd ändå.</p>
+
+    <div class="notis">
+      <span class="rubrik">Varför rutnätet spelar roll för koden</span>
+      <p>Rutnätet är det som gör mockupen byggbar. Den som kodar efter en sida utan rutnät
+        får gissa varje mått, och gissningarna blir sällan samma två gånger.</p>
+    </div>
+
+    <h2 id="principer">6. De fyra principerna</h2>
+
+    <p>När en sida ser rörig ut är det nästan alltid någon av de här fyra som är bruten. Att
+      kunna namnge dem är skillnaden mellan att laga sidan och att rita om den.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Princip</th><th>Vad den säger</th><th>Vanligaste brottet</th></tr></thead>
+        <tbody>
+          <tr><td><b>Närhet</b></td><td>Det som hör ihop ligger nära, det som inte gör det ligger isär</td><td>Alla avstånd är lika stora, så inga grupper syns</td></tr>
+          <tr><td><b>Linjering</b></td><td>Allt har en kant att förhålla sig till</td><td>Två element som <i>nästan</i> linjerar</td></tr>
+          <tr><td><b>Upprepning</b></td><td>Samma sak ser likadan ut varje gång</td><td>Två knappar med olika hörnradie</td></tr>
+          <tr><td><b>Kontrast</b></td><td>Skillnader ska vara tydliga eller inga alls</td><td>Nästan lika stort</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Närhet är den vanligaste och den billigaste att laga.</b> Nio gånger av tio är en
+      rörig sida bara en sida utan grupper.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Nästan lika stort är det värsta läget</span>
+      <p>Två rubriknivåer med fyra pixlars skillnad läses som ett misstag, inte som ett val.
+        Antingen tydligt olika eller exakt lika — och den typografiska skalan från område 2
+        finns just för att ta bort det valet.</p>
+    </div>
+
+    <h2 id="vitrum">7. Vitrum</h2>
+
+    <p>Vitrum är inte tom yta som blivit över. <b>Det är verktyget som skapar grupperna.</b></p>
+
+    <ul>
+      <li><b>Litet vitrum</b> — mellan rader, mellan etikett och fält, inuti en knapp. Gör
+        innehåll läsbart.</li>
+      <li><b>Stort vitrum</b> — mellan sektioner, runt en rubrik. Gör strukturen synlig.</li>
+    </ul>
+
+    <p>Regeln som gör mest nytta: <b>avståndet inuti en grupp ska vara mindre än avståndet
+      till nästa grupp.</b> Är de lika stora finns inga grupper, bara en lista.</p>
+
+    <p>Vitrum är gratis, och det är därför det försvinner. Den som får plats över fyller den.
+      Tom yta är ett val, inte ett misslyckande.</p>
+
+    <h2 id="hierarki">8. Hierarki och läsmönster</h2>
+
+    <p>Hierarki är vad ögat ser först, sedan, sist. Den byggs av fyra signaler — samma som i
+      typografin, fast på hela sidan:</p>
+
+    <p><b>Storlek. Vikt. Färg. Avstånd.</b></p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Två åt gången, inte fyra</span>
+      <p>En rubrik som är större, fetare, mörkare <i>och</i> har mer luft skriker. Större
+        plus luft räcker nästan alltid.</p>
+    </div>
+
+    <h3>Läsmönster</h3>
+
+    <ul>
+      <li><b>F-mönstret</b> — textbundet innehåll. Ögat läser översta raden, sedan kortare
+        svep nedåt längs vänsterkanten.</li>
+      <li><b>Z-mönstret</b> — sidor med lite text. Ögat går från övre vänstra hörnet till
+        övre högra, diagonalt ner, och ut åt höger.</li>
+    </ul>
+
+    <p>Det viktiga är inte bokstaven utan slutsatsen: <b>överst till vänster är den dyraste
+      ytan på sidan.</b> Det som ligger där ska förtjäna sin plats.</p>
+
+    <p>Mönstren är tumregler, inte lagar. Riktiga användare tittar dit något rör sig, är
+      färgstarkt eller ser ut som en knapp.</p>
+
+
+    <h2 id="farg">9. Färgskalan och kontrast</h2>
+
+    <p>En färgskala är inte fem färger du tycker om. <b>Det är ett antal uppgifter som råkar
+      ha färg.</b> Varje färg i skalan har en roll, och rollen är det den heter.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Roll</th><th>Uppgift</th><th>Hur många</th></tr></thead>
+        <tbody>
+          <tr><td><b>Primär</b></td><td>Det viktigaste handlingsvalet. Knappen man ska trycka på</td><td>En, plus en mörkare för hover</td></tr>
+          <tr><td><b>Sekundär</b></td><td>Handling som finns men inte ska dra ögat</td><td>En</td></tr>
+          <tr><td><b>Accent</b></td><td>Markerar och lyfter. Används sparsamt</td><td>En</td></tr>
+          <tr><td><b>Neutraler</b></td><td>Bakgrund, ytor, ramar, text. Bär hela gränssnittet</td><td>Minst tre</td></tr>
+          <tr><td><b>Status</b></td><td>Fel, varning, klart. Betyder något bestämt</td><td>Minst två</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Testet på om en färg hör hemma i skalan: peka på den och säg vad som händer om du tar
+      bort den. Kan du inte svara har den ingen roll. Fler än sju roller betyder nästan alltid
+      att två av dem är samma roll.</p>
+
+    <p><b>Namnge färgerna efter rollen</b>, inte efter nyansen. <code>bla-3</code> säger
+      ingenting om vad färgen är till för; <code>primar-mork</code> går inte att använda fel.
+      Namnen blir variabler i Webbutveckling i november, så de ska hålla.</p>
+
+    <h3>Neutralerna</h3>
+
+    <p>Nästan allt du ritar är neutralt: bakgrunden, korten, linjerna, texten. Primärfärgen
+      hamnar på ett par knappar. Tre neutraler är minimum, med var sin uppgift:</p>
+
+    <ul>
+      <li><b>Bakgrund</b> — sidans botten.</li>
+      <li><b>Yta</b> — kort och paneler som ligger <i>på</i> bakgrunden. Måste gå att skilja
+        från den.</li>
+      <li><b>Text</b> — brödtexten, och gärna en ljusare för sekundär text.</li>
+    </ul>
+
+    <p>En fjärde för ramar och avdelare är nästan alltid rätt. Neutraler är sällan rent grå: en
+      aning av primärfärgens nyans i det grå binder ihop gränssnittet.</p>
+
+    <h3>Kontrast: vad 4.5:1 betyder</h3>
+
+    <p>Kontrast är ett förhållande mellan två ljusheter. <b>En färg har ingen kontrast — ett
+      par har.</b> Därför mäts kontrasten alltid mot det färgen faktiskt ligger på: samma
+      textfärg kan klara sig på ytan och underkännas på bakgrunden.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Gäller</th></tr></thead>
+        <tbody>
+          <tr><td><b>4.5:1</b></td><td>Brödtext och all text under 24 px. Ska-krav</td></tr>
+          <tr><td><b>3:1</b></td><td>Stor text från 24 px, rubriker, ikoner och gränssnittselement som fokusmarkeringen</td></tr>
+          <tr><td><b>7:1</b></td><td>Brödtext på högre nivå. Bör-krav, inte ska-krav</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Så mäter du.</b> Använd WebAIM Contrast Checker i webbläsaren:
+      <a href="https://webaim.org/resources/contrastchecker/">webaim.org/resources/contrastchecker</a>.
+      Klistra in hex-värdet för texten och hex-värdet för det den ligger på. Du får ett tal
+      direkt. Det tar fem sekunder per par, och det är därför du gör det nu och inte när
+      komponenterna redan är ritade.</p>
+
+    <p>Uppgiften vill ha kontrastvärdet redovisat för <b>varje kombination</b> av text och
+      bakgrund du använder — alltså en rad per par, inte ett värde per färg. Hex-värdena ska
+      stå i stilguiden, inte bara som färgrutor att pipettera från.</p>
+
+    <h3>Att laga en kombination som underkänns</h3>
+
+    <p>Byt inte färg. Det är den dyra lösningen — då tappar skalan sin karaktär och nästa
+      komponent stämmer inte längre. Ta vägarna i den här ordningen:</p>
+
+    <ol>
+      <li><b>Ändra ljusheten</b> på texten eller på bakgrunden. Behåll nyans och mättnad, dra
+        L i HSL tills talet passerar gränsen. Färgen är samma blå, bara mörkare.</li>
+      <li>Byt vilken av de två som är text och vilken som är yta.</li>
+      <li>Sist: byt färgen.</li>
+    </ol>
+
+    <p>Statusfärgerna fastnar oftast. Gult som varning är nästan alltid för ljust för vit text.
+      Lös det med mörkare gult och svart text — inte genom att göra gult till orange.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Bygg skalan före komponenterna</span>
+      <p>En knappfärg som underkänns när komponenten är klar tvingar fram omritning av alla
+        sex tillstånden. Mät varje par medan skalan fortfarande bara är rutor på en ram.</p>
+    </div>
+
+    <h2 id="analys">10. Analys av liknande gränssnitt</h2>
+
+    <p>Uppgiften kräver en skriftlig analys av <b>två gränssnitt som löser samma uppgift som
+      din sajt</b>: minst 400 ord i en textram på sidan <i>04 Analys</i> i designsystemfilen.
+      Den är det enda i uppgiften som är text i stället för form, och det enda som går att
+      göra klart utan att något annat är färdigt. Gör den i oktober.</p>
+
+    <h3>Steg 1 – Välj två</h3>
+
+    <p>De ska lösa samma uppgift som din egen sajt: två bokningssajter, två butiker, två
+      bibliotekskataloger. Två sajter som gör olika saker går inte att jämföra, och då finns
+      inget att skriva. Välj inte två du tycker om — välj två som liknar det du ska bygga.</p>
+
+    <h3>Steg 2 – Kartlägg båda, i samma ordning</h3>
+
+    <p>Gå igenom raderna nedan för den första sajten och sedan <b>samma rader i samma
+      ordning</b> för den andra. Gör du inte det blir det två beskrivningar efter varandra i
+      stället för en jämförelse.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Frågan du ställer</th></tr></thead>
+        <tbody>
+          <tr><td><b>Struktur</b></td><td>Vad ligger på startsidan? Vad ligger ett klick bort?</td></tr>
+          <tr><td><b>Navigation</b></td><td>Hur tar man sig runt — meny, sök, brödsmulor? Hur många val i toppmenyn?</td></tr>
+          <tr><td><b>Språk</b></td><td>Vad står det på knapparna? <i>Boka</i> eller <i>Fortsätt</i>? Du eller ni?</td></tr>
+          <tr><td><b>Form</b></td><td>Färg, typografi, avstånd, hörn, skuggor. Vad är genomgående?</td></tr>
+          <tr><td><b>Tillstånd</b></td><td>Vad händer vid hover och fokus? Hur ser ett fel ut? Ett tomt läge?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Tillstånd</b> är raden de flesta hoppar över, och den som ger mest tillbaka: du ska
+      själv rita sex tillstånd per komponent. Klicka runt med enbart tangentbordet i trettio
+      sekunder — det du ser då tittar nästan ingen på. <b>Språk</b> är raden de flesta
+      underskattar: orden på knapparna är valda, och de säger olika saker om vad som händer
+      sedan.</p>
+
+    <h3>Steg 3 – Skilj på konvention och enskilt val</h3>
+
+    <p>En <b>konvention</b> är det nästan alla gör: logotypen uppe till vänster som länk till
+      startsidan, varukorgen uppe till höger, krysset som stänger. Den behöver inte motiveras
+      när du tar efter den — den behöver motiveras när du bryter mot den.</p>
+
+    <p>Ett <b>enskilt val</b> är det som skiljer de två sajterna åt. Där ligger informationen,
+      för där har någon bestämt sig.</p>
+
+    <p>Testet: hittade du samma lösning på båda? Då är det förmodligen en konvention. Hittade
+      du två olika lösningar på samma problem? Då har någon valt, och då är det värt att fråga
+      varför.</p>
+
+    <h3>Steg 4 – Skriv slutsatserna</h3>
+
+    <p>Varje del av analysen ska sluta i din egen sajt. Formen:</p>
+
+    <ul>
+      <li><i>De gör X. Jag tar efter det, därför att …</i></li>
+      <li><i>De gör Y. Det tar jag inte efter, därför att …</i></li>
+    </ul>
+
+    <p>Att låta bli är lika mycket värt som att ta efter, men bara med skäl. <i>Jag gillar
+      det inte</i> är inget skäl. <i>Min sajt har fyra sidor och deras har fyrtio, så deras meny
+      löser ett problem jag inte har</i> är ett skäl.</p>
+
+    <p>Fyrahundra ord är ungefär <b>fem påståenden med skäl</b>. Du ska alltså hitta fem saker
+      att ta ställning till, inte skriva en uppsats.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">En beskrivning är inte en analys</span>
+      <p>Frågan är inte hur de två sajterna ser ut, utan vad du tar med dig och varför. En
+        text som bara beskriver ger E. En som jämför och drar slutsatser för din egen sajt
+        ger C. En som dessutom skiljer på konvention och enskilt val, och motiverar det du
+        inte tar efter, ger A.</p>
+    </div>
+
+    <h2 id="tillstand">11. Element och tillstånd</h2>
+
+    <p>Ett gränssnitt består av ett litet antal element som återkommer. Att välja rätt är en
+      fråga om vad som ska hända: <b>ska något utföras, ska något matas in, eller ska något
+      bara läsas?</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Element</th><th>Till för</th><th>Vanligt fel</th></tr></thead>
+        <tbody>
+          <tr><td><b>Knapp</b></td><td>Utför en handling</td><td>Ser ut som en länk, eller tvärtom</td></tr>
+          <tr><td><b>Textfält</b></td><td>Mata in något</td><td>Etiketten ersatt av en platshållare som försvinner</td></tr>
+          <tr><td><b>Lista</b></td><td>Visa flera likadana saker</td><td>Används för saker som inte hör ihop</td></tr>
+          <tr><td><b>Kort</b></td><td>Samla flera uppgifter om <i>en</i> sak</td><td>Ser klickbart ut utan att vara det</td></tr>
+          <tr><td><b>Flik</b></td><td>Växla innehåll på samma plats</td><td>Fler flikar än som får plats</td></tr>
+          <tr><td><b>Överlägg</b></td><td>Avbryta och kräva ett svar</td><td>Används för information som kunde stått på sidan</td></tr>
+          <tr><td><b>Meddelande</b></td><td>Säga vad som hänt</td><td>Säger att det gick fel, men inte vad man gör åt det</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Meddelanden är tre saker: <b>bekräftelse</b> säger att det gick bra, <b>varning</b> att
+      något kan bli fel, <b>fel</b> att något blev det. De använder statusfärgerna ur din
+      skala. Överlägget stoppar allt annat och kräver ett svar — har innehållet inget svar att
+      kräva hör det hemma på sidan.</p>
+
+    <h3>De sex tillstånden</h3>
+
+    <p>Ett element utan tillstånd är en bild av ett element. Skillnaden mellan en ritning och
+      ett gränssnitt är att gränssnittet svarar när man rör vid det. Uppgiften kräver att
+      varje komponent har sina tillstånd där de är relevanta:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Tillstånd</th><th>När det syns</th><th>Vad det säger användaren</th></tr></thead>
+        <tbody>
+          <tr><td><b>Normal</b></td><td>Alltid</td><td>Det här går att använda</td></tr>
+          <tr><td><b>Hover</b></td><td>Musen ligger över</td><td>Du är på rätt sak</td></tr>
+          <tr><td><b>Fokus</b></td><td>Tangentbordet står här</td><td>Här är du nu</td></tr>
+          <tr><td><b>Aktiv</b></td><td>Under själva klicket</td><td>Jag tog emot</td></tr>
+          <tr><td><b>Inaktiv</b></td><td>Går inte att använda just nu</td><td>Inte nu — och helst varför</td></tr>
+          <tr><td><b>Fel</b></td><td>Något stämmer inte</td><td>Vad, och hur du lagar det</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ul>
+      <li><b>Hover finns inte på pekskärm.</b> Ungefär hälften av användarna ser aldrig det
+        tillståndet. Hover är en bekräftelse, aldrig det enda som säger något viktigt.</li>
+      <li><b>Inaktiv utan förklaring är en återvändsgränd.</b> Skälet ska synas bredvid, annars
+        ska knappen inte vara där.</li>
+      <li><b>Fel ska säga hur man kommer vidare.</b> <i>Något gick fel</i> är inget meddelande.
+        <i>Fyll i din e-postadress</i> är ett.</li>
+    </ul>
+
+    <p>Sex tillstånd låter mycket. Det är sex rutor på rad, och fyra av dem skiljer sig bara i
+      ljushet — hämta dem ur din färgskala.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Fokus är tillståndet någon är beroende av</span>
+      <p>De fem andra gör gränssnittet trevligare. Fokus gör det användbart alls för den som
+        inte använder mus. Markeringen ska vara <b>din egen och synlig</b>: webbläsaren ritar
+        en standardmarkering om du inte gör något, och den ser sällan ut som resten. Att
+        bestämma hur den ser ut är designarbete; att ta bort den är att bryta sajten. Den är
+        ett gränssnittselement och behöver 3:1 mot det den ligger på — en ljusgrå ram runt en
+        vit knapp uppfyller inget.</p>
+    </div>
+
+    <h3>Varför konventioner slår påhittighet</h3>
+
+    <p>Alla som besöker din sajt har använt hundra andra först. Förväntningarna är redan
+      byggda, och de byggdes någon annanstans. Ett element som ser ut som något annat än det
+      är kostar ett ögonblicks tvekan varje gång, av varje användare.</p>
+
+    <p>Originalitet i formen märks och uppskattas: färg, typografi, ton, bildspråk, rörelse.
+      Originalitet i beteendet märks också — som att något är trasigt. Det betyder inte att
+      inget får brytas; det betyder att ett brott mot en konvention är ett beslut som ska
+      kunna motiveras, precis som i analysen.</p>
+
+    <h2 id="komponenter">12. Komponenter och varianter</h2>
+
+    <p>En komponent har ett <b>huvudexemplar</b> och ett antal <b>instanser</b>. Ändras
+      huvudexemplaret följer instanserna med. Ändrar du <i>innehållet</i> i en instans — texten
+      på knappen — stannar ändringen där. Formen ärvs, innehållet är ditt.</p>
+
+    <p>Poängen med ett bibliotek är inte att spara tid när du bygger. <b>Det är att ändringen
+      bara finns på ett ställe.</b> Sex kopierade knappar är sex tillfällen att missa en.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ser ut som en komponent</th><th>Varför det inte räcker</th></tr></thead>
+        <tbody>
+          <tr><td>En kopierad ram</td><td>Ingen koppling. Sex kopior är sex saker</td></tr>
+          <tr><td>En grupp</td><td>Håller ihop element, men ärver ingenting</td></tr>
+          <tr><td>En instans som gjorts fristående (<i>detach</i>)</td><td>Kopplingen är klippt, och det syns inte förrän något ska ändras</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Varianter och egenskaper</h3>
+
+    <p>En <b>variant</b> är inte en egen komponent — det är samma komponent i ett annat läge.
+      Alla lägen ligger i ett <b>komponentset</b>, och läget väljs i egenskapspanelen i stället
+      för att du letar rätt på en annan komponent.</p>
+
+    <p>En <b>egenskap</b> är en axel att välja längs. Knappen har oftast två:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Egenskap</th><th>Värden</th></tr></thead>
+        <tbody>
+          <tr><td><code>typ</code></td><td>primar, sekundar</td></tr>
+          <tr><td><code>tillstand</code></td><td>normal, hover, fokus, aktiv, inaktiv, fel</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Två egenskaper med två och sex värden ger tolv varianter i <b>en</b> komponent som heter
+      <code>knapp</code>. Alternativet — tolv komponenter med namn som <i>knapp primär hover</i>
+      och <i>knapp sek hover</i> — går inte att ändra på ett ställe, och uppgiften räknar det som
+      ett fel.</p>
+
+    <p>Testet på om något ska vara en egenskap: kan du sätta ord på axeln? <i>Tillstånd</i> är
+      en axel. <i>Knappen på inloggningssidan</i> är ett tillfälle. Egenskaper multipliceras —
+      tre axlar med fyra värden är sextiofyra rutor. Två räcker till den här uppgiften.</p>
+
+    <h3>Så gör du i Figma</h3>
+
+    <ol>
+      <li>Rita tillståndet färdigt först. Komponera inte något vars form inte är bestämd — då
+        byggs det om två gånger.</li>
+      <li>Gör var och en av de sex ramarna till en komponent.</li>
+      <li>Markera alla sex och <b>kombinera dem som varianter</b>. Figma frågar efter
+        egenskapens namn och värden — kalla egenskapen <code>tillstand</code> och kontrollera att
+        de sex värdena stämmer.</li>
+      <li>Lägg ut tre instanser, ändra huvudexemplaret och kontrollera att alla tre följer
+        med.</li>
+    </ol>
+
+    <h3>Namngivning som håller till juni</h3>
+
+    <p>Uppgiften anger formen: <code>knapp/primar/normal</code>, <code>knapp/primar/hover</code>.
+      Snedstrecket bygger hierarki — namnet blir en mapp i biblioteket — och därför står
+      <b>det gemensamma först</b>. Börjar namnet med tillståndet hamnar alla hover-varianter i
+      samma mapp och alla knappar i olika.</p>
+
+    <p>Kursens filnamnsregel gäller: gemener, bindestreck i stället för mellanslag, inga å, ä
+      och ö. Du öppnar den här filen igen i april, i slutprojektet, och då är namnen det enda
+      du minns av idag.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Bygg en komponent hela vägen först</span>
+      <p>Knappen, med alla sex tillstånden, innan du börjar på de andra fem. Då upptäcker du
+        vad systemet saknar medan det bara kostar en komponent att rätta.</p>
+    </div>
+
+    <h2 id="bredder">13. Två bredder</h2>
+
+    <p>Uppgiften kräver startsida och undersida i både <b>360</b> och <b>1280</b> pixlars bredd,
+      med <b>samma innehåll i olika layout</b>. En mobilsida är inte en desktopsida som fått
+      mindre plats — det är samma innehåll med en annan prioritering, och prioriteringen är
+      designarbetet.</p>
+
+    <h3>Rita mobilen först</h3>
+
+    <p>Att gå från 360 till 1280 betyder att <b>lägga till</b>. Att gå från 1280 till 360
+      betyder att <b>välja bort</b> — och det är mycket svårare, för allt du ska ta bort har du
+      redan ritat och tycker om. 360 pixlar rymmer ungefär en sak i bredd och tvingar fram
+      frågan vad som är viktigast. Svaret gäller i båda bredderna.</p>
+
+    <p>Har du redan ritat 1280 är det inte bortkastat. Gå igenom desktopsidan och stryk allt
+      som inte ryms på mobilen. Det som stryks är svaret.</p>
+
+    <h3>Vad som händer när bredden växer</h3>
+
+    <p>Fyra saker kan hända med ett block. Gå igenom din startsida block för block och skriv
+      vilken av dem som gäller:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Vad det betyder</th><th>Exempel</th></tr></thead>
+        <tbody>
+          <tr><td><b>Flyttar</b></td><td>Samma sak, annan plats</td><td>Sidokolumnen hamnar under huvudinnehållet</td></tr>
+          <tr><td><b>Viks ihop</b></td><td>Samma sak, mindre yta</td><td>Menyn blir en knapp, fyra kort blir en spalt</td></tr>
+          <tr><td><b>Försvinner</b></td><td>Finns inte på den smala bredden</td><td>Dekorbilden, den upprepade navigationen i sidfoten</td></tr>
+          <tr><td><b>Ändrar ordning</b></td><td>Prioriteringen skiljer sig</td><td>Sökrutan ligger först på mobil, i menyraden på desktop</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Frågan som gör mest nytta ställs om det som försvinner: <b>om det går att ta bort på
+      mobilen — varför ligger det på desktop?</b> Ibland är svaret att det är en genväg som får
+      plats när det finns plats. Ibland är svaret att det aldrig behövdes. Båda svaren är
+      användbara.</p>
+
+    <p>Det som får skilja sig mellan bredderna är ordning, gruppering och hur mycket som visas
+      åt gången — inte vad som står. Två olika texter är två sajter, inte en responsiv.</p>
+
+    <h3>Navigationen i två bredder</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Bredd</th><th>Vanliga mönster</th></tr></thead>
+        <tbody>
+          <tr><td>360 px</td><td>Knapp som fäller ut, flikrad längst ned, eller de få valen synliga</td></tr>
+          <tr><td>1280 px</td><td>Vågrät rad, ibland med en andra nivå under</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Hamburgerknappen är en konvention, men den <b>döljer</b>. Antalet val avgör: har du fyra
+      sidor får de plats på en rad även i 360. Din sajt har fyra sidor. Att gömma fyra val
+      bakom ett klick gör sajten svårare för att den ska se ren ut.</p>
+
+    <h3>Tumzon och träffytor</h3>
+
+    <p>Med en hand når tummen nederkanten och mitten av skärmen bekvämt. Det övre motsatta
+      hörnet är det svåraste stället — det är därför appar lägger sina viktigaste knappar
+      längst ned, och därför krysset uppe till höger är svårt att nå men lätt att undvika av
+      misstag.</p>
+
+    <p><b>Träffytan är minst 44 × 44 px</b> för allt som går att trycka på. Det står i
+      kravlistan och det är binärt. Två saker som brukar underkännas:</p>
+
+    <ul>
+      <li>En textlänk är hög som sin text. Är texten 16 px är träffytan 16 px, om ingen ger
+        den mer.</li>
+      <li>Ikonknappar ritas i ikonens storlek. En ikon på 24 px behöver luft runt sig upp till
+        44.</li>
+    </ul>
+
+    <p>Träffytor får inte heller nudda varandra — två knappar som ligger kant i kant ger
+      feltryck även när båda är stora nog. Kontrollen är enkel: rita en ruta på 44 × 44 i Figma
+      och lägg den över det som ska tryckas på.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Desktopsida i smalt fönster</span>
+      <p>Det vanligaste felet: desktop ritas först och mobilen kläms ihop efteråt. Allt finns
+        med och ingenting är valt. Syns det i din 360-ram är listan ovan inte gjord.</p>
+    </div>
+
+    <h2 id="overlamning">14. Överlämningen</h2>
+
+    <p>Stilguiden lämnas in 5 november och är en av kursens överlämningar: det är den som
+      Webbutveckling stilsätter mot i november. Den läses alltså inte av en lärare och läggs
+      undan — <b>den används av någon som sitter med koden</b>, och som inte kan gå vidare
+      förrän en obesvarad fråga fått svar.</p>
+
+    <h3>Vad byggaren behöver</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>I vilken form</th><th>Utan det händer</th></tr></thead>
+        <tbody>
+          <tr><td><b>Värden</b></td><td>Hex för färg, pixlar för storlek, siffror för skala</td><td>Byggaren pipetterar och gissar</td></tr>
+          <tr><td><b>Namn</b></td><td>Samma namn som komponenterna har i filen, ordagrant</td><td>Två system som ska hållas ihop i huvudet</td></tr>
+          <tr><td><b>Avstånd</b></td><td>Stegen utskrivna: 4, 8, 16, 24, 32</td><td>Lösa värden som 13 och 27 uppstår</td></tr>
+          <tr><td><b>Tillstånd</b></td><td>Alla sex, ritade, för varje komponent</td><td>Byggaren hittar på hover själv</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Regeln som håller ihop tabellen: <b>allt som är ett beslut ska ha ett värde.</b> Har det
+      inget värde uppfinner byggaren ett — och då är det hens design och inte din. Utöver de
+      fyra ska tre saker stå någonstans i guiden, för de är krav och kontrolleras: bredderna
+      360 och 1280, träffytan 44 × 44, och kontrastvärdena för de kombinationer som används.</p>
+
+    <h3>Användningsregler</h3>
+
+    <p>En användningsregel säger när något ska användas och när det inte ska det. Två meningar
+      räcker:</p>
+
+    <ul>
+      <li><i>Primärknappen används en gång per vy, för det man helst ska göra. Finns två lika
+        viktiga handlingar är ingen av dem primär.</i></li>
+      <li><i>Accentfärgen markerar. Den används aldrig som bakgrund bakom brödtext.</i></li>
+      <li><i>Kortet är klickbart i sin helhet. Ligger det en knapp inuti är kortet inte
+        klickbart.</i></li>
+    </ul>
+
+    <p>Testet på om en regel är värd att skriva: kan två personer göra olika av samma komponent
+      utan att någon gör fel? Då behövs en regel. Reglerna är A-nivån i matrisen, och de kostar
+      tio minuter.</p>
+
+    <h3>Testet: låt någon annan bygga efter den</h3>
+
+    <p>Matrisens A-nivå säger <i>prövat på någon annan</i>. Det är ett moment, och det är vad
+      arbetspasset den 2 november är till för:</p>
+
+    <ol>
+      <li>Byt fil med en kamrat.</li>
+      <li>Kamraten väljer en komponent eller en yta i mockupen och försöker beskriva exakt
+        hur den skulle byggas — mått, färger, namn, tillstånd.</li>
+      <li><b>Varje gång hen måste fråga något antecknas frågan.</b> Inget svar ges muntligt.</li>
+      <li>Byt tillbaka. Frågelistan är din arbetslista.</li>
+    </ol>
+
+    <p>Frågorna är inte kritik. Varje fråga är ett hål som annars hade dykt upp i november, när
+      personen som frågar sitter med koden och ni inte är i samma rum.</p>
+
+    <h3>Sidan Överlämning</h3>
+
+    <p>Lägg en egen sida i designsystemfilen som heter <b>Överlämning</b>, med:</p>
+
+    <ol>
+      <li>Var saker finns i filen — vilken sida är vad.</li>
+      <li>De sju uppgifterna ovan: värden, namn, avstånd, tillstånd, bredder, träffytor,
+        kontrastvärden. På sidan, eller med hänvisning till var de står.</li>
+      <li>Minst tre användningsregler, skrivna som meningar.</li>
+      <li>En rad om vad som <b>inte</b> är bestämt, om något sådant finns.</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Skriv vad som inte är bestämt</span>
+      <p><i>Animationer är inte bestämda, byggaren väljer</i> är bättre än att låtsas att allt är
+        löst. Då vet mottagaren att det är fritt, i stället för att leta efter ett svar som
+        inte finns.</p>
+    </div>
+
+    <h2 id="felsokning">15. Felsökning</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Vad du gör</th></tr></thead>
+        <tbody>
+          <tr><td>Autolayout går inte att slå på</td><td>Du har markerat en rektangel, inte en ram</td><td>Titta i lagerpanelen. Gör om den till en ram, eller lägg rektangeln i en</td></tr>
+          <tr><td>Blocken ligger rätt inuti sig själva men flyter fritt</td><td>Autolayout sitter på barnen men inte på föräldern</td><td>Markera den yttre ramen och slå på autolayout där också</td></tr>
+          <tr><td>Texten klipps av eller går utanför</td><td>Fixed bredd på något som ska växa</td><td>Sätt fill i en spalt, hug i en knapp</td></tr>
+          <tr><td>Texten sträcks över hela ramen</td><td>Fill där hug hörde hemma</td><td>Byt till hug. Hug krymper till innehållet</td></tr>
+          <tr><td>Avstånden blir fel när något ändras</td><td>Luften är gjord med tomma rektanglar</td><td>Ta bort dem och använd gap och padding</td></tr>
+          <tr><td>Du hittar inte tillbaka till ett lager</td><td>Allt heter <code>Frame 47</code></td><td>Namnge medan du bygger. Det är gratis nu och dyrt i november</td></tr>
+          <tr><td>Mobilramen är bredare än 360</td><td>Figmas förslag användes rakt av</td><td>Skriv in 360 för hand. Det är uppgiftens krav</td></tr>
+          <tr><td>Sidan ser rörig ut men du vet inte varför</td><td>Oftast närhet: alla avstånd är lika stora</td><td>Gruppera. Mindre avstånd inom grupp än mellan grupper. Se avsnitt 6</td></tr>
+          <tr><td>Två rubriker ser ut som ett misstag</td><td>Nästan lika stort</td><td>Använd två steg ur den typografiska skalan, inte två närliggande tal</td></tr>
+          <tr><td>Kontrasten underkänns</td><td>Text och yta ligger för nära i ljushet</td><td>Ändra ljusheten på en av dem. Byt inte nyans. Se avsnitt 9</td></tr>
+          <tr><td>Samma textfärg klarar sig på ett ställe och inte på ett annat</td><td>Mätt mot fel bakgrund</td><td>Mät mot det färgen faktiskt ligger på. En rad per par</td></tr>
+          <tr><td>Tillstånden syns inte i egenskapspanelen</td><td>Sex komponenter i stället för ett set</td><td>Markera dem och kombinera som varianter. Se avsnitt 12</td></tr>
+          <tr><td>Ändringen i huvudexemplaret slår inte igenom</td><td>Instansen är fristående</td><td>Ta bort den och gör en ny instans från biblioteket</td></tr>
+          <tr><td>Mobilramen ser ut som en ihopklämd desktopsida</td><td>Desktop ritad först, ingenting valt bort</td><td>Gör listan: flyttar, viks ihop, försvinner, ändrar ordning. Se avsnitt 13</td></tr>
+          <tr><td>Knappen är stor nog men ger feltryck</td><td>Träffytor som nuddar varandra</td><td>Luft mellan dem. Kontrollera med en 44-ruta</td></tr>
+          <tr><td>Innehållet snäpper inte mot spalterna</td><td>Layoutrutnätet är påslaget men inte inställt på ramen</td><td>Kontrollera spalter, ränna och marginal under <i>Layout grid</i>. Se avsnitt 5</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 3</a> ·
+        <a href="uppgift.html">Uppgift 3 – Stilguide, komponentbibliotek och mockup</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

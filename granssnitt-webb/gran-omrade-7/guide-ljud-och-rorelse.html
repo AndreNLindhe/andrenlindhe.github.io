@@ -1,0 +1,1070 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ljud, rörelse och mikrointeraktion – Gränssnittsdesign område 7</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="gran-7-guide">
+
+<header class="topp">
+  <a href="index.html">← Område 7</a>
+  <span class="harifran"><strong>Guide</strong> · Ljud, rörelse och mikrointeraktion</span>
+  <a href="uppgift.html">Uppgiften</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#feedback">1. Feedback och mikrointeraktion</a></li>
+      <li><a href="#rorelse">2. Rörelse i gränssnitt</a></li>
+      <li><a href="#ljud">3. Ljud i gränssnitt</a></li>
+      <li><a href="#spela-in">4. Spela in och redigera ljud</a></li>
+      <li><a href="#overlamningen">5. Överlämningen</a></li>
+      <li><a href="#lamna-in">6. Innan du lämnar in</a></li>
+      <li><a href="#felsokning">7. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Gränssnittsdesign · område 7</p>
+    <h1>Guide – Ljud, rörelse och mikrointeraktion</h1>
+    <p class="inledning">Här står det du behöver för uppgiften, och guiden fungerar utan att
+      du varit på lektionen. Ett avsnitt per pass, och felsökningen sist. Slå upp i den när
+      du fastnar.</p>
+
+    <!-- ============================================================ -->
+    <h2 id="feedback">1. Feedback och mikrointeraktion</h2>
+
+    <p>Du trycker på <i>Betala</i> i en webbutik, och ingenting händer. De flesta trycker
+      igen. Men om den första tryckningen faktiskt gick igenom har du nu betalat två gånger.
+      Sajten gjorde rätt, den sa bara ingenting om det. <b>Ett gränssnitt som inte svarar lär
+      användaren att gissa</b>, och gissningen är oftast att trycka en gång till.</p>
+
+    <p>Det här området tar fram det som saknas: sajten ska svara när någon gör något. Frågan
+      är densamma som i <a href="../gran-omrade-4/guide-anvandare.html#heuristiker">heuristik 1,
+      synlighet</a>, från december: <i>vet jag vad systemet gör just nu?</i> Där hittade du
+      bristerna. Här får du verktygen för att rätta dem.</p>
+
+    <h3>Vad systemet måste svara på, och hur snabbt</h3>
+
+    <p><b>Feedback</b>, på svenska <b>återkoppling</b>, är gränssnittets svar på en handling.
+      Varje handling ska få ett svar. Vilket svar avgörs av hur lång tid det tar:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Tid</th><th>Hur det känns</th><th>Vad gränssnittet ska göra</th></tr></thead>
+        <tbody>
+          <tr><td><b>Under 0,1 s</b></td><td>Omedelbart. Användaren upplever att hen själv gjorde det</td><td>Visa resultatet. Knappen trycks ned, rutan kryssas i</td></tr>
+          <tr><td><b>Upp till 1 s</b></td><td>Märks, men tanken bryts inte</td><td>Visa att handlingen tagits emot: knappen byter utseende</td></tr>
+          <tr><td><b>Upp till 10 s</b></td><td>Uppmärksamheten håller, men bara om något visar att det pågår</td><td>Ett tillstånd för <i>laddar</i>: text, en snurrande symbol</td></tr>
+          <tr><td><b>Över 10 s</b></td><td>Användaren börjar göra något annat</td><td>Visa hur långt det kommit och hur lång tid det är kvar. Låt hen avbryta</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Tidsgränserna är kända genom Jakob Nielsen, samme Nielsen som skrev heuristikerna. De
+      bygger på forskning från sextiotalet om hur länge vi håller kvar uppmärksamheten.</p>
+
+    <ul>
+      <li><b>Snabbt är inte samma sak som tyst.</b> En knapp som gör sitt jobb på 0,05 s men
+        inte ändras alls lämnar ändå användaren i ovisshet. Svaret behöver synas, även när
+        det går fort.</li>
+      <li><b>En snurrande symbol</b>, på engelska ofta <i>spinner</i>, säger bara att något
+        pågår. Över tio sekunder räcker den inte, för den säger inte om det är nära klart
+        eller har fastnat.</li>
+    </ul>
+
+    <h3>Laddar, lyckades, misslyckades</h3>
+
+    <p>I oktober ritade du sex <a href="../gran-omrade-3/guide-figma.html#tillstand">tillstånd
+      för ett element</a>: normal, hover, fokus, aktiv, inaktiv, fel. De beskrev hur knappen
+      ser ut <i>just nu</i>. Här kommer tre till, men de är av ett annat slag: de beskriver vad
+      som händer <i>efter</i> att någon gjort något, i tur och ordning.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Tillstånd</th><th>Frågan det svarar på</th><th>Betalningen som exempel</th></tr></thead>
+        <tbody>
+          <tr><td><b>Laddar</b></td><td>Har den tagit emot det jag gjorde?</td><td>Knappen säger <i>Betalar …</i> och går inte att trycka igen</td></tr>
+          <tr><td><b>Lyckades</b></td><td>Gick det?</td><td><i>Betalningen är klar. Kvittot har skickats till din e-post</i></td></tr>
+          <tr><td><b>Misslyckades</b></td><td>Vad gick fel, och vad gör jag nu?</td><td><i>Kortet nekades. Inget har dragits. Prova ett annat kort</i></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Håll isär de två sorterna med en tidsaxel: de sex tillstånden beskriver ett ögonblick,
+      de tre beskriver ett förlopp. <i>Fel</i> är hur ett fält ser ut. <i>Misslyckades</i> är
+      vad som händer efter att man tryckt på knappen. Tre regler:</p>
+
+    <ul>
+      <li><b>Laddar hindrar dubbelklicket.</b> Att knappen inte går att trycka en gång till är
+        lika viktigt som att den visar att den arbetar.</li>
+      <li><b>Lyckades säger vad som hände, inte bara att.</b> <i>Klart</i> är bättre än
+        ingenting. <i>Din beställning är lagd, leverans torsdag</i> är bättre än
+        <i>Klart</i>.</li>
+      <li><b>Misslyckades glöms bort.</b> Den som designar tänker på när det går bra. Den som
+        använder sajten minns när det gick fel.</li>
+    </ul>
+
+    <h3 id="fyra-delar">Mikrointeraktionens fyra delar</h3>
+
+    <p>En <b>mikrointeraktion</b> är ett litet, avgränsat svar på en enda handling: en knapp
+      som visar att den skickar, ett fält som visar att det är rätt ifyllt, en kryssruta som
+      bockas i. Ordet och modellen kommer från Dan Saffer, som delar varje mikrointeraktion i
+      fyra delar:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>På engelska</th><th>Frågan</th></tr></thead>
+        <tbody>
+          <tr><td><b>Utlösare</b></td><td><i>Trigger</i></td><td>Vad startar det? En handling från användaren, eller något systemet märker</td></tr>
+          <tr><td><b>Regler</b></td><td><i>Rules</i></td><td>Vad händer, i vilken ordning, och vad går inte att göra under tiden?</td></tr>
+          <tr><td><b>Återkoppling</b></td><td><i>Feedback</i></td><td>Hur får användaren veta vad som händer? Det som syns, hörs eller rör sig</td></tr>
+          <tr><td><b>Loopar och lägen</b></td><td><i>Loops and modes</i></td><td>Vad händer över tid, vid upprepning, eller om något ändras på vägen?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>En beställningsknapp, del för del:</p>
+
+    <ol class="steg">
+      <li><b>Utlösare:</b> klick på <i>Lägg beställningen</i>.</li>
+      <li><b>Regler:</b> knappen går inte att trycka igen förrän svaret kommit. Är ett
+        obligatoriskt fält tomt skickas ingenting.</li>
+      <li><b>Återkoppling:</b> knappen byter text till <i>Skickar …</i>. När svaret kommer
+        blir den grön, med en bock och texten <i>Beställningen är lagd</i>.</li>
+      <li><b>Loopar och lägen:</b> tar det mer än tio sekunder visas <i>Det tar längre tid än
+        vanligt</i>. När beställningen är lagd är knappen inaktiv, för en ny beställning är
+        ett nytt läge.</li>
+    </ol>
+
+    <p><b>Återkopplingen är den del man ser</b>, och därför den du vill börja med. Men en grön
+      bock utan regler säger ingenting om vad som händer om man trycker två gånger. De fyra
+      delarna tvingar dig att tänka igenom det som inte syns. Loopar och lägen är den del de
+      flesta förstår sist. Ett enkelt test: <i>vad händer andra gången, och vad händer om det
+      tar lång tid?</i> Har du svar på det har du beskrivit delen.</p>
+
+    <h3>Knapptexter och felmeddelanden</h3>
+
+    <p>Återkopplingen är ofta bara ord, och två slags text bär nästan hela den: det som står
+      på knappen, och det som står när något gick fel.</p>
+
+    <p><b>Knapptexten säger vad som händer när man trycker.</b> Ett verb, och gärna vad det
+      gäller:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Säger ingenting</th><th>Säger vad som händer</th></tr></thead>
+        <tbody>
+          <tr><td><i>OK</i></td><td><i>Betala 249 kr</i></td></tr>
+          <tr><td><i>Skicka</i></td><td><i>Skicka ansökan</i></td></tr>
+          <tr><td><i>Fortsätt</i></td><td><i>Till leveranssättet</i></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Knapptexten och bekräftelsen ska höra ihop. Står det <i>Betala 249 kr</i> på knappen
+      ska bekräftelsen säga <i>Betalningen är klar</i>, inte <i>Tack</i>. Då vet användaren
+      att det hen bad om är det som hände.</p>
+
+    <p><b>Felmeddelandet har tre delar</b>, och alla tre ska finnas:</p>
+
+    <ol class="steg">
+      <li><b>Vad</b> som gick fel, med användarens ord och inte systemets.</li>
+      <li><b>Var</b>, alltså vid fältet eller knappen det gäller, inte högst upp på sidan.</li>
+      <li><b>Vad hen gör nu.</b></li>
+    </ol>
+
+    <p><i>Fel 422: ogiltig indata</i> har ingen av dem. <i>E-postadressen saknar @. Skriv den
+      som namn@exempel.se</i> har alla tre. Två regler till: <b>skyll inte på användaren</b>
+      (<i>Du har angett fel</i> blir <i>Datumet finns inte</i>), och <b>töm inte
+      formuläret</b> när något är fel.</p>
+
+    <p>Ett undantag: vid inloggning säger man ofta <i>Fel e-post eller lösenord</i> utan att
+      säga vilket, för att inte avslöja vilka konton som finns. Då är det tredje ledet desto
+      viktigare, till exempel en länk till <i>Glömt lösenordet?</i>.</p>
+
+    <h3 id="tysta-stallen">Fem tysta ställen</h3>
+
+    <p>Det här är uppgiftens <a href="uppgift.html#kom-igang">Kom igång</a>, steg 1, och
+      listan är råmaterialet till hela uppgiften. Ljuden och mikrointeraktionerna väljs ur
+      den, inte ur vad som vore roligt att göra.</p>
+
+    <ol class="steg">
+      <li><b>Skapa sidan <code>07 Ljud och rörelse</code></b> i din designportfölj i Figma.
+        Öppna din sajt och testrapporten från uppgift 6 bredvid varandra.</li>
+      <li><b>Leta i testrapporten</b> efter ställen där en testperson klickade två gånger,
+        väntade eller frågade <i>gick det?</i>. Skriv upp dem först. Det är ett bör-krav (C)
+        att minst en mikrointeraktion kommer därifrån.</li>
+      <li><b>Gå igenom sajten själv</b>, handling för handling: varje knapp, länk, fält och
+        formulär. Var gör du något utan att få svar?</li>
+      <li><b>Skriv fem ställen i en lista.</b> För varje: <b>var</b> (sida och element),
+        <b>vad du gör</b>, och <b>vad sajten borde svara</b>.</li>
+      <li><b>Markera vilket tillstånd som saknas:</b> laddar, lyckades eller
+        misslyckades.</li>
+    </ol>
+
+    <p><i>Formuläret</i> är inte en plats. <i>Knappen Skicka på kontaktsidan</i> är det.
+      Tycker du att sajten inte har fem ställen, leta efter felmeddelanden: vad händer om du
+      skickar formuläret tomt?</p>
+
+    <div class="notis">
+      <span class="rubrik">Två datum</span>
+      <p>Uppgiften har en <b>överlämning måndag 8 mars under passet</b>, där ljudfilerna och
+        överlämningstabellen lämnas, och en <b>inlämning torsdag 11 mars kl 23:59</b>, där
+        hela paketet bedöms. Den 10 mars bygger du in paketet i Webbutveckling, och det du
+        inte lämnat över den 8 mars har du inget att bygga på. Mer i avsnitt 5.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Ingen kod här</span>
+      <p>Här bestämmer du <i>att</i> knappen ska bli inaktiv medan den laddar. Hur ett
+        tillstånd byts i koden tar du i Webbutveckling den 2 mars, och paketet byggs in
+        den 10 mars. Se <a href="../webb-omrade-6/index.html">Webbutveckling område 6</a>.</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <h2 id="rorelse">2. Rörelse i gränssnitt</h2>
+
+    <p>Tänk dig tre knappar som alla heter <i>Lägg i varukorgen</i>. På den första ändras
+      siffran vid varukorgen direkt. På den andra glider en liten markering till korgen på
+      250 ms. På den tredje studsar den dit på 1200 ms. Den första säger att det hände, men
+      inte var. Den tredje säger var, och tar sedan en sekund av din tid för att visa upp
+      sig, varje gång du lägger en vara i korgen. Den mittersta säger var, och är klar innan
+      du hunnit tänka på det.</p>
+
+    <p><b>En rörelse i ett gränssnitt ska förklara vad som hände.</b> Allt utöver det tar tid
+      från användaren. Rörelse är återkoppling, en av mikrointeraktionens fyra delar, och den
+      svarar på samma fråga som en text eller ett ljud: vad hände när jag gjorde det här?</p>
+
+    <h3>Rörelse som förklarar</h3>
+
+    <p>Rörelse är bra på en sak som ingen annan signal är lika bra på: <b>att visa att två
+      saker hänger ihop.</b> Varan i korgen, menyn som kommer från knappen man tryckte på,
+      rutan som krymper tillbaka dit den kom ifrån. Två principer:</p>
+
+    <ul>
+      <li><b>Orsakssamband.</b> Rörelsen ska börja där handlingen skedde. Trycker du på en
+        knapp uppe till höger och en ruta dyker upp nere till vänster, finns inget som säger
+        att du orsakade den. Växer den ut ur knappen syns sambandet.</li>
+      <li><b>Riktning.</b> Det som kom från höger går tillbaka åt höger. Nästa steg i ett
+        formulär kommer från höger, föregående från vänster. En borttagen rad försvinner åt
+        ett håll och raderna under flyttar upp. Riktningen blir en karta användaren bär med
+        sig.</li>
+    </ul>
+
+    <h3>Varaktighet: 100–300 ms</h3>
+
+    <p><b>Varaktighet</b> är hur lång tid en rörelse tar, i millisekunder (ms). Tusen
+      millisekunder är en sekund. Under 0,1 s känns omedelbart, som i avsnitt 1. En rörelse
+      som ska synas behöver alltså lite mer än så, men inte mycket.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Varaktighet</th><th>Passar till</th></tr></thead>
+        <tbody>
+          <tr><td><b>100–150 ms</b></td><td>Små ändringar på plats: en knapp som byter färg, en kryssruta, ett fält som markeras</td></tr>
+          <tr><td><b>200–300 ms</b></td><td>Något som flyttar sig eller växer: en meny som fälls ut, en ruta som öppnas, en vara till korgen</td></tr>
+          <tr><td><b>Över 300 ms</b></td><td>Nästan aldrig. Knappen känns trög, och den som klickar snabbt får vänta</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Två tumregler: <b>ju längre sträcka, desto längre tid</b>, men inom samma spann. Och
+      <b>det som försvinner kan gå fortare än det som kommer</b>, för användaren behöver inte
+      läsa det. Över 300 ms har en rörelse slutat förklara och börjat visa upp sig. Det är den
+      vanligaste bristen i uppgiften.</p>
+
+    <h3>Tidskurvor</h3>
+
+    <p>En <b>tidskurva</b>, på engelska <i>easing</i>, bestämmer hur farten ändras under
+      rörelsen. Ingenting i verkligheten startar eller stannar på en gång, och en rörelse med
+      jämn fart ser därför mekanisk ut. Tänk dig kurvorna som diagram med tid på x-axeln och
+      sträcka på y-axeln: en rak linje och tre böjda.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Namnet i Figma</th><th>Namnet i tabellen</th><th>Hur den rör sig</th><th>Passar till</th></tr></thead>
+        <tbody>
+          <tr><td><i>Linear</i></td><td><code>linear</code></td><td>Jämn fart hela vägen</td><td>Det som pågår: en förloppsindikator, en snurrande symbol</td></tr>
+          <tr><td><i>Ease out</i></td><td><code>ease-out</code></td><td>Snabb start, mjuk inbromsning</td><td>Det som <b>kommer in</b> eller svarar på ett klick. Det vanligaste valet</td></tr>
+          <tr><td><i>Ease in</i></td><td><code>ease-in</code></td><td>Mjuk start, snabbt slut</td><td>Det som <b>försvinner</b> ut ur bilden</td></tr>
+          <tr><td><i>Ease in and out</i></td><td><code>ease-in-out</code></td><td>Mjuk start och mjukt slut</td><td>Det som <b>flyttar sig</b> från en plats till en annan på skärmen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b><i>Ease out</i> är vanligast</b> eftersom svaret börjar direkt och användaren ser att
+      klicket togs emot. Mjukheten kommer i slutet, när det redan är klart.</p>
+
+    <p><b>En egen kurva</b> går att ställa in i Figma. Den beskrivs med fyra tal, som Figma
+      visar när du drar i kurvan. Använder du en egen kurva ska alla fyra talen stå i
+      tabellen. I tabellen skrivs namnet som webbläsaren använder, <code>ease-out</code> och
+      inte <i>Ease out</i>.</p>
+
+    <h3>När rörelse hjälper, och när den stör</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Hjälper</th><th>Stör</th></tr></thead>
+        <tbody>
+          <tr><td>Visar var något tog vägen</td><td>Upprepas vid varje klick och blir väntan</td></tr>
+          <tr><td>Visar att något hänger ihop med knappen man tryckte på</td><td>Startar av sig själv och drar blicken från det man läser</td></tr>
+          <tr><td>Mjukar upp en ändring som annars vore ett ryck</td><td>Rör sig stort, över hela skärmen</td></tr>
+          <tr><td>Bekräftar ett klick som annars inte syns</td><td>Finns för att det ser roligt ut första gången</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Testfrågan till varje rörelse: <b>vad förstår användaren som hen inte förstått utan
+      den?</b> Är svaret <i>ingenting</i> ska rörelsen bort.</p>
+
+    <h3 id="utan-rorelse">Utan rörelse</h3>
+
+    <p>Vem som valt bort rörelse, och varför, läste du om i januari, under
+      <a href="../gran-omrade-6/guide-tillganglighet.html#hjalpmedel">reducerad rörelse</a>:
+      yrsel, illamående och migrän vid stora rörelser. Här är det ett designbeslut <i>per
+      interaktion</i>, och det är en kolumn i överlämningstabellen. Det finns tre svar, och
+      <i>ingenting</i> är inte ett av dem:</p>
+
+    <ul>
+      <li><b>Ändringen sker direkt.</b> Siffran vid korgen byts, utan att något glider
+        dit.</li>
+      <li><b>En kort toning i stället för en förflyttning.</b> Rutan tonar fram på plats i
+        stället för att glida in från sidan. Toning är inte rörelse i den mening som
+        besvärar.</li>
+      <li><b>Något annat bär beskedet.</b> En text, <i>Tillagd i varukorgen</i>, gör det
+        rörelsen gjorde.</li>
+    </ul>
+
+    <p>Informationen ska finnas kvar. Det är bara rörelsen som tas bort.</p>
+
+    <h3 id="smart-animate">Smart Animate i Figma</h3>
+
+    <p>Ramar har du ritat sedan hösten. Det nya är fliken <b>Prototype</b> längst upp i
+      högerpanelen, och <b>Smart Animate</b>, en animation som räknar ut rörelsen mellan två
+      ramar åt dig.</p>
+
+    <ol class="steg">
+      <li><b>Två ramar</b>, före och efter. Samma lager i båda, men flyttade, färgade eller
+        förstorade i den andra.</li>
+      <li><b>Lagren ska heta likadant i båda ramarna.</b> Det är så Smart Animate vet vad som
+        är samma sak. Byt namn på ett lager i den ena och rörelsen blir ett hopp.</li>
+      <li><b>I Prototype-fliken:</b> markera knappen och dra pilen till den andra ramen.</li>
+      <li><b>Välj utlösare:</b> <i>On click</i> (klick), <i>While hovering</i> (medan pekaren
+        är över) eller <i>After delay</i> (efter en viss tid, bra för att visa <i>laddar</i>
+        som går över i <i>lyckades</i>).</li>
+      <li><b>Välj animation</b> <i>Smart Animate</i>.</li>
+      <li><b>Välj tidskurva</b> och skriv <b>varaktigheten</b> i millisekunder.</li>
+      <li><b>Spela upp</b> med <i>Present</i>, uppe till höger.</li>
+    </ol>
+
+    <div class="notis varna">
+      <span class="rubrik">Hover finns inte på pekskärm</span>
+      <p><i>While hovering</i> fungerar inte på en telefon, precis som hover-tillståndet i
+        oktober. En mikrointeraktion som bara finns på hover finns inte för halva
+        publiken.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Välj ett av dina fem tysta ställen, ett där något ska ändras eller flytta sig. Bygg
+        två versioner i Figma. <b>Den återhållsamma:</b> 100–300 ms och en tidskurva du kan
+        motivera. <b>Den överdrivna:</b> minst en sekund, en studs eller en stor rörelse, gjord
+        med flit. Klicka igenom båda fem gånger i rad i <i>Present</i> och skriv en mening om
+        skillnaden. Den överdrivna är till för att du ska känna skillnaden, inte för att den
+        ska användas.</p>
+    </div>
+
+    <h3>Från prototyp till tabellrad</h3>
+
+    <p>Uppgiftens <a href="uppgift.html#kom-igang">Kom igång</a>, steg 3: <b>skriv tabellen
+      medan du prototypar.</b> Varje gång du ställer in en tid i Figma är det en rad. Kolumnerna
+      för rörelse, exakt som i uppgiften:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>element</th><th>utlösare</th><th>vad som ändras</th><th>varaktighet</th><th>tidskurva</th><th>utan rörelse</th></tr></thead>
+        <tbody>
+          <tr><td><i>Lägg i varukorgen</i> på produktsidan</td><td>klick</td><td>en markering glider till korgen, siffran ökar</td><td>250 ms</td><td><code>ease-out</code></td><td>siffran byts direkt, texten <i>Tillagd</i> visas vid knappen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Skriv raden för din återhållsamma övergång innan du stänger Figma. Det tar en minut
+      samma dag. Den 8 mars tar det en halvtimme att minnas. Bör-kravet (C) är att varaktighet
+      och kurva är <b>motiverade</b>, inte bara angivna: varför 200 ms här och 120 ms
+      där.</p>
+
+    <div class="notis">
+      <span class="rubrik">Namnet här, koden i Webbutveckling</span>
+      <p>Namnet <code>ease-out</code> hör hit, för det är en del av designbeslutet. Värdena
+        blir kod i Webbutveckling den 10 mars, i samma sorts övergång som du skrev där den
+        20 januari.</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <h2 id="ljud">3. Ljud i gränssnitt</h2>
+
+    <p>Hör du datorns felljud utan att titta på skärmen vet du att något gick fel. Men inte
+      vad. <b>Ett ljud är bra på att dra uppmärksamheten till något, och dåligt på att säga
+      vad det är.</b> Det måste skärmen göra. Hela avsnittet bygger på den skillnaden.</p>
+
+    <p>Här spelar du inte in något än. Du bestämmer vilka tre händelser som ska låta, och
+      varför. Inspelningen är avsnitt 4.</p>
+
+    <h3>Vad ljud är bra på</h3>
+
+    <p>Ljud har en egenskap som text och rörelse saknar: <b>det hörs fast man tittar någon
+      annanstans.</b></p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ljud är bra på</th><th>Ljud är dåligt på</th></tr></thead>
+        <tbody>
+          <tr><td>Att bekräfta en handling när blicken redan gått vidare</td><td>Att förklara vad som hänt, eller vad man ska göra</td></tr>
+          <tr><td>Att säga om det gick bra eller dåligt, på en bråkdel av en sekund</td><td>Att upprepas: det som är trevligt en gång blir buller efter tjugo</td></tr>
+          <tr><td>Att väcka uppmärksamhet när något händer utanför synfältet</td><td>Att fungera där man inte kan eller vill ha ljud på</td></tr>
+          <tr><td>Att ge en sajt en karaktär, något man känner igen</td><td>Att bära information som bara finns där</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Tre exempel ur vardagen, och alla fungerar av samma skäl. <b>Betalterminalen piper</b>
+      när kortet godkänts, medan du tittar på kassören. <b>Inloggningen på telefonen</b> ger
+      en kort vibration och ett ljud när koden är fel, innan du hunnit läsa. <b>Ett skickat
+      meddelande</b> låter, så att du vet att det gick iväg fast du redan lagt ifrån dig
+      telefonen. Ljud är återkoppling, precis som rörelse och text.</p>
+
+    <h3 id="enda-signalen">Ljud får aldrig vara den enda signalen</h3>
+
+    <p>Det här är ett ska-krav, och det viktigaste i avsnittet. Ljudet hörs inte av den som
+      inte hör eller hör dåligt, den som har ljudet av på bussen, i klassrummet eller på
+      jobbet, den som har telefonen på ljudlöst, och den som redan lyssnar på något annat
+      eller har en skärmläsare som pratar.</p>
+
+    <p>Därför har varje ljud en kolumn i överlämningstabellen: <b>synlig motsvarighet.</b> Det
+      är det som syns på skärmen samtidigt som ljudet hörs, och det ska säga samma sak:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Ljudet säger</th><th>Det som syns säger samma sak</th></tr></thead>
+        <tbody>
+          <tr><td>Betalningen gick igenom</td><td>Knappen blir grön med en bock, <i>Betalningen är klar</i></td></tr>
+          <tr><td>Fel i fältet</td><td>Röd kant, och texten vid fältet säger vad som är fel</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Kontrollen är enkel: <b>stäng av ljudet och använd sajten.</b> Förstår du fortfarande
+      allt som händer har varje ljud en synlig motsvarighet.</p>
+
+    <h3>Längd, frekvens och volym</h3>
+
+    <p>Tre egenskaper bestämmer vad ett ljud säger, och det är samma tre som du redigerar i
+      avsnitt 4.</p>
+
+    <p><b>Längd.</b> Ett gränssnittsljud ska vara kortare än en sekund, och oftast mycket
+      kortare. Samma tider som för rörelse gäller: <b>100–300 ms</b> för att bekräfta något.
+      Ljudet ska vara slut innan användaren gör nästa sak. Ett ljud på två sekunder hörs
+      fortfarande när hen redan klickat vidare, och då låter det som ett svar på fel sak.</p>
+
+    <p><b>Frekvens</b> är hur ljust eller mörkt ljudet är, tonhöjden. Den mäts i hertz, men
+      här räcker ljust och mörkt.</p>
+
+    <ul>
+      <li><b>Ljust och stigande</b> uppfattas som positivt, som <i>klart</i> eller
+        <i>ja</i>. Två toner där den andra är högre är det vanligaste ljudet för
+        <i>lyckades</i>.</li>
+      <li><b>Mörkt och fallande</b> uppfattas som avslut eller fel. Samma två toner
+        baklänges.</li>
+      <li><b>Mycket ljusa ljud</b> skär, och många hör dem sämre med åren.</li>
+      <li><b>Mycket mörka ljud</b> försvinner i en telefonhögtalare, som inte kan spela bas.
+        Lyssna alltid på ljudet i den högtalare det ska spelas i.</li>
+    </ul>
+
+    <p><b>Volym.</b> Användaren har ställt in volymen för något annat: musik, en video, ett
+      samtal. Ett gränssnittsljud ska därför vara <b>lägre än man tror</b>, och ljuden på
+      sajten ska vara <b>lika starka</b> som varandra. Ett ljud som är dubbelt så starkt som
+      de andra säger att något är dubbelt så viktigt, fast det kanske inte är det. Hur nivån
+      jämnas ut står i avsnitt 4, under normalisering.</p>
+
+    <h3>Ljudfamilj och ljudlogotyp</h3>
+
+    <p><b>Ljuden på en sajt ska höra ihop</b>, som färgerna i stilguiden gör. Du valde en
+      färgskala där varje färg hade en uppgift, men alla hörde till samma sajt. En
+      <b>ljudfamilj</b> är samma sak, och det är bör-kravet (C): du ska kunna säga vad som gör
+      ljuden släkt och vad som skiljer dem åt.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det som gör dem släkt</th><th>Det som skiljer dem åt</th></tr></thead>
+        <tbody>
+          <tr><td>Samma källa: samma föremål, samma instrument, samma röst</td><td>Tonhöjd: lyckades ljusare än fel</td></tr>
+          <tr><td>Samma rum och samma redigering</td><td>Riktning: stigande eller fallande</td></tr>
+          <tr><td>Ungefär samma längd och volym</td><td>Rytm: ett slag eller två</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Ett exempel: tre ljud inspelade med samma glas och en penna. Ett kort slag för att
+      något tagits emot. Två slag, det andra högre upp på glaset, för att det lyckades. Ett
+      slag lågt ned, dovt, för att något gick fel. Tre ljud från tre olika håll låter som tre
+      olika sajter.</p>
+
+    <p><b>En ljudlogotyp</b> är en kort ljudsignatur för sajten, som ett ordmärke fast för
+      örat. Den är en utmaning (A) och får vara upp till två sekunder. Den ska <b>bära sajtens
+      karaktär</b>: en lugn sajt för ett bageri och en snabb sajt för en elektronikbutik ska
+      inte låta likadant. Den används <b>sällan</b>, en gång vid ett viktigt tillfälle och
+      aldrig vid varje klick, annars slutar den vara en signatur. Den är inte ett av de tre
+      ljuden: gör familjen först och logotypen sist.</p>
+
+    <h3 id="stannar-kvar">Händelser där användaren stannar kvar</h3>
+
+    <p><b>Ett ljud på något som byter sida hinns inte höras.</b> Trycker användaren på en länk
+      eller skickar ett formulär som laddar en ny sida, försvinner ljudet med den gamla sidan
+      innan det hunnit spelas klart. Det är ett designkrav på överlämningen, och det avgör
+      vilka händelser som kan få ljud:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fungerar</th><th>Fungerar inte</th></tr></thead>
+        <tbody>
+          <tr><td><i>Lägg i varukorgen</i>, när varan läggs till utan att sidan byts</td><td>En länk i menyn</td></tr>
+          <tr><td>Ett fält som visar att det är rätt ifyllt</td><td>Ett formulär som skickar till en ny sida</td></tr>
+          <tr><td>En bekräftelse som visas på samma sida efter att formuläret skickats</td><td><i>Logga ut</i>, som tar dig till startsidan</td></tr>
+          <tr><td>En knapp som växlar något av eller på</td><td>En länk till en annan sajt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Av samma skäl ska ljud bara spelas <b>som svar på något användaren gjort</b>, aldrig av
+      sig själv när sidan öppnas. Varför det är så tekniskt tas i Webbutveckling den
+      10 mars. Här räcker det att veta att det är så, och att välja därefter.</p>
+
+    <h3>Ljudet ska gå att stänga av</h3>
+
+    <p>Det är ett designbeslut, och användaren väntar sig fyra saker av det:</p>
+
+    <ul>
+      <li>en <b>synlig knapp</b>, på samma plats på alla sidor, inte gömd i en meny</li>
+      <li>att det syns på knappen <b>om ljudet är på eller av</b></li>
+      <li>att sajten <b>kommer ihåg valet</b> till nästa sida och nästa besök</li>
+      <li>att sajten fungerar lika bra med ljudet av, och det är den synliga
+        motsvarigheten</li>
+    </ul>
+
+    <p>Om ljudet ska vara på eller av från början är ditt beslut. Skriv det och varför i
+      dokumentationen. Knappen byggs i Webbutveckling; här bestämmer du var den sitter och vad
+      den säger.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Windows egna systemljud ligger i <code>C:\Windows\Media</code>. Lyssna på fyra eller
+        fem av dem, till exempel ett notisljud och ett felljud. För vart och ett: <b>vad säger
+        det</b> (lyckades, misslyckades, något har kommit, något börjar), <b>hur långt är
+        det</b>, är det <b>ljust eller mörkt, stigande eller fallande</b>, och <b>vad borde
+        synas samtidigt</b> för den som inte hör det? De flesta är överens om vad ljuden
+        säger. Ljud har ett språk, och du kan det redan.</p>
+    </div>
+
+    <h3>Välj dina tre händelser</h3>
+
+    <p>Ta fram listan med fem tysta ställen från avsnitt 1 och välj de tre händelser som ska
+      få ljud. Tre frågor till varje:</p>
+
+    <ol class="steg">
+      <li><b>Stannar användaren kvar på sidan</b> när det händer?</li>
+      <li><b>Är det en viktig händelse</b>, eller bara ett klick bland många? Tre ljud på tre
+        viktiga händelser säger mer än tjugo.</li>
+      <li><b>Vad är den synliga motsvarigheten?</b></li>
+    </ol>
+
+    <p>Skriv de tre på <code>07 Ljud och rörelse</code>, med ett föreslaget filnamn som säger
+      vad ljudet gör: <code>skicka-klart.mp3</code>, inte <code>ljud1.mp3</code>. Leta efter
+      länkar och formulär som byter sida innan du går vidare. Det är lättare att byta händelse
+      nu än den 8 mars.</p>
+
+    <!-- ============================================================ -->
+    <h2 id="spela-in">4. Spela in och redigera ljud</h2>
+
+    <p>Uppgiften säger att <b>första inspelningen ska vara gjord senast den 4 mars.</b> En
+      råinspelning har tystnad först, brus, ett knäpp i början och för låg nivå, och i WAV
+      ligger den ofta över en megabyte. Den färdiga filen är kortare, starkare, utan sus och
+      knäpp, och ligger på några kilobyte. <b>Ett gränssnittsljud är mest redigering.</b>
+      Inspelningen är råmaterialet.</p>
+
+    <p>Samma steg fungerar i två program. <b>Audition</b> finns på skolans datorer genom
+      licensen. <b>Audacity</b> är gratis och går att använda hemma. Stegen är desamma, menyerna
+      olika, och den som kan stegen kan byta program. Menynamnen står på engelska, som
+      programmen oftast är installerade.</p>
+
+    <h3>Inspelningen</h3>
+
+    <p>Fyra råd, och alla fyra sparar tid i redigeringen:</p>
+
+    <ul>
+      <li><b>Ett tyst rum.</b> Det är det enda i uppgiften som kräver det. Stäng fönster, stäng
+        av fläktar, gå bort från datorns egen fläkt.</li>
+      <li><b>Nära, men inte för nära.</b> Tio till tjugo centimeter från mikrofonen. Närmare
+        ger knäppar och andning, längre bort ger rummet.</li>
+      <li><b>Två sekunder tystnad först.</b> Håll tyst innan du gör ljudet. Den biten är det
+        brusreduceringen lär sig bruset från.</li>
+      <li><b>Många tagningar.</b> Gör ljudet tio gånger i samma inspelning. Det bästa väljs
+        sedan, och det är nästan aldrig det första.</li>
+    </ul>
+
+    <p>Det som låter bra är ofta vardagligt: en penna mot ett glas, ett knäpp med fingrarna, en
+      nyckel mot en kopp, ett kort <i>mm</i> med stängd mun. Spela in alla tre ljuden med
+      samma källa, så hör de ihop redan från början. Datorns mikrofon fungerar, och telefonens
+      fungerar ofta bättre. Båda är tillåtna.</p>
+
+    <p><b>Mono</b>, en kanal, räcker för ett gränssnittsljud och ger halva filstorleken jämfört
+      med <b>stereo</b>, två kanaler. Ställ in det innan du spelar in:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Audition</th><th>Audacity</th></tr></thead>
+        <tbody>
+          <tr><td><b>Ny fil i mono</b></td><td><code>File &gt; New &gt; Audio File</code>, 44100 Hz, <i>Mono</i></td><td><code>Audio Setup &gt; Audio Settings</code>, kanaler <i>1 (Mono)</i>, projektets frekvens 44100 Hz</td></tr>
+          <tr><td><b>Spela in</b></td><td>Röda knappen i transportfältet, eller <kbd>Skift</kbd> + <kbd>Mellanslag</kbd></td><td>Röda knappen, eller <kbd>R</kbd></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Redigera: brus, klippning, toning, nivå</h3>
+
+    <p>Fyra steg, i den här ordningen:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Steg</th><th>Audition</th><th>Audacity</th></tr></thead>
+        <tbody>
+          <tr><td><b>1. Brusreducering</b></td><td>Markera tystnaden, <code>Effects &gt; Noise Reduction / Restoration &gt; Capture Noise Print</code>. Markera allt, samma meny, <code>Noise Reduction (process)</code></td><td>Markera tystnaden, <code>Effect &gt; Noise Removal and Repair &gt; Noise Reduction</code>, <i>Get Noise Profile</i>. Markera allt, samma effekt, <i>OK</i></td></tr>
+          <tr><td><b>2. Klippning</b></td><td>Markera det som ska vara kvar, <code>Edit &gt; Crop</code> (<kbd>Ctrl</kbd> + <kbd>T</kbd>)</td><td>Markera det som ska vara kvar, <code>Edit &gt; Remove Special &gt; Trim Audio</code> (<kbd>Ctrl</kbd> + <kbd>T</kbd>)</td></tr>
+          <tr><td><b>3. In- och uttoning</b></td><td>Dra de små rutorna i vågformens övre hörn inåt</td><td>Markera början, <code>Effect &gt; Fading &gt; Fade In</code>. Slutet, <code>Fade Out</code></td></tr>
+          <tr><td><b>4. Normalisering</b></td><td><code>Effects &gt; Amplitude and Compression &gt; Normalize (process)</code>, −1 dB</td><td><code>Effect &gt; Volume and Compression &gt; Normalize</code>, −1 dB</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Vad varje steg är till för:</p>
+
+    <ol class="steg">
+      <li><b>Brusreducering</b> tar bort det jämna suset som finns under allt: fläktar,
+        rummet, mikrofonen själv. Programmet lyssnar på tystnaden, ett så kallat brusprov, och
+        drar bort samma ljud överallt. Drar du för hårt låter resten metalliskt; då är det
+        bättre att spela in igen i ett tystare rum.</li>
+      <li><b>Klippning</b> betyder här att skära bort det som inte är ljudet: tystnaden före
+        och efter, och alla tagningar utom den bästa. Ljudet ska börja <b>direkt</b>. Tystnad i
+        början gör att ljudet kommer efter klicket, och då känns det som ett svar på något
+        annat.</li>
+      <li><b>In- och uttoning</b>, på engelska <i>fade in</i> och <i>fade out</i>, är när
+        ljudet glider upp från tystnad eller ner till tystnad. Mycket korta toningar räcker:
+        några millisekunder i början tar bort knäppet, lite längre i slutet gör att ljudet inte
+        klipps av tvärt.</li>
+      <li><b>Normalisering</b> höjer hela ljudet så att den starkaste punkten hamnar på en
+        bestämd nivå. Välj <b>−1 dB</b>, strax under taket. Går ljudet över taket
+        <b>klipper</b> det, och det hörs som ett sprakande. Normalisera alla tre ljuden till
+        samma nivå, så låter de lika starka.</li>
+    </ol>
+
+    <p><b>Ordningen spelar roll:</b> brus först, för brusreduceringen behöver tystnaden som
+      klipps bort i steg 2.</p>
+
+    <h3>Export och filstorlek</h3>
+
+    <p>Kravet: <b>MP3, 44,1 kHz, mono, under 50 kB.</b> Tre ord att hålla isär:</p>
+
+    <ul>
+      <li><b>MP3</b> är ett format som packar ljudet och kastar bort det örat ändå inte hör.
+        <b>WAV</b>, som programmen spelar in i, sparar allt och blir stort.</li>
+      <li><b>Samplingsfrekvensen</b>, 44,1 kHz, är hur många gånger per sekund ljudet mäts:
+        44 100. Det är samma som på en cd-skiva, och det räcker för allt örat hör.</li>
+      <li><b>Bithastigheten</b>, i kbit/s, är hur mycket data varje sekund får ta.
+        <b>128 kbit/s</b> räcker för ett gränssnittsljud.</li>
+    </ul>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th></th><th>Audition</th><th>Audacity</th></tr></thead>
+        <tbody>
+          <tr><td><b>Exportera</b></td><td><code>File &gt; Export &gt; File</code> (<kbd>Ctrl</kbd> + <kbd>Skift</kbd> + <kbd>E</kbd>), format <i>MP3 Audio</i>. Ändra samplingen till 44100 Hz mono, och formatinställningarna till 128 kbit/s</td><td><code>File &gt; Export Audio</code> (<kbd>Ctrl</kbd> + <kbd>Skift</kbd> + <kbd>E</kbd>), format <i>MP3</i>. Kanaler <i>Mono</i>, 44100 Hz, konstant bithastighet, 128 kbit/s</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Talen är lätta att räkna på:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Format</th><th>Per sekund</th><th>Ett ljud på 0,3 s</th><th>En sekund</th></tr></thead>
+        <tbody>
+          <tr><td>MP3, 128 kbit/s, mono</td><td>16 kB</td><td>ungefär 5 kB</td><td>16 kB</td></tr>
+          <tr><td>WAV, 44,1 kHz, 16 bit, mono</td><td>88 kB</td><td>ungefär 26 kB</td><td>88 kB</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Ett ljud under en sekund i MP3 ligger alltså långt under 50 kB. <b>Är din fil större
+      har du exporterat fel format, eller glömt att klippa bort tystnaden.</b></p>
+
+    <ul>
+      <li><b>Kontrollera storleken</b> i Utforskaren: högerklicka på filen,
+        <i>Egenskaper</i>, raden <i>Storlek</i>.</li>
+      <li><b>Filnamnet:</b> gemener, bindestreck, inga å, ä eller ö, och det säger vad ljudet
+        gör. <code>fel-i-faltet.mp3</code>, inte <code>Fel i fältet.mp3</code>.</li>
+      <li><b>Lyssna på den exporterade filen</b>, inte på ljudet i programmet. Exporten kan
+        ändra ljudet, och det är filen som lämnas över.</li>
+      <li><b>Skriv upp filstorleken före och efter</b>, och vad du gjorde med brus, toning och
+        nivå. Det är bör-kravet (C) om dokumenterad redigering.</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Ett av dina tre ljud, från listan på <code>07 Ljud och rörelse</code>. Spela in med
+        tystnad först och tio tagningar. Redigera: brus, klippning, toning, normalisering.
+        Exportera som MP3, 44,1 kHz, mono, 128 kbit/s. Kontrollera: under en sekund, under
+        50 kB, filnamnet säger vad ljudet gör. Har du ingen egen inspelning än kan du öva
+        redigeringen på råinspelningen som ligger i itslearning.</p>
+    </div>
+
+    <h3 id="ljudbank">Egen inspelning eller ljudbank</h3>
+
+    <p>Uppgiftens tre ljud ska vara <b>egna</b>. Men ett bör-krav (C) är att jämföra ett av dem
+      med ett ur en <b>ljudbank</b>, en samling ljud som andra lagt upp, och motivera varför du
+      valde ditt eget.</p>
+
+    <p>Använd <b>Freesound</b> (<code>freesound.org</code>). Att lyssna kräver inget konto, att
+      ladda ner gör det. Sök på samma sak som ditt ljud, till exempel <i>glass tap</i>, och
+      filtrera på licens. Bokstäverna känner du från
+      <a href="../gran-omrade-5/guide-lagar.html#licenser">licenserna i december</a>, och
+      ljudet är det strängaste. Två licenser är de enkla:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Licens</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>CC0</b></td><td>Fri att använda utan villkor</td></tr>
+          <tr><td><b>CC BY</b></td><td>Fri att använda, men upphovspersonen ska namnges</td></tr>
+          <tr><td><b>NC</b> i licensen</td><td>Får inte användas på en sajt som säljer något. Håll dig borta</td></tr>
+          <tr><td>Ingen licens</td><td>Får inte användas</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Läs licensen vid ljudet, precis som med bilderna i december. Licensen gäller också
+      ljudet du jämförde med, även om du inte använder det: källan och licensen ska stå där
+      jämförelsen står.</p>
+
+    <p>Vad jämförelsen ska säga: vilket låter mest som sajten, vilket passar familjen, vilket
+      är kortast och renast. Ett ljud ur en ljudbank är ofta bättre inspelat. Ditt eget passar
+      ofta bättre ihop med de andra två. Båda svaren är motiveringar.</p>
+
+    <div class="notis">
+      <span class="rubrik">Filen är din, uppspelningen Webbutvecklings</span>
+      <p>Ljudfilen är Gränssnittsdesigns ända fram till exporten. Var den ska ligga i sajten
+        och hur den spelas tar du i Webbutveckling den 10 mars. Spara filen så länge.</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <h2 id="overlamningen">5. Överlämningen</h2>
+
+    <p>Vilken av de här två raderna kan du bygga utan att gissa?</p>
+
+    <ul>
+      <li><i>En mjuk animation.</i></li>
+      <li><i>Knappens bakgrund byter färg på 150 ms med <code>ease-out</code>.</i></li>
+    </ul>
+
+    <p>Det är samma sak som med stilguiden i oktober: ett hex-värde gick att bygga, <i>en
+      ljusblå</i> gjorde det inte. Skillnaden nu är att byggaren är du själv, två dagar
+      senare, och du kommer inte att minnas vad du menade med <i>mjuk</i>. <b>En överlämning
+      är tal, inte ord.</b> Formen känner du från
+      <a href="../gran-omrade-3/guide-figma.html#overlamning">överlämningen av stilguiden</a>.</p>
+
+    <h3 id="tabellen">Överlämningstabellen</h3>
+
+    <p>Två tabeller, med kolumnerna exakt som i uppgiftens
+      <a href="uppgift.html#tekniska">tekniska krav</a>.</p>
+
+    <p><b>Ljud:</b> <b>fil</b>, <b>händelse</b> (vilket element, vilken handling),
+      <b>längd</b> i ms, <b>synlig motsvarighet</b>.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>fil</th><th>händelse</th><th>längd</th><th>synlig motsvarighet</th></tr></thead>
+        <tbody>
+          <tr><td><code>lagt-i-korgen.mp3</code></td><td>klick på <i>Lägg i varukorgen</i> på produktsidan</td><td>200 ms</td><td>siffran vid varukorgen ökar, texten <i>Tillagd</i> vid knappen</td></tr>
+          <tr><td><code>fel-i-faltet.mp3</code></td><td>lämnar e-postfältet i kontaktformuläret felaktigt ifyllt</td><td>150 ms</td><td>röd kant och en text vid fältet som säger vad som är fel</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Rörelse:</b> <b>element</b>, <b>utlösare</b>, <b>vad som ändras</b>,
+      <b>varaktighet</b>, <b>tidskurva</b>, <b>utan rörelse</b>.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>element</th><th>utlösare</th><th>vad som ändras</th><th>varaktighet</th><th>tidskurva</th><th>utan rörelse</th></tr></thead>
+        <tbody>
+          <tr><td><i>Skicka</i>-knappen i kontaktformuläret</td><td>klick</td><td>bakgrunden mörknar, texten blir <i>Skickar …</i></td><td>150 ms</td><td><code>ease-out</code></td><td>ändringen sker direkt</td></tr>
+          <tr><td>bekräftelsen under formuläret</td><td>formuläret har skickats</td><td>rutan tonar fram och glider en bit uppåt</td><td>250 ms</td><td><code>ease-out</code></td><td>rutan tonar fram på plats, utan att glida</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Tabellen ligger på portföljsidan <code>07 Ljud och rörelse</code> och <b>ingen annanstans</b>.
+      En kopia i ett dokument blir två tabeller som säger olika saker den 11 mars. Håll
+      kolumnerna till vad som syns, hörs och rör sig, hur länge och med vilken kurva. Hur det
+      blir kod är Webbutvecklings.</p>
+
+    <h3>Fyra frågor till varje rad</h3>
+
+    <ol class="steg">
+      <li><b>Står det tal?</b> Millisekunder och kurvans namn. <i>Snabb</i> och <i>mjuk</i> går
+        inte att bygga.</li>
+      <li><b>Står det vilket element och vilken handling?</b> <i>Knappen</i> är inte ett
+        element. <i>Skicka-knappen i kontaktformuläret</i> är det. <i>Klick</i> räcker inte
+        heller: klick på vad, var, och när i förloppet.</li>
+      <li><b>Stannar användaren kvar på sidan?</b> Ett ljud på något som byter sida hinns inte
+        höras. Se <a href="#stannar-kvar">avsnitt 3</a>.</li>
+      <li><b>Säger sista kolumnen något?</b> Den synliga motsvarigheten ska säga samma sak som
+        ljudet. <i>Utan rörelse</i> är aldrig <i>ingenting</i>: beskedet finns kvar, bara utan
+        rörelse.</li>
+    </ol>
+
+    <h3>Det som ska vara klart den 8 mars</h3>
+
+    <p><b>Filerna och tabellen.</b> Prototyperna och dokumentationen får fortsätta efteråt och
+      fram till den 11 mars. Putsa alltså inte en Figma-prototyp medan tabellen är tom.</p>
+
+    <ul>
+      <li><b>Saknas ett ljud</b>, skriv raden ändå: filnamnet, händelsen och den synliga
+        motsvarigheten. Då kan det byggas, och filen kommer efter som en ändring. Hellre tre
+        rader och ett ljud än ett ljud och ingen tabell.</li>
+      <li><b>Saknar tabellen tal</b>, läs av dem i Figma, där du ställde in dem.</li>
+      <li><b>Saknar en mikrointeraktion någon av de fyra delarna</b>, är det oftast reglerna
+        eller loopar och lägen. Fråga dig: vad händer om man trycker två gånger, och vad händer
+        om det tar lång tid?</li>
+      <li><b>Kontrollera filerna:</b> MP3, under 50 kB, filnamn i gemener utan å, ä och ö. En
+        WAV-fil i zip-filen går inte att bygga in.</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Kontroll i par</span>
+      <p>Byt plats med en kamrat och läs hens tabell, en rad för ljud och en för rörelse. Säg
+        högt hur du skulle bygga raden: vilket element, vad som händer, hur länge, vilken kurva,
+        vad som syns utan ljud och utan rörelse. <b>Varje fråga du måste ställa är ett värde som
+        saknas.</b> Skriv upp frågorna åt hen. Det är bör-kravet (C): inget behövde gissas när
+        det byggdes.</p>
+    </div>
+
+    <h3 id="lamna-over">Så lämnar du över</h3>
+
+    <p>Överlämningen görs <b>under passet måndag 8 mars</b>, inte på kvällen. Tre steg:</p>
+
+    <ol class="steg">
+      <li><b>Ljudfilerna i en zip-fil.</b> Bara MP3-filerna, med de namn som står i tabellen.
+        Inga projektfiler från Audition, inga råinspelningar.</li>
+      <li><b>Tabellen på portföljsidan <code>07 Ljud och rörelse</code>.</b> Den ligger där och
+        ingen annanstans.</li>
+      <li><b>I itslearning, <i>Överlämning 8/3</i>:</b> ladda upp zip-filen och klistra in
+        länken till portföljsidan, med behörigheten <i>kan visa</i>.</li>
+    </ol>
+
+    <p><i>Överlämning 8/3</i> är en egen inlämning, skild från inlämningen av hela uppgiften
+      den 11 mars. Är du sjuk den 8 mars har du inte missat överlämningen, men du har bråttom:
+      lämna över så snart du kan, och senast före onsdag 10 mars. Annars bygger du i blindo.</p>
+
+    <h3 id="andringar">Ändringar efter 8 mars</h3>
+
+    <p>Från och med överlämningen är <b>varje ändring en rad sist i tabellen</b>, med datum och
+      vad som ändrats. Då vet du den 10 mars vilken version som gäller, och Webbutveckling tar
+      in ändringar fram till den 16 mars. Hur raden ser ut står i
+      <a href="#andringsrad">avsnitt 6</a>.</p>
+
+    <h3>Efter överlämningen</h3>
+
+    <ul>
+      <li><b>De fyra delarna beskrivna</b> bredvid varje prototyp på <code>07 Ljud och
+        rörelse</code>: utlösare, regler, återkoppling, loopar och lägen.</li>
+      <li><b>Dokumentationen</b>, ungefär 500 ord: varför varje ljud och varje interaktion
+        finns, och vilket problem på sajten den löser. Se <a href="#dokumentationen">avsnitt
+        6</a>.</li>
+      <li><b>Utmaningen (A):</b> en mikrointeraktion med alla tre tillstånd, laddar, lyckades
+        och misslyckades, eller ljuden prövade på någon som inte sett sajten.</li>
+    </ul>
+
+    <!-- ============================================================ -->
+    <h2 id="lamna-in">6. Innan du lämnar in</h2>
+
+    <p>Inlämning <b>torsdag 11 mars kl 23:59</b>. Paketet är överlämnat sedan den 8 mars och
+      byggt i Webbutveckling den 10. Det som återstår är kontrollerna, och <b>tabellen ska säga
+      vad som gäller nu</b>, inte vad som gällde den 8 mars.</p>
+
+    <h3>Sista kontrollen</h3>
+
+    <p>Uppgiften har kontrollistan med kryssrutor:
+      <a href="uppgift.html#lamna-in">Uppgift 7 – innan du lämnar in</a>. Gå igenom den i tur
+      och ordning. Tabellen här säger vad som fäller varje punkt:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kontroll</th><th>Vad som fäller</th></tr></thead>
+        <tbody>
+          <tr><td><b>1. Lyssna på varje fil</b>, en i taget</td><td>Ljudet klipper, har ett knäpp i början eller slutet, eller är längre än en sekund</td></tr>
+          <tr><td><b>2. Filstorlekarna</b></td><td>Över 50 kB, en WAV-fil kvar i zip-filen, versaler eller å, ä och ö i namnet</td></tr>
+          <tr><td><b>3. Klicka igenom prototypen</b> med länken, utloggad</td><td>Länken kräver inloggning, eller en interaktion fungerar bara i redigeringsläget</td></tr>
+          <tr><td><b>4. Läs överlämningstabellen</b> rad för rad</td><td>Ett värde saknas, eller ändringarna efter 8 mars står inte sist</td></tr>
+          <tr><td><b>5. Kontrollera licenserna</b></td><td>Ett ljud ur ljudbanken, en ikon eller en bild i Figma utan källa och licens</td></tr>
+          <tr><td><b>6. Lämna</b> portföljsidan och zip-filen</td><td>Länken går till fel sida, eller zip-filen innehåller något annat än ljuden</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ul>
+      <li><b>Punkt 1 avslöjar mest.</b> Ett ljud som lät bra i redigeringsprogrammet kan klippa
+        i högtalaren. Lyssna på den <b>exporterade filen</b>, inte på den i programmet, och i
+        <b>datorns högtalare</b> på låg volym, inte bara i hörlurarna. Hoppa inte över den för
+        att ljuden hördes den 8 mars; det var då de exporterades första gången, inte sista.</li>
+      <li><b>Punkt 3: utloggad betyder ett privat fönster.</b> <kbd>Ctrl</kbd> +
+        <kbd>Skift</kbd> + <kbd>N</kbd> i Chrome och Edge, <kbd>Ctrl</kbd> + <kbd>Skift</kbd> +
+        <kbd>P</kbd> i Firefox. Klistra in länken där. Det du ser är det läraren ser. Inloggad
+        fungerar prototypen alltid, för du äger filen.</li>
+      <li><b>Punkt 5:</b> licensen gäller också ljudet du jämförde med ur ljudbanken, även om
+        det inte används.</li>
+    </ul>
+
+    <h3 id="andringsrad">Ändringsraderna</h3>
+
+    <p>Den 10 mars byggde du in paketet, och de flesta ändrar något när det inte går att bygga
+      som det stod. Det som ändrades ska stå som <b>en rad sist i tabellen, med datum och vad
+      som ändrats</b>:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>fil</th><th>händelse</th><th>längd</th><th>synlig motsvarighet</th></tr></thead>
+        <tbody>
+          <tr><td><code>fel-i-faltet.mp3</code></td><td>lämnar e-postfältet felaktigt ifyllt</td><td>150 ms</td><td>röd kant och text vid fältet</td></tr>
+          <tr><td><b>Ändring 10/3:</b> <code>fel-i-faltet.mp3</code></td><td>samma</td><td>120 ms</td><td>samma. Nyinspelad och kortare, 150 ms hördes efter att texten redan syntes</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ul>
+      <li><b>Låt den ursprungliga raden stå.</b> Då syns vad som lämnades över och vad som
+        ändrats, och det är det utvärderingen på A-nivån handlar om. Har du redan rättat i
+        raden, skriv tillbaka det ursprungliga värdet och lägg ändringen sist.</li>
+      <li><b>Skriv varför</b>, i en halv mening. <i>Kortare</i> säger vad. <i>Hördes efter
+        texten</i> säger varför, och det är ett designbeslut.</li>
+      <li><b>Håll raden till ljudet eller rörelsen.</b> Vad som var fel i koden hör hemma i
+        Webbutvecklings egen dokumentation.</li>
+    </ul>
+
+    <p>Webbutveckling tar in ändringar fram till tisdag 16 mars. Det som ändras efter
+      kl 23:59 den 11 mars bedöms inte i den här uppgiften, men det kan byggas.</p>
+
+    <h3 id="dokumentationen">Dokumentationen</h3>
+
+    <p>Ungefär 500 ord, tabellerna räknas inte. Ska-kravet: <b>varför varje ljud och varje
+      interaktion finns, och vilket problem på sajten den löser.</b> Läs din dokumentation och
+      leta upp varje ljud och varje interaktion. Står det vilket problem den löser?
+      <i>Det blir tydligare</i> är inte ett problem. <i>Testpersonen klickade två gånger på
+      Skicka för att inget hände</i> är ett.</p>
+
+    <p>Dokumentationen <b>motiverar</b>, den beskriver inte. <i>Ett kort pip på 150 ms</i> står
+      redan i tabellen. Dokumentationen säger varför. Skriv också om ljudet är på eller av från
+      början, och varför.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nivå</th><th>Dokumentationen</th></tr></thead>
+        <tbody>
+          <tr><td><b>E</b></td><td>Licenser angivna, varje ljud och interaktion motiverad</td></tr>
+          <tr><td><b>C</b></td><td>Pekar på konkreta problem på sajten, och minst ett fynd ur testrapporten</td></tr>
+          <tr><td><b>A</b></td><td>Går att bygga efter av någon annan än du</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Utvärderingen av överlämningen (A)</b> skriver du medan den 10 mars är färsk: vad som
+      ändrades mellan prototypen och det byggda, och vad du skulle skriva annorlunda nästa
+      gång. Ändringsraderna är underlaget. En annan utmaning är att pröva ett ljud eller en
+      rörelse på någon som inte sett sajten, med ljudet av och reducerad rörelse på: förstod
+      hen utan förklaring?</p>
+
+    <p>Lämna in det du har, även om det inte är klart. Ett ofullständigt paket går att bedöma,
+      ett uteblivet gör det inte.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Du har en inlämning kvar</span>
+      <p>Måndag 15 mars börjar slutprojektet, gemensamt med Webbutveckling. Men projekt 5 i
+        Webbutveckling lämnas in först tisdag 16 mars. Det du byggde den 10 mars ska alltså bli
+        klart där samtidigt som slutprojektet har börjat. Planera för det i helgen.</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <h2 id="felsokning">7. Felsökning</h2>
+
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: klipper, 50 kB, hoppar, utloggad" autocomplete="off">
+      <p class="traffar" id="traffar-fel">30 rader</p>
+    </div>
+
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Vad du gör</th></tr></thead>
+        <tbody>
+          <tr><td>Listan över tysta ställen är full av saker som vore roliga</td><td>Du skrev en önskelista, inte ställen där sajten inte svarar</td><td>Varje rad ska vara ett ställe där användaren inte får svar. Börja i testrapporten. Se avsnitt 1</td></tr>
+          <tr><td>Alla fem ställena handlar om när det går bra</td><td>Misslyckades glömdes bort</td><td>Fråga vad som händer när det går fel. Skicka formuläret tomt. Se avsnitt 1</td></tr>
+          <tr><td>Ingen vet vad som händer om man trycker två gånger</td><td>Återkopplingen är ritad, reglerna är glömda</td><td>Beskriv alla fyra delarna. Vad händer andra gången, och om det tar lång tid? Se avsnitt 1</td></tr>
+          <tr><td>Knappen heter <i>OK</i>, <i>Submit</i> eller <i>Bekräfta</i></td><td>Knapptexten är på systemets språk</td><td>Skriv ett verb och vad det gäller: <i>Skicka ansökan</i>. Se avsnitt 1</td></tr>
+          <tr><td>Felmeddelandet står högst upp på sidan</td><td>Delen <i>var</i> saknas</td><td>Flytta det till fältet det gäller, och säg vad användaren gör nu. Se avsnitt 1</td></tr>
+          <tr><td>Rörelsen känns trög</td><td>Den är längre än 300 ms</td><td>100–150 ms för ändringar på plats, 200–300 ms för det som flyttar sig. Se avsnitt 2</td></tr>
+          <tr><td>Rörelsen ser mekanisk ut</td><td>Tidskurvan är <code>linear</code></td><td>Välj kurva efter vad rörelsen gör. <code>ease-out</code> för det som kommer in. Se avsnitt 2</td></tr>
+          <tr><td>Det syns inte att rutan hör till knappen</td><td>Rörelsen börjar någon annanstans än klicket</td><td>Låt rutan växa ut ur knappen, eller komma från dess håll. Se avsnitt 2</td></tr>
+          <tr><td>Smart Animate hoppar i stället för att glida</td><td>Lagren heter olika i de två ramarna</td><td>Byt namn så att samma lager heter likadant i båda. Se avsnitt 2</td></tr>
+          <tr><td>Interaktionen fungerar inte i telefonen</td><td>Utlösaren är <i>While hovering</i>, som inte finns på pekskärm</td><td>Välj <i>On click</i>. Se avsnitt 2</td></tr>
+          <tr><td>Kolumnen <i>utan rörelse</i> säger <i>ingenting</i></td><td>Du tog bort beskedet i stället för rörelsen</td><td>Ändringen sker direkt, en toning på plats, eller en text. Se avsnitt 2</td></tr>
+          <tr><td>Kolumnen <i>synlig motsvarighet</i> är tom</td><td>Ljudet är enda signalen</td><td>Skriv vad som syns samtidigt och säger samma sak. Stäng av ljudet och prova. Se avsnitt 3</td></tr>
+          <tr><td>Ljudet hörs aldrig på sajten</td><td>Händelsen byter sida: en länk eller ett formulär som laddar en ny sida</td><td>Välj en händelse där användaren stannar kvar på sidan. Se avsnitt 3</td></tr>
+          <tr><td>Allt på sajten låter</td><td>Ljud på varje klick</td><td>Tre ljud på tre viktiga händelser. Se avsnitt 3</td></tr>
+          <tr><td>Ljuden låter som tre olika sajter</td><td>De kommer från tre olika källor</td><td>Spela in alla tre med samma källa, i samma rum. Se avsnitt 3</td></tr>
+          <tr><td>Ljudet hörs knappt i telefonen</td><td>Det är mycket mörkt, och telefonens högtalare kan inte spela bas</td><td>Lyssna i den högtalare det ska spelas i. Välj en ljusare källa. Se avsnitt 3</td></tr>
+          <tr><td>Telefonens inspelning går inte att öppna</td><td>Telefonen sparar ofta i formatet m4a</td><td>Öppna den i Audition. Audacity behöver ibland ett tillägg. Eller spela in direkt i datorn. Se avsnitt 4</td></tr>
+          <tr><td>Suset finns kvar efter brusreduceringen</td><td>Inget brusprov: tystnaden saknades eller var bortklippt</td><td>Spela in två sekunder tystnad först, och ta bort brus före klippningen. Se avsnitt 4</td></tr>
+          <tr><td>Ljudet låter metalliskt efter brusreduceringen</td><td>Brusreduceringen drogs för hårt</td><td>Ångra och dra mindre, eller spela in igen i ett tystare rum. Se avsnitt 4</td></tr>
+          <tr><td>Ljudet kommer efter klicket</td><td>Tystnad kvar i början</td><td>Klipp tills vågformen börjar direkt. Se avsnitt 4</td></tr>
+          <tr><td>Ett knäpp i början eller slutet</td><td>Ingen toning</td><td>Tona in några millisekunder och ut lite längre. Se avsnitt 4</td></tr>
+          <tr><td>Ljudet sprakar, klipper, i högtalaren</td><td>Normaliserat till 0 dB eller högre</td><td>Normalisera till −1 dB och exportera om. Se avsnitt 4</td></tr>
+          <tr><td>Ett ljud är mycket starkare än de andra</td><td>Ljuden normaliserades till olika nivåer</td><td>Normalisera alla tre till −1 dB. Se avsnitt 4</td></tr>
+          <tr><td>Filen är över 50 kB</td><td>Exporterad som WAV eller i stereo, eller tystnad kvar</td><td>Exportera som MP3, 44,1 kHz, mono, 128 kbit/s, och klipp bort tystnaden. Se avsnitt 4</td></tr>
+          <tr><td>Filen slutar på <code>.wav</code></td><td>Du sparade i stället för att exportera</td><td>Använd exportmenyn och välj MP3. Se avsnitt 4</td></tr>
+          <tr><td>Ljudet lät bra i programmet men inte i filen</td><td>Du lyssnade i programmet, inte på den exporterade filen</td><td>Lyssna på filen du lämnar över, i datorns högtalare. Se avsnitt 4 och 6</td></tr>
+          <tr><td>Tabellraden säger <i>snabb</i> eller <i>mjuk</i></td><td>Ord i stället för tal</td><td>Millisekunder och kurvans namn. Läs av dem i Figma. Se avsnitt 5</td></tr>
+          <tr><td>Prototypen fungerar inte utloggad</td><td>Länken kräver inloggning, eller du provade bara som ägare</td><td>Dela med behörigheten <i>kan visa</i> och öppna länken i ett privat fönster. Se avsnitt 6</td></tr>
+          <tr><td>Det syns inte vad som ändrades efter 8 mars</td><td>Ändringen gjordes i raden i stället för sist</td><td>Skriv tillbaka det ursprungliga värdet och lägg ändringen sist, med datum. Se avsnitt 6</td></tr>
+          <tr><td>Du hittar inte sidan <code>07 Ljud och rörelse</code></td><td>Den skapades aldrig i portföljen</td><td>Skapa den: högerklick i sidlistan i Figma → Add page</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 7</a> ·
+        <a href="uppgift.html">Uppgift 7 – Ljud- och rörelsepaket</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

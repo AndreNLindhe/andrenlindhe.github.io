@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lagar och etik i gränssnittet – Gränssnittsdesign område 5</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="gran-5-guide">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Guide</strong> · Lagar och etik i gränssnittet</span>
+  <a href="uppgift.html">Uppgiften</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#lagligt-begripligt">1. Lagligt och begripligt</a></li>
+      <li><a href="#formular">2. Formuläret som frågar för mycket</a></li>
+      <li><a href="#forval">3. Integritet som förval</a></li>
+      <li><a href="#cookie">4. Cookie-dialogen som designproblem</a></li>
+      <li><a href="#licenser">5. Licenserna i en design</a></li>
+      <li><a href="#monster">6. Mörka mönster: de fyra verktygen</a></li>
+      <li><a href="#rita-om">7. Omritningen</a></li>
+      <li><a href="#felsokning">8. Felsökning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Gränssnittsdesign · område 5</p>
+    <h1>Guide – Lagar och etik i gränssnittet</h1>
+    <p class="inledning">Här står det du behöver för uppgiften, och guiden fungerar utan att
+      du varit på lektionen. Slå upp i den när du fastnar.</p>
+
+    <h2 id="lagligt-begripligt">1. Lagligt och begripligt</h2>
+
+    <p>Du fick lagarna i Webbutveckling den 9 december: vad en personuppgift är, vad ändamål
+      och laglig grund betyder, och att du bara får samla in det ändamålet kräver. Den här
+      guiden bygger vidare på det och ställer en annan fråga.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Webbutveckling frågar</th><th>Här frågar vi</th></tr></thead>
+        <tbody>
+          <tr><td>Vad kräver lagen av den som publicerar?</td><td>Hur ser kravet ut när användaren möter det?</td></tr>
+          <tr><td>Är det lagligt?</td><td>Är det begripligt?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">De två frågorna har inte samma svar</span>
+      <p>Ett gränssnitt kan uppfylla varje krav i lagen — valen finns, informationen finns,
+        samtycket är aktivt — och ändå vara ritat så att nästan alla klickar på det
+        avsändaren vill. <b>Lagligheten är ett golv. Utformningen avgör vad som faktiskt
+        händer.</b> Att kunna skilja på de två är kärnan i uppgiften.</p>
+    </div>
+
+    <h2 id="formular">2. Formuläret som frågar för mycket</h2>
+
+    <p><b>Varje fält har en kostnad.</b> Den som fyller i betalar med tid, uppmärksamhet och
+      en uppgift om sig själv. Kostnaden syns inte i formuläret, men den finns — och den är
+      skälet till att långa formulär överges halvvägs.</p>
+
+    <h3>Tre frågor om varje fält</h3>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fråga</th><th>Om svaret är nej</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vad används det till?</b></td><td>Går det inte att svara ska fältet bort</td></tr>
+          <tr><td><b>Vad händer om det saknas?</b></td><td>Går allt ändå: gör det frivilligt</td></tr>
+          <tr><td><b>Vet användaren varför ni frågar?</b></td><td>Skriv det <b>vid fältet</b>, inte i villkoren</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Den tredje är den som gör mest skillnad för minst arbete. Ett födelsedatumfält utan
+      förklaring ser ut som nyfikenhet. Samma fält med raden <i>vi frågar för att kunna skicka
+      erbjudanden som gäller där du bor</i> blir ett val. Samma fält, annan upplevelse.</p>
+
+    <p>Gå tillbaka till formuläret du byggde i Webbutveckling i höst och räkna fälten. Det är
+      den snabbaste vägen till att se vad det här handlar om.</p>
+
+    <h2 id="forval">3. Integritet som förval</h2>
+
+    <p><b>Det som är förkryssat är det de flesta väljer.</b> Inte för att de vill, utan för
+      att de inte ändrar. Skillnaden mellan ett förval av och ett förval på är ofta tiotals
+      procent — på samma gränssnitt, med samma text och samma två knappar.</p>
+
+    <p>Tre inställningar där det märks:</p>
+
+    <ul>
+      <li>Dela min position</li>
+      <li>Visa min profil för alla</li>
+      <li>Skicka mig erbjudanden</li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Det finns inget neutralt förval</span>
+      <p>Den som ritar gränssnittet väljer åt alla som inte orkar välja. Det är ett ansvar
+        oavsett vilket förval man landar i — man kan inte avstå från att välja.</p>
+    </div>
+
+    <p>Principen <i>privacy by default</i> säger att den mest integritetsvänliga
+      inställningen ska vara förvald. Det är ett krav i lagen du läste i Webbutveckling. Här
+      handlar det om vad kravet betyder för den som ritar rutan.</p>
+
+    <h2 id="cookie">4. Cookie-dialogen som designproblem</h2>
+
+    <p>Webbens vanligaste dialog och dess sämst utformade. Fyra saker att titta på — de är
+      också kolumnerna du behöver för granskningen i uppgiften:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fråga</th><th>Vad du letar efter</th></tr></thead>
+        <tbody>
+          <tr><td><b>Är valen jämbördiga?</b></td><td>Två knappar som ser ut som knappar. Ofta är <i>godkänn alla</i> stor och färgad, <i>avvisa</i> grå text — eller saknas på första nivån</td></tr>
+          <tr><td><b>Hur många klick kostar nej?</b></td><td>Ett för ja. Räkna för nej</td></tr>
+          <tr><td><b>Vad står det?</b></td><td><i>Vi värnar om din integritet</i> följt av en enda framträdande knapp är ett ordval, inte en beskrivning</td></tr>
+          <tr><td><b>Vad händer om man klickar utanför?</b></td><td>På vissa sajter räknas det som ett ja</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Så granskar du tre dialoger</h3>
+
+    <ol class="steg">
+      <li><b>Öppna varje sajt i ett inkognitofönster.</b> Annars kommer den ihåg ditt
+        tidigare val och dialogen visas aldrig.</li>
+      <li><b>Fyll i fyra kolumner:</b> tjänst, laglig, begriplig, din slutsats.</li>
+      <li><b>Svara på <i>laglig</i> med det du kan se</b> — finns valen, är de aktiva, finns
+        informationen. Du är inte jurist och behöver inte låtsas vara det.</li>
+      <li><b>Svara på <i>begriplig</i> med något i utformningen.</b> <i>Nej-knappen är grå
+        text under ja-knappen</i> duger. <i>Den är rörig</i> duger inte.</li>
+    </ol>
+
+    <p>Den rad som är mest värd är den med <b>ja på laglig och nej på begriplig</b>. Det är
+      hela områdets poäng i en rad, och det är A-nivån i uppgiften.</p>
+
+    <h2 id="licenser">5. Licenserna i en design</h2>
+
+    <p>Upphovsrätten till <i>innehållet</i> du publicerar tas i Webbutveckling. Här handlar
+      det om det som ingår i en <b>design</b>, och där ser fällorna olika ut per materialslag:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad</th><th>Fällan</th></tr></thead>
+        <tbody>
+          <tr><td><b>Bild</b></td><td><i>Gratis</i> betyder ofta gratis för privat bruk. Kommersiellt är en annan licens</td></tr>
+          <tr><td><b>Ikon</b></td><td>Samlingar kräver ofta attribution i själva gränssnittet, inte i en källista</td></tr>
+          <tr><td><b>Typsnitt</b></td><td>En licens kan tillåta tryck men inte webb. Webbanvändning är en egen rättighet</td></tr>
+          <tr><td><b>Ljud</b></td><td>Nästan alltid strängast. Det tas i område 7</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Orden som avgör i en licenstext: <i>commercial use</i>, <i>attribution required</i>,
+      <i>no derivatives</i>. Läs dem, inte rubriken.</p>
+
+    <h3>Creative Commons</h3>
+
+    <ul>
+      <li><b>BY</b> — namnge upphovspersonen</li>
+      <li><b>SA</b> — ditt resultat måste ha samma licens</li>
+      <li><b>NC</b> — inte kommersiellt</li>
+    </ul>
+
+    <p><b><i>CC</i> är inte en licens.</b> <code>CC BY-SA 4.0</code> är en licens. Skriver du
+      bara CC har du skrivit att det finns villkor, inte vilka. Det är ett bör-krav i
+      uppgiften.</p>
+
+    <h3>AI-genererat material</h3>
+
+    <p>Rättsläget är inte avgjort. Det som är säkert: materialet kan ha byggts på något någon
+      annan äger, och den som använder det tar risken. I uppgiften ska det <b>märkas</b> med
+      vilket verktyg och vad du bad om. Det är ett hederlighetskrav, inte ett juridiskt
+      svar.</p>
+
+    <div class="notis">
+      <span class="rubrik">Licensredovisningen gäller hela sajten</span>
+      <p>Inte bara din egen sida. Det är arbetsdelningen: Webbutveckling svarar för källorna
+        till texten, du för licenserna till formen — inklusive bilder och ikoner på deras
+        fyra sidor.</p>
+    </div>
+
+    <h2 id="monster">6. Mörka mönster: de fyra verktygen</h2>
+
+    <p>Ett <b>mörkt mönster</b> är ett gränssnitt som är ritat så att du gör något du inte
+      tänkte göra. Du fick veta <i>varför</i> de byggs i Webbutveckling den 15 december:
+      någon mäter en siffra, siffran ska upp, och den ärliga vägen är långsam.</p>
+
+    <p>Här handlar det om <b>hur de är gjorda</b>. Fyra verktyg, och det är dem du ska kunna
+      peka på:</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Verktyg</th><th>Hur det används</th></tr></thead>
+        <tbody>
+          <tr><td><b>Kontrast</b></td><td>Ja-knappen är fylld och färgad, nej-knappen är grå text. Ögat hittar den starkare först, och handen följer ögat</td></tr>
+          <tr><td><b>Placering</b></td><td>Nej ligger under vikningen, till vänster, eller efter ett extra steg. Varje klick tappar folk</td></tr>
+          <tr><td><b>Storlek och träffyta</b></td><td>En stor knapp och en liten länk ser inte ut som samma sorts sak</td></tr>
+          <tr><td><b>Ordval</b></td><td><i>Nej tack, jag vill inte spara pengar.</i> Det är inte information, det är en kostnad som läggs på den som väljer nej</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Skillnaden mellan en åsikt och en observation</span>
+      <p><i>Den är förvirrande</i> säger ingenting om utformningen. <i>Nej-knappen har samma
+        färg som bakgrunden och ligger under vikningen</i> säger det. Det första går inte att
+        göra något åt. Det andra gör det — och bör-kravet är minst <b>tre</b> sådana.</p>
+    </div>
+
+    <p>Fyra vanliga former: <b>förvalt ja</b> (rutan är kryssad när sidan laddas),
+      <b>svårare att säga nej</b> (nejet finns men tar tre klick till), <b>skuldbeläggande
+      ordval</b>, och <b>uppsägning i labyrint</b> (registrering tar 30 sekunder, avslut tar
+      ett telefonsamtal).</p>
+
+    <p>De flesta mörka mönster är <b>lagliga</b>. Att kunna skilja på <i>bryter mot en
+      regel</i> och <i>är ett dåligt designval</i> är ett bör-krav.</p>
+
+    <h2 id="rita-om">7. Omritningen</h2>
+
+    <p>Omritningen är beviset. En beskrivning av hur det borde se ut är inte samma sak som en
+      bild någon kan titta på och säga <i>ja, nu förstår jag vad valet är</i>.</p>
+
+    <h3>Så gör du</h3>
+
+    <ol class="steg">
+      <li><b>Skärmdump på originalet</b>, beskuren så att mönstret syns läsbart. Zooma in
+        hellre än att visa hela sidan.</li>
+      <li><b>Rita om i Figma.</b> En skärm. Före och efter bredvid varandra.</li>
+      <li><b>Gå igenom de fyra verktygen</b> ett i taget: kontrasten, placeringen, storleken,
+        orden.</li>
+      <li><b>Exportera som PNG</b> och lägg in på din sida.</li>
+      <li><b>Skriv ungefär 150 ord</b> om vad du ändrade och varför — vilket verktyg, och
+        vilken princip eller lag det hänger på.</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Frågan ska vara kvar</span>
+      <p>Att ta bort allt utom en knapp är inte en omritning, det är en amputation. Ett mörkt
+        mönster löses inte genom att avsändaren slutar fråga — det löses genom att frågan
+        ställs ärligt och <b>båda svaren ser ut som svar</b>.</p>
+      <p><b>Kontrollen:</b> kan avsändaren fortfarande få det hen ville ha? Är svaret nej har
+        du ritat om fel sak.</p>
+    </div>
+
+    <p>Två saker som inte är omritningar: att göra det snyggare, och att ändra innehållet.
+      Samma information, annan hierarki — det är uppdraget.</p>
+
+    <p><b>A-nivån:</b> låt någon annan titta på din efterbild och välja, utan att du säger
+      något. Väljer hen rätt håller omritningen. Det tar fem minuter och det är den enda
+      kontrollen som betyder något.</p>
+
+    <h2 id="felsokning">8. Felsökning</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Vad du gör</th></tr></thead>
+        <tbody>
+          <tr><td>Cookie-dialogen visas inte</td><td>Sajten minns ditt tidigare val</td><td>Öppna sajten i ett inkognitofönster. Se avsnitt 4</td></tr>
+          <tr><td>Alla tre dialogerna fick samma svar</td><td>Du svarade på samma fråga två gånger</td><td><i>Laglig</i> och <i>begriplig</i> är olika frågor. Se avsnitt 1</td></tr>
+          <tr><td>Analysen låter som en åsikt</td><td>Du beskriver din känsla, inte skärmen</td><td>Peka på en färg, en placering eller ett ord. Se avsnitt 6</td></tr>
+          <tr><td>Du hittar bara ett designval</td><td>Du tittar bara på knappen</td><td>Gå igenom alla fyra verktygen i tur och ordning. Se avsnitt 6</td></tr>
+          <tr><td>Omritningen har bara en knapp</td><td>Du tog bort frågan i stället för att rita om den</td><td>Lägg tillbaka avsändarens fråga och gör båda svaren jämbördiga. Se avsnitt 7</td></tr>
+          <tr><td>Omritningen ser bara snyggare ut</td><td>Du ändrade stil, inte hierarki</td><td>Fråga om valet blev tydligare. Är svaret nej har inget hänt</td></tr>
+          <tr><td>Din kompis väljer fel i efterbilden</td><td>Valen är fortfarande inte jämbördiga</td><td>Bra — det är just det testet är till för. Ändra och pröva igen</td></tr>
+          <tr><td>Du hittar inget mörkt mönster</td><td>Du letar på webbsidor</td><td>Titta i apparna i telefonen. Avbeställningar och notisinställningar är fyndplatser</td></tr>
+          <tr><td>Du vet inte om det är olagligt</td><td>Du har inte letat efter regeln</td><td>Hittar du ingen regel är det ett dåligt designval — och det är ett giltigt svar</td></tr>
+          <tr><td>Skärmdumpen går inte att läsa</td><td>Du tog hela sidan</td><td>Beskär till mönstret. Zooma in innan du tar bilden</td></tr>
+          <tr><td>Det står namn i skärmdumpen</td><td>Du var inloggad när du tog den</td><td>Täck över, eller ta om bilden i ett inkognitofönster. Det gäller också dina egna uppgifter</td></tr>
+          <tr><td>Du vet inte vilken licens en ikon har</td><td>Du hämtade den från ett sökresultat</td><td>Gå till samlingens egen sida och läs villkoret. Se avsnitt 5</td></tr>
+          <tr><td>Du hittar inte sidan <code>05 Lagar och etik</code></td><td>Portföljen har bara fyra sidor</td><td>Skapa den: högerklick i sidlistan i Figma → Add page</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 5</a> ·
+        <a href="uppgift.html">Uppgift 5 – Lagar, rättigheter och etik</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

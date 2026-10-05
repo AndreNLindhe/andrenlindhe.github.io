@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uppgift 4 – Användarunderlag och IA-förslag – Gränssnittsdesign område 4</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="gran-4-uppgift">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Uppgift 4</strong> · Användarunderlag och IA-förslag</span>
+  <a href="../datum.html">Viktiga datum</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#uppdraget">1. Uppdraget</a></li>
+      <li><a href="#ska">2. Ska-krav</a></li>
+      <li><a href="#bor">3. Bör-krav</a></li>
+      <li><a href="#utmaning">4. Utmaningar</a></li>
+      <li><a href="#tekniska">5. Tekniska krav</a></li>
+      <li><a href="#matris">6. Bedömningsmatris</a></li>
+      <li><a href="#kom-igang">7. Kom igång</a></li>
+      <li><a href="#misstag">8. Vanliga misstag</a></li>
+      <li><a href="#lamna-in">9. Innan du lämnar in</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Gränssnittsdesign · område 4</p>
+    <h1>Uppgift 4 – Användarunderlag och IA-förslag</h1>
+    <p class="inledning">Deadline torsdag <b>10 december kl 23:59</b>. Lämnas på
+      designportföljens sida <code>04 Användare</code>.</p>
+
+    <h2 id="uppdraget">1. Uppdraget</h2>
+
+    <p>Du ska ta reda på <b>vem</b> som använder din sajt, <b>vad</b> de försöker göra där
+      och <b>var</b> det går fel — och lämna ett underlag som säger vad som ska ändras och i
+      vilken ordning.</p>
+
+    <p>Fram till nu har du byggt sajten efter dina egna beslut. I område 3 gjorde du
+      stilguiden, i Webbutveckling byggde du den, och den 1 december lämnade du in en
+      stilsatt sajt som fungerar. Det här området vänder på perspektivet: <b>någon annan ska
+      använda den</b>, och det är den personens uppgift, väg och misstag som avgör om sajten
+      är bra — inte om den följer stilguiden.</p>
+
+    <p>Underlaget har två läsare. Den ena är du själv i slutprojektet, där samma metoder
+      används mot en verklig kund. Den andra är Webbutveckling: <b>åtgärdslistan du lämnar in
+      den 10 december är det som betas av i område 5</b>, från den 13 januari. Precis som
+      stilguiden i höstas ska den gå att arbeta efter utan att fråga dig.</p>
+
+    <p>Tre saker bär uppgiften, och de bygger på varandra: <b>typanvändarna</b> (vem),
+      <b>användarresan och kraven</b> (vad och var det går fel) och <b>åtgärdslistan</b> (vad
+      som ska göras). Sitemapen och navigationsförslaget ligger emellan — de är svaret på var
+      saker bör ligga för att resan ska hålla.</p>
+
+    <div class="notis">
+      <span class="rubrik">Analysen från uppgift 3 återanvänds</span>
+      <p>Kartläggningen av två liknande gränssnitt är din konkurrensanalys här. Den görs inte
+        om — hänvisa till den, och komplettera med det den inte hade: användarens perspektiv.</p>
+    </div>
+
+    <h2 id="ska">2. Ska-krav</h2>
+    <p>Är alla ikryssade och kontrollerade ligger du på <b>E</b>.</p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h2 id="ska-listan">Ska-krav <span style="color:var(--dov);font-weight:400">— nivå E</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="ska-1"><span>En <b>målgruppsbeskrivning</b>: vilka de är, vad de ska göra på sajten, i vilken situation de gör det</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span><b>Två typanvändare</b> med namn, mål, situation och hinder — och ett kort <b>scenario</b> var som beskriver ett besök</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span><b>Fem intervjufrågor</b> som inte styr svaret, provade på bänkgrannen och omskrivna</span></label></li>
+        <li><label><input type="checkbox" id="ska-4"><span><b>Minst en genomförd intervju</b> med anteckningar: när, vad som frågades, vad som svarades. Personen anonymiserad</span></label></li>
+        <li><label><input type="checkbox" id="ska-5"><span><b>Fem krav</b> på sajten som går att kontrollera i efterhand</span></label></li>
+        <li><label><input type="checkbox" id="ska-6"><span>En <b>användarresa</b> för sajtens viktigaste uppgift: steg, mål, hinder och känsla i varje steg</span></label></li>
+        <li><label><input type="checkbox" id="ska-7"><span><b>Card sorting</b> genomförd i par, dokumenterad med foto av lapparna och grupperingen ni kom fram till</span></label></li>
+        <li><label><input type="checkbox" id="ska-8"><span>En <b>sitemap</b> för den egna sajten</span></label></li>
+        <li><label><input type="checkbox" id="ska-9"><span>Ett <b>navigationsförslag</b>: nuvarande navigation granskad mot sitemapen, med det som inte stämmer utpekat</span></label></li>
+        <li><label><input type="checkbox" id="ska-10"><span>En <b>heuristisk granskning</b> av en klasskamrats inlämnade sajt: de tio heuristikerna, en rad var. Paren sätts i pass 29</span></label></li>
+        <li><label><input type="checkbox" id="ska-11"><span>En <b>prioriterad åtgärdslista</b> med minst fem punkter, ordnade</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="bor">3. Bör-krav</h2>
+    <p>Skillnaden mellan ett underlag som finns och ett som går att arbeta efter. Nivå <b>C</b>.</p>
+
+    <section class="kravblock" data-niva="bor">
+      <div class="huvud">
+        <h2 id="bor-listan">Bör-krav <span style="color:var(--dov);font-weight:400">— nivå C</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="bor-1"><span>Typanvändarna <b>bygger på intervjun</b>, inte på gissning — du kan peka på vilket svar som gav vilken egenskap</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Kraven <b>går att pröva</b>: <i>sökningen hittar rätt sida på första försöket</i>, inte <i>sajten ska vara lättanvänd</i></span></label></li>
+        <li><label><input type="checkbox" id="bor-3"><span>Användarresan <b>markerar var den bryts</b>, och säger varför just där</span></label></li>
+        <li><label><input type="checkbox" id="bor-4"><span>Sitemapen skiljer sig från nuvarande struktur på <b>minst en punkt</b>, motiverad med card sorting eller intervjun</span></label></li>
+        <li><label><input type="checkbox" id="bor-5"><span>Åtgärdslistan är <b>prioriterad efter allvar och kostnad</b>, inte i den ordning felen hittades</span></label></li>
+        <li><label><input type="checkbox" id="bor-6"><span>Du kan säga <b>vad som ändrades i intervjufrågorna</b> efter testet på bänkgrannen, och varför</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="utmaning">4. Utmaningar</h2>
+    <p>Nivå <b>A</b>. Ta dem när ska- och bör-kraven sitter.</p>
+
+    <section class="kravblock" data-niva="utmaning">
+      <div class="huvud">
+        <h2 id="utmaning-listan">Utmaningar <span style="color:var(--dov);font-weight:400">— nivå A</span></h2>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="utm-1"><span><b>Två intervjuer</b> med personer som motsvarar var sin typanvändare</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Card sorting genomförd med <b>någon utanför klassen</b></span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Användarresan omfattar <b>steget före och efter sajten</b> — hur användaren kom dit och vad hen gör med resultatet</span></label></li>
+        <li><label><input type="checkbox" id="utm-4"><span>Skillnaden mellan <b>vad användaren sa och vad hen gjorde</b> är dokumenterad, med ett exempel</span></label></li>
+        <li><label><input type="checkbox" id="utm-5"><span>Åtgärdslistan är skriven så att <b>den som bygger kan genomföra den utan att fråga</b> — prövat på en kamrat</span></label></li>
+      </ul>
+    </section>
+
+    <h2 id="tekniska">5. Tekniska krav</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Krav</th><th>Vad som gäller</th></tr></thead>
+        <tbody>
+          <tr><td>Var det lämnas</td><td>Designportföljens sida <code>04 Användare</code> – skapa den om den inte finns, portföljen har bara tre sidor från tidigare. Text i textramar, resa och sitemap ritade, card sorting som foto</td></tr>
+          <tr><td>Intervjun</td><td><b>Anonymiserad:</b> <i>Person A, 17 år, använder sajten för att …</i>. Inga namn, inga bilder på personen</td></tr>
+          <tr><td>Intervjufrågorna</td><td>Fem stycken, öppna. Ingen fråga som går att svara ja eller nej på</td></tr>
+          <tr><td>Kraven</td><td>Fem stycken, varje krav som en mening med ett mätbart utfall</td></tr>
+          <tr><td>Användarresan</td><td>Minst fem steg. Varje steg har mål, hinder och känsla</td></tr>
+          <tr><td>Sitemapen</td><td>Hierarkisk: startsidan överst, varje sida en ruta, grupperingen synlig</td></tr>
+          <tr><td>Heuristikerna</td><td>De tio i guidens lista, i den ordningen. En rad per heuristik: uppfylld, brist eller inte tillämplig — med ett exempel ur sajten</td></tr>
+          <tr><td>Åtgärdslistan</td><td>Tabell med fyra kolumner: <b>nr</b>, <b>var</b> (sida och element), <b>vad</b> (bristen och vilken heuristik), <b>prioritet</b> (1–3). Sorterad på prioritet</td></tr>
+          <tr><td>Omfattning</td><td>Förstudien — målgrupp, typanvändare, krav — ungefär 600 ord sammanlagt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="matris">6. Bedömningsmatris</h2>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kriterium</th><th>E</th><th>C</th><th>A</th></tr></thead>
+        <tbody>
+          <tr><td><b>Målgrupp och typanvändare</b></td>
+            <td>Målgruppen är beskriven och två typanvändare finns med scenario</td>
+            <td>Typanvändarna bygger på intervjun, och du kan peka på vad som kom varifrån</td>
+            <td>Skillnaden mellan vad användaren sa och gjorde är dokumenterad, och typanvändarna tar hänsyn till den</td></tr>
+          <tr><td><b>Undersökning och krav</b></td>
+            <td>Fem intervjufrågor, en genomförd intervju, fem krav</td>
+            <td>Frågorna är omskrivna efter test, och kraven går att pröva i efterhand</td>
+            <td>Två intervjuer med olika typanvändare, och kraven följer av vad de sa</td></tr>
+          <tr><td><b>Användarresa</b></td>
+            <td>Resan finns med steg, mål, hinder och känsla</td>
+            <td>Resan markerar var den bryts och varför</td>
+            <td>Resan omfattar steget före och efter sajten</td></tr>
+          <tr><td><b>Informationsarkitektur och navigation</b></td>
+            <td>Card sorting dokumenterad, sitemap och navigationsförslag finns</td>
+            <td>Sitemapen ändrar minst en sak med motivering ur undersökningen</td>
+            <td>Card sorting gjord med någon utanför klassen, och förslaget håller när det prövas mot resan</td></tr>
+          <tr><td><b>Granskning och åtgärdslista</b></td>
+            <td>Tio heuristiker granskade, minst fem åtgärder listade</td>
+            <td>Listan är prioriterad efter allvar och kostnad, inte hittad ordning</td>
+            <td>Listan går att genomföra av någon annan utan följdfrågor — prövat</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="kom-igang">7. Kom igång</h2>
+    <ol class="steg">
+      <li><b>Gör intervjun tidigt.</b> Den är det enda i uppgiften som kräver en annan person
+        vid en viss tid, och den som väntar till december intervjuar sin kompis i korridoren.
+        Boka den efter pass 24, genomför den före pass 26.</li>
+      <li><b>Skriv typanvändarna efter intervjun, inte före.</b> Gör du dem först blir de
+        gissningar du sedan letar bekräftelse på.</li>
+      <li><b>Använd analysen från uppgift 3.</b> Kartläggningen av två liknande gränssnitt är
+        redan gjord — hänvisa till den, gör den inte om.</li>
+      <li><b>Rita användarresan med sajten öppen.</b> Gå igenom uppgiften på riktigt, steg för
+        steg, och skriv vad som händer — inte vad som borde hända.</li>
+      <li><b>Gör den heuristiska granskningen sist</b>, på kamratens inlämnade sajt. Den kräver att
+        sajten är stilsatt och uppe, och det är den från den 1 december. Din egen sajt granskas
+        samtidigt av någon annan, och den listan arbetar du själv efter i Webbutveckling i
+        januari.</li>
+    </ol>
+
+    <h2 id="misstag">8. Vanliga misstag</h2>
+    <ul>
+      <li><b>Typanvändarna är du själv med annat namn.</b> Är båda 17 år och gillar samma sak
+        som du har undersökningen inte använts.</li>
+      <li><b>Intervjufrågor som ger ja eller nej.</b> <i>Tycker du sajten är lätt att
+        använda?</i> ger ingenting. <i>Berätta om senaste gången du letade efter något och
+        inte hittade det</i> ger en resa.</li>
+      <li><b>Krav som inte går att pröva.</b> <i>Sajten ska vara tydlig</i> kan aldrig
+        underkännas. Ett krav som inte kan misslyckas är inte ett krav.</li>
+      <li><b>Användarresan beskriver hur det borde gå.</b> Den ska beskriva hur det går.
+        Hindren är poängen — en resa utan hinder är inte kartlagd.</li>
+      <li><b>Sitemapen är bara nuvarande meny omritad.</b> Card sorting finns för att pröva om
+        grupperingen håller. Ändras ingenting har metoden inte använts.</li>
+      <li><b>Åtgärdslistan i hittad ordning.</b> Det första felet du såg är sällan det
+        viktigaste. Prioriteringen är det Webbutveckling arbetar efter.</li>
+      <li><b>Granskningen görs på en sajt som ändrats efter inlämningen.</b> Granska den
+        version som lämnades in den 1 december. Det är den som finns i repot.</li>
+      <li><b>Åtgärdslistan förutsätter att man vet vad du menade.</b> Den som tar emot den är
+        kamraten, inte du. <i>Fixa menyn</i> går inte att arbeta efter; <i>Startsidan, huvudmenyn:
+        aktuell sida syns inte (heuristik 1)</i> gör det.</li>
+    </ul>
+
+    <h2 id="lamna-in">9. Innan du lämnar in</h2>
+    <ul class="krav">
+      <li><label><input type="checkbox" id="in-1"><span>Allt ligger på portföljens sida <code>04 Användare</code></span></label></li>
+      <li><label><input type="checkbox" id="in-2"><span>Intervjun är <b>anonymiserad</b> — inga namn, inga bilder på personen</span></label></li>
+      <li><label><input type="checkbox" id="in-3"><span>Åtgärdslistan har fyra kolumner och är <b>sorterad på prioritet</b></span></label></li>
+      <li><label><input type="checkbox" id="in-4"><span>Alla tio heuristiker har en rad, även de som inte är tillämpliga</span></label></li>
+      <li><label><input type="checkbox" id="in-5"><span>Sitemapen och användarresan går att läsa utan att du förklarar dem</span></label></li>
+    </ul>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 4</a> ·
+        <a href="../datum.html">Alla viktiga datum</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

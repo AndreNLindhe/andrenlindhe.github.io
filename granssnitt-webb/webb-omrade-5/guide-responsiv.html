@@ -1,0 +1,1271 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide – Responsiv design och tillgänglighet</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-5-guide-responsiv">
+
+<header class="topp">
+  <a href="index.html">← Område 5</a>
+  <span class="harifran"><strong>Guide</strong> · Responsiv design och tillgänglighet</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>På sidan</p>
+    <ol>
+      <li><a href="#viewport">Viewport och mobile first</a></li>
+      <li><a href="#media-queries">Media queries och brytpunkter</a></li>
+      <li><a href="#bilder-och-media">Flexibla bilder och media</a></li>
+      <li><a href="#god-praxis">God praxis och kodstandard</a></li>
+      <li><a href="#tillganglighet">Tillgänglighet i koden</a></li>
+      <li><a href="#testning">Testning och testprotokoll</a></li>
+      <li><a href="#ta-det-langre">Ta det längre</a></li>
+      <li><a href="#felsokning">Felsökning</a></li>
+      <li><a href="#snabbreferens">Snabbreferens</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling · område 5</p>
+    <h1>Guide – Responsiv design och tillgänglighet</h1>
+    <p class="inledning">Här står allt som prov 3 kan fråga om, och allt du behöver för
+      Projekt 4. Guiden fungerar utan att du varit på lektionen. Avsnitt 1 till 6 följer
+      områdets sex genomgångar i tur och ordning.</p>
+
+    <p>Exemplen är hämtade ur referensprojektet <b>Fyrar längs Bohuskusten</b> – samma sajt
+      som i område 3, nu responsiv och tillgänglig. Ha referensprojektets <code>stil.css</code>
+      öppen bredvid guiden. Den är indelad i tio numrerade avsnitt, och varje ändring som hör
+      till det här området är märkt med passets nummer, <i>Pass 36</i> till <i>Pass 40</i>.</p>
+
+    <div class="notis">
+      <span class="rubrik">Här handlar allt om koden</span>
+      <p>Vad ett WCAG-kriterium betyder, vem det gäller och vilken nivå det har lär du dig i
+        Gränssnittsdesign. Verktygens gränser och användartestet likaså. Guiden visar raden i
+        koden som uppfyller kravet, och säger i en mening var resten står.</p>
+    </div>
+
+    <h2>Vad du kan efter guiden</h2>
+    <ul>
+      <li>Förklara vad viewport-taggen gör, och varför den ska stå exakt som den står</li>
+      <li>Bygga mobile first: en grundstil för telefonen som bredare skärmar lägger till på</li>
+      <li>Skriva en media query med <code>min-width</code> i <code>em</code>, och hitta
+        brytpunkten i innehållet i stället för i en lista över telefoner</li>
+      <li>Göra bilder flexibla, och ge rätt fil till rätt skärm med <code>srcset</code> och
+        <code>sizes</code></li>
+      <li>Stänga av rörelse för den som bett om det, med <code>prefers-reduced-motion</code></li>
+      <li>Hålla en kodstandard som gör att någon annan hittar i din stilmall</li>
+      <li>Peka på raden i koden som rättar ett tillgänglighetsfynd: fokus, kontrast, klickyta,
+        rubriknivå, knapp</li>
+      <li>Skriva ett testprotokoll där varje rad går att göra om</li>
+    </ul>
+
+    <!-- ================================================================== -->
+
+    <h2 id="viewport">1. Viewport och mobile first</h2>
+    <p><b>Responsiv design</b> betyder att samma sida, med samma HTML, fungerar i alla bredder:
+      från en smal telefon till en bred datorskärm. Du bygger inte en mobilsajt och en
+      datorsajt. Du bygger en sajt som tål att utrymmet ändras.</p>
+    <p>Viewport-taggen och bredderna 320 till 1600 px är ska-krav, nivå <b>E</b>. Mobile
+      first är ett bör-krav, nivå <b>C</b>.</p>
+
+    <h3>Viewport-taggen</h3>
+    <p><b>Viewport</b> är den yta sidan ritas på. På en dator är den fönstret. På en telefon
+      som inte fått några instruktioner är den ungefär 980 pixlar bred, och sidan krymps
+      sedan ihop för att få plats. Det var så de första smarta telefonerna visade en webb som
+      bara var byggd för datorer. Resultatet är en sida du ser i sin helhet men inte kan läsa,
+      med länkar för små för att träffa.</p>
+    <p>En rad i <code>head</code> talar om för telefonen att låta bli:</p>
+<pre><code class="sprak-html">&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><code>width=device-width</code></td><td>Rita sidan lika bred som skärmen,
+            inte 980 px</td></tr>
+          <tr><td><code>initial-scale=1</code></td><td>Börja utan förstoring eller
+            förminskning</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Den ska stå i <code>head</code> på <b>varje</b> sida, inte bara på startsidan.
+      Referensprojektet har haft den sedan område 2. Nu är det den som gör skillnaden.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Skriv den exakt så</span>
+      <p>På nätet finns ofta en längre variant med <code>user-scalable=no</code> eller
+        <code>maximum-scale=1</code>. Båda stänger av förstoring med två fingrar, och den som
+        behöver förstora mest kan då inte göra det. Det är ett tillgänglighetsfel i en enda
+        rad, och uppgiften förbjuder det. Varför förstoring är ett krav i WCAG gick
+        Gränssnittsdesign igenom den 18 januari.</p>
+    </div>
+
+    <h3>Varför sajten redan nästan fungerar</h3>
+    <p>Mycket av det du byggde i område 3 är responsivt redan, eftersom flexbox och grid är
+      gjorda för att tåla att utrymmet ändras:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Det som fungerar i 320 px</th><th>Varför</th><th>Läs om det</th></tr></thead>
+        <tbody>
+          <tr><td>Navigeringen bryter till nya rader</td><td><code>flex-wrap: wrap</code></td>
+            <td><a href="../webb-omrade-3/guide-css.html#flexbox">Guide CSS, avsnitt 8</a></td></tr>
+          <tr><td>Galleriet blir en spalt</td>
+            <td><code>repeat(auto-fit, minmax(16rem, 1fr))</code> räknar ut antalet</td>
+            <td><a href="../webb-omrade-3/guide-css.html#grid">Guide CSS, avsnitt 9</a></td></tr>
+          <tr><td>Bilderna krymper med skärmen</td><td><code>max-width: 100%</code></td>
+            <td><a href="#bilder-och-media">Avsnitt 3</a></td></tr>
+          <tr><td>Tabellen spräcker inte sidan</td>
+            <td><code>.tabellsvep</code> med <code>overflow-x: auto</code></td>
+            <td>Referensprojektets <code>stil.css</code>, avsnitt 9</td></tr>
+          <tr><td>Textstorleken följer användaren</td><td><code>rem</code> i stället för
+            <code>px</code></td>
+            <td><a href="../webb-omrade-3/guide-css.html#typografi">Guide CSS, avsnitt 6</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Det som går sönder</h3>
+    <p>Det som går sönder i en elevsajt är nästan alltid något som <b>låser</b> en bredd:</p>
+    <ul>
+      <li><code>width: 900px</code> på en behållare. Byt till <code>max-width</code>, så får
+        den bli smalare men aldrig bredare.</li>
+      <li>En bild utan <code>max-width</code>. Se <a href="#bilder-och-media">avsnitt 3</a>.</li>
+      <li>En rubrik med teckenstorlek i <code>px</code>.</li>
+      <li>En lång adress eller ett långt ord utan mellanslag, som inte kan radbrytas.</li>
+    </ul>
+    <p>Det sista lagas med en regel som referensprojektet har i avsnitt 2 av
+      <code>stil.css</code>:</p>
+<pre><code class="sprak-css">p, li, dd, td {
+  overflow-wrap: break-word;
+}</code></pre>
+    <p>Den tillåter webbläsaren att bryta mitt i ett ord när ordet annars inte får plats.
+      Vanliga ord påverkas inte.</p>
+
+    <h3>Mobile first</h3>
+    <p><b>Mobile first</b> betyder att grundstilen, alltså reglerna utanför alla media
+      queries, är telefonens. Bredare skärmar <b>lägger till</b>. Motsatsen är att bygga för
+      datorn och sedan ta bort saker för telefonen.</p>
+    <p>Referensprojektets navigering är staplad som grundstil, en länk per rad:</p>
+<pre><code class="sprak-css">nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--steg-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}</code></pre>
+    <p>En länk per rad ger stora ytor att träffa med tummen. Hur den blir en rad igen på
+      bredare skärmar står i <a href="#media-queries">avsnitt 2</a>.</p>
+    <p>Det smala fallet är oftast det enkla: en spalt, allt under varandra, i den ordning
+      HTML:en redan har. Det är när det blir brett som du behöver bestämma något. Hur sajten
+      ska se ut i olika bredder bestämde du redan i mockupen i Gränssnittsdesign. Visar den
+      inte något, till exempel menyn på telefon, bestämmer du själv och skriver det i
+      <code>dokumentation.md</code>.</p>
+
+    <h3>Device mode och den riktiga telefonen</h3>
+    <p><b>Device mode</b> är ett läge i webbläsarens utvecklarverktyg, DevTools, som ritar
+      sidan som på en telefon. Öppna med F12 och sedan Ctrl + Shift + M.</p>
+    <ul>
+      <li><b>Bredden går att dra i.</b> Handtaget i kanten ger vilken bredd som helst.</li>
+      <li><b>Bredden står i pixlar</b> överst. Den siffran behöver du för brytpunkterna.</li>
+      <li><b>320 px</b> är den smalaste bredd uppgiften kräver. Varför just 320 är ett
+        WCAG-kriterium som Gränssnittsdesign gick igenom den 18 januari.</li>
+    </ul>
+    <p>Device mode visar bredden. Det visar inte fingret, inte solen i skärmen och inte
+      bilden som laddar över mobilnätet. Därför testar du både i device mode och på en
+      riktig telefon, med sajtens publicerade adress.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Kontrollera att viewport-taggen finns på varje sida. Öppna sajten i device mode, börja
+        på 320 px och dra långsamt upp till 1600. Öppna sedan den publicerade adressen på din
+        telefon. Skriv upp allt som går sönder – sida, bredd eller telefon, vad som händer –
+        innan du lagar något. Listan hör hemma i <code>dokumentation.md</code>; mallen står i
+        <a href="#dokumentationen">avsnitt 6</a>.</p>
+    </div>
+
+    <!-- ================================================================== -->
+
+    <h2 id="media-queries">2. Media queries och brytpunkter</h2>
+    <p>Det viktigaste i avsnittet är hur <b>få</b> media queries som behövs. Två eller tre,
+      och var och en med ett skäl. Referensprojektet har två för hela sajten.</p>
+    <p>Minst en media query med <code>min-width</code> är ett ska-krav, nivå <b>E</b>. Att
+      varje brytpunkt har ett skäl i innehållet är ett bör-krav, nivå <b>C</b>.</p>
+
+    <h3>Syntaxen</h3>
+    <p>En <b>media query</b> är en fråga till webbläsaren om omgivningen: hur bred är ytan,
+      vill användaren ha mindre rörelse. Är svaret ja gäller reglerna inuti.</p>
+<pre><code class="sprak-css">@media (min-width: 56em) {
+  .sidlayout {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  }
+}</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>@media</code></td><td>Inleder frågan</td></tr>
+          <tr><td><code>(min-width: 56em)</code></td><td>Villkoret: minst så här brett</td></tr>
+          <tr><td><code>{ … }</code></td><td>Vanliga regler, med egna klamrar inuti</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Läs den högt: <i>är fönstret minst 56em brett, gör kolumnerna så här.</i> Under den
+      bredden finns regeln inte. En <b>brytpunkt</b>, på engelska <i>breakpoint</i>, är
+      bredden där en media query börjar gälla.</p>
+    <p>Lägg märke till de dubbla klamrarna: en för media queryn, en för regeln. Saknas den
+      sista hamnar resten av stilmallen inuti media queryn. CSS-validatorn hittar det. Ögat
+      gör det sällan.</p>
+
+    <h3>min-width, inte max-width</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Skrivsätt</th><th>Läses</th><th>Passar</th></tr></thead>
+        <tbody>
+          <tr><td><code>min-width</code></td><td>Från den här bredden och uppåt</td>
+            <td>Mobile first: grundstilen är smal, bredd läggs till</td></tr>
+          <tr><td><code>max-width</code></td><td>Upp till den här bredden</td>
+            <td>Desktop först: grundstilen är bred, saker tas bort</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Varje brytpunkt med <code>max-width</code> tar bort något som redan är satt, och du
+      måste hålla reda på vad det var. Med <code>min-width</code> lägger du bara till, och
+      grundstilen står orörd. Blanda inte: finns det en bredd där både en
+      <code>min-width</code> och en <code>max-width</code> gäller samtidigt blir det svårt att
+      förutse vad som vinner. Välj riktning en gång.</p>
+
+    <h3>Brytpunkten sitter i innehållet</h3>
+    <p>Brytpunkten ska sitta där <b>innehållet</b> går sönder, inte där en viss telefon eller
+      surfplatta börjar. Sajten vet inte vilken enhet den visas i, bara hur mycket plats den
+      har. Så här hittar du den:</p>
+    <ol class="steg">
+      <li>Öppna sidan i device mode på 320 px.</li>
+      <li>Dra långsamt bredare och titta på innehållet, inte på siffran.</li>
+      <li>Stanna där något ser fel ut, eller där det finns plats för något bättre.</li>
+      <li>Läs av bredden. Det är brytpunkten.</li>
+    </ol>
+    <p>Frågor att ställa medan du drar:</p>
+    <ul>
+      <li>Blir raderna för långa att läsa? Då får en spalt till plats.</li>
+      <li>Bryts orden ett och ett? Då är brytpunkten för låg.</li>
+      <li>Rullar sidan i sidled? Då har något en fast bredd, och det lagas utan media
+        query.</li>
+    </ul>
+    <p>I referensprojektet gav metoden två brytpunkter. <b>Navigeringen</b> vid 28em: där
+      ryms alla fyra länkarna på en rad, och staplingen slösar bara höjd. <b>Sidlayouten</b>
+      på Vinga-sidan vid 56em: under den blir faktarutan i en fjärdedels spalt så smal att
+      raderna får några få ord var.</p>
+    <p>Galleriet behöver ingen brytpunkt. <code>auto-fit</code> räknar ut antalet kolumner i
+      alla bredder. Varför det håller även i bredder ingen testat står i
+      <a href="#otestade-bredder">avsnitt 7</a>.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Fråga vad som går sönder vid 767</span>
+      <p>Du kommer att vilja skriva 768, för att du sett den siffran. Fråga dig vad som går
+        sönder vid 767 pixlar. Kan du inte svara är det inte en brytpunkt. Mockupens bredder,
+        360 och 1280, är inte heller brytpunkter – de är bredderna den ritades i.</p>
+    </div>
+
+    <h3>Brytpunkter i em</h3>
+    <p>Brytpunkter skrivs i <code>em</code>, inte i <code>px</code>. I en media query räknas
+      <code>em</code> mot webbläsarens grundstorlek, 16 px om användaren inte ändrat den. Dela
+      bredden du läste av med 16:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Avläst bredd</th><th>Uträkning</th><th>Brytpunkt</th></tr></thead>
+        <tbody>
+          <tr><td>448 px</td><td>448 / 16</td><td><code>28em</code></td></tr>
+          <tr><td>640 px</td><td>640 / 16</td><td><code>40em</code></td></tr>
+          <tr><td>896 px</td><td>896 / 16</td><td><code>56em</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Skälet: har användaren ställt in större text i webbläsaren flyttar brytpunkten med.
+      Layouten byter till en spalt när texten inte längre ryms. Med <code>px</code> står
+      brytpunkten still medan texten växer. Det är samma argument som för <code>rem</code> på
+      text i område 3, en nivå upp.</p>
+
+    <h3>Media queryn står i avsnittet den ändrar</h3>
+    <p>Media queryn skrivs <b>direkt efter reglerna den ändrar</b>, i samma avsnitt av
+      <code>stil.css</code> – inte samlad i slutet av filen. Den som ska ändra navigeringen
+      letar i avsnittet om navigeringen. Så här står den i referensprojektets avsnitt 6:</p>
+<pre><code class="sprak-css">nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--steg-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* 28em: här ryms alla fyra länkarna på en rad. Staplade tar de fyra rader höjd för
+   ingenting, och sidans innehåll hamnar under kanten på en liggande telefon. */
+@media (min-width: 28em) {
+  nav ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--steg-1) var(--steg-3);   /* rad, kolumn */
+  }
+}</code></pre>
+    <p>Kommentaren är halva regeln. Den säger vad som gick sönder utan brytpunkten, och det
+      är just det bör-kravet frågar efter. <code>flex-wrap</code> står kvar för bredderna
+      precis över 28em, där länkarna ännu inte ryms på en rad.</p>
+
+    <h3>Laga utan media query först</h3>
+    <p>Gå igenom listan över det som går sönder uppifrån, och försök laga varje fel
+      <b>utan</b> media query. Bara om det inte går lägger du till en brytpunkt.</p>
+    <ol class="steg">
+      <li><b>Fasta bredder bort.</b> <code>width: 900px</code> blir <code>max-width</code>.
+        Många fel försvinner här.</li>
+      <li><b>Grundstilen smal.</b> Det som bara ska gälla bredare fönster flyttas in i en
+        media query med <code>min-width</code>.</li>
+      <li><b>Dra i fönstret</b> och hitta var layouten behöver byta. Läs av, dela med 16.</li>
+      <li><b>Skriv kommentaren</b> ovanför varje media query: vad som går sönder utan den.</li>
+      <li><b>Dra från 320 till 1600 igen.</b> Ingen vågrät rullning, ingen text som klipps.</li>
+    </ol>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Räkna dina media queries. Är de fler än tre, välj en och ta bort den tillfälligt. Dra
+        i fönstret. Gick något sönder? Om inte behövdes den inte.</p>
+    </div>
+
+    <!-- ================================================================== -->
+
+    <h2 id="bilder-och-media">3. Flexibla bilder och media</h2>
+    <p>En bild ska vara <b>flexibel i layouten</b> och <b>rätt storlek i nätverket</b>. Det är
+      två olika saker, och de löses med olika kod.</p>
+    <p>Flexibla bilder med fungerande alt-text är ska-krav, nivå <b>E</b>. Flera
+      bildstorlekar med <code>srcset</code>, sidvikten mätt före och efter, och
+      <code>prefers-reduced-motion</code> är bör-krav, nivå <b>C</b>. <code>picture</code> med
+      olika beskärning är en utmaning, nivå <b>A</b>, och står i
+      <a href="#picture">avsnitt 7</a>.</p>
+
+    <h3>max-width och height: auto</h3>
+    <p>Referensprojektet har regeln på alla bilder, inte bara på bilderna i
+      <code>figure</code> som i område 3:</p>
+<pre><code class="sprak-css">img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Deklaration</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>max-width: 100%</code></td><td>Bilden blir aldrig bredare än sin
+            behållare</td></tr>
+          <tr><td><code>height: auto</code></td><td>Höjden räknas om så att proportionerna
+            behålls</td></tr>
+          <tr><td><code>display: block</code></td><td>Tar bort glipan under bilden. En bild
+            står annars på textens baslinje</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Utan <code>height: auto</code> krymper bilden på bredden men behåller höjden från
+      <code>height</code>-attributet, och blir hoptryckt. Attributen <code>width</code> och
+      <code>height</code> i HTML:en ska ändå stå kvar: de talar om bildens proportioner innan
+      den laddats, så att sidan inte hoppar. CSS:en bestämmer hur stor den faktiskt blir.</p>
+    <p>Skriv <code>max-width</code>, inte <code>width: 100%</code>. Med <code>width</code>
+      sträcks också små bilder ut till full bredd, och blir suddiga.</p>
+
+    <h3>srcset och sizes</h3>
+    <p><code>max-width</code> gör bilden liten på skärmen. Den gör inte filen mindre. En
+      telefon som visar en bild 360 pixlar bred kan ändå hämta en fil som är 1600 pixlar bred,
+      och det betalar den som är på mobilnätet för.</p>
+    <p><b><code>srcset</code></b> är en lista med samma bild i flera bredder.
+      <b><code>sizes</code></b> talar om hur bred bilden kommer att visas. Med de två
+      uppgifterna väljer webbläsaren själv vilken fil den hämtar. Så här står fotot på
+      <code>vinga.html</code>:</p>
+<pre><code class="sprak-html">&lt;img src="bilder/vinga-960.jpg"
+     srcset="bilder/vinga-480.jpg 480w,
+             bilder/vinga-960.jpg 960w,
+             bilder/vinga-1200.jpg 1200w"
+     sizes="(min-width: 40em) 36rem, 100vw"
+     width="960" height="640"
+     alt="Vinga fyr, ett grått stentorn på en kal klippa, med öppet hav bakom."&gt;</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><code>480w</code></td><td>Den här filen är 480 pixlar bred. <code>w</code>
+            står för bredd</td></tr>
+          <tr><td><code>sizes</code></td><td>Från 40em och uppåt visas bilden 36rem bred,
+            annars hela fönstrets bredd</td></tr>
+          <tr><td><code>100vw</code></td><td>100 procent av fönstrets bredd.
+            <code>vw</code> står för <i>viewport width</i></td></tr>
+          <tr><td><code>src</code></td><td>Reserv för webbläsare som inte kan
+            <code>srcset</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Filerna ligger i mappen <code>bilder</code>, samma bild i tre bredder:</p>
+<pre><code>bilder/
+  vinga-480.jpg      480 px bred
+  vinga-960.jpg      960 px bred
+  vinga-1200.jpg     1600 px bred
+  vinga-smal.jpg     480 × 600, beskuren kring tornet (till picture)
+  kustkarta.svg      vektorbild, behöver ingen srcset</code></pre>
+    <p>Kartan är en SVG, en vektorbild. Den skalas utan att bli suddig och finns bara i en
+      fil. <code>srcset</code> behövs för fotografier och andra rasterbilder.</p>
+
+    <h3>Pixeltätheten</h3>
+    <p>Det som brukar förvåna: <b>webbläsaren räknar med skärmens pixeltäthet.</b> En telefon
+      med dubbelt så tätt mellan pixlarna hämtar en fil ungefär dubbelt så bred som
+      visningsbredden. Därför säger uppgiften att stora bilder ska finnas i <b>högst dubbla
+      visningsbredden</b>. Vill du se det själv: byt pixeltäthet i device mode, ladda om och
+      titta i nätverksfliken vilken fil som hämtas.</p>
+
+    <h3>sizes och CSS:en hör ihop</h3>
+    <p>Måttet i <code>sizes</code> ska stämma med CSS:en. I referensprojektet står det i
+      avsnitt 5:</p>
+<pre><code class="sprak-css">.foto {
+  width: auto;
+  max-width: 36rem;
+}</code></pre>
+    <p>Ändras det ena måste det andra ändras också, annars hämtar webbläsaren fel fil. Saknas
+      <code>sizes</code> helt antar webbläsaren att bilden är lika bred som fönstret, och
+      hämtar en för stor fil på datorn.</p>
+
+    <h3>Mät sidvikten före och efter</h3>
+    <p>Sidvikten är hur mycket data sidan hämtar. Mät den så här:</p>
+    <ol class="steg">
+      <li>Device mode, telefonbredd. Öppna fliken <i>Network</i> (nätverk) i DevTools.</li>
+      <li>Kryssa i <i>Disable cache</i>. Utan den hämtas ingenting andra gången, och siffran
+        ser bättre ut än den är.</li>
+      <li>Ladda om och läs av summan för överförd data längst ned. Det är <i>före</i>.</li>
+      <li>Exportera din tyngsta bild i två eller tre bredder och skriv <code>srcset</code> och
+        <code>sizes</code>.</li>
+      <li>Ladda om och läs av igen. Det är <i>efter</i>. Båda siffrorna förs in i
+        testprotokollet.</li>
+    </ol>
+    <p>I referensprojektets protokoll hämtar telefonen fotot som en fil på 14 kB i stället för
+      68 kB. Format och komprimering gick Gränssnittsdesign igenom i augusti, och står i din
+      exportlogg från bildpaketet.</p>
+
+    <h3>alt sitter på img</h3>
+    <ul>
+      <li><b><code>alt</code> sitter alltid på <code>img</code></b>, även med
+        <code>srcset</code> och inuti <code>picture</code>. <code>source</code> har ingen.</li>
+      <li><b>Samma alt-text gäller alla filer.</b> Webbläsaren väljer fil, inte du. Skriv
+        texten för det alla varianterna visar.</li>
+      <li><b>Dekor får <code>alt=""</code></b>, som i
+        <a href="../webb-omrade-2/guide-html.html#bilder">område 2</a>. Tom alt säger att
+        bilden inte säger något, och skärmläsaren hoppar över den.</li>
+    </ul>
+    <p>Om en alt-text <i>fungerar</i> – säger det bilden säger där den står – prövade du i
+      WCAG-granskningen i Gränssnittsdesign den 18 januari. Ta fynden därifrån.</p>
+
+    <h3>Video, ljud och transkript</h3>
+    <p>Undertexter läggs in med <code>&lt;track kind="captions"&gt;</code> inuti
+      <code>video</code>, som i <a href="../webb-omrade-2/guide-html.html#bilder">område 2,
+      avsnitt 6</a>. Ett nytt tillägg är ett <b>transkript</b>: ljudets innehåll utskrivet som
+      vanlig text på sidan. Det går att läsa utan uppspelning, och det går att söka i.</p>
+    <p>Har sajten ingen video och inget ljud skriver du det i <code>dokumentation.md</code>,
+      med status <i>Inte tillämpligt</i>. Då är kravet uppfyllt. Fyrsajten gör så.</p>
+
+    <h3>prefers-reduced-motion</h3>
+    <p><code>prefers-reduced-motion</code> är en media query som frågar om användaren bett
+      sitt system om mindre rörelse. En <b>transition</b> är en mjuk övergång mellan två
+      lägen, här knappens färg vid hover. Referensprojektets avsnitt 8:</p>
+<pre><code class="sprak-css">.knapp {
+  transition: background-color 0.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .knapp {
+    transition: none;
+  }
+}</code></pre>
+    <p>Den som bett om mindre rörelse får ingen övergång alls – bytet sker direkt. En färg som
+      tonar är knappt rörelse; regeln står här för att visa mönstret. Det som verkligen
+      behöver den är sådant som flyttar sig: menyer som glider in, sidor som scrollar mjukt.
+      Vem som behöver det och var inställningen finns går Gränssnittsdesign igenom den
+      21 januari.</p>
+    <p>Har sajten inga övergångar eller animationer gäller inte kravet. Har den det, ska varje
+      en ha sin <code>prefers-reduced-motion</code>.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Mät sidvikten på din startsida innan du ändrar något, och skriv upp siffran. Utan en
+        före-siffra finns inget efter. Skriv sedan <code>srcset</code> och <code>sizes</code>
+        för din tyngsta bild och mät igen.</p>
+    </div>
+
+    <!-- ================================================================== -->
+
+    <h2 id="god-praxis">4. God praxis och kodstandard</h2>
+    <p>Avsnittet lär inte ut något nytt i HTML eller CSS. Det handlar om hur koden ser ut för
+      den som ska läsa den. Webbläsaren läser vad som helst så länge det är giltigt; koden
+      skrivs för webbläsaren en gång och för människor varje gång den öppnas igen.</p>
+    <p>Att stilmallen följer kodstandarden och är kamratgranskad är ett bör-krav, nivå
+      <b>C</b>.</p>
+
+    <h3>Varför det spelar roll</h3>
+    <ul>
+      <li><b>I mars</b> börjar slutprojektet. Specifikationen har en rad för filstruktur och
+        namngivning, och det du bestämmer nu skriver du in där.</li>
+      <li><b>Under våren</b> arbetar en del i par. Den andras stilmall blir din att ändra
+        i.</li>
+      <li><b>I juni</b> läses koden vid bedömningen, och kunden kan behöva någon som tar
+        över.</li>
+    </ul>
+    <p>Du kommer att öppna din egen kod i maj och inte känna igen den. Det händer alla.
+      Frågan är om den går att läsa ändå.</p>
+
+    <h3>Kodstandarden</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Regel</th><th>Exempel</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td>2 mellanslag indentering</td><td>två mellanslag före
+            <code>display: flex;</code></td>
+            <td>Samma i alla filer, oavsett redigerare</td></tr>
+          <tr><td>Gemener i filnamn</td><td><code>vinga.html</code>, inte
+            <code>Vinga.html</code></td>
+            <td>Pages skiljer på stora och små bokstäver, Windows gör det inte</td></tr>
+          <tr><td>Bindestreck, inga mellanslag</td><td><code>alla-fyrar.html</code>, inte
+            <code>alla fyrar.html</code></td>
+            <td>Mellanslag blir <code>%20</code> i adressen</td></tr>
+          <tr><td><code>index.html</code> som startsida</td><td><code>index.html</code> i
+            roten</td>
+            <td>Det är filen servern visar när ingen fil anges</td></tr>
+          <tr><td>Relativa sökvägar</td><td><code>bilder/vinga-960.jpg</code></td>
+            <td>Fungerar både på datorn och på Pages</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Regel två känner du igen från område 2: ett filnamn med stor bokstav fungerar på
+      datorn och ger 404 på telefonen. Se
+      <a href="../webb-omrade-2/guide-html.html#interoperabilitet">guiden till område 2,
+      avsnitt 10</a>.</p>
+
+    <h3>Filstrukturen</h3>
+    <p>Referensprojektets sidor ligger i roten, bilderna i en egen mapp, och det finns
+      <b>en</b> stilmall:</p>
+<pre><code>index.html
+fyrarna.html
+vinga.html
+rapportera.html
+tack.html
+stil.css
+dokumentation.md
+bilder/</code></pre>
+    <p>Inga filer som heter <code>stil2.css</code>, <code>ny.html</code> eller
+      <code>test.html</code>. Gamla försök som ligger kvar i repot publiceras på Pages, och
+      kan hittas av vem som helst.</p>
+
+    <h3>Namngivning</h3>
+    <p>Regeln från område 3 gäller: namnge en klass efter vad den <b>är</b>, inte var den
+      står. Två saker läggs till.</p>
+    <p><b>Konsekvens.</b> Välj ett språk och ett skrivsätt, och håll det i hela filen.
+      Gemener och bindestreck gäller klasser och variabler också, av samma skäl som
+      filnamnen.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rörigt</th><th>Konsekvent</th></tr></thead>
+        <tbody>
+          <tr><td><code>.knapp</code>, <code>.card</code>, <code>.InfoBox</code></td>
+            <td><code>.knapp</code>, <code>.kort</code>, <code>.faktaruta</code></td></tr>
+          <tr><td><code>--mainColor</code>, <code>--text_dov</code></td>
+            <td><code>--accent</code>, <code>--text-dov</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b>Namn som går att söka på.</b> <code>.k1</code> och <code>.ruta2</code> hittar
+      ingen. Den som söker efter <i>faktaruta</i> ska hitta regeln. Måste du läsa CSS:en för
+      att förstå vad en klass gör är namnet fel.</p>
+
+    <h3>Avsnitt</h3>
+    <p>Dela in stilmallen i numrerade avsnitt, i en ordning som går att förklara. Så här
+      börjar avsnitt 6 i referensprojektet:</p>
+<pre><code class="sprak-css">/* ---------- 6. Flexbox (pass 23, 36, 37, 40) -------------------------------
+
+   Navigeringen. Staplad på telefon, en rad från 28em. */</code></pre>
+    <p>Hela stilmallen går från det allmänna till det särskilda:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Avsnitt</th><th>Innehåll</th></tr></thead>
+        <tbody>
+          <tr><td>1. Variablerna</td><td>Färger, typsnitt och avstånd i <code>:root</code></td></tr>
+          <tr><td>2. Grunden</td><td><code>box-sizing</code>, <code>body</code>, bilderna</td></tr>
+          <tr><td>3. Typografi och färg</td><td>Rubriker, stycken, kod</td></tr>
+          <tr><td>4. Selektorer och kaskad</td><td>Länkar, fokus, skip-länken</td></tr>
+          <tr><td>5. Boxmodellen i praktiken</td><td>Sidhuvud, sidfot, figurer</td></tr>
+          <tr><td>6. Flexbox</td><td>Navigeringen och dess brytpunkt</td></tr>
+          <tr><td>7. Grid</td><td>Kortlistan och sidlayouten med dess brytpunkt</td></tr>
+          <tr><td>8. Komponenter med tillstånd</td><td>Knappen och faktarutan</td></tr>
+          <tr><td>9. Tabellen</td><td>Svepet och cellerna</td></tr>
+          <tr><td>10. Formuläret</td><td>Fält, etiketter och fältkanter</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Media queries står i avsnittet de ändrar, som i <a href="#media-queries">avsnitt
+      2</a>. Då räcker det att läsa avsnitt 6 för att förstå hela navigeringen.</p>
+
+    <h3>Kommentarer</h3>
+    <p>En kommentar säger <b>varför</b>, inte vad. Vad står redan i koden. Skriv den till den
+      som undrar om regeln går att ta bort: kan hen avgöra det utan att fråga dig är
+      kommentaren bra.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Onödig</th><th>Användbar, ur referensprojektet</th></tr></thead>
+        <tbody>
+          <tr><td><code>/* media query */</code></td>
+            <td><code>/* 28em: här ryms alla fyra länkarna på en rad */</code></td></tr>
+          <tr><td><code>/* kant */</code></td>
+            <td><code>/* med --linje syntes fälten inte. Pass 40 */</code></td></tr>
+          <tr><td><code>/* minsta höjd */</code></td>
+            <td><code>/* min-height i stället för height, så att länken kan växa om texten
+              förstoras */</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b>Bortkommenterad kod tas bort.</b> Gamla regler som ligger kvar mellan
+      <code>/*</code> och <code>*/</code> för säkerhets skull gör filen svårare att läsa.
+      Historiken i repot är säkerheten.</p>
+
+    <h3>Återanvändning</h3>
+    <p>Tre ställen där samma sak brukar skrivas flera gånger:</p>
+    <ol class="steg">
+      <li><b>Värden.</b> Samma färg som hex-kod på sex ställen. Den hör hemma i
+        <code>:root</code>, se <a href="../webb-omrade-3/guide-css.html#variabler">guiden
+        till område 3, avsnitt 7</a>.</li>
+      <li><b>Regler.</b> Samma fem deklarationer på tre selektorer. Slå ihop selektorerna med
+        komma, eller gör en klass.</li>
+      <li><b>Dubbletter.</b> Samma selektor på två ställen i filen, med olika värden. Den
+        senare vinner, och den tidigare är död kod. Sök på selektorn i redigeraren; hittas
+        den två gånger, läs båda.</li>
+    </ol>
+    <p>Varje dubblett är ett ställe där nästa ändring glöms. Du ändrar på det ena stället och
+      förstår inte varför ingenting händer.</p>
+
+    <h3 id="kamratgranskning">Kamratgranskning</h3>
+    <p>Byt stilmall med en klasskamrat som inte sett din förut. Hen går igenom den med listan
+      och skriver svaren. Listan handlar om läsbarhet, inte om utseende: <i>jag hade valt en
+      annan färg</i> hör inte hemma här.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fråga</th><th>Ja / nej, och var</th></tr></thead>
+        <tbody>
+          <tr><td>Hittar du navigeringens regler inom en halv minut?</td><td></td></tr>
+          <tr><td>Är indenteringen 2 mellanslag överallt?</td><td></td></tr>
+          <tr><td>Är alla filnamn gemener utan mellanslag?</td><td></td></tr>
+          <tr><td>Är namnen på klasser och variabler i samma språk och skrivsätt?</td><td></td></tr>
+          <tr><td>Finns det ett värde som upprepas och borde vara en variabel?</td><td></td></tr>
+          <tr><td>Står varje media query i avsnittet den ändrar, med en kommentar?</td><td></td></tr>
+          <tr><td>Finns det en kommentar du inte förstår, eller en regel som saknar en?</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Det som ska rättas blir en punkt i <code>dokumentation.md</code>.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Städning får inte ändra vad sidan gör</span>
+      <p>Flyttas regler i fel ordning kan kaskaden ändras: två regler som väger lika avgörs av
+        vilken som står sist. Ladda om och titta efter varje avsnitt du flyttat. Gör ett
+        <i>commit</i>, en sparad version i repots historik, per steg i städningen. Blir allt
+        ett enda commit går det inte att ångra bitvis.</p>
+    </div>
+
+    <!-- ================================================================== -->
+
+    <h2 id="tillganglighet">5. Tillgänglighet i koden</h2>
+    <p>Du arbetar efter två listor: kamratens åtgärdslista från december och dina egna
+      WCAG-fynd från Gränssnittsdesign den 18 januari. Avsnittet visar koden som rättar de
+      vanligaste fynden. <b>Det som är rättat den 4 februari är det som testas</b> på
+      riktiga personer i Gränssnittsdesign.</p>
+    <p>Tangentbord, fokus, <code>label</code>, rubriker och kontrast är ska-krav, nivå
+      <b>E</b>. Ett eget commit per åtgärd, och att koden bär semantiken utan hjälp av CSS, är
+      nivå <b>C</b>.</p>
+
+    <h3>Ordningen</h3>
+    <ol class="steg">
+      <li><b>Alla fynd på nivå A först</b>, sedan kamratens tre högst prioriterade punkter. Det
+        är E-kravet. Resten därefter, i listans prioritering.</li>
+      <li><b>Ett commit per åtgärd</b>, med punktens nummer först i meddelandet:
+        <i>Åtgärd 3: label på sökfältet</i> går att hitta i mars, <i>fixar</i> gör det
+        inte.</li>
+      <li><b>Status i <code>dokumentation.md</code></b> direkt efter commit: åtgärdad, delvis
+        eller inte, med skäl. Mallen står i <a href="#dokumentationen">avsnitt 6</a>.</li>
+    </ol>
+
+    <h3>Fynden och koden som rättar dem</h3>
+    <p>Numren är samma som i din WCAG-granskning. Vad kriteriet betyder gick
+      Gränssnittsdesign igenom den 18 januari; här är frågan vilken rad som rättar det.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fynd</th><th>Koden som rättar det</th><th>Läs om det</th></tr></thead>
+        <tbody>
+          <tr><td>1.1.1 Bild utan fungerande alt</td><td><code>alt</code> på
+            <code>img</code>, <code>alt=""</code> på dekor</td>
+            <td><a href="#bilder-och-media">Avsnitt 3</a></td></tr>
+          <tr><td>1.3.1, 2.4.6 Rubrik hoppar nivå</td><td>Nivån efter strukturen, storleken i
+            CSS</td><td>Nedan</td></tr>
+          <tr><td>3.3.2 Fält utan etikett</td><td><code>label</code> med <code>for</code> som
+            pekar på fältets <code>id</code></td>
+            <td><a href="../webb-omrade-2/guide-html.html#formular">Guide HTML, avsnitt 8</a></td></tr>
+          <tr><td>2.4.7 Fokus syns inte</td><td><code>:focus-visible</code> med
+            <code>outline</code>, aldrig bara <code>outline: none</code></td><td>Nedan</td></tr>
+          <tr><td>1.4.3, 1.4.11 För låg kontrast</td><td>Rätta värdet i <code>:root</code>,
+            inte på varje ställe</td><td>Nedan</td></tr>
+          <tr><td>2.1.1 Går inte med tangentbord</td><td><code>button</code> eller
+            <code>a</code>, aldrig <code>div</code></td><td>Nedan</td></tr>
+          <tr><td>2.4.3 Tabbordningen hoppar</td><td>Ändra ordningen i HTML:en, aldrig
+            positivt <code>tabindex</code></td><td>Nedan</td></tr>
+          <tr><td>2.5.8 För liten klickyta</td><td><code>padding</code> och
+            <code>min-height</code></td><td>Nedan</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Kontrast rättas i variablerna</h3>
+    <p>I referensprojektet hade fältkanterna samma färg som avdelarna, <code>--linje</code>,
+      med kontrasten 1,4:1 mot vitt. Fälten syntes knappt. Rättelsen är en ny variabel i
+      <code>:root</code>, och fälten som använder den:</p>
+<pre><code class="sprak-css">:root {
+  --linje: #d4dde6;                     /* avdelare och kort, bär ingen betydelse */
+  --linje-falt: #76869a;                /* fältkanter: 3,7:1 mot --yta. Pass 40 */
+}
+
+input,
+select,
+textarea {
+  border: 1px solid var(--linje-falt);
+}</code></pre>
+    <p>Värdet rättas på ett ställe, och alla fält följer med. Mät med WebAIM Contrast Checker,
+      samma verktyg som i Gränssnittsdesign. Står en textfärg i <code>:root</code> som inte
+      klarar kravet rättar du den där, inte på varje regel som använder den.</p>
+
+    <h3>Rubriknivån följer strukturen</h3>
+    <p>Faktarutan på Vinga-sidan har en <code>h2</code> som ska se mindre ut. Nivån står kvar,
+      storleken ändras i CSS:</p>
+<pre><code class="sprak-css">.faktaruta h2 { font-size: 1.15rem; }</code></pre>
+    <p>Välj aldrig <code>h4</code> för att den ser lagom stor ut. Nivån är strukturen
+      skärmläsaren navigerar efter. Hur stor rubriken ser ut är CSS:ens sak.</p>
+
+    <h3>Synlig fokus</h3>
+    <p>Referensprojektets fokusregel, i avsnitt 4:</p>
+<pre><code class="sprak-css">a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}</code></pre>
+    <p>Fokusringen i referensprojektet har kontrasten 6,7:1 mot bakgrunden. Mät din egen på
+      samma sätt; den ska klara minst 3:1. Sök sedan efter <code>outline: none</code> i hela
+      <code>stil.css</code>, inte bara i komponenterna. Står den kvar någonstans utan en
+      ersättning är fokus borta där. Mer om <code>:focus-visible</code> står i
+      <a href="../webb-omrade-3/guide-css.html#komponenter">guiden till område 3, avsnitt
+      10</a>.</p>
+
+    <h3>Knappar som inte är knappar</h3>
+    <p>En <code>div</code> med knappens klass ser likadan ut, men den går inte att tabba till
+      och inte att trycka på med Enter eller mellanslag:</p>
+<pre><code class="sprak-html">&lt;!-- Ser ut som en knapp, är det inte --&gt;
+&lt;div class="knapp"&gt;Skicka rapporten&lt;/div&gt;
+
+&lt;!-- Är en knapp --&gt;
+&lt;button type="submit" class="knapp"&gt;Skicka rapporten&lt;/button&gt;</code></pre>
+    <p>Fyrsajten har ingen sådan <code>div</code>, så exemplet står för sig. Regeln är enkel:
+      något som gör något på sidan är en <code>button</code>, något som leder till en annan
+      sida är en <code>a</code>.</p>
+
+    <h3>Tabbordningen följer HTML:en</h3>
+    <p>Tangentbordet går igenom sidan i den ordning elementen står i HTML:en. Står något i fel
+      ordning flyttas det i koden. Använd aldrig <code>tabindex</code> med ett positivt tal
+      för att tvinga fram en ordning; den gäller då bara för de element du numrerat, och
+      resten hamnar efter.</p>
+    <p>Samma sak gäller CSS: grid och flexbox kan flytta saker på skärmen utan att flytta dem i
+      HTML:en. Skärmläsaren och tangentbordet följer HTML:en, inte rutnätet.</p>
+
+    <h3>Klickytor</h3>
+    <p>Stilguiderna i Gränssnittsdesign valde en träffyta på 44 × 44 px. Det är högre än
+      WCAG:s minimum, och det är ett designbeslut. Koden som ger det, ur avsnitt 6:</p>
+<pre><code class="sprak-css">nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: var(--steg-1) 0;
+  font-weight: 600;
+  text-decoration: none;
+}</code></pre>
+    <p><code>2.75rem</code> är 44 px. <code>min-height</code> i stället för
+      <code>height</code>, så att länken kan växa om texten förstoras.
+      <code>inline-flex</code> och <code>align-items: center</code> håller texten mitt i den
+      högre ytan.</p>
+
+    <h3>Det skärmläsaren läser</h3>
+    <p>En skärmläsare läser upp HTML:en, inte det du ser. Det den behöver är det du redan
+      skrivit om det är rätt: landmärkena <code>header</code>, <code>nav</code> och
+      <code>main</code>, rubriker i rätt nivå, <code>label</code> på varje fält, alt-texter och
+      länktexter som går att förstå lösryckta. Det är det bör-kravet menar med att koden bär
+      semantiken utan hjälp av CSS. Hur du startar skärmläsaren gick Gränssnittsdesign igenom
+      den 21 januari.</p>
+    <p>En <b>skip-länk</b>, <i>Till innehållet</i>, är en utmaning på nivå A och står i
+      <a href="#skip-lanken">avsnitt 7</a>.</p>
+
+    <h3>Arbetsgången, en punkt i taget</h3>
+    <ol class="steg">
+      <li><b>Välj</b> översta öppna punkten i ordningen ovan.</li>
+      <li><b>Rätta</b> den i koden. Hitta regeln eller elementet först, ändra sedan.</li>
+      <li><b>Testa med tangentbordet</b> på sidan du ändrat. Det tar en minut.</li>
+      <li><b>Commit</b> med punktens nummer, till exempel <i>Åtgärd 4: synlig fokusmarkering
+        på länkarna (2.4.7)</i>.</li>
+      <li><b>Status</b> i <code>dokumentation.md</code>, med fil och selektor under
+        <i>var</i>.</li>
+    </ol>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Ta varje punkt du markerat som åtgärdad och peka på raden i koden som rättar den. Kan
+        du inte peka på raden är punkten inte klar, oavsett vad som står i dokumentationen.</p>
+    </div>
+
+    <!-- ================================================================== -->
+
+    <h2 id="testning">6. Testning och testprotokoll</h2>
+    <p>Inget av testen är nytt. Validatorn kom i område 2, två webbläsare och telefon också,
+      tangentbordet och <code>:focus-visible</code> i område 3. Det nya är att de görs i en
+      bestämd form och skrivs ned så att någon annan kan göra om dem.</p>
+    <p>Ett testprotokoll med alla fem testen är ett ska-krav, nivå <b>E</b>. Att protokollet
+      visar felet, åtgärden och omtestet är nivå <b>C</b>. Att testerna hittat något du inte
+      väntade dig, och att protokollet visar vad du gjorde åt det, är nivå <b>A</b>.</p>
+
+    <h3>Protokollets form</h3>
+    <p><code>dokumentation.md</code> har två avsnitt. <b>Åtgärder</b> är listorna från
+      Gränssnittsdesign. <b>Testprotokoll</b> är dina egna test, med fem kolumner:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kolumn</th><th>Vad som står där</th></tr></thead>
+        <tbody>
+          <tr><td>Test</td><td>Vilket test: validering, webbläsare och bredder, telefon,
+            tangentbord, automatiskt verktyg</td></tr>
+          <tr><td>Med vad</td><td>Webbläsare och version, telefonmodell, verktygets namn</td></tr>
+          <tr><td>Sida</td><td>Vilken fil, eller <i>alla sidor</i> om resultatet var detsamma
+            överallt</td></tr>
+          <tr><td>Resultat</td><td>Vad du såg. Inte om det var bra</td></tr>
+          <tr><td>Åtgärd</td><td>Vad du ändrade och var, eller <i>ingen</i></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>En rad som går att göra om</h3>
+    <p>Jämför två rader om samma test:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Test</th><th>Med vad</th><th>Sida</th><th>Resultat</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Telefon</td><td>Min mobil</td><td>Alla</td><td>Funkar</td><td>–</td></tr>
+          <tr><td>Telefon</td><td>Pixel 7, Chrome och versionsnumret</td><td><code>vinga.html</code></td>
+            <td>Länkarna i navigeringen ligger så tätt att tummen träffar fel</td>
+            <td><code>min-height</code> på <code>nav a</code>, <code>stil.css</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Den första raden säger att någon tittat. Den andra säger vad som hände, var, och vad
+      som gjordes åt det – och den går att testa om. Versionsnumret hittar du i webbläsarens
+      <i>Om</i>-meny.</p>
+    <p><b>Omtestet</b> är en ny rad med samma test, samma sida och det nya resultatet. Det är
+      skillnaden mellan E och C. Ett protokoll där varje rad är grön från början har antingen
+      en felfri sajt eller en testare som inte letade.</p>
+    <p>Skriv protokollet <b>medan</b> du testar, med sajten öppen bredvid. Skrivet i efterhand,
+      ur minnet, står det <i>funkar</i> överallt.</p>
+
+    <h3 id="dokumentationen">Mallen för dokumentation.md</h3>
+    <p>Lägg filen i repots rot. Den här mallen får du kopiera in som den är och fylla i:</p>
+<pre class="fri"># Dokumentation
+
+## Åtgärder
+
+| Nr | Källa | Vad du gjorde | Var | Status |
+|---|---|---|---|---|
+|  |  |  |  |  |
+
+## Testprotokoll
+
+| Test | Med vad | Sida | Resultat | Åtgärd |
+|---|---|---|---|---|
+|  |  |  |  |  |</pre>
+    <p>Referensprojektets <code>dokumentation.md</code> är ifylld i samma form, och visar hur
+      raderna ser ut på riktigt.</p>
+
+    <h3>Två webbläsare, bredderna och telefonen</h3>
+    <p>Det här är korstestet från område 2, med en skillnad: avvikelselistan blir rader i en
+      tabell. Uppdelningen i <b>förväntad skillnad</b> och <b>fel</b> gäller fortfarande, se
+      <a href="../webb-omrade-2/guide-html.html#avvikelselistan">avvikelselistan</a>. Ett fält
+      som ritas lite annorlunda i Firefox är ingen rad. En länk som inte går att klicka är
+      det.</p>
+    <ul>
+      <li><b>Två webbläsare med olika motor.</b> Motorn är den del av webbläsaren som tolkar
+        HTML och CSS. Chrome och Edge har samma motor, så ett test i båda är nästan samma test
+        två gånger. Välj Firefox som den ena.</li>
+      <li><b>Bredderna.</b> Dra fönstret långsamt från 320 till 1600 pixlar. En rad per sida
+        där något händer: en vågrät rullningslist, text som klipps, en bild som sticker
+        ut.</li>
+      <li><b>Telefonen.</b> Öppna den publicerade adressen på en riktig telefon. Device mode
+        är ett bra verktyg medan du bygger, men det är inte telefonraden i protokollet.
+        Raden ska ha en telefonmodell.</li>
+    </ul>
+
+    <h3>Tangentbordet</h3>
+    <p>Det test som oftast fäller. Lägg undan musen och gå igenom varje sida:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Tangent</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td>Tabb</td><td>Nästa sak som går att använda</td></tr>
+          <tr><td>Skift + Tabb</td><td>Föregående</td></tr>
+          <tr><td>Enter</td><td>Följer en länk, skickar ett formulär</td></tr>
+          <tr><td>Mellanslag</td><td>Trycker på en knapp, kryssar i en ruta</td></tr>
+          <tr><td>Piltangenterna</td><td>Väljer i en lista, till exempel en
+            <code>select</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Fyra frågor per sida:</p>
+    <ol class="steg">
+      <li>Ser du hela tiden var du är?</li>
+      <li>Kommer du fram till allt som går att klicka på?</li>
+      <li>Följer ordningen sidan, uppifrån och ned?</li>
+      <li>Kommer du ut igen ur allt du kommer in i?</li>
+    </ol>
+    <p>Varje <i>nej</i> är en rad, med sida och element. <i>Fokus syns inte på
+      Skicka-knappen</i> går att rätta. <i>Tangentbordet funkar dåligt</i> går inte att rätta.
+      Testa formulärsidan särskilt noga: där finns fälten, knappen och listorna.</p>
+
+    <h3>Validering</h3>
+    <p>W3C:s validerare för HTML och för CSS, varje sida, noll fel. Se
+      <a href="../webb-omrade-2/guide-html.html#validering">guiden till område 2, avsnitt
+      9</a>. En rad per validerare räcker om alla sidor gav samma resultat. Skriv <i>alla fem
+      sidor, 0 fel</i>, inte <i>validerar</i> – det säger inte vilka sidor som körts.</p>
+
+    <h3>Lighthouse</h3>
+    <p>Lighthouse är det automatiska verktyget i protokollet. Det är inbyggt i Chrome, i
+      DevTools under fliken med samma namn.</p>
+    <ol class="steg">
+      <li>Öppna den <b>publicerade adressen</b> i ett inkognitofönster, så att tillägg i
+        webbläsaren inte stör.</li>
+      <li>DevTools, fliken Lighthouse. Kryssa bara i <i>Accessibility</i>.</li>
+      <li>Kör. Skriv ned vilka fel den <b>namnger</b>, sida för sida.</li>
+      <li>Rätta felen och kör igen. Det är omtestet.</li>
+    </ol>
+    <p>Siffran får stå i resultatkolumnen, men siffran är inte resultatet. En hög siffra
+      betyder att verktyget inte hittade något, inte att sajten fungerar – en borttagen
+      fokusring kan passera utan anmärkning. Därför kräver protokollet tangentbordet också.
+      Vilka fel som är äkta och vilka som är falsklarm sorterade du i Gränssnittsdesign den
+      25 januari; använd den sorteringen här.</p>
+
+    <h3>Ordningen</h3>
+    <ol class="steg">
+      <li><b>Validera.</b> Allt annat förutsätter att koden är hel.</li>
+      <li><b>Tangentbordet</b>, varje sida.</li>
+      <li><b>Lighthouse</b> på minst två sidor, varav formulärsidan om det finns en.</li>
+      <li><b>Två webbläsare och bredderna.</b></li>
+      <li><b>Telefonen</b>, på Pages-adressen. Den kräver att sajten är pushad och att Pages
+        hunnit uppdatera, därför sist. Har du pushat för en minut sedan ser du kanske den
+        gamla versionen.</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Testprotokoll är inte testrapport</span>
+      <p>Testprotokollet svarar på om koden klarar en kontroll, rad för rad. Det ligger i
+        repot och följer koden. Hur en person klarar sajten – WCAG-granskningen och
+        användartestet – hör till testrapporten i Gränssnittsdesign, i portföljen. Samma
+        tabell på båda ställena är ett fel för mycket.</p>
+    </div>
+
+    <!-- ================================================================== -->
+
+    <h2 id="ta-det-langre">7. Ta det längre</h2>
+    <p>Utmaningarna i Projekt 4, nivå <b>A</b>. Ta dem när ska- och bör-kraven sitter, och
+      aldrig före ett öppet fynd på nivå A.</p>
+
+    <h3 id="skip-lanken">Skip-länken</h3>
+    <p>En <b>skip-länk</b> är en länk överst på sidan som hoppar förbi navigeringen, direkt
+      till innehållet. Den syns bara när den får fokus, alltså för den som tabbar. Kravet på
+      att kunna hoppa över navigeringen klaras redan av landmärkena; skip-länken gör det
+      synligt. I HTML:en står den först i <code>body</code>, och <code>main</code> får ett
+      <code>id</code> att hoppa till:</p>
+<pre><code class="sprak-html">&lt;body&gt;
+  &lt;a class="till-innehallet" href="#innehall"&gt;Till innehållet&lt;/a&gt;
+  &lt;header&gt;
+    &lt;!-- sidnamn och navigering som förut --&gt;
+  &lt;/header&gt;
+  &lt;main id="innehall"&gt;
+    &lt;h1&gt;Fyrar längs Bohuskusten&lt;/h1&gt;
+  &lt;/main&gt;
+&lt;/body&gt;</code></pre>
+    <p>CSS:en, ur referensprojektets avsnitt 4:</p>
+<pre><code class="sprak-css">.till-innehallet {
+  position: absolute;
+  top: -4rem;
+  left: var(--steg-2);
+  z-index: 1;
+  padding: var(--steg-1) var(--steg-2);
+  background: var(--yta);
+  font-weight: 600;
+}
+
+.till-innehallet:focus {
+  top: var(--steg-2);
+}</code></pre>
+    <p><code>position: absolute</code> lyfter länken ur flödet, och <code>top</code> flyttar
+      den uppåt, utanför skärmen, tills den får fokus. Göm den aldrig med
+      <code>display: none</code> – då går den inte att tabba till, och då finns den inte.</p>
+    <p>Testa så här: ladda sidan, tryck Tab en gång. Länken ska synas. Tryck Enter. Nästa Tab
+      ska hamna i innehållet, inte i navigeringen.</p>
+
+    <h3 id="forstoring">200 % förstoring</h3>
+    <p>Sajten ska gå att använda när texten är dubbelt så stor, utan att text klipps eller
+      hamnar ovanpå annan text. Förstora med Ctrl och plus tills webbläsaren visar 200 %, och
+      gå igenom varje sida. Det som brukar gå sönder:</p>
+    <ul>
+      <li><b><code>height</code> där det borde stå <code>min-height</code>.</b> Texten växer,
+        rutan gör det inte, och texten rinner ut över kanten.</li>
+      <li><b>Fasta bredder.</b> En behållare med <code>width</code> i <code>px</code> rymmer
+        inte längre sin text.</li>
+      <li><b>Teckenstorlek i <code>px</code>.</b> Den följer inte med när användaren ställer
+        in större text i webbläsarens inställningar.</li>
+    </ul>
+    <p>Brytpunkter i <code>em</code> hjälper här: när texten blir stor staplas navigeringen
+      igen, eftersom länkarna inte längre ryms på en rad. Vad kriteriet kräver gick
+      Gränssnittsdesign igenom den 18 januari.</p>
+
+    <h3 id="picture">picture med olika beskärning</h3>
+    <p><code>srcset</code> byter <b>storlek</b> på samma bild. <code>picture</code> kan byta
+      <b>bild</b>: en beskuren version för telefonen, där motivet annars blir för litet. Så
+      står fotot på referensprojektets startsida:</p>
+<pre><code class="sprak-html">&lt;picture&gt;
+  &lt;source media="(min-width: 40em)"
+          srcset="bilder/vinga-960.jpg 960w, bilder/vinga-1200.jpg 1200w"
+          sizes="36rem"&gt;
+  &lt;img src="bilder/vinga-smal.jpg" width="480" height="600"
+       alt="Vinga fyr, ett grått stentorn på en kal klippa, med öppet hav bakom."&gt;
+&lt;/picture&gt;</code></pre>
+    <p>Är fönstret minst 40em brett hämtas en av de breda bilderna i <code>source</code>,
+      annars den beskurna i <code>img</code>. På telefonen fyller tornet bilden; i den breda
+      versionen skulle det bli en prick. <code>source</code> har ingen <code>alt</code> – den
+      sitter på <code>img</code> och gäller vilken fil som än hämtas. Skriv den för det båda
+      versionerna visar.</p>
+    <p>Beskärningen ska gå att motivera ur din mockup: vad visar den i mobilbredd, och vad
+      skulle försvinna om hela bilden krympte?</p>
+
+    <h3 id="skarmlasare">Prova en sida med skärmläsare</h3>
+    <p>Välj en sida, gärna formulärsidan, och gå igenom den med skärmläsaren påslagen. Hur du
+      startar den och tar dig runt står i
+      <a href="../gran-omrade-6/guide-tillganglighet.html#hjalpmedel">Gränssnittsdesigns guide,
+      avsnitt 3</a>. Lyssna efter det
+      som är din kod:</p>
+    <ul>
+      <li>Läses rubrikerna upp i en ordning som går att följa?</li>
+      <li>Hittar du landmärkena, och är det bara ett <code>main</code>?</li>
+      <li>Säger varje fält vad det heter när du kommer till det?</li>
+      <li>Säger bilderna något, och hoppas dekoren över?</li>
+      <li>Går länktexterna att förstå utan texten omkring?</li>
+    </ul>
+    <p>Skriv en anteckning i <code>dokumentation.md</code>: vad som lät fel, och vad du ändrade
+      i koden. Utan anteckningen syns utmaningen inte i bedömningen.</p>
+
+    <h3 id="otestade-bredder">Bredder du inte testat</h3>
+    <p>Sajten ska hålla i bredder ingen provat, utan brytpunkter för specialfall, och du ska
+      kunna förklara varför. Förklaringen finns i de verktyg som räknar själva:</p>
+    <ul>
+      <li><b>Galleriet</b> med <code>repeat(auto-fit, minmax(16rem, 1fr))</code> räknar ut
+        antalet kolumner efter hur mycket plats som finns, i varje bredd. Se
+        <a href="../webb-omrade-3/guide-css.html#grid">guiden till område 3, avsnitt 9</a>.</li>
+      <li><b>Navigeringen</b> har <code>flex-wrap</code>, så den bryter om länkarna inte
+        ryms.</li>
+      <li><b>Bilderna och behållarna</b> har <code>max-width</code> i stället för fasta
+        bredder.</li>
+      <li><b>Brytpunkterna</b> sitter där innehållet går sönder, inte vid en enhet. Mellan dem
+        finns ingen bredd som är särskild.</li>
+    </ul>
+    <p>En brytpunkt för en enda telefonmodell är ett tecken på att något annat är fel: en fast
+      bredd, en bild utan <code>max-width</code>, ett ord som inte bryts.</p>
+
+    <!-- ================================================================== -->
+
+    <h2 id="felsokning">8. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: telefon, fokus, bild" autocomplete="off">
+      <p class="traffar" id="traffar-fel">22 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Sidan ser ut som en förminskad datorsida på telefonen</td><td>Viewport-taggen
+            saknas på den sidan</td><td>Lägg in viewport-raden i <code>head</code> på varje
+            sida</td></tr>
+          <tr><td>Det går inte att förstora med två fingrar</td><td><code>user-scalable=no</code>
+            eller <code>maximum-scale</code> i viewport-taggen</td><td>Skriv raden exakt som i
+            avsnitt 1. Sök igenom hela repot</td></tr>
+          <tr><td>Sidan har vågrät rullningslist på telefon</td><td>Något har en fast bredd,
+            till exempel <code>width: 900px</code></td><td>Byt till <code>max-width</code>.
+            Hitta elementet genom att inspektera det som sticker ut</td></tr>
+          <tr><td>En lång adress skjuter ut sidan i sidled</td><td>Ordet saknar mellanslag att
+            bryta vid</td><td><code>overflow-wrap: break-word</code> på text</td></tr>
+          <tr><td>Regeln i media queryn slår inte igenom</td><td>Media queryn står före regeln
+            den ska ändra, och grundregeln vinner för att den står sist</td><td>Flytta media
+            queryn direkt efter regeln den ändrar</td></tr>
+          <tr><td>Resten av stilmallen slutar fungera efter en media query</td><td>Den sista
+            klammern saknas</td><td>Räkna klamrarna: en för media queryn, en per regel.
+            Kör CSS-validatorn</td></tr>
+          <tr><td>Layouten byter inte när texten förstoras</td><td>Brytpunkten är skriven i
+            <code>px</code></td><td>Skriv den i <code>em</code>: dela pixlarna med 16</td></tr>
+          <tr><td>I en viss bredd gäller två regler som krockar</td><td><code>min-width</code>
+            och <code>max-width</code> blandade</td><td>Välj <code>min-width</code> och skriv
+            om de andra</td></tr>
+          <tr><td>Bilden är hoptryckt i smala fönster</td><td><code>height: auto</code>
+            saknas</td><td>Lägg till den bredvid <code>max-width: 100%</code></td></tr>
+          <tr><td>En liten bild blir utdragen och suddig</td><td><code>width: 100%</code> i
+            stället för <code>max-width</code></td><td>Byt till
+            <code>max-width: 100%</code></td></tr>
+          <tr><td>Datorn hämtar den största filen fast bilden visas liten</td><td><code>sizes</code>
+            saknas, och webbläsaren antar full fönsterbredd</td><td>Skriv
+            <code>sizes</code> så att det stämmer med CSS:en</td></tr>
+          <tr><td>Sidvikten blev nästan noll andra gången jag mätte</td><td>Filerna kom ur
+            cacheminnet</td><td>Kryssa i <i>Disable cache</i> och mät om</td></tr>
+          <tr><td>Telefonen hämtar en större fil än bilden visas</td><td>Skärmens
+            pixeltäthet</td><td>Normalt, inte ett fel. Därför högst dubbla
+            visningsbredden</td></tr>
+          <tr><td>Validatorn klagar på <code>alt</code> i <code>picture</code></td><td><code>alt</code>
+            står på <code>source</code></td><td>Flytta den till <code>img</code></td></tr>
+          <tr><td>Övergången syns fast minskad rörelse är påslagen</td><td>Regeln med
+            <code>prefers-reduced-motion</code> står före övergången, eller träffar en annan
+            selektor</td><td>Samma selektor, och media queryn efter regeln den ändrar</td></tr>
+          <tr><td>Jag ser inte var fokus är när jag tabbar</td><td><code>outline: none</code>
+            någonstans i stilmallen</td><td>Sök i hela <code>stil.css</code>. Sätt en egen
+            <code>:focus-visible</code></td></tr>
+          <tr><td>Knappen går inte att tabba till</td><td>Den är en <code>div</code> med
+            knappens klass</td><td>Byt till <code>button</code></td></tr>
+          <tr><td>Tabbordningen hoppar runt på sidan</td><td>Positivt <code>tabindex</code>,
+            eller HTML:en står i en annan ordning än sidan ser ut</td><td>Ta bort
+            <code>tabindex</code>. Flytta elementen i HTML:en</td></tr>
+          <tr><td>Skip-länken syns aldrig, inte ens när jag tabbar</td><td>Regeln med
+            <code>:focus</code> saknas, eller länken är gömd med
+            <code>display: none</code></td><td>Flytta den utanför skärmen med
+            <code>top</code>, och tillbaka vid <code>:focus</code></td></tr>
+          <tr><td>Fälten i formuläret syns knappt</td><td>Fältkanten har för låg
+            kontrast</td><td>Egen variabel för fältkanter i <code>:root</code>, minst 3:1</td></tr>
+          <tr><td>Texten rinner ut ur länken vid 200 %</td><td><code>height</code> i stället
+            för <code>min-height</code></td><td>Byt till <code>min-height</code></td></tr>
+          <tr><td>Telefonen visar den gamla versionen</td><td>Inte pushat, eller Pages har inte
+            hunnit uppdatera</td><td>Pusha, vänta en stund, ladda om</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="snabbreferens">9. Snabbreferens: begreppen</h2>
+    <p>Använd den inför prov 3. Ordträningen nedan drar slumpvis ur tabellen.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-begrepp">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="sok">
+      <label for="sok-begrepp">Sök bland begreppen</label>
+      <input type="search" id="sok-begrepp" data-sok="tabell-begrepp"
+             data-traffar="traffar-begrepp" placeholder="till exempel: srcset, em, fokus"
+             autocomplete="off">
+      <p class="traffar" id="traffar-begrepp">36 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-begrepp">
+        <thead><tr><th>Begrepp</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>responsiv design</b></td><td>Samma sida fungerar i alla bredder, från
+            telefon till datorskärm</td></tr>
+          <tr><td><b>viewport</b></td><td>Ytan sidan ritas på. På en telefon utan viewport-tagg
+            ungefär 980 px</td></tr>
+          <tr><td><b>width=device-width</b></td><td>Rita sidan lika bred som skärmen</td></tr>
+          <tr><td><b>initial-scale=1</b></td><td>Börja utan förstoring eller förminskning</td></tr>
+          <tr><td><b>user-scalable=no</b></td><td>Stänger av förstoring. Skrivs aldrig</td></tr>
+          <tr><td><b>mobile first</b></td><td>Grundstilen är telefonens, bredare skärmar lägger
+            till</td></tr>
+          <tr><td><b>device mode</b></td><td>Läge i DevTools som ritar sidan som på en telefon.
+            Ctrl + Shift + M</td></tr>
+          <tr><td><b>media query</b></td><td>En fråga om omgivningen. Är svaret ja gäller
+            reglerna inuti</td></tr>
+          <tr><td><b>brytpunkt</b></td><td>Bredden där en media query börjar gälla. Sätts där
+            innehållet går sönder</td></tr>
+          <tr><td><b>min-width</b></td><td>Från den här bredden och uppåt. Används med mobile
+            first</td></tr>
+          <tr><td><b>max-width i en media query</b></td><td>Upp till den här bredden. Tar bort
+            i stället för att lägga till</td></tr>
+          <tr><td><b>em i en media query</b></td><td>Räknas mot webbläsarens grundstorlek, 16 px.
+            Följer med när texten förstoras</td></tr>
+          <tr><td><b>overflow-wrap: break-word</b></td><td>Låter ett långt ord brytas i stället
+            för att skjuta ut sidan</td></tr>
+          <tr><td><b>max-width: 100%</b></td><td>Bilden blir aldrig bredare än sin
+            behållare</td></tr>
+          <tr><td><b>height: auto</b></td><td>Höjden räknas om så att proportionerna
+            behålls</td></tr>
+          <tr><td><b>srcset</b></td><td>Samma bild i flera bredder. Webbläsaren väljer
+            fil</td></tr>
+          <tr><td><b>w i srcset</b></td><td>Filens bredd i pixlar, till exempel 480w</td></tr>
+          <tr><td><b>sizes</b></td><td>Hur bred bilden visas. Ska stämma med CSS:en</td></tr>
+          <tr><td><b>vw</b></td><td>Procent av fönstrets bredd. 100vw är hela bredden</td></tr>
+          <tr><td><b>pixeltäthet</b></td><td>Hur tätt pixlarna sitter. Tät skärm hämtar större
+            fil</td></tr>
+          <tr><td><b>picture</b></td><td>Byter bild efter bredd, till exempel en beskuren för
+            telefonen</td></tr>
+          <tr><td><b>source</b></td><td>Ett alternativ i picture, med villkor. Har ingen
+            alt</td></tr>
+          <tr><td><b>alt=""</b></td><td>Tom alt-text. Bilden är dekor och hoppas över</td></tr>
+          <tr><td><b>transkript</b></td><td>Ljudets innehåll som vanlig text på sidan</td></tr>
+          <tr><td><b>transition</b></td><td>Mjuk övergång mellan två lägen</td></tr>
+          <tr><td><b>prefers-reduced-motion</b></td><td>Media query: användaren har bett om
+            mindre rörelse</td></tr>
+          <tr><td><b>kodstandard</b></td><td>2 mellanslag, gemener, bindestreck, index.html,
+            relativa sökvägar</td></tr>
+          <tr><td><b>dubblett</b></td><td>Samma selektor två gånger i filen. Den tidigare är
+            död kod</td></tr>
+          <tr><td><b>:focus-visible</b></td><td>Fokus för tangentbordet. Får aldrig tas bort
+            utan ersättning</td></tr>
+          <tr><td><b>tabindex</b></td><td>Aldrig positivt. Ordningen ändras i HTML:en</td></tr>
+          <tr><td><b>min-height</b></td><td>Minsta höjd. Ger klickyta och låter texten
+            växa</td></tr>
+          <tr><td><b>landmärke</b></td><td>header, nav, main, footer. Skärmläsaren hoppar mellan
+            dem</td></tr>
+          <tr><td><b>skip-länk</b></td><td>Länk till innehållet som syns när den får
+            fokus</td></tr>
+          <tr><td><b>testprotokoll</b></td><td>Test, med vad, sida, resultat, åtgärd. Varje rad
+            går att göra om</td></tr>
+          <tr><td><b>omtest</b></td><td>Ny rad med samma test efter åtgärden, och det nya
+            resultatet</td></tr>
+          <tr><td><b>webbläsarmotor</b></td><td>Den del som tolkar HTML och CSS. Chrome och Edge
+            har samma</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 5</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

@@ -1,0 +1,1781 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide – JavaScript och DOM</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="webb-6-guide-javascript">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Guide</strong> · JavaScript och DOM</span>
+  <a href="#felsokning">Felsökning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>På sidan</p>
+    <ol>
+      <li><a href="#vad-javascript-gor">Vad JavaScript gör</a></li>
+      <li><a href="#dom">DOM och konsolen</a></li>
+      <li><a href="#handelser">Händelser</a></li>
+      <li><a href="#moduler">Koppla in och anpassa en modul</a></li>
+      <li><a href="#utan-javascript">När JavaScript inte finns</a></li>
+      <li><a href="#overlamningen">Från överlämning till kod</a></li>
+      <li><a href="#ta-det-langre">Ta det längre</a></li>
+      <li><a href="#felsokning">Felsökning</a></li>
+      <li><a href="#snabbreferens">Snabbreferens</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling · område 6</p>
+    <h1>Guide – JavaScript och DOM</h1>
+    <p class="inledning">Här står allt som prov 4 kan fråga om, och allt du behöver för
+      Projekt 5. Guiden fungerar utan att du varit på lektionen. Avsnitt 1 till 6 följer
+      områdets första sex pass i tur och ordning.</p>
+
+    <p>Exemplen är hämtade ur referensprojektet <b>Fyrar längs Bohuskusten</b> – samma sajt
+      som i område 5, nu med tre skript och en ljudfil. Öppna
+      <a href="referensprojekt/index.html">referensprojektet</a> i webbläsaren och klicka på
+      knappen <i>Mörkt läge</i> i sidhuvudet. Ha sedan mappen <code>skript/</code> öppen i din
+      kodeditor bredvid guiden. Kommentarerna i filerna är märkta med passets nummer,
+      <i>Pass 47</i> och <i>Pass 48</i>, där något hör till det här området.</p>
+
+    <div class="notis">
+      <span class="rubrik">Här handlar allt om koden</span>
+      <p>Vilka ljud sajten ska ha, hur långa rörelserna är och varför bestäms i
+        Gränssnittsdesign. Guiden visar koden som spelar ljudet och sätter klassen, och säger
+        i en mening var resten står.</p>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Två filer får du kopiera, resten skriver du av</span>
+      <p>Ljudmodulen <code>ljud.js</code> och <code>morkt-lage.js</code> står i sin helhet i
+        guiden, och de två går att markera och kopiera. De är färdiga moduler, och E-nivån i
+        Projekt 5 är att koppla in dem, inte att skriva dem. All annan kod i guiden skriver du
+        av. Det är när du skriver den själv som du märker var parenteserna sitter.</p>
+    </div>
+
+    <h2>Vad du kan efter guiden</h2>
+    <ul>
+      <li>Säga vad HTML, CSS och JavaScript var för sig gör på en sida</li>
+      <li>Läsa en färdig modul och peka ut variabler, funktioner, villkor, loopar och
+        händelser</li>
+      <li>Följa ett klick från knappen till ljudet, rad för rad, och säga vad som körs och
+        när</li>
+      <li>Hitta element i sidan med <code>querySelector</code> och ändra deras text, klass och
+        attribut från konsolen</li>
+      <li>Lyssna efter klick och tangenter med <code>addEventListener</code>, utan JavaScript
+        i HTML:en</li>
+      <li>Läsa ett felmeddelande och hitta raden det gäller</li>
+      <li>Koppla in ett skript med <code>script</code> och <code>defer</code>, och veta vilka
+        rader i en modul som är säkra att ändra</li>
+      <li>Bygga så att sajten fungerar med JavaScript avstängt</li>
+      <li>Göra om en överlämningstabell till kod, cell för cell, och skriva ner var koden
+        avviker</li>
+    </ul>
+
+    <!-- ================================================================== -->
+
+    <h2 id="vad-javascript-gor">1. Vad JavaScript gör</h2>
+    <p>Hittills har din kod <i>varit</i> något: HTML säger vad som finns, CSS hur det ser ut.
+      <b>JavaScript</b> är webbens programmeringsspråk, och det <i>gör</i> något när någon
+      använder sajten. Det körs i webbläsaren, på besökarens dator, och det reagerar på det
+      som händer på sidan: ett klick, en tangent, ett fält som fylls i.</p>
+    <p>Klicka på lägesknappen i referensprojektet. Det låter, och färgerna byts. Öppna sedan
+      sidkällan med Ctrl + U och leta upp knappen. Det enda på knappen som har med ljudet att
+      göra är ett attribut, <code>data-ljud="vaxla"</code>. HTML kan inte spela ett ljud när
+      någon klickar, och CSS kan det inte heller. Det gör en tredje sorts fil.</p>
+
+    <h3>Tre språk, tre filer</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Språk</th><th>Svarar på</th><th>I fyrsajten</th></tr></thead>
+        <tbody>
+          <tr><td>HTML</td><td>Vad finns på sidan?</td><td>Knappen med texten <i>Mörkt
+            läge</i></td></tr>
+          <tr><td>CSS</td><td>Hur ser det ut?</td><td>Knappens färg, storlek och
+            hover</td></tr>
+          <tr><td>JavaScript</td><td>Vad händer när någon gör något?</td><td>Ljudet när
+            knappen klickas</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>De tre ligger i <b>var sin fil</b>, och det är ett krav i Projekt 5, inte en
+      stilfråga. En JavaScript-fil slutar på <code>.js</code> och ligger i mappen
+      <code>skript/</code>, precis som bilderna ligger i <code>bilder/</code>. Referensprojektet
+      ser ut så här:</p>
+<pre><code>index.html
+fyrarna.html
+vinga.html
+rapportera.html
+tack.html
+stil.css
+dokumentation.md
+bilder/
+ljud/
+  vaxla.mp3
+skript/
+  ljud.js
+  falt.js
+  morkt-lage.js</code></pre>
+    <p>En <b>modul</b> är en färdig bit kod som gör en sak och går att koppla in i en sajt
+      som inte byggdes för den. Ljudmodulen spelar ljud. Den vet ingenting om fyrar.</p>
+    <p>JavaScript har ingenting med språket Java att göra, bara namnet. Det valdes för att
+      Java var populärt 1995.</p>
+
+    <h3>Ljudmodulen</h3>
+    <p>Hela filen, <code>skript/ljud.js</code>. Läs den en gång utan att försöka förstå allt.
+      Lägg märke till att den är kort. Resten av avsnittet går igenom den, ett begrepp i
+      taget.</p>
+<pre class="fri">// Ljudmodulen. Spelar ett ljud när något händer med ett element som har
+// attributet data-ljud. Värdet är filnamnet utan .mp3:
+//   &lt;button data-ljud="vaxla"&gt;
+// Utan något annat är det ett klick. data-ljud-nar väljer en annan händelse:
+//   &lt;input data-ljud="klart" data-ljud-nar="change"&gt;
+// Ändra inställningarna nedan. Resten behöver du inte röra.
+
+// Inställningar
+const LJUDMAPP = "ljud/";  // var ljudfilerna ligger, räknat från sidan
+const VOLYM = 0.5;         // 0 är tyst, 1 är fullt
+
+// Spelar filen som heter namn. Gör ingenting om ljudet är avstängt.
+function spela(namn) {
+  if (document.documentElement.classList.contains("ljud-av")) {
+    return;
+  }
+  const ljud = new Audio(LJUDMAPP + namn + ".mp3");
+  ljud.volume = VOLYM;
+  ljud.play();
+}
+
+// Hitta alla element med data-ljud och lyssna efter händelsen på vart och ett.
+const ljudelement = document.querySelectorAll("[data-ljud]");
+
+for (const element of ljudelement) {
+  let handelse = "click";
+  if (element.dataset.ljudNar) {
+    handelse = element.dataset.ljudNar;
+  }
+  element.addEventListener(handelse, function () {
+    spela(element.dataset.ljud);
+  });
+}</pre>
+
+    <h3>Kommentarer</h3>
+    <p>Rader som börjar med <code>//</code> är till för människor. Webbläsaren hoppar över
+      dem. Det är samma sak som <code>/* */</code> i CSS och <code>&lt;!-- --&gt;</code> i
+      HTML, fast för en rad i taget. Läs de sex första raderna: de säger vad modulen gör, hur
+      den styrs från HTML:en och vad du får ändra.</p>
+
+    <h3>Variabel: const och let</h3>
+    <p>En <b>variabel</b> är ett namn på ett värde.</p>
+<pre><code class="sprak-js">const LJUDMAPP = "ljud/";  // var ljudfilerna ligger, räknat från sidan
+const VOLYM = 0.5;         // 0 är tyst, 1 är fullt</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>const</code></td><td>Här kommer en variabel vars värde inte byts
+            ut</td></tr>
+          <tr><td><code>LJUDMAPP</code></td><td>Namnet. Versaler betyder att det är en
+            inställning</td></tr>
+          <tr><td><code>=</code></td><td>Sätter värdet. Inte <i>är lika med</i> som i
+            matten</td></tr>
+          <tr><td><code>"ljud/"</code></td><td>Värdet: en text. Text står alltid inom
+            citattecken</td></tr>
+          <tr><td><code>;</code></td><td>Raden är slut</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>En text inom citattecken kallas en <b>sträng</b>, engelska <i>string</i>.
+      <code>VOLYM</code> är ett <b>tal</b>, och tal står utan citattecken. Skriver du
+      <code>"0.5"</code> är det en sträng som råkar innehålla siffror.</p>
+    <p>Längre ned i filen står <code>let</code>. Det är en variabel vars värde <b>får</b>
+      bytas. Använd <code>const</code> när värdet inte ska bytas och <code>let</code> när det
+      ska. Det gamla ordet <code>var</code> används inte i kursen; det står i uppgiftens
+      tekniska krav.</p>
+    <p>En variabel är som en variabel i CSS. <code>--accent</code> är ett namn på en färg,
+      och ändrar du värdet på ett ställe slår det igenom överallt. Här är det mappen och
+      volymen.</p>
+
+    <h3>Funktion, parameter och anrop</h3>
+    <p>En <b>funktion</b> är några rader med ett namn, som körs när någon <b>anropar</b>
+      namnet.</p>
+<pre><code class="sprak-js">function spela(namn) {
+  if (document.documentElement.classList.contains("ljud-av")) {
+    return;
+  }
+  const ljud = new Audio(LJUDMAPP + namn + ".mp3");
+  ljud.volume = VOLYM;
+  ljud.play();
+}</code></pre>
+    <ul>
+      <li><code>function spela(namn)</code> – en funktion som heter <code>spela</code>.
+        <code>namn</code> inom parentesen är en <b>parameter</b>: en tom plats som fylls i när
+        funktionen anropas.</li>
+      <li>Klamrarna <code>{ }</code> håller ihop det som hör till funktionen, som i CSS.</li>
+      <li><code>new Audio(LJUDMAPP + namn + ".mp3")</code> skapar ett ljud ur en fil.
+        <code>+</code> sätter ihop strängar: <code>"ljud/"</code> och <code>"vaxla"</code> och
+        <code>".mp3"</code> blir <code>"ljud/vaxla.mp3"</code>.</li>
+      <li><code>const ljud = …</code> sparar ljudet i en variabel, så att nästa rad kan
+        använda det.</li>
+      <li><code>ljud.volume = VOLYM;</code> ger ljudet volymen från inställningen.</li>
+      <li><code>ljud.play();</code> spelar det.</li>
+    </ul>
+    <p>Att <b>skriva</b> en funktion och att <b>anropa</b> den är två olika saker. Raderna
+      ovan spelar ingenting när sidan laddas. De väntar tills någon skriver namnet med
+      parenteser efter, ett anrop:</p>
+<pre><code class="sprak-js">spela("vaxla");</code></pre>
+    <p>Just då är <code>namn</code> lika med <code>"vaxla"</code>, och funktionen spelar
+      <code>ljud/vaxla.mp3</code>.</p>
+
+    <h3>Villkor</h3>
+    <p>De tre första raderna i funktionen är ett <b>villkor</b>:</p>
+<pre><code class="sprak-js">  if (document.documentElement.classList.contains("ljud-av")) {
+    return;
+  }</code></pre>
+    <p>Läs det som en mening: <i>om html-elementet har klassen <code>ljud-av</code>, sluta
+      här.</i></p>
+    <ul>
+      <li><code>if</code> betyder <i>om</i>. Det som står inom parentesen är frågan, och det
+        som står inom klamrarna körs bara om svaret är ja.</li>
+      <li><code>document.documentElement</code> är sidans <code>html</code>-element, samma
+        som <code>:root</code> i CSS.</li>
+      <li><code>classList.contains("ljud-av")</code> frågar om elementet har den klassen.
+        Svaret är <code>true</code> eller <code>false</code>, sant eller falskt.</li>
+      <li><code>return</code> betyder <i>gå ut ur funktionen</i>. Raderna under körs då
+        aldrig, och det blir tyst.</li>
+    </ul>
+
+    <div class="notis viktig">
+      <span class="rubrik">Ingenting i referensprojektet sätter ljud-av</span>
+      <p>Villkoret väntar på en <b>ljudknapp</b> som sätter klassen <code>ljud-av</code> på
+        <code>html</code>. Den knappen skriver du själv. Det är ett bör-krav, nivå <b>C</b>, i
+        Projekt 5. Vad den behöver står i <a href="#ljudknappen">avsnitt 4</a>.</p>
+    </div>
+
+    <h3>Loop och händelse</h3>
+    <p>Sista delen hittar elementen och lyssnar på dem.</p>
+<pre><code class="sprak-js">const ljudelement = document.querySelectorAll("[data-ljud]");</code></pre>
+    <p><code>querySelectorAll</code> hittar alla element som matchar en selektor, och
+      selektorn skrivs som i CSS: <code>[data-ljud]</code> är alla element som har attributet
+      <code>data-ljud</code>. Variabeln <code>ljudelement</code> blir en lista över dem. Hur
+      det går till står i <a href="#dom">avsnitt 2</a>.</p>
+<pre><code class="sprak-js">for (const element of ljudelement) {
+  let handelse = "click";
+  if (element.dataset.ljudNar) {
+    handelse = element.dataset.ljudNar;
+  }
+  element.addEventListener(handelse, function () {
+    spela(element.dataset.ljud);
+  });
+}</code></pre>
+    <ul>
+      <li><code>for (const element of ljudelement)</code> är en <b>loop</b>: gör det som
+        står inom klamrarna en gång för varje element i listan. Varje varv heter elementet
+        <code>element</code>.</li>
+      <li><code>let handelse = "click";</code> är en variabel med <code>let</code>, eftersom
+        värdet kanske byts på nästa rad. Varje element börjar med klick.</li>
+      <li>Det andra villkoret: <i>om elementet har attributet <code>data-ljud-nar</code>, byt
+        händelse till det som står där.</i> Saknas attributet är villkoret inte uppfyllt, och
+        det blir klick.</li>
+      <li><code>addEventListener</code> betyder <i>lägg till en lyssnare</i>. En
+        <b>händelse</b>, engelska <i>event</i>, är något som händer på sidan. En <b>event
+        listener</b>, händelselyssnare, väntar på en händelse och kör en funktion när den
+        kommer.</li>
+      <li><code>function () { … }</code> är funktionen som körs när händelsen kommer. Den har
+        inget namn, eftersom den bara behövs här.</li>
+      <li><code>element.dataset.ljud</code> läser värdet i <code>data-ljud</code>. På
+        lägesknappen är det <code>"vaxla"</code>.</li>
+    </ul>
+    <p><code>dataset</code> läser attribut som börjar med <code>data-</code>. Prefixet tas
+      bort, bindestrecken försvinner och bokstaven efter ett bindestreck blir stor:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>I HTML:en</th><th>I JavaScript</th></tr></thead>
+        <tbody>
+          <tr><td><code>data-ljud</code></td><td><code>element.dataset.ljud</code></td></tr>
+          <tr><td><code>data-ljud-nar</code></td><td><code>element.dataset.ljudNar</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Följ ett klick</h3>
+    <p>Lägesknappen har <code>data-ljud="vaxla"</code> och inget <code>data-ljud-nar</code>.
+      Så här går ett klick, med ljudmodulen bredvid dig:</p>
+    <ol class="steg">
+      <li>När sidan laddas går loopen ett varv för knappen. <code>handelse</code> blir
+        <code>"click"</code>, och en lyssnare läggs på knappen.</li>
+      <li>Någon klickar. Lyssnarens funktion körs.</li>
+      <li>Den anropar <code>spela("vaxla")</code>.</li>
+      <li>Villkoret: har <code>html</code> klassen <code>ljud-av</code>? Nej, så funktionen
+        fortsätter.</li>
+      <li><code>new Audio</code> skapar ett ljud ur <code>"ljud/vaxla.mp3"</code>, volymen
+        sätts till 0.5, och <code>play()</code> spelar det.</li>
+    </ol>
+
+    <div class="notis viktig">
+      <span class="rubrik">Loopen körs en gång, lyssnaren varje gång</span>
+      <p>Loopen körs <b>en</b> gång, när sidan laddas. Den sätter upp lyssnarna. Det som står
+        inuti lyssnaren körs först när någon klickar, och sedan varje gång någon klickar. Det
+        är områdets svåraste tanke. Koden läses inte bara uppifrån och ned en gång.</p>
+    </div>
+    <p>Hela modulen styrs alltså från HTML:en. Vilket ljud står i <code>data-ljud</code>,
+      när i <code>data-ljud-nar</code>. Filen behöver du inte öppna för att använda den.</p>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Läsövningen från passet. Svara med egna ord, inte med kodens ord, och med
+        ljudmodulen framför dig.</p>
+      <ol>
+        <li>Vad säger kommentarraderna överst? Vem är de skrivna för?</li>
+        <li>En knapp har <code>data-ljud="skicka-klart"</code>. Vilken fil försöker modulen
+          spela? Skriv hela sökvägen.</li>
+        <li>Vad händer om <code>VOLYM</code> ändras till <code>0</code>? Spelas ljudet?</li>
+        <li><code>html</code>-elementet har klassen <code>ljud-av</code>. Någon klickar på
+          lägesknappen. Vilka rader körs, och vilka körs inte?</li>
+        <li>Ett fält har <code>data-ljud="klart"</code> och
+          <code>data-ljud-nar="change"</code>. Vilket värde får <code>handelse</code>? När
+          spelas ljudet, och vilken fil?</li>
+        <li>Varför står det <code>let</code> framför <code>handelse</code>, när nästan allt
+          annat har <code>const</code>?</li>
+        <li>En sida har tre element med <code>data-ljud</code>. Hur många gånger körs raden
+          med <code>addEventListener</code>, och när?</li>
+        <li>En sida har inget element med <code>data-ljud</code> alls. Vad händer? Blir det
+          ett fel?</li>
+        <li>Ljudfilerna flyttas till mappen <code>media/ljud/</code>. Vilken rad ändrar du, och
+          till vad?</li>
+        <li>Beskriv med tre meningar, utan kodord, vad modulen gör.</li>
+      </ol>
+      <p>Fråga 7 är den som oftast blir fel. Peka på var loopen börjar och slutar, och fråga
+        dig när loopen körs. Fråga 8 har ett lugnande svar: listan är tom, loopen går noll
+        varv, och ingenting händer. Inget fel. Modulen går att koppla in på varje sida, också
+        på sidor utan ljud.</p>
+    </div>
+
+    <h3>Projekt 5 är en trappa</h3>
+    <p>Uppdraget i <a href="uppgift.html">Projekt 5</a> är att bygga in ljuden och
+      mikrointeraktionerna från Gränssnittsdesign i din egen sajt, med JavaScript.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nivå</th><th>Vad du gör med JavaScript</th></tr></thead>
+        <tbody>
+          <tr><td>E</td><td>Kopplar in och anpassar en färdig modul från referensprojektet,
+            efter överlämningen</td></tr>
+          <tr><td>C</td><td>Skriver egen, kort händelsekod för en mikrointeraktion och en
+            ljudknapp</td></tr>
+          <tr><td>A</td><td>Skriver en egen liten modul som fungerar på element den inte
+            byggdes för</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Ljudmodulen är E-nivåns modul. Du behöver inte ha skrivit den, men du behöver förstå
+      den så väl att du kan koppla in den och ändra det som får ändras. Två principer gäller
+      hela uppgiften, och de kommer tillbaka i varje avsnitt:</p>
+    <ul>
+      <li><b>CSS rör, JavaScript byter läge.</b> Rörelsen skrivs i CSS. JavaScript sätter och
+        tar bort en klass. Se <a href="#falt">avsnitt 3</a>.</li>
+      <li><b>Sajten ska fungera med JavaScript avstängt.</b> JavaScript lägger till, det bär
+        aldrig. Se <a href="#utan-javascript">avsnitt 5</a>. Det din sajt klarar innan den har
+        någon JavaScript är din nollpunkt, och det ska fungera på deadlinedagen också.</li>
+    </ul>
+
+    <!-- ================================================================== -->
+
+    <h2 id="dom">2. DOM och konsolen</h2>
+    <p>Ljudmodulen använder <code>querySelectorAll</code> och <code>classList</code>. Båda
+      arbetar med något som har ett namn: <b>DOM</b>, sidan som webbläsaren håller i minnet
+      medan den visas. Det är den JavaScript läser och ändrar, aldrig HTML-filen.</p>
+
+    <h3>Filen och trädet</h3>
+    <p>Öppna Elements-fliken i DevTools, F12, dubbelklicka på texten i sidans
+      <code>h1</code> och skriv något annat. Rubriken ändras direkt. Ladda om, och den är
+      tillbaka. Du ändrade inte filen, du ändrade webbläsarens kopia av sidan.</p>
+    <p><b>DOM</b> står för <i>Document Object Model</i>, dokumentobjektsmodellen. När
+      webbläsaren läser HTML-filen bygger den upp sidan som ett <b>träd</b> av element:
+      <code>html</code> överst, <code>head</code> och <code>body</code> under det,
+      <code>header</code>, <code>main</code> och <code>footer</code> under <code>body</code>,
+      och så vidare nedåt. Ett <b>element</b> är en del av trädet, till exempel en knapp
+      eller en rubrik.</p>
+    <ul>
+      <li>Ett element som ligger inuti ett annat är dess <b>barn</b>. <code>nav</code> är
+        barn till <code>header</code>.</li>
+      <li>Elementet utanför är <b>förälder</b>. <code>header</code> är förälder till
+        <code>nav</code>.</li>
+      <li>Samma ord som i CSS, där <code>header &gt; p</code> betyder <i>ett
+        <code>p</code> som är barn till <code>header</code></i>.</li>
+    </ul>
+    <p>Jämför lägesknappen på två ställen. Ctrl + U visar <b>filen</b>, som den ligger på
+      disken, och där står <code>hidden</code> på knappen. Elements-fliken visar
+      <b>trädet</b>, och där står inget <code>hidden</code>. Ett skript har ändrat trädet efter
+      att filen lästes; vilket står i <a href="#moduler">avsnitt 4</a>. Elements-fliken visar
+      alltså DOM som den ser ut just nu. Sidkällan visar hur sidan såg ut när den kom.</p>
+
+    <h3>Konsolen</h3>
+    <p><b>Konsolen</b>, engelska <i>console</i>, är en flik i DevTools där du skriver
+      JavaScript och får svaret direkt. Det du skriver gäller sidan som är öppen, och
+      ingenting sparas i filerna.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Tangenter</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td>Ctrl + Shift + J</td><td>Öppnar konsolen i Chrome och Edge</td></tr>
+          <tr><td>Ctrl + Shift + K</td><td>Öppnar konsolen i Firefox</td></tr>
+          <tr><td>Pil upp</td><td>Hämtar förra raden du skrev</td></tr>
+          <tr><td>Tab</td><td>Fyller i resten av ett ord konsolen känner igen</td></tr>
+          <tr><td>Ctrl + L</td><td>Tömmer konsolen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>querySelector och querySelectorAll</h3>
+    <p>Skriv i konsolen på referensprojektet, en rad i taget, och tryck Enter efter varje:</p>
+<pre><code class="sprak-js">document.querySelector("h1");</code></pre>
+    <p><code>document</code> är hela sidan. <code>querySelector</code> hittar det
+      <b>första</b> elementet som matchar selektorn, och selektorn skrivs precis som i CSS,
+      inom citattecken. Konsolen svarar med elementet. Håll musen över svaret, så lyser
+      elementet upp på sidan.</p>
+<pre><code class="sprak-js">document.querySelectorAll("nav a");</code></pre>
+    <p><code>querySelectorAll</code> hittar <b>alla</b>. Svaret är en lista, och siffran
+      visar hur många. Det är den raden ljudmodulen använder, med
+      <code>"[data-ljud]"</code>.</p>
+<pre><code class="sprak-js">document.querySelector(".finns-inte");</code></pre>
+    <p>Svaret är <code>null</code>, som betyder <i>ingenting</i>. Ingen varning, inget fel,
+      bara tomt. Ordet kommer tillbaka i ett felmeddelande i <a href="#felmeddelandet">avsnitt
+      3</a>.</p>
+
+    <h3>Ändra texten</h3>
+<pre><code class="sprak-js">document.querySelector("h1").textContent = "Fyrar i hela Sverige";</code></pre>
+    <p><code>textContent</code> är elementets text. Med <code>=</code> byts den ut, samma
+      <code>=</code> som sätter en variabel.</p>
+
+    <h3>Ändra klassen</h3>
+    <p>Det här är ändringen som betyder mest i området.</p>
+<pre><code class="sprak-js">document.documentElement.classList.add("morkt");</code></pre>
+    <p>Hela sajten blir mörk. <code>classList</code> är elementets klasser, och
+      <code>add</code> lägger till en. JavaScript ändrade inga färger. Det satte en klass, och
+      färgerna fanns redan i CSS:en och väntade på den.</p>
+    <p>Prova de andra tre, en i taget:</p>
+<pre><code class="sprak-js">document.documentElement.classList.remove("morkt");
+document.documentElement.classList.toggle("morkt");
+document.documentElement.classList.contains("morkt");</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Metod</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>add</code></td><td>Lägger till klassen</td></tr>
+          <tr><td><code>remove</code></td><td>Tar bort klassen</td></tr>
+          <tr><td><code>toggle</code></td><td>Växlar: finns klassen tas den bort, annars
+            läggs den till</td></tr>
+          <tr><td><code>contains</code></td><td>Frågar om klassen finns. Svarar
+            <code>true</code> eller <code>false</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><code>contains</code> är frågan i ljudmodulens villkor. Prova den på riktigt:</p>
+<pre><code class="sprak-js">document.documentElement.classList.add("ljud-av");</code></pre>
+    <p>Klicka på lägesknappen. Färgerna byts, men det är tyst. Villkoret i
+      <code>spela</code> hittade klassen.</p>
+
+    <h3>Ändra attribut</h3>
+<pre><code class="sprak-js">document.querySelector(".lage-knapp").hidden = true;</code></pre>
+    <p>Knappen försvinner. <code>hidden</code> är ett HTML-attribut som döljer ett element,
+      och i JavaScript är det <code>true</code> eller <code>false</code>. Med
+      <code>false</code> kommer knappen tillbaka.</p>
+<pre><code class="sprak-js">document.querySelector("nav a").setAttribute("href", "vinga.html");</code></pre>
+    <p><code>setAttribute</code> sätter vilket attribut som helst: namnet först, värdet sedan.
+      Klicka på <i>Start</i> i menyn, så hamnar du på Vinga-sidan. Titta i Elements-fliken:
+      <code>href</code> är ändrat. Ladda om, och allt är som förut.</p>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Vad du ändrar</th><th>Med</th><th>I Projekt 5</th></tr></thead>
+        <tbody>
+          <tr><td>Texten</td><td><code>textContent</code></td><td>Sällan. Innehållet ska stå i
+            HTML:en, se <a href="#bara-javascript">avsnitt 5</a></td></tr>
+          <tr><td>Klassen</td><td><code>classList</code></td><td>Nästan alltid. Så byter
+            JavaScript läge</td></tr>
+          <tr><td>Attribut</td><td><code>hidden</code>, <code>setAttribute</code></td>
+            <td>Knappar som visas av skriptet, <code>aria-pressed</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Skriv inte const knapp i konsolen på fyrsajten</span>
+      <p>Referensprojektets skript för mörkt läge har redan en variabel som heter
+        <code>knapp</code>, och <code>const knapp</code> i konsolen ger ett fel om att namnet
+        redan finns. Skriv hela <code>document.querySelector(…)</code> i stället, som i
+        exemplen. Varför står i <a href="#globala-namn">avsnitt 4</a>.</p>
+    </div>
+
+    <div class="notis">
+      <span class="rubrik">Prova själv</span>
+      <p>Öppna din egen sajt och konsolen. Gör det här, en sak i taget:</p>
+      <ol>
+        <li>Byt texten i din <code>h1</code>.</li>
+        <li>Räkna länkarna i din navigering med <code>querySelectorAll</code>. Stämmer
+          siffran?</li>
+        <li>Lägg till en klass som redan finns i din <code>stil.css</code> på ett element som
+          inte har den. Ser elementet ut som de andra med den klassen?</li>
+        <li>Dölj ett element med <code>hidden</code>, och ta tillbaka det.</li>
+        <li>Ändra ett attribut: <code>href</code> på en länk, eller <code>alt</code> på en
+          bild. Kontrollera ändringen i Elements-fliken.</li>
+        <li>Leta efter något som inte finns. Skriv en selektor med ett stavfel. Vad svarar
+          konsolen?</li>
+        <li>Ladda om. Vad finns kvar?</li>
+      </ol>
+      <p>Tre saker som brukar gå fel: <code>querySelector("knapp")</code> letar efter ett
+        element som heter <code>knapp</code>, inte en klass, och svarar <code>null</code>.
+        Punkten saknas. <code>queryselector</code> med litet s ger ett rött fel, <i>is not a
+        function</i>, eftersom JavaScript skiljer på stora och små bokstäver. Och kod som
+        skrivs i Elements-fliken gör ingenting; den fliken tar HTML, inte JavaScript.</p>
+    </div>
+
+    <!-- ================================================================== -->
+
+    <h2 id="handelser">3. Händelser</h2>
+    <p>I konsolen ändrade du sidan för hand. Nu händer samma ändring när någon <b>gör
+      något</b>: klickar, trycker på en tangent, lämnar ett fält. Det är en händelse, och
+      koden som väntar på den skrivs med <code>addEventListener</code>. Kod som lyssnar gör
+      ingenting förrän något händer.</p>
+
+    <h3>addEventListener</h3>
+    <p>Raderna ur ljudmodulen igen:</p>
+<pre><code class="sprak-js">  element.addEventListener(handelse, function () {
+    spela(element.dataset.ljud);
+  });</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad den säger</th></tr></thead>
+        <tbody>
+          <tr><td><code>element</code></td><td>Vem som ska lyssnas på</td></tr>
+          <tr><td><code>.addEventListener(</code></td><td>Lägg till en lyssnare</td></tr>
+          <tr><td><code>handelse</code></td><td>Vilken händelse. Här en variabel som är
+            <code>"click"</code> om inte <code>data-ljud-nar</code> säger annat</td></tr>
+          <tr><td><code>function () { … }</code></td><td>Vad som ska hända när den
+            kommer</td></tr>
+          <tr><td><code>});</code></td><td>Funktionens klammer, sedan parentesen, sedan raden
+            slut</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Oftast står händelsens namn direkt, inom citattecken: <code>"click"</code>.
+      Ljudmodulen har det i en variabel för att HTML:en ska kunna välja. Tre händelser räcker
+      för området:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Händelse</th><th>När den kommer</th></tr></thead>
+        <tbody>
+          <tr><td><code>click</code></td><td>Någon klickar, eller trycker Enter eller
+            mellanslag på en knapp</td></tr>
+          <tr><td><code>change</code></td><td>Ett fält har ändrats och lämnats</td></tr>
+          <tr><td><code>keydown</code></td><td>En tangent trycks ned</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Ett element kan ha flera lyssnare. Skriv i konsolen på fyrsajten:</p>
+<pre><code class="sprak-js">document.querySelector(".lage-knapp").addEventListener("click", function () {
+  console.log("klick");
+});</code></pre>
+    <p><code>console.log</code> skriver i konsolen. Det syns inte på sidan, bara för den som
+      har DevTools öppet. Klicka på knappen: ljudmodulens lyssnare spelar ljudet, en annan
+      byter färgerna, och din skriver <i>klick</i>. Tre lyssnare på samma knapp, som inte vet
+      om varandra.</p>
+    <p>I Gränssnittsdesign den 22 februari hette det här mikrointeraktionens
+      <i>utlösare</i>. I koden är utlösaren en händelse.</p>
+
+    <h3>Varför inget onclick i HTML:en</h3>
+    <p>Det finns ett äldre sätt, och du kommer att hitta det när du söker på nätet:</p>
+<pre><code class="sprak-html">&lt;!-- Fungerar, men blandar beteende och struktur --&gt;
+&lt;button type="button" onclick="spela('vaxla')"&gt;Mörkt läge&lt;/button&gt;</code></pre>
+    <p>Det fungerar, och det är ändå förbjudet i Projekt 5, som ska-krav. Tre skäl:</p>
+    <ul>
+      <li><b>Tre språk på ett ställe.</b> HTML ska säga vad som finns. Här säger den också vad
+        som händer, och JavaScript står i ett attribut där ingen letar efter det.</li>
+      <li><b>Varje element för hand.</b> Ska tio knappar låta står samma kod tio gånger.
+        Ljudmodulen hittar alla element med <code>data-ljud</code> själv, i en loop.</li>
+      <li><b>Ett ställe att ändra.</b> Byter du händelse eller volym ändrar du en rad i en
+        fil, inte varje sida.</li>
+    </ul>
+    <p><code>data-ljud="vaxla"</code> är information: vilket ljud. <code>onclick</code> är
+      beteende. Informationen får stå i HTML:en, beteendet hör hemma i
+      <code>.js</code>-filen. Samma sak gäller <code>onload</code>, <code>onchange</code> och
+      alla andra attribut som börjar på <code>on</code>.</p>
+
+    <h3 id="falt">Fältet: JavaScript byter klass, CSS rör</h3>
+    <p>Öppna <a href="referensprojekt/rapportera.html">rapportera.html</a> i referensprojektet.
+      Skriv <i>Vinga</i> i fältet <i>Fyrens namn</i>. Ingenting händer medan du skriver. Tryck
+      Tab. Fältets kant blir grön, och en stapel syns till vänster. Töm fältet och tabba ut
+      igen, så försvinner stapeln. Det hände när fältet <b>lämnades</b>, och bara för att det
+      var rätt ifyllt.</p>
+    <p>Koden är <code>skript/falt.js</code>, inkopplad bara på den sidan:</p>
+<pre><code class="sprak-js">// Ett obligatoriskt fält visar att det är rätt ifyllt när man lämnar det.
+// Hur det ser ut står i stil.css under .godkant. Här byts bara klassen.
+const obligatoriska = document.querySelectorAll("input[required]");
+
+for (const falt of obligatoriska) {
+  falt.addEventListener("change", function () {
+    if (falt.checkValidity()) {
+      falt.classList.add("godkant");
+    } else {
+      falt.classList.remove("godkant");
+    }
+  });
+}</code></pre>
+    <ul>
+      <li><code>querySelectorAll("input[required]")</code> hittar alla fält med attributet
+        <code>required</code>. På sidan är det två: namnet och e-posten.</li>
+      <li>Loopen sätter en lyssnare på vart och ett, som i ljudmodulen.</li>
+      <li><code>"change"</code> i stället för <code>"click"</code>: lyssnaren körs när fältet
+        lämnas efter en ändring.</li>
+      <li><code>falt.checkValidity()</code> frågar webbläsaren om fältet uppfyller sina
+        regler: att det är ifyllt, och för e-posten att adressen har rätt form. Svaret är
+        <code>true</code> eller <code>false</code>.</li>
+      <li><code>if … else</code>: <b>om</b> svaret är sant, lägg till klassen.
+        <b>Annars</b>, ta bort den. <code>else</code> betyder just <i>annars</i>.</li>
+    </ul>
+    <p>Hur klassen ser ut står i <code>stil.css</code>, avsnitt 10, inte i skriptet:</p>
+<pre><code class="sprak-css">/* Fältet är rätt ifyllt. En stapel till vänster, inte bara färg, så att det syns
+   också för den som inte skiljer färgerna åt. Värdena kommer ur överlämningen. */
+input.godkant {
+  border-color: var(--klar);
+  box-shadow: inset 0.3rem 0 0 var(--klar);
+  transition: border-color 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  input.godkant {
+    transition: none;
+  }
+}</code></pre>
+    <p><code>--klar</code> är en variabel i <code>:root</code>, en grön. <code>box-shadow</code>
+      med <code>inset</code> ritar stapeln innanför kanten. <code>transition</code> och
+      <code>prefers-reduced-motion</code> skrev du i område 5, på knappen; syntaxen är
+      densamma, bara med två egenskaper. Se
+      <a href="../webb-omrade-5/guide-responsiv.html#bilder-och-media">guiden till område 5,
+      avsnitt 3</a>. Varför 150 ms och <code>ease-out</code> tog Gränssnittsdesign den 25
+      februari; här är det värden som står i en överlämning.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">CSS rör, JavaScript byter läge</span>
+      <p>Skriptet vet inte att fältet blir grönt. Det vet bara att klassen heter
+        <code>godkant</code>. Vill du att stapeln ska vara blå ändrar du CSS:en och rör inte
+        skriptet. Så ska all rörelse och allt utseende i Projekt 5 byggas: utseendet i en
+        klass i CSS, och JavaScript som sätter och tar bort klassen. Aldrig
+        <code>style</code> direkt från skriptet.</p>
+    </div>
+    <p>Referensprojektet har också <code>input:invalid</code>, som ger en röd kant utan en
+      rad JavaScript. Det nya är att JavaScript kan sätta ett tillstånd som CSS inte kan räkna
+      ut själv, här <i>rätt ifyllt och lämnat</i>.</p>
+    <p>Ljudmodulen spelar ett ljud <b>varje</b> gång händelsen kommer. Ett ljud som bara ska
+      spelas ibland, till exempel när ett fält är fel ifyllt, klarar den inte. Då är det egen
+      händelsekod som anropar <code>spela</code> på rätt ställe i ett villkor som det här. Det
+      är C-nivå, och mer står i <a href="#overlamningen">avsnitt 6</a>.</p>
+
+    <h3>Klick och tangentbord</h3>
+    <p>Tabba till lägesknappen och tryck Enter. Färgerna byts och det låter. Tryck
+      mellanslag, samma sak. Lyssnaren säger <code>"click"</code>, och ingen klickade. En
+      <code>button</code> gör om Enter och mellanslag till ett klick av sig själv.</p>
+    <p>En <code>div</code> med samma lyssnare gör det inte. Den går inte ens att tabba till,
+      som i <a href="../webb-omrade-5/guide-responsiv.html#tillganglighet">guiden till område
+      5, avsnitt 5</a>. Regeln: <b>lyssna på klick på en <code>button</code> eller en
+      <code>a</code>, aldrig på en <code>div</code></b>, så fungerar tangentbordet utan en rad
+      extra kod.</p>
+    <p>Vill du lyssna på tangenterna själva finns <code>keydown</code>. Skriv i konsolen och
+      tryck sedan på några tangenter:</p>
+<pre><code class="sprak-js">document.addEventListener("keydown", function (event) {
+  console.log(event.key);
+});</code></pre>
+    <p>Konsolen skriver <code>a</code>, <code>Enter</code>, <code>Escape</code>.
+      <code>event</code> är en parameter, som <code>namn</code> i ljudmodulens funktion.
+      Webbläsaren fyller den med uppgifter om händelsen, och <code>event.key</code> är vilken
+      tangent det var. <code>keydown</code> behövs sällan i Projekt 5. Den som använder
+      <code>button</code> har tangentbordet gratis.</p>
+
+    <h3>Din första skriptfil</h3>
+    <p>En knapp som gör något synligt, på en sida i din egen sajt. Fyra delar, i den här
+      ordningen. Först knappen i HTML:en, någonstans i <code>main</code>:</p>
+<pre><code class="sprak-html">&lt;button class="prova-knapp" type="button"&gt;Markera innehållet&lt;/button&gt;</code></pre>
+    <p><code>type="button"</code> gör att knappen inte skickar något formulär den råkar stå
+      i. Sedan läget i <code>stil.css</code>, alltså hur det ser ut när klassen är satt:</p>
+<pre><code class="sprak-css">/* Övningen: så här ser main ut när knappen har markerat det */
+main.markerad {
+  outline: 0.25rem dashed currentColor;
+}</code></pre>
+    <p>Välj gärna något annat som syns: en bakgrund, en kant, en annan textfärg. Skapa sedan
+      mappen <code>skript/</code> bredvid <code>index.html</code>, och filen
+      <code>prova.js</code> i den:</p>
+<pre><code class="sprak-js">// Övning: knappen växlar en klass på main. Hur det ser ut står i stil.css.
+const provknapp = document.querySelector(".prova-knapp");
+const innehall = document.querySelector("main");
+
+provknapp.addEventListener("click", function () {
+  innehall.classList.toggle("markerad");
+});</code></pre>
+    <p>Sist kopplingen, i <code>head</code> på samma sida, efter <code>link</code>:</p>
+<pre><code class="sprak-html">&lt;script src="skript/prova.js" defer&gt;&lt;/script&gt;</code></pre>
+    <p>Vad <code>defer</code> gör står i <a href="#moduler">avsnitt 4</a>. Ladda om och
+      klicka. Tabba sedan till knappen och tryck Enter. Båda ska fungera. Variabeln heter
+      <code>provknapp</code> och inte <code>knapp</code> med flit; skälet står i
+      <a href="#globala-namn">avsnitt 4</a>.</p>
+
+    <h3 id="felmeddelandet">Läs ett felmeddelande</h3>
+    <p>När knappen fungerar, framkalla ett fel med flit. Den som aldrig sett felet med flit
+      blir rädd för det första gången det kommer på riktigt.</p>
+    <ol class="steg">
+      <li>Stava fel på klassen i skriptet: <code>".prova-knap"</code>. Spara, ladda om och
+        öppna konsolen.</li>
+      <li>Läs det röda. Chrome och Edge skriver det första nedan, Firefox det andra.</li>
+    </ol>
+<pre><code>Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')
+
+Uncaught TypeError: provknapp is null</code></pre>
+    <p>Läs det bakifrån:</p>
+    <ul>
+      <li><i>null</i> – något var ingenting. Samma <code>null</code> som konsolen svarade i
+        <a href="#dom">avsnitt 2</a>.</li>
+      <li><i>reading 'addEventListener'</i> – det var när koden försökte lägga till en
+        lyssnare.</li>
+      <li>Till höger står filnamnet och radnumret, <code>prova.js:5</code>. Klicka på det, så
+        visar konsolen raden.</li>
+    </ul>
+    <p>Stavfelet står på rad 2, men felet står på rad 5. <b>Felet står inte på raden där det
+      gick fel, utan på raden där felet märktes.</b> Det var på rad 5 som <code>null</code>
+      skulle användas. Rätta stavningen och ladda om, så är felet borta.</p>
+    <p>Ta sedan bort <code>defer</code> på <code>script</code>-raden och ladda om. Samma fel,
+      fast klassen är rätt stavad. Förklaringen står i <a href="#moduler">avsnitt 4</a>. Sätt
+      tillbaka <code>defer</code>.</p>
+    <p>Två saker ger inget fel alls, bara tystnad. Ett felstavat händelsenamn,
+      <code>"onclick"</code> eller <code>"Click"</code>, och en klass som heter olika i CSS:en
+      och i <code>classList</code>. Titta i Elements-fliken om klassen faktiskt sätts när du
+      klickar. Syns den där men inte på sidan är det CSS:en.</p>
+    <p>Ett vanligt misstag till: att anropa funktionen i stället för att lämna över den.</p>
+<pre><code class="sprak-js">// Fel: spelar ljudet en gång när sidan laddas, och sedan aldrig mer
+provknapp.addEventListener("click", spela("vaxla"));
+
+// Rätt: det som ska hända vid klicket ligger inuti function () { … }
+provknapp.addEventListener("click", function () {
+  spela("vaxla");
+});</code></pre>
+
+    <h3>Ljudfilen som saknas</h3>
+    <p>Ett fel till att känna igen. Klicka någonstans i texten på referensprojektets
+      startsida, och skriv sedan i konsolen:</p>
+<pre><code class="sprak-js">spela("finns-inte");</code></pre>
+    <p><code>spela</code> är ljudmodulens funktion, och den går att anropa från konsolen.
+      Svaret är rött. Så här står det i Chrome och Edge; Firefox formulerar sig annorlunda:</p>
+<pre><code>Uncaught (in promise) NotSupportedError: Failed to load because no supported source was found.</code></pre>
+    <p><b>NotSupportedError betyder att filen inte hittades.</b> Ljudet har fel namn, fel
+      versal eller ligger i fel mapp. Kontrollera namnet i <code>data-ljud</code> och
+      <code>LJUDMAPP</code> innan något annat. Modulen tar inte hand om felet, och det är
+      meningen: att få den att klara en saknad fil utan fel i konsolen är en utmaning på nivå
+      A, se <a href="#saknad-ljudfil">avsnitt 7</a>.</p>
+
+    <!-- ================================================================== -->
+
+    <h2 id="moduler">4. Koppla in och anpassa en modul</h2>
+    <p>Det här är E-nivån i Projekt 5: ta en modul någon annan skrivit, koppla in den och
+      ändra det som får ändras. Tre frågor bär avsnittet. <b>Var ska <code>script</code>
+      stå?</b> <b>Hur hittar sidan filen?</b> <b>Vilka rader får jag röra?</b></p>
+    <p>Det mesta som går fel när en modul kopplas in är inte koden, utan kopplingen. En sida
+      där <code>skript/ljud.js</code> är felstavat till <code>skript/ljd.js</code> byter
+      färger men är tyst. Konsolen har en röd rad om en fil som inte gick att hämta, och
+      ingenting annat klagar.</p>
+
+    <h3>script och defer</h3>
+    <p>Så här står skripten i referensprojektets <code>head</code>, efter <code>link</code>
+      och i den här ordningen:</p>
+<pre><code class="sprak-html">&lt;script src="skript/ljud.js" defer&gt;&lt;/script&gt;
+&lt;script src="skript/morkt-lage.js" defer&gt;&lt;/script&gt;</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>Vad den gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;script&gt;</code></td><td>Här ska JavaScript köras</td></tr>
+          <tr><td><code>src="skript/ljud.js"</code></td><td>Filen, samma sorts sökväg som
+            <code>href</code> på <code>stil.css</code></td></tr>
+          <tr><td><code>defer</code></td><td>Vänta med att köra skriptet tills hela HTML:en
+            är läst</td></tr>
+          <tr><td><code>&lt;/script&gt;</code></td><td>Sluttaggen måste stå med, också när
+            elementet är tomt</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><code>rapportera.html</code> har en rad till, eftersom fälten bara finns där:</p>
+<pre><code class="sprak-html">&lt;script src="skript/falt.js" defer&gt;&lt;/script&gt;</code></pre>
+    <p><b><code>defer</code></b> är engelska för <i>skjuta upp</i>. Webbläsaren läser HTML:en
+      uppifrån. Utan <code>defer</code> körs skriptet i <code>head</code> innan
+      <code>body</code> är läst. Då finns ingen knapp att hitta, <code>querySelector</code>
+      ger <code>null</code>, och felet från <a href="#felmeddelandet">avsnitt 3</a> kommer.
+      Med <code>defer</code> hämtas skriptet medan sidan läses, men körs först när den är
+      klar.</p>
+    <p>Ett annat sätt är att lägga <code>script</code> sist i <code>body</code>. Det fungerar
+      också. Kursen använder <code>defer</code> i <code>head</code> för att alla kopplingar då
+      står på ett ställe, som <code>link</code> till stilmallen, och för att skripten körs i
+      den ordning de står. Ljudmodulen står först, eftersom andra skript kan vilja använda
+      dess funktion <code>spela</code>.</p>
+    <p>Första kontrollen när ett skript kopplas in: en fil med en enda rad.</p>
+<pre><code class="sprak-js">console.log("skriptet laddades");</code></pre>
+    <p>Syns raden i konsolen på varje sida är sökvägen och <code>defer</code> rätt, innan du
+      skrivit något som kan gå fel.</p>
+
+    <h3>Sökvägar</h3>
+    <p>Två sökvägar, och båda räknas <b>från sidan</b>:</p>
+    <ul>
+      <li><code>src="skript/ljud.js"</code> räknas från HTML-filen, som
+        <code>href="stil.css"</code> och bildernas <code>src</code>.</li>
+      <li><code>LJUDMAPP</code> i ljudmodulen räknas också från sidan, inte från skriptfilen.
+        Kommentaren säger det: <i>var ljudfilerna ligger, räknat från sidan</i>. Skriptet
+        ligger i <code>skript/</code>, men ljuden hittas i <code>ljud/</code> bredvid
+        <code>index.html</code>.</li>
+    </ul>
+    <p>Tre fel som kommer:</p>
+    <ul>
+      <li><b>Snedstreck först.</b> <code>/skript/ljud.js</code> betyder roten, inte mappen
+        bredvid. Det fungerar ibland lokalt och aldrig på Pages. Skriv utan snedstreck
+        först.</li>
+      <li><b>Omvända snedstreck.</b> <code>skript\ljud.js</code> är Windows sätt att skriva.
+        Webben använder <code>/</code>.</li>
+      <li><b>Versaler.</b> <code>Skript/</code> och <code>skript/</code> är samma mapp i
+        Windows men inte på Pages. Gemener överallt, som i
+        <a href="../webb-omrade-2/guide-html.html#interoperabilitet">guiden till område 2,
+        avsnitt 10</a>.</li>
+    </ul>
+
+    <h3>Vad som är säkert att ändra</h3>
+    <p>Läs ljudmodulens kommentar överst en gång till. Modulen anpassas nästan helt
+      <b>utan att filen öppnas</b>. Det mesta görs i HTML:en.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Var</th><th>Säkert att ändra</th><th>Rör inte</th></tr></thead>
+        <tbody>
+          <tr><td>HTML:en</td><td><code>data-ljud</code>: vilket ljud.
+            <code>data-ljud-nar</code>: vilken händelse, om det inte är klick</td><td>–</td></tr>
+          <tr><td><code>ljud.js</code></td><td>De två inställningarna, <code>LJUDMAPP</code> och
+            <code>VOLYM</code></td><td>Loopen, båda villkoren, funktionens namn
+            <code>spela</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Ett fält som ska låta när det lämnats ändrat får båda attributen:</p>
+<pre><code class="sprak-html">&lt;label for="epost"&gt;Din e-post&lt;/label&gt;
+&lt;input type="email" id="epost" name="epost" data-ljud="klart" data-ljud-nar="change"&gt;</code></pre>
+    <p>Klick är förvalet. <code>change</code> passar för ett fält som lämnats ändrat.
+      <code>submit</code>, när ett formulär skickas, passar sällan: sidan byts, och ljudet
+      hinns inte höras. Attributnamnen skrivs med gemener och utan å, ä och ö:
+      <code>data-ljud-när</code> hittas inte.</p>
+    <p>Inställningarna är gjorda för att ändras, och attributen är gjorda för att sättas.
+      Loopen och villkoren är det som får modulen att fungera på vilken sajt som helst. Ändrar
+      du dem har du skrivit en egen modul, och då är den din att felsöka.</p>
+    <p>Håll också fast vid <b>namnen som binder ihop filerna</b>. En klass som skriptet
+      sätter och CSS:en läser måste heta samma sak på båda ställena. Byts
+      <code>ljud-av</code> på ett ställe men inte på det andra slutar ljudknappen fungera,
+      utan ett enda felmeddelande.</p>
+    <p>Det du ändrar i en modul skriver du i <code>dokumentation.md</code>, under rubriken
+      <b>Skript</b>: vilken fil, vad den gör och vad du ändrat. Det är ett ska-krav. Hur
+      avsnittet ser ut står i <a href="#avvikelser">avsnitt 6</a>.</p>
+
+    <h3>Mörkt läge, steg för steg</h3>
+    <p>Övningen från passet. Gör den i en kopia av fyrsajten från område 5, i en egen mapp
+      utanför ditt projekt, inte i din egen sajt. Kopian ligger som zip-fil i itslearning,
+      under område 6. Mörkt läge på din egen sajt är en
+      utmaning, se <a href="#morkt-lage-eget">avsnitt 7</a>.</p>
+    <p><b>Steg 1. Modulerna på plats.</b> Skapa mapparna <code>skript/</code> och
+      <code>ljud/</code>. Kopiera <code>ljud.js</code>, <code>morkt-lage.js</code> och
+      <code>vaxla.mp3</code> från referensprojektets mappar. Modulerna kopieras, de skrivs
+      inte av; det är just det E-nivån är. Koppla in båda skripten i <code>head</code> på
+      <code>index.html</code>, efter <code>link</code>, med raderna ovan.</p>
+    <p><b>Steg 2. Knappen i HTML:en</b>, sist i <code>header</code>:</p>
+<pre><code class="sprak-html">&lt;button class="lage-knapp" type="button" data-ljud="vaxla" hidden&gt;Mörkt läge&lt;/button&gt;</code></pre>
+    <p><code>type="button"</code> som förut. <code>data-ljud="vaxla"</code> gör att
+      ljudmodulen hittar knappen, utan en rad ny kod. <code>hidden</code> döljer knappen tills
+      skriptet visar den; varför står i <a href="#utan-javascript">avsnitt 5</a>. Ladda om.
+      Knappen syns, fast den har <code>hidden</code> i HTML:en: <code>morkt-lage.js</code> tog
+      bort det. Klicka. Det låter, men ingenting blir mörkt. Titta i Elements-fliken:
+      skriptet satte klassen <code>morkt</code> på <code>html</code>, men CSS:en har ingen
+      regel för den ännu.</p>
+    <p><b>Steg 3. Den mörka paletten i CSS:en</b>, direkt efter <code>:root</code> i
+      avsnitt 1 av <code>stil.css</code>. Formen är den här:</p>
+<pre><code class="sprak-css">:root {
+  /* ljusa värden som förut */
+}
+
+/* Systemet vill ha mörkt, och användaren har inte valt ljust på sajten */
+@media (prefers-color-scheme: dark) {
+  :root:not(.ljust) {
+    /* mörka värden */
+  }
+}
+
+/* Användaren har valt mörkt med knappen */
+:root.morkt {
+  /* samma mörka värden */
+}</code></pre>
+    <ul>
+      <li><code>prefers-color-scheme: dark</code> är en media query, som
+        <code>prefers-reduced-motion</code>. Den frågar om användaren ställt in mörkt i sitt
+        system.</li>
+      <li><code>:root:not(.ljust)</code> betyder <i>html-elementet, om det inte har klassen
+        <code>ljust</code></i>. Den som valt ljust med knappen får ljust, även om systemet
+        vill ha mörkt.</li>
+      <li><code>:root.morkt</code> gäller när knappen valt mörkt, oavsett systemet.</li>
+    </ul>
+    <p>De mörka värdena skriver du av från referensprojektets <code>stil.css</code>, en ny
+      rad för varje färgvariabel. Typografi och avstånd rörs inte. Så här står den andra
+      av de två platserna där:</p>
+<pre><code class="sprak-css">:root.morkt {
+  color-scheme: dark;
+  --text: #e3eaf1;
+  --text-dov: #a3b3c3;
+  --botten: #0f1a24;
+  --yta: #172431;
+  --linje: #2c3d4d;
+  --linje-falt: #7b8ea1;
+  --accent: #6cc3de;
+  --accent-ljus: #16323d;
+  --accent-hover: #96d6ea;
+  --pa-accent: #0f1a24;
+  --varning: #ff8f7a;
+  --klar: #5ec98c;
+}</code></pre>
+    <p>Samma värden ska stå inuti media queryn också. Paletten står två gånger, en gång för
+      systemets val och en gång för knappens. Ändras en mörk färg ska den ändras på båda
+      ställena. <code>color-scheme: dark</code> gör att också fälten och rullningslisterna
+      blir mörka. Ladda om och klicka. Nu blir det mörkt.</p>
+    <p><b>Steg 4. Läs vad modulen gör.</b> Hela filen,
+      <code>skript/morkt-lage.js</code>:</p>
+<pre class="fri">// Mörkt läge. Knappen växlar mellan ljust och mörkt och minns valet till nästa besök.
+// Utan JavaScript följer sajten systemets inställning, med CSS. Knappen har hidden i
+// HTML:en och visas först här, eftersom den inte gör något utan skriptet.
+
+const knapp = document.querySelector(".lage-knapp");
+const rot = document.documentElement;
+
+// Är sidan mörk just nu? Ett eget val går före systemets inställning.
+function arMork() {
+  if (rot.classList.contains("morkt")) {
+    return true;
+  }
+  if (rot.classList.contains("ljust")) {
+    return false;
+  }
+  return matchMedia("(prefers-color-scheme: dark)").matches;
+}
+
+// Sätter läget och sparar valet. localStorage kan vara avstängt och kastar då ett
+// fel. try gör att sidan fungerar ändå, fast utan minne.
+function sattLage(lage) {
+  rot.classList.remove("morkt", "ljust");
+  rot.classList.add(lage);
+  knapp.setAttribute("aria-pressed", lage === "morkt");
+  try {
+    localStorage.setItem("lage", lage);
+  } catch (fel) {
+    // Inget minne. Läget gäller tills sidan laddas om.
+  }
+}
+
+// Ett sparat val från förra besöket
+try {
+  const sparat = localStorage.getItem("lage");
+  if (sparat) {
+    sattLage(sparat);
+  }
+} catch (fel) {
+  // Inget sparat val. Systemets inställning gäller.
+}
+
+knapp.hidden = false;
+knapp.setAttribute("aria-pressed", arMork());
+
+knapp.addEventListener("click", function () {
+  if (arMork()) {
+    sattLage("ljust");
+  } else {
+    sattLage("morkt");
+  }
+});</pre>
+    <p>Fyra ställen att förstå. Först två variabler, knappen och <code>html</code>-elementet:</p>
+<pre><code class="sprak-js">const knapp = document.querySelector(".lage-knapp");
+const rot = document.documentElement;</code></pre>
+    <p>Sedan funktionen som sätter läget:</p>
+<pre><code class="sprak-js">function sattLage(lage) {
+  rot.classList.remove("morkt", "ljust");
+  rot.classList.add(lage);
+  knapp.setAttribute("aria-pressed", lage === "morkt");
+  try {
+    localStorage.setItem("lage", lage);
+  } catch (fel) {
+    // Inget minne. Läget gäller tills sidan laddas om.
+  }
+}</code></pre>
+    <ul>
+      <li><code>remove</code> tar bort båda klasserna, <code>add</code> sätter den som valdes.
+        Aldrig båda samtidigt.</li>
+      <li><code>lage === "morkt"</code> jämför. Tre likhetstecken betyder <i>är lika med</i>,
+        och svaret är <code>true</code> eller <code>false</code>. Det är det ett enkelt
+        <code>=</code> inte är.</li>
+      <li><code>aria-pressed</code> säger till skärmläsaren att knappen är nedtryckt eller
+        inte. Knappens text är densamma i båda lägena; det är <code>aria-pressed</code> och
+        utseendet som visar läget. I <code>stil.css</code> står utseendet under
+        <code>.lage-knapp[aria-pressed="true"]</code>.</li>
+      <li><code>localStorage</code> är webbläsarens minne för sajten.
+        <code>setItem("lage", lage)</code> sparar valet under namnet <code>lage</code>, och
+        det finns kvar nästa gång sidan öppnas.</li>
+      <li><code>try</code> betyder <i>försök</i>. Går det fel, till exempel för att
+        lagringen är avstängd, körs det som står i <code>catch</code> i stället, och sidan
+        fungerar ändå.</li>
+    </ul>
+    <p>Här visas knappen, med samma <code>hidden</code> som du satte från konsolen i
+      avsnitt 2:</p>
+<pre><code class="sprak-js">knapp.hidden = false;
+knapp.setAttribute("aria-pressed", arMork());</code></pre>
+    <p>Och sist en lyssnare, som i avsnitt 3. Är sidan mörk, välj ljust. Annars mörkt.
+      <code>arMork</code> är en funktion högre upp som svarar <code>true</code> eller
+      <code>false</code>. Den tar hänsyn både till knappens val och till systemets
+      inställning.</p>
+<pre><code class="sprak-js">knapp.addEventListener("click", function () {
+  if (arMork()) {
+    sattLage("ljust");
+  } else {
+    sattLage("morkt");
+  }
+});</code></pre>
+    <p><b>Steg 5. Prova.</b> Tre prov:</p>
+    <ol class="steg">
+      <li>Välj mörkt och ladda om. Sidan är fortfarande mörk: valet är sparat.</li>
+      <li>Tabba till knappen och tryck mellanslag. Det låter och växlar.</li>
+      <li>Öppna Rendering-panelen i DevTools: Ctrl + Shift + P, skriv <i>Rendering</i>. Sätt
+        <i>prefers-color-scheme</i> till <i>dark</i>. Välj ljust med knappen och ladda om.
+        Knappens val går före systemets.</li>
+    </ol>
+    <p><b>Steg 6. Ändra beteendet.</b> Två ändringar, i tur och ordning:</p>
+    <ol class="steg">
+      <li><b>Byt knappens text</b> till något eget. Den står i HTML:en, inte i skriptet. Ett
+        skript som inte innehåller någon text behöver inte ändras när texten gör det.</li>
+      <li><b>Låt valet glömmas.</b> Kommentera bort blocket under <code>// Ett sparat val från
+        förra besöket</code>, med <code>//</code> framför varje rad. Välj mörkt och ladda om.
+        Sidan följer systemet igen. Valet sparas fortfarande, men det läses aldrig.</li>
+    </ol>
+<pre><code class="sprak-js">// Ett sparat val från förra besöket
+// try {
+//   const sparat = localStorage.getItem("lage");
+//   if (sparat) {
+//     sattLage(sparat);
+//   }
+// } catch (fel) {
+//   // Inget sparat val. Systemets inställning gäller.
+// }</code></pre>
+    <p>Den andra ändringen rör något utanför inställningarna. Det går, eftersom blocket är
+      helt och gör en sak. Skriv det i dokumentationen, så att nästa person vet varför
+      modulen glömmer.</p>
+    <p><b>Kontrasten.</b> Mät de mörka textfärgerna mot den mörka bakgrunden, som du mätte
+      färgscheman i Gränssnittsdesign den 5 oktober. Samma verktyg, samma gräns. Ett mörkt
+      läge som inte är mätt är inte klart.</p>
+    <p>Med <code>defer</code> kan sidan visas ljus en kort stund innan skriptet hunnit sätta
+      mörkt. På fyrsajten syns det knappt, och det löses inte i den här kursen.</p>
+
+    <h3 id="ljudknappen">Ljudknappen följer samma mönster</h3>
+    <p>Ljudknappen är ett bör-krav, nivå <b>C</b>, och den skriver du själv. Allt den behöver
+      finns i lägesknappen:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Del</th><th>I lägesknappen</th><th>I ljudknappen</th></tr></thead>
+        <tbody>
+          <tr><td>Knappen</td><td>En <code>button</code> med <code>hidden</code>, som skriptet
+            visar</td><td>Likadant</td></tr>
+          <tr><td>Klassen på <code>html</code></td><td><code>morkt</code> eller
+            <code>ljust</code></td><td><code>ljud-av</code>, som ljudmodulen redan lyssnar
+            på</td></tr>
+          <tr><td>Läget för skärmläsaren</td><td><code>aria-pressed</code></td>
+            <td>Likadant</td></tr>
+          <tr><td>Minnet</td><td><code>localStorage</code> i <code>try</code></td>
+            <td>Likadant, under ett eget namn</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Ljudmodulen lyssnar redan på <code>ljud-av</code>. Du behöver bara sätta den. Att det
+      ska gå att stänga av ljudet, och vad användaren väntar sig då, tog Gränssnittsdesign
+      den 1 mars.</p>
+
+    <h3 id="globala-namn">Skript på samma sida delar namn</h3>
+    <p>Alla skript på en sida delar sina namn. <code>morkt-lage.js</code> har redan
+      <code>const knapp</code> och <code>const rot</code>. Skriver du en egen ljudknapp med
+      <code>const knapp</code> på en sida där <code>morkt-lage.js</code> också är inkopplad
+      kommer det här, i Chrome och Edge och sedan i Firefox:</p>
+<pre><code>Uncaught SyntaxError: Identifier 'knapp' has already been declared
+
+Uncaught SyntaxError: redeclaration of const knapp</code></pre>
+    <p>Döp den egna till något eget, till exempel <code>ljudknapp</code>. Det är också därför
+      övningsknappen i avsnitt 3 heter <code>provknapp</code>.</p>
+
+    <h3>Vanliga fel i avsnittet</h3>
+    <ul>
+      <li><b>Knappen syns fast JavaScript är avstängt.</b> En regel i <code>stil.css</code>
+        som ger knappen <code>display</code> slår ut <code>hidden</code>. Se
+        <a href="#hidden">avsnitt 5</a>.</li>
+      <li><b>Paletten bara på ett ställe.</b> Står den bara under <code>:root.morkt</code>
+        fungerar knappen men inte systemets val. Står den bara i media queryn är det
+        tvärtom.</li>
+      <li><b>Färger som inte följer med.</b> Varje färg som står direkt i en regel, i stället
+        för som variabel, stannar kvar i ljust läge. Fyrsajtens <code>.knapp</code> hade två
+        sådana, och de blev variabler i pass 48. Sök efter <code>#</code> och
+        <code>hsl(</code> utanför <code>:root</code>.</li>
+      <li><b>Skriptet på en sida utan knappen.</b> <code>morkt-lage.js</code> utgår från att
+        knappen finns. Saknas den ger det <i>Cannot read properties of null</i>. Knappen ska
+        finnas i <code>header</code> på varje sida som har skriptet.</li>
+    </ul>
+
+    <!-- ================================================================== -->
+
+    <h2 id="utan-javascript">5. När JavaScript inte finns</h2>
+    <p>Ett ska-krav i Projekt 5 skiljer sig från de andra: <b>sajten ska fungera fullt ut med
+      JavaScript avstängt.</b> Allt innehåll går att läsa, alla länkar och formuläret
+      fungerar. Det enda som saknas är ljudet och de tillstånd som bara JavaScript kan
+      sätta.</p>
+
+    <h3>Stäng av JavaScript</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Webbläsare</th><th>Stäng av</th><th>Gäller</th></tr></thead>
+        <tbody>
+          <tr><td>Chrome, Edge</td><td>DevTools öppet, Ctrl + Shift + P, skriv <i>Disable
+            JavaScript</i>, Enter. Slå på igen med <i>Enable JavaScript</i></td>
+            <td>Bara så länge DevTools är öppet</td></tr>
+          <tr><td>Firefox</td><td>Skriv <code>about:config</code> i adressfältet, sök på
+            <code>javascript.enabled</code> och dubbelklicka så att det blir
+            <code>false</code></td><td>Tills du ändrar tillbaka</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Ladda om sidan efter varje ändring. En sida som redan är laddad har redan kört sina
+      skript.</p>
+    <ul>
+      <li><b>I Chrome slås JavaScript på igen när DevTools stängs.</b> Bra när du glömmer,
+        dåligt när du tror att du testar utan. Är du osäker, ladda om sidan: står raden
+        <i>skriptet laddades</i> i konsolen är skripten igång. Att skriva något i konsolen
+        visar ingenting – den svarar också när JavaScript är avstängt.</li>
+      <li><b>I Firefox måste det slås på igen för hand.</b> Den som glömmer har en webbläsare
+        där ingen sajt fungerar som vanligt, i veckor.</li>
+    </ul>
+
+    <h3>Struktur, stil och beteende</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Lager</th><th>Språk</th><th>Utan det</th></tr></thead>
+        <tbody>
+          <tr><td>Beteende</td><td>JavaScript</td><td>Sidan gör ingenting när man använder
+            den, men allt står kvar</td></tr>
+          <tr><td>Stil</td><td>CSS</td><td>Sidan är ful men läsbar, och länkarna
+            fungerar</td></tr>
+          <tr><td>Struktur</td><td>HTML</td><td>Ingenting</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Varje lager ska fungera utan lagret ovanför. HTML:en ensam är en läsbar sida med länkar
+      och ett formulär. CSS:en gör den bra att använda. JavaScript lägger till ljud och
+      tillstånd. På engelska heter tanken <b>progressive enhancement</b>: basen först, sedan
+      förbättringar som får saknas.</p>
+    <p>Reglerna du redan följer finns av det skälet. Inget <code>onclick</code> i HTML:en,
+      för då blir beteendet en del av strukturen. Rörelsen i CSS och inte med
+      <code>style</code>, för då ligger utseendet i beteendet. Varje regel håller isär två
+      lager.</p>
+    <p>Ett skript kan saknas av fler skäl än att någon stängt av det: nätet tappar filen, ett
+      tillägg i webbläsaren blockerar den, eller ett fel på en rad stoppar resten av
+      skriptet. För sajten är det samma sak.</p>
+
+    <h3>Vad som håller i referensprojektet</h3>
+    <p>Stäng av JavaScript och gå igenom referensprojektet. Rubrikerna, texten, bilderna och
+      menyn är kvar, och alla länkar fungerar. Det enda som saknas på startsidan är
+      lägesknappen.</p>
+    <p id="hidden"><b>Lägesknappen.</b> Den står i HTML:en med <code>hidden</code>. Utan
+      skriptet tas <code>hidden</code> aldrig bort, och knappen syns inte. Kommentaren överst i
+      <code>morkt-lage.js</code> säger varför: knappen gör ingenting utan skriptet. En knapp
+      som inte gör något när man trycker är sämre än ingen knapp, för den som trycker tror att
+      sajten är trasig.</p>
+    <p><code>hidden</code> fungerar för att webbläsaren döljer elementet med
+      <code>display: none</code>. En egen regel som sätter <code>display</code> på knappen
+      vinner över det:</p>
+<pre><code class="sprak-css">/* Så här ska det inte stå: display vinner över hidden,
+   och knappen syns också utan JavaScript */
+.lage-knapp {
+  display: inline-flex;
+}</code></pre>
+    <p>Därför har <code>.lage-knapp</code> i referensprojektets <code>stil.css</code> ingen
+      <code>display</code>-regel, och kommentaren där säger att det är avsiktligt. Kontrollera
+      i Elements-fliken vilken regel som gäller om din knapp syns fast den inte borde.</p>
+    <p><b>Det mörka läget.</b> Sätt <i>prefers-color-scheme</i> till <i>dark</i> i
+      Rendering-panelen. Sajten blir mörk, utan skript. Det är media queryn med
+      <code>:root:not(.ljust)</code> från <a href="#moduler">avsnitt 4</a>. Den är CSS och bryr
+      sig inte om JavaScript: utan skript finns ingen klass <code>ljust</code>, och villkoret
+      stämmer alltid. Det som försvinner är <b>valet</b>. Att mörkt läge fungerar utan
+      JavaScript är nivå A i uppgiften, och det är skälet till att paletten står två
+      gånger.</p>
+    <p><b>Formuläret.</b> Tryck <i>Skicka rapporten</i> på <code>rapportera.html</code> med
+      tomma fält. Webbläsaren stoppar och säger att fältet ska fyllas i. Det är
+      <code>required</code> i HTML:en, och det fungerar utan en rad JavaScript. Fyll i fälten
+      och tabba ut: ingen grön stapel, eftersom <code>falt.js</code> inte körs. Skicka, och
+      <code>tack.html</code> visas som vanligt. Stapeln var en extra bekräftelse. Kontrollen
+      var aldrig beroende av den.</p>
+    <p><b>Ljudet.</b> Inget ljud någonstans. Fyrsajtens enda ljud hör till lägesknappen, och
+      den finns inte nu. Ett ljud får aldrig vara det enda som säger något, det tog
+      Gränssnittsdesign den 1 mars, så ingen information försvinner med det.</p>
+
+    <h3 id="bara-javascript">Innehåll som bara JavaScript skapar</h3>
+    <p>Nu motsatsen, ett påhittat exempel som inte finns i fyrsajten:</p>
+<pre><code class="sprak-html">&lt;h2&gt;Öppettider&lt;/h2&gt;
+&lt;p class="oppettider"&gt;&lt;/p&gt;</code></pre>
+<pre><code class="sprak-js">// Så här ska det inte göras: texten finns bara om skriptet körs
+document.querySelector(".oppettider").textContent = "Öppet alla dagar 10–16.";</code></pre>
+    <p>Med JavaScript ser sidan rätt ut. Utan är stycket tomt, och rubriken står över
+      ingenting. Samma sak för sökmotorn och för den vars nät tappade skriptfilen.
+      <b>Innehållet hör hemma i HTML:en.</b> JavaScript får ändra det, visa det eller dölja
+      det, men det får inte vara det enda stället där det finns.</p>
+    <p>Fler mönster som går sönder på samma sätt:</p>
+    <ul>
+      <li><b>En meny som är dold med CSS och bara öppnas med JavaScript.</b> Utan skript finns
+        ingen meny. Det var därför menyn i område 5 fick radbryta i stället.</li>
+      <li><b>En länk med <code>href="#"</code> och en lyssnare.</b> Utan skript leder den
+        ingenstans. En länk ska ha en riktig adress.</li>
+      <li><b>En knapp som bara fungerar med skriptet, men som syns utan.</b> Övningsknappen i
+        avsnitt 3 är en sådan. Antingen <code>hidden</code> i HTML:en och en rad i skriptet som
+        tar bort det, eller bort.</li>
+    </ul>
+
+    <h3>Din sajt utan JavaScript</h3>
+    <ol class="steg">
+      <li><b>Stäng av JavaScript</b> och ladda om startsidan.</li>
+      <li><b>Gå igenom varje sida.</b> Läs innehållet, klicka på varje länk, skicka formuläret
+        med tomma fält och med rätt ifyllda.</li>
+      <li><b>Lista vad som slutar fungera.</b> Allt, också det som verkar litet: en knapp som
+        inte gör något, ett tomt stycke, en bild som saknas.</li>
+      <li><b>Sortera listan i två.</b> Det som <i>bör</i> försvinna utan JavaScript, som ljud
+        och tillstånd. Och det som <i>inte får</i>, som innehåll, länkar och formuläret.</li>
+      <li><b>Rätta det som inte får försvinna.</b> Oftast är det en knapp som ska få
+        <code>hidden</code>, eller text som ska flyttas från skriptet till HTML:en.</li>
+      <li><b>Skriv raderna i testprotokollet</b> i <code>dokumentation.md</code>, i samma form
+        som i <a href="../webb-omrade-5/guide-responsiv.html#testning">guiden till område 5,
+        avsnitt 6</a>.</li>
+    </ol>
+    <p>Så här står raderna i referensprojektets protokoll:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Test</th><th>Med vad</th><th>Sida</th><th>Resultat</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Utan JavaScript</td><td>Chrome NN, DevTools: <i>Disable JavaScript</i></td>
+            <td>alla sidor</td><td>Allt innehåll, alla länkar och formuläret fungerar.
+            Lägesknappen syns inte. Mörkt läge följer systemet. Fältet får ingen markering, men
+            webbläsaren stoppar ett tomt obligatoriskt fält</td><td>Ingen</td></tr>
+          <tr><td>Utan JavaScript, andra webbläsaren</td><td>Firefox NN,
+            <code>about:config</code>, <code>javascript.enabled</code> av</td>
+            <td>alla sidor</td><td>Som i Chrome</td><td>Ingen</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>NN står för webbläsarens versionsnummer. Det hittar du i webbläsarens
+      <i>Om</i>-meny. Testa varje sida, inte bara startsidan: formuläret och undersidorna är
+      där det går sönder. Och en sida som visar en rubrik och ingenting under fungerar inte,
+      även om inget ser trasigt ut.</p>
+
+    <h3>Inför överlämningen</h3>
+    <p>Överlämningen från Gränssnittsdesign kommer den 8 mars, och den 10 mars bygger du in
+      den. Gör tre saker innan dess:</p>
+    <ol class="steg">
+      <li><b>Ljudfilerna i <code>ljud/</code></b>, packade ur zip-filen, med exakt de namn
+        som står i tabellen. Döp inte om något.</li>
+      <li><b>För varje ljudrad:</b> vilket element i din HTML det gäller, och om händelsen är
+        klick eller något annat. En rad per ljud, på papper.</li>
+      <li><b>För varje rörelserad:</b> vilken klass som ska sättas, och på vilket
+        element.</li>
+    </ol>
+    <p>Tabellen skrivs inte av till en kopia. Den finns på portföljsidan i Gränssnittsdesign
+      och ska bara finnas där.</p>
+
+    <!-- ================================================================== -->
+
+    <h2 id="overlamningen">6. Från överlämning till kod</h2>
+    <p>Överlämningen från Gränssnittsdesign har två tabeller: en för ljuden och en för
+      rörelserna. Varje cell i dem svarar mot något bestämt i koden. Inget i avsnittet är nytt:
+      övergången och <code>prefers-reduced-motion</code> kommer från område 5, klassbytet från
+      <a href="#falt">avsnitt 3</a> och ljudmodulen från <a href="#moduler">avsnitt 4</a>. Det
+      nya är att värdena kommer från någon annan, och att koden ska följa dem.</p>
+    <p>Varför ett ljud är så långt det är, vilken tidskurva som passar och vad som ska hända
+      för den som valt bort rörelse är beslut som redan är fattade i Gränssnittsdesign. Här
+      byggs de som de står.</p>
+
+    <h3>Ljudtabellen</h3>
+    <p>Referensprojektets egen överlämning står i dess <code>dokumentation.md</code>, i samma
+      form som din:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>fil</th><th>händelse</th><th>längd</th><th>synlig motsvarighet</th></tr></thead>
+        <tbody>
+          <tr><td><code>vaxla.mp3</code></td><td>klick på lägesknappen</td><td>120 ms</td>
+            <td>färgerna byts, knappen ser nedtryckt ut</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kolumn</th><th>Blir i koden</th><th>I referensprojektet</th></tr></thead>
+        <tbody>
+          <tr><td>fil</td><td>Filen i <code>ljud/</code>, med exakt det namnet, och
+            <code>data-ljud</code> med namnet utan <code>.mp3</code>. Modulen lägger till
+            det</td><td><code>ljud/vaxla.mp3</code> och
+            <code>data-ljud="vaxla"</code></td></tr>
+          <tr><td>händelse</td><td>Vilket element som får <code>data-ljud</code>, och
+            <code>data-ljud-nar</code> om händelsen inte är klick. Skriptet rörs inte</td>
+            <td>Lägesknappen, inget <code>data-ljud-nar</code></td></tr>
+          <tr><td>längd</td><td>Ingenting i koden. Längden är filen. Lyssna och
+            kontrollera</td><td>–</td></tr>
+          <tr><td>synlig motsvarighet</td><td>Något som syns vid samma händelse</td>
+            <td>Klassen <code>morkt</code> och
+            <code>.lage-knapp[aria-pressed="true"]</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Rörelsetabellen</h3>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>element</th><th>utlösare</th><th>vad som ändras</th><th>varaktighet</th>
+          <th>tidskurva</th><th>utan rörelse</th></tr></thead>
+        <tbody>
+          <tr><td>obligatoriskt fält i <code>rapportera.html</code></td><td>lämnar fältet rätt
+            ifyllt</td><td>kantens färg, stapel till vänster</td><td>150 ms</td>
+            <td><code>ease-out</code></td><td>ändringen sker direkt</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Koden den blev står i <a href="#falt">avsnitt 3</a>: <code>falt.js</code> och regeln
+      <code>input.godkant</code>. Cell för cell:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Kolumn</th><th>Blir i koden</th><th>I referensprojektet</th></tr></thead>
+        <tbody>
+          <tr><td>element</td><td>Selektorn i CSS:en, och det skriptet letar efter</td>
+            <td><code>input.godkant</code>, <code>input[required]</code></td></tr>
+          <tr><td>utlösare</td><td>Händelsen i skriptet, och villkoret om det finns
+            ett</td><td><code>"change"</code> och <code>checkValidity()</code></td></tr>
+          <tr><td>vad som ändras</td><td>Egenskaperna i regeln och i
+            <code>transition</code></td><td><code>border-color</code> och
+            <code>box-shadow</code></td></tr>
+          <tr><td>varaktighet</td><td>Tiden i <code>transition</code></td>
+            <td><code>150ms</code></td></tr>
+          <tr><td>tidskurva</td><td>Kurvan i <code>transition</code></td>
+            <td><code>ease-out</code></td></tr>
+          <tr><td>utan rörelse</td><td>Det som står i
+            <code>@media (prefers-reduced-motion: reduce)</code></td>
+            <td><code>transition: none</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Tre tekniska saker</h3>
+    <ul>
+      <li><b>Webbläsaren spelar inte ljud förrän användaren gjort något</b> på sidan. Ett ljud
+        när sidan laddas, eller när musen bara passerar, stoppas och ger felet
+        <i>NotAllowedError</i> i konsolen. Hela meddelandet står under listan.</li>
+      <li><b>Ett ljud på en länk som byter sida hinns inte höras.</b> Den nya sidan laddas och
+        tar ljudet med sig. Vilken händelse som passar i stället avgörs i
+        Gränssnittsdesign.</li>
+      <li><b>Ett ljud som bara ska spelas ibland</b>, till exempel när ett fält är fel ifyllt,
+        klarar modulen inte. Det kräver egen händelsekod som anropar <code>spela</code> i ett
+        villkor, i ett skript som står efter <code>ljud.js</code> i <code>head</code>.
+        Funktionen finns på sidan eftersom ljudmodulen kopplades in först. Titta på
+        <code>else</code> i <code>falt.js</code>: där är ett ställe där ett sådant anrop kunde
+        stå. Koden skriver du själv; det är C-nivå.</li>
+    </ul>
+    <p>Så ser felet ut i Chrome och Edge när ett ljud spelas innan användaren gjort
+      något:</p>
+<pre><code>Uncaught (in promise) NotAllowedError: play() failed because the user didn't interact with the document first.</code></pre>
+
+    <h3>Arbetsordningen</h3>
+    <ol class="steg">
+      <li><b>Ljuden.</b> Filerna i <code>ljud/</code>, <code>data-ljud</code> på elementen.
+        Klicka och lyssna, ett ljud i taget, med hörlurar.</li>
+      <li><b>Den synliga motsvarigheten</b> för varje ljud.</li>
+      <li><b>Mikrointeraktionerna i CSS först.</b> Klassen och övergången, med överlämningens
+        värden. Sätt klassen för hand i Elements-fliken eller i konsolen. Ser det rätt ut?</li>
+      <li><b>Sedan JavaScript</b>, som bara sätter och tar bort klassen. Skriver du skriptet
+        först vet du inte om det är skriptet eller övergången som inte fungerar.</li>
+      <li><b>Reducerad rörelse.</b> Rendering-panelen, <i>prefers-reduced-motion</i> till
+        <i>reduce</i>. Görs det överlämningen säger i kolumnen <i>utan rörelse</i>?</li>
+    </ol>
+
+    <h3 id="avvikelser">Avvikelser skrivs ner</h3>
+    <p>Referensprojektets <code>dokumentation.md</code> har ett avsnitt <b>Skript</b> med en
+      rad per fil, och samma avsnitt är ett ska-krav i Projekt 5. Så står ljudmodulens
+      rad:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Fil</th><th>Vad den gör</th><th>Var</th><th>Ändrat i modulen</th></tr></thead>
+        <tbody>
+          <tr><td><code>ljud.js</code></td><td>Ljudmodulen. Spelar
+            <code>ljud/&lt;namn&gt;.mp3</code> vid klick, eller vid händelsen i
+            <code>data-ljud-nar</code>, på element med <code>data-ljud</code>. Tyst om
+            <code>html</code> har klassen <code>ljud-av</code></td><td>alla sidor</td>
+            <td>Inget. Styrs från HTML:en: <code>data-ljud="vaxla"</code> på
+            lägesknappen</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Under det står <b>varje ställe där koden inte gör som tabellen säger</b>, med skäl och
+      med tabellens rad angiven. Referensprojektet har en:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Avvikelse</th><th>Skäl</th></tr></thead>
+        <tbody>
+          <tr><td>Rörelse, fältet</td><td>Markeringen försvinner utan övergång när fältet töms
+            igen</td><td>Tabellen beskriver bara vägen in. Övergången sitter på
+            <code>input.godkant</code>, och när klassen tas bort finns ingen övergång kvar.
+            Frågan är ställd till designern: ska vägen ut också ta 150 ms?</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Andra avvikelser som kan komma:</p>
+    <ul>
+      <li>Ljudet på en länk hördes inte, eftersom sidan byts. Det är inte inkopplat, och
+        överlämningen behöver en annan händelse.</li>
+      <li>Tidskurvan saknades i tabellen. Webbläsarens förval användes, och det står att värdet
+        saknades och vem som ska fylla i det.</li>
+      <li>Ett ljud saknades den 8 mars, och referensprojektets används tills det kommer.</li>
+    </ul>
+    <p>En avvikelse med ett skäl är ett bör-krav, nivå <b>C</b>. En avvikelse utan skäl är ett
+      fel. Bygg det som står, även när ett värde känns fel, och skriv ner det som inte
+      fungerar. Frågan om värdet tas i Gränssnittsdesign. Tabellen skrivs inte av in i
+      <code>dokumentation.md</code>: då finns två tabeller som säger olika saker. Ändras
+      överlämningen efter den 8 mars tar du in det fram till den 16 mars.</p>
+
+    <!-- ================================================================== -->
+
+    <h2 id="ta-det-langre">7. Ta det längre</h2>
+    <p>Utmaningarna i Projekt 5, nivå <b>A</b>. Ta dem när ska- och bör-kraven sitter.
+      Avsnittet säger vad utmaningen går ut på och var du börjar leta. Lösningen är din.</p>
+
+    <h3 id="egen-modul">En egen modul styrd med attribut</h3>
+    <p>En modul som fungerar på element den inte byggdes för. Förebilden är ljudmodulen, och
+      det som gör den till en modul är det här:</p>
+    <ul>
+      <li><b>Den styrs från HTML:en.</b> Den som använder den sätter ett attribut och öppnar
+        aldrig filen. Ljudmodulen läser <code>data-ljud</code> och <code>data-ljud-nar</code>
+        med <code>dataset</code>.</li>
+      <li><b>Den hittar sina element själv</b>, med en attributselektor i
+        <code>querySelectorAll</code> och en loop.</li>
+      <li><b>Den vet ingenting om sajten.</b> Inga klasser, texter eller sidnamn från just din
+        sajt står i filen.</li>
+      <li><b>Inställningarna står överst</b>, som versaler, och kommentaren överst säger hur den
+        används och vad som får ändras.</li>
+      <li><b>Den tål att inget matchar.</b> Kopplas den in på en sida utan element går loopen
+        noll varv, och ingenting händer.</li>
+    </ul>
+    <p>Pröva den på en kamrats sajt. Där ser du om den verkligen inte vet något om din. Skriv
+      i <code>dokumentation.md</code> hur den används, så att någon annan kan koppla in den
+      utan att fråga dig.</p>
+
+    <h3 id="tangentbord-skarmlasare">Tangentbord och skärmläsare</h3>
+    <p>Alla mikrointeraktioner ska gå att utlösa med tangentbordet, och återkopplingen ska nå
+      också den som använder skärmläsare.</p>
+    <ul>
+      <li><b>Tangentbordet.</b> Lyssnar du på en <code>button</code> eller en <code>a</code>
+        är det mesta redan klart, se <a href="#handelser">avsnitt 3</a>. Lägg undan musen och
+        gör varje handling i överlämningen med Tab, Enter och mellanslag.</li>
+      <li><b>Ett läge</b>, som på och av, når skärmläsaren med <code>aria-pressed</code>, som
+        lägesknappen.</li>
+      <li><b>Ett meddelande som dyker upp</b>, till exempel en bekräftelse, når skärmläsaren
+        med <code>aria-live</code>. Ett element med <code>aria-live="polite"</code> läses upp
+        när dess text ändras, så fort skärmläsaren är klar med det den håller på med.</li>
+    </ul>
+<pre><code class="sprak-html">&lt;p class="status" aria-live="polite"&gt;&lt;/p&gt;</code></pre>
+    <p>Elementet ska finnas i HTML:en från början. Det är texten i det som ändras, med
+      <code>textContent</code> som i <a href="#dom">avsnitt 2</a>. Ett element som skapas
+      samtidigt som texten läses ofta inte upp. Hur du startar skärmläsaren står i
+      <a href="../gran-omrade-6/guide-tillganglighet.html#hjalpmedel">Gränssnittsdesigns
+      guide, avsnitt 3</a>. Skriv i testprotokollet vad du hörde.</p>
+
+    <h3 id="morkt-lage-eget">Mörkt läge på din egen sajt</h3>
+    <p>Övningen i avsnitt 4 gjordes i en kopia av fyrsajten, med fyrsajtens färger. Att flytta
+      över den rakt av är inte samma sak som utmaningen. Det som skiljer:</p>
+    <ul>
+      <li><b>En egen mörk palett.</b> Den tas fram med samma metod som färgschemat i
+        Gränssnittsdesign i oktober.</li>
+      <li><b>Kontrasten mätt i båda lägena</b>, med samma verktyg och samma gränser: 4.5:1 för
+        text, 3:1 för fältkanter och fokusring. Skriv mätningarna i
+        <code>dokumentation.md</code>.</li>
+      <li><b>Paletten på båda ställena</b>, i media queryn och under
+        <code>:root.morkt</code>, så att systemets val fungerar också utan JavaScript.</li>
+      <li><b>Varje färg som variabel.</b> Sök efter färger som står direkt i en regel.</li>
+      <li><b>Prövat på tre sätt</b>: med knappen, med systemets inställning i
+        Rendering-panelen, och med JavaScript avstängt.</li>
+    </ul>
+
+    <h3 id="saknad-ljudfil">När ljudfilen saknas</h3>
+    <p>Du ska kunna visa vad som händer när en ljudfil saknas, och koden ska klara det utan fel
+      i konsolen. Felet känner du igen från <a href="#handelser">avsnitt 3</a>:
+      <i>Uncaught (in promise) NotSupportedError</i>.</p>
+    <p>Två ord i felet är ledtråden. <code>play()</code> spelar inte bara ljudet, den ger
+      tillbaka ett <b>löfte</b>, engelska <i>promise</i>: ett besked som kommer senare om
+      uppspelningen lyckades eller inte. <i>Uncaught (in promise)</i> betyder att löftet
+      misslyckades och att ingen kod tog hand om det. MDN, webbens referensverk, beskriver vad
+      <code>play()</code> ger tillbaka och vad som händer när den misslyckas:</p>
+<pre><code>https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/play</code></pre>
+    <p>Läs sidan, pröva i konsolen med <code>spela("finns-inte")</code>, och skriv i
+      <code>dokumentation.md</code> vad du ändrade i modulen och varför. En ändring i loopen
+      eller i funktionen betyder att modulen är din att felsöka.</p>
+
+    <!-- ================================================================== -->
+
+    <h2 id="felsokning">8. Felsökning</h2>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: null, ljud, hidden" autocomplete="off">
+      <p class="traffar" id="traffar-fel">30 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Det låter inte, och konsolen är tom</td><td>Elementet saknar
+            <code>data-ljud</code>, <code>ljud.js</code> är inte inkopplad på sidan, eller
+            <code>html</code> har klassen <code>ljud-av</code></td><td>Elements-fliken:
+            attributet på elementet och klassen på <code>html</code>. Network-fliken: laddades
+            <code>ljud.js</code>?</td></tr>
+          <tr><td><i>NotSupportedError</i> i konsolen när ljudet ska spelas</td><td>Filen finns
+            inte där modulen letar: fel namn, fel versal eller fel mapp</td><td>Jämför
+            <code>data-ljud</code> med filnamnet tecken för tecken, och kontrollera
+            <code>LJUDMAPP</code></td></tr>
+          <tr><td>Ljudet fungerar lokalt men inte på Pages</td><td>Versaler i filnamnet eller i
+            <code>data-ljud</code>. Pages skiljer på stora och små bokstäver</td><td>Gemener
+            överallt, i filen och i attributet</td></tr>
+          <tr><td>Ljudet kommer vid klick fast det ska komma vid <code>change</code></td>
+            <td><code>data-ljud-nar</code> saknas eller är felstavat, till exempel
+            <code>data-ljud-när</code></td><td>Elements-fliken: attributet tecken för tecken.
+            Gemener, inga å, ä eller ö</td></tr>
+          <tr><td><i>NotAllowedError</i> i konsolen</td><td>Ljudet spelas innan användaren gjort
+            något: när sidan laddas eller vid hover</td><td>Byt till en händelse där användaren
+            gör något. Står det så i överlämningen är det en avvikelse</td></tr>
+          <tr><td>Ljudet på en länk hörs inte</td><td>Sidan byts innan ljudet hunnit
+            spelas</td><td>Avvikelse. Skriv ner den och föreslå en annan händelse</td></tr>
+          <tr><td>Ljudet spelas en gång när sidan laddas, och aldrig mer</td><td>Funktionen
+            anropas i stället för att lämnas över: <code>spela("…")</code> direkt i
+            <code>addEventListener</code></td><td>Lägg anropet inuti
+            <code>function () { … }</code></td></tr>
+          <tr><td>Det låter fast ljudknappen stängt av ljudet</td><td>Klassen heter något annat
+            än <code>ljud-av</code>, eller sätts på ett annat element än
+            <code>html</code></td><td>Samma namn på båda ställena, på
+            <code>document.documentElement</code></td></tr>
+          <tr><td><i>Cannot read properties of null (reading 'addEventListener')</i></td>
+            <td>Selektorn hittade inget: stavfel, skriptet är inkopplat på en sida utan
+            elementet, eller <code>defer</code> saknas</td><td>Klicka på radnumret. Kontrollera
+            selektorn mot HTML:en, <code>defer</code>, och att elementet finns på sidan</td></tr>
+          <tr><td><i>provknapp is null</i> i Firefox</td><td>Samma fel som ovan, med Firefox
+            ord</td><td>Som ovan</td></tr>
+          <tr><td><i>Identifier 'knapp' has already been declared</i></td><td>Två skript på
+            samma sida har en variabel med samma namn</td><td>Döp om i ditt eget skript, till
+            exempel <code>ljudknapp</code></td></tr>
+          <tr><td><i>is not a function</i></td><td>Fel stor eller liten bokstav:
+            <code>queryselector</code>, <code>addEventlistener</code></td><td>Skriv namnet
+            exakt: <code>querySelector</code>, <code>addEventListener</code></td></tr>
+          <tr><td><i>missing ) after argument list</i> eller <i>Unexpected end of input</i></td>
+            <td>En parentes eller klammer saknas, oftast i <code>});</code></td><td>Räkna
+            parenteser och klamrar från raden konsolen anger och uppåt</td></tr>
+          <tr><td>Konsolen säger att en fil inte gick att hämta</td><td>Fel sökväg i
+            <code>src</code>: stavfel, snedstreck först, omvänt snedstreck eller
+            versaler</td><td>Sökvägen från sidan, med <code>/</code> och gemener</td></tr>
+          <tr><td>Knappen gör ingenting, och konsolen är tom</td><td>Händelsens namn är fel:
+            <code>"onclick"</code> eller <code>"Click"</code></td><td><code>"click"</code>, med
+            gemener och utan <code>on</code></td></tr>
+          <tr><td>Klassen sätts, men ingenting syns</td><td>Klassen heter olika i CSS:en och i
+            skriptet, eller regeln saknas</td><td>Elements-fliken: sätts klassen? Jämför
+            namnet tecken för tecken med selektorn i <code>stil.css</code></td></tr>
+          <tr><td>Konsolen svarar <code>null</code></td><td>Selektorn hittar inget, oftast för
+            att punkten före klassnamnet saknas</td><td>Skriv selektorn som i CSS:
+            <code>".prova-knapp"</code></td></tr>
+          <tr><td>Det jag ändrade i konsolen är borta</td><td>Konsolen ändrar DOM, inte
+            filen</td><td>Det som ska finnas kvar skrivs i en fil</td></tr>
+          <tr><td>Koden jag skrev gör ingenting alls</td><td>Den skrevs i Elements-fliken</td>
+            <td>Byt till konsolen</td></tr>
+          <tr><td>Knappen fungerar med mus men inte med tangentbord</td><td>Lyssnaren sitter på
+            en <code>div</code></td><td>Byt till <code>button</code></td></tr>
+          <tr><td>Övergången syns inte, fast klassen sätts</td><td>Egenskapen i
+            <code>transition</code> är inte den som ändras, eller så är det
+            <code>display</code> som byts</td><td>Samma egenskap på båda ställena.
+            <code>display</code> går inte att tona</td></tr>
+          <tr><td>Övergången syns fast reducerad rörelse är på</td><td>Media queryn står före
+            regeln den ska ändra</td><td>Flytta den direkt efter regeln</td></tr>
+          <tr><td>Rörelsen går inte att stänga av</td><td>Den är satt med <code>style</code> i
+            skriptet</td><td>Flytta utseendet till en klass i CSS, och låt skriptet byta
+            klass</td></tr>
+          <tr><td>Knappen syns fast JavaScript är avstängt</td><td><code>hidden</code> saknas,
+            eller en regel i CSS:en sätter <code>display</code> på knappen</td>
+            <td><code>hidden</code> i HTML:en, ingen <code>display</code>-regel för
+            knappen</td></tr>
+          <tr><td>Ett stycke är tomt utan JavaScript</td><td>Texten skapas av skriptet</td>
+            <td>Flytta texten till HTML:en</td></tr>
+          <tr><td>Mörkt läge fungerar med knappen men inte med systemets inställning, eller
+            tvärtom</td><td>Den mörka paletten står bara på ett av de två ställena</td><td>Samma
+            värden i media queryn och under <code>:root.morkt</code></td></tr>
+          <tr><td>Några färger stannar ljusa i mörkt läge</td><td>Färgen står direkt i regeln,
+            inte som variabel</td><td>Sök efter <code>#</code> och <code>hsl(</code> utanför
+            <code>:root</code></td></tr>
+          <tr><td>Valet glöms när sidan laddas om</td><td>Webbläsaren blockerar lagring för
+            sajten, eller så är blocket som läser valet bortkommenterat</td>
+            <td>Tillåt webbplatsdata i webbläsarens inställningar och prova igen. Läs blocket
+            under <i>Ett sparat val från förra besöket</i></td></tr>
+          <tr><td>Allt fungerar som vanligt fast jag stängt av JavaScript</td><td>DevTools
+            stängdes i Chrome, eller sidan laddades inte om</td><td>Öppna DevTools igen, stäng
+            av, ladda om</td></tr>
+          <tr><td>Ingen sajt fungerar som vanligt i Firefox</td><td><code>javascript.enabled</code>
+            står kvar på <code>false</code></td><td>Sätt tillbaka det i
+            <code>about:config</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ================================================================== -->
+
+    <h2 id="snabbreferens">9. Snabbreferens: begreppen</h2>
+    <p>Ordlistan från första passet. Använd den inför prov 4. Ordträningen nedan drar
+      slumpvis ur tabellen.</p>
+
+    <div class="traning" id="traning" data-kalla="tabell-begrepp">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
+
+    <div class="sok">
+      <label for="sok-begrepp">Sök bland begreppen</label>
+      <input type="search" id="sok-begrepp" data-sok="tabell-begrepp"
+             data-traffar="traffar-begrepp" placeholder="till exempel: const, klass, defer"
+             autocomplete="off">
+      <p class="traffar" id="traffar-begrepp">57 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-begrepp">
+        <thead><tr><th>Begrepp</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>JavaScript</b></td><td>Webbens programmeringsspråk. Säger vad som händer
+            när någon använder sidan</td></tr>
+          <tr><td><b>modul</b></td><td>Färdig kod som gör en sak och går att koppla in i en
+            sajt den inte byggdes för</td></tr>
+          <tr><td><b>kommentar</b></td><td>Rad som börjar med //. Till för människor,
+            webbläsaren hoppar över den</td></tr>
+          <tr><td><b>variabel</b></td><td>Ett namn på ett värde</td></tr>
+          <tr><td><b>const</b></td><td>Variabel vars värde inte byts ut</td></tr>
+          <tr><td><b>let</b></td><td>Variabel vars värde får bytas</td></tr>
+          <tr><td><b>var</b></td><td>Gammalt sätt att skriva en variabel. Används inte i
+            kursen</td></tr>
+          <tr><td><b>=</b></td><td>Sätter ett värde. Betyder inte är lika med</td></tr>
+          <tr><td><b>===</b></td><td>Jämför två värden. Svarar true eller false</td></tr>
+          <tr><td><b>sträng</b></td><td>Text inom citattecken, till exempel "ljud/"</td></tr>
+          <tr><td><b>tal</b></td><td>Ett tal, utan citattecken, till exempel 0.5</td></tr>
+          <tr><td><b>true och false</b></td><td>Sant och falskt. Svaret på en fråga i
+            koden</td></tr>
+          <tr><td><b>funktion</b></td><td>Rader med ett namn, som körs när namnet
+            anropas</td></tr>
+          <tr><td><b>parameter</b></td><td>Tom plats i en funktion som fylls i vid anropet,
+            till exempel namn i spela(namn)</td></tr>
+          <tr><td><b>anrop</b></td><td>Att köra en funktion: namnet med parenteser, till
+            exempel spela("vaxla")</td></tr>
+          <tr><td><b>return</b></td><td>Gå ut ur funktionen. Raderna under körs inte</td></tr>
+          <tr><td><b>villkor</b></td><td>if: koden inom klamrarna körs bara om svaret är
+            ja</td></tr>
+          <tr><td><b>else</b></td><td>Annars. Körs när villkoret inte är uppfyllt</td></tr>
+          <tr><td><b>loop</b></td><td>for … of: gör samma sak en gång för varje element i en
+            lista</td></tr>
+          <tr><td><b>händelse</b></td><td>Något som händer på sidan: ett klick, en tangent, ett
+            fält som lämnas. Engelska event</td></tr>
+          <tr><td><b>event listener</b></td><td>Händelselyssnare. En funktion som väntar på en
+            händelse och körs varje gång den kommer</td></tr>
+          <tr><td><b>addEventListener</b></td><td>Lägger till en lyssnare: vem, vilken
+            händelse, vad som ska hända</td></tr>
+          <tr><td><b>click</b></td><td>Händelsen när någon klickar, eller trycker Enter eller
+            mellanslag på en knapp</td></tr>
+          <tr><td><b>change</b></td><td>Händelsen när ett fält har ändrats och lämnats</td></tr>
+          <tr><td><b>keydown</b></td><td>Händelsen när en tangent trycks ned</td></tr>
+          <tr><td><b>event.key</b></td><td>Vilken tangent som trycktes</td></tr>
+          <tr><td><b>element</b></td><td>En del av sidan, till exempel en knapp eller en
+            rubrik</td></tr>
+          <tr><td><b>DOM</b></td><td>Document Object Model. Sidan som ett träd av element, som
+            webbläsaren håller i minnet</td></tr>
+          <tr><td><b>barn och förälder</b></td><td>Ett element inuti ett annat är dess barn.
+            Elementet utanför är förälder</td></tr>
+          <tr><td><b>document</b></td><td>Hela sidan, i JavaScript</td></tr>
+          <tr><td><b>document.documentElement</b></td><td>Sidans html-element. Samma som :root i
+            CSS</td></tr>
+          <tr><td><b>querySelector</b></td><td>Hittar det första elementet som matchar en
+            selektor</td></tr>
+          <tr><td><b>querySelectorAll</b></td><td>Hittar alla element som matchar en selektor.
+            Svarar med en lista</td></tr>
+          <tr><td><b>null</b></td><td>Ingenting. Svaret när querySelector inte hittar
+            något</td></tr>
+          <tr><td><b>textContent</b></td><td>Elementets text. Kan läsas och bytas ut</td></tr>
+          <tr><td><b>classList</b></td><td>Elementets klasser, med add, remove, toggle och
+            contains</td></tr>
+          <tr><td><b>toggle</b></td><td>Växlar en klass: finns den tas den bort, annars läggs den
+            till</td></tr>
+          <tr><td><b>contains</b></td><td>Frågar om elementet har en klass. Svarar true eller
+            false</td></tr>
+          <tr><td><b>setAttribute</b></td><td>Sätter ett attribut: namnet först, värdet
+            sedan</td></tr>
+          <tr><td><b>hidden</b></td><td>Attribut som döljer ett element. En display-regel i CSS
+            slår ut det</td></tr>
+          <tr><td><b>data-attribut</b></td><td>Eget attribut som börjar med data-, till exempel
+            data-ljud. Information, inte beteende</td></tr>
+          <tr><td><b>dataset</b></td><td>Läser data-attribut. data-ljud-nar blir
+            dataset.ljudNar</td></tr>
+          <tr><td><b>konsol</b></td><td>Flik i DevTools där du skriver JavaScript och får svaret
+            direkt. Ctrl + Shift + J</td></tr>
+          <tr><td><b>console.log</b></td><td>Skriver i konsolen. Syns inte på sidan</td></tr>
+          <tr><td><b>felmeddelande</b></td><td>Röd rad i konsolen. Står på raden där felet
+            märktes, inte där det gjordes</td></tr>
+          <tr><td><b>onclick</b></td><td>JavaScript i ett HTML-attribut. Används inte:
+            beteendet hör hemma i .js-filen</td></tr>
+          <tr><td><b>script</b></td><td>Elementet som kopplar in en .js-fil, med src</td></tr>
+          <tr><td><b>defer</b></td><td>Skjuter upp skriptet tills hela HTML:en är läst, så att
+            elementen finns</td></tr>
+          <tr><td><b>localStorage</b></td><td>Webbläsarens minne för sajten. Finns kvar till
+            nästa besök</td></tr>
+          <tr><td><b>try och catch</b></td><td>Försök. Går det fel körs det i catch i stället,
+            och sidan fungerar ändå</td></tr>
+          <tr><td><b>aria-pressed</b></td><td>Säger till skärmläsaren om en knapp är nedtryckt
+            eller inte</td></tr>
+          <tr><td><b>prefers-color-scheme</b></td><td>Media query: användaren har ställt in
+            mörkt eller ljust i sitt system</td></tr>
+          <tr><td><b>progressive enhancement</b></td><td>Basen först, sedan förbättringar som får
+            saknas. JavaScript lägger till, det bär aldrig</td></tr>
+          <tr><td><b>new Audio</b></td><td>Skapar ett ljud ur en fil. play() spelar
+            det</td></tr>
+          <tr><td><b>NotSupportedError</b></td><td>Felet när ljudfilen inte hittas</td></tr>
+          <tr><td><b>NotAllowedError</b></td><td>Felet när ett ljud spelas innan användaren gjort
+            något</td></tr>
+          <tr><td><b>avvikelse</b></td><td>Ställe där koden inte gör som överlämningen säger.
+            Skrivs ner med skäl</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 6</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

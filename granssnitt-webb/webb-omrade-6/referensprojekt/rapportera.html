@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rapportera en fyr – Fyrar längs Bohuskusten</title>
+  <link rel="stylesheet" href="stil.css">
+  <!-- Skripten ligger i egna filer i skript/. defer gör att de väntar tills hela sidan
+       är läst, så att elementen de letar efter finns. Ljudmodulen står först, eftersom
+       andra skript kan vilja använda dess funktion spela. Pass 48. -->
+  <script src="skript/ljud.js" defer></script>
+  <script src="skript/morkt-lage.js" defer></script>
+  <!-- Bara på den här sidan, eftersom det bara är här det finns fält. Pass 47. -->
+  <script src="skript/falt.js" defer></script>
+</head>
+<body>
+
+<!-- Skip-länken är det första som får fokus när man tabbar. Den syns bara då, och
+     hoppar förbi navigeringen direkt till innehållet. Pass 40. -->
+<a class="till-innehallet" href="#innehall">Till innehållet</a>
+
+<header>
+  <p>Fyrar längs Bohuskusten</p>
+  <nav>
+    <ul>
+      <li><a href="index.html">Start</a></li>
+      <li><a href="fyrarna.html">Alla fyrar</a></li>
+      <li><a href="vinga.html">Vinga</a></li>
+      <li><a href="rapportera.html">Rapportera en fyr</a></li>
+    </ul>
+  </nav>
+
+  <!-- Lägesknappen byter mellan ljust och mörkt. hidden gör den osynlig tills
+       skriptet visar den: utan JavaScript gör knappen ingenting, och då ska den inte
+       synas. data-ljud låter ljudmodulen spela vaxla.mp3 vid klick. Pass 48. -->
+  <button class="lage-knapp" type="button" data-ljud="vaxla" hidden>Mörkt läge</button>
+</header>
+
+<main id="innehall">
+  <h1>Rapportera en fyr</h1>
+
+  <p>Saknas en fyr i listan? Fyll i vad du vet. Fält märkta med <strong>obligatoriskt</strong> måste
+    fyllas i innan formuläret går att skicka.</p>
+
+  <!-- Formuläret skickas med metoden get till tack.html. Det betyder att svaren
+       hamnar i adressfältet som ?namn=värde. På en riktig sajt tas de emot av en
+       server; här finns ingen, och därför är tack.html en vanlig HTML-sida som
+       bara bekräftar. Det räcker för att visa vad som händer.
+
+       get används när inget ändras hos mottagaren. Skulle formuläret spara något
+       vore post rätt metod. -->
+  <form action="tack.html" method="get">
+
+    <!-- fieldset grupperar fält som hör ihop, legend är gruppens rubrik.
+         En skärmläsare läser upp legend före varje fält i gruppen, så användaren
+         vet vilket sammanhang fältet står i. -->
+    <fieldset>
+      <legend>Om fyren</legend>
+
+      <!-- Varje fält har en label. for på label måste ha exakt samma värde som
+           id på fältet – det är kopplingen som gör att man kan klicka på texten
+           för att hamna i fältet, och som gör att skärmläsaren vet vad fältet
+           heter. Ett fält utan label är ett fält utan namn. -->
+      <p>
+        <label for="namn">Fyrens namn (obligatoriskt)</label><br>
+        <input type="text" id="namn" name="namn" required>
+      </p>
+
+      <p>
+        <label for="byggar">Byggår</label><br>
+        <!-- type="number" ger sifferknappsats på telefon, och min och max
+             hindrar orimliga värden. -->
+        <input type="number" id="byggar" name="byggar" min="1600" max="2026">
+      </p>
+
+      <p>
+        <label for="hojd">Höjd över vattnet i meter</label><br>
+        <input type="number" id="hojd" name="hojd" min="1" max="200">
+      </p>
+
+      <p>
+        <label for="lan">Län</label><br>
+        <!-- select när alternativen är kända och få. -->
+        <select id="lan" name="lan">
+          <option value="">Välj län</option>
+          <option value="vastra-gotaland">Västra Götaland</option>
+          <option value="halland">Halland</option>
+          <option value="skane">Skåne</option>
+          <option value="stockholm">Stockholm</option>
+        </select>
+      </p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Om dig</legend>
+
+      <p>
+        <label for="epost">Din e-post (obligatoriskt)</label><br>
+        <!-- type="email" gör att webbläsaren själv kontrollerar formen på
+             adressen. Det är enkel validering utan en rad JavaScript. -->
+        <input type="email" id="epost" name="epost" required>
+      </p>
+
+      <p>
+        <label for="kalla">Var har du uppgifterna ifrån?</label><br>
+        <textarea id="kalla" name="kalla" rows="4" cols="40"></textarea>
+      </p>
+    </fieldset>
+
+    <p>
+      <button type="submit" class="knapp">Skicka rapporten</button>
+    </p>
+  </form>
+</main>
+
+<footer>
+  <p>Referensprojekt till Webbutveckling, område 2. Uppgifterna är förenklade och
+    sajten är ett läromedel, inte en sjökortsersättning.</p>
+</footer>
+
+</body>
+</html>
