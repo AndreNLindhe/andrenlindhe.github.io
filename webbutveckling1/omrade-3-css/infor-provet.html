@@ -1,0 +1,1702 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inför provet – Webbutveckling 1 område 3</title>
+  <link rel="stylesheet" href="../stil.css">
+  <style>
+    /* Sidans egna rutor. Gäller bara den här sidan – skalet (stil.css) rörs inte.
+
+       Varje post har en jämförelse: två eller tre figurer med en scen (det som
+       renderas) och koden under. Scenen är ett litet ljust webbläsarfönster även i
+       mörkt läge, så att färgerna i koden stämmer med det som syns. Därför sätts
+       skalets variabler om till ljusa värden inuti .scen. */
+
+    .post { margin: 0 0 2.6rem; }
+    .post h3 { font-size: 1.2rem; margin: 2.6rem 0 0.4rem; }
+    .post h3 code { font-size: 1em; }
+    .post .vad { font-size: 1.05rem; }
+
+    .foljer {
+      border-left: 3px solid var(--linje-stark);
+      padding: 0.1rem 0 0.1rem 0.9rem;
+      color: var(--dov);
+    }
+    .foljer b { color: var(--text); }
+
+    .miss { font-size: 0.95rem; }
+    .miss b { color: var(--varning); }
+
+    .mer { font-size: 0.9rem; color: var(--dov); }
+
+    .jamfor {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      gap: 1rem;
+      margin: 1.1rem 0 1.2rem;
+      max-width: 48rem;
+    }
+    .jamfor.stapla { grid-template-columns: minmax(0, 1fr); }
+
+    .jamfor figure {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--linje);
+      border-radius: var(--rundning);
+      background: var(--kort);
+      overflow: hidden;
+      min-width: 0;
+    }
+    .jamfor figcaption {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 660;
+      color: var(--dov);
+      padding: 0.45rem 0.9rem;
+      border-bottom: 1px solid var(--linje);
+    }
+    .jamfor .med figcaption { color: var(--webb); }
+    .jamfor pre {
+      margin: 0;
+      max-width: none;
+      border: none;
+      border-top: 1px solid var(--linje);
+      border-radius: 0;
+      background: var(--papper);
+      font-size: 0.8rem;
+      padding: 0.7rem 0.9rem;
+    }
+
+    .scen {
+      --papper: #fbfaf8;
+      --kort: #ffffff;
+      --text: #1f2420;
+      --dov: #5c665e;
+      --linje: #dcdcd2;
+      --linje-stark: #b9b9ad;
+      --webb: #0f7c74;
+      --webb-svag: #e6f5f3;
+      color-scheme: light;
+      flex: 1;
+      background: #ffffff;
+      color: #1f2420;
+      padding: 1rem;
+      font-size: 0.95rem;
+      line-height: 1.35;
+      overflow: hidden;
+    }
+    .scen p, .scen ul { margin: 0; max-width: none; }
+    .scen ul { padding-left: 1.2rem; }
+    .scen a { color: #1e4b3f; }
+
+    /* Byggklossar som går igen i scenerna. */
+    .scen .b {
+      background: #2f6f5e;
+      color: #ffffff;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .scen .b.b2 { background: #8a4f12; }
+    /* Den streckade linjen visar var behållaren går. outline tar ingen plats,
+       så den ändrar inte måtten i exemplet. */
+    .scen .beh { outline: 2px dashed #b9b9ad; outline-offset: 3px; }
+    .scen .not { font-size: 0.8rem; color: #5c665e; margin-top: 0.6rem; }
+
+    .dragbar {
+      resize: horizontal;
+      overflow: auto;
+      width: 100%;
+      max-width: 100%;
+      min-width: 7rem;
+      padding: 0.3rem;
+      border: 1px solid #dcdcd2;
+    }
+  </style>
+  <style>
+    /* ---------- Scenerna, en post i taget ---------- */
+
+    /* 1. Selektorer */
+    #s-grund .utan p { color: #2f6f5e; }
+    #s-grund .med .ingress { color: #2f6f5e; font-weight: 700; }
+
+    #s-komb .utan .artikel p { color: #2f6f5e; font-weight: 700; }
+    #s-komb .med .artikel > p { color: #2f6f5e; font-weight: 700; }
+    #s-komb .artikel > div { padding-left: 1rem; }
+
+    #s-attr .meny { display: flex; gap: 1rem; }
+    #s-attr .med .meny a[aria-current="page"] { color: #8a4f12; font-weight: 700; text-decoration: none; }
+
+    #s-hover .lank { display: inline-block; padding: 0.4rem 0.8rem; border-radius: 6px; background: #e7f0ec; text-decoration: none; }
+    #s-hover .med .lank:hover { background: #2f6f5e; color: #ffffff; }
+    #s-hover .med .lank:focus-visible { outline: 3px solid #8a4f12; outline-offset: 2px; }
+
+    #s-nth li { padding: 0.25rem 0.5rem; list-style: none; }
+    #s-nth ul { padding: 0; }
+    #s-nth .med li:nth-child(even) { background: #e7f0ec; }
+
+    #s-spec .utan p { color: #8a4f12; }
+    #s-spec .med .ingress { color: #2f6f5e; }
+    #s-spec .med p { color: #8a4f12; }
+
+    #s-ordning .utan .ingress { color: #8a4f12; }
+    #s-ordning .utan .ingress { color: #2f6f5e; }
+    #s-ordning .med .ingress { color: #2f6f5e; }
+    #s-ordning .med .ingress { color: #8a4f12; }
+
+    #s-arv .ruta { padding: 0.6rem; }
+    #s-arv .med .ruta { color: #2f6f5e; border: 2px solid #2f6f5e; }
+    #s-arv .inre { margin-top: 0.4rem; }
+
+    /* 2. Boxmodellen */
+    #s-boxsizing .ruta { width: 12rem; padding: 1.5rem; border: 4px solid #2f6f5e; background: #e7f0ec; }
+    #s-boxsizing .utan .ruta { box-sizing: content-box; }
+    #s-boxsizing .med .ruta { box-sizing: border-box; }
+    #s-boxsizing .linjal { width: 12rem; height: 0.4rem; background: #8a4f12; margin-bottom: 0.4rem; }
+
+    #s-padding .ruta { background: #e7f0ec; }
+    #s-padding .med .ruta { padding: 1rem; }
+
+    #s-margin .ruta { background: #e7f0ec; }
+    #s-margin .med .ruta { margin-bottom: 1rem; }
+
+    #s-border .ruta { padding: 0.6rem; }
+    #s-border .utan .ruta { border: 3px #2f6f5e; }
+    #s-border .med .ruta { border: 3px solid #2f6f5e; }
+
+    #s-kollaps .forsta { margin-bottom: 2rem; }
+    #s-kollaps .andra { margin-top: 1rem; }
+    #s-kollaps .med .kolumn { display: flex; flex-direction: column; }
+
+    #s-maxbredd .med p { max-width: 20rem; }
+    #s-maxbredd .bild { width: 60rem; height: 3rem; background: #8a4f12; margin-top: 0.6rem; }
+    #s-maxbredd .med .bild { max-width: 100%; }
+
+    /* 3. Färg */
+    #s-color .med .ruta { color: #2f6f5e; }
+    #s-background .med .ruta { background: #e7f0ec; }
+    #s-background .ruta { padding: 0.6rem; }
+    #s-fargvarden .rad { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    #s-fargvarden .prov { width: 4.2rem; height: 3rem; border-radius: 6px; border: 1px solid #dcdcd2; }
+    #s-fargvarden .f1 { background: hsl(164 40% 31%); }
+    #s-fargvarden .f2 { background: hsl(164 40% 45%); }
+    #s-fargvarden .f3 { background: hsl(164 40% 60%); }
+    #s-fargvarden .f4 { background: rgb(47 111 94 / 30%); }
+
+    /* 4. Typografi */
+    #s-fontfamily .utan p { font-family: serif; }
+    #s-fontfamily .med p { font-family: "Segoe UI", system-ui, -apple-system, sans-serif; }
+
+    #s-rem .utan .steg { font-size: 1.2em; }
+    #s-rem .med .steg { font-size: 1.2rem; }
+
+    #s-lineheight .utan p { line-height: normal; }
+    #s-lineheight .med p { line-height: 1.6; }
+
+    #s-clamp .rubrik { font-size: clamp(1.2rem, 0.8rem + 2vw, 2.2rem); font-weight: 700; line-height: 1.15; }
+
+    /* 5. Flexbox */
+    #s-flex .med .rad { display: flex; }
+    #s-flex .rad, #s-dir .rad, #s-justify .rad, #s-align .rad, #s-gap .rad { gap: 0.4rem; }
+    #s-flex .utan .rad .b + .b { margin-top: 0.4rem; }
+
+    #s-dir .rad { display: flex; }
+    #s-dir .med .rad { flex-direction: column; }
+
+    #s-justify .rad { display: flex; }
+    #s-justify .mitt .rad { justify-content: center; }
+    #s-justify .mellan .rad { justify-content: space-between; }
+
+    #s-align .rad { display: flex; }
+    #s-align .med .rad { align-items: center; }
+    #s-align .hog { padding-block: 1.4rem; }
+
+    #s-wrap .rad { display: flex; gap: 0.4rem; }
+    #s-wrap .med .rad { flex-wrap: wrap; }
+
+    #s-gap .utan .rad { display: flex; gap: 0; }
+    #s-gap .med .rad { display: flex; gap: 1rem; }
+
+    #s-flex1 .sokrad { display: flex; gap: 0.4rem; align-items: center; }
+    #s-flex1 .med .sokrad input { flex: 1; }
+    #s-flex1 input { min-width: 0; font: inherit; padding: 0.25rem 0.4rem; }
+    #s-flex1 button { font: inherit; padding: 0.25rem 0.6rem; }
+
+    /* 6. Grid */
+    #s-grid .med .ruta { display: grid; }
+    #s-grid .ruta .b + .b { margin-top: 0.4rem; }
+
+    #s-cols .ruta { display: grid; gap: 0.4rem; }
+    #s-cols .lika .ruta { grid-template-columns: 1fr 1fr 1fr; }
+    #s-cols .olika .ruta { grid-template-columns: 2fr 1fr; }
+
+    #s-autofit .ruta { display: grid; gap: 0.4rem; }
+    #s-autofit .utan .ruta { grid-template-columns: 1fr 1fr 1fr; }
+    #s-autofit .med .ruta { grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr)); }
+
+    #s-span .ruta { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+    #s-span .rubrik { font-weight: 700; }
+    #s-span .med .ruta > .rubrik { grid-column: 1 / -1; }
+
+    #s-areas .b { font-size: 0.8rem; }
+    #s-areas .b + .b { margin-top: 0.3rem; }
+    #s-areas .med .sida {
+      display: grid;
+      grid-template-columns: 5rem 1fr;
+      grid-template-areas:
+        "topp  topp"
+        "meny  innehall"
+        "fot   fot";
+      gap: 0.3rem;
+    }
+    #s-areas .med .sida .b + .b { margin-top: 0; }
+    #s-areas .med .sidhuvud { grid-area: topp; }
+    #s-areas .med .meny { grid-area: meny; }
+    #s-areas .med .huvuddel { grid-area: innehall; min-height: 4rem; }
+    #s-areas .med .sidfot { grid-area: fot; }
+
+    #s-minmax .ruta { display: grid; }
+    #s-minmax .utan .ruta { grid-template-columns: 1fr; }
+    #s-minmax .med .ruta { grid-template-columns: minmax(0, 1fr); }
+    #s-minmax .med .svep { overflow-x: auto; }
+    #s-minmax .bred { width: 28rem; padding: 0.4rem; background: #e7f0ec; border: 1px solid #2f6f5e; }
+
+    /* 7. Variabler */
+    #s-var .utan .scen { --accent: #2f6f5e; }
+    #s-var .med .scen { --accent: #6b3fa0; }
+    #s-var .titel { color: var(--accent); font-weight: 700; margin-bottom: 0.5rem; }
+    #s-var .knapp-d { display: inline-block; background: var(--accent); color: #ffffff; padding: 0.3rem 0.7rem; border-radius: 6px; margin-right: 0.3rem; }
+
+    #s-stavning .scen { --accent: #2f6f5e; }
+    #s-stavning .utan p { color: var(--accnet); font-weight: 700; }
+    #s-stavning .med p { color: var(--accnet, #b23a2f); font-weight: 700; }
+  </style>
+</head>
+<body data-nyckel="WebbIND-1-3-infor-provet">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Inför provet</strong> · CSS</span>
+  <a href="css-guiden.html">Guiden</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#selektorer">1. Selektorer och specificitet</a></li>
+      <li><a href="#boxmodellen">2. Boxmodellen</a></li>
+      <li><a href="#farg">3. Färg</a></li>
+      <li><a href="#typografi">4. Typografi</a></li>
+      <li><a href="#flexbox">5. Flexbox</a></li>
+      <li><a href="#grid">6. Grid</a></li>
+      <li><a href="#variabler">7. Variabler</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 3 · inför provet</p>
+    <h1>CSS-reglerna, en i taget</h1>
+    <p class="inledning">Varje egenskap från guiden med vad den är, vad den gör, vad som
+      följer med av sig själv – och samma exempel med och utan den, så att du ser
+      skillnaden i stället för att läsa om den.</p>
+
+    <p>Prov 2 är måndag 9 november. Det är skriftligt och utan dator, och det täcker
+      fem saker: <b>selektorer och specificitet, boxmodellen, Flexbox, Grid och
+      CSS-variabler</b>. Färg och typografi är med här också, eftersom de finns i all
+      kod du kommer att läsa på provet.</p>
+
+    <div class="notis">
+      <span class="rubrik">Så använder du sidan</span>
+      <p>Läs en post, titta på rutorna och försök säga med egna ord vad som skiljer dem
+        åt innan du läser förklaringen. Varje avsnitt slutar med <b>Testa dig
+        själv</b>: svara i huvudet först, klicka sedan på raden för att se svaret.</p>
+      <p>Rutorna är riktig CSS som körs i din webbläsare. Koden under varje ruta är
+        precis det som skiljer dem åt.</p>
+    </div>
+
+    <!-- ====================================================================== -->
+
+    <h2 id="selektorer">1. Selektorer och specificitet</h2>
+    <p>Selektorn är det som står före klammern. Den säger <b>vad</b> regeln träffar.
+      Specificiteten avgör vilken regel som vinner när två träffar samma element.</p>
+
+    <section class="post" id="s-grund" aria-labelledby="r-grund">
+      <h3 id="r-grund">Element, klass och id</h3>
+      <p class="vad">Tre sätt att peka ut element: på taggnamn, på
+        <code>class</code> eller på <code>id</code>.</p>
+      <p><code>p</code> träffar alla stycken. <code>.ingress</code> träffar bara element
+        med <code>class="ingress"</code>. <code>#faglar</code> träffar det enda elementet
+        med <code>id="faglar"</code>.</p>
+      <p class="foljer"><b>Att veta:</b> punkt betyder klass, brädgård betyder id. Ett
+        element kan ha flera klasser, <code>class="kort viktig"</code>, men bara ett id.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Elementselektor</figcaption>
+          <div class="scen">
+            <p class="ingress">Ingressen.</p>
+            <p>Brödtext ett.</p>
+            <p>Brödtext två.</p>
+          </div>
+<pre><code>p { color: #2f6f5e; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Klassselektor</figcaption>
+          <div class="scen">
+            <p class="ingress">Ingressen.</p>
+            <p>Brödtext ett.</p>
+            <p>Brödtext två.</p>
+          </div>
+<pre><code>.ingress {
+  color: #2f6f5e;
+  font-weight: 700;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> att formge med <code>#id</code>. Den är så
+        specifik att den blir svår att skriva över, och den är förbjuden för formgivning i
+        Projekt 2. Använd klasser.</p>
+      <p class="mer">Mer i guiden: <a href="css-guiden.html#selektorer">avsnitt 2</a>.</p>
+    </section>
+
+    <section class="post" id="s-komb" aria-labelledby="r-komb">
+      <h3 id="r-komb">Mellanslag och <code>&gt;</code></h3>
+      <p class="vad">Två sätt att kombinera selektorer: <i>någonstans inuti</i> och
+        <i>direkt barn</i>.</p>
+      <p><code>.artikel p</code> träffar varje <code>p</code> som ligger inuti
+        <code>.artikel</code>, hur djupt som helst. <code>.artikel &gt; p</code> träffar
+        bara de <code>p</code> som ligger direkt i <code>.artikel</code>, inte de som
+        ligger i ett element längre in.</p>
+      <p class="foljer"><b>Att veta:</b> komma är något helt annat. <code>h1, h2</code>
+        betyder "både h1 och h2" – två selektorer som delar samma regel.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Mellanslag</figcaption>
+          <div class="scen">
+            <div class="artikel">
+              <p>Direkt i kortet.</p>
+              <div>
+                <p>Ett lager längre in.</p>
+              </div>
+            </div>
+          </div>
+<pre><code>.artikel p { color: #2f6f5e; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Direkt barn</figcaption>
+          <div class="scen">
+            <div class="artikel">
+              <p>Direkt i kortet.</p>
+              <div>
+                <p>Ett lager längre in.</p>
+              </div>
+            </div>
+          </div>
+<pre><code>.artikel &gt; p { color: #2f6f5e; }</code></pre>
+        </figure>
+      </div>
+      <p class="mer">Mer i guiden: <a href="css-guiden.html#selektorer-kombination">avsnitt 2, Kombinationer</a>.</p>
+    </section>
+
+    <section class="post" id="s-attr" aria-labelledby="r-attr">
+      <h3 id="r-attr">Attributselektorn <code>[attribut="värde"]</code></h3>
+      <p class="vad">Väljer element utifrån ett attribut de redan har i HTML:en.</p>
+      <p><code>a[aria-current="page"]</code> träffar länken till sidan man står på. Ingen
+        extra klass behövs – attributet säger redan "du är här", och formen kan följa
+        innebörden.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen">
+            <nav class="meny" aria-label="Exempelmeny utan markering">
+              <a href="#s-attr">Start</a>
+              <a href="#s-attr" aria-current="page">Stigar</a>
+              <a href="#s-attr">Besök</a>
+            </nav>
+          </div>
+<pre><code>/* ingen regel för aria-current */</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen">
+            <nav class="meny" aria-label="Exempelmeny med markering">
+              <a href="#s-attr">Start</a>
+              <a href="#s-attr" aria-current="page">Stigar</a>
+              <a href="#s-attr">Besök</a>
+            </nav>
+          </div>
+<pre><code>.meny a[aria-current="page"] {
+  color: #8a4f12;
+  font-weight: 700;
+  text-decoration: none;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> att glömma citattecknen eller skriva
+        mellanslag före hakparentesen. <code>a [aria-current]</code> betyder "något med
+        attributet inuti en länk" – inte samma sak.</p>
+    </section>
+
+    <section class="post" id="s-hover" aria-labelledby="r-hover">
+      <h3 id="r-hover"><code>:hover</code> och <code>:focus-visible</code></h3>
+      <p class="vad">Pseudoklasser som väljer på <i>tillstånd</i>: muspekaren är över,
+        respektive elementet har fått fokus med tangentbordet.</p>
+      <p>För musen över länkarna nedan. Klicka sedan i rutan och tryck <kbd>Tab</kbd> tills
+        du når länken i den högra rutan.</p>
+      <p class="foljer"><b>Att veta:</b> en pseudoklass skrivs med ett kolon direkt efter
+        selektorn, utan mellanslag. Den räknas som en klass i specificiteten.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen">
+            <a class="lank" href="#s-hover">Peka på mig</a>
+          </div>
+<pre><code>.lank { background: #e7f0ec; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen">
+            <a class="lank" href="#s-hover">Peka på mig</a>
+          </div>
+<pre><code>.lank:hover {
+  background: #2f6f5e;
+  color: #ffffff;
+}
+.lank:focus-visible {
+  outline: 3px solid #8a4f12;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> <code>.lank :hover</code> med mellanslag.
+        Då betyder den "något inuti länken som muspekaren är över".</p>
+    </section>
+
+    <section class="post" id="s-nth" aria-labelledby="r-nth">
+      <h3 id="r-nth"><code>:nth-child(even)</code></h3>
+      <p class="vad">Väljer element efter deras plats bland syskonen.</p>
+      <p><code>even</code> är jämna – andra, fjärde, sjätte. <code>odd</code> är udda. Det
+        används mest för att tona varannan rad i en tabell eller lista, utan att märka en
+        enda rad i HTML:en.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen">
+            <ul><li>Måndag</li><li>Tisdag</li><li>Onsdag</li><li>Torsdag</li><li>Fredag</li></ul>
+          </div>
+<pre><code>/* ingen regel */</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen">
+            <ul><li>Måndag</li><li>Tisdag</li><li>Onsdag</li><li>Torsdag</li><li>Fredag</li></ul>
+          </div>
+<pre><code>li:nth-child(even) {
+  background: #e7f0ec;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="foljer"><b>Fler i samma familj:</b> <code>:first-child</code>,
+        <code>:last-child</code>, <code>:nth-child(3)</code> för just det tredje.</p>
+    </section>
+
+    <section class="post" id="s-spec" aria-labelledby="r-spec">
+      <h3 id="r-spec">Specificitet: vilken regel vinner?</h3>
+      <p class="vad">När två regler säger olika saker om samma element vinner den mest
+        specifika – oavsett vilken som står sist.</p>
+      <p>Specificitet räknas som tre siffror: <b>id – klass – element</b>. Jämför från
+        vänster. En klass slår hur många element som helst.</p>
+      <div class="tabellsvep">
+        <table>
+          <thead><tr><th>Selektor</th><th>Räknas som</th></tr></thead>
+          <tbody>
+            <tr><td><code>p</code></td><td>0-0-1</td></tr>
+            <tr><td><code>.kort p</code></td><td>0-1-1</td></tr>
+            <tr><td><code>.ingress</code></td><td>0-1-0</td></tr>
+            <tr><td><code>a:hover</code></td><td>0-1-1 – pseudoklassen räknas som klass</td></tr>
+            <tr><td><code>a[aria-current="page"]</code></td><td>0-1-1 – attributet räknas som klass</td></tr>
+            <tr><td><code>#faglar</code></td><td>1-0-0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>I rutan till höger står klassregeln <i>först</i> och elementregeln sist. Klassen
+        vinner ändå.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Bara elementregeln</figcaption>
+          <div class="scen">
+            <p class="ingress">Ingressen.</p>
+            <p>Brödtext.</p>
+          </div>
+<pre><code>p { color: #8a4f12; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Båda reglerna</figcaption>
+          <div class="scen">
+            <p class="ingress">Ingressen.</p>
+            <p>Brödtext.</p>
+          </div>
+<pre><code>.ingress { color: #2f6f5e; }  /* 0-1-0 */
+p { color: #8a4f12; }         /* 0-0-1 */</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> att lösa krocken med
+        <code>!important</code>. Den hoppar över hela räkningen, och det enda som slår den
+        är en till. Sänk den andra selektorns specificitet i stället.</p>
+      <p class="mer">Mer i guiden: <a href="css-guiden.html#kaskaden">avsnitt 3</a>.</p>
+    </section>
+
+    <section class="post" id="s-ordning" aria-labelledby="r-ordning">
+      <h3 id="r-ordning">Lika specificitet: den sista vinner</h3>
+      <p class="vad">Är selektorerna lika specifika avgör ordningen i filen.</p>
+      <p>Samma två regler i båda rutorna, i omvänd ordning. Det är därför man skriver
+        stilmallen från allmänt till särskilt: det som står längre ned ska få bestämma.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Grön sist</figcaption>
+          <div class="scen"><p class="ingress">Ingressen.</p></div>
+<pre><code>.ingress { color: #8a4f12; }
+.ingress { color: #2f6f5e; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Brun sist</figcaption>
+          <div class="scen"><p class="ingress">Ingressen.</p></div>
+<pre><code>.ingress { color: #2f6f5e; }
+.ingress { color: #8a4f12; }</code></pre>
+        </figure>
+      </div>
+      <p class="foljer"><b>De tre frågorna, i ordning:</b> träffar regeln alls? Vilken är
+        mest specifik? Vilken står sist?</p>
+    </section>
+
+    <section class="post" id="s-arv" aria-labelledby="r-arv">
+      <h3 id="r-arv">Arv</h3>
+      <p class="vad">Vissa egenskaper följer med ned till elementen inuti, andra
+        gör det inte.</p>
+      <p>Tumregeln: <b>det som handlar om text ärvs, det som handlar om lådan gör det
+        inte.</b> I rutan till höger får det inre stycket färgen men inte ramen.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen">
+            <div class="ruta">Rutans egen text.
+              <p class="inre">Ett stycke inuti.</p>
+            </div>
+          </div>
+<pre><code>/* ingen regel */</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen">
+            <div class="ruta">Rutans egen text.
+              <p class="inre">Ett stycke inuti.</p>
+            </div>
+          </div>
+<pre><code>.ruta {
+  color: #2f6f5e;
+  border: 2px solid #2f6f5e;
+}</code></pre>
+        </figure>
+      </div>
+      <div class="tabellsvep">
+        <table>
+          <thead><tr><th>Ärvs</th><th>Ärvs inte</th></tr></thead>
+          <tbody>
+            <tr><td><code>color</code>, <code>font-family</code>, <code>font-size</code>, <code>line-height</code>, <code>text-align</code></td><td><code>margin</code>, <code>padding</code>, <code>border</code>, <code>background</code>, <code>width</code>, <code>display</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> att tro att formulärfält ärver typsnittet.
+        Det gör de inte – därför <code>font: inherit</code> på <code>input</code>,
+        <code>select</code> och <code>textarea</code>.</p>
+    </section>
+
+    <h3 id="selektorer-testa">Testa dig själv</h3>
+    <div class="tabellsvep">
+      <table class="facit">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Vilken specificitet har <code>.meny a</code>?</td><td>0-1-1</td></tr>
+          <tr><td>Vilken vinner: <code>.kort p</code> eller <code>p.ingress</code>?</td><td>Lika, båda 0-1-1. Den som står sist vinner</td></tr>
+          <tr><td>Vilken vinner: <code>#faglar</code> eller <code>.kort .ingress</code>?</td><td><code>#faglar</code>. 1-0-0 slår 0-2-0</td></tr>
+          <tr><td>Vad är skillnaden mellan <code>nav a</code> och <code>nav &gt; a</code>?</td><td>Den första träffar länkar var som helst i nav, den andra bara direkta barn</td></tr>
+          <tr><td>Vad träffar <code>h2, h3</code>?</td><td>Alla h2 och alla h3</td></tr>
+          <tr><td>Du sätter <code>background</code> på <code>body</code>. Ärvs den?</td><td>Nej. Barnen är genomskinliga, så den syns igenom – men den ärvs inte</td></tr>
+          <tr><td>Vilka rader träffar <code>tr:nth-child(odd)</code>?</td><td>Första, tredje, femte …</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ====================================================================== -->
+
+    <h2 id="boxmodellen">2. Boxmodellen</h2>
+    <p>Varje element är en låda med fyra lager, inifrån och ut: <b>content</b> (innehållet),
+      <b>padding</b> (luft innanför kanten), <b>border</b> (kanten) och <b>margin</b>
+      (luft utanför).</p>
+
+    <section class="post" id="s-boxsizing" aria-labelledby="r-boxsizing">
+      <h3 id="r-boxsizing"><code>box-sizing: border-box</code></h3>
+      <p class="vad">Bestämmer vad <code>width</code> mäter.</p>
+      <p>Webbläsarens förval är <code>content-box</code>: bredden gäller bara innehållet,
+        och padding och border läggs utanpå. Med <code>border-box</code> räknas de inåt,
+        så att 12rem blir 12rem. Den bruna linjen i båda rutorna är 12rem lång.</p>
+      <p class="foljer"><b>Följer med:</b> ingenting – men utan den regeln gäller
+        <code>content-box</code> för alla element. Skriv den överst i varje stilmall.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan – content-box</figcaption>
+          <div class="scen">
+            <div class="linjal"></div>
+            <div class="ruta">12rem?</div>
+          </div>
+<pre><code>.ruta {
+  width: 12rem;
+  padding: 1.5rem;
+  border: 4px solid #2f6f5e;
+}</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med – border-box</figcaption>
+          <div class="scen">
+            <div class="linjal"></div>
+            <div class="ruta">12rem.</div>
+          </div>
+<pre><code>*, *::before, *::after {
+  box-sizing: border-box;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Räkna själv:</b> utan <code>border-box</code> blir rutan
+        12 + 1,5 + 1,5 rem plus två ramar på 4px – alltså 15rem och 8px.</p>
+      <p class="mer">Mer i guiden: <a href="css-guiden.html#boxmodellen-borderbox">avsnitt 5</a>.</p>
+    </section>
+
+    <section class="post" id="s-padding" aria-labelledby="r-padding">
+      <h3 id="r-padding"><code>padding</code></h3>
+      <p class="vad">Luft innanför kanten.</p>
+      <p>Padding har elementets egen bakgrundsfärg – den gör lådan större, inte avståndet
+        till grannen.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen"><div class="ruta">Text tätt mot kanten.</div></div>
+<pre><code>.ruta { background: #e7f0ec; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen"><div class="ruta">Text med luft.</div></div>
+<pre><code>.ruta {
+  background: #e7f0ec;
+  padding: 1rem;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="foljer"><b>Padding eller margin?</b> Ska luften ha bakgrundsfärgen är det
+        padding. Ska den skilja elementet från grannen är det margin.</p>
+    </section>
+
+    <section class="post" id="s-margin" aria-labelledby="r-margin">
+      <h3 id="r-margin"><code>margin</code></h3>
+      <p class="vad">Luft utanför kanten.</p>
+      <p>Margin är alltid genomskinlig. Den skjuter grannarna ifrån sig.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen">
+            <div class="ruta">Första</div>
+            <div class="ruta">Andra</div>
+          </div>
+<pre><code>.ruta { background: #e7f0ec; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen">
+            <div class="ruta">Första</div>
+            <div class="ruta">Andra</div>
+          </div>
+<pre><code>.ruta {
+  background: #e7f0ec;
+  margin-bottom: 1rem;
+}</code></pre>
+        </figure>
+      </div>
+      <p>Kortformen gäller både <code>margin</code> och <code>padding</code>:</p>
+      <div class="tabellsvep">
+        <table>
+          <thead><tr><th>Skrivs</th><th>Betyder</th></tr></thead>
+          <tbody>
+            <tr><td><code>margin: 1rem;</code></td><td>Alla fyra sidor</td></tr>
+            <tr><td><code>margin: 1rem 2rem;</code></td><td>Uppe och nere 1rem, höger och vänster 2rem</td></tr>
+            <tr><td><code>margin: 1rem 2rem 3rem;</code></td><td>Uppe 1rem, sidorna 2rem, nere 3rem</td></tr>
+            <tr><td><code>margin: 1rem 2rem 3rem 4rem;</code></td><td>Uppe, höger, nere, vänster – medurs från klockan tolv</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="post" id="s-border" aria-labelledby="r-border">
+      <h3 id="r-border"><code>border</code></h3>
+      <p class="vad">Kanten runt lådan.</p>
+      <p>Kortformen tar tre värden: <b>tjocklek, stil och färg</b>. Ordningen spelar ingen
+        roll, men stilen måste finnas med.</p>
+      <p class="foljer"><b>Följer med:</b> utan stil blir stilen <code>none</code> – och då
+        syns ingen kant alls, hur tjock du än gör den.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Stilen saknas</figcaption>
+          <div class="scen"><div class="ruta">Var är kanten?</div></div>
+<pre><code>.ruta { border: 3px #2f6f5e; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med stil</figcaption>
+          <div class="scen"><div class="ruta">Där är den.</div></div>
+<pre><code>.ruta { border: 3px solid #2f6f5e; }</code></pre>
+        </figure>
+      </div>
+      <p class="mer">Vanliga stilar: <code>solid</code>, <code>dashed</code>,
+        <code>dotted</code>. En sida i taget: <code>border-bottom</code>,
+        <code>border-left</code>.</p>
+    </section>
+
+    <section class="post" id="s-kollaps" aria-labelledby="r-kollaps">
+      <h3 id="r-kollaps">Marginalkollaps</h3>
+      <p class="vad">Två lodräta marginaler som möts slås ihop till en.</p>
+      <p>Den första rutan har <code>margin-bottom: 2rem</code>, den andra
+        <code>margin-top: 1rem</code>. I vanligt flöde blir avståndet <b>2rem</b> – den
+        största vinner, de adderas inte. Inuti en flex- eller grid-behållare kollapsar
+        marginaler inte, och då blir det <b>3rem</b>.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Vanligt flöde – 2rem</figcaption>
+          <div class="scen">
+            <div class="kolumn">
+              <div class="b forsta">Första</div>
+              <div class="b b2 andra">Andra</div>
+            </div>
+          </div>
+<pre><code>.forsta { margin-bottom: 2rem; }
+.andra  { margin-top: 1rem; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Flexbehållare – 3rem</figcaption>
+          <div class="scen">
+            <div class="kolumn">
+              <div class="b forsta">Första</div>
+              <div class="b b2 andra">Andra</div>
+            </div>
+          </div>
+<pre><code>.kolumn {
+  display: flex;
+  flex-direction: column;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="foljer"><b>Att veta:</b> det gäller bara lodrätt. Sidledes marginaler
+        kollapsar aldrig.</p>
+    </section>
+
+    <section class="post" id="s-maxbredd" aria-labelledby="r-maxbredd">
+      <h3 id="r-maxbredd"><code>max-width</code></h3>
+      <p class="vad">Den största bredd elementet får ha.</p>
+      <p>Elementet får vara smalare, men aldrig bredare. Två vanliga användningar:
+        läsmått på brödtext, så att raderna inte blir för långa, och
+        <code>max-width: 100%</code> på bilder, så att de inte spränger sin spalt. Den
+        bruna stapeln står för en bild som är 60rem bred.</p>
+      <div class="jamfor stapla">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen">
+            <p>Långa rader är svåra att läsa. Ögat ska hitta tillbaka till början av nästa
+              rad, och ju längre raden är desto lättare tappar det bort sig.</p>
+            <div class="bild"></div>
+          </div>
+<pre><code>/* ingen regel */</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen">
+            <p>Långa rader är svåra att läsa. Ögat ska hitta tillbaka till början av nästa
+              rad, och ju längre raden är desto lättare tappar det bort sig.</p>
+            <div class="bild"></div>
+          </div>
+<pre><code>p { max-width: 20rem; }
+.bild { max-width: 100%; }</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> <code>width</code> i stället för
+        <code>max-width</code>. Med <code>width: 20rem</code> blir stycket 20rem även i en
+        telefon som bara har 18rem att ge.</p>
+    </section>
+
+    <h3 id="boxmodellen-testa">Testa dig själv</h3>
+    <div class="tabellsvep">
+      <table class="facit">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Vilka är boxmodellens fyra lager, inifrån och ut?</td><td>content, padding, border, margin</td></tr>
+          <tr><td><code>width: 300px; padding: 20px; border: 1px solid;</code> utan <code>border-box</code>. Hur bred blir lådan?</td><td>342px – 300 + 2 × 20 + 2 × 1</td></tr>
+          <tr><td>Samma sak med <code>border-box</code>?</td><td>300px</td></tr>
+          <tr><td>Vad betyder <code>padding: 0.5rem 1rem;</code>?</td><td>0.5rem uppe och nere, 1rem höger och vänster</td></tr>
+          <tr><td>Två stycken: <code>margin-bottom: 1.5rem</code> och <code>margin-top: 1rem</code>. Avstånd?</td><td>1.5rem – marginalkollaps, den största vinner</td></tr>
+          <tr><td>Vilket lager har elementets bakgrundsfärg: padding eller margin?</td><td>Padding</td></tr>
+          <tr><td>Varför syns inte <code>border: 2px red;</code>?</td><td>Stilen saknas, till exempel <code>solid</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ====================================================================== -->
+
+    <h2 id="farg">3. Färg</h2>
+
+    <section class="post" id="s-color" aria-labelledby="r-color">
+      <h3 id="r-color"><code>color</code></h3>
+      <p class="vad">Textfärgen.</p>
+      <p><code>color</code> ärvs. Sätter du den på en behållare får all text inuti samma
+        färg, om inget längre in säger något annat.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen"><div class="ruta"><p>Rubrik</p><p>Och ett stycke.</p></div></div>
+<pre><code>/* ingen regel */</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen"><div class="ruta"><p>Rubrik</p><p>Och ett stycke.</p></div></div>
+<pre><code>.ruta { color: #2f6f5e; }</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> grå text på vit bakgrund som ser stilren ut
+        men har för låg kontrast. Riktvärdet är 4,5:1 för brödtext. DevTools visar värdet
+        när du inspekterar färgen.</p>
+    </section>
+
+    <section class="post" id="s-background" aria-labelledby="r-background">
+      <h3 id="r-background"><code>background</code></h3>
+      <p class="vad">Bakgrunden bakom innehållet och paddingen.</p>
+      <p><code>background</code> ärvs <b>inte</b>. Att stycket inuti ändå ser tonat ut beror
+        på att det är genomskinligt som förval – rutans bakgrund syns igenom.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen"><div class="ruta"><p>Ett stycke i rutan.</p></div></div>
+<pre><code>.ruta { padding: 0.6rem; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen"><div class="ruta"><p>Ett stycke i rutan.</p></div></div>
+<pre><code>.ruta {
+  padding: 0.6rem;
+  background: #e7f0ec;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="mer"><code>background</code> är en kortform. <code>background-color</code>
+        sätter bara färgen och gör samma sak här.</p>
+    </section>
+
+    <section class="post" id="s-fargvarden" aria-labelledby="r-fargvarden">
+      <h3 id="r-fargvarden">Färgvärden: hex, rgb och hsl</h3>
+      <p class="vad">Fyra sätt att skriva samma sak: namn, hex, rgb och hsl.</p>
+      <div class="tabellsvep">
+        <table>
+          <thead><tr><th>Skrivs</th><th>Betyder</th></tr></thead>
+          <tbody>
+            <tr><td><code>darkgreen</code></td><td>Ett av 147 färgnamn</td></tr>
+            <tr><td><code>#2f6f5e</code></td><td>Hex: två tecken per kanal – rött <code>2f</code>, grönt <code>6f</code>, blått <code>5e</code>. <code>#fff</code> är <code>#ffffff</code></td></tr>
+            <tr><td><code>rgb(47 111 94)</code></td><td>Rött, grönt, blått från 0 till 255</td></tr>
+            <tr><td><code>hsl(164 40% 31%)</code></td><td>Nyans, mättnad, ljushet</td></tr>
+            <tr><td><code>rgb(47 111 94 / 30%)</code></td><td>Fjärde värdet efter snedstrecket är alfa – genomskinlighet</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="jamfor">
+        <figure class="med">
+          <figcaption>Samma nyans, ljusare – och genomskinlig</figcaption>
+          <div class="scen">
+            <div class="rad">
+              <div class="prov f1"></div>
+              <div class="prov f2"></div>
+              <div class="prov f3"></div>
+              <div class="prov f4"></div>
+            </div>
+          </div>
+<pre><code>hsl(164 40% 31%)
+hsl(164 40% 45%)
+hsl(164 40% 60%)
+rgb(47 111 94 / 30%)</code></pre>
+        </figure>
+      </div>
+      <p class="foljer"><b>Att veta:</b> hsl är den enda som går att räkna i huvudet. Byt
+        bara ljusheten, så får du en skala som hänger ihop.</p>
+    </section>
+
+    <h3 id="farg-testa">Testa dig själv</h3>
+    <div class="tabellsvep">
+      <table class="facit">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Vad är <code>#000</code> utskrivet i sex tecken?</td><td><code>#000000</code> – svart</td></tr>
+          <tr><td>Vilken av <code>color</code> och <code>background</code> ärvs?</td><td><code>color</code></td></tr>
+          <tr><td>Vad gör <code>/ 50%</code> i <code>rgb(0 0 0 / 50%)</code>?</td><td>Gör färgen halvt genomskinlig</td></tr>
+          <tr><td>Vilket kontrastvärde är riktvärdet för brödtext?</td><td>4,5:1</td></tr>
+          <tr><td>Vad ändras mellan <code>hsl(164 40% 31%)</code> och <code>hsl(164 40% 60%)</code>?</td><td>Bara ljusheten. Samma färg, ljusare</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ====================================================================== -->
+
+    <h2 id="typografi">4. Typografi</h2>
+
+    <section class="post" id="s-fontfamily" aria-labelledby="r-fontfamily">
+      <h3 id="r-fontfamily"><code>font-family</code></h3>
+      <p class="vad">Vilket typsnitt texten ska ha.</p>
+      <p>Värdet är en <b>stack</b>: en lista i fallande ordning. Webbläsaren tar det första
+        som finns på datorn. Sist står alltid en generisk familj –
+        <code>sans-serif</code>, <code>serif</code> eller <code>monospace</code> – så att
+        det finns något att falla tillbaka på.</p>
+      <p class="foljer"><b>Följer med:</b> utan regel använder de flesta webbläsare ett
+        serift typsnitt, oftast Times. <code>font-family</code> ärvs, så det räcker att
+        sätta den på <code>body</code>.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan – förvalet</figcaption>
+          <div class="scen"><p>Vikstads naturreservat har fyra markerade stigar.</p></div>
+<pre><code>/* ingen regel */</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen"><p>Vikstads naturreservat har fyra markerade stigar.</p></div>
+<pre><code>body {
+  font-family: "Segoe UI",
+    system-ui, -apple-system,
+    sans-serif;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> att glömma citattecknen runt namn med
+        mellanslag, eller att inte avsluta med en generisk familj.</p>
+    </section>
+
+    <section class="post" id="s-rem" aria-labelledby="r-rem">
+      <h3 id="r-rem"><code>font-size</code> med <code>rem</code> och <code>em</code></h3>
+      <p class="vad">Textstorleken.</p>
+      <p><code>rem</code> betyder gånger sidans grundstorlek, normalt 16 pixlar.
+        <code>em</code> betyder gånger <i>förälderns</i> storlek – och därför växer den
+        ihop när element ligger i varandra. Båda rutorna har tre nivåer inuti varandra
+        med klassen <code>steg</code>.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>em – växer ihop</figcaption>
+          <div class="scen">
+            <div class="steg">Nivå 1
+              <div class="steg">Nivå 2
+                <div class="steg">Nivå 3</div>
+              </div>
+            </div>
+          </div>
+<pre><code>.steg { font-size: 1.2em; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>rem – samma hela vägen</figcaption>
+          <div class="scen">
+            <div class="steg">Nivå 1
+              <div class="steg">Nivå 2
+                <div class="steg">Nivå 3</div>
+              </div>
+            </div>
+          </div>
+<pre><code>.steg { font-size: 1.2rem; }</code></pre>
+        </figure>
+      </div>
+      <p class="foljer"><b>Varför rem och inte px?</b> Har användaren ställt in större text
+        i webbläsaren följer <code>rem</code> med. <code>px</code> står still.</p>
+      <p class="mer">Räkna: <code>1.5rem</code> är 24px, <code>0.875rem</code> är 14px –
+        om grundstorleken är 16px.</p>
+    </section>
+
+    <section class="post" id="s-lineheight" aria-labelledby="r-lineheight">
+      <h3 id="r-lineheight"><code>line-height</code></h3>
+      <p class="vad">Radavståndet.</p>
+      <p>Skriv den <b>utan enhet</b>. Då betyder <code>1.6</code> "1,6 gånger elementets
+        egen textstorlek", och rubriker och brödtext får var sitt rimliga avstånd.
+        Riktvärde för brödtext: 1,5–1,7.</p>
+      <p class="foljer"><b>Följer med:</b> förvalet <code>normal</code> är ungefär 1,2 –
+        tätt för brödtext. <code>line-height</code> ärvs.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan – normal</figcaption>
+          <div class="scen"><p>Stigarna är markerade med färgade pilar. Den gröna är kortast och den enda som går att ta sig fram på med barnvagn.</p></div>
+<pre><code>/* ingen regel */</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen"><p>Stigarna är markerade med färgade pilar. Den gröna är kortast och den enda som går att ta sig fram på med barnvagn.</p></div>
+<pre><code>p { line-height: 1.6; }</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> <code>line-height: 24px</code>. Den ärvs som
+        ett fast värde, och en rubrik på 40px får då 24px radavstånd – raderna krockar.</p>
+    </section>
+
+    <section class="post" id="s-clamp" aria-labelledby="r-clamp">
+      <h3 id="r-clamp"><code>clamp()</code></h3>
+      <p class="vad">Ett värde som växer med fönstret, mellan ett minsta och ett största.</p>
+      <p>Tre värden: <b>minsta, önskade, största</b>. Det mittersta innehåller oftast
+        <code>vw</code> – en hundradel av fönstrets bredd – och det är det som får värdet
+        att växa. Dra i webbläsarfönstret och se rubriken nedan ändra storlek, men aldrig
+        under 1,2rem eller över 2,2rem.</p>
+      <div class="jamfor stapla">
+        <figure class="med">
+          <figcaption>Ändra fönstrets bredd</figcaption>
+          <div class="scen"><p class="rubrik">Välkommen till Vikstad</p></div>
+<pre><code>.rubrik {
+  font-size: clamp(1.2rem, 0.8rem + 2vw, 2.2rem);
+}</code></pre>
+        </figure>
+      </div>
+      <p class="foljer"><b>Att veta:</b> det är ett sätt att få något att skala utan en
+        enda media query.</p>
+    </section>
+
+    <h3 id="typografi-testa">Testa dig själv</h3>
+    <div class="tabellsvep">
+      <table class="facit">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Hur många pixlar är <code>2rem</code> om grundstorleken är 16px?</td><td>32px</td></tr>
+          <tr><td><code>font-size: 1.5em</code> inuti ett element med <code>1.5em</code>. Hur många gånger grundstorleken?</td><td>2,25 – em växer ihop</td></tr>
+          <tr><td>Varför ska <code>line-height</code> skrivas utan enhet?</td><td>Då räknas den om för varje element utifrån dess egen textstorlek</td></tr>
+          <tr><td>Vad står de tre värdena i <code>clamp()</code> för?</td><td>Minsta, önskade, största</td></tr>
+          <tr><td>Varför står <code>sans-serif</code> sist i en typsnittsstack?</td><td>Så att det finns något att falla tillbaka på om inget av de andra finns</td></tr>
+          <tr><td>Ärvs <code>font-family</code>?</td><td>Ja – utom i formulärfält</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ====================================================================== -->
+
+    <h2 id="flexbox">5. Flexbox</h2>
+    <p>Flexbox lägger element i <b>en riktning</b> – en rad eller en kolumn – och fördelar
+      utrymmet mellan dem. Allt utom <code>flex: 1</code> skrivs på <b>behållaren</b>,
+      inte på barnen. Den streckade linjen visar var behållaren går.</p>
+
+    <section class="post" id="s-flex" aria-labelledby="r-flex">
+      <h3 id="r-flex"><code>display: flex</code></h3>
+      <p class="vad">Gör elementet till en flexbehållare. Barnen blir flex-barn.</p>
+      <p>Barnen slutar ligga under varandra och ställer sig på en rad. De blir bara så breda
+        som sitt innehåll.</p>
+      <p class="foljer"><b>Följer med automatiskt:</b> <code>flex-direction: row</code>
+        (en rad), <code>flex-wrap: nowrap</code> (ingen radbrytning),
+        <code>justify-content: flex-start</code> (samlade till vänster) och
+        <code>align-items: stretch</code> (lika höga). Inget av det behöver du skriva –
+        bara det du vill <i>ändra</i>.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen">
+            <div class="rad beh">
+              <div class="b">Ett</div>
+              <div class="b">Två</div>
+              <div class="b">Tre</div>
+            </div>
+          </div>
+<pre><code>.rad { }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen">
+            <div class="rad beh">
+              <div class="b">Ett</div>
+              <div class="b">Två</div>
+              <div class="b">Tre</div>
+            </div>
+          </div>
+<pre><code>.rad {
+  display: flex;
+  gap: 0.4rem;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> att sätta <code>display: flex</code> på
+        barnen. Det ska stå på <b>föräldern</b> – den som ska ordna sina barn.</p>
+      <p class="mer">Mer i guiden: <a href="css-guiden.html#flexbox">avsnitt 8</a>.</p>
+    </section>
+
+    <section class="post" id="s-dir" aria-labelledby="r-dir">
+      <h3 id="r-dir"><code>flex-direction</code></h3>
+      <p class="vad">Åt vilket håll barnen ställer sig.</p>
+      <p><code>row</code> är förvalet: vågrätt. <code>column</code> lägger dem lodrätt –
+        men fortfarande som flex-barn, så <code>gap</code> och de andra egenskaperna
+        fungerar.</p>
+      <p class="foljer"><b>Att veta:</b> <code>justify-content</code> och
+        <code>align-items</code> <b>byter håll</b> med <code>column</code>. De följer
+        riktningen, inte skärmen.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>row – förvalet</figcaption>
+          <div class="scen">
+            <div class="rad beh"><div class="b">Ett</div><div class="b">Två</div><div class="b">Tre</div></div>
+          </div>
+<pre><code>.rad { display: flex; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>column</figcaption>
+          <div class="scen">
+            <div class="rad beh"><div class="b">Ett</div><div class="b">Två</div><div class="b">Tre</div></div>
+          </div>
+<pre><code>.rad {
+  display: flex;
+  flex-direction: column;
+}</code></pre>
+        </figure>
+      </div>
+    </section>
+
+    <section class="post" id="s-justify" aria-labelledby="r-justify">
+      <h3 id="r-justify"><code>justify-content</code></h3>
+      <p class="vad">Hur barnen fördelas <b>längs</b> riktningen.</p>
+      <p>Det märks bara när det finns utrymme över. <code>space-between</code> lägger det
+        första barnet längst till vänster, det sista längst till höger och fördelar luften
+        mellan dem.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>flex-start – förvalet</figcaption>
+          <div class="scen">
+            <div class="rad beh"><div class="b">Ett</div><div class="b">Två</div><div class="b">Tre</div></div>
+          </div>
+<pre><code>.rad { display: flex; }</code></pre>
+        </figure>
+        <figure class="med mitt">
+          <figcaption>center</figcaption>
+          <div class="scen">
+            <div class="rad beh"><div class="b">Ett</div><div class="b">Två</div><div class="b">Tre</div></div>
+          </div>
+<pre><code>justify-content: center;</code></pre>
+        </figure>
+        <figure class="med mellan">
+          <figcaption>space-between</figcaption>
+          <div class="scen">
+            <div class="rad beh"><div class="b">Ett</div><div class="b">Två</div><div class="b">Tre</div></div>
+          </div>
+<pre><code>justify-content: space-between;</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> att använda <code>justify-content</code> för
+        att centrera lodrätt i en rad. Lodrätt i en rad är <i>tvärs</i> riktningen – det
+        är <code>align-items</code>.</p>
+    </section>
+
+    <section class="post" id="s-align" aria-labelledby="r-align">
+      <h3 id="r-align"><code>align-items</code></h3>
+      <p class="vad">Hur barnen placeras <b>tvärs</b> riktningen.</p>
+      <p>Det mittersta barnet är högre än de andra. Förvalet <code>stretch</code> drar ut
+        alla till samma höjd. <code>center</code> låter dem behålla sin höjd och lägger dem
+        i mitten.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>stretch – förvalet</figcaption>
+          <div class="scen">
+            <div class="rad beh"><div class="b">Ett</div><div class="b b2 hog">Hög</div><div class="b">Tre</div></div>
+          </div>
+<pre><code>.rad { display: flex; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>center</figcaption>
+          <div class="scen">
+            <div class="rad beh"><div class="b">Ett</div><div class="b b2 hog">Hög</div><div class="b">Tre</div></div>
+          </div>
+<pre><code>.rad {
+  display: flex;
+  align-items: center;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="foljer"><b>Minnesregel:</b> <i>justify</i> längs, <i>align</i> tvärs. Med
+        <code>flex-direction: column</code> är längs lodrätt och tvärs vågrätt.</p>
+    </section>
+
+    <section class="post" id="s-wrap" aria-labelledby="r-wrap">
+      <h3 id="r-wrap"><code>flex-wrap</code></h3>
+      <p class="vad">Om barnen får radbryta när de inte får plats.</p>
+      <p>Förvalet <code>nowrap</code> pressar ihop barnen på en rad tills de inte går att
+        krympa mer – sedan sticker de ut ur behållaren. Med <code>wrap</code> flyttar de
+        ned på en ny rad. Det är så en meny klarar en smal telefonskärm utan media
+        queries.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>nowrap – förvalet</figcaption>
+          <div class="scen">
+            <div class="rad beh"><div class="b">Start</div><div class="b">Stigar</div><div class="b">Besök</div><div class="b">Djur&nbsp;och&nbsp;växter</div><div class="b">Kontakt</div></div>
+          </div>
+<pre><code>.rad {
+  display: flex;
+  gap: 0.4rem;
+}</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>wrap</figcaption>
+          <div class="scen">
+            <div class="rad beh"><div class="b">Start</div><div class="b">Stigar</div><div class="b">Besök</div><div class="b">Djur&nbsp;och&nbsp;växter</div><div class="b">Kontakt</div></div>
+          </div>
+<pre><code>.rad {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> att lägga en media query för att få menyn att
+        radbryta. <code>flex-wrap: wrap</code> gör det av sig själv.</p>
+    </section>
+
+    <section class="post" id="s-gap" aria-labelledby="r-gap">
+      <h3 id="r-gap"><code>gap</code></h3>
+      <p class="vad">Avstånd <b>mellan</b> barnen.</p>
+      <p>Bara mellan – inte före det första eller efter det sista. Två värden ger olika
+        avstånd mellan rader och kolumner: <code>gap: 0.5rem 1.5rem</code>.</p>
+      <p class="foljer"><b>Att veta:</b> <code>gap</code> fungerar bara i flex- och
+        grid-behållare. På ett vanligt element gör den ingenting.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen">
+            <div class="rad beh"><div class="b">Ett</div><div class="b b2">Två</div><div class="b">Tre</div></div>
+          </div>
+<pre><code>.rad { display: flex; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen">
+            <div class="rad beh"><div class="b">Ett</div><div class="b b2">Två</div><div class="b">Tre</div></div>
+          </div>
+<pre><code>.rad {
+  display: flex;
+  gap: 1rem;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> <code>margin</code> på varje barn i stället.
+        Då får det sista barnet en marginal det inte ska ha, och den måste tas bort med
+        en egen regel.</p>
+    </section>
+
+    <section class="post" id="s-flex1" aria-labelledby="r-flex1">
+      <h3 id="r-flex1"><code>flex: 1</code></h3>
+      <p class="vad">Skrivs på ett <b>barn</b>: ta det utrymme som blir över.</p>
+      <p>Sätter du den på ett barn av tre växer just det och de andra behåller sin storlek.
+        Sätter du den på alla delar de lika.</p>
+      <p class="foljer"><b>Följer med:</b> utan den växer inga barn – förvalet är att de
+        får krympa men inte växa.</p>
+      <div class="jamfor stapla">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen">
+            <div class="sokrad beh">
+              <label for="d-sok-1">Sök</label>
+              <input type="search" id="d-sok-1">
+              <button type="button">Sök</button>
+            </div>
+          </div>
+<pre><code>.sokrad { display: flex; }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen">
+            <div class="sokrad beh">
+              <label for="d-sok-2">Sök</label>
+              <input type="search" id="d-sok-2">
+              <button type="button">Sök</button>
+            </div>
+          </div>
+<pre><code>.sokrad { display: flex; }
+.sokrad input { flex: 1; }</code></pre>
+        </figure>
+      </div>
+    </section>
+
+    <h3 id="flexbox-testa">Testa dig själv</h3>
+    <div class="tabellsvep">
+      <table class="facit">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Vilken <code>flex-direction</code> får du om du bara skriver <code>display: flex</code>?</td><td><code>row</code></td></tr>
+          <tr><td>Ska <code>display: flex</code> stå på menyns <code>ul</code> eller på varje <code>li</code>?</td><td>På <code>ul</code> – behållaren</td></tr>
+          <tr><td>Du vill centrera barnen lodrätt i en rad. Vilken egenskap?</td><td><code>align-items: center</code></td></tr>
+          <tr><td>Samma sak, men med <code>flex-direction: column</code>?</td><td><code>justify-content: center</code> – de har bytt håll</td></tr>
+          <tr><td>Menyn pressas ihop i mobilen. Vilken rad saknas?</td><td><code>flex-wrap: wrap</code></td></tr>
+          <tr><td><code>gap: 1rem</code> gör ingenting. Varför?</td><td>Elementet är varken flex eller grid</td></tr>
+          <tr><td>Vad gör <code>flex: 1</code> på ett av tre barn?</td><td>Det barnet tar allt utrymme som blir över</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ====================================================================== -->
+
+    <h2 id="grid">6. Grid</h2>
+    <p>Grid lägger element i <b>rader och kolumner samtidigt</b>. Tumregeln: en riktning
+      är Flexbox, två riktningar är Grid.</p>
+
+    <section class="post" id="s-grid" aria-labelledby="r-grid">
+      <h3 id="r-grid"><code>display: grid</code></h3>
+      <p class="vad">Gör elementet till en grid-behållare.</p>
+      <p>Ensam gör den nästan ingenting synligt – rutorna nedan ser likadana ut.
+        Det är <code>grid-template-columns</code> som gör jobbet. Men nu fungerar
+        <code>gap</code>, och barnen är grid-barn som kan placeras.</p>
+      <p class="foljer"><b>Följer med automatiskt:</b> <b>en enda kolumn</b>, så många
+        rader som behövs, och barn som fyller sin cell på bredden.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen">
+            <div class="ruta beh"><div class="b">Ett</div><div class="b">Två</div><div class="b">Tre</div></div>
+          </div>
+<pre><code>.ruta { }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med – ser likadan ut</figcaption>
+          <div class="scen">
+            <div class="ruta beh"><div class="b">Ett</div><div class="b">Två</div><div class="b">Tre</div></div>
+          </div>
+<pre><code>.ruta { display: grid; }</code></pre>
+        </figure>
+      </div>
+      <p class="mer">Mer i guiden: <a href="css-guiden.html#grid">avsnitt 9</a>.</p>
+    </section>
+
+    <section class="post" id="s-cols" aria-labelledby="r-cols">
+      <h3 id="r-cols"><code>grid-template-columns</code> och <code>fr</code></h3>
+      <p class="vad">Hur många kolumner, och hur breda.</p>
+      <p>Ett värde per kolumn. <code>fr</code> betyder en <b>andel av det som blir
+        över</b>. <code>1fr 1fr 1fr</code> är tre lika breda, <code>2fr 1fr</code> är två
+        där den första är dubbelt så bred. Barnen fyller cellerna i tur och ordning, rad
+        för rad.</p>
+      <div class="jamfor">
+        <figure class="lika">
+          <figcaption>1fr 1fr 1fr</figcaption>
+          <div class="scen">
+            <div class="ruta beh"><div class="b">1</div><div class="b">2</div><div class="b">3</div><div class="b">4</div><div class="b">5</div><div class="b">6</div></div>
+          </div>
+<pre><code>.ruta {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.4rem;
+}</code></pre>
+        </figure>
+        <figure class="med olika">
+          <figcaption>2fr 1fr</figcaption>
+          <div class="scen">
+            <div class="ruta beh"><div class="b">1</div><div class="b">2</div><div class="b">3</div><div class="b">4</div><div class="b">5</div><div class="b">6</div></div>
+          </div>
+<pre><code>.ruta {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 0.4rem;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="foljer"><b>Blanda gärna:</b> <code>200px 1fr</code> ger en fast kolumn och
+        en som tar resten.</p>
+      <p class="miss"><b>Vanligt misstag:</b> att tro att <code>1fr</code> är en bredd. Det
+        är en andel av det som blir <i>över</i> när de fasta kolumnerna fått sitt.</p>
+    </section>
+
+    <section class="post" id="s-autofit" aria-labelledby="r-autofit">
+      <h3 id="r-autofit"><code>repeat(auto-fit, minmax(…, 1fr))</code></h3>
+      <p class="vad">Ett rutnät som väljer antal kolumner själv.</p>
+      <p>Läs den inifrån och ut. <code>minmax(6rem, 1fr)</code>: varje kolumn är minst
+        6rem och högst sin andel av resten. <code>repeat(auto-fit, …)</code>: lägg in så
+        många sådana kolumner som får plats.</p>
+      <p><b>Dra i det lilla hörnet nere till höger</b> i varje ruta för att göra den
+        smalare. Med fasta kolumner trycks korten ihop. Med <code>auto-fit</code> blir det
+        färre kolumner.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Fasta kolumner</figcaption>
+          <div class="scen">
+            <div class="dragbar"><div class="ruta"><div class="b">Ett</div><div class="b">Två</div><div class="b">Tre</div><div class="b">Fyra</div></div></div>
+          </div>
+<pre><code>.ruta {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>auto-fit</figcaption>
+          <div class="scen">
+            <div class="dragbar"><div class="ruta"><div class="b">Ett</div><div class="b">Två</div><div class="b">Tre</div><div class="b">Fyra</div></div></div>
+          </div>
+<pre><code>.ruta {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(6rem, 1fr));
+}</code></pre>
+        </figure>
+      </div>
+      <p class="foljer"><b>Att veta:</b> i ditt projekt är det här ofta
+        <code>minmax(16rem, 1fr)</code> – tre kolumner på en laptop, en i en telefon, utan
+        en enda media query. Hörnet att dra i finns inte på alla telefoner; prova på en
+        dator.</p>
+    </section>
+
+    <section class="post" id="s-span" aria-labelledby="r-span">
+      <h3 id="r-span"><code>grid-column: 1 / -1</code></h3>
+      <p class="vad">Skrivs på ett <b>barn</b>: sträck dig över alla kolumner.</p>
+      <p>Siffrorna är <b>linjer</b>, inte kolumner. <code>1</code> är linjen längst till
+        vänster, <code>-1</code> är den längst till höger. Rubriken nedan är ett barn till
+        rutnätet precis som korten.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen">
+            <div class="ruta beh"><div class="rubrik">Fåglar</div><div class="b">Kort 1</div><div class="b">Kort 2</div><div class="b">Kort 3</div></div>
+          </div>
+<pre><code>.ruta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen">
+            <div class="ruta beh"><div class="rubrik">Fåglar</div><div class="b">Kort 1</div><div class="b">Kort 2</div><div class="b">Kort 3</div></div>
+          </div>
+<pre><code>.ruta &gt; .rubrik {
+  grid-column: 1 / -1;
+}</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> att linda in korten i en extra
+        <code>div</code> för att få rubriken på egen rad. Det behövs inte.</p>
+    </section>
+
+    <section class="post" id="s-areas" aria-labelledby="r-areas">
+      <h3 id="r-areas"><code>grid-template-areas</code></h3>
+      <p class="vad">Layouten ritad i text.</p>
+      <p>Varje sträng är en rad, varje ord en cell. Samma namn i flera celler bredvid
+        varandra blir ett område som sträcker sig över dem. Barnen hamnar på plats med
+        <code>grid-area</code>. Områdets namn och barnets klass är två olika saker –
+        de behöver inte heta likadant.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan</figcaption>
+          <div class="scen">
+            <div class="sida">
+              <div class="b sidhuvud">topp</div>
+              <div class="b b2 meny">meny</div>
+              <div class="b huvuddel">innehall</div>
+              <div class="b b2 sidfot">fot</div>
+            </div>
+          </div>
+<pre><code>/* ingen layout */</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med</figcaption>
+          <div class="scen">
+            <div class="sida">
+              <div class="b sidhuvud">topp</div>
+              <div class="b b2 meny">meny</div>
+              <div class="b huvuddel">innehall</div>
+              <div class="b b2 sidfot">fot</div>
+            </div>
+          </div>
+<pre><code>.sida {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  grid-template-areas:
+    "topp  topp"
+    "meny  innehall"
+    "fot   fot";
+}
+.sidhuvud { grid-area: topp; }
+.meny     { grid-area: meny; }
+.huvuddel { grid-area: innehall; }
+.sidfot   { grid-area: fot; }</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> olika många ord i raderna, eller ett område
+        som inte blir en rektangel. Då struntar webbläsaren i hela regeln.</p>
+    </section>
+
+    <section class="post" id="s-minmax" aria-labelledby="r-minmax">
+      <h3 id="r-minmax"><code>minmax(0, 1fr)</code> och <code>overflow-x: auto</code></h3>
+      <p class="vad">Fällan när något brett ligger i ett rutnät – och vägen ut.</p>
+      <p>Ett grid-barn blir som förval aldrig smalare än sitt innehåll. Ligger en bred
+        tabell i en <code>1fr</code>-kolumn växer kolumnen i stället för att hålla emot, och
+        hela sidan börjar scrolla i sidled. <code>minmax(0, 1fr)</code> låter kolumnen bli
+        hur smal som helst, och <code>overflow-x: auto</code> låter innehållet scrolla i sin
+        egen ruta.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Utan – sticker ut</figcaption>
+          <div class="scen">
+            <div class="ruta beh"><div class="svep"><div class="bred">En bred tabell, 28rem, som inte får plats i rutan.</div></div></div>
+          </div>
+<pre><code>.ruta {
+  display: grid;
+  grid-template-columns: 1fr;
+}</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Med – scrollar inuti</figcaption>
+          <div class="scen">
+            <div class="ruta beh"><div class="svep"><div class="bred">En bred tabell, 28rem, som inte får plats i rutan.</div></div></div>
+          </div>
+<pre><code>.ruta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.svep { overflow-x: auto; }</code></pre>
+        </figure>
+      </div>
+    </section>
+
+    <h3 id="grid-testa">Testa dig själv</h3>
+    <div class="tabellsvep">
+      <table class="facit">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Hur många kolumner får du med bara <code>display: grid</code>?</td><td>En</td></tr>
+          <tr><td>Rutnätet är 900px brett. Hur breda blir kolumnerna med <code>2fr 1fr</code>, utan gap?</td><td>600px och 300px</td></tr>
+          <tr><td>Samma rutnät med <code>300px 1fr</code>?</td><td>300px och 600px</td></tr>
+          <tr><td>Vad betyder <code>minmax(16rem, 1fr)</code>?</td><td>Minst 16rem, högst en andel av det som blir över</td></tr>
+          <tr><td>Rubriken ska gå över alla kolumner. Vilken rad, och på vilket element?</td><td><code>grid-column: 1 / -1</code> på rubriken</td></tr>
+          <tr><td>När väljer du Grid framför Flexbox?</td><td>När sakerna ska ligga i linje åt två håll – rader och kolumner</td></tr>
+          <tr><td>Hela sidan scrollar i sidled på grund av en tabell i ett rutnät. Vad gör du?</td><td><code>minmax(0, 1fr)</code> på kolumnen och <code>overflow-x: auto</code> runt tabellen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ====================================================================== -->
+
+    <h2 id="variabler">7. Variabler</h2>
+    <p>En variabel – i CSS kallad <b>egen egenskap</b> – är ett namngivet värde du
+      definierar en gång och använder på många ställen.</p>
+
+    <section class="post" id="s-var" aria-labelledby="r-var">
+      <h3 id="r-var"><code>--namn</code> och <code>var(--namn)</code></h3>
+      <p class="vad">Definiera ett värde med två bindestreck, hämta det med
+        <code>var()</code>.</p>
+      <p>Båda rutorna har exakt samma regler för rubriken och knapparna. Det enda som skiljer
+        är <b>ett</b> värde i <code>:root</code> – och allt som använder variabeln byter
+        färg på en gång.</p>
+      <p class="foljer"><b>Att veta:</b> variabler ärvs nedåt precis som
+        <code>color</code>. Därför läggs de på <code>:root</code>, dokumentets rot, och
+        gäller då på hela sidan.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>--accent grön</figcaption>
+          <div class="scen">
+            <p class="titel">Vikstads naturreservat</p>
+            <span class="knapp-d">Stigar</span><span class="knapp-d">Besök</span>
+          </div>
+<pre><code>:root { --accent: #2f6f5e; }
+
+.titel { color: var(--accent); }
+.knapp { background: var(--accent); }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>--accent lila</figcaption>
+          <div class="scen">
+            <p class="titel">Vikstads naturreservat</p>
+            <span class="knapp-d">Stigar</span><span class="knapp-d">Besök</span>
+          </div>
+<pre><code>:root { --accent: #6b3fa0; }
+
+.titel { color: var(--accent); }
+.knapp { background: var(--accent); }</code></pre>
+        </figure>
+      </div>
+      <p class="miss"><b>Vanligt misstag:</b> att döpa efter värdet,
+        <code>--gron</code>. Byter du färgen ljuger namnet. Döp efter rollen:
+        <code>--accent</code>, <code>--text</code>, <code>--bakgrund</code>.</p>
+      <p class="mer">Mer i guiden: <a href="css-guiden.html#variabler">avsnitt 10</a>.</p>
+    </section>
+
+    <section class="post" id="s-stavning" aria-labelledby="r-stavning">
+      <h3 id="r-stavning">Felstavad variabel och reservvärde</h3>
+      <p class="vad">Vad som händer när <code>var()</code> inte hittar variabeln.</p>
+      <p>Variabeln heter <code>--accent</code>, men regeln frågar efter
+        <code>--accnet</code>. Webbläsaren säger inget – texten får bara den färg den
+        skulle ha haft utan regeln. Ett reservvärde efter kommatecknet används när
+        variabeln saknas.</p>
+      <div class="jamfor">
+        <figure class="utan">
+          <figcaption>Felstavad</figcaption>
+          <div class="scen"><p>Varför är jag inte grön?</p></div>
+<pre><code>:root { --accent: #2f6f5e; }
+p { color: var(--accnet); }</code></pre>
+        </figure>
+        <figure class="med">
+          <figcaption>Felstavad, med reservvärde</figcaption>
+          <div class="scen"><p>Nu syns att något saknas.</p></div>
+<pre><code>:root { --accent: #2f6f5e; }
+p { color: var(--accnet, #b23a2f); }</code></pre>
+        </figure>
+      </div>
+      <p class="foljer"><b>Att veta:</b> namnen är skiftlägeskänsliga.
+        <code>--Accent</code> och <code>--accent</code> är två olika variabler.</p>
+    </section>
+
+    <section class="post" id="s-morkt" aria-labelledby="r-morkt">
+      <h3 id="r-morkt"><code>@media (prefers-color-scheme: dark)</code></h3>
+      <p class="vad">Regler som bara gäller när användaren valt mörkt läge.</p>
+      <p>Ligger färgerna i variabler räcker det att byta <b>värdena</b>. Ingen regel längre
+        ned i filen behöver skrivas om – de hämtar redan sin färg från variablerna.</p>
+<pre><code class="sprak-css">:root {
+  --bakgrund: #fbfaf6;
+  --text: #1f2420;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bakgrund: #141815;
+    --text: #e8ede9;
+  }
+}
+
+body {
+  background: var(--bakgrund);
+  color: var(--text);
+}</code></pre>
+      <p class="foljer"><b>Prova:</b> byt till mörkt läge i datorns inställningar. Den här
+        sidan är byggd på precis det sättet – men rutorna med exemplen behåller sin ljusa
+        bakgrund med flit, så att färgerna i koden stämmer.</p>
+    </section>
+
+    <h3 id="variabler-testa">Testa dig själv</h3>
+    <div class="tabellsvep">
+      <table class="facit">
+        <thead><tr><th>Fråga</th><th>Svar</th></tr></thead>
+        <tbody>
+          <tr><td>Hur många bindestreck inleder ett variabelnamn?</td><td>Två: <code>--namn</code></td></tr>
+          <tr><td>Hur hämtar du värdet av <code>--yta</code>?</td><td><code>var(--yta)</code></td></tr>
+          <tr><td>Varför läggs variablerna på <code>:root</code>?</td><td>Den är dokumentets rot, och variabler ärvs nedåt – då gäller de överallt</td></tr>
+          <tr><td>Vad gör <code>var(--accent, green)</code> om <code>--accent</code> inte finns?</td><td>Använder reservvärdet <code>green</code></td></tr>
+          <tr><td>Vilket namn är bäst: <code>--bla</code> eller <code>--lank</code>?</td><td><code>--lank</code> – det säger vad värdet är till för</td></tr>
+          <tr><td>Mörkt läge: vad behöver ändras om allt ligger i variabler?</td><td>Bara variablernas värden, i ett <code>@media (prefers-color-scheme: dark)</code>-block</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notis viktig">
+      <span class="rubrik">Kvällen före</span>
+      <p>Läs inte allt igen. Gå igenom <b>Testa dig själv</b> i alla sju avsnitt och läs om
+        posterna där du svarade fel. Öppna sedan din egen stilmall och förklara varje
+        regel högt för dig själv – det är så provet frågar.</p>
+    </div>
+
+    <footer class="fot">
+      <p><a href="css-guiden.html">CSS-guiden</a> · <a href="index.html">Tillbaka till område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
