@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Labb 4B: Välj och motivera delarna – Dator- och nätverksteknik område 4</title>
+  <link rel="stylesheet" href="../stil.css">
+  <style>
+    /* Sidans egna delar. stil.css ändras inte för en enda sida. */
+    .flikar { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1.5rem 0 1.2rem; }
+    .flikar button {
+      font: inherit; padding: 0.45rem 0.95rem; cursor: pointer;
+      border: 1px solid var(--linje-stark); border-radius: 999px;
+      background: var(--kort); color: var(--text);
+    }
+    .flikar button[aria-selected="true"] { background: var(--webb); border-color: var(--webb); color: var(--papper); }
+    .flikar button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+    .verktyg { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 0 0 0.6rem; }
+    .status { color: var(--dov); font-size: 0.9rem; margin: 0 0 1rem; }
+    .status.varna { color: var(--varning); font-weight: 600; }
+    .person { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 0 1rem; max-width: var(--las); }
+    .scenario dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.3rem 1rem; margin: 0; }
+    .scenario dt { font-weight: 640; }
+    .scenario dd { margin: 0; }
+    .delkort {
+      background: var(--kort); border: 1px solid var(--linje); border-radius: var(--rundning);
+      box-shadow: var(--skugga); padding: 1.2rem 1.2rem 0.4rem; margin: 0 0 1.4rem;
+    }
+    .delkort h4 { margin: 0 0 0.3rem; font-size: 1.1rem; }
+    .delkort .bc { color: var(--dov); font-size: 0.9rem; margin: 0 0 0.8rem; }
+    .fakta { margin: 0 0 1.1rem; }
+    .fakta summary { cursor: pointer; color: var(--webb); font-weight: 640; }
+    .fakta > div { margin-top: 0.8rem; }
+    .falt { margin: 0 0 0.9rem; max-width: var(--las); }
+    .falt label { display: block; font-weight: 640; margin: 0 0 0.25rem; }
+    .falt .hjalp { display: block; color: var(--dov); font-size: 0.86rem; font-weight: 400; }
+    .falt textarea, .falt input {
+      width: 100%; box-sizing: border-box; font: inherit; padding: 0.5rem 0.6rem;
+      border: 1px solid var(--linje-stark); border-radius: 6px; background: var(--papper); color: var(--text);
+    }
+    .falt textarea { min-height: 4.5rem; resize: vertical; }
+    .falt textarea:focus-visible, .falt input:focus-visible { outline: 2px solid var(--webb); outline-offset: 1px; }
+    .tryck { display: none; }
+    .disk { border-top: 1px dashed var(--linje-stark); padding-top: 0.8rem; margin-top: 0.4rem; }
+    .diskrubrik { font-weight: 640; margin: 0 0 0.6rem; }
+    .diskknappar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1rem; }
+
+    @media print {
+      .instruktion, .flikar, .verktyg, .status, .fakta, .bc, .diskknappar,
+      .falt textarea, .falt input, .falt .hjalp, .fot { display: none !important; }
+      section.flik[hidden] { display: block !important; }
+      section.flik + section.flik { break-before: page; }
+      .delkort { box-shadow: none; border-color: #999; }
+      .tryck { display: block; white-space: pre-wrap; min-height: 1.2em; border-bottom: 1px solid #999; padding: 0.15rem 0 0.4rem; }
+    }
+  </style>
+</head>
+<body data-nyckel="datnat-4-delval">
+
+<header class="topp">
+  <a href="index.html">← Område 4</a>
+  <span class="harifran"><strong>Uppgift</strong> · Labb 4B: Välj och motivera delarna</span>
+  <a href="#mallen">Mallen</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Dator- och nätverksteknik · område 4 · labb 4B</p>
+    <h1>Labb 4B: Välj och motivera delarna</h1>
+
+    <div class="instruktion">
+
+    <p class="inledning">Datorn på bänken fick du delarna till. Här väljer du dem själv – fyra gånger, till fyra olika användare – och för varje del skriver du vilka alternativ som fanns, hur de skiljer sig och varför du valde som du gjorde.</p>
+
+    <ul class="datum">
+      <li data-datum="2026-11-01">
+        <span class="nar">1 nov</span>
+        <span class="vad">Labb 4B lämnas in kl 23:59
+          <small>Sista dagen på höstlovet. Labb 4A lämnas in redan onsdag 21/10.</small></span>
+        <span class="kvar"></span>
+      </li>
+    </ul>
+
+    <h2 id="uppgiften">Uppgiften</h2>
+
+    <p>Ni bygger <b>fyra datorer</b> i 3D-byggaren <a href="https://www.buildcores.com/">BuildCores</a>, en för varje scenario: <b>Gamer</b>, <b>Workstation</b>, <b>Budget</b> och <b>Fri</b>. För varje bygge fyller du i mallen längre ner – nio kategorier, från lådan till fläktarna – och sist en jämförelse av de fyra.</p>
+
+    <ul>
+      <li><b>Lagringen</b> ska bestå av minst två media i varje bygge.</li>
+      <li><b>Workstation</b> byggs på en HEDT-plattform – Intel LGA 2066 eller AMD sTR5. HEDT står för High-End Desktop: arbetsstationer med fler minneskanaler och PCIe-banor än vanliga datorer.</li>
+      <li><b>Budgeten</b> är en riktlinje. Går du över den ska du motivera varför – den motiveringen räknas.</li>
+      <li><b>Avstämning och plan.</b> Planen godkänns och avstämningen sker <b>i salen</b>: på lektion 17 (mån 19/10) eller de sista minuterna av lektion 18 (tis 20/10). Under lovet finns ingen handledning.</li>
+    </ul>
+
+    <div class="notis">
+      <span class="rubrik">Par i BuildCores, egen mall</span>
+      <p>Ni bygger de fyra datorerna <b>tillsammans</b> och delar länkarna. <b>Mallen fyller var och en i själv</b> – motiveringen är dokumentationen, och den bedöms individuellt. Skriv din labbpartners namn överst i mallen.</p>
+    </div>
+
+    <p><b>Lämna in:</b> den ifyllda mallen som PDF (knappen <i>Skriv ut / spara som PDF</i>) – länkarna till de fyra byggena står i den.</p>
+
+    <h2 id="buildcores">Så använder du BuildCores</h2>
+
+    <ol>
+      <li>Öppna <a href="https://www.buildcores.com/">buildcores.com</a> och välj <i>Start Building</i>. Inget konto behövs. Avvisa cookies som inte behövs.</li>
+      <li><b>Börja med lådan</b> – <i>Choose case to get started</i>. Lådan bestämmer hur stort moderkort, hur långt grafikkort och hur hög kylare som får plats.</li>
+      <li>Slå på filtret <b>3D Only</b>. Annars kan du välja en del som inte ritas upp.</li>
+      <li>Låt <b>Compatibility Filter</b> vara på. Säger BuildCores att något inte passar: skriv i mallen vad det var.</li>
+      <li>Delar märkta <b>Sponsored</b> är annonser, inte rekommendationer.</li>
+      <li>När bygget är klart: <b>Share → Link</b>. Klistra in länken överst i byggets flik. Nästa bygge börjar du med <i>Create New Build</i>.</li>
+    </ol>
+
+    <p>Sidan och delarnas datablad är på engelska. Det är avsikten – manualerna du möter i yrket är det också.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Uppvärmning, om du vill</span>
+      <p><code>ComputerExplorer → motherboard → build-a-pc</code> (Bygg en dator): samma sockel- och minneskontroll som BuildCores gör, i liten skala. Bygg den rent innan du börjar här.</p>
+    </div>
+
+    <h2 id="bedomning">Bedömning</h2>
+
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Nivå</th><th>Vad som krävs</th></tr></thead>
+        <tbody>
+          <tr><td><b>E</b></td><td>Varje kategori är ifylld i alla fyra byggena. Alternativen är namngivna och valet är motiverat mot scenariot. Byggena är kompatibla enligt BuildCores. Du stämmer av med mig <b>under arbetets gång</b>.</td></tr>
+          <tr><td><b>C</b></td><td>Alternativen jämförs <b>med siffror</b> – bandbredd, minneskanaler, PCIe-banor, effekt. Motiveringen väger pris mot behov. Du använder BuildCores specifikationer och tillverkarnas datablad på engelska utan handledning, och du har planerat byggena och fått planen godkänd <b>innan</b> du började.</td></tr>
+          <tr><td><b>A</b></td><td>Du visar <b>hur delarna hänger ihop</b>: att valet av CPU-plattform avgör hur mycket RAM och hur många NVMe-diskar som går att ansluta, att ett kraftigare grafikkort styr nätaggregat, låda och kylning. Jämförelsen innehåller <b>egna förbättringsförslag</b>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Nivåerna är inte mer av samma: alla fyller i alla nio kategorierna fyra gånger. Skillnaden ligger i vad som står i rutorna.</p>
+
+    <div class="notis viktig">
+      <span class="rubrik">Om betyget A i det här området</span>
+      <p>Ett fullständigt A går inte att nå i hårdvarublocket: A-kriteriets samband gäller nätverkets uppbyggnad och prövas första gången i labb 10. Det du övar här är A-nivåns kvaliteter – nyansering, hur delarna hänger ihop, egna förbättringsförslag.</p>
+    </div>
+
+    </div>
+
+    <h2 id="mallen">Mallen</h2>
+
+    <noscript><p class="notis varna">Mallen kräver JavaScript. Använd en vanlig webbläsare med JavaScript påslaget.</p></noscript>
+
+    <div id="person" class="person"></div>
+
+    <div class="verktyg">
+      <button type="button" class="knapp" id="skriv-ut">Skriv ut / spara som PDF</button>
+      <button type="button" class="knapp tom" id="spara-fil">Spara som fil</button>
+      <button type="button" class="knapp tom" id="las-in">Läs in fil</button>
+      <input type="file" id="filval" accept=".json,application/json" hidden>
+      <button type="button" class="knapp tom" id="tom">Töm mallen</button>
+    </div>
+    <p class="status" id="status" role="status"></p>
+
+    <div class="flikar" role="tablist" aria-label="Byggen"></div>
+    <div id="mallyta"></div>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 4</a> · <a href="labb.html">Labb 4A</a> · <a href="https://www.buildcores.com/">BuildCores</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var NYCKEL = "elevpaket:datnat-4-delval:svar";
+  var VERSION = 1;
+  var MIN_DISKAR = 2;
+  var MAX_DISKAR = 6;
+
+  var SCENARIER = [
+    { id: "gamer", namn: "Gamer",
+      anvandare: "Alex, 17, spelar e-sport (CS2, Valorant) och nya storspel.",
+      behov: "Högt fps i 1440p på en 144 Hz-skärm. Tyst nog att stå på skrivbordet. Ska hålla några år.",
+      budget: "ca $1 800" },
+    { id: "workstation", namn: "Workstation",
+      anvandare: "Sam, frilansande videoredigerare och 3D-artist.",
+      behov: "Redigerar 4K-video och renderar 3D-scener. Minst 128 GB RAM, en snabb arbetsdisk och stor lagring för arkivet. Byggs på en HEDT-plattform: Intel LGA 2066 eller AMD sTR5.",
+      budget: "ca $5 000" },
+    { id: "budget", namn: "Budget",
+      anvandare: "Kim, gymnasieelev.",
+      behov: "Skolarbete, webb, Office, film och musik. Billigast möjliga som fortfarande känns snabb i vardagen.",
+      budget: "ca $600" },
+    { id: "fri", namn: "Fri", fri: true }
+  ];
+
+  var FALT = [
+    { id: "valt", etikett: "Valt", hjalp: "Delens namn och de nyckeltal som avgjorde valet." },
+    { id: "kategori", etikett: "Kategori", hjalp: "Vilken typ inom delen, till exempel ”NVMe M.2, PCIe Gen 4”." },
+    { id: "alternativ", etikett: "Alternativen", hjalp: "Vilka andra typer finns i kategorin, och hur skiljer de sig? Med siffror." },
+    { id: "varfor", etikett: "Varför just den här", hjalp: "Mot scenariots användare och budget – och varför alternativen valdes bort." },
+    { id: "stamma", etikett: "Måste stämma med", hjalp: "Vad måste passa mot delar som redan är valda?" }
+  ];
+
+  var JAMFOR = [
+    { id: "mest", etikett: "Vilken kategori skilde sig mest mellan byggena – och varför?",
+      hjalp: "Peka på scenariernas behov, inte bara på priset." },
+    { id: "lika", etikett: "Vilken del var densamma, eller nästan, i alla fyra – och varför?",
+      hjalp: "Varför räckte samma lösning för så olika användare?" },
+    { id: "battre", etikett: "Vad skulle du göra annorlunda?",
+      hjalp: "Egna förbättringsförslag: en del du skulle byta, och vad det skulle påverka i resten av bygget." }
+  ];
+
+  var KATEGORIER = [
+    { id: "lada", namn: "Låda", buildcores: "Case – filtren Form Factor, Supported Motherboard Sizes, Max GPU Length, Max CPU Cooler.",
+      fakta:
+        "<p>Lådan väljs först, och den sätter ramarna för allt annat: hur stort moderkort, hur långt grafikkort och hur hög kylare som får plats.</p>" +
+        "<div class='tabellsvep'><table><thead><tr><th>Formfaktor</th><th>Moderkort som ryms</th><th>Passar</th></tr></thead><tbody>" +
+        "<tr><td><b>Full tower</b></td><td>EATX, ATX, Micro ATX, Mini-ITX</td><td>Arbetsstationer, många diskar, stora radiatorer</td></tr>" +
+        "<tr><td><b>Mid tower</b></td><td>ATX, Micro ATX, Mini-ITX</td><td>Vanligast. Plats för nästan allt</td></tr>" +
+        "<tr><td><b>Micro ATX</b> (mini tower)</td><td>Micro ATX, Mini-ITX</td><td>Mindre, färre expansionsplatser</td></tr>" +
+        "<tr><td><b>Mini-ITX</b></td><td>Mini-ITX</td><td>Små byggen. Kräver ofta kortare grafikkort, lägre kylare och ett SFX-nätaggregat</td></tr>" +
+        "</tbody></table></div>" +
+        "<p>Moderkortens mått: EATX 305 × 330 mm, ATX 305 × 244 mm, Micro ATX 244 × 244 mm, Mini-ITX 170 × 170 mm.</p>" +
+        "<p><b>Håll koll på:</b> vilka moderkortsstorlekar lådan stöder, max GPU-längd, max kylarhöjd, max längd på nätaggregatet, antal 3,5\"- och 2,5\"-platser, och var fläktar och radiatorer kan sitta.</p>" },
+
+    { id: "moderkort", namn: "Moderkort", buildcores: "Motherboard – filtren Socket, Chipset, Memory Type, Form Factor, ECC Support.",
+      fakta:
+        "<p>Moderkortet bestämmer vilken processor, vilket minne och hur många diskar och kort datorn kan ha. <b>Sockeln</b> är fästet för processorn, <b>chipsetet</b> styr hur många anslutningar kortet har utöver dem processorn själv ger.</p>" +
+        "<div class='tabellsvep'><table><thead><tr><th>Kategori</th><th>Socklar</th><th>Chipset</th><th>Minne</th></tr></thead><tbody>" +
+        "<tr><td><b>Intel</b></td><td>LGA 1851, LGA 1700</td><td>Z890, B860 / Z790, B760</td><td>LGA 1851: DDR5. LGA 1700: DDR4 <i>eller</i> DDR5 – kortet avgör</td></tr>" +
+        "<tr><td><b>AMD</b></td><td>AM5, AM4</td><td>X870E, X870, B850, B650 / B550</td><td>AM5: DDR5. AM4: DDR4</td></tr>" +
+        "<tr><td><b>Intel HEDT</b></td><td>LGA 2066</td><td>X299</td><td>DDR4, fyra kanaler</td></tr>" +
+        "<tr><td><b>AMD HEDT</b></td><td>sTR5</td><td>TRX50</td><td>DDR5 RDIMM (registrerat ECC-minne), fyra kanaler</td></tr>" +
+        "</tbody></table></div>" +
+        "<p>Intels <b>Z</b>-kort tillåter överklockning av processorn, <b>B</b>-korten gör det inte – minnets XMP-profil fungerar på båda. Hos AMD har <b>X</b>-korten fler anslutningar och <b>B</b> är mellanklassen. LGA 2066 är från 2017–2019 – en äldre plattform, men den enda Intel-HEDT som finns i BuildCores.</p>" +
+        "<p><b>Håll koll på:</b> sockel (måste matcha processorn exakt), chipset, formfaktor mot lådan, minnestyp och antal minnesplatser, antal M.2-platser och vilken PCIe-generation de har, ECC, nätverk och Wi-Fi.</p>" },
+
+    { id: "cpu", namn: "CPU", buildcores: "CPU – med Compatibility Filter på visas bara processorer som passar kortets sockel.",
+      fakta:
+        "<div class='tabellsvep'><table><thead><tr><th>Kategori</th><th>Exempel</th><th>Kärnor</th><th>Minneskanaler</th><th>PCIe-banor från CPU:n, användbara</th></tr></thead><tbody>" +
+        "<tr><td><b>Intel</b></td><td>Core Ultra 5/7/9 (LGA 1851), Core i5/i7/i9 generation 12–14 (LGA 1700)</td><td>6–24</td><td>2</td><td>20–24</td></tr>" +
+        "<tr><td><b>AMD</b></td><td>Ryzen 5/7/9 serie 7000 och 9000 (AM5), serie 5000 (AM4)</td><td>6–16</td><td>2</td><td>20–24</td></tr>" +
+        "<tr><td><b>Intel HEDT</b></td><td>Core i9 X-serien, Xeon W-2000 (LGA 2066)</td><td>4–18</td><td>4</td><td>44–48</td></tr>" +
+        "<tr><td><b>AMD HEDT</b></td><td>Threadripper 7000 och 9000 (sTR5)</td><td>24–64</td><td>4</td><td>upp till 88</td></tr>" +
+        "</tbody></table></div>" +
+        "<p>LGA 2066 har också två billigare processorer, i5-7640X och i7-7740X, med bara två minneskanaler och 16 banor – de ger inget av det som gör en arbetsstation till en arbetsstation.</p>" +
+        "<p>Bokstäverna i modellnamnet: Intel <b>K</b> = olåst för överklockning, Intel <b>F</b> = saknar integrerad grafik, så ett grafikkort krävs. AMD <b>X3D</b> = extra stort L3-cacheminne, som märks mest i spel. AMD <b>G</b> = kraftigare integrerad grafik.</p>" +
+        "<p><b>Minneskanaler och PCIe-banor</b> är där arbetsstationen skiljer sig: fler kanaler ger mer minnesbandbredd och plats för mer RAM, fler banor ger plats för fler grafikkort och NVMe-diskar på full hastighet samtidigt.</p>" +
+        "<p><b>Håll koll på:</b> kärnor och trådar, klockfrekvens (bas och boost), cache, TDP – värmen kylaren ska föra bort, i watt – integrerad grafik, minneskanaler och PCIe-banor.</p>" },
+
+    { id: "kylare", namn: "CPU-kylare", buildcores: "CPU Cooler – jämför kylarens höjd med lådans Max CPU Cooler.",
+      fakta:
+        "<div class='tabellsvep'><table><thead><tr><th>Typ</th><th>Passar</th><th>Tänk på</th></tr></thead><tbody>" +
+        "<tr><td><b>Boxkylare</b></td><td>Följer med vissa processorer, till exempel Ryzen 5 och Intel utan K</td><td>Räcker vid låg TDP, ofta högljudd under last</td></tr>" +
+        "<tr><td><b>Luftkylare, tower</b></td><td>De flesta byggen</td><td>Ofta 150–165 mm hög – måste rymmas i lådan</td></tr>" +
+        "<tr><td><b>Luftkylare, low profile</b></td><td>Små lådor</td><td>Kyler mindre</td></tr>" +
+        "<tr><td><b>AIO 240/280/360 mm</b></td><td>Varma processorer, arbetsstationer</td><td>Vätskekylning i ett slutet kretslopp. Radiatorn kräver en fläktplats av rätt storlek i lådan. Pumpen är en rörlig del som kan gå sönder</td></tr>" +
+        "</tbody></table></div>" +
+        "<p><b>Håll koll på:</b> kylarens TDP mot processorns, höjden mot lådan, och att fästet passar sockeln – sTR5 kräver en kylare gjord för Threadripper.</p>" },
+
+    { id: "ram", namn: "RAM", buildcores: "RAM – Memory Type måste stämma med moderkortet.",
+      fakta:
+        "<p>DDR4 och DDR5 har båda 288 stift, men skåran sitter på olika ställen: fel generation går inte att trycka ner. Moderkortet bestämmer generationen.</p>" +
+        "<div class='tabellsvep'><table><thead><tr><th></th><th>DDR4</th><th>DDR5</th></tr></thead><tbody>" +
+        "<tr><td><b>Typisk hastighet</b></td><td>2133–3600 MT/s</td><td>4800–8000 MT/s</td></tr>" +
+        "<tr><td><b>Plattformar</b></td><td>AM4, LGA 2066, en del LGA 1700-kort</td><td>AM5, LGA 1851, sTR5, en del LGA 1700-kort</td></tr>" +
+        "</tbody></table></div>" +
+        "<p><b>MT/s</b> är miljoner överföringar per sekund. <b>CL</b> (CAS-latens) är hur många klockcykler det dröjer innan minnet svarar – lägre är snabbare vid samma MT/s.</p>" +
+        "<p><b>Dual channel:</b> två moduler i rätt platser ger dubbla bandbredden mot en – 2 × 16 GB är bättre än 1 × 32 GB. HEDT har fyra kanaler och vill ha fyra moduler.</p>" +
+        "<p><b>XMP</b> (Intel) och <b>EXPO</b> (AMD) är hastighetsprofiler som slås på i UEFI – annars körs minnet i grundhastighet. Samma firmware som på lektion 15.</p>" +
+        "<p><b>ECC</b> rättar enstaka bitfel. <b>RDIMM</b> (registrerat minne) krävs av Threadripper på sTR5 och passar inte i vanliga moderkort.</p>" +
+        "<p><b>Håll koll på:</b> generation, kapacitet, MT/s och CL, antal moduler mot kanaler och lediga platser.</p>" },
+
+    { id: "lagring", namn: "Lagring", minst: true, buildcores: "Storage – minst två media. Kolla moderkortets M.2-platser och lådans diskplatser.",
+      fakta:
+        "<p><b>M.2 är en formfaktor, NVMe och SATA är gränssnitt.</b> En M.2-disk kan tala NVMe över PCIe eller SATA. De ser nästan likadana ut men kan skilja sig mer än tio gånger i hastighet.</p>" +
+        "<div class='tabellsvep'><table><thead><tr><th>Typ</th><th>Gränssnitt</th><th>Sekventiell läsning, ungefär</th><th>Sitter i</th></tr></thead><tbody>" +
+        "<tr><td><b>NVMe M.2, Gen 3</b></td><td>PCIe 3.0 ×4</td><td>3,5 GB/s</td><td>M.2-plats</td></tr>" +
+        "<tr><td><b>NVMe M.2, Gen 4</b></td><td>PCIe 4.0 ×4</td><td>7 GB/s</td><td>M.2-plats</td></tr>" +
+        "<tr><td><b>NVMe M.2, Gen 5</b></td><td>PCIe 5.0 ×4</td><td>14 GB/s</td><td>M.2-plats som stöder Gen 5. Behöver ofta kylfläns</td></tr>" +
+        "<tr><td><b>SATA M.2</b></td><td>SATA III</td><td>0,55 GB/s</td><td>M.2-plats som stöder SATA – alla gör det inte</td></tr>" +
+        "<tr><td><b>2,5\" SATA SSD</b></td><td>SATA III</td><td>0,55 GB/s</td><td>2,5\"-plats, SATA-kabel och strömkabel</td></tr>" +
+        "<tr><td><b>3,5\" HDD</b></td><td>SATA III</td><td>0,15–0,28 GB/s – och mycket långsammare vid slumpmässig läsning</td><td>3,5\"-plats, SATA-kabel och strömkabel</td></tr>" +
+        "</tbody></table></div>" +
+        "<p>En Gen 4-disk i en Gen 3-plats fungerar, men i Gen 3-hastighet. Siffrorna är vad disken och bussen klarar på pappret – i område 3 mätte du vad de faktiskt gör.</p>" +
+        "<p><b>Håll koll på:</b> gränssnitt och generation, kapacitet, pris per GB, uthållighet (<b>TBW</b>, terabytes written – hur mycket som kan skrivas innan disken är sliten), lediga M.2-platser på kortet och diskplatser i lådan. En hårddisk har inget TBW-värde att jämföra – där är det kapacitet och pris per GB som räknas.</p>" },
+
+    { id: "gpu", namn: "Grafikkort", buildcores: "GPU – jämför kortets längd med lådans Max GPU Length.",
+      fakta:
+        "<div class='tabellsvep'><table><thead><tr><th>Alternativ</th><th>Passar</th></tr></thead><tbody>" +
+        "<tr><td><b>Integrerad grafik</b> (i processorn)</td><td>Skola, kontor, film. Kostar inget extra och drar nästan ingen effekt. Kräver en processor som har det</td></tr>" +
+        "<tr><td><b>NVIDIA GeForce, AMD Radeon, Intel Arc</b></td><td>Spel och kreativt arbete</td></tr>" +
+        "<tr><td><b>Arbetsstationskort</b> (NVIDIA RTX PRO, AMD Radeon PRO)</td><td>Certifierade drivrutiner för CAD och rendering, ofta mer minne. Dyrare räknat per prestanda i spel</td></tr>" +
+        "</tbody></table></div>" +
+        "<p><b>Håll koll på:</b> <b>VRAM</b> – minnet på kortet; 8 GB räcker i 1080p, mer behövs i 1440p och vid rendering. Längden i mm mot lådan, bredden i antal expansionsplatser, strömkontakten – 8-pin klarar 150 W per kontakt, 12V-2x6 upp till 600 W – och effekten i watt, som styr nätaggregatet.</p>" },
+
+    { id: "psu", namn: "Nätaggregat", buildcores: "Power Supply – jämför med uppskattningen i watt högst upp i BuildCores.",
+      fakta:
+        "<p>Effekten väljs mot BuildCores uppskattning <b>plus marginal</b>, ofta 30–50 %. Ett nätaggregat arbetar effektivast och tystast en bit under max, och grafikkort har korta effekttoppar över sitt nominella värde.</p>" +
+        "<div class='tabellsvep'><table><thead><tr><th>80 PLUS</th><th>Verkningsgrad vid halv last, ungefär</th></tr></thead><tbody>" +
+        "<tr><td>Standard (White)</td><td>80 %</td></tr><tr><td>Bronze</td><td>85 %</td></tr><tr><td>Gold</td><td>90 %</td></tr>" +
+        "<tr><td>Platinum</td><td>92 %</td></tr><tr><td>Titanium</td><td>94 %</td></tr>" +
+        "</tbody></table></div>" +
+        "<p><b>Modulärt:</b> alla kablar går att ta av. <b>Semimodulärt:</b> 24-pin och processorns kabel sitter fast. <b>Fast:</b> alla sitter fast – billigast, svårast att dra snyggt. <b>ATX</b> är standardstorleken, <b>SFX</b> en mindre för Mini-ITX-lådor. <b>ATX 3.0</b> och <b>3.1</b> har 12VHPWR- respektive 12V-2x6-kontakten direkt till nya grafikkort.</p>" +
+        "<p><b>Håll koll på:</b> effekt mot uppskattningen, 80 PLUS-nivå, modularitet, storlek mot lådan, och kontakter mot grafikkortet.</p>" },
+
+    { id: "flaktar", namn: "Fläktar", buildcores: "Case Fan – räkna in fläktarna som redan följer med lådan.",
+      fakta:
+        "<p>Luften ska ha en väg: in framtill eller underifrån, ut baktill och upptill – varm luft stiger.</p>" +
+        "<p><b>120 mm</b> är vanligast. <b>140 mm</b> flyttar samma mängd luft med lägre varvtal och är därför tystare. Något fler intags- än utblåsfläktar ger <b>övertryck</b>: luften pressas ut genom springorna, och dammet kommer bara in där det finns filter.</p>" +
+        "<p><b>Håll koll på:</b> storlek och antal mot lådans fläktplatser, vilka som blåser in och vilka ut, och om en radiator redan tar en av platserna.</p>" }
+  ];
+
+  var lage = tomtLage();
+  var sparbar = true;
+
+  function el(tag, klass) {
+    var e = document.createElement(tag);
+    if (klass) { e.className = klass; }
+    return e;
+  }
+
+  function tomtLage() {
+    var diskar = {};
+    SCENARIER.forEach(function (s) { diskar[s.id] = MIN_DISKAR; });
+    return { version: VERSION, svar: {}, diskar: diskar, flik: SCENARIER[0].id };
+  }
+
+  function flikFinns(id) {
+    return id === "jamfor" || SCENARIER.some(function (s) { return s.id === id; });
+  }
+
+  /* Tar emot vad som helst och lämnar tillbaka ett giltigt läge, eller null.
+     Allt som läses in – från webbläsaren eller från en fil – går genom här. */
+  function stad(d) {
+    if (!d || typeof d !== "object" || d.version !== VERSION ||
+        !d.svar || typeof d.svar !== "object") { return null; }
+    var ut = tomtLage();
+    Object.keys(d.svar).forEach(function (k) {
+      if (typeof d.svar[k] === "string") { ut.svar[k] = d.svar[k]; }
+    });
+    SCENARIER.forEach(function (s) {
+      var n = d.diskar && d.diskar[s.id];
+      if (typeof n === "number" && n >= MIN_DISKAR && n <= MAX_DISKAR) { ut.diskar[s.id] = Math.floor(n); }
+    });
+    if (typeof d.flik === "string" && flikFinns(d.flik)) { ut.flik = d.flik; }
+    return ut;
+  }
+
+  function klocka() {
+    var d = new Date();
+    return ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+  }
+
+  function visaStatus(text, varna) {
+    var s = document.getElementById("status");
+    s.textContent = text;
+    s.classList.toggle("varna", !!varna);
+  }
+
+  var VARNING = "Webbläsaren sparar inte på den här sidan. Använd Spara som fil innan du stänger.";
+
+  function ladda() {
+    try {
+      localStorage.setItem(NYCKEL + ":prov", "1");
+      localStorage.removeItem(NYCKEL + ":prov");
+      var r = localStorage.getItem(NYCKEL);
+      var d = r ? stad(JSON.parse(r)) : null;
+      if (d) { lage = d; }
+    } catch (e) { sparbar = false; }
+  }
+
+  function spara() {
+    if (!sparbar) { visaStatus(VARNING, true); return; }
+    try {
+      localStorage.setItem(NYCKEL, JSON.stringify(lage));
+      visaStatus("Sparat i den här webbläsaren " + klocka() + ".", false);
+    } catch (e) {
+      sparbar = false;
+      visaStatus(VARNING, true);
+    }
+  }
+
+  /* Ett fält: etikett, inmatning och en tryckkopia. Kopian syns bara på
+     utskrift, så att lång text inte klipps av en textarea med fast höjd. */
+  function falt(nyckel, etikett, hjalp, typ) {
+    var wrap = el("div", "falt");
+    var id = "f-" + nyckel.replace(/[^a-z0-9]+/gi, "-");
+    var lab = el("label");
+    lab.htmlFor = id;
+    lab.textContent = etikett;
+    if (hjalp) {
+      var h = el("span", "hjalp");
+      h.textContent = hjalp;
+      lab.appendChild(h);
+    }
+    var inp;
+    if (typ === "text" || typ === "url") {
+      inp = el("input");
+      inp.type = typ;
+    } else {
+      inp = el("textarea");
+    }
+    inp.id = id;
+    inp.value = lage.svar[nyckel] || "";
+    var tryck = el("div", "tryck");
+    tryck.textContent = inp.value;
+    inp.addEventListener("input", function () {
+      if (inp.value) { lage.svar[nyckel] = inp.value; } else { delete lage.svar[nyckel]; }
+      tryck.textContent = inp.value;
+      spara();
+    });
+    wrap.appendChild(lab);
+    wrap.appendChild(inp);
+    wrap.appendChild(tryck);
+    return wrap;
+  }
+
+  function stycke(text) {
+    var p = el("p");
+    p.textContent = text;
+    return p;
+  }
+
+  function byggKort(s, k, nr) {
+    var kort = el("article", "delkort");
+    var h = el("h4");
+    h.textContent = nr + ". " + k.namn;
+    kort.appendChild(h);
+    var bc = el("p", "bc");
+    bc.textContent = "I BuildCores: " + k.buildcores;
+    kort.appendChild(bc);
+
+    var det = el("details", "fakta");
+    var sum = el("summary");
+    sum.textContent = "Det här ska du hålla koll på";
+    det.appendChild(sum);
+    var inn = el("div");
+    inn.innerHTML = k.fakta; /* sidans egen, fasta text – aldrig elevens */
+    det.appendChild(inn);
+    kort.appendChild(det);
+
+    var antal = k.minst ? lage.diskar[s.id] : 1;
+    for (var i = 0; i < antal; i++) {
+      var grupp = el("div", k.minst ? "disk" : "");
+      if (k.minst) {
+        var dh = el("p", "diskrubrik");
+        dh.textContent = "Disk " + (i + 1);
+        grupp.appendChild(dh);
+      }
+      FALT.forEach(function (f) {
+        grupp.appendChild(falt([s.id, k.id, i, f.id].join("."), f.etikett, f.hjalp, "textarea"));
+      });
+      kort.appendChild(grupp);
+    }
+
+    if (k.minst) { kort.appendChild(diskknappar(s, k, nr, kort)); }
+    return kort;
+  }
+
+  function diskknappar(s, k, nr, kort) {
+    var rad = el("div", "diskknappar");
+    var mer = el("button", "knapp tom");
+    mer.type = "button";
+    mer.textContent = "Lägg till en disk";
+    mer.disabled = lage.diskar[s.id] >= MAX_DISKAR;
+    var farre = el("button", "knapp tom");
+    farre.type = "button";
+    farre.textContent = "Ta bort sista disken";
+    farre.disabled = lage.diskar[s.id] <= MIN_DISKAR;
+
+    mer.addEventListener("click", function () {
+      lage.diskar[s.id] = Math.min(MAX_DISKAR, lage.diskar[s.id] + 1);
+      spara();
+      kort.replaceWith(byggKort(s, k, nr));
+    });
+    farre.addEventListener("click", function () {
+      var sista = lage.diskar[s.id] - 1;
+      var harText = FALT.some(function (f) { return lage.svar[[s.id, k.id, sista, f.id].join(".")]; });
+      if (harText && !confirm("Disk " + (sista + 1) + " har text. Ta bort den ändå?")) { return; }
+      FALT.forEach(function (f) { delete lage.svar[[s.id, k.id, sista, f.id].join(".")]; });
+      lage.diskar[s.id] = Math.max(MIN_DISKAR, sista);
+      spara();
+      kort.replaceWith(byggKort(s, k, nr));
+    });
+
+    rad.appendChild(mer);
+    rad.appendChild(farre);
+    return rad;
+  }
+
+  function byggScenario(s) {
+    var sek = el("section", "flik");
+    sek.dataset.flik = s.id;
+    sek.id = "flik-" + s.id;
+    sek.setAttribute("role", "tabpanel");
+    var h = el("h3");
+    h.textContent = "Bygge: " + s.namn;
+    sek.appendChild(h);
+
+    var ruta = el("div", "notis scenario");
+    if (s.fri) {
+      ruta.appendChild(stycke("Ni bestämmer själva. Skriv användaren, behovet och budgeten innan ni öppnar BuildCores – valen motiveras mot det som står här."));
+      ruta.appendChild(falt(s.id + ".anvandare", "Användare", null, "text"));
+      ruta.appendChild(falt(s.id + ".behov", "Behov", null, "textarea"));
+      ruta.appendChild(falt(s.id + ".budget", "Budget i USD", null, "text"));
+    } else {
+      var dl = el("dl");
+      [["Användare", s.anvandare], ["Behov", s.behov], ["Budget", s.budget]].forEach(function (par) {
+        var dt = el("dt"); dt.textContent = par[0];
+        var dd = el("dd"); dd.textContent = par[1];
+        dl.appendChild(dt);
+        dl.appendChild(dd);
+      });
+      ruta.appendChild(dl);
+    }
+    sek.appendChild(ruta);
+
+    sek.appendChild(falt(s.id + ".lank", "Länk till bygget i BuildCores", "Share → Link", "url"));
+    sek.appendChild(falt(s.id + ".pris", "Totalpris i USD", "Står högst upp i BuildCores.", "text"));
+    sek.appendChild(falt(s.id + ".watt", "Uppskattad effekt i watt", "Står högst upp i BuildCores, bredvid priset.", "text"));
+
+    KATEGORIER.forEach(function (k, i) { sek.appendChild(byggKort(s, k, i + 1)); });
+    return sek;
+  }
+
+  function byggJamfor() {
+    var sek = el("section", "flik");
+    sek.dataset.flik = "jamfor";
+    sek.id = "flik-jamfor";
+    sek.setAttribute("role", "tabpanel");
+    var h = el("h3");
+    h.textContent = "Jämförelse av de fyra byggena";
+    sek.appendChild(h);
+    sek.appendChild(stycke("Lägg de fyra byggena bredvid varandra. Här visar du att du ser hur delarna hänger ihop – inte bara vad var och en gör."));
+    JAMFOR.forEach(function (f) {
+      sek.appendChild(falt("jamfor." + f.id, f.etikett, f.hjalp, "textarea"));
+    });
+    return sek;
+  }
+
+  function visaFlik(id) {
+    Array.prototype.forEach.call(document.querySelectorAll(".flikar button"), function (b) {
+      b.setAttribute("aria-selected", b.dataset.flik === id ? "true" : "false");
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("section.flik"), function (s) {
+      s.hidden = s.dataset.flik !== id;
+    });
+  }
+
+  function byggFlikar() {
+    var rad = document.querySelector(".flikar");
+    var alla = SCENARIER.map(function (s) { return { id: s.id, namn: s.namn }; })
+      .concat([{ id: "jamfor", namn: "Jämförelse" }]);
+    alla.forEach(function (f) {
+      var b = el("button");
+      b.type = "button";
+      b.textContent = f.namn;
+      b.dataset.flik = f.id;
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-controls", "flik-" + f.id);
+      b.addEventListener("click", function () {
+        lage.flik = f.id;
+        visaFlik(f.id);
+        spara();
+      });
+      rad.appendChild(b);
+    });
+  }
+
+  function rita() {
+    var person = document.getElementById("person");
+    person.textContent = "";
+    person.appendChild(falt("namn", "Ditt namn", null, "text"));
+    person.appendChild(falt("partner", "Labbpartner", null, "text"));
+
+    var yta = document.getElementById("mallyta");
+    yta.textContent = "";
+    SCENARIER.forEach(function (s) { yta.appendChild(byggScenario(s)); });
+    yta.appendChild(byggJamfor());
+    visaFlik(lage.flik);
+  }
+
+  function filnamn(t) {
+    var s = (t || "").toLowerCase()
+      .replace(/[åä]/g, "a").replace(/ö/g, "o")
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    return s || "delval";
+  }
+
+  function sparaFil() {
+    var blob = new Blob([JSON.stringify(lage, null, 2)], { type: "application/json" });
+    var a = el("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "labb-4b-" + filnamn(lage.svar.namn) + ".json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+
+  var FELFIL = "Filen gick inte att läsa in – den är inte en sparad Labb 4B-mall. Inget av det du skrivit har ändrats.";
+
+  function lasInFil(fil) {
+    var r = new FileReader();
+    r.onload = function () {
+      var d = null;
+      try { d = stad(JSON.parse(r.result)); } catch (e) { d = null; }
+      if (!d) { visaStatus(FELFIL, true); return; }
+      if (!confirm("Ersätta allt du har skrivit på den här sidan med innehållet i filen?")) { return; }
+      lage = d;
+      rita();
+      spara();
+      if (sparbar) { visaStatus("Inläst från " + fil.name + " " + klocka() + ".", false); }
+    };
+    r.onerror = function () { visaStatus(FELFIL, true); };
+    r.readAsText(fil);
+  }
+
+  ladda();
+  byggFlikar();
+  rita();
+  visaStatus(sparbar
+    ? "Det du skriver sparas i den här webbläsaren. Byter du dator: Spara som fil, och Läs in fil på den andra."
+    : VARNING, !sparbar);
+
+  document.getElementById("skriv-ut").addEventListener("click", function () { window.print(); });
+  document.getElementById("spara-fil").addEventListener("click", sparaFil);
+  document.getElementById("las-in").addEventListener("click", function () {
+    document.getElementById("filval").click();
+  });
+  document.getElementById("filval").addEventListener("change", function (e) {
+    var fil = e.target.files && e.target.files[0];
+    if (fil) { lasInFil(fil); }
+    e.target.value = "";
+  });
+  document.getElementById("tom").addEventListener("click", function () {
+    if (!confirm("Tömma hela mallen? Det går inte att ångra. Spara som fil först om du är osäker.")) { return; }
+    lage = tomtLage();
+    rita();
+    spara();
+  });
+})();
+</script>
+</body>
+</html>
