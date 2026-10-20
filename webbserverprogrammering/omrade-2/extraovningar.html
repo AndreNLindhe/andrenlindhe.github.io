@@ -1,0 +1,1064 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Extraövningar: område 2</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="web1-o2-extra">
+
+<header class="topp">
+  <a href="index.html">← Område 2</a>
+  <span class="harifran"><strong>Extraövningar</strong> · X1–X30</span>
+  <a href="#avprickning">Avprickning</a>
+</header>
+
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#sa-har">Så här använder du sidan</a></li>
+      <li><a href="#typer">Uttryck och typer · X1–X7</a></li>
+      <li><a href="#villkor">Villkor och logik · X8–X15</a></li>
+      <li><a href="#loopar">Loopar och listor · X16–X23</a></li>
+      <li><a href="#metoder">Metoder och klasser · X24–X30</a></li>
+      <li><a href="#avprickning">Avprickning</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p class="ledtext">Webbserverprogrammering 1 · område 2 · extra</p>
+    <h1>Extraövningar</h1>
+    <p class="inledning">Trettio övningar till för dig som vill träna mer på grunderna:
+      tjugo lätta och tio medel, i samma fyra teman som övningsbanken. De räknas inte
+      in i någon inlämning. De finns för att det som sitter lite löst ska få sitta
+      ordentligt.</p>
+
+    <h2 id="sa-har">Så här använder du sidan</h2>
+
+    <div class="notis viktig">
+      <span class="rubrik">Försök först, titta sedan</span>
+      <p>Varje övning har en lösning bakom knappen <b>Visa en lösning</b>. Öppna den
+        när du är klar, eller när du suttit fast i tio minuter – inte innan. Den som
+        läser lösningen först lär sig läsa kod. Den som skriver först lär sig skriva
+        den, och det är det provet och projekten kräver.</p>
+      <p>Fastnar du: läs <em>Ledtråden</em>, och sedan det steg i
+        <a href="guide.html">guiden</a> som övningen bygger på.</p>
+    </div>
+
+    <ol>
+      <li>Skapa fyra nya sidor i ditt projekt, i <code>Components/Pages/</code>:
+        <code>/extra/typer</code>, <code>/extra/villkor</code>,
+        <code>/extra/loopar</code> och <code>/extra/metoder</code>.</li>
+      <li>Varje övning får en egen rubrik och ett eget <code>@code</code>-block direkt
+        under. Samma upplägg som i övningsbanken.</li>
+      <li>Prefixa namnen med övningens nummer: <code>x1Namn</code>,
+        <code>x8Tal</code>, <code>X19Summa()</code>. Utan prefix krockar de med
+        varandra och sidan slutar kompilera.</li>
+      <li>Kör, och kontrollera mot <b>Klart när</b>. Stämmer det är övningen löst –
+        din lösning behöver inte se ut som den här.</li>
+    </ol>
+
+    <p><b>Lätt</b> – gör precis det som visats i guiden. <b>Medel</b> – kombinera två
+      saker, eller tänk på ett gränsfall.</p>
+
+    <!-- ============================================================ -->
+
+    <h2 id="typer">Uttryck och typer · X1–X7</h2>
+    <p>Sidan <code>/extra/typer</code>. Bygger på <a href="guide.html#steg-2">guidens
+      steg 2–5</a>.</p>
+
+    <h3 id="x1">X1. Om dig själv</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: de fyra grundtyperna</p>
+    <p>Skapa fyra fält om dig själv: ditt namn (<code>string</code>), din ålder
+      (<code>int</code>), din längd i meter (<code>double</code>) och om du har körkort
+      (<code>bool</code>). Skriv ut vart och ett på en egen rad med en etikett framför,
+      till exempel <i>Ålder: 17 år</i>.</p>
+    <p><b>Ledtråd:</b> ett decimaltal skrivs med punkt i koden, <code>1.68</code>, men
+      visas med komma på sidan.</p>
+    <p><b>Klart när:</b> fyra rader syns, och längden visas med komma.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X01.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;Namn: @x1Namn&lt;/p&gt;
+&lt;p&gt;Ålder: @x1Alder år&lt;/p&gt;
+&lt;p&gt;Längd: @x1Langd meter&lt;/p&gt;
+&lt;p&gt;Har körkort: @x1Korkort&lt;/p&gt;
+
+@code {
+    private string x1Namn = "Ada";
+    private int x1Alder = 17;
+    private double x1Langd = 1.68;
+    private bool x1Korkort = false;
+}</code></pre>
+      <p>Varför: <code>@x1Korkort</code> skrivs ut som <code>False</code>. Det är så
+        C# visar ett <code>bool</code> – X26 visar hur du får <i>Ja</i> och
+        <i>Nej</i> i stället.</p>
+    </details>
+
+    <h3 id="x2">X2. Plus, minus, gånger</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: räknesätt och <code>@( )</code> i markupen</p>
+    <p>Två fält håller talen 17 och 5. Visa summan, differensen och produkten, en per
+      rad: <i>17 + 5 = 22</i>.</p>
+    <p><b>Ledtråd:</b> en uträkning i markupen behöver parentes: <code>@(x2A + x2B)</code>.
+      Utan parentes skrivs <code>@x2A</code> ut och sedan texten <i>+ x2B</i>.</p>
+    <p><b>Klart när:</b> sidan visar 22, 12 och 85.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X02.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;@x2A + @x2B = @(x2A + x2B)&lt;/p&gt;
+&lt;p&gt;@x2A - @x2B = @(x2A - x2B)&lt;/p&gt;
+&lt;p&gt;@x2A * @x2B = @(x2A * x2B)&lt;/p&gt;
+
+@code {
+    private int x2A = 17;
+    private int x2B = 5;
+}</code></pre>
+      <p>Varför: på varje rad står det första <code>+</code> utanför parentesen och är
+        bara text. Inuti <code>@( )</code> är det C# och räknas ut.</p>
+    </details>
+
+    <h3 id="x3">X3. Rektangeln</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>double</code> och en formel</p>
+    <p>En rektangel är 4,5 meter bred och 3 meter hög. Räkna ut arean
+      (bredd × höjd) och omkretsen (två bredder plus två höjder).</p>
+    <p><b>Ledtråd:</b> båda måtten ska vara <code>double</code>, eftersom bredden har
+      decimaler.</p>
+    <p><b>Klart när:</b> arean är 13,5 och omkretsen 15.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X03.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;Rektangeln är @x3Bredd gånger @x3Hojd meter.&lt;/p&gt;
+&lt;p&gt;Arean är @x3Area kvadratmeter och omkretsen @x3Omkrets meter.&lt;/p&gt;
+
+@code {
+    private double x3Bredd = 4.5;
+    private double x3Hojd = 3;
+    private double x3Area =&gt; x3Bredd * x3Hojd;
+    private double x3Omkrets =&gt; 2 * x3Bredd + 2 * x3Hojd;
+}</code></pre>
+      <p>Varför: <code>=&gt;</code> gör att arean räknas ut varje gång den visas.
+        Ändrar du bredden följer arean med av sig själv.</p>
+    </details>
+
+    <h3 id="x4">X4. Biljetterna</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: stränginterpolation</p>
+    <p>Tre biljetter kostar 120 kronor styck. Skriv ut meningen
+      <i>3 biljetter à 120 kr kostar 360 kr.</i> – där alla tre talen kommer ur fält,
+      och totalen räknas ut.</p>
+    <p><b>Ledtråd:</b> <code>$"{x4Antal} biljetter …"</code>. Dollartecknet före
+      citattecknet gör att klammerparenteserna byts mot värden.</p>
+    <p><b>Klart när:</b> meningen stämmer, och ändrar du antalet till 4 blir totalen
+      480 utan att du rör något annat.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X04.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;@x4Rad&lt;/p&gt;
+
+@code {
+    private int x4Antal = 3;
+    private int x4Pris = 120;
+    private int x4Totalt =&gt; x4Antal * x4Pris;
+    private string x4Rad =&gt; $"{x4Antal} biljetter à {x4Pris} kr kostar {x4Totalt} kr.";
+}</code></pre>
+      <p>Varför: totalen är ett eget fält som räknas ur de andra två. Skriver du
+        <code>360</code> för hand stämmer det bara tills någon ändrar antalet.</p>
+    </details>
+
+    <h3 id="x5">X5. Rabatten</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: procent och två decimaler</p>
+    <p>En jacka kostar 499 kronor och har 20 procents rabatt. Visa ordinarie pris,
+      rabatten i kronor och vad du betalar – alla med två decimaler.</p>
+    <p><b>Ledtråd:</b> 20 procent är <code>0.20</code>. Två decimaler får du med
+      <code>.ToString("0.00")</code>.</p>
+    <p><b>Klart när:</b> sidan visar 499,00, 99,80 och 399,20.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X05.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;Ordinarie pris: @x5Pris.ToString("0.00") kr&lt;/p&gt;
+&lt;p&gt;Rabatt: @x5Rabatt.ToString("0.00") kr&lt;/p&gt;
+&lt;p&gt;Att betala: @x5NyttPris.ToString("0.00") kr&lt;/p&gt;
+
+@code {
+    private double x5Pris = 499;
+    private double x5Rabatt =&gt; x5Pris * 0.20;
+    private double x5NyttPris =&gt; x5Pris - x5Rabatt;
+}</code></pre>
+      <p>Varför: utan <code>"0.00"</code> skrivs rabatten ut som <i>99,8</i>. Det är
+        samma tal – formatet ändrar bara hur det visas.</p>
+    </details>
+
+    <h3 id="x6">X6. Medelpoängen</h3>
+    <p class="ledtext"><b>Medel</b> · tränar: heltalsdivision och <code>(double)</code></p>
+    <p>Tre prov gav 14, 17 och 12 poäng, lagrade som <code>int</code>. Visa
+      medelpoängen med en decimal.</p>
+    <p><b>Klart när:</b> sidan visar 14,3. Visar den 14 har decimalerna kastats bort –
+      läs <a href="guide.html#steg-4">steg 4</a> igen.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X06.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;Poängen: @x6Prov1, @x6Prov2 och @x6Prov3&lt;/p&gt;
+&lt;p&gt;Medelpoäng: @x6Medel.ToString("0.0")&lt;/p&gt;
+
+@code {
+    private int x6Prov1 = 14;
+    private int x6Prov2 = 17;
+    private int x6Prov3 = 12;
+    private double x6Medel =&gt; (double)(x6Prov1 + x6Prov2 + x6Prov3) / 3;
+}</code></pre>
+      <p>Varför: <code>43 / 3</code> är 14 när båda talen är <code>int</code>.
+        <code>(double)</code> gör om summan till decimaltal <b>före</b> divisionen,
+        och då blir svaret 14,333…</p>
+      <p><b>Vanlig felväg:</b> <code>(double)(43 / 3)</code>. Där sker divisionen
+        först, som heltal, och 14 blir 14,0.</p>
+    </details>
+
+    <h3 id="x7">X7. Sekunderna</h3>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>/</code> och <code>%</code> i två steg</p>
+    <p>Skriv en metod som tar emot ett antal sekunder och lämnar tillbaka samma tid som
+      timmar, minuter och sekunder.</p>
+    <p><b>Klart när:</b> 3725 ger <i>1 h 2 min 5 s</i>, 59 ger <i>0 h 0 min 59 s</i>
+      och 3600 ger <i>1 h 0 min 0 s</i>.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X07.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;3725 sekunder: @X7Tid(3725)&lt;/p&gt;
+&lt;p&gt;59 sekunder: @X7Tid(59)&lt;/p&gt;
+&lt;p&gt;3600 sekunder: @X7Tid(3600)&lt;/p&gt;
+
+@code {
+    private string X7Tid(int sekunder)
+    {
+        int timmar = sekunder / 3600;
+        int rest = sekunder % 3600;
+        int minuter = rest / 60;
+        int sek = rest % 60;
+        return $"{timmar} h {minuter} min {sek} s";
+    }
+}</code></pre>
+      <p>Varför: en timme är 3600 sekunder. <code>/ 3600</code> ger hela timmar och
+        <code>% 3600</code> det som blir över. Samma sak en gång till med 60 delar upp
+        resten i minuter och sekunder.</p>
+    </details>
+
+    <!-- ============================================================ -->
+
+    <h2 id="villkor">Villkor och logik · X8–X15</h2>
+    <p>Sidan <code>/extra/villkor</code>. Bygger på <a href="guide.html#steg-6">guidens
+      steg 6–9</a>.</p>
+
+    <h3 id="x8">X8. Plus eller minus</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>if</code>, <code>else if</code>, <code>else</code></p>
+    <p>Ett fält håller ett heltal. Skriv ut om talet är positivt, negativt eller noll.</p>
+    <p><b>Ledtråd:</b> tre utfall betyder <code>if</code>, <code>else if</code> och
+      <code>else</code>. Lägg logiken i en metod som lämnar tillbaka ordet.</p>
+    <p><b>Klart när:</b> 5, -3 och 0 ger tre olika svar.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X08.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;@x8Tal är @X8Tecken(x8Tal).&lt;/p&gt;
+
+@code {
+    private int x8Tal = -3;
+
+    private string X8Tecken(int tal)
+    {
+        if (tal &gt; 0)
+        {
+            return "positivt";
+        }
+        else if (tal &lt; 0)
+        {
+            return "negativt";
+        }
+        else
+        {
+            return "noll";
+        }
+    }
+}</code></pre>
+      <p>Varför: <code>else</code> behöver inget villkor. Är talet varken större eller
+        mindre än noll finns bara ett alternativ kvar.</p>
+    </details>
+
+    <h3 id="x9">X9. Jämnt eller udda</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: modulo i ett villkor</p>
+    <p>Skriv en metod som avgör om ett tal är jämnt eller udda. Pröva den på 4, 7
+      och 0.</p>
+    <p><b>Ledtråd:</b> ett tal är jämnt om resten blir noll när du delar med två:
+      <code>tal % 2 == 0</code>.</p>
+    <p><b>Klart när:</b> 4 och 0 ger jämnt, 7 ger udda.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X09.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;4 är @X9JamntUdda(4).&lt;/p&gt;
+&lt;p&gt;7 är @X9JamntUdda(7).&lt;/p&gt;
+&lt;p&gt;0 är @X9JamntUdda(0).&lt;/p&gt;
+
+@code {
+    private string X9JamntUdda(int tal)
+    {
+        if (tal % 2 == 0)
+        {
+            return "jämnt";
+        }
+        return "udda";
+    }
+}</code></pre>
+      <p>Varför: <code>return</code> avslutar metoden direkt. Därför behövs ingen
+        <code>else</code> – raden <code>return "udda"</code> nås bara om villkoret var
+        falskt.</p>
+    </details>
+
+    <h3 id="x10">X10. Godkänt?</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>? :</code> och gränsvärden</p>
+    <p>Ett prov kräver 60 poäng för godkänt. Visa <i>godkänt</i> eller <i>inte
+      godkänt</i> med <code>villkor ? "ja" : "nej"</code>, direkt i markupen.</p>
+    <p><b>Klart när:</b> 59 ger inte godkänt och 60 ger godkänt.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X10.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;@x10Poang poäng: @(x10Poang &gt;= 60 ? "godkänt" : "inte godkänt")&lt;/p&gt;
+
+@code {
+    private int x10Poang = 60;
+}</code></pre>
+      <p>Varför: <code>&gt;=</code>, inte <code>&gt;</code>. Den som har exakt 60 ska
+        klara sig. Pröva alltid gränsvärdet självt – det är där felen gömmer sig.</p>
+    </details>
+
+    <h3 id="x11">X11. Det största av två</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: jämförelser med tre utfall</p>
+    <p>Två fält håller var sitt heltal. Skriv ut vilket som är störst – eller att de
+      är lika.</p>
+    <p><b>Klart när:</b> 3 och 8 ger <i>8 är störst</i>, 9 och 2 ger <i>9 är
+      störst</i>, och 5 och 5 ger <i>talen är lika</i>.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X11.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;@x11A och @x11B: @X11Storst(x11A, x11B)&lt;/p&gt;
+
+@code {
+    private int x11A = 3;
+    private int x11B = 8;
+
+    private string X11Storst(int a, int b)
+    {
+        if (a &gt; b)
+        {
+            return $"{a} är störst";
+        }
+        else if (b &gt; a)
+        {
+            return $"{b} är störst";
+        }
+        return "talen är lika";
+    }
+}</code></pre>
+      <p>Varför: det lätta är att glömma det tredje fallet. Med bara
+        <code>if (a &gt; b)</code> och <code>else</code> påstår koden att 5 är större
+        än 5.</p>
+    </details>
+
+    <h3 id="x12">X12. Inloggad eller inte</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>@if</code> som väljer HTML</p>
+    <p>Ett <code>bool</code> säger om besökaren är inloggad. Är hen det: visa en fet
+      välkomsttext. Annars: visa en länk med texten <i>Logga in</i>.</p>
+    <p><b>Ledtråd:</b> <a href="guide.html#steg-7">steg 7</a>. <code>@if</code> i
+      markupen, med HTML inuti klammerparenteserna.</p>
+    <p><b>Klart när:</b> du ändrar fältet till <code>false</code>, laddar om, och
+      sidkällan innehåller länken men inte välkomsttexten.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X12.razor -->
+      <pre><code class="sprak-razor">@if (x12Inloggad)
+{
+    &lt;p&gt;&lt;strong&gt;Välkommen tillbaka!&lt;/strong&gt;&lt;/p&gt;
+}
+else
+{
+    &lt;p&gt;&lt;a href="/"&gt;Logga in&lt;/a&gt; för att se dina filmer.&lt;/p&gt;
+}
+
+@code {
+    private bool x12Inloggad = true;
+}</code></pre>
+      <p>Varför: grenen som inte tas skickas aldrig till webbläsaren. Den är inte
+        dold – den finns inte. Riktig inloggning kommer i område 7.</p>
+    </details>
+
+    <h3 id="x13">X13. Biljettpriset</h3>
+    <p class="ledtext"><b>Medel</b> · tränar: en kedja av villkor och gränsfall</p>
+    <p>Skriv en metod som tar emot en ålder och lämnar tillbaka biljettpriset:</p>
+    <ul>
+      <li>under 7 år: gratis</li>
+      <li>7–17 år: 60 kr</li>
+      <li>18–64 år: 120 kr</li>
+      <li>65 år och äldre: 80 kr</li>
+    </ul>
+    <p><b>Klart när:</b> 6, 7, 17, 18, 64 och 65 ger gratis, 60, 60, 120, 120 och 80.
+      Det är gränserna som avslöjar felen, så pröva alla sex.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X13.razor -->
+      <pre><code class="sprak-razor">&lt;ul&gt;
+    &lt;li&gt;6 år: @X13Pris(6)&lt;/li&gt;
+    &lt;li&gt;7 år: @X13Pris(7)&lt;/li&gt;
+    &lt;li&gt;17 år: @X13Pris(17)&lt;/li&gt;
+    &lt;li&gt;18 år: @X13Pris(18)&lt;/li&gt;
+    &lt;li&gt;64 år: @X13Pris(64)&lt;/li&gt;
+    &lt;li&gt;65 år: @X13Pris(65)&lt;/li&gt;
+&lt;/ul&gt;
+
+@code {
+    private string X13Pris(int alder)
+    {
+        if (alder &lt; 7)
+        {
+            return "gratis";
+        }
+        else if (alder &lt; 18)
+        {
+            return "60 kr";
+        }
+        else if (alder &lt; 65)
+        {
+            return "120 kr";
+        }
+        return "80 kr";
+    }
+}</code></pre>
+      <p>Varför: villkoren prövas uppifrån och ned, och det första som stämmer vinner.
+        Därför räcker <code>alder &lt; 18</code> på andra raden – den som är under 7
+        har redan fått sitt svar.</p>
+    </details>
+
+    <h3 id="x14">X14. Storleken i adressen</h3>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>[SupplyParameterFromQuery]</code> och <code>switch</code></p>
+    <p>Läs en storlek ur adressen: <code>?storlek=s</code>, <code>m</code> eller
+      <code>l</code>. Visa priset med en <code>switch</code>: 199, 249 eller 299 kr.
+      Saknas storleken ska sidan be besökaren välja en. En okänd storlek ska ge ett
+      eget meddelande.</p>
+    <p><b>Ledtråd:</b> egenskapen är <code>public string? Storlek { get; set; }</code>.
+      Frågetecknet betyder att den får vara tom – <code>null</code> – och det är den
+      när adressen saknar värdet.</p>
+    <p><b>Klart när:</b> <code>/extra/villkor</code>, <code>?storlek=m</code> och
+      <code>?storlek=xl</code> ger tre olika svar, och sidan inte kraschar på något.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X14.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;@X14Pris(Storlek)&lt;/p&gt;
+
+@code {
+    // ?storlek=m i adressen. Saknas värdet blir Storlek null.
+    [SupplyParameterFromQuery]
+    public string? Storlek { get; set; }
+
+    private string X14Pris(string? storlek) =&gt; storlek switch
+    {
+        "s" =&gt; "Liten: 199 kr",
+        "m" =&gt; "Mellan: 249 kr",
+        "l" =&gt; "Stor: 299 kr",
+        null =&gt; "Välj en storlek: lägg till ?storlek=m i adressen.",
+        _ =&gt; $"Storleken {storlek} finns inte."
+    };
+}</code></pre>
+      <p>Varför: en <code>switch</code> kan jämföra text lika gärna som tal.
+        <code>null</code> fångar adressen utan värde, <code>_</code> fångar allt annat.
+        Egenskapen heter <code>Storlek</code> utan prefix eftersom namnet är det som
+        står i adressen.</p>
+    </details>
+
+    <h3 id="x15">X15. Rabattkoden</h3>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>&amp;&amp;</code> och <code>||</code> i samma villkor</p>
+    <p>En butik ger rabatt till medlemmar som handlar för minst 500 kr – och till alla
+      som handlar för minst 1000 kr, medlem eller inte. Skriv en metod som tar emot
+      <code>bool medlem</code> och <code>int belopp</code> och svarar <i>rabatt</i>
+      eller <i>ingen rabatt</i>.</p>
+    <p><b>Klart när:</b> medlem för 600 får rabatt, icke-medlem för 600 får inte,
+      icke-medlem för 1200 får rabatt, och medlem för 300 får inte.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X15.razor -->
+      <pre><code class="sprak-razor">&lt;ul&gt;
+    &lt;li&gt;Medlem, 600 kr: @X15Rabatt(true, 600)&lt;/li&gt;
+    &lt;li&gt;Inte medlem, 600 kr: @X15Rabatt(false, 600)&lt;/li&gt;
+    &lt;li&gt;Inte medlem, 1200 kr: @X15Rabatt(false, 1200)&lt;/li&gt;
+    &lt;li&gt;Medlem, 300 kr: @X15Rabatt(true, 300)&lt;/li&gt;
+&lt;/ul&gt;
+
+@code {
+    private string X15Rabatt(bool medlem, int belopp)
+    {
+        if ((medlem &amp;&amp; belopp &gt;= 500) || belopp &gt;= 1000)
+        {
+            return "rabatt";
+        }
+        return "ingen rabatt";
+    }
+}</code></pre>
+      <p>Varför: parentesen runt <code>medlem &amp;&amp; belopp &gt;= 500</code> gör
+        villkoret läsbart: <i>(medlem som handlar för 500) eller (vem som helst som
+        handlar för 1000)</i>.</p>
+    </details>
+
+    <!-- ============================================================ -->
+
+    <h2 id="loopar">Loopar och listor · X16–X23</h2>
+    <p>Sidan <code>/extra/loopar</code>. Bygger på <a href="guide.html#steg-10">guidens
+      steg 10–13</a>.</p>
+
+    <h3 id="x16">X16. Nedräkningen</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>for</code> baklänges</p>
+    <p>Skriv ut talen 10 ned till 1, ett per rad, och sist texten <i>Lyft!</i></p>
+    <p><b>Ledtråd:</b> börja på 10, fortsätt så länge <code>i &gt;= 1</code>, och
+      minska med <code>i--</code>.</p>
+    <p><b>Klart när:</b> första raden är 10, sista talet är 1, och <i>Lyft!</i> står en
+      gång – inte tio.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X16.razor -->
+      <pre><code class="sprak-razor">@for (int i = 10; i &gt;= 1; i--)
+{
+    &lt;p&gt;@i&lt;/p&gt;
+}
+&lt;p&gt;Lyft!&lt;/p&gt;</code></pre>
+      <p>Varför: <i>Lyft!</i> står efter loopens avslutande klammerparentes. Inuti
+        hade den skrivits ut varje varv.</p>
+    </details>
+
+    <h3 id="x17">X17. De jämna talen</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>for</code> med ett annat steg än ett</p>
+    <p>Visa de jämna talen från 2 till 20 som en punktlista.</p>
+    <p><b>Ledtråd:</b> den sista delen av <code>for</code> behöver inte vara
+      <code>i++</code>. Den kan vara <code>i = i + 2</code>.</p>
+    <p><b>Klart när:</b> listan har tio punkter, från 2 till 20.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X17.razor -->
+      <pre><code class="sprak-razor">&lt;ul&gt;
+    @for (int i = 2; i &lt;= 20; i = i + 2)
+    {
+        &lt;li&gt;@i&lt;/li&gt;
+    }
+&lt;/ul&gt;</code></pre>
+      <p>Varför: <code>&lt;ul&gt;</code> står utanför loopen och
+        <code>&lt;li&gt;</code> inuti. En lista, tio punkter.</p>
+    </details>
+
+    <h3 id="x18">X18. Inköpslistan</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>List&lt;string&gt;</code>, <code>foreach</code> och index</p>
+    <p>Skapa en inköpslista med fem saker. Visa dem som en punktlista, och under den:
+      hur många saker det är, vilken som står först och vilken som står sist.</p>
+    <p><b>Ledtråd:</b> den första ligger på plats <code>[0]</code>. Den sista ligger
+      på plats <code>Count - 1</code>.</p>
+    <p><b>Klart när:</b> lägger du till en sjätte sak sist i listan visar sidan
+      sex saker och den nya som sist – utan att du ändrat något annat.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X18.razor -->
+      <pre><code class="sprak-razor">&lt;ul&gt;
+    @foreach (string vara in x18Lista)
+    {
+        &lt;li&gt;@vara&lt;/li&gt;
+    }
+&lt;/ul&gt;
+&lt;p&gt;@x18Lista.Count saker. Först: @x18Lista[0]. Sist: @x18Lista[x18Lista.Count - 1].&lt;/p&gt;
+
+@code {
+    private List&lt;string&gt; x18Lista = new() { "Mjölk", "Bröd", "Ost", "Äpplen", "Kaffe" };
+}</code></pre>
+      <p>Varför: fem saker ligger på plats 0 till 4. <code>x18Lista[5]</code> finns
+        inte och kraschar sidan. <code>Count - 1</code> pekar alltid rätt, hur lång
+        listan än blir.</p>
+    </details>
+
+    <h3 id="x19">X19. Summan av 1 till 100</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: att samla ihop ett värde i en loop</p>
+    <p>Räkna ut summan av alla heltal från 1 till 100 med en <code>for</code>-loop, i
+      en metod.</p>
+    <p><b>Ledtråd:</b> <a href="guide.html#steg-11">steg 11</a>. En variabel
+      <code>summa = 0</code> före loopen, och <code>summa = summa + i</code> inuti.</p>
+    <p><b>Klart när:</b> svaret är 5050.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X19.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;Summan av 1 till 100 är @X19Summa().&lt;/p&gt;
+
+@code {
+    private int X19Summa()
+    {
+        int summa = 0;
+        for (int i = 1; i &lt;= 100; i++)
+        {
+            summa = summa + i;
+        }
+        return summa;
+    }
+}</code></pre>
+      <p>Varför: <code>summa</code> skapas utanför loopen. Inuti hade den nollställts
+        varje varv, och svaret hade blivit 100.</p>
+    </details>
+
+    <h3 id="x20">X20. Spargrisen</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: <code>while</code></p>
+    <p>Du sparar 150 kronor i veckan. Hur många veckor tar det innan du har minst 1000
+      kronor? Lös det med en <code>while</code>-loop som räknar veckorna.</p>
+    <p><b>Ledtråd:</b> <a href="guide.html#steg-12">steg 12</a>. Loopen fortsätter så
+      länge <code>sparat &lt; 1000</code>. Varje varv: lägg till 150 och räkna upp
+      veckorna.</p>
+    <p><b>Klart när:</b> sidan säger 7 veckor och 1050 kronor.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X20.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;@X20Spara()&lt;/p&gt;
+
+@code {
+    private string X20Spara()
+    {
+        int sparat = 0;
+        int veckor = 0;
+
+        while (sparat &lt; 1000)
+        {
+            sparat = sparat + 150;
+            veckor++;
+        }
+
+        return $"Efter {veckor} veckor finns {sparat} kr i spargrisen.";
+    }
+}</code></pre>
+      <p>Varför: <code>while</code> passar när du inte vet hur många varv det blir.
+        Glömmer du att öka <code>sparat</code> blir villkoret aldrig falskt och sidan
+        svarar aldrig – avbryt med Ctrl+C.</p>
+    </details>
+
+    <h3 id="x21">X21. Minusgraderna</h3>
+    <p class="ledtext"><b>Medel</b> · tränar: tabell ur en lista, villkor i en loop</p>
+    <p>En <code>List&lt;int&gt;</code> håller en veckas temperaturer: 3, -2, -5, 0, 1,
+      -1 och 4. Visa dem i en tabell med dagens nummer (1–7), graderna, och en kolumn
+      som säger <i>Ja</i> om det var minusgrader. Visa under tabellen hur många dagar
+      som hade minusgrader.</p>
+    <p><b>Klart när:</b> tabellen har sju rader och börjar på dag 1, och räknaren
+      säger 3. Noll är inte minusgrader.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X21.razor -->
+      <pre><code class="sprak-razor">&lt;table&gt;
+    &lt;tr&gt;&lt;th&gt;Dag&lt;/th&gt;&lt;th&gt;Grader&lt;/th&gt;&lt;th&gt;Minus?&lt;/th&gt;&lt;/tr&gt;
+    @for (int i = 0; i &lt; x21Grader.Count; i++)
+    {
+        &lt;tr&gt;
+            &lt;td&gt;@(i + 1)&lt;/td&gt;
+            &lt;td&gt;@x21Grader[i]&lt;/td&gt;
+            &lt;td&gt;@(x21Grader[i] &lt; 0 ? "Ja" : "Nej")&lt;/td&gt;
+        &lt;/tr&gt;
+    }
+&lt;/table&gt;
+&lt;p&gt;Dagar med minusgrader: @X21AntalMinus()&lt;/p&gt;
+
+@code {
+    private List&lt;int&gt; x21Grader = new() { 3, -2, -5, 0, 1, -1, 4 };
+
+    private int X21AntalMinus()
+    {
+        int antal = 0;
+        foreach (int grad in x21Grader)
+        {
+            if (grad &lt; 0)
+            {
+                antal++;
+            }
+        }
+        return antal;
+    }
+}</code></pre>
+      <p>Varför: tabellen använder <code>for</code> eftersom dagens nummer ska synas –
+        <code>@(i + 1)</code>. Räknaren använder <code>foreach</code> eftersom den
+        bara behöver värdena.</p>
+    </details>
+
+    <h3 id="x22">X22. Kvittot</h3>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>List&lt;double&gt;</code> och summa med decimaler</p>
+    <p>En <code>List&lt;double&gt;</code> håller fyra priser: 24,90, 12,50, 89 och 5,95.
+      Visa dem som en numrerad lista med två decimaler, och summan under, också med två
+      decimaler. Räkna ut summan själv – utan <code>Sum()</code>.</p>
+    <p><b>Klart när:</b> priset 89 visas som 89,00, och summan är 132,35.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X22.razor -->
+      <pre><code class="sprak-razor">&lt;ol&gt;
+    @foreach (double pris in x22Priser)
+    {
+        &lt;li&gt;@pris.ToString("0.00") kr&lt;/li&gt;
+    }
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Att betala: @X22Summa().ToString("0.00") kr&lt;/strong&gt;&lt;/p&gt;
+
+@code {
+    private List&lt;double&gt; x22Priser = new() { 24.90, 12.50, 89, 5.95 };
+
+    private double X22Summa()
+    {
+        double summa = 0;
+        foreach (double pris in x22Priser)
+        {
+            summa = summa + pris;
+        }
+        return summa;
+    }
+}</code></pre>
+      <p>Varför: <code>summa</code> är <code>double</code>, inte <code>int</code>.
+        Med <code>int</code> kompilerar det inte ens – C# vägrar lägga ett decimaltal i
+        ett heltal utan att du ber om det.</p>
+    </details>
+
+    <h3 id="x23">X23. Trappan</h3>
+    <p class="ledtext"><b>Medel</b> · tränar: en loop inuti en loop</p>
+    <p>Rita en trappa av stjärnor: fem rader, där rad 1 har en stjärna, rad 2 två
+      stjärnor, och så vidare.</p>
+    <p><b>Klart när:</b> sista raden har fem stjärnor. Ändrar du 5 till 8 på ett ställe
+      blir trappan åtta rader hög.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X23.razor -->
+      <pre><code class="sprak-razor">@for (int rad = 1; rad &lt;= 5; rad++)
+{
+    string stjarnor = "";
+    for (int i = 1; i &lt;= rad; i++)
+    {
+        stjarnor = stjarnor + "*";
+    }
+    &lt;p&gt;@stjarnor&lt;/p&gt;
+}</code></pre>
+      <p>Varför: den yttre loopen gör raderna. Den inre bygger upp en text med lika
+        många stjärnor som radens nummer. <code>stjarnor</code> skapas inuti den yttre
+        loopen, så att varje rad börjar tom.</p>
+    </details>
+
+    <!-- ============================================================ -->
+
+    <h2 id="metoder">Metoder och klasser · X24–X30</h2>
+    <p>Sidan <code>/extra/metoder</code>. Bygger på <a href="guide.html#steg-14">guidens
+      steg 14–16</a>.</p>
+
+    <h3 id="x24">X24. Dubbla</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: en metod med parameter och returvärde</p>
+    <p>Skriv en metod som tar emot ett heltal och lämnar tillbaka det dubbla. Anropa
+      den med 3, 50 och -4.</p>
+    <p><b>Ledtråd:</b> <code>private int X24Dubbla(int tal)</code>. Det första
+      <code>int</code> är vad metoden lämnar tillbaka, det inom parentesen är vad den
+      tar emot.</p>
+    <p><b>Klart när:</b> sidan visar 6, 100 och -8.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X24.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;@X24Dubbla(3) · @X24Dubbla(50) · @X24Dubbla(-4)&lt;/p&gt;
+
+@code {
+    private int X24Dubbla(int tal) =&gt; tal * 2;
+}</code></pre>
+      <p>Varför: <code>=&gt;</code> fungerar när metoden är ett enda uttryck. Behövs
+        flera rader skriver du <code>{ }</code> och <code>return</code>.</p>
+    </details>
+
+    <h3 id="x25">X25. Hälsningen</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: en metod som tar emot text</p>
+    <p>Skriv en metod som tar emot ett namn och lämnar tillbaka <i>Hej, Ada!</i> med
+      namnet insatt. Anropa den med två olika namn.</p>
+    <p><b>Klart när:</b> två olika hälsningar syns, och metoden heter något som börjar
+      med versal.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X25.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;@X25Halsa("Ada")&lt;/p&gt;
+&lt;p&gt;@X25Halsa("Linus")&lt;/p&gt;
+
+@code {
+    private string X25Halsa(string namn) =&gt; $"Hej, {namn}!";
+}</code></pre>
+      <p>Varför: metoden heter <code>X25Halsa</code> i PascalCase, parametern
+        <code>namn</code> i camelCase. Det är C#:s namngivning, och den bedöms.</p>
+    </details>
+
+    <h3 id="x26">X26. Ja eller nej</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: en metod som lämnar tillbaka ett <code>bool</code></p>
+    <p>Skriv en metod <code>X26ArJamnt</code> som tar emot ett heltal och lämnar
+      tillbaka <code>true</code> om det är jämnt. Visa svaret för 8 och 13 som
+      <i>Ja</i> eller <i>Nej</i>.</p>
+    <p><b>Ledtråd:</b> metoden kan vara en enda rad: <code>=&gt; tal % 2 == 0</code>.
+      Jämförelsen <i>är</i> redan ett <code>bool</code>.</p>
+    <p><b>Klart när:</b> sidan visar Ja för 8 och Nej för 13 – inte True och False.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X26.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;Är 8 jämnt? @(X26ArJamnt(8) ? "Ja" : "Nej")&lt;/p&gt;
+&lt;p&gt;Är 13 jämnt? @(X26ArJamnt(13) ? "Ja" : "Nej")&lt;/p&gt;
+
+@code {
+    private bool X26ArJamnt(int tal) =&gt; tal % 2 == 0;
+}</code></pre>
+      <p>Varför: metoden svarar på en fråga, markupen bestämmer hur svaret visas. Två
+        olika uppgifter, på två olika ställen.</p>
+    </details>
+
+    <h3 id="x27">X27. Med moms</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: en metod med <code>double</code></p>
+    <p>Skriv en metod som tar emot ett pris utan moms och lämnar tillbaka priset med
+      25 procents moms. Visa svaret med två decimaler för 200 och 39,60.</p>
+    <p><b>Ledtråd:</b> pris plus 25 procent är samma sak som pris gånger
+      <code>1.25</code>.</p>
+    <p><b>Klart när:</b> 200 blir 250,00 och 39,60 blir 49,50.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X27.razor -->
+      <pre><code class="sprak-razor">&lt;p&gt;200 kr blir @X27MedMoms(200).ToString("0.00") kr med moms.&lt;/p&gt;
+&lt;p&gt;39,60 kr blir @X27MedMoms(39.60).ToString("0.00") kr med moms.&lt;/p&gt;
+
+@code {
+    private double X27MedMoms(double pris) =&gt; pris * 1.25;
+}</code></pre>
+      <p>Varför: <code>.ToString("0.00")</code> sitter direkt på metodanropet.
+        Metoden lämnar tillbaka ett <code>double</code>, och ett <code>double</code>
+        kan formateras.</p>
+    </details>
+
+    <h3 id="x28">X28. Boken</h3>
+    <p class="ledtext"><b>Lätt</b> · tränar: klass, egenskaper och <code>new</code></p>
+    <p>Skapa filen <code>Models/Bok.cs</code> med tre egenskaper: <code>Titel</code>,
+      <code>Forfattare</code> och <code>Sidor</code>. Skapa sedan en bok på sidan och
+      visa alla tre.</p>
+    <p><b>Ledtråd:</b> <a href="guide.html#steg-15">steg 15</a>, men med
+      <code>Bok</code> i stället för <code>Film</code>. Glöm inte
+      <code>@using Ovningsbanken.Models</code> högst upp på sidan.</p>
+    <p><b>Klart när:</b> titel, författare och antal sidor syns på sidan.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <p><code>Models/Bok.cs</code>:</p>
+      <!-- kod: ovningar/extra/Models/Bok.cs -->
+      <pre><code class="sprak-csharp">namespace Ovningsbanken.Models;
+
+public class Bok
+{
+    public string Titel { get; set; } = "";
+    public string Forfattare { get; set; } = "";
+    public int Sidor { get; set; }
+}</code></pre>
+      <p>På sidan:</p>
+      <!-- kod: ovningar/extra/X28.razor -->
+      <pre><code class="sprak-razor">@using Ovningsbanken.Models
+
+&lt;p&gt;&lt;em&gt;@x28Bok.Titel&lt;/em&gt; av @x28Bok.Forfattare, @x28Bok.Sidor sidor.&lt;/p&gt;
+
+@code {
+    private Bok x28Bok = new Bok
+    {
+        Titel = "Mio, min Mio",
+        Forfattare = "Astrid Lindgren",
+        Sidor = 180
+    };
+}</code></pre>
+      <p>Varför: klassen beskriver vad en bok <i>har</i>. <code>new Bok { … }</code>
+        skapar en bok och fyller i egenskaperna. Heter ditt projekt något annat än
+        Ovningsbanken byter du namnet i <code>namespace</code> och
+        <code>@using</code>.</p>
+    </details>
+
+    <h3 id="x29">X29. Bokhyllan</h3>
+    <p class="ledtext"><b>Medel</b> · tränar: <code>List&lt;Bok&gt;</code>, tabell och en metod som går igenom listan</p>
+    <p>Skapa en lista med fyra böcker och visa dem i en tabell: en rad per bok, en
+      kolumn per egenskap. Skriv en metod som räknar ut hur många sidor böckerna har
+      tillsammans, och visa svaret under tabellen.</p>
+    <p><b>Klart när:</b> tabellen har fyra rader, summan stämmer om du räknar efter,
+      och en femte bok i listan syns i tabellen och i summan utan att du rör något
+      annat.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X29.razor -->
+      <pre><code class="sprak-razor">@using Ovningsbanken.Models
+
+&lt;table&gt;
+    &lt;tr&gt;&lt;th&gt;Titel&lt;/th&gt;&lt;th&gt;Författare&lt;/th&gt;&lt;th&gt;Sidor&lt;/th&gt;&lt;/tr&gt;
+    @foreach (Bok bok in x29Bocker)
+    {
+        &lt;tr&gt;&lt;td&gt;@bok.Titel&lt;/td&gt;&lt;td&gt;@bok.Forfattare&lt;/td&gt;&lt;td&gt;@bok.Sidor&lt;/td&gt;&lt;/tr&gt;
+    }
+&lt;/table&gt;
+&lt;p&gt;Totalt @X29TotaltSidor() sidor.&lt;/p&gt;
+
+@code {
+    private List&lt;Bok&gt; x29Bocker = new()
+    {
+        new Bok { Titel = "Mio, min Mio", Forfattare = "Astrid Lindgren", Sidor = 180 },
+        new Bok { Titel = "Hobbiten", Forfattare = "J.R.R. Tolkien", Sidor = 310 },
+        new Bok { Titel = "Doktor Glas", Forfattare = "Hjalmar Söderberg", Sidor = 160 },
+        new Bok { Titel = "Utvandrarna", Forfattare = "Vilhelm Moberg", Sidor = 520 }
+    };
+
+    private int X29TotaltSidor()
+    {
+        int summa = 0;
+        foreach (Bok bok in x29Bocker)
+        {
+            summa = summa + bok.Sidor;
+        }
+        return summa;
+    }
+}</code></pre>
+      <p>Varför: <code>bok.Sidor</code> plockar ut ett fält ur varje objekt. Loopen är
+        samma som i X19 – det enda nya är punkten.</p>
+    </details>
+
+    <h3 id="x30">X30. Tunn eller tjock</h3>
+    <p class="ledtext"><b>Medel</b> · tränar: en metod med villkor, använd i en tabell</p>
+    <p>Skriv en metod som tar emot ett antal sidor och lämnar tillbaka
+      <i>tunn</i> (under 200), <i>mellan</i> (200–399) eller <i>tjock</i> (400 och
+      fler). Visa böckerna i en tabell med en kolumn för storleken, och under tabellen
+      hur många som är tjocka.</p>
+    <p><b>Klart när:</b> en bok på exakt 200 sidor är <i>mellan</i>, inte
+      <i>tunn</i>, och räknaren stämmer med tabellen.</p>
+    <details class="losning">
+      <summary>Visa en lösning</summary>
+      <!-- kod: ovningar/extra/X30.razor -->
+      <pre><code class="sprak-razor">@using Ovningsbanken.Models
+
+&lt;table&gt;
+    &lt;tr&gt;&lt;th&gt;Titel&lt;/th&gt;&lt;th&gt;Sidor&lt;/th&gt;&lt;th&gt;Storlek&lt;/th&gt;&lt;/tr&gt;
+    @foreach (Bok bok in x30Bocker)
+    {
+        &lt;tr&gt;&lt;td&gt;@bok.Titel&lt;/td&gt;&lt;td&gt;@bok.Sidor&lt;/td&gt;&lt;td&gt;@X30Storlek(bok.Sidor)&lt;/td&gt;&lt;/tr&gt;
+    }
+&lt;/table&gt;
+&lt;p&gt;Tjocka böcker: @X30AntalTjocka()&lt;/p&gt;
+
+@code {
+    private List&lt;Bok&gt; x30Bocker = new()
+    {
+        new Bok { Titel = "Mio, min Mio", Forfattare = "Astrid Lindgren", Sidor = 180 },
+        new Bok { Titel = "Hobbiten", Forfattare = "J.R.R. Tolkien", Sidor = 310 },
+        new Bok { Titel = "Doktor Glas", Forfattare = "Hjalmar Söderberg", Sidor = 160 },
+        new Bok { Titel = "Utvandrarna", Forfattare = "Vilhelm Moberg", Sidor = 520 },
+        new Bok { Titel = "Pippi Långstrump", Forfattare = "Astrid Lindgren", Sidor = 200 }
+    };
+
+    private string X30Storlek(int sidor)
+    {
+        if (sidor &lt; 200)
+        {
+            return "tunn";
+        }
+        else if (sidor &lt; 400)
+        {
+            return "mellan";
+        }
+        return "tjock";
+    }
+
+    private int X30AntalTjocka()
+    {
+        int antal = 0;
+        foreach (Bok bok in x30Bocker)
+        {
+            if (X30Storlek(bok.Sidor) == "tjock")
+            {
+                antal++;
+            }
+        }
+        return antal;
+    }
+}</code></pre>
+      <p>Varför: räknaren anropar samma metod som tabellen. Ändrar du gränsen för
+        tjock på ett ställe följer båda med – det är vad en metod är till för.</p>
+    </details>
+
+    <!-- ============================================================ -->
+
+    <h2 id="avprickning">Avprickning</h2>
+    <p>Kryssen sparas i din webbläsare och syns bara för dig.
+      <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Uttryck och typer</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="extra-1"><span>X1. Om dig själv</span></label></li>
+        <li><label><input type="checkbox" id="extra-2"><span>X2. Plus, minus, gånger</span></label></li>
+        <li><label><input type="checkbox" id="extra-3"><span>X3. Rektangeln</span></label></li>
+        <li><label><input type="checkbox" id="extra-4"><span>X4. Biljetterna</span></label></li>
+        <li><label><input type="checkbox" id="extra-5"><span>X5. Rabatten</span></label></li>
+        <li><label><input type="checkbox" id="extra-6"><span>X6. Medelpoängen · medel</span></label></li>
+        <li><label><input type="checkbox" id="extra-7"><span>X7. Sekunderna · medel</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Villkor och logik</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="extra-8"><span>X8. Plus eller minus</span></label></li>
+        <li><label><input type="checkbox" id="extra-9"><span>X9. Jämnt eller udda</span></label></li>
+        <li><label><input type="checkbox" id="extra-10"><span>X10. Godkänt?</span></label></li>
+        <li><label><input type="checkbox" id="extra-11"><span>X11. Det största av två</span></label></li>
+        <li><label><input type="checkbox" id="extra-12"><span>X12. Inloggad eller inte</span></label></li>
+        <li><label><input type="checkbox" id="extra-13"><span>X13. Biljettpriset · medel</span></label></li>
+        <li><label><input type="checkbox" id="extra-14"><span>X14. Storleken i adressen · medel</span></label></li>
+        <li><label><input type="checkbox" id="extra-15"><span>X15. Rabattkoden · medel</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Loopar och listor</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="extra-16"><span>X16. Nedräkningen</span></label></li>
+        <li><label><input type="checkbox" id="extra-17"><span>X17. De jämna talen</span></label></li>
+        <li><label><input type="checkbox" id="extra-18"><span>X18. Inköpslistan</span></label></li>
+        <li><label><input type="checkbox" id="extra-19"><span>X19. Summan av 1 till 100</span></label></li>
+        <li><label><input type="checkbox" id="extra-20"><span>X20. Spargrisen</span></label></li>
+        <li><label><input type="checkbox" id="extra-21"><span>X21. Minusgraderna · medel</span></label></li>
+        <li><label><input type="checkbox" id="extra-22"><span>X22. Kvittot · medel</span></label></li>
+        <li><label><input type="checkbox" id="extra-23"><span>X23. Trappan · medel</span></label></li>
+      </ul>
+    </section>
+
+    <section class="kravblock" data-niva="ska">
+      <div class="huvud">
+        <h3>Metoder och klasser</h3>
+        <span class="antal"></span>
+      </div>
+      <div class="stapel"><span></span></div>
+      <ul class="krav">
+        <li><label><input type="checkbox" id="extra-24"><span>X24. Dubbla</span></label></li>
+        <li><label><input type="checkbox" id="extra-25"><span>X25. Hälsningen</span></label></li>
+        <li><label><input type="checkbox" id="extra-26"><span>X26. Ja eller nej</span></label></li>
+        <li><label><input type="checkbox" id="extra-27"><span>X27. Med moms</span></label></li>
+        <li><label><input type="checkbox" id="extra-28"><span>X28. Boken</span></label></li>
+        <li><label><input type="checkbox" id="extra-29"><span>X29. Bokhyllan · medel</span></label></li>
+        <li><label><input type="checkbox" id="extra-30"><span>X30. Tunn eller tjock · medel</span></label></li>
+      </ul>
+    </section>
+
+    <footer class="fot">
+      <p><a href="ovningar-typer.html">Till övningsbanken</a> ·
+        <a href="guide.html">Till guiden</a> ·
+        <a href="index.html">Tillbaka till område 2</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>
