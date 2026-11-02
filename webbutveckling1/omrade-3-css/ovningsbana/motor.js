@@ -100,9 +100,19 @@
       "<body>" + n.html + "</body></html>";
   }
 
+  /* Scenerna är bilder, inte sidor. En länk eller ett formulär i dem skulle
+     annars ladda om fönstret – med hela övningsbanan i, eftersom ett
+     srcdoc-dokument har sidans adress som bas – och rättningen går sönder. */
+  function stang(doc) {
+    doc.addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest("a")) { e.preventDefault(); }
+    });
+    doc.addEventListener("submit", function (e) { e.preventDefault(); });
+  }
+
   function ladda(ram, n) {
     return new Promise(function (klar) {
-      ram.onload = function () { ram.onload = null; klar(); };
+      ram.onload = function () { ram.onload = null; stang(ram.contentDocument); klar(); };
       ram.srcdoc = dokument(n);
     });
   }
@@ -165,12 +175,27 @@
     } catch (e) { return false; }
   }
 
-  /* Satt egenskapen, direkt eller via en longhand (padding-left räknas som padding). */
+  /* Delegenskaperna till de kortformer som nivåerna kräver. padding-left räknas
+     som padding och column-gap som gap – men flex-wrap är ingen del av flex. */
+  var DELAR = {
+    flex: ["flex-grow", "flex-shrink", "flex-basis"],
+    gap: ["row-gap", "column-gap"],
+    padding: ["padding-top", "padding-right", "padding-bottom", "padding-left"],
+    margin: ["margin-top", "margin-right", "margin-bottom", "margin-left"],
+    background: ["background-color", "background-image"],
+    border: ["border-top", "border-right", "border-bottom", "border-left",
+      "border-width", "border-style", "border-color",
+      "border-top-width", "border-top-style", "border-top-color"]
+  };
+
+  /* Satt egenskapen, direkt eller via en av sina delar. */
   function varde(regel, egenskap) {
     var v = regel.style.getPropertyValue(egenskap);
     if (v) { return v; }
-    for (var i = 0; i < regel.style.length; i++) {
-      if (regel.style[i].indexOf(egenskap + "-") === 0) { return regel.style.getPropertyValue(regel.style[i]); }
+    var delar = DELAR[egenskap] || [];
+    for (var i = 0; i < delar.length; i++) {
+      v = regel.style.getPropertyValue(delar[i]);
+      if (v) { return v; }
     }
     return "";
   }
@@ -220,10 +245,13 @@
     return provram;
   }
 
-  function bedom(id, text) {
+  /* bredd är fönstrens bredd i pixlar, standard 640. Självtestet provar även
+     smala telefoner, där en scen kan se klar ut redan från början. */
+  function bedom(id, text, bredd) {
     var n = hitta(id);
     if (!n) { return Promise.reject(new Error("okänd nivå " + id)); }
     var p = skapaProvram();
+    p.mal.style.width = p.elev.style.width = (bredd || 640) + "px";
     return Promise.all([ladda(p.mal, n), ladda(p.elev, n)]).then(function () {
       sattCss(p.mal, elevCss(n, n.losning));
       sattCss(p.elev, elevCss(n, text));

@@ -12,7 +12,7 @@
   var LYKTAN_HTML =
     '<nav class="lyktan-meny" aria-label="Kaféets meny">' +
     '<a class="lyktan-logga" href="#">Lyktan</a>' +
-    '<a href="#">Meny</a><a href="#">Öppettider</a><a href="#">Hitta hit</a>' +
+    '<a href="#">Meny</a><a href="#">Hitta hit</a>' +
     '</nav>';
   var LYKTAN_BAS =
     ".lyktan-meny { background: #3b2a20; padding: 0.75rem 1rem; border-radius: 6px; font-family: Georgia, serif; }\n" +
@@ -91,7 +91,7 @@
       efter: "}",
       losning: "  justify-content: space-between;",
       jamfor: ".lyktan-meny > *",
-      krav: [{ pa: ".lyktan-meny", egenskap: "justify-content" }]
+      krav: [{ pa: ".lyktan-meny", egenskap: "justify-content", varde: /space-between/ }]
     },
     {
       id: "flex-justify-2",
@@ -119,7 +119,8 @@
       efter: "\n}",
       losning: "  justify-content: flex-end;",
       jamfor: ".recept-knappar button",
-      krav: [{ pa: ".recept-knappar", egenskap: "justify-content" }]
+      felvag: "  justify-content: flex-start;\n  width: fit-content;\n  margin-left: auto;",
+      krav: [{ pa: ".recept-knappar", egenskap: "justify-content", varde: /end/ }]
     },
     {
       id: "flex-justify-3",
@@ -142,7 +143,7 @@
       losning: ".sidor {\n  display: flex;\n  justify-content: center;\n  gap: 0.5rem;\n}",
       jamfor: ".sidor a",
       felvag: ".sidor {\n  display: flex;\n  gap: 0.5rem;\n  width: fit-content;\n  margin: 0 auto;\n}",
-      krav: [{ pa: ".sidor", egenskap: "justify-content" }]
+      krav: [{ pa: ".sidor", egenskap: "justify-content", varde: /center/ }]
     },
     {
       id: "flex-align-1",
@@ -157,18 +158,18 @@
       html:
         '<header class="garn-huvud">' +
         '<span class="garn-logga">Garnboden</span>' +
-        '<a href="#">Garn</a><a href="#">Stickor</a><a href="#">Mönster</a>' +
+        '<a href="#">Garn</a><a href="#">Kurser</a>' +
         '</header>',
       bas:
-        ".garn-huvud { display: flex; gap: 1.2rem; background: #f6edf3; padding: 0.4rem 1rem; }\n" +
-        ".garn-logga { font-family: Georgia, serif; font-size: 2.2rem; font-weight: 700; color: " + GARN_LILA + "; }\n" +
-        ".garn-huvud a { color: " + GARN_LILA + "; background: #ffffff; padding: 0 0.4rem; }",
+        ".garn-huvud { display: flex; gap: 0.75rem; background: #f6edf3; padding: 0.4rem 0.75rem; }\n" +
+        ".garn-logga { font-family: Georgia, serif; font-size: 1.6rem; font-weight: 700; color: " + GARN_LILA + "; }\n" +
+        ".garn-huvud a { color: " + GARN_LILA + "; background: #ffffff; padding: 0 0.3rem; }",
       fore: ".garn-huvud {\n",
       start: "",
       efter: "}",
       losning: "  align-items: center;",
       jamfor: ".garn-huvud > *",
-      krav: [{ pa: ".garn-huvud", egenskap: "align-items" }]
+      krav: [{ pa: ".garn-huvud", egenskap: "align-items", varde: /center/ }]
     },
     {
       id: "flex-align-2",
@@ -196,7 +197,7 @@
       losning: ".profil {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n}",
       jamfor: ".profil > *",
       krav: [
-        { pa: ".profil", egenskap: "align-items" },
+        { pa: ".profil", egenskap: "align-items", varde: /center/ },
         { pa: ".profil", egenskap: "gap" }
       ]
     },
@@ -216,7 +217,7 @@
       efter: "}",
       losning: "  flex-direction: column;",
       jamfor: ".vader-dag > *",
-      krav: [{ pa: ".vader-dag", egenskap: "flex-direction" }]
+      krav: [{ pa: ".vader-dag", egenskap: "flex-direction", varde: /column/ }]
     },
     {
       id: "flex-direction-2",
@@ -241,7 +242,7 @@
       losning: ".app-meny {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}",
       jamfor: ".app-meny a",
       krav: [
-        { pa: ".app-meny", egenskap: "flex-direction" },
+        { pa: ".app-meny", egenskap: "flex-direction", varde: /column/ },
         { pa: ".app-meny", egenskap: "gap" }
       ]
     },
@@ -263,7 +264,8 @@
       efter: "\n}",
       losning: "  align-items: center;",
       jamfor: ".vader-dag > *",
-      krav: [{ pa: ".vader-dag", egenskap: "align-items" }]
+      felvag: "  align-items: stretch;\n}\n.vader-dag > * {\n  margin: 0 auto;",
+      krav: [{ pa: ".vader-dag", egenskap: "align-items", varde: /center/ }]
     },
     {
       id: "flex-wrap-1",
@@ -281,14 +283,14 @@
         '<li>sockgarn</li><li>mohair</li><li>tjockt</li><li>mjukt</li>' +
         '</ul>',
       bas:
-        ".garn-taggar { list-style: none; margin: 0; padding: 0.75rem; display: flex; gap: 0.5rem; width: 15rem; border: 2px dashed #c9a9c0; }\n" +
+        ".garn-taggar { list-style: none; margin: 0; padding: 0.75rem; display: flex; gap: 0.5rem; width: 12rem; border: 2px dashed #c9a9c0; }\n" +
         ".garn-taggar li { background: " + GARN_LILA + "; color: #ffffff; padding: 0.2rem 0.7rem; border-radius: 999px; white-space: nowrap; }",
       fore: ".garn-taggar {\n",
       start: "",
       efter: "}",
       losning: "  flex-wrap: wrap;",
       jamfor: ".garn-taggar li",
-      krav: [{ pa: ".garn-taggar", egenskap: "flex-wrap" }]
+      krav: [{ pa: ".garn-taggar", egenskap: "flex-wrap", varde: /^wrap/ }]
     },
     {
       id: "flex-wrap-2",
@@ -318,9 +320,9 @@
       losning: ".garn-hylla {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 1rem;\n  justify-content: center;\n}",
       jamfor: ".garn-vara",
       krav: [
-        { pa: ".garn-hylla", egenskap: "flex-wrap" },
+        { pa: ".garn-hylla", egenskap: "flex-wrap", varde: /^wrap/ },
         { pa: ".garn-hylla", egenskap: "gap" },
-        { pa: ".garn-hylla", egenskap: "justify-content" }
+        { pa: ".garn-hylla", egenskap: "justify-content", varde: /center/ }
       ]
     },
     {
@@ -335,7 +337,7 @@
       html:
         '<form class="recept-sok">' +
         '<label for="receptsok">Sök</label>' +
-        '<input id="receptsok" type="search" placeholder="Sök bland recepten">' +
+        '<input id="receptsok" type="search" size="6" placeholder="Recept">' +
         '<button type="button">Sök</button>' +
         '</form>',
       bas:
@@ -347,8 +349,8 @@
       efter: "}",
       losning: "  flex: 1;",
       jamfor: ".recept-sok > *",
-      felvag: "  width: 100%;",
-      krav: [{ pa: ".recept-sok input", egenskap: "flex" }]
+      felvag: ["  width: 100%;", "  width: 100%;\n  flex-wrap: wrap;"],
+      krav: [{ pa: ".recept-sok input", egenskap: "flex", varde: /^\s*[1-9]/ }]
     },
     {
       id: "flex-1-2",
@@ -363,12 +365,12 @@
       html:
         '<div class="pris-rad">' +
         '<section class="pris-paket"><h3>Bas</h3><p>0 kr</p></section>' +
-        '<section class="pris-paket"><h3>Plus</h3><p>49 kr i månaden</p><p>Utan reklam</p></section>' +
-        '<section class="pris-paket"><h3>Familj</h3><p>89 kr i månaden</p></section>' +
+        '<section class="pris-paket"><h3>Plus</h3><p>49 kr</p><p>Utan reklam</p></section>' +
+        '<section class="pris-paket"><h3>Familj</h3><p>89 kr</p></section>' +
         '</div>',
       bas:
-        ".pris-rad { display: flex; gap: 1rem; }\n" +
-        ".pris-paket { background: #f2f6fa; border: 1px solid #c4d3e2; border-radius: 8px; padding: 0.75rem; }\n" +
+        ".pris-rad { display: flex; gap: 0.5rem; }\n" +
+        ".pris-paket { background: #f2f6fa; border: 1px solid #c4d3e2; border-radius: 8px; padding: 0.5rem; }\n" +
         ".pris-paket h3 { margin: 0 0 0.3rem; font-size: 1.05rem; color: #1d4a74; }\n" +
         ".pris-paket p { margin: 0; font-size: 0.9rem; }",
       fore: "",
@@ -376,7 +378,8 @@
       efter: "",
       losning: ".pris-paket {\n  flex: 1;\n}",
       jamfor: ".pris-paket",
-      krav: [{ pa: ".pris-paket", egenskap: "flex" }]
+      felvag: ".pris-paket {\n  flex: 0 0 auto;\n  box-sizing: border-box;\n  width: calc((100% - 1rem) / 3);\n}",
+      krav: [{ pa: ".pris-paket", egenskap: "flex", varde: /^\s*[1-9]/ }]
     },
     {
       id: "flex-kombo-1",
@@ -403,8 +406,8 @@
       losning: ".lera-huvud {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}",
       jamfor: ".lera-huvud > *",
       krav: [
-        { pa: ".lera-huvud", egenskap: "justify-content" },
-        { pa: ".lera-huvud", egenskap: "align-items" }
+        { pa: ".lera-huvud", egenskap: "justify-content", varde: /space-between/ },
+        { pa: ".lera-huvud", egenskap: "align-items", varde: /center/ }
       ]
     }
   ]);
