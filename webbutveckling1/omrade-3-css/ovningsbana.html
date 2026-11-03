@@ -1,216 +1,335 @@
 <!doctype html>
 <html lang="sv">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Övningsbana inför provet – Webbutveckling 1 område 3</title>
-  <link rel="stylesheet" href="../stil.css">
-  <style>
-    /* Sidans egen stil. Gäller bara den här sidan – skalet (stil.css) rörs inte.
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Övningsbana inför provet – Webbutveckling 1 område 3</title>
+    <link rel="stylesheet" href="../stil.css" />
+    <style>
+      /* Sidans egen stil. Gäller bara den här sidan – skalet (stil.css) rörs inte.
 
        Allt heter ob-… så att inget krockar med skalets klasser. Scenerna ritas i
        egna iframe-fönster, så skalets stil når aldrig in i dem: målbilden och
        resultatet visar bara nivåns egen CSS. */
 
-    .ob-karta { margin: 1.5rem 0 2rem; display: flex; flex-wrap: wrap; gap: 0.6rem 1.6rem; }
-    .ob-grupp { font-size: 0.8rem; color: var(--dov); }
-    .ob-grupp span { display: block; margin-bottom: 0.3rem; letter-spacing: 0.06em; text-transform: uppercase; }
-    .ob-grupp ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem; max-width: none; }
-    .ob-prick {
-      display: block;
-      width: 1.6rem;
-      height: 1.6rem;
-      border-radius: 50%;
-      border: 2px solid var(--linje-stark);
-      background: var(--kort);
-      font-size: 0.7rem;
-      line-height: 1.25rem;
-      text-align: center;
-      color: var(--dov);
-      text-decoration: none;
-    }
-    .ob-prick:hover, .ob-prick:focus-visible { border-color: var(--webb); color: var(--webb); }
-    .ob-prick.ob-klar { background: var(--ok); border-color: var(--ok); color: var(--papper); }
-    .ob-prick[aria-current] { outline: 2px solid var(--webb); outline-offset: 2px; }
-
-    .ob-niva {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-areas: "info" "mal" "kod" "elev";
-      gap: 1.2rem;
-    }
-    @media (min-width: 48rem) {
-      .ob-niva {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        grid-template-areas: "info mal" "kod elev";
-        column-gap: 1.6rem;
-        align-items: start;
+      .ob-karta {
+        margin: 1.5rem 0 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem 1.6rem;
       }
-    }
-    .ob-info { grid-area: info; }
-    .ob-kodyta { grid-area: kod; }
-    .ob-ruta-mal { grid-area: mal; }
-    .ob-ruta-elev { grid-area: elev; }
+      .ob-grupp {
+        font-size: 0.8rem;
+        color: var(--dov);
+      }
+      .ob-grupp span {
+        display: block;
+        margin-bottom: 0.3rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .ob-grupp ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        max-width: none;
+      }
+      .ob-prick {
+        display: block;
+        width: 1.6rem;
+        height: 1.6rem;
+        border-radius: 50%;
+        border: 2px solid var(--linje-stark);
+        background: var(--kort);
+        font-size: 0.7rem;
+        line-height: 1.25rem;
+        text-align: center;
+        color: var(--dov);
+        text-decoration: none;
+      }
+      .ob-prick:hover,
+      .ob-prick:focus-visible {
+        border-color: var(--webb);
+        color: var(--webb);
+      }
+      .ob-prick.ob-klar {
+        background: var(--ok);
+        border-color: var(--ok);
+        color: var(--papper);
+      }
+      .ob-prick[aria-current] {
+        outline: 2px solid var(--webb);
+        outline-offset: 2px;
+      }
 
-    .ob-plats { font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--webb); font-weight: 600; margin: 0 0 0.3rem; }
-    .ob-info h2 { margin-top: 0; }
-    .ob-info h2:focus { outline: none; }
+      .ob-niva {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "info" "mal" "kod" "elev";
+        gap: 1.2rem;
+      }
+      @media (min-width: 48rem) {
+        .ob-niva {
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+          grid-template-areas: "info mal" "kod elev";
+          column-gap: 1.6rem;
+          align-items: start;
+        }
+      }
+      .ob-info {
+        grid-area: info;
+      }
+      .ob-kodyta {
+        grid-area: kod;
+      }
+      .ob-ruta-mal {
+        grid-area: mal;
+      }
+      .ob-ruta-elev {
+        grid-area: elev;
+      }
 
-    .ob-kod {
-      background: #1e2330;
-      color: #d6deeb;
-      border-radius: var(--rundning);
-      padding: 0.7rem 0;
-      font-family: ui-monospace, Consolas, monospace;
-      font-size: 0.92rem;
-      line-height: 1.5;
-    }
-    .ob-kod pre.ob-las {
-      margin: 0;
-      padding: 0 1rem;
-      border: 0;
-      border-radius: 0;
-      background: none;
-      color: #8d97ab;
-      font-size: inherit;
-      max-width: none;
-      white-space: pre;
-    }
-    .ob-kod pre.ob-las:empty { display: none; }
-    .ob-kod textarea {
-      display: block;
-      box-sizing: border-box;
-      width: 100%;
-      margin: 0.15rem 0;
-      padding: 0.3rem 1rem;
-      border: 0;
-      border-top: 1px solid #39425a;
-      border-bottom: 1px solid #39425a;
-      background: #262c3c;
-      color: #ffffff;
-      font: inherit;
-      line-height: inherit;
-      resize: vertical;
-      white-space: pre;
-      overflow-x: auto;
-    }
-    .ob-kod textarea:focus-visible { outline: 2px solid #6ea8ff; outline-offset: -2px; }
-    .ob-etikett { display: block; font-size: 0.8rem; color: var(--dov); margin: 0 0 0.35rem; }
+      .ob-plats {
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--webb);
+        font-weight: 600;
+        margin: 0 0 0.3rem;
+      }
+      .ob-info h2 {
+        margin-top: 0;
+      }
+      .ob-info h2:focus {
+        outline: none;
+      }
 
-    .ob-status { min-height: 1.5em; margin: 0.8rem 0; font-weight: 600; }
-    .ob-status.ob-klar { color: var(--ok); }
-    .ob-status.ob-ledtrad { color: var(--gran); }
-    .ob-status.ob-inte-an { color: var(--dov); font-weight: 400; }
+      .ob-kod {
+        background: #1e2330;
+        color: #d6deeb;
+        border-radius: var(--rundning);
+        padding: 0.7rem 0;
+        font-family: ui-monospace, Consolas, monospace;
+        font-size: 0.92rem;
+        line-height: 1.5;
+      }
+      .ob-kod pre.ob-las {
+        margin: 0;
+        padding: 0 1rem;
+        border: 0;
+        border-radius: 0;
+        background: none;
+        color: #8d97ab;
+        font-size: inherit;
+        max-width: none;
+        white-space: pre;
+      }
+      .ob-kod pre.ob-las:empty {
+        display: none;
+      }
+      .ob-kod textarea {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        margin: 0.15rem 0;
+        padding: 0.3rem 1rem;
+        border: 0;
+        border-top: 1px solid #39425a;
+        border-bottom: 1px solid #39425a;
+        background: #262c3c;
+        color: #ffffff;
+        font: inherit;
+        line-height: inherit;
+        resize: vertical;
+        white-space: pre;
+        overflow-x: auto;
+      }
+      .ob-kod textarea:focus-visible {
+        outline: 2px solid #6ea8ff;
+        outline-offset: -2px;
+      }
+      .ob-etikett {
+        display: block;
+        font-size: 0.8rem;
+        color: var(--dov);
+        margin: 0 0 0.35rem;
+      }
 
-    .ob-knappar { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .ob-knappar button[disabled] { opacity: 0.45; cursor: not-allowed; filter: none; }
+      .ob-status {
+        min-height: 1.5em;
+        margin: 0.8rem 0;
+        font-weight: 600;
+      }
+      .ob-status.ob-klar {
+        color: var(--ok);
+      }
+      .ob-status.ob-ledtrad {
+        color: var(--gran);
+      }
+      .ob-status.ob-inte-an {
+        color: var(--dov);
+        font-weight: 400;
+      }
 
-    .ob-extra { margin-top: 1.2rem; }
-    .ob-extra pre { max-width: none; }
+      .ob-knappar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .ob-knappar button[disabled] {
+        opacity: 0.45;
+        cursor: not-allowed;
+        filter: none;
+      }
 
-    .ob-ruta { margin: 0; border: 1px solid var(--linje-stark); border-radius: var(--rundning); overflow: hidden; background: #ffffff; }
-    .ob-ruta figcaption {
-      font-size: 0.75rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 0.35rem 0.7rem;
-      background: var(--papper);
-      color: var(--dov);
-      border-bottom: 1px solid var(--linje);
-    }
-    .ob-ruta iframe { display: block; width: 100%; height: 8rem; border: 0; background: #ffffff; }
-  </style>
-</head>
-<body data-nyckel="WebbIND-1-3-ovningsbana">
+      .ob-extra {
+        margin-top: 1.2rem;
+      }
+      .ob-extra pre {
+        max-width: none;
+      }
 
-<header class="topp">
-  <a href="index.html">← Område 3</a>
-  <span class="harifran"><strong>Övningsbana</strong> · CSS</span>
-  <a href="infor-provet.html">Inför provet</a>
-</header>
+      .ob-ruta {
+        margin: 0;
+        border: 1px solid var(--linje-stark);
+        border-radius: var(--rundning);
+        overflow: hidden;
+        background: #ffffff;
+      }
+      .ob-ruta figcaption {
+        font-size: 0.75rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.35rem 0.7rem;
+        background: var(--papper);
+        color: var(--dov);
+        border-bottom: 1px solid var(--linje);
+      }
+      .ob-ruta iframe {
+        display: block;
+        width: 100%;
+        height: 8rem;
+        border: 0;
+        background: #ffffff;
+      }
+    </style>
+  </head>
+  <body data-nyckel="WebbIND-1-3-ovningsbana">
+    <header class="topp">
+      <a href="index.html">← Område 3</a>
+      <span class="harifran"><strong>Övningsbana</strong> · CSS</span>
+      <a href="infor-provet.html">Inför provet</a>
+    </header>
 
-<div class="ram">
-  <main>
+    <div class="ram">
+      <main>
+        <p class="ledtext">Webbutveckling 1 · område 3 · inför provet</p>
+        <h1>Övningsbana</h1>
+        <p class="inledning">
+          Du får en målbild och en kodruta. Skriv CSS tills ditt resultat ser ut
+          som målbilden – och använd den egenskap som nivån säger. Resultatet
+          ändras medan du skriver.
+        </p>
 
-    <p class="ledtext">Webbutveckling 1 · område 3 · inför provet</p>
-    <h1>Övningsbana</h1>
-    <p class="inledning">Du får en målbild och en kodruta. Skriv CSS tills ditt resultat ser
-      ut som målbilden – och använd den egenskap som nivån säger. Resultatet ändras medan
-      du skriver.</p>
+        <p>
+          Banan går från lätt till svår. Vissa nivåer ger dig färdig kod som du
+          ska ändra eller fylla i, andra låter dig skriva hela regeln själv. Du
+          kan hoppa till vilken nivå du vill i kartan nedan. Det du klarat
+          sparas i din webbläsare.
+        </p>
 
-    <p>Banan går från lätt till svår. Vissa nivåer ger dig färdig kod som du ska ändra
-      eller fylla i, andra låter dig skriva hela regeln själv. Du kan hoppa till vilken
-      nivå du vill i kartan nedan. Det du klarat sparas i din webbläsare.</p>
+        <noscript>
+          <div class="notis varna">
+            <span class="rubrik">Banan behöver JavaScript</span>
+            <p>
+              Rättningen och förhandsvisningen körs i webbläsaren. Slå på
+              JavaScript, eller öva med
+              <a href="infor-provet.html">Inför provet</a> i stället.
+            </p>
+          </div>
+        </noscript>
 
-    <noscript>
-      <div class="notis varna">
-        <span class="rubrik">Banan behöver JavaScript</span>
-        <p>Rättningen och förhandsvisningen körs i webbläsaren. Slå på JavaScript, eller
-          öva med <a href="infor-provet.html">Inför provet</a> i stället.</p>
-      </div>
-    </noscript>
+        <nav class="ob-karta" id="ob-karta" aria-label="Nivåerna i banan"></nav>
 
-    <nav class="ob-karta" id="ob-karta" aria-label="Nivåerna i banan"></nav>
+        <section class="ob-niva" aria-labelledby="ob-rubrik">
+          <div class="ob-info">
+            <p class="ob-plats" id="ob-plats"></p>
+            <h2 id="ob-rubrik" tabindex="-1"></h2>
+            <div id="ob-forklaring"></div>
+            <div class="ob-extra" id="ob-html" hidden>
+              <p class="ob-etikett">HTML:en i scenen</p>
+              <pre id="ob-htmlkod"></pre>
+            </div>
+          </div>
 
-    <section class="ob-niva" aria-labelledby="ob-rubrik">
+          <div class="ob-kodyta">
+            <label class="ob-etikett" for="ob-text">Din kod</label>
+            <div class="ob-kod">
+              <pre class="ob-las fri" id="ob-fore"></pre>
+              <textarea
+                id="ob-text"
+                rows="3"
+                spellcheck="false"
+                autocapitalize="off"
+                autocomplete="off"
+              ></textarea>
+              <pre class="ob-las fri" id="ob-efter"></pre>
+            </div>
 
-      <div class="ob-info">
-        <p class="ob-plats" id="ob-plats"></p>
-        <h2 id="ob-rubrik" tabindex="-1"></h2>
-        <div id="ob-forklaring"></div>
-      </div>
+            <p class="ob-status" id="ob-status" aria-live="polite"></p>
 
-      <div class="ob-kodyta">
-        <label class="ob-etikett" for="ob-text">Din kod</label>
-        <div class="ob-kod">
-          <pre class="ob-las fri" id="ob-fore"></pre>
-          <textarea id="ob-text" rows="3" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
-          <pre class="ob-las fri" id="ob-efter"></pre>
-        </div>
+            <div class="ob-knappar">
+              <button type="button" class="knapp tom" id="ob-forra">
+                ← Föregående
+              </button>
+              <button type="button" class="knapp" id="ob-nasta" disabled>
+                Nästa nivå →
+              </button>
+              <button type="button" class="knapp tom" id="ob-visa" hidden>
+                Visa lösning
+              </button>
+              <button type="button" class="knapp tom" id="ob-omstart">
+                Börja om nivån
+              </button>
+            </div>
 
-        <p class="ob-status" id="ob-status" aria-live="polite"></p>
+            <div class="ob-extra" id="ob-losning" hidden>
+              <p class="ob-etikett">
+                Lösningen. Skriv av den i rutan – du lär dig mer av att skriva
+                den än av att läsa den.
+              </p>
+              <pre id="ob-losningskod"></pre>
+            </div>
+          </div>
 
-        <div class="ob-knappar">
-          <button type="button" class="knapp tom" id="ob-forra">← Föregående</button>
-          <button type="button" class="knapp" id="ob-nasta" disabled>Nästa nivå →</button>
-          <button type="button" class="knapp tom" id="ob-visa" hidden>Visa lösning</button>
-          <button type="button" class="knapp tom" id="ob-omstart">Börja om nivån</button>
-        </div>
+          <figure class="ob-ruta ob-ruta-mal">
+            <figcaption>Målbild</figcaption>
+            <iframe id="ob-mal" title="Målbild"></iframe>
+          </figure>
 
-        <div class="ob-extra" id="ob-losning" hidden>
-          <p class="ob-etikett">Lösningen. Skriv av den i rutan – du lär dig mer av att skriva den än av att läsa den.</p>
-          <pre id="ob-losningskod"></pre>
-        </div>
+          <figure class="ob-ruta ob-ruta-elev">
+            <figcaption>Ditt resultat</figcaption>
+            <iframe id="ob-elev" title="Ditt resultat"></iframe>
+          </figure>
+        </section>
 
-        <div class="ob-extra" id="ob-html" hidden>
-          <p class="ob-etikett">HTML:en i scenen</p>
-          <pre id="ob-htmlkod"></pre>
-        </div>
-      </div>
+        <footer class="fot">
+          <p>
+            <a href="infor-provet.html">Inför provet</a> ·
+            <a href="css-guiden.html">CSS-guiden</a> ·
+            <a href="index.html">Tillbaka till område 3</a>
+          </p>
+        </footer>
+      </main>
+    </div>
 
-      <figure class="ob-ruta ob-ruta-mal">
-        <figcaption>Målbild</figcaption>
-        <iframe id="ob-mal" title="Målbild"></iframe>
-      </figure>
-
-      <figure class="ob-ruta ob-ruta-elev">
-        <figcaption>Ditt resultat</figcaption>
-        <iframe id="ob-elev" title="Ditt resultat"></iframe>
-      </figure>
-
-    </section>
-
-    <footer class="fot">
-      <p><a href="infor-provet.html">Inför provet</a> · <a href="css-guiden.html">CSS-guiden</a> · <a href="index.html">Tillbaka till område 3</a></p>
-    </footer>
-
-  </main>
-</div>
-
-<script src="../paket.js"></script>
-<script src="ovningsbana/motor.js" defer></script>
-<script src="ovningsbana/nivaer-grunder.js" defer></script>
-<script src="ovningsbana/nivaer-flexbox.js" defer></script>
-<script src="ovningsbana/nivaer-variabler.js" defer></script>
-</body>
+    <script src="../paket.js"></script>
+    <script src="ovningsbana/motor.js" defer></script>
+    <script src="ovningsbana/nivaer-grunder.js" defer></script>
+    <script src="ovningsbana/nivaer-flexbox.js" defer></script>
+    <script src="ovningsbana/nivaer-variabler.js" defer></script>
+  </body>
 </html>
