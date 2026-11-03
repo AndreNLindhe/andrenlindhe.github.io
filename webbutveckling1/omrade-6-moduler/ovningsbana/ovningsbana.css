@@ -102,7 +102,8 @@
 .ob-extra { margin-top: 1.2rem; }
 .ob-extra pre { max-width: none; overflow-x: auto; }
 
-.ob-ruta { margin: 0; border: 1px solid var(--linje-stark, #b8bfca); border-radius: var(--rundning, 6px); overflow: hidden; background: #ffffff; }
+/* Luft ovanför och under målbilden och resultatet – Andrés val, från område 3. */
+.ob-ruta { margin: 10% 0; border: 1px solid var(--linje-stark, #b8bfca); border-radius: var(--rundning, 6px); overflow: hidden; background: #ffffff; }
 .ob-ruta figcaption {
   font-size: 0.75rem;
   letter-spacing: 0.06em;
