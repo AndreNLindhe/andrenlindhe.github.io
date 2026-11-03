@@ -1,0 +1,115 @@
+/* Övningsbanans stil. Allt heter ob-… så att inget krockar med sidans egna klasser.
+
+   Färgerna hämtas från sidans variabler när de finns (--dov, --webb, --ok …) och
+   faller annars tillbaka på värdena här, så banan fungerar även utan ett skal.
+   Scenerna ritas i egna iframe-fönster – den här stilen når aldrig in i dem. */
+
+.ob-karta { margin: 1.5rem 0 2rem; display: flex; flex-wrap: wrap; gap: 0.6rem 1.6rem; }
+.ob-grupp { font-size: 0.8rem; color: var(--dov, #5b6472); }
+.ob-grupp span { display: block; margin-bottom: 0.3rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.ob-grupp ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem; max-width: none; }
+.ob-prick {
+  display: block;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  border: 2px solid var(--linje-stark, #b8bfca);
+  background: var(--kort, #ffffff);
+  font-size: 0.7rem;
+  line-height: 1.25rem;
+  text-align: center;
+  color: var(--dov, #5b6472);
+  text-decoration: none;
+}
+.ob-prick:hover, .ob-prick:focus-visible { border-color: var(--webb, #2563eb); color: var(--webb, #2563eb); }
+.ob-prick.ob-klar { background: var(--ok, #15803d); border-color: var(--ok, #15803d); color: var(--papper, #ffffff); }
+.ob-prick[aria-current] { outline: 2px solid var(--webb, #2563eb); outline-offset: 2px; }
+
+.ob-niva {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "info" "mal" "kod" "elev";
+  gap: 1.2rem;
+}
+@media (min-width: 48rem) {
+  .ob-niva {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: "info mal" "kod elev";
+    column-gap: 1.6rem;
+    align-items: start;
+  }
+}
+.ob-info { grid-area: info; }
+.ob-kodyta { grid-area: kod; }
+.ob-ruta-mal { grid-area: mal; }
+.ob-ruta-elev { grid-area: elev; }
+
+.ob-plats { font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--webb, #2563eb); font-weight: 600; margin: 0 0 0.3rem; }
+.ob-info h2 { margin-top: 0; }
+.ob-info h2:focus { outline: none; }
+
+.ob-kod {
+  background: #1e2330;
+  color: #d6deeb;
+  border-radius: var(--rundning, 6px);
+  padding: 0.7rem 0;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.ob-kod pre.ob-las {
+  margin: 0;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #8d97ab;
+  font-size: inherit;
+  max-width: none;
+  white-space: pre;
+  overflow-x: auto;
+}
+.ob-kod pre.ob-las:empty { display: none; }
+.ob-kod textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0.15rem 0;
+  padding: 0.3rem 1rem;
+  border: 0;
+  border-top: 1px solid #39425a;
+  border-bottom: 1px solid #39425a;
+  background: #262c3c;
+  color: #ffffff;
+  font: inherit;
+  line-height: inherit;
+  resize: vertical;
+  white-space: pre;
+  overflow-x: auto;
+}
+.ob-kod textarea:focus-visible { outline: 2px solid #6ea8ff; outline-offset: -2px; }
+.ob-etikett { display: block; font-size: 0.8rem; color: var(--dov, #5b6472); margin: 0 0 0.35rem; }
+
+.ob-status { min-height: 1.5em; margin: 0.8rem 0; font-weight: 600; }
+.ob-status.ob-klar { color: var(--ok, #15803d); }
+.ob-status.ob-ledtrad { color: var(--gran, #b45309); }
+.ob-status.ob-fel { color: var(--fel, #b91c1c); }
+.ob-status.ob-inte-an, .ob-status.ob-vantar { color: var(--dov, #5b6472); font-weight: 400; }
+
+.ob-knappar { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.ob-knappar button[disabled] { opacity: 0.45; cursor: not-allowed; filter: none; }
+
+.ob-extra { margin-top: 1.2rem; }
+.ob-extra pre { max-width: none; overflow-x: auto; }
+
+.ob-ruta { margin: 0; border: 1px solid var(--linje-stark, #b8bfca); border-radius: var(--rundning, 6px); overflow: hidden; background: #ffffff; }
+.ob-ruta figcaption {
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.7rem;
+  background: var(--papper, #f6f7f9);
+  color: var(--dov, #5b6472);
+  border-bottom: 1px solid var(--linje, #dde1e7);
+}
+.ob-ruta iframe { display: block; width: 100%; height: 8rem; border: 0; background: #ffffff; }

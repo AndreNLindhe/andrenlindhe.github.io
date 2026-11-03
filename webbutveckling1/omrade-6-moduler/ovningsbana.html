@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Övningsbana JavaScript – Webbutveckling 1 område 6</title>
+  <link rel="stylesheet" href="../stil.css">
+  <link rel="stylesheet" href="ovningsbana/ovningsbana.css">
+</head>
+<body data-nyckel="WebbIND-1-6-ovningsbana" data-ob-nyckel="ovningsbana-webb1-omrade6">
+
+<header class="topp">
+  <a href="index.html">← Område 6</a>
+  <span class="harifran"><strong>Övningsbana</strong> · JavaScript</span>
+  <a href="js-guiden.html">JS-guiden</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Webbutveckling 1 · område 6 · inför provet</p>
+    <h1>Övningsbana</h1>
+    <p class="inledning">Du får en målbild och en kodruta. Ändra eller skriv JavaScript, tryck
+      <b>Kör koden</b> och se om ditt resultat blir som målbilden. Använd det som nivån
+      säger – samma resultat på ett annat sätt ger en ledtråd, inte godkänt.</p>
+
+    <p>Banan följer JS-guiden: byggstenarna, att hitta och ändra element, händelser,
+      <code>classList</code>, felsökning, att anpassa en modul och att koppla in den. De
+      flesta nivåer ger dig färdig kod att läsa och ändra, några låter dig skriva ett par
+      rader själv. Du kan klicka i målbilden för att se hur det ska fungera. Det du klarat
+      sparas i din webbläsare.</p>
+
+    <noscript>
+      <div class="notis varna">
+        <span class="rubrik">Banan behöver JavaScript</span>
+        <p>Rättningen och förhandsvisningen körs i webbläsaren. Slå på JavaScript, eller
+          öva med <a href="js-guiden.html">JS-guiden</a> i stället.</p>
+      </div>
+    </noscript>
+
+    <nav class="ob-karta" id="ob-karta" aria-label="Nivåerna i banan"></nav>
+
+    <section class="ob-niva" aria-labelledby="ob-rubrik">
+
+      <div class="ob-info">
+        <p class="ob-plats" id="ob-plats"></p>
+        <h2 id="ob-rubrik" tabindex="-1"></h2>
+        <div id="ob-forklaring"></div>
+        <div class="ob-extra" id="ob-html" hidden>
+          <p class="ob-etikett">HTML:en i scenen</p>
+          <pre id="ob-htmlkod"></pre>
+        </div>
+      </div>
+
+      <div class="ob-kodyta">
+        <label class="ob-etikett" for="ob-text" id="ob-etikett">Din kod</label>
+        <div class="ob-kod">
+          <pre class="ob-las fri" id="ob-fore"></pre>
+          <textarea id="ob-text" rows="3" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+          <pre class="ob-las fri" id="ob-efter"></pre>
+        </div>
+
+        <p class="ob-status" id="ob-status" aria-live="polite"></p>
+
+        <div class="ob-knappar">
+          <button type="button" class="knapp" id="ob-kor" hidden>Kör koden</button>
+          <button type="button" class="knapp tom" id="ob-forra">← Föregående</button>
+          <button type="button" class="knapp" id="ob-nasta" disabled>Nästa nivå →</button>
+          <button type="button" class="knapp tom" id="ob-visa" hidden>Visa lösning</button>
+          <button type="button" class="knapp tom" id="ob-omstart">Börja om nivån</button>
+        </div>
+
+        <div class="ob-extra" id="ob-losning" hidden>
+          <p class="ob-etikett">Lösningen. Skriv av den i rutan – du lär dig mer av att skriva den än av att läsa den.</p>
+          <pre id="ob-losningskod"></pre>
+        </div>
+      </div>
+
+      <figure class="ob-ruta ob-ruta-mal">
+        <figcaption id="ob-maltext">Målbild</figcaption>
+        <iframe id="ob-mal" title="Målbild"></iframe>
+      </figure>
+
+      <figure class="ob-ruta ob-ruta-elev">
+        <figcaption>Ditt resultat</figcaption>
+        <iframe id="ob-elev" title="Ditt resultat"></iframe>
+      </figure>
+
+    </section>
+
+    <footer class="fot">
+      <p><a href="js-guiden.html">JS-guiden</a> · <a href="modulbiblioteket.html">Modulbiblioteket</a> · <a href="index.html">Tillbaka till område 6</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+<script src="ovningsbana/motor.js" defer></script>
+<script src="ovningsbana/nivaer-byggstenar.js" defer></script>
+<script src="ovningsbana/nivaer-dom.js" defer></script>
+<script src="ovningsbana/nivaer-handelser.js" defer></script>
+<script src="ovningsbana/nivaer-classlist.js" defer></script>
+<script src="ovningsbana/nivaer-felsokning.js" defer></script>
+<script src="ovningsbana/nivaer-anpassa.js" defer></script>
+<script src="ovningsbana/nivaer-koppla-in.js" defer></script>
+</body>
+</html>
