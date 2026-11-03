@@ -76,6 +76,108 @@
     return AVSNITT.filter(function (a) { return a[0] === nyckel; })[0][1];
   }
 
+  /* ---------------- Scenens HTML som eleven läser ----------------
+     Nivåerna skriver scenen på en rad. Eleven ska läsa den som kursens egen kod:
+     två mellanslag per nivå, ett element som bara innehåller text och
+     textelement på en rad, och element som innehåller andra element uppdelade. */
+
+  var TOMMA = /^(area|base|br|col|embed|hr|img|input|link|meta|source|track|wbr)$/;
+  var I_TEXT = /^(a|abbr|b|br|button|code|em|i|img|input|kbd|label|mark|q|s|select|small|span|strong|sub|sup|textarea|time|u)$/;
+  var SANT_FALSKT = /^(async|autofocus|checked|defer|disabled|hidden|multiple|novalidate|open|readonly|required|selected)$/;
+
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function escAttr(s) { return String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;"); }
+
+  function startTagg(el) {
+    var namn = el.tagName.toLowerCase();
+    return "<" + namn + Array.prototype.map.call(el.attributes, function (a) {
+      return " " + a.name + (a.value === "" && SANT_FALSKT.test(a.name) ? "" : "=\"" + escAttr(a.value) + "\"");
+    }).join("") + ">";
+  }
+
+  function paRad(nod) {
+    if (nod.nodeType === 3) { return esc(nod.textContent.replace(/\s+/g, " ")); }
+    if (nod.nodeType !== 1) { return ""; }
+    var namn = nod.tagName.toLowerCase();
+    if (TOMMA.test(namn)) { return startTagg(nod); }
+    return startTagg(nod) + Array.prototype.map.call(nod.childNodes, paRad).join("") + "</" + namn + ">";
+  }
+
+  function baraText(el) {
+    return Array.prototype.every.call(el.children, function (barn) {
+      return I_TEXT.test(barn.tagName.toLowerCase()) && baraText(barn);
+    });
+  }
+
+  /* En rad: allt i elementet är text eller textelement, och det är antingen en
+     mening (<p>Ring <a>oss</a></p>) eller högst ett element (<li><a>Hem</a></li>).
+     Tre länkar i en nav utan text emellan blir tre rader. */
+  function enRad(el) {
+    if (!baraText(el)) { return false; }
+    var harText = Array.prototype.some.call(el.childNodes, function (n) {
+      return n.nodeType === 3 && n.textContent.trim();
+    });
+    return harText || el.children.length <= 1;
+  }
+
+  /* Kodrutan rymmer ungefär 46 tecken i bred skärm. Längre text bryts mellan orden,
+     aldrig inne i en tagg – blanksteg och radbrytning betyder samma sak i HTML. */
+  var BRED = 44;
+  var BEVARA = /^(pre|textarea)$/;
+
+  function radbryt(s, indrag) {
+    var ord = [], bit = "", iTagg = false;
+    for (var i = 0; i < s.length; i++) {
+      var c = s.charAt(i);
+      if (c === "<") { iTagg = true; } else if (c === ">") { iTagg = false; }
+      if (c === " " && !iTagg) { if (bit) { ord.push(bit); } bit = ""; } else { bit += c; }
+    }
+    if (bit) { ord.push(bit); }
+    var ut = [], rad = "";
+    ord.forEach(function (o) {
+      if (rad && indrag.length + rad.length + 1 + o.length > BRED) { ut.push(indrag + rad); rad = o; }
+      else { rad = rad ? rad + " " + o : o; }
+    });
+    if (rad) { ut.push(indrag + rad); }
+    return ut;
+  }
+
+  function nodRader(nod, djup) {
+    var indrag = new Array(djup + 1).join("  ");
+    if (nod.nodeType === 3) {
+      var text = nod.textContent.replace(/\s+/g, " ").trim();
+      return text ? radbryt(esc(text), indrag) : [];
+    }
+    if (nod.nodeType !== 1) { return []; }
+    var namn = nod.tagName.toLowerCase();
+    if (TOMMA.test(namn)) { return [indrag + paRad(nod)]; }
+    if (enRad(nod)) {
+      var rad = indrag + paRad(nod);
+      if (rad.length <= BRED || BEVARA.test(namn)) { return [rad]; }
+      var inuti = Array.prototype.map.call(nod.childNodes, paRad).join("").trim();
+      return [indrag + startTagg(nod)].concat(radbryt(inuti, indrag + "  "), [indrag + "</" + namn + ">"]);
+    }
+    var ut = [indrag + startTagg(nod)];
+    Array.prototype.forEach.call(nod.childNodes, function (barn) {
+      ut.push.apply(ut, nodRader(barn, djup + 1));
+    });
+    ut.push(indrag + "</" + nod.tagName.toLowerCase() + ">");
+    return ut;
+  }
+
+  function lasbarHtml(html) {
+    var mall = document.createElement("template");
+    mall.innerHTML = html;
+    var ut = [];
+    Array.prototype.forEach.call(mall.content.childNodes, function (nod) {
+      ut.push.apply(ut, nodRader(nod, 0));
+    });
+    return ut.join("\n");
+  }
+
   /* ---------------- Lagring ----------------
      localStorage fungerar inte överallt (privat läge, vissa filsökvägar). Då
      fungerar banan ändå, den minns bara ingenting. */
@@ -386,7 +488,7 @@
 
       var html = n.visaHtml !== undefined ? n.visaHtml : n.typ === "skriv";
       htmlruta.hidden = !html;
-      htmlkod.textContent = html ? n.html.replace(/></g, ">\n<") : "";
+      htmlkod.textContent = html ? lasbarHtml(n.html) : "";
 
       ritaKarta();
       uppdateraKnappar();
