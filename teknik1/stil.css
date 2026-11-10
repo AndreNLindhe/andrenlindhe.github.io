@@ -297,6 +297,57 @@ a.kort:hover, a.kort:focus-visible {
 .kort.webb { border-top: 3px solid var(--webb); }
 .kort.tom { opacity: 0.55; box-shadow: none; }
 
+/* Läget sätts av paket.js utifrån kortets data-fran/data-till. Ett passerat kort
+   är fortfarande en fungerande länk – det gråas bara, och får tillbaka färgen
+   när man pekar eller tabbar på det. */
+.kort .lapp { color: var(--dov); }
+.kort.forbi { opacity: 0.55; box-shadow: none; filter: grayscale(1); }
+.kort.forbi:hover, .kort.forbi:focus-visible { opacity: 1; filter: none; }
+.kort.nu { border-color: var(--webb); background: var(--webb-svag); }
+.kort.nu .lapp { color: var(--webb); }
+
+/* ---------------- Överblick: Just nu + Närmast ---------------- */
+
+.overblick {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 0 2.5rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+.overblick > section > h2 { margin-top: 0; }
+
+.justnu {
+  background: var(--kort);
+  border: 1px solid var(--linje);
+  border-top: 3px solid var(--webb);
+  border-radius: var(--rundning);
+  padding: 1.2rem 1.4rem;
+  box-shadow: var(--skugga);
+}
+.justnu .lage {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--webb);
+  font-weight: 660;
+}
+.justnu .titel { margin: 0.2rem 0 0.8rem; font-size: 1.2rem; font-weight: 640; line-height: 1.25; }
+.justnu .titel a { color: inherit; text-decoration: none; }
+.justnu .titel a:hover { text-decoration: underline; }
+.justnu ul.snabb { list-style: none; margin: 0; padding: 0; }
+.justnu ul.snabb:not([hidden]) { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.justnu ul.snabb a {
+  display: inline-block;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--webb);
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.justnu ul.snabb a:hover, .justnu ul.snabb a:focus-visible { background: var(--webb); color: var(--kort); outline: none; }
+
 /* ---------------- Notiser ---------------- */
 
 .notis {
@@ -495,6 +546,8 @@ ul.datum .vad { line-height: 1.35; }
 ul.datum .vad small { display: block; color: var(--dov); font-size: 0.85rem; }
 ul.datum .kvar { font-size: 0.88rem; color: var(--dov); white-space: nowrap; }
 ul.datum li.forbi { opacity: 0.5; }
+ul.datum li[hidden] { display: none; }
+.urvalsknapp { margin: 0.8rem 0 0; }
 ul.datum li.nast { background: var(--webb-svag); border-radius: 8px; }
 ul.datum li.nast .kvar { color: var(--webb); font-weight: 640; }
 

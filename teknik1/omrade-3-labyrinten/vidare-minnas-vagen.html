@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vidare på egen hand – Teknik 1 område 3</title>
+  <link rel="stylesheet" href="../stil.css">
+</head>
+<body data-nyckel="tek-3-vidare">
+
+<header class="topp">
+  <a href="index.html">← Område 3</a>
+  <span class="harifran"><strong>Fördjupning</strong> · Vidare på egen hand</span>
+  <a href="#regler">Reglerna</a>
+</header>
+
+<div class="ram">
+  <main>
+
+    <p class="ledtext">Teknik 1 · område 3 · efter pass 10 · frivilligt</p>
+    <h1>Vidare på egen hand</h1>
+    <p class="inledning">Roboten hittar genom labyrinten, men den går in i varje
+      återvändsgränd på vägen. Nästa steg är att den minns vägen och kör den kortare andra
+      gången. Det ingår inte i projektet och bedöms inte. Det är till dig som vill låna
+      hem en robot och fortsätta.</p>
+
+    <div class="notis">
+      <span class="rubrik">Vad du får här</span>
+      <p>Idén, reglerna och ett sätt att testa utan robot. Inte färdig kod. Det här är
+        ett problem att lösa själv, i din egen takt, och det finns mer än ett sätt.</p>
+    </div>
+
+    <h2 id="iden">1. Idén</h2>
+    <p>Första körningen <em>utforskar</em>. Varje gång roboten gör ett val sparar den en
+      bokstav i en lista. När den når målet är listan vägen den tog. Andra körningen
+      <em>läser</em> listan i stället för att välja.</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Bokstav</th><th>Betyder</th><th>Vinkel</th></tr></thead>
+        <tbody>
+          <tr><td><code>"L"</code></td><td>left – svängde vänster</td><td>+90</td></tr>
+          <tr><td><code>"S"</code></td><td>straight – körde rakt fram i en korsning</td><td>0</td></tr>
+          <tr><td><code>"R"</code></td><td>right – svängde höger</td><td>−90</td></tr>
+          <tr><td><code>"U"</code></td><td>U-turn – vände i en återvändsgränd</td><td>180</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>En lista börjar tom, och <code>append</code> lägger till sist:</p>
+<pre><code class="sprak-python">path = []
+path.append("L")
+path.append("U")
+print(path)</code></pre>
+
+    <h2 id="problem">2. Tre problem att lösa</h2>
+    <ol>
+      <li><strong>Roboten måste märka varje val.</strong> I koden från pass 9 kör den rakt
+        fram genom en korsning utan att veta om det – grenen <code>elif line_ahead</code>
+        följer bara linjen. För att kunna spara ett <code>"S"</code> måste den upptäcka
+        att det fanns en väg åt höger som den inte tog. Yttersta högra sensorn är
+        <code>values[4]</code>.</li>
+      <li><strong>Den måste skilja hörn från återvändsgränd.</strong> I koden från pass 9
+        är båda samma gren. Nu ska den ena ge <code>"R"</code> och den andra
+        <code>"U"</code>. En ledtråd: hur länge svängde den innan linjen hittades?</li>
+      <li><strong>Listan måste förkortas.</strong> Se reglerna nedan.</li>
+    </ol>
+
+    <h2 id="regler">3. Reglerna</h2>
+    <p>Varje <code>"U"</code> i listan är en återvändsgränd som roboten gick in i och ut ur.
+      Den, valet före och valet efter kan bytas mot <em>ett</em> val. Summera vinklarna för
+      de tre, så ser du vart roboten egentligen tog vägen:</p>
+<pre><code>L U L → S     90 + 180 + 90  = 360 = rakt
+L U S → R     90 + 180 + 0   = 270 = höger
+S U L → R      0 + 180 + 90  = 270 = höger
+L U R → U     90 + 180 − 90  = 180 = vänd
+S U S → U      0 + 180 + 0   = 180 = vänd
+R U L → U    −90 + 180 + 90  = 180 = vänd</code></pre>
+    <p>Byt tre mot ett, och titta igen: blev det ett nytt <code>"U"</code> i mitten av tre?
+      Fortsätt tills inget <code>"U"</code> finns kvar. Det som är kvar är den korta vägen.</p>
+    <p>Exempel: <code>L U L S R</code> blir <code>S S R</code>.</p>
+
+    <h2 id="testa">4. Testa utan robot</h2>
+    <p>Förkortningen är ren Python. Den behöver ingen robot, inga sensorer och ingen bana.
+      Skriv en funktion <code>shorten(path)</code> i en egen fil och kör den på datorn:</p>
+<pre><code class="sprak-python">print(shorten(["L", "U", "L", "S", "R"]))</code></pre>
+    <p>Svaret ska bli <code>['S', 'S', 'R']</code>. Rita två eller tre små labyrinter på
+      papper, gå dem med fingret, skriv upp listan för hand och kontrollera att funktionen
+      ger samma korta väg som du ser på pappret. Först när den stämmer är det dags för
+      roboten.</p>
+    <div class="notis">
+      <span class="rubrik">Ett bra arbetssätt</span>
+      <p>Dela upp ett svårt problem i delar som går att testa var för sig. Det gjorde du
+        med svängen i pass 9. Här är delarna: spara valen, förkorta listan, köra efter
+        listan.</p>
+    </div>
+
+    <h2 id="andra">5. Andra körningen</h2>
+    <p>Samma loop som i pass 9, med en skillnad: i varje korsning läser roboten nästa
+      bokstav ur listan och gör det som står där. En variabel håller reda på var i
+      listan den är:</p>
+<pre><code class="sprak-python">step = 0
+choice = path[step]
+step = step + 1</code></pre>
+    <p>Fundera på vad som ska hända när listan är slut.</p>
+
+    <h2 id="mer">6. Annat att prova</h2>
+    <ul>
+      <li>Byt bang-bang mot P-reglering i <code>follow_track</code>. Det står i
+        <a href="../omrade-2-roboten/guide-linjefoljaren.html">linjeföljarguiden</a>.</li>
+      <li>Mät tiden för första och andra körningen och visa skillnaden på skärmen.</li>
+    </ul>
+
+    <footer class="fot">
+      <p><a href="index.html">Tillbaka till område 3</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../paket.js"></script>
+</body>
+</html>

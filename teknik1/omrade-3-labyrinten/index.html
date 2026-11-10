@@ -17,22 +17,22 @@
 <div class="ram">
   <main>
 
-    <p class="ledtext">Teknik 1 · område 3 · v. 45</p>
+    <p class="ledtext">Teknik 1 · område 3 · v. 46</p>
     <h1>Labyrinten</h1>
     <p class="inledning">Projektet. Roboten ska hitta från start till mål genom en bana
-      med korsningar och återvändsgränder – och på nästa nivå minnas vägen. Ett
+      med korsningar och återvändsgränder. Ett
       arbetspass, en körning inför klassen, och en dokumentation som lämnas in veckan
       efter.</p>
 
     <ul class="datum">
-      <li data-datum="2026-11-04">
-        <span class="nar">4 nov</span>
+      <li data-datum="2026-11-11">
+        <span class="nar">11 nov</span>
         <span class="vad">Körning inför klassen
           <small>3 minuter per par.</small></span>
         <span class="kvar"></span>
       </li>
-      <li data-datum="2026-11-11">
-        <span class="nar">11 nov</span>
+      <li data-datum="2026-11-18">
+        <span class="nar">18 nov</span>
         <span class="vad">Inlämning: dokumentationen
           <small>Fem delar. Del 2 och 5 skriver du själv.</small></span>
         <span class="kvar"></span>
@@ -40,10 +40,10 @@
     </ul>
 
     <div class="notis">
-      <span class="rubrik">Över lovet</span>
-      <p>Läs dokumentationsmallen. Rita ett första flödesschema på papper: vad gör roboten
-        när linjen är under mitten, i en korsning, i en återvändsgränd, vid målet? Det
-        är det första ni gör pass 9.</p>
+      <span class="rubrik">Första halvtimmen pass 9</span>
+      <p>Ett flödesschema på papper: vad gör roboten när det finns en linje till vänster,
+        när linjen fortsätter rakt fram, när linjen tar slut, och vid målet? Sedan basen
+        och koden.</p>
     </div>
 
     <h2 id="material">Material</h2>
@@ -55,7 +55,7 @@
           lämnas in.</p>
       </a>
       <a class="kort gran" href="../dokumentationsmall.html">
-        <span class="sort">Inlämning 11 nov</span>
+        <span class="sort">Inlämning 18 nov</span>
         <span class="rubrik">Dokumentationsmallen</span>
         <p>De fem delarna, vad som skrivs i par och var för sig, och vad som skiljer E,
           C och A.</p>
@@ -63,8 +63,14 @@
       <a class="kort webb" href="guide-labyrintlogik.html">
         <span class="sort">Guide · pass 9</span>
         <span class="rubrik">Labyrintlogiken</span>
-        <p>Koden i bitar: läsa läget, svänga tills linjen hittas, vänsterhandsregeln,
-          listan som minne, förkortningen, andra körningen.</p>
+        <p>Basen du börjar från, och det du skriver själv: tre frågor, svänga tills
+          linjen hittas, vänsterhandsregeln, målet.</p>
+      </a>
+      <a class="kort webb" href="kod/maze_base.py" download>
+        <span class="sort">Kod · pass 9</span>
+        <span class="rubrik">Basen: maze_base.py</span>
+        <p>Motorerna och linjeföljningen från pass 5 och 7, med engelska namn. Spara som
+          <code>main.py</code>.</p>
       </a>
       <a class="kort" href="efter-kursen.html">
         <span class="sort">Faktablad · pass 10</span>
@@ -76,6 +82,12 @@
         <span class="sort">Från område 2</span>
         <span class="rubrik">Linjeföljaren</span>
         <p>Kalibrering, position, bang-bang och P-reglering. Grunden som projektet står på.</p>
+      </a>
+      <a class="kort" href="vidare-minnas-vagen.html">
+        <span class="sort">Fördjupning · frivilligt</span>
+        <span class="rubrik">Vidare på egen hand</span>
+        <p>Roboten minns vägen och kör den kortare andra gången. För dig som vill låna
+          hem en robot och fortsätta.</p>
       </a>
       <a class="kort gran" href="../loggbok.html">
         <span class="sort">Varje pass</span>
@@ -90,12 +102,12 @@
         <thead><tr><th>Pass</th><th>Vad vi gör</th><th>Missade du passet?</th></tr></thead>
         <tbody>
           <tr>
-            <td>9 · ons 4/11 fm</td>
-            <td><b>Labyrinten – arbetspass.</b> Vänsterhandsregeln och vägförkortning. Flödesschemat granskas. Korsning, återvändsgränd, mål. Listan som minne.</td>
-            <td><a href="guide-labyrintlogik.html">Labyrintlogiken</a>, nivåerna på <a href="uppgift-labyrinten.html">projektsidan</a></td>
+            <td>9 · ons 11/11 fm</td>
+            <td><b>Labyrinten – arbetspass.</b> Vänsterhandsregeln. Flödesschemat granskas. Basen delas ut. Svänga tills linjen hittas, regeln som loop, målet.</td>
+            <td><a href="guide-labyrintlogik.html">Labyrintlogiken</a> och <a href="kod/maze_base.py" download>basen</a>, nivåerna på <a href="uppgift-labyrinten.html">projektsidan</a></td>
           </tr>
           <tr>
-            <td>10 · ons 4/11 em</td>
+            <td>10 · ons 11/11 em</td>
             <td><b>Körning inför klassen.</b> Vad händer med roboten sen – hållbarhet. Sista loggbok.</td>
             <td><a href="efter-kursen.html">Vad händer med roboten sen</a>, körningen på <a href="uppgift-labyrinten.html#lamna">projektsidan</a></td>
           </tr>
@@ -105,9 +117,9 @@
 
     <h2 id="efterat">Vad du kan efter området</h2>
     <ul>
-      <li>Skriva ett program som fattar beslut utifrån flera sensorer och ett tillstånd.</li>
+      <li>Skriva ett program som fattar beslut utifrån flera sensorer.</li>
+      <li>Bygga vidare på färdig kod: läsa den, förstå den, lägga till ditt eget.</li>
       <li>Förklara varför vänsterhandsregeln alltid leder ut ur en labyrint utan öar.</li>
-      <li>Använda en lista som minne, och förkorta en väg med regler.</li>
       <li>Rita ett flödesschema som stämmer med koden.</li>
       <li>Dokumentera ett tekniskt projekt: uppgift, lösning, test, utvärdering.</li>
       <li>Säga vad som händer med en produkt när den är uttjänt.</li>

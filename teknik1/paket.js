@@ -26,6 +26,23 @@
     catch (e) { /* Sparas inte. Sidan fungerar ändå. */ }
   }
 
+  /* Dagens datum vid midnatt. ?idag=2026-12-28 i adressen låtsas att det är en
+     annan dag – till för läraren som vill se hur sidan ser ut under ett lov. */
+
+  function idag() {
+    var fejk = new URLSearchParams(location.search).get("idag");
+    var d = /^\d{4}-\d{2}-\d{2}$/.test(fejk || "") ? new Date(fejk + "T00:00:00") : new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  function dag(iso) { return new Date(iso + "T00:00:00"); }
+
+  var MANADER = ["jan", "feb", "mars", "april", "maj", "juni",
+                 "juli", "aug", "sept", "okt", "nov", "dec"];
+
+  function kortdatum(d) { return d.getDate() + " " + MANADER[d.getMonth()]; }
+
   /* ---------------- Kravlistor: kryss, förlopp och sparning ---------------- */
 
   kor(function () {
@@ -194,8 +211,7 @@
     var poster = document.querySelectorAll("ul.datum li[data-datum]");
     if (!poster.length) { return; }
 
-    var idag = new Date();
-    idag.setHours(0, 0, 0, 0);
+    var nu = idag();
     var nastaHittad = false;
 
     Array.prototype.forEach.call(poster, function (li) {
@@ -203,7 +219,7 @@
       if (!ut) { return; }
 
       var d = new Date(li.dataset.datum + "T23:59:00");
-      var dagar = Math.ceil((d - idag) / 86400000) - 1;
+      var dagar = Math.ceil((d - nu) / 86400000) - 1;
 
       if (dagar < 0) {
         li.classList.add("forbi");
@@ -216,7 +232,103 @@
         if (!nastaHittad) { li.classList.add("nast"); nastaHittad = true; }
       }
     });
+
+    /* En lista märkt data-urval="3" visar bara det senast passerade datumet och
+       de tre som kommer. Resten döljs bakom en knapp. Utan JavaScript syns allt. */
+    Array.prototype.forEach.call(document.querySelectorAll("ul.datum[data-urval]"), function (ul) {
+      var rader = Array.prototype.slice.call(ul.querySelectorAll("li[data-datum]"));
+      var antal = parseInt(ul.dataset.urval, 10) || 3;
+      var forsta = rader.filter(function (li) { return !li.classList.contains("forbi"); })[0];
+      var start = forsta ? rader.indexOf(forsta) : rader.length;
+      var fran = Math.max(0, start - 1);
+      var till = start + antal;
+
+      var dolda = rader.filter(function (li, i) { return i < fran || i >= till; });
+      if (!dolda.length) { return; }
+
+      function visa(alla) {
+        dolda.forEach(function (li) { li.hidden = !alla; });
+        knapp.textContent = alla ? "Visa färre" : "Visa alla " + rader.length + " datum";
+        knapp.setAttribute("aria-expanded", alla ? "true" : "false");
+      }
+
+      var knapp = document.createElement("button");
+      knapp.type = "button";
+      knapp.className = "knapp tom";
+
+      var hallare = document.createElement("p");
+      hallare.className = "urvalsknapp";
+      hallare.appendChild(knapp);
+      ul.parentNode.insertBefore(hallare, ul.nextSibling);
+
+      var oppen = false;
+      knapp.addEventListener("click", function () { oppen = !oppen; visa(oppen); });
+      visa(false);
+    });
   });
+
+  /* ---------------- Var i kursen är vi? ----------------
+
+     Områdeskorten bär data-fran (första lektionen) och data-till (provet, eller
+     sista lektionen när området saknar prov). Ett område är aktuellt från och
+     med första lektionen till och med provdagen. Under ett lov finns inget
+     pågående område – då pekas nästa ut i stället, med sitt startdatum.
+
+     Passerade kort gråas men fungerar som vanligt. Rutan "Just nu" visas bara
+     när det finns något att peka på, alltså inte efter kursens slut. */
+
+  kor(function () {
+    var alla = Array.prototype.slice.call(document.querySelectorAll(".kort[data-fran][data-till]"));
+    if (!alla.length) { return; }
+
+    var nu = idag();
+    var aktuellt = null;
+
+    alla.forEach(function (k) {
+      var fran = dag(k.dataset.fran);
+      var till = dag(k.dataset.till);
+
+      if (till < nu) {
+        k.classList.add("forbi");
+        markera(k, "avslutat");
+      } else if (!aktuellt) {
+        /* Första kortet som inte är avslutat: antingen pågår det, eller så är
+           det nästa område efter ett lov. */
+        aktuellt = k;
+        k.classList.add("nu");
+        markera(k, fran <= nu ? "pågår nu" : "börjar " + kortdatum(fran));
+      }
+    });
+
+    var ruta = document.querySelector(".justnu");
+    if (!ruta || !aktuellt) { return; }
+
+    var fran = dag(aktuellt.dataset.fran);
+    var till = dag(aktuellt.dataset.till);
+    var nr = aktuellt.dataset.omrade;
+
+    ruta.querySelector(".lage").textContent = "Område " + nr + " · " +
+      (fran <= nu ? "pågår till " + kortdatum(till) : "börjar " + kortdatum(fran));
+
+    var titel = ruta.querySelector(".titel a");
+    titel.textContent = aktuellt.querySelector(".rubrik").textContent;
+    titel.href = aktuellt.getAttribute("href");
+
+    var lista = ruta.querySelector('.snabb[data-omrade="' + nr + '"]');
+    if (lista) { lista.hidden = false; }
+    ruta.hidden = false;
+  });
+
+  /* Lägger lägesordet efter "Område N · v.xx" i kortets överrad. */
+  function markera(k, text) {
+    var sort = k.querySelector(".sort");
+    if (!sort) { return; }
+    var lapp = document.createElement("span");
+    lapp.className = "lapp";
+    lapp.textContent = text;
+    sort.appendChild(document.createTextNode(" "));
+    sort.appendChild(lapp);
+  }
 
   /* ---------------- Självrättande tabell ----------------
 

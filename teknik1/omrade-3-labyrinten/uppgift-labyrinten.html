@@ -33,19 +33,18 @@
     <p class="ledtext">Teknik 1 · område 3 · pass 8–10 · projekt</p>
     <h1>Labyrinten</h1>
     <p class="inledning">En bana av tejp med korsningar och återvändsgränder. Roboten ska
-      hitta från start till mål på egen hand – och på nästa nivå minnas vägen och köra
-      den kortare andra gången. Det är blockets projekt, det som körs inför klassen
-      4 november och som dokumentationen handlar om.</p>
+      hitta från start till mål på egen hand. Det är blockets projekt, det som körs
+      inför klassen 11 november och som dokumentationen handlar om.</p>
 
     <ul class="datum">
-      <li data-datum="2026-11-04">
-        <span class="nar">4 nov</span>
+      <li data-datum="2026-11-11">
+        <span class="nar">11 nov</span>
         <span class="vad">Körning inför klassen
           <small>Varje par kör sin robot på banan, 3 minuter. Nivå, svårast, mest nöjd med.</small></span>
         <span class="kvar"></span>
       </li>
-      <li data-datum="2026-11-11">
-        <span class="nar">11 nov</span>
+      <li data-datum="2026-11-18">
+        <span class="nar">18 nov</span>
         <span class="vad">Inlämning: dokumentationen
           <small>Fem delar. Del 2 och 5 skriver du själv.</small></span>
         <span class="kvar"></span>
@@ -53,39 +52,41 @@
     </ul>
 
     <h2 id="uppdraget">1. Uppdraget</h2>
-    <p>Roboten startar vid startlinjen. Målet är en tjock svart linje någon annanstans på
+    <p>Roboten ställs på linjens början. Målet är en svart ruta någon annanstans på
       banan. Däremellan: linjer som korsar varandra, där roboten måste välja, och linjer
       som bara tar slut, där den måste vända. Den ska hitta målet <em>själv</em> – ingen
       rör den efter start.</p>
-    <p>Allt du behöver har du redan: linjeföljning från pass 7, <code>readLine()</code>
-      som ger både position och de fem värdena, och motorfunktionerna. Det nya är att
-      <em>upptäcka</em> en korsning och en återvändsgränd, och att <em>bestämma</em> vad
-      roboten gör där.</p>
+    <p>Du börjar inte från en tom fil. Du får en <a href="kod/maze_base.py" download>bas</a>
+      med det du redan har skrivit: motorfunktionerna och linjeföljningen från pass 5 och 7,
+      med engelska namn. Det nya, som du skriver själv med handledning, är hur roboten
+      <em>väljer väg</em>.</p>
 
     <h2 id="banan">2. Banan</h2>
-<pre><code>start ──┬──────────┐
-        │          │
-        │(åter-    ├────── (återvändsgränd)
-        │ vänds-   │
-        │ gränd)   └──────────┬──────── ▌ MÅL
-                              │
-                              └── (återvändsgränd)
+<pre><code>start ───┬──────────┐
+         │          │
+         │(åter-    ├────── (återvändsgränd)
+         │ vänds-   │
+         │ gränd)   └──────────┬──────── ■ MÅL
+                               │
+                               └── (återvändsgränd)
 
 ┬ ┼ ┤ = korsning: roboten måste välja
+┐ └   = hörn: linjen svänger 90 grader
 ─── som tar slut = återvändsgränd: roboten måste vända
-▌ = tjock linje: målet. Alla fem sensorer ser svart, länge</code></pre>
-    <p>Den riktiga banan på golvet kan se annorlunda ut, men reglerna är samma: alla
-      korsningar är räta vinklar, kurvorna är mjuka, och det finns alltid en väg till
+■ = svart ruta: målet</code></pre>
+    <p>Den riktiga banan på golvet kan se annorlunda ut, men reglerna är samma: bara raka
+      linjer, alla hörn och korsningar är räta vinklar, och det finns alltid en väg till
       målet om man håller vänster.</p>
-    <p>Så känner roboten igen de tre lägena, med <code>varden</code> från <code>readLine()</code>:</p>
+    <p>Roboten ser banan genom de fem sensorerna i listan <code>values</code> från
+      <code>readLine()</code>. Så här ser de olika platserna ut för den:</p>
     <div class="tabellsvep">
       <table>
-        <thead><tr><th>Läge</th><th>Vad sensorerna ser</th><th>Hur du testar det</th></tr></thead>
+        <thead><tr><th>Plats</th><th>Vad sensorerna ser</th></tr></thead>
         <tbody>
-          <tr><td><strong>Linje</strong></td><td>En eller två sensorer mörka, resten ljusa</td><td><code>position</code> mellan 0 och 4000 – det du redan följer</td></tr>
-          <tr><td><strong>Korsning</strong></td><td>Tre eller fler sensorer mörka samtidigt – tejpen går tvärs över</td><td>Summan av <code>varden</code> är hög. Prova: vad blir <code>sum(varden)</code> när roboten står på en korsning? På en linje?</td></tr>
-          <tr><td><strong>Återvändsgränd</strong></td><td>Ingen sensor mörk – tejpen tog slut</td><td>Summan är låg, eller <code>position</code> fastnar på 0 eller 4000</td></tr>
-          <tr><td><strong>Mål</strong></td><td>Alla fem mörka – och de förblir mörka när roboten kör en bit till</td><td>Som korsning, men den tar inte slut. Kör 5 cm och läs igen</td></tr>
+          <tr><td><strong>Linje</strong></td><td>Någon av de tre i mitten ser svart, de yttersta ser vitt</td></tr>
+          <tr><td><strong>Väg åt vänster</strong></td><td>Den yttersta till vänster, <code>values[0]</code>, ser svart</td></tr>
+          <tr><td><strong>Hörn åt höger eller återvändsgränd</strong></td><td>Linjen tar slut: de tre i mitten ser vitt</td></tr>
+          <tr><td><strong>Mål</strong></td><td>Båda yttersta ser svart, även efter att roboten kört en bit till</td></tr>
         </tbody>
       </table>
     </div>
@@ -102,15 +103,14 @@
     </ol>
     <p>Roboten behöver alltså inte veta hur banan ser ut. Den behöver bara veta vad den
       ser <em>just nu</em> och följa regeln. Varför regeln alltid leder ut går vi igenom
-      på passet – fundera själv över lovet. Koden, i bitar, finns i
+      på passet. Hur regeln blir kod, steg för steg, står i
       <a href="guide-labyrintlogik.html">labyrintlogiken</a>.</p>
     <div class="notis">
       <span class="rubrik">Att svänga i en korsning</span>
-      <p>Roboten står med fronten i korsningen. Sväng vänster: <code>kor</code> med vänster
-        hjul bakåt och höger framåt – <code>vanster()</code> från pass 5 – tills
-        <em>mittsensorn hittar linjen igen</em>. Inte en fast tid: läs sensorn medan den
-        svänger, sluta när <code>varden[2]</code> är mörk. Det är skillnaden mellan en
-        robot som svänger rätt varje gång och en som svänger rätt ibland.</p>
+      <p>En sväng är inte en fast tid. Roboten svänger på stället med
+        <code>turn_left()</code> och läser sensorn medan den svänger. Den slutar när
+        <em>mittsensorn hittar linjen igen</em>. Det är skillnaden mellan en robot som
+        svänger rätt varje gång och en som svänger rätt ibland.</p>
     </div>
 
     <h2 id="krav">4. Nivåerna</h2>
@@ -121,9 +121,9 @@
       </div>
       <div class="stapel"><span></span></div>
       <ul class="krav">
-        <li><label><input type="checkbox" id="ska-1"><span><strong>Bas:</strong> roboten följer linjen till målet på en bana utan korsningar, och stannar på mållinjen</span></label></li>
-        <li><label><input type="checkbox" id="ska-2"><span><strong>Nivå 1:</strong> roboten hittar ut ur labyrinten med vänsterhandsregeln – svänger i korsningar, vänder i återvändsgränder, stannar på målet</span></label></li>
-        <li><label><input type="checkbox" id="ska-3"><span>Ett flödesschema över vad roboten gör i varje läge – ritat innan koden</span></label></li>
+        <li><label><input type="checkbox" id="ska-1"><span>Roboten följer linjen med basen, och svänger vänster i en korsning med kod ni skrivit med handledning</span></label></li>
+        <li><label><input type="checkbox" id="ska-2"><span>Ett flödesschema över vad roboten gör – ritat innan koden</span></label></li>
+        <li><label><input type="checkbox" id="ska-3"><span>Ni kör något inför klassen och säger vad roboten klarar</span></label></li>
       </ul>
     </section>
     <section class="kravblock" data-niva="bor">
@@ -133,8 +133,8 @@
       </div>
       <div class="stapel"><span></span></div>
       <ul class="krav">
-        <li><label><input type="checkbox" id="bor-1"><span><strong>Nivå 2:</strong> roboten sparar varje sväng i en lista (<code>V</code>, <code>H</code>, <code>R</code>, <code>B</code>) medan den utforskar</span></label></li>
-        <li><label><input type="checkbox" id="bor-2"><span>Listan förkortas – varje återvändsgränd tas bort ur vägen – och roboten kör den korta vägen på andra försöket, utan att gå in i återvändsgränderna</span></label></li>
+        <li><label><input type="checkbox" id="bor-1"><span>Roboten hittar genom hela labyrinten med vänsterhandsregeln: svänger i korsningar och hörn, vänder i återvändsgränder</span></label></li>
+        <li><label><input type="checkbox" id="bor-2"><span>Roboten stannar på målet</span></label></li>
         <li><label><input type="checkbox" id="bor-3"><span>Ni har testat och kan säga vad som gick fel först och vad ni ändrade</span></label></li>
       </ul>
     </section>
@@ -145,24 +145,31 @@
       </div>
       <div class="stapel"><span></span></div>
       <ul class="krav">
-        <li><label><input type="checkbox" id="utm-1"><span>Ett hinder står i en av gångarna. Roboten upptäcker det (ultraljud eller IR), behandlar gången som en återvändsgränd, vänder – och hittar ändå målet</span></label></li>
-        <li><label><input type="checkbox" id="utm-2"><span>Skärmen visar vad roboten tänker: läget den är i och listan så långt</span></label></li>
+        <li><label><input type="checkbox" id="utm-1"><span>Ett hinder står i en av gångarna. Roboten upptäcker det med hindersensorerna, behandlar gången som en återvändsgränd, vänder – och hittar ändå målet</span></label></li>
+        <li><label><input type="checkbox" id="utm-2"><span>Skärmen visar vad roboten gör i varje läge</span></label></li>
+        <li><label><input type="checkbox" id="utm-3"><span>Ni kan förklara varför samma gren i koden klarar både hörn åt höger och återvändsgränd</span></label></li>
       </ul>
     </section>
     <p>Kryssen sparas i din webbläsare.
       <button type="button" class="knapp tom" id="nollstall">Nollställ alla kryss</button></p>
-    <p>Alla par ska köra <em>något</em> inför klassen 4 november. Bas-nivån är det ni redan
-      har – så alla har något att visa.</p>
+    <p>Alla par ska köra <em>något</em> inför klassen 11 november. Basen följer linjen
+      från första minuten – så alla har något att visa.</p>
+    <div class="notis">
+      <span class="rubrik">Vill du längre?</span>
+      <p>Att roboten minns vägen och kör den kortare andra gången ingår inte i projektet.
+        Det finns som <a href="vidare-minnas-vagen.html">fördjupning på egen hand</a>, för
+        dig som vill låna hem en robot och fortsätta.</p>
+    </div>
 
     <h2 id="tid">5. Tidsplan</h2>
     <div class="tabellsvep">
       <table>
         <thead><tr><th>När</th><th>Vad</th></tr></thead>
         <tbody>
-          <tr><td>Över lovet</td><td>Läs <a href="../dokumentationsmall.html">dokumentationsmallen</a>. Rita ett första flödesschema på papper – tjugo minuter</td></tr>
-          <tr><td>Pass 9 · 4/11 fm</td><td>Vänsterhandsregeln och vägförkortning gås igenom. Flödesschemat granskas innan ni kodar. Sedan arbetspass med handledning: korsningar, återvändsgränder, mål. Listan för de som hinner</td></tr>
-          <tr><td>Pass 10 · 4/11 em</td><td>Körning inför klassen, 3 minuter per par. Sista loggboken</td></tr>
-          <tr><td>11/11</td><td>Dokumentationen lämnas in</td></tr>
+          <tr><td>Över lovet</td><td>Läs <a href="../dokumentationsmall.html">dokumentationsmallen</a></td></tr>
+          <tr><td>Pass 9 · 11/11 fm</td><td>Vänsterhandsregeln gås igenom. Flödesschemat granskas innan ni kodar. Basen delas ut. Sedan arbetspass med handledning: svängarna, regeln, målet</td></tr>
+          <tr><td>Pass 10 · 11/11 em</td><td>Körning inför klassen, 3 minuter per par. Sista loggboken</td></tr>
+          <tr><td>18/11</td><td>Dokumentationen lämnas in</td></tr>
         </tbody>
       </table>
     </div>
