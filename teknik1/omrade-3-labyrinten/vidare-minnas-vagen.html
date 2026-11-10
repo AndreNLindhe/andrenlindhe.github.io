@@ -11,103 +11,559 @@
 <header class="topp">
   <a href="index.html">← Område 3</a>
   <span class="harifran"><strong>Fördjupning</strong> · Vidare på egen hand</span>
-  <a href="#regler">Reglerna</a>
+  <a href="#felsokning">Felsökning</a>
 </header>
 
-<div class="ram">
+<div class="ram medlayout">
+
+  <nav class="innehall" aria-label="Innehåll på sidan">
+    <p>Innehåll</p>
+    <ol>
+      <li><a href="#del1">Del 1 – från basen till mål</a></li>
+      <li><a href="#basen">1. Basen</a></li>
+      <li><a href="#svangarna">2. Svängarna</a></li>
+      <li><a href="#steget">3. Steget</a></li>
+      <li><a href="#regeln">4. Regeln och målet</a></li>
+      <li><a href="#hela1">5. Hela del 1</a></li>
+      <li><a href="#del2">Del 2 – minnas vägen</a></li>
+      <li><a href="#iden">6. Idén</a></li>
+      <li><a href="#klockan">7. En klocka</a></li>
+      <li><a href="#titta">8. Titta under steget</a></li>
+      <li><a href="#lamna">9. Lämna korsningen</a></li>
+      <li><a href="#utforska">10. Utforska</a></li>
+      <li><a href="#forkorta">11. Förkorta</a></li>
+      <li><a href="#kora">12. Köra efter listan</a></li>
+      <li><a href="#huvud">13. Sätta ihop det</a></li>
+      <li><a href="#felsokning">14. Felsökning</a></li>
+    </ol>
+  </nav>
+
   <main>
 
     <p class="ledtext">Teknik 1 · område 3 · efter pass 10 · frivilligt</p>
     <h1>Vidare på egen hand</h1>
-    <p class="inledning">Roboten hittar genom labyrinten, men den går in i varje
-      återvändsgränd på vägen. Nästa steg är att den minns vägen och kör den kortare andra
-      gången. Det ingår inte i projektet och bedöms inte. Det är till dig som vill låna
-      hem en robot och fortsätta.</p>
+    <p class="inledning">För dig som lånar hem en robot. Guiden har två delar. Den första tar
+      dig från basen till en robot som hittar genom labyrinten – det vi gjorde pass 9, med
+      all kod. Den andra går längre: roboten minns vägen den tog, stryker
+      återvändsgränderna och kör den korta vägen andra gången.</p>
 
     <div class="notis">
-      <span class="rubrik">Vad du får här</span>
-      <p>Idén, reglerna och ett sätt att testa utan robot. Inte färdig kod. Det här är
-        ett problem att lösa själv, i din egen takt, och det finns mer än ett sätt.</p>
+      <span class="rubrik">Frivilligt, och inte bedömt</span>
+      <p>Det här ingår inte i projektet. Nivåerna E, C och A gäller det som står på
+        <a href="uppgift-labyrinten.html">projektsidan</a>, och inget här ändrar på dem.
+        All kod finns på sidan, i den ordning du skriver den. Kör du fast finns ett facit
+        hos läraren – fråga.</p>
     </div>
 
-    <h2 id="iden">1. Idén</h2>
-    <p>Första körningen <em>utforskar</em>. Varje gång roboten gör ett val sparar den en
-      bokstav i en lista. När den når målet är listan vägen den tog. Andra körningen
-      <em>läser</em> listan i stället för att välja.</p>
+    <div class="notis viktig">
+      <span class="rubrik">Du behöver en bana</span>
+      <p>Svart eltejp på ett ljust golv eller ett stort vitt papper. Bara <strong>raka
+        linjer och räta hörn</strong>. Ingen tvärlinje vid start. Målet är en svart ruta,
+        minst 10 × 10 cm, av tejpremsor bredvid varandra. Minst en korsning, ett hörn och
+        en återvändsgränd, och minst 15 cm mellan två korsningar.</p>
+    </div>
+
+    <h2 id="del1">Del 1 – från basen till mål</h2>
+    <p>Blev du klar pass 9 har du redan det här. Jämför din <code>main.py</code> med
+      <a href="#hela1">hela del 1</a> och hoppa till <a href="#del2">del 2</a>. Annars:
+      börja här. Förklaringarna är korta. De längre står i
+      <a href="guide-labyrintlogik.html">labyrintlogiken</a>.</p>
+
+    <h3 id="basen">1. Basen</h3>
+    <p>Ladda ner <a href="kod/maze_base.py" download>maze_base.py</a> och spara den som
+      <code>main.py</code>. <code>TRSensor.py</code> och <code>ST7789.py</code> ska ligga på
+      Pico:n. I basen finns det du skrev i område 2, med engelska namn:
+      <code>forward(left, right)</code>, <code>stop()</code>, <code>turn_left(speed)</code>,
+      <code>turn_right(speed)</code>, <code>follow_track(position)</code> och
+      <code>show(text)</code>. Överst står tre tal du ställer in: <code>DARK</code>,
+      <code>SPEED</code> och <code>TURN_SPEED</code>.</p>
+    <p><strong>Test:</strong> kör filen, vagga roboten över linjen medan skärmen visar
+      <em>Calibrating</em>, ställ den på en rak linje. Den ska följa linjen.</p>
+    <p>All kod du skriver hamnar under raden <code>ER KOD</code>. Funktionerna ska stå
+      <em>ovanför</em> loopen.</p>
+
+    <h3 id="svangarna">2. Svängarna</h3>
+    <p>Först en fråga: ser mittsensorn en linje?</p>
+<pre><code class="sprak-python">def line_in_middle():
+    position, values = sensor.readLine()
+    return values[2] &gt; DARK</code></pre>
+    <p>Sedan svängen. Den svänger inte en viss tid, utan tills mittsensorn hittar en
+      linje. Första loopen lämnar linjen roboten står på, andra letar upp nästa.</p>
+<pre><code class="sprak-python">def turn_left_until_line():
+    turn_left(TURN_SPEED)
+    while line_in_middle():
+        sleep(0.01)
+    while not line_in_middle():
+        sleep(0.01)
+    stop()</code></pre>
+    <p><strong>Test:</strong> sätt <code>#</code> först på loopens tre rader längst ner
+      och skriv en enda rad sist i filen, utan indrag: <code>turn_left_until_line()</code>.
+      Ställ roboten med hjulen mitt i en korsning. Den ska svänga ett kvarts varv och
+      stanna på linjen till vänster.</p>
+    <p>Samma sak åt höger:</p>
+<pre><code class="sprak-python">def turn_right_until_line():
+    turn_right(TURN_SPEED)
+    while line_in_middle():
+        sleep(0.01)
+    while not line_in_middle():
+        sleep(0.01)
+    stop()</code></pre>
+    <p><strong>Test:</strong> byt sista raden mot <code>turn_right_until_line()</code>.
+      Ställ roboten i en återvändsgränd. Den ska svänga ett halvt varv och hitta linjen
+      den kom på.</p>
+
+    <h3 id="steget">3. Steget</h3>
+    <p>Sensorerna sitter framför hjulen, och roboten svänger runt hjulen. När sensorerna
+      ser en korsning måste roboten köra fram en bit innan den svänger.</p>
+<pre><code class="sprak-python">STEP_TIME = 0.25
+
+
+def step_forward():
+    forward(SPEED, SPEED)
+    sleep(STEP_TIME)
+    stop()</code></pre>
+    <p><strong>Test:</strong> byt sista raden mot <code>step_forward()</code>. Ställ roboten
+      med sensorerna på en tvärlinje. Efter steget ska <em>hjulen</em> stå på tvärlinjen.
+      Annars ändrar du <code>STEP_TIME</code>. Hellre lite för långt än för kort.</p>
+
+    <h3 id="regeln">4. Regeln och målet</h3>
+    <p>En fråga till: står roboten på målet? Båda yttersta sensorerna ska se svart
+      samtidigt.</p>
+<pre><code class="sprak-python">def at_goal():
+    position, values = sensor.readLine()
+    return values[0] &gt; DARK and values[4] &gt; DARK</code></pre>
+    <p>Ta bort testraden och den gamla loopen. Skriv den här i stället:</p>
+<pre><code class="sprak-python">while True:
+    position, values = sensor.readLine()
+    line_left = values[0] &gt; DARK
+    line_ahead = values[1] &gt; DARK or values[2] &gt; DARK or values[3] &gt; DARK
+
+    if line_left:
+        step_forward()
+        if at_goal():
+            break
+        turn_left_until_line()
+    elif line_ahead:
+        follow_track(position)
+    else:
+        step_forward()
+        turn_right_until_line()
+
+stop()
+show("GOAL")</code></pre>
+    <p>De tre grenarna är vänsterhandsregeln: vänster om det går, annars rakt, annars
+      höger tills en linje hittas. Den sista grenen klarar både hörn åt höger och
+      återvändsgränd. Frågan om målet ställs efter steget, eftersom en tvärlinje är smal
+      och målrutan stor.</p>
+    <p><strong>Test:</strong> hela banan, från start till mål, utan att röra roboten.
+      Fungerar något inte: ändra ett tal i taget. Tabellen under
+      <a href="#felsokning">felsökning</a> säger vilket.</p>
+
+    <h3 id="hela1">5. Hela del 1</h3>
+    <p>Allt under raden <code>ER KOD</code>, när del 1 är klar:</p>
+<pre><code class="sprak-python">def line_in_middle():
+    position, values = sensor.readLine()
+    return values[2] &gt; DARK
+
+
+def turn_left_until_line():
+    turn_left(TURN_SPEED)
+    while line_in_middle():
+        sleep(0.01)
+    while not line_in_middle():
+        sleep(0.01)
+    stop()
+
+
+def turn_right_until_line():
+    turn_right(TURN_SPEED)
+    while line_in_middle():
+        sleep(0.01)
+    while not line_in_middle():
+        sleep(0.01)
+    stop()
+
+
+STEP_TIME = 0.25
+
+
+def step_forward():
+    forward(SPEED, SPEED)
+    sleep(STEP_TIME)
+    stop()
+
+
+def at_goal():
+    position, values = sensor.readLine()
+    return values[0] &gt; DARK and values[4] &gt; DARK
+
+
+while True:
+    position, values = sensor.readLine()
+    line_left = values[0] &gt; DARK
+    line_ahead = values[1] &gt; DARK or values[2] &gt; DARK or values[3] &gt; DARK
+
+    if line_left:
+        step_forward()
+        if at_goal():
+            break
+        turn_left_until_line()
+    elif line_ahead:
+        follow_track(position)
+    else:
+        step_forward()
+        turn_right_until_line()
+
+stop()
+show("GOAL")</code></pre>
+    <div class="notis">
+      <span class="rubrik">Spara en kopia</span>
+      <p>Innan du börjar på del 2: spara filen en gång till som <code>maze_part1.py</code>.
+        Då har du alltid en version som fungerar att gå tillbaka till.</p>
+    </div>
+
+    <h2 id="del2">Del 2 – minnas vägen</h2>
+    <p>Roboten från del 1 hittar målet, men den går in i varje återvändsgränd på vägen.
+      Och den gör likadant nästa gång, för den minns ingenting. Nu ska den köra två
+      gånger. Första körningen <em>utforskar</em> och skriver upp varje val. Andra
+      körningen <em>läser</em> listan.</p>
+
+    <h3 id="iden">6. Idén</h3>
+    <p>Varje val blir en bokstav. Bokstäverna sparas i en lista, i den ordning roboten
+      gör valen.</p>
     <div class="tabellsvep">
       <table>
-        <thead><tr><th>Bokstav</th><th>Betyder</th><th>Vinkel</th></tr></thead>
+        <thead><tr><th>Bokstav</th><th>Betyder</th><th>Grader medurs</th></tr></thead>
         <tbody>
-          <tr><td><code>"L"</code></td><td>left – svängde vänster</td><td>+90</td></tr>
-          <tr><td><code>"S"</code></td><td>straight – körde rakt fram i en korsning</td><td>0</td></tr>
-          <tr><td><code>"R"</code></td><td>right – svängde höger</td><td>−90</td></tr>
+          <tr><td><code>"S"</code></td><td>straight – körde rakt fram</td><td>0</td></tr>
+          <tr><td><code>"R"</code></td><td>right – svängde höger</td><td>90</td></tr>
           <tr><td><code>"U"</code></td><td>U-turn – vände i en återvändsgränd</td><td>180</td></tr>
+          <tr><td><code>"L"</code></td><td>left – svängde vänster</td><td>270</td></tr>
         </tbody>
       </table>
     </div>
-    <p>En lista börjar tom, och <code>append</code> lägger till sist:</p>
-<pre><code class="sprak-python">path = []
-path.append("L")
-path.append("U")
-print(path)</code></pre>
+    <p>Graderna är hur mycket roboten har vridit sig, räknat medurs. Vänster är 270,
+      eftersom ett kvarts varv åt vänster hamnar på samma ställe som tre kvarts varv åt
+      höger. Graderna behövs i avsnitt 11.</p>
+<pre><code>         (återvändsgränd)
+               │
+start ─────────┴──────────┐
+                          │
+                          └────── ■ mål
 
-    <h2 id="problem">2. Tre problem att lösa</h2>
-    <ol>
-      <li><strong>Roboten måste märka varje val.</strong> I koden från pass 9 kör den rakt
-        fram genom en korsning utan att veta om det – grenen <code>elif line_ahead</code>
-        följer bara linjen. För att kunna spara ett <code>"S"</code> måste den upptäcka
-        att det fanns en väg åt höger som den inte tog. Yttersta högra sensorn är
-        <code>values[4]</code>.</li>
-      <li><strong>Den måste skilja hörn från återvändsgränd.</strong> I koden från pass 9
-        är båda samma gren. Nu ska den ena ge <code>"R"</code> och den andra
-        <code>"U"</code>. En ledtråd: hur länge svängde den innan linjen hittades?</li>
-      <li><strong>Listan måste förkortas.</strong> Se reglerna nedan.</li>
-    </ol>
+Roboten kör åt höger på bilden. Vänster för roboten är uppåt.
 
-    <h2 id="regler">3. Reglerna</h2>
-    <p>Varje <code>"U"</code> i listan är en återvändsgränd som roboten gick in i och ut ur.
-      Den, valet före och valet efter kan bytas mot <em>ett</em> val. Summera vinklarna för
-      de tre, så ser du vart roboten egentligen tog vägen:</p>
-<pre><code>L U L → S     90 + 180 + 90  = 360 = rakt
-L U S → R     90 + 180 + 0   = 270 = höger
-S U L → R      0 + 180 + 90  = 270 = höger
-L U R → U     90 + 180 − 90  = 180 = vänd
-S U S → U      0 + 180 + 0   = 180 = vänd
-R U L → U    −90 + 180 + 90  = 180 = vänd</code></pre>
-    <p>Byt tre mot ett, och titta igen: blev det ett nytt <code>"U"</code> i mitten av tre?
-      Fortsätt tills inget <code>"U"</code> finns kvar. Det som är kvar är den korta vägen.</p>
-    <p>Exempel: <code>L U L S R</code> blir <code>S S R</code>.</p>
+  korsningen: väg åt vänster finns          L
+  linjen tar slut: vänd                     U
+  korsningen igen, uppifrån: vänster finns  L
+  hörn åt höger                             R
+  hörn åt vänster                           L
+  mål
 
-    <h2 id="testa">4. Testa utan robot</h2>
-    <p>Förkortningen är ren Python. Den behöver ingen robot, inga sensorer och ingen bana.
-      Skriv en funktion <code>shorten(path)</code> i en egen fil och kör den på datorn:</p>
-<pre><code class="sprak-python">print(shorten(["L", "U", "L", "S", "R"]))</code></pre>
-    <p>Svaret ska bli <code>['S', 'S', 'R']</code>. Rita två eller tre små labyrinter på
-      papper, gå dem med fingret, skriv upp listan för hand och kontrollera att funktionen
-      ger samma korta väg som du ser på pappret. Först när den stämmer är det dags för
-      roboten.</p>
+Listan:        L U L R L
+Förkortad:     S R L        (L U L är samma sak som rakt fram)</code></pre>
+    <p>Rita din egen bana på papper och gå den med fingret innan du kör. Skriv upp
+      bokstäverna. Då vet du vad roboten borde komma fram till.</p>
+    <p>En sak är annorlunda mot del 1. Där körde roboten rakt igenom en korsning utan
+      att veta om det, och den visste inte om den svängde höger i ett hörn eller vände i
+      en återvändsgränd. Nu måste den märka <em>varje</em> val. Därför behövs tre nya
+      hjälpfunktioner.</p>
+
+    <h3 id="klockan">7. En klocka</h3>
+    <p>Hittills har roboten väntat med <code>sleep</code>. Medan den sover kan den inte
+      läsa sensorerna. Nu ska den göra två saker samtidigt: köra en viss tid <em>och</em>
+      titta. Då behövs en klocka. Ändra importraden högst upp i filen till:</p>
+<pre><code class="sprak-python">from time import sleep, ticks_ms, ticks_diff</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Funktion</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>ticks_ms()</code></td><td>Svarar med hur många millisekunder som gått sedan Pico:n startade. En klocka som bara går</td></tr>
+          <tr><td><code>ticks_diff(now, start)</code></td><td>Skillnaden mellan två klockslag, i millisekunder</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Mönstret är alltid detsamma: läs av klockan när något börjar, och fråga sedan om
+      och om igen hur lång tid som gått.</p>
+
+    <h3 id="titta">8. Titta under steget</h3>
+    <p>När roboten kommer lite snett in i en korsning ser den ena sidans linje före den
+      andra. Tittar den bara en gång kan den missa vägen åt vänster. Den här funktionen
+      tar samma steg som <code>step_forward()</code>, men läser sensorerna hela vägen och
+      kommer ihåg om vänstra sensorn såg tejp någon gång.</p>
+<pre><code class="sprak-python">def step_and_look():
+    left = False
+    start = ticks_ms()
+    forward(SPEED, SPEED)
+    while ticks_diff(ticks_ms(), start) &lt; STEP_TIME * 1000:
+        position, values = sensor.readLine()
+        if values[0] &gt; DARK:
+            left = True
+    stop()
+    return left</code></pre>
+    <p><code>left</code> börjar som <code>False</code> och blir <code>True</code> så fort
+      vänstra sensorn ser svart. Den blir aldrig <code>False</code> igen – det räcker att
+      linjen syntes en gång. <code>STEP_TIME * 1000</code> gör om sekunder till
+      millisekunder.</p>
+    <p>Efter steget behövs en fråga till: fortsätter linjen rakt fram?</p>
+<pre><code class="sprak-python">def line_straight_ahead():
+    position, values = sensor.readLine()
+    return values[1] &gt; DARK or values[2] &gt; DARK or values[3] &gt; DARK</code></pre>
+
+    <h3 id="lamna">9. Lämna korsningen</h3>
+    <p>Direkt efter en sväng står roboten ofta lite snett, och en av yttersensorerna kan
+      ligga kvar över tejpen i korsningen. Då tror roboten att det är en ny korsning och
+      skriver upp ett val som inte finns. Därför följer den linjen en liten stund, tills
+      båda yttersensorerna ser vitt, innan den börjar leta efter nästa korsning.</p>
+<pre><code class="sprak-python">def leave_crossing():
+    start = ticks_ms()
+    while True:
+        position, values = sensor.readLine()
+        follow_track(position)
+        clear = values[0] &lt; DARK and values[4] &lt; DARK
+        if clear and ticks_diff(ticks_ms(), start) &gt; 200:
+            break</code></pre>
+    <p><code>clear</code> är <code>True</code> när båda yttersta ser vitt. Loopen bryts
+      när det stämmer <em>och</em> minst 200 millisekunder har gått.</p>
+
+    <h3 id="utforska">10. Utforska</h3>
+    <p>Nu skrivs loopen från del 1 om till en funktion som svarar med listan. Ta bort
+      den gamla loopen och de två raderna efter den (<code>stop()</code> och
+      <code>show("GOAL")</code>). Skriv:</p>
+<pre><code class="sprak-python">def explore():
+    path = []
+    while True:
+        position, values = sensor.readLine()
+        line_side = values[0] &gt; DARK or values[4] &gt; DARK
+        line_ahead = values[1] &gt; DARK or values[2] &gt; DARK or values[3] &gt; DARK
+
+        if line_side:
+            left = step_and_look()
+            if at_goal():
+                return path
+            if left:
+                turn_left_until_line()
+                path.append("L")
+            elif line_straight_ahead():
+                path.append("S")
+            else:
+                turn_right_until_line()
+                path.append("R")
+            show("".join(path))
+            leave_crossing()
+        elif line_ahead:
+            follow_track(position)
+        else:
+            step_forward()
+            turn_right_until_line()
+            path.append("U")
+            show("".join(path))
+            leave_crossing()</code></pre>
+    <p>Jämför med loopen i del 1. Det som har ändrats:</p>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Varför</th></tr></thead>
+        <tbody>
+          <tr><td><code>path = []</code></td><td>En tom lista. <code>path.append("L")</code> lägger en bokstav sist</td></tr>
+          <tr><td><code>line_side</code></td><td>En korsning eller ett hörn märks på att <em>någon</em> av de yttersta ser svart, inte bara den vänstra</td></tr>
+          <tr><td><code>left = step_and_look()</code></td><td>Steget, och svaret på om det fanns en väg åt vänster</td></tr>
+          <tr><td><code>return path</code></td><td>Vid målet är funktionen klar. Svaret är listan</td></tr>
+          <tr><td><code>elif line_straight_ahead()</code></td><td>Ingen väg åt vänster, men linjen fortsätter: rakt fram, <code>"S"</code></td></tr>
+          <tr><td>sista <code>else</code> inne i korsningen</td><td>Varken vänster eller rakt: ett hörn åt höger, <code>"R"</code></td></tr>
+          <tr><td>sista grenen</td><td>Linjen tog slut utan att någon yttersensor såg något: återvändsgränd, <code>"U"</code></td></tr>
+          <tr><td><code>show("".join(path))</code></td><td><code>"".join(...)</code> gör listan till en text, så att den går att visa på skärmen</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Test:</strong> skriv tre rader sist i filen och kör på banan:</p>
+<pre><code class="sprak-python">path = explore()
+stop()
+show("".join(path))</code></pre>
+    <p>Roboten ska gå i mål, och skärmen ska visa samma bokstäver som du skrev upp när
+      du gick banan med fingret. Stämmer inte listan: titta på skärmen medan den kör. Den
+      visar listan efter varje val, så du ser var den skriver fel.</p>
+
+    <h3 id="forkorta">11. Förkorta</h3>
+    <p>Varje <code>"U"</code> i listan är en återvändsgränd som roboten gick in i och ut
+      ur. Valet före, vändningen och valet efter kan bytas mot <em>ett</em> val. Vilket?
+      Lägg ihop graderna för de tre och se vart roboten egentligen tog vägen:</p>
+<pre><code>L U L     270 + 180 + 270 = 720     720 är två hela varv = 0     S   rakt
+L U S     270 + 180 + 0   = 450     ett varv och 90              R   höger
+S U L       0 + 180 + 270 = 450     ett varv och 90              R   höger
+L U R     270 + 180 + 90  = 540     ett varv och 180             U   vänd
+S U S       0 + 180 + 0   = 180                                  U   vänd</code></pre>
+    <p>Ett helt varv, 360 grader, ändrar ingenting. Därför räknas bara det som blir över.
+      I Python heter det <code>%</code>: <code>450 % 360</code> är 90.</p>
+<pre><code class="sprak-python">ANGLE = {"S": 0, "R": 90, "U": 180, "L": 270}
+LETTER = {0: "S", 90: "R", 180: "U", 270: "L"}
+
+
+def shorten(path):
+    short = []
+    for choice in path:
+        short.append(choice)
+        while len(short) &gt;= 3 and short[-2] == "U":
+            after = short.pop()
+            short.pop()
+            before = short.pop()
+            total = (ANGLE[before] + 180 + ANGLE[after]) % 360
+            short.append(LETTER[total])
+    return short</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>ANGLE</code> och <code>LETTER</code></td><td>Två <em>dictionaries</em>, uppslagsverk. <code>ANGLE["L"]</code> är 270. <code>LETTER[90]</code> är <code>"R"</code></td></tr>
+          <tr><td><code>for choice in path:</code></td><td>Går igenom listan, ett val i taget, och bygger en ny lista <code>short</code></td></tr>
+          <tr><td><code>short[-2] == "U"</code></td><td><code>[-2]</code> är näst sista i listan. Står det ett <code>"U"</code> där finns tre att slå ihop</td></tr>
+          <tr><td><code>short.pop()</code></td><td>Tar bort det sista ur listan och svarar med det. Tre gånger: valet efter, vändningen, valet före</td></tr>
+          <tr><td><code>while</code>, inte <code>if</code></td><td>När tre har blivit en kan det ha uppstått ett nytt <code>"U"</code> i mitten av tre. Då slås de också ihop</td></tr>
+        </tbody>
+      </table>
+    </div>
     <div class="notis">
-      <span class="rubrik">Ett bra arbetssätt</span>
-      <p>Dela upp ett svårt problem i delar som går att testa var för sig. Det gjorde du
-        med svängen i pass 9. Här är delarna: spara valen, förkorta listan, köra efter
-        listan.</p>
+      <span class="rubrik">Testa utan robot</span>
+      <p>Förkortningen behöver ingen robot. Gör en ny fil på datorn, klistra in bara
+        <code>ANGLE</code>, <code>LETTER</code> och <code>shorten</code>, och lägg till de
+        här raderna sist. Kör filen med vanlig Python.</p>
+    </div>
+<pre><code class="sprak-python">print(shorten(["L", "U", "L", "S", "R"]))
+print(shorten(["L", "R", "S", "U", "L", "L", "L", "R"]))</code></pre>
+    <p>Svaren ska bli <code>['S', 'S', 'R']</code> och
+      <code>['L', 'R', 'R', 'L', 'L', 'R']</code>. Prova sedan med listan från din egen
+      bana, och kontrollera mot pappret att den korta vägen stämmer. Först när den gör
+      det är det dags för roboten.</p>
+
+    <h3 id="kora">12. Köra efter listan</h3>
+    <p>Andra körningen ser ut som den första. Skillnaden är att roboten inte väljer i
+      korsningarna. Den läser nästa bokstav ur listan.</p>
+<pre><code class="sprak-python">def run_path(path):
+    step = 0
+    while True:
+        position, values = sensor.readLine()
+        line_side = values[0] &gt; DARK or values[4] &gt; DARK
+        line_ahead = values[1] &gt; DARK or values[2] &gt; DARK or values[3] &gt; DARK
+
+        if line_side:
+            step_and_look()
+            if at_goal():
+                return True
+            if step &gt;= len(path):
+                return False
+            choice = path[step]
+            step = step + 1
+            if choice == "L":
+                turn_left_until_line()
+            elif choice == "R":
+                turn_right_until_line()
+            leave_crossing()
+        elif line_ahead:
+            follow_track(position)
+        else:
+            return False</code></pre>
+    <div class="tabellsvep">
+      <table>
+        <thead><tr><th>Rad</th><th>Gör</th></tr></thead>
+        <tbody>
+          <tr><td><code>step = 0</code></td><td>Håller reda på var i listan roboten är. <code>path[step]</code> är nästa val</td></tr>
+          <tr><td><code>step >= len(path)</code></td><td>Listan är slut men målet är inte nått. Något gick fel: svara <code>False</code></td></tr>
+          <tr><td><code>"S"</code> har ingen egen gren</td><td>Rakt fram betyder att inte svänga. Roboten fortsätter bara</td></tr>
+          <tr><td>sista grenen</td><td>Den korta vägen har inga återvändsgränder. Tar linjen slut har roboten kört fel</td></tr>
+          <tr><td><code>return True</code> / <code>False</code></td><td>Funktionen svarar på om den kom i mål</td></tr>
+        </tbody>
+      </table>
     </div>
 
-    <h2 id="andra">5. Andra körningen</h2>
-    <p>Samma loop som i pass 9, med en skillnad: i varje korsning läser roboten nästa
-      bokstav ur listan och gör det som står där. En variabel håller reda på var i
-      listan den är:</p>
-<pre><code class="sprak-python">step = 0
-choice = path[step]
-step = step + 1</code></pre>
-    <p>Fundera på vad som ska hända när listan är slut.</p>
+    <h3 id="huvud">13. Sätta ihop det</h3>
+    <p>Ta bort de tre testraderna från avsnitt 10. Sist i filen, utan indrag:</p>
+<pre><code class="sprak-python">path = explore()
+stop()
+short = shorten(path)
+show("Found " + "".join(path))
+sleep(3)
+show("Short " + "".join(short))
+sleep(10)
 
-    <h2 id="mer">6. Annat att prova</h2>
+if run_path(short):
+    stop()
+    show("GOAL")
+else:
+    stop()
+    show("LOST")</code></pre>
+    <p>Så här går en körning till:</p>
+    <ol>
+      <li>Kalibrera och ställ roboten på start. Den utforskar och visar listan medan den kör.</li>
+      <li>Vid målet stannar den. Skärmen visar först vägen den tog, sedan den korta.</li>
+      <li>Du har tio sekunder på dig att ställa tillbaka roboten på start, åt samma håll.</li>
+      <li>Den kör den korta vägen, utan att gå in i återvändsgränderna.</li>
+    </ol>
+    <p>Ordningen i filen spelar roll. Uppifrån: basen, funktionerna från del 1, de tre
+      hjälpfunktionerna, <code>explore</code>, <code>shorten</code>, <code>run_path</code>,
+      och sist huvudprogrammet.</p>
+
+    <h2 id="felsokning">14. Felsökning</h2>
+    <p>Ändra en sak i taget, och skriv upp vad du ändrade.</p>
+    <div class="sok">
+      <label for="sok-fel">Sök bland felen</label>
+      <input type="search" id="sok-fel" data-sok="tabell-felsokning" data-traffar="traffar-fel"
+             placeholder="till exempel: listan, snurrar, LOST" autocomplete="off">
+      <p class="traffar" id="traffar-fel">12 rader</p>
+    </div>
+    <div class="tabellsvep">
+      <table id="tabell-felsokning">
+        <thead><tr><th>Symptom</th><th>Trolig orsak</th><th>Åtgärd</th></tr></thead>
+        <tbody>
+          <tr><td>Kör rakt igenom en korsning med väg åt vänster</td><td><code>DARK</code> för högt, eller dålig kalibrering</td><td><code>print(values)</code> i loopen, håll roboten över korsningen. Sänk <code>DARK</code> eller kalibrera om</td></tr>
+          <tr><td>Svänger vänster mitt på en rak linje</td><td><code>DARK</code> för lågt, eller roboten vinglar</td><td>Höj <code>DARK</code>. Sänk <code>SPEED</code></td></tr>
+          <tr><td>Svänger förbi linjen och snurrar vidare</td><td><code>TURN_SPEED</code> för hög</td><td>Sänk <code>TURN_SPEED</code></td></tr>
+          <tr><td>Snurrar runt utan att hitta linjen</td><td><code>STEP_TIME</code> för lång</td><td>Sänk <code>STEP_TIME</code></td></tr>
+          <tr><td>Hamnar bredvid linjen efter svängen</td><td><code>STEP_TIME</code> för kort</td><td>Höj <code>STEP_TIME</code></td></tr>
+          <tr><td>Visar <code>GOAL</code> i en vanlig korsning</td><td>Steget för kort, yttersensorerna står kvar på tvärlinjen</td><td>Höj <code>STEP_TIME</code></td></tr>
+          <tr><td>Listan har en bokstav för mycket, ofta dubbla <code>L</code></td><td>Samma korsning räknas två gånger</td><td>Kontrollera att <code>leave_crossing()</code> anropas efter varje val. Höj <code>STEP_TIME</code> lite</td></tr>
+          <tr><td>Listan har <code>U</code> där det var ett hörn åt höger</td><td>Yttersensorn till höger såg aldrig hörnet</td><td>Roboten kom för snett. Sänk <code>SPEED</code>, eller gör raksträckan före hörnet längre</td></tr>
+          <tr><td>Listan saknar ett <code>S</code></td><td>Högra yttersensorn missade sidovägen</td><td>Sänk <code>SPEED</code>. Kontrollera <code>DARK</code> med <code>print(values)</code></td></tr>
+          <tr><td><code>shorten</code> ger fel svar</td><td>Fel i <code>ANGLE</code>, eller <code>pop</code> i fel ordning</td><td>Testa på datorn utan robot. Jämför med tabellen i avsnitt 11</td></tr>
+          <tr><td>Andra körningen visar <code>LOST</code></td><td>Listan från första körningen var fel, eller roboten ställdes snett på start</td><td>Kontrollera listan mot pappret. Ställ roboten precis som första gången</td></tr>
+          <tr><td><code>NameError</code></td><td>En funktion används innan den är skriven, eller importraden är inte ändrad</td><td>Kontrollera ordningen i filen och raden med <code>ticks_ms</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="mer">Mer att prova</h2>
     <ul>
+      <li>Mät tiden för första och andra körningen med <code>ticks_ms()</code> och visa
+        skillnaden på skärmen.</li>
       <li>Byt bang-bang mot P-reglering i <code>follow_track</code>. Det står i
         <a href="../omrade-2-roboten/guide-linjefoljaren.html">linjeföljarguiden</a>.</li>
-      <li>Mät tiden för första och andra körningen och visa skillnaden på skärmen.</li>
+      <li>Bygg en bana där vänsterhandsregeln <em>inte</em> hittar målet. Vad krävs för det?</li>
     </ul>
+
+    <h2 id="ord">Ord på den här sidan</h2>
+    <div class="tabellsvep">
+      <table id="tabell-ordlista">
+        <thead><tr><th>Ord</th><th>Betyder</th></tr></thead>
+        <tbody>
+          <tr><td><b>lista</b></td><td>Flera värden i ordning. <code>path = []</code> är en tom lista</td></tr>
+          <tr><td><b>append</b></td><td>Lägg till sist i en lista</td></tr>
+          <tr><td><b>pop</b></td><td>Ta bort det sista ur en lista, och få det som svar</td></tr>
+          <tr><td><b>dictionary</b></td><td>Ett uppslagsverk: <code>ANGLE["L"]</code> ger 270</td></tr>
+          <tr><td><b>%</b></td><td>Resten vid division. <code>450 % 360</code> är 90</td></tr>
+          <tr><td><b>ticks_ms</b></td><td>En klocka i millisekunder som går hela tiden</td></tr>
+          <tr><td><b>return</b></td><td>Skickar tillbaka ett svar från en funktion, och avslutar den</td></tr>
+          <tr><td><b>join</b></td><td>Sätter ihop en lista med texter till en enda text</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="traning" id="traning" data-kalla="tabell-ordlista">
+      <p class="ledtext" style="margin-bottom:0.8rem">Ordträning</p>
+      <p class="ordet" aria-live="polite"></p>
+      <p class="svaret" aria-live="polite" hidden></p>
+      <div class="knappar">
+        <button type="button" class="knapp tom" id="visa-svar">Visa svaret</button>
+        <button type="button" class="knapp" id="nasta-ord">Nästa ord</button>
+        <span class="rest"></span>
+      </div>
+    </div>
 
     <footer class="fot">
       <p><a href="index.html">Tillbaka till område 3</a></p>
